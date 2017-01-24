@@ -57,7 +57,7 @@ items:
   summary: When overridden in a derived form, provides functionality for a task that wraps a command line tool.
   remarks: This abstract class provides default implementations for the methods and properties of a task that wraps a command line tool.
   example:
-  - "## Examples  \n The following example creates a ToolTask that runs [Ilasm.exe (IL Assembler)](../Topic/Ilasm.exe%20\\(IL%20Assembler\\).md). The <xref:Microsoft.Build.Utilities.CommandLineBuilder>, <xref:Microsoft.Build.Utilities.ToolLocationHelper>, and <xref:Microsoft.Build.Utilities.TaskLoggingHelper> classes are used to generate the information needed to run the task.  \n  \n [!code-cs[msbuild_ToolTask#1](../../add/codesnippet/CSharp/ILAsm/ILAsm.cs#1)]\n [!code-vb[msbuild_ToolTask#1](../../add/codesnippet/VisualBasic/ILAsmVB/ILAsm.vb#1)]"
+  - "The following example creates a ToolTask that runs [Ilasm.exe (IL Assembler)](../Topic/Ilasm.exe%20\\(IL%20Assembler\\).md). The <xref:Microsoft.Build.Utilities.CommandLineBuilder>, <xref:Microsoft.Build.Utilities.ToolLocationHelper>, and <xref:Microsoft.Build.Utilities.TaskLoggingHelper> classes are used to generate the information needed to run the task.  \n  \n [!code-cs[msbuild_ToolTask#1](../../add/codesnippet/CSharp/ILAsm/ILAsm.cs#1)]\n [!code-vb[msbuild_ToolTask#1](../../add/codesnippet/VisualBasic/ILAsmVB/ILAsm.vb#1)]"
   syntax:
     content: 'public abstract class ToolTask : Microsoft.Build.Utilities.Task, Microsoft.Build.Framework.ICancelableTask'
   inheritance:
@@ -264,7 +264,7 @@ items:
   summary: Gets a set of environment variable name-value pairs. Designed to be overridden in a custom task class (derived from ToolTask) to return a set of new or altered environment variables to create the execution context of the associated tool.
   remarks: The ExecuteTool method passes these environment variables to the StartInfo of the process in which the tool executes. Any environment variables not included in the EnvironmentOverride dictionary are inherited from the process in which the ExecuteTool method executes.
   example:
-  - "## Examples  \n  \n```  \nusing System;  \nusing Microsoft.Build.Utilities;  \nusing System.Collections.Specialized;  \n  \n/// <summary>  \n/// CustomToolTask overrides the EnvironmentOverride property of ToolTask to add a directory  \n/// to the Path environment variable of the process being executed  \n/// </summary>  \nabstract class CustomToolTask : ToolTask  \n{  \n      protected override StringDictionary EnvironmentOverride  \n      {  \n            get  \n            {  \n                  string newPath = Environment.GetEnvironmentVariable(\"Path\", EnvironmentVariableTarget.Process) + @\";C:\\MyDirectory\";  \n                  StringDictionary result = new StringDictionary();  \n                  result.Add(\"Path\", newPath);  \n                  return result;  \n            }  \n      }  \n}  \n  \n```"
+  - "```  \nusing System;  \nusing Microsoft.Build.Utilities;  \nusing System.Collections.Specialized;  \n  \n/// <summary>  \n/// CustomToolTask overrides the EnvironmentOverride property of ToolTask to add a directory  \n/// to the Path environment variable of the process being executed  \n/// </summary>  \nabstract class CustomToolTask : ToolTask  \n{  \n      protected override StringDictionary EnvironmentOverride  \n      {  \n            get  \n            {  \n                  string newPath = Environment.GetEnvironmentVariable(\"Path\", EnvironmentVariableTarget.Process) + @\";C:\\MyDirectory\";  \n                  StringDictionary result = new StringDictionary();  \n                  result.Add(\"Path\", newPath);  \n                  return result;  \n            }  \n      }  \n}  \n  \n```"
   syntax:
     content: protected virtual System.Collections.Specialized.StringDictionary EnvironmentOverride { get; }
     return:
@@ -392,7 +392,7 @@ items:
   summary: Returns a string value containing the command line arguments to pass directly to the executable file.
   remarks: This method is called after <xref:Microsoft.Build.Utilities.ToolTask.ValidateParameters%2A> and <xref:Microsoft.Build.Utilities.ToolTask.SkipTaskExecution%2A>.
   example:
-  - "## Examples  \n The following example creates a <xref:Microsoft.Build.Utilities.ToolTask> that runs [Ilasm.exe (IL Assembler)](../Topic/Ilasm.exe%20\\(IL%20Assembler\\).md). The <xref:Microsoft.Build.Utilities.CommandLineBuilder>, <xref:Microsoft.Build.Utilities.ToolLocationHelper>, and <xref:Microsoft.Build.Utilities.TaskLoggingHelper> classes are used to generate the information needed to run the task.  \n  \n [!code-cs[msbuild_ToolTask#1](../../add/codesnippet/CSharp/ILAsm/ILAsm.cs#1)]\n [!code-vb[msbuild_ToolTask#1](../../add/codesnippet/VisualBasic/ILAsmVB/ILAsm.vb#1)]"
+  - "The following example creates a <xref:Microsoft.Build.Utilities.ToolTask> that runs [Ilasm.exe (IL Assembler)](../Topic/Ilasm.exe%20\\(IL%20Assembler\\).md). The <xref:Microsoft.Build.Utilities.CommandLineBuilder>, <xref:Microsoft.Build.Utilities.ToolLocationHelper>, and <xref:Microsoft.Build.Utilities.TaskLoggingHelper> classes are used to generate the information needed to run the task.  \n  \n [!code-cs[msbuild_ToolTask#1](../../add/codesnippet/CSharp/ILAsm/ILAsm.cs#1)]\n [!code-vb[msbuild_ToolTask#1](../../add/codesnippet/VisualBasic/ILAsmVB/ILAsm.vb#1)]"
   syntax:
     content: protected virtual string GenerateCommandLineCommands ();
     parameters: []
@@ -418,7 +418,7 @@ items:
   summary: Returns the fully qualified path to the executable file.
   remarks: This method returns the value of the <xref:Microsoft.Build.Utilities.ToolTask.ToolName%2A> property if the tool is located in the system path.
   example:
-  - "## Examples  \n The following example creates a <xref:Microsoft.Build.Utilities.ToolTask> that runs [Ilasm.exe (IL Assembler)](../Topic/Ilasm.exe%20\\(IL%20Assembler\\).md). The <xref:Microsoft.Build.Utilities.CommandLineBuilder>, <xref:Microsoft.Build.Utilities.ToolLocationHelper>, and <xref:Microsoft.Build.Utilities.TaskLoggingHelper> classes are used to generate the information needed to run the task.  \n  \n [!code-cs[msbuild_ToolTask#1](../../add/codesnippet/CSharp/ILAsm/ILAsm.cs#1)]\n [!code-vb[msbuild_ToolTask#1](../../add/codesnippet/VisualBasic/ILAsmVB/ILAsm.vb#1)]"
+  - "The following example creates a <xref:Microsoft.Build.Utilities.ToolTask> that runs [Ilasm.exe (IL Assembler)](../Topic/Ilasm.exe%20\\(IL%20Assembler\\).md). The <xref:Microsoft.Build.Utilities.CommandLineBuilder>, <xref:Microsoft.Build.Utilities.ToolLocationHelper>, and <xref:Microsoft.Build.Utilities.TaskLoggingHelper> classes are used to generate the information needed to run the task.  \n  \n [!code-cs[msbuild_ToolTask#1](../../add/codesnippet/CSharp/ILAsm/ILAsm.cs#1)]\n [!code-vb[msbuild_ToolTask#1](../../add/codesnippet/VisualBasic/ILAsmVB/ILAsm.vb#1)]"
   syntax:
     content: protected abstract string GenerateFullPathToTool ();
     parameters: []
@@ -1074,7 +1074,7 @@ items:
   summary: Gets the name of the executable file to run.
   remarks: ''
   example:
-  - "## Examples  \n The following example creates a <xref:Microsoft.Build.Utilities.ToolTask> that runs [Ilasm.exe (IL Assembler)](../Topic/Ilasm.exe%20\\(IL%20Assembler\\).md). The <xref:Microsoft.Build.Utilities.CommandLineBuilder>, <xref:Microsoft.Build.Utilities.ToolLocationHelper>, and <xref:Microsoft.Build.Utilities.TaskLoggingHelper> classes are used to generate the information needed to run the task.  \n  \n [!code-cs[msbuild_ToolTask#1](../../add/codesnippet/CSharp/ILAsm/ILAsm.cs#1)]\n [!code-vb[msbuild_ToolTask#1](../../add/codesnippet/VisualBasic/ILAsmVB/ILAsm.vb#1)]"
+  - "The following example creates a <xref:Microsoft.Build.Utilities.ToolTask> that runs [Ilasm.exe (IL Assembler)](../Topic/Ilasm.exe%20\\(IL%20Assembler\\).md). The <xref:Microsoft.Build.Utilities.CommandLineBuilder>, <xref:Microsoft.Build.Utilities.ToolLocationHelper>, and <xref:Microsoft.Build.Utilities.TaskLoggingHelper> classes are used to generate the information needed to run the task.  \n  \n [!code-cs[msbuild_ToolTask#1](../../add/codesnippet/CSharp/ILAsm/ILAsm.cs#1)]\n [!code-vb[msbuild_ToolTask#1](../../add/codesnippet/VisualBasic/ILAsmVB/ILAsm.vb#1)]"
   syntax:
     content: protected abstract string ToolName { get; }
     return:
