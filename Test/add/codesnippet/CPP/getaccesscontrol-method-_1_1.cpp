@@ -2,63 +2,82 @@ using namespace System;
 using namespace System::IO;
 using namespace System::Security::AccessControl;
 
-// Adds an ACL entry on the specified file for the specified account.
-
-void AddFileSecurity(String^ fileName, String^ account, 
-                        FileSystemRights rights, AccessControlType controlType)
+// Adds an ACL entry on the specified directory for the
+// specified account.
+void AddDirectorySecurity(String^ directoryName, String^ account, 
+     FileSystemRights rights, AccessControlType controlType)
 {
-    // Get a FileSecurity object that represents the 
-    // current security settings.
-    FileSecurity^ fSecurity = File::GetAccessControl(fileName);
+    // Create a new DirectoryInfo object.
+    DirectoryInfo^ dInfo = gcnew DirectoryInfo(directoryName);
 
-    // Add the FileSystemAccessRule to the security settings. 
-    fSecurity->AddAccessRule(gcnew FileSystemAccessRule
-                                   (account,rights, controlType));
+    // Get a DirectorySecurity object that represents the
+    // current security settings.
+    DirectorySecurity^ dSecurity = dInfo->GetAccessControl();
+
+    // Add the FileSystemAccessRule to the security settings.
+    dSecurity->AddAccessRule( gcnew FileSystemAccessRule(account,
+        rights, controlType));
 
     // Set the new access settings.
-    File::SetAccessControl(fileName, fSecurity);
+    dInfo->SetAccessControl(dSecurity);
 }
 
-// Removes an ACL entry on the specified file for the specified account.
-
-void RemoveFileSecurity(String^ fileName, String^ account, 
-                        FileSystemRights rights, AccessControlType controlType)
+// Removes an ACL entry on the specified directory for the
+// specified account.
+void RemoveDirectorySecurity(String^ directoryName, String^ account,
+     FileSystemRights rights, AccessControlType controlType)
 {
+    // Create a new DirectoryInfo object.
+    DirectoryInfo^ dInfo = gcnew DirectoryInfo(directoryName);
 
-    // Get a FileSecurity object that represents the 
+    // Get a DirectorySecurity object that represents the
     // current security settings.
-    FileSecurity^ fSecurity = File::GetAccessControl(fileName);
+    DirectorySecurity^ dSecurity = dInfo->GetAccessControl();
 
-    // Remove the FileSystemAccessRule from the security settings. 
-    fSecurity->RemoveAccessRule(gcnew FileSystemAccessRule
-                                      (account,rights, controlType));
+    // Add the FileSystemAccessRule to the security settings.
+    dSecurity->RemoveAccessRule(gcnew FileSystemAccessRule(account,
+        rights, controlType));
 
     // Set the new access settings.
-    File::SetAccessControl(fileName, fSecurity);
-}
+    dInfo->SetAccessControl(dSecurity);
+}    
 
 int main()
 {
+    String^ directoryName = "TestDirectory";
+    String^ accountName = "MYDOMAIN\\MyAccount";
+    if (!Directory::Exists(directoryName))
+    {
+        Console::WriteLine("The directory {0} could not be found.", 
+            directoryName);
+        return 0;
+    }
     try
     {
-        String^ fileName = "test.xml";
+        Console::WriteLine("Adding access control entry for {0}",
+            directoryName);
 
-        Console::WriteLine("Adding access control entry for " + fileName);
-
-        // Add the access control entry to the file.
-        AddFileSecurity(fileName, "MYDOMAIN\\MyAccount", 
+        // Add the access control entry to the directory.
+        AddDirectorySecurity(directoryName, accountName,
             FileSystemRights::ReadData, AccessControlType::Allow);
 
-        Console::WriteLine("Removing access control entry from " + fileName);
+        Console::WriteLine("Removing access control entry from {0}",
+            directoryName);
 
-        // Remove the access control entry from the file.
-        RemoveFileSecurity(fileName, "MYDOMAIN\\MyAccount", 
+        // Remove the access control entry from the directory.
+        RemoveDirectorySecurity(directoryName, accountName, 
             FileSystemRights::ReadData, AccessControlType::Allow);
 
         Console::WriteLine("Done.");
     }
-    catch (Exception^ ex)
+    catch (UnauthorizedAccessException^)
     {
-        Console::WriteLine(ex->Message);
+        Console::WriteLine("You are not authorised to carry" +
+            " out this procedure.");
+    }
+    catch (System::Security::Principal::
+        IdentityNotMappedException^)
+    {
+        Console::WriteLine("The account {0} could not be found.", accountName);
     }
 }

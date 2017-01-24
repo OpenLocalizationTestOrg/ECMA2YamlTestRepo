@@ -1,3 +1,3 @@
-   Console::WriteLine( "Current date and time using the invariant culture: {0}\n"
-   "Current date and time using the Algerian culture: {1}", DateTime::Now.ToString(), strWriter->ToString() );
-   
+    // Display the number of characters in the StringBuilder
+    // and its string.
+    Console::WriteLine("{0} chars: {1}", sb->Length, sb->ToString());

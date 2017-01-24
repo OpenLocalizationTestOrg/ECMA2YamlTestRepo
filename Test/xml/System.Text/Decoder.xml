@@ -15,8 +15,30 @@
     </Attribute>
   </Attributes>
   <Docs>
-    <summary>To be added.</summary>
-    <remarks>To be added.</remarks>
+    <summary>Converts a sequence of encoded bytes into a set of characters.</summary>
+    <remarks>
+      <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ To obtain an instance of an implementation of the Decoder class, the application should use the <xref:System.Text.Encoding.GetDecoder%2A> method of an <xref:System.Text.Encoding> implementation.  
+  
+ The <xref:System.Text.Decoder.GetCharCount%2A> method determines how many characters result in decoding a sequence of bytes, and the <xref:System.Text.Decoder.GetChars%2A> method performs the actual decoding. There are several versions of both of these methods available in the Decoder class. For more information, see <xref:System.Text.Encoding.GetChars%2A?displayProperty=fullName>. A Decoder object maintains state information between successive calls to `GetChars` or <xref:System.Text.Decoder.Convert%2A> methods so it can correctly decode byte sequences that span blocks. The Decoder also preserves trailing bytes at the end of data blocks and uses the trailing bytes in the next decoding operation. Therefore, <xref:System.Text.Encoding.GetDecoder%2A> and <xref:System.Text.Encoding.GetEncoder%2A> are useful for network transmission and file operations because those operations often deal with blocks of data instead of a complete data stream.  
+  
+> [!NOTE]
+>  When the application is done with a stream of data, it should make sure that the state information is flushed by setting the  parameter to `true` in the appropriate method call. If an exception occurs or if the application switches streams, it should call <xref:System.Text.Decoder.Reset%2A> to clear the internal state of the `Decoder` object.  
+  
+## Version Considerations  
+ A Decoder or <xref:System.Text.Encoder> object can be serialized during a conversion operation. The state of the object is retained if it is deserialized in the same version of the .NET Framework, but lost if it is deserialized in another version.  
+  
+   
+  
+## Examples  
+ The following example demonstrates the use of a Decoder to convert two different byte arrays into a character array. One of the character's bytes spans the arrays. This is similar to what a <xref:System.IO.StreamReader> object does internally when reading a stream.  
+  
+ [!CODE [Classic Decoder Example#1](../CodeSnippet/VS_Snippets_CLR_Classic/classic Decoder Example#1)]  
+  
+ ]]></format>
+    </remarks>
   </Docs>
   <Members>
     <Member MemberName=".ctor">
@@ -28,8 +50,22 @@
       </AssemblyInfo>
       <Parameters />
       <Docs>
-        <summary>To be added.</summary>
-        <remarks>To be added.</remarks>
+        <summary>Initializes a new instance of the &lt;see cref="T:System.Text.Decoder"&gt; class.</summary>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ To obtain an instance of an implementation of this class, the application should use the <xref:System.Text.Encoding.GetDecoder%2A> method of a <xref:System.Text.Encoding> implementation.  
+  
+   
+  
+## Examples  
+ The following example demonstrates two techniques for initializing a new <xref:System.Text.Decoder> instance.  
+  
+ [!CODE [System.Text.Decoder.ctor Example#1](../CodeSnippet/VS_Snippets_CLR_System/system.Text.Decoder.ctor Example#1)]  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="Convert">
@@ -64,16 +100,29 @@
         <Parameter Name="completed" Type="System.Boolean&amp;" RefType="out" />
       </Parameters>
       <Docs>
-        <param name="bytes">To be added.</param>
-        <param name="byteCount">To be added.</param>
-        <param name="chars">To be added.</param>
-        <param name="charCount">To be added.</param>
-        <param name="flush">To be added.</param>
-        <param name="bytesUsed">To be added.</param>
-        <param name="charsUsed">To be added.</param>
-        <param name="completed">To be added.</param>
-        <summary>To be added.</summary>
-        <remarks>To be added.</remarks>
+        <param name="bytes">The address of a buffer that contains the byte sequences to convert.</param>
+        <param name="byteCount">The number of bytes in  to convert.</param>
+        <param name="chars">The address of a buffer to store the converted characters.</param>
+        <param name="charCount">The maximum number of characters in  to use in the conversion.</param>
+        <param name="flush">`true` to indicate no further data is to be converted; otherwise, `false`.</param>
+        <param name="bytesUsed">When this method returns, contains the number of bytes that were produced by the conversion. This parameter is passed uninitialized.</param>
+        <param name="charsUsed">When this method returns, contains the number of characters from  that were used in the conversion. This parameter is passed uninitialized.</param>
+        <param name="completed">When this method returns, contains `true` if all the characters specified by  were converted; otherwise, `false`. This parameter is passed uninitialized.</param>
+        <summary>Converts a buffer of encoded bytes to UTF-16 encoded characters and stores the result in another buffer.</summary>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ Remember that the <xref:System.Text.Decoder> object saves state between calls to Convert. When the application is done with a stream of data, it should set the  parameter to `true` to make sure that the state information is flushed. With this setting, the decoder ignores invalid bytes at the end of the data block and clears the internal buffer. Any remaining processed data that is part of a logical unit, such as the high surrogate of a surrogate pair, is converted according to the current fallback settings.  
+  
+ The `Convert` method is designed to be used in a loop to decode an arbitrary amount of input, such as data read from a file or stream. It stores the output of the decoding operation in a fixed-size buffer. <xref:System.Text.Decoder.GetChars%2A> will throw an exception if the output buffer isn't large enough, but Convert will fill as much space as possible and return the bytes read and chars written. Also see the <xref:System.Text.Encoding.GetChars%2A?displayProperty=fullName> topic for more comments.  
+  
+ The  output parameter indicates whether all the data in the input buffer was converted and stored in the output buffer. This parameter is set to `false` if the number of bytes specified by the  parameter cannot be converted without exceeding the number of characters specified by the  parameter. In that situation, the application should use the contents of the output buffer or provide a new output buffer, increment the  parameter by the number of bytes specified by the  parameter, then call the `Convert` method again to process the remaining input.  
+  
+ The  parameter can also be set to `false`, even though the  and  parameters are equal. This situation occurs if there is still data in the <xref:System.Text.Decoder> object that has not been stored in the  buffer.  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="Convert">
@@ -104,18 +153,38 @@
         <Parameter Name="completed" Type="System.Boolean&amp;" RefType="out" />
       </Parameters>
       <Docs>
-        <param name="bytes">To be added.</param>
-        <param name="byteIndex">To be added.</param>
-        <param name="byteCount">To be added.</param>
-        <param name="chars">To be added.</param>
-        <param name="charIndex">To be added.</param>
-        <param name="charCount">To be added.</param>
-        <param name="flush">To be added.</param>
-        <param name="bytesUsed">To be added.</param>
-        <param name="charsUsed">To be added.</param>
-        <param name="completed">To be added.</param>
-        <summary>To be added.</summary>
-        <remarks>To be added.</remarks>
+        <param name="bytes">A byte array to convert.</param>
+        <param name="byteIndex">The first element of  to convert.</param>
+        <param name="byteCount">The number of elements of  to convert.</param>
+        <param name="chars">An array to store the converted characters.</param>
+        <param name="charIndex">The first element of  in which data is stored.</param>
+        <param name="charCount">The maximum number of elements of  to use in the conversion.</param>
+        <param name="flush">`true` to indicate that no further data is to be converted; otherwise, `false`.</param>
+        <param name="bytesUsed">When this method returns, contains the number of bytes that were used in the conversion. This parameter is passed uninitialized.</param>
+        <param name="charsUsed">When this method returns, contains the number of characters from  that were produced by the conversion. This parameter is passed uninitialized.</param>
+        <param name="completed">When this method returns, contains `true` if all the characters specified by  were converted; otherwise, `false`. This parameter is passed uninitialized.</param>
+        <summary>Converts an array of encoded bytes to UTF-16 encoded characters and stores the result in a character array.</summary>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ Remember that the <xref:System.Text.Decoder> object saves state between calls to Convert. When the application is done with a stream of data, it should set the  parameter to `true` to make sure that the state information is flushed. With this setting, the decoder ignores invalid bytes at the end of the data block and clears the internal buffer. Any remaining processed data that is part of a logical unit, such as the high surrogate of a surrogate pair, is converted according to the current fallback settings.  
+  
+ The `Convert` method is designed to be used in a loop to decode an arbitrary amount of input, such as data read from a file or stream. It stores the output of the decoding operation in a fixed-size buffer. <xref:System.Text.Decoder.GetChars%2A> will throw an exception if the output buffer isn't large enough, but Convert will fill as much space as possible and return the bytes read and chars written. Also see the <xref:System.Text.Encoding.GetChars%2A?displayProperty=fullName> topic for more comments.  
+  
+ The  output parameter indicates whether all the data in the input buffer was converted and stored in the output buffer. This parameter is set to `false` if the number of bytes specified by the  parameter cannot be converted without exceeding the number of characters specified by the  parameter. In that situation, the application should use the contents of the output buffer or provide a new output buffer, increment the  parameter by the number of bytes specified by the  parameter, then call the `Convert` method again to process the remaining input.  
+  
+ The  parameter can also be set to `false`, even though the  and  parameters are equal. This situation occurs if there is still data in the <xref:System.Text.Decoder> object that has not been stored in the  buffer.  
+  
+   
+  
+## Examples  
+ The following code example uses the <xref:System.Text.Encoder.Convert%2A> method to convert a file of UTF-16 characters to UTF-8. It then uses the Convert method to convert the UTF-8 characters back to UTF-16 characters.  
+  
+ [!CODE [sys.txt.EncoderDecoder.convert#1](../CodeSnippet/VS_Snippets_CLR/sys.txt.EncoderDecoder.convert#1)]  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="Fallback">
@@ -134,9 +203,16 @@
         <ReturnType>System.Text.DecoderFallback</ReturnType>
       </ReturnValue>
       <Docs>
-        <summary>To be added.</summary>
-        <value>To be added.</value>
-        <remarks>To be added.</remarks>
+        <summary>Gets or sets a &lt;see cref="T:System.Text.DecoderFallback"&gt; object for the current &lt;xref:System.Text.Decoder&gt; object.</summary>
+        <value>A &lt;see cref="T:System.Text.DecoderFallback"&gt; object.</value>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ The <xref:System.Text.DecoderFallback> object represents an error handler that is invoked when an encoded byte sequence cannot be converted to a character.  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="FallbackBuffer">
@@ -155,9 +231,16 @@
         <ReturnType>System.Text.DecoderFallbackBuffer</ReturnType>
       </ReturnValue>
       <Docs>
-        <summary>To be added.</summary>
-        <value>To be added.</value>
-        <remarks>To be added.</remarks>
+        <summary>Gets the &lt;see cref="T:System.Text.DecoderFallbackBuffer"&gt; object associated with the current &lt;xref:System.Text.Decoder&gt; object.</summary>
+        <value>A &lt;see cref="T:System.Text.DecoderFallbackBuffer"&gt; object.</value>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ The <xref:System.Text.DecoderFallbackBuffer> object represents data used by the <xref:System.Text.DecoderFallback> object. The <xref:System.Text.DecoderFallback> object represents an error handler that is invoked when an encoded byte sequence cannot be converted to a character.  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="GetCharCount">
@@ -187,12 +270,23 @@
         <Parameter Name="flush" Type="System.Boolean" />
       </Parameters>
       <Docs>
-        <param name="bytes">To be added.</param>
-        <param name="count">To be added.</param>
-        <param name="flush">To be added.</param>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
-        <remarks>To be added.</remarks>
+        <param name="bytes">A pointer to the first byte to decode.</param>
+        <param name="count">The number of bytes to decode.</param>
+        <param name="flush">`true` to simulate clearing the internal state of the encoder after the calculation; otherwise, `false`.</param>
+        <summary>When overridden in a derived class, calculates the number of characters produced by decoding a sequence of bytes starting at the specified byte pointer. A parameter indicates whether to clear the internal state of the decoder after the calculation.</summary>
+        <returns>The number of characters produced by decoding the specified sequence of bytes and any bytes in the internal buffer.</returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ This method does not affect the state of the decoder.  
+  
+ To calculate the exact array size that <xref:System.Text.Decoder.GetChars%2A> requires to store the resulting characters, the application should use GetCharCount.  
+  
+ If `GetChars` is called with  set to `false`, the decoder stores trailing bytes at the end of the data block in an internal buffer and uses them in the next decoding operation. The application should call `GetCharCount` on a block of data immediately before calling `GetChars` on the same block, so that any trailing bytes from the previous block are included in the calculation.  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="GetCharCount">
@@ -211,12 +305,30 @@
         <Parameter Name="count" Type="System.Int32" />
       </Parameters>
       <Docs>
-        <param name="bytes">To be added.</param>
-        <param name="index">To be added.</param>
-        <param name="count">To be added.</param>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
-        <remarks>To be added.</remarks>
+        <param name="bytes">The byte array containing the sequence of bytes to decode.</param>
+        <param name="index">The index of the first byte to decode.</param>
+        <param name="count">The number of bytes to decode.</param>
+        <summary>When overridden in a derived class, calculates the number of characters produced by decoding a sequence of bytes from the specified byte array.</summary>
+        <returns>The number of characters produced by decoding the specified sequence of bytes and any bytes in the internal buffer.</returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ This method does not affect the state of the decoder.  
+  
+ To calculate the exact array size that <xref:System.Text.Decoder.GetChars%2A> requires to store the resulting characters, the application should use GetCharCount.  
+  
+ If `GetChars` is called with  set to `false`, the decoder stores trailing bytes at the end of the data block in an internal buffer and uses them in the next decoding operation. The application should call `GetCharCount` on a block of data immediately before calling `GetChars` on the same block, so that any trailing bytes from the previous block are included in the calculation.  
+  
+   
+  
+## Examples  
+ The following code example demonstrates how to use the GetCharCount method to calculate the number of characters required to decode the specified range of bytes in the array.  
+  
+ [!CODE [System.Text.Decoder.GetCharCount Example#1](../CodeSnippet/VS_Snippets_CLR_System/system.Text.Decoder.GetCharCount Example#1)]  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="GetCharCount">
@@ -241,13 +353,24 @@
         <Parameter Name="flush" Type="System.Boolean" />
       </Parameters>
       <Docs>
-        <param name="bytes">To be added.</param>
-        <param name="index">To be added.</param>
-        <param name="count">To be added.</param>
-        <param name="flush">To be added.</param>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
-        <remarks>To be added.</remarks>
+        <param name="bytes">The byte array containing the sequence of bytes to decode.</param>
+        <param name="index">The index of the first byte to decode.</param>
+        <param name="count">The number of bytes to decode.</param>
+        <param name="flush">`true` to simulate clearing the internal state of the encoder after the calculation; otherwise, `false`.</param>
+        <summary>When overridden in a derived class, calculates the number of characters produced by decoding a sequence of bytes from the specified byte array. A parameter indicates whether to clear the internal state of the decoder after the calculation.</summary>
+        <returns>The number of characters produced by decoding the specified sequence of bytes and any bytes in the internal buffer.</returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ This method does not affect the state of the decoder.  
+  
+ To calculate the exact array size that <xref:System.Text.Decoder.GetChars%2A> requires to store the resulting characters, the application should use GetCharCount.  
+  
+ If `GetChars` is called with  set to `false`, the decoder stores trailing bytes at the end of the data block in an internal buffer and uses them in the next decoding operation. The application should call `GetCharCount` on a block of data immediately before calling `GetChars` on the same block, so that any trailing bytes from the previous block are included in the calculation.  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="GetChars">
@@ -279,14 +402,27 @@
         <Parameter Name="flush" Type="System.Boolean" />
       </Parameters>
       <Docs>
-        <param name="bytes">To be added.</param>
-        <param name="byteCount">To be added.</param>
-        <param name="chars">To be added.</param>
-        <param name="charCount">To be added.</param>
-        <param name="flush">To be added.</param>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
-        <remarks>To be added.</remarks>
+        <param name="bytes">A pointer to the first byte to decode.</param>
+        <param name="byteCount">The number of bytes to decode.</param>
+        <param name="chars">A pointer to the location at which to start writing the resulting set of characters.</param>
+        <param name="charCount">The maximum number of characters to write.</param>
+        <param name="flush">`true` to clear the internal state of the decoder after the conversion; otherwise, `false`.</param>
+        <summary>When overridden in a derived class, decodes a sequence of bytes starting at the specified byte pointer and any bytes in the internal buffer into a set of characters that are stored starting at the specified character pointer. A parameter indicates whether to clear the internal state of the decoder after the conversion.</summary>
+        <returns>The actual number of characters written at the location indicated by the  parameter.</returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ Remember that the <xref:System.Text.Decoder> object saves state between calls to GetChars. When the application is done with a stream of data, it should set the  parameter to `true` to make sure that the state information is flushed. With this setting, the decoder ignores invalid bytes at the end of the data block and clears the internal buffer.  
+  
+ To calculate the exact buffer size that `GetChars` requires to store the resulting characters, the application should use <xref:System.Text.Decoder.GetCharCount%2A>.  
+  
+ If `GetChars` is called with  set to `false`, the decoder stores trailing bytes at the end of the data block in an internal buffer and uses them in the next decoding operation. The application should call `GetCharCount` on a block of data immediately before calling `GetChars` on the same block, so that any trailing bytes from the previous block are included in the calculation.  
+  
+ If your application is to convert many segments of an input stream, consider using the <xref:System.Text.Decoder.Convert%2A> method. GetChars will throw an exception if the output buffer isn't large enough, but <xref:System.Text.Decoder.Convert%2A> will fill as much space as possible and return the bytes read and chars written. Also see the <xref:System.Text.Encoding.GetChars%2A?displayProperty=fullName> topic for more comments.  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="GetChars">
@@ -307,14 +443,34 @@
         <Parameter Name="charIndex" Type="System.Int32" />
       </Parameters>
       <Docs>
-        <param name="bytes">To be added.</param>
-        <param name="byteIndex">To be added.</param>
-        <param name="byteCount">To be added.</param>
-        <param name="chars">To be added.</param>
-        <param name="charIndex">To be added.</param>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
-        <remarks>To be added.</remarks>
+        <param name="bytes">The byte array containing the sequence of bytes to decode.</param>
+        <param name="byteIndex">The index of the first byte to decode.</param>
+        <param name="byteCount">The number of bytes to decode.</param>
+        <param name="chars">The character array to contain the resulting set of characters.</param>
+        <param name="charIndex">The index at which to start writing the resulting set of characters.</param>
+        <summary>When overridden in a derived class, decodes a sequence of bytes from the specified byte array and any bytes in the internal buffer into the specified character array.</summary>
+        <returns>The actual number of characters written into .</returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ Remember that the <xref:System.Text.Decoder> object saves state between calls to GetChars. When the application is done with a stream of data, it should set the  parameter to `true` to make sure that the state information is flushed. With this setting, the decoder ignores invalid bytes at the end of the data block and clears the internal buffer.  
+  
+ To calculate the exact array size that `GetChars` requires to store the resulting characters, the application should use <xref:System.Text.Decoder.GetCharCount%2A>.  
+  
+ If `GetChars` is called with  set to `false`, the decoder stores trailing bytes at the end of the data block in an internal buffer and uses them in the next decoding operation. The application should call `GetCharCount` on a block of data immediately before calling `GetChars` on the same block, so that any trailing bytes from the previous block are included in the calculation.  
+  
+ If your application is to convert many segments of an input stream, consider using the <xref:System.Text.Decoder.Convert%2A> method. GetChars will throw an exception if the output buffer isn't large enough, but <xref:System.Text.Decoder.Convert%2A> will fill as much space as possible and return the bytes read and chars written. Also see the <xref:System.Text.Encoding.GetChars%2A?displayProperty=fullName> topic for more comments.  
+  
+   
+  
+## Examples  
+ The following example demonstrates how to decode a range of elements from a byte array and store them in a Unicode character array. The <xref:System.Text.Decoder.GetCharCount%2A> method is used to calculate the number of characters needed to store the decoded elements in the array `bytes`. The GetChars method decodes the specified elements in the byte array and stores them in the new character array.  
+  
+ [!CODE [System.Text.Decoder.GetChars Example#1](../CodeSnippet/VS_Snippets_CLR_System/system.Text.Decoder.GetChars Example#1)]  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="GetChars">
@@ -336,15 +492,28 @@
         <Parameter Name="flush" Type="System.Boolean" />
       </Parameters>
       <Docs>
-        <param name="bytes">To be added.</param>
-        <param name="byteIndex">To be added.</param>
-        <param name="byteCount">To be added.</param>
-        <param name="chars">To be added.</param>
-        <param name="charIndex">To be added.</param>
-        <param name="flush">To be added.</param>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
-        <remarks>To be added.</remarks>
+        <param name="bytes">The byte array containing the sequence of bytes to decode.</param>
+        <param name="byteIndex">The index of the first byte to decode.</param>
+        <param name="byteCount">The number of bytes to decode.</param>
+        <param name="chars">The character array to contain the resulting set of characters.</param>
+        <param name="charIndex">The index at which to start writing the resulting set of characters.</param>
+        <param name="flush">`true` to clear the internal state of the decoder after the conversion; otherwise, `false`.</param>
+        <summary>When overridden in a derived class, decodes a sequence of bytes from the specified byte array and any bytes in the internal buffer into the specified character array. A parameter indicates whether to clear the internal state of the decoder after the conversion.</summary>
+        <returns>The actual number of characters written into the  parameter.</returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ Remember that the <xref:System.Text.Decoder> object saves state between calls to GetChars. When the application is done with a stream of data, it should set the  parameter to `true` to make sure that the state information is flushed. With this setting, the decoder ignores invalid bytes at the end of the data block and clears the internal buffer.  
+  
+ To calculate the exact array size that `GetChars` requires to store the resulting characters, the application should use <xref:System.Text.Decoder.GetCharCount%2A>.  
+  
+ If `GetChars` is called with  set to `false`, the decoder stores trailing bytes at the end of the data block in an internal buffer and uses them in the next decoding operation. The application should call `GetCharCount` on a block of data immediately before calling `GetChars` on the same block, so that any trailing bytes from the previous block are included in the calculation.  
+  
+ If your application is to convert many segments of an input stream, consider using the <xref:System.Text.Decoder.Convert%2A> method. GetChars will throw an exception if the output buffer isn't large enough, but <xref:System.Text.Decoder.Convert%2A> will fill as much space as possible and return the bytes read and chars written. Also see the <xref:System.Text.Encoding.GetChars%2A?displayProperty=fullName> topic for more comments.  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="Reset">
@@ -364,8 +533,17 @@
       </ReturnValue>
       <Parameters />
       <Docs>
-        <summary>To be added.</summary>
-        <remarks>To be added.</remarks>
+        <summary>When overridden in a derived class, sets the decoder back to its initial state.</summary>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ This method clears the internal state of the <xref:System.Text.Decoder> object. The method clears any state information preserved from a previous call to <xref:System.Text.Decoder.GetChars%2A> or <xref:System.Text.Decoder.Convert%2A>, including trailing bytes at the end of the previous data block.  
+  
+ Your application should call the Reset method if it wants to reuse the same decoder even after an exception is thrown by <xref:System.Text.Decoder.GetChars%2A>, <xref:System.Text.Decoder.Convert%2A>, or <xref:System.Text.Decoder.GetCharCount%2A>, or if the decoder switches streams and begins to decode another stream.  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
   </Members>

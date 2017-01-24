@@ -10,7 +10,7 @@ namespace FileSystemExample
         {
             try
             {
-                string FileName = @"c:\MyTest.txt";
+                string FileName = "test.xml";
 
                 Console.WriteLine("Encrypt " + FileName);
 
@@ -28,40 +28,23 @@ namespace FileSystemExample
             {
                 Console.WriteLine(e);
             }
+
+            Console.ReadLine();
         }
 
+
+        // Encrypt a file.
         public static void AddEncryption(string FileName)
         {
-            // Create a new FileInfo object.
-            FileInfo fInfo = new FileInfo(FileName);
-            if (!fInfo.Exists)
-            {
-                //Create the file.
-                fInfo.Create();
-            }
-            // Add encryption.
-            fInfo.Encrypt();
+
+            File.Encrypt(FileName);
+
         }
 
+        // Decrypt a file.
         public static void RemoveEncryption(string FileName)
         {
-            // Create a new FileInfo object.
-            FileInfo fInfo = new FileInfo(FileName);
-            if (!fInfo.Exists)
-            {
-                //Create the file.
-                fInfo.Create();
-            }
-            // Remove encryption.
-            fInfo.Decrypt();
-
+            File.Decrypt(FileName);
         }
     }
 }
-
-//This code produces output similar to the following; 
-//results may vary based on the computer/file structure/etc.:
-//
-//Encrypt c:\MyTest.txt
-//Decrypt c:\MyTest.txt
-//Done

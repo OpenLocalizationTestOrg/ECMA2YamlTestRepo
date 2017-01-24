@@ -10,8 +10,21 @@
   </Base>
   <Interfaces />
   <Docs>
-    <summary>To be added.</summary>
-    <remarks>To be added.</remarks>
+    <summary>Provides a set of `static` (`Shared` in Visual Basic) methods for querying data structures that implement &lt;xref:System.Linq.IQueryable%601&gt;.</summary>
+    <remarks>
+      <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ The set of methods declared in the Queryable class provides an implementation of the standard query operators for querying data sources that implement <xref:System.Linq.IQueryable%601>. The standard query operators are general purpose methods that follow the [!INCLUDE[vbteclinq](../../../../../../../add/includes/vbteclinq-md.md)] pattern and enable you to express traversal, filter, and projection operations over data in any .NET-based programming language.  
+  
+ The majority of the methods in this class are defined as extension methods that extend the <xref:System.Linq.IQueryable%601> type. This means they can be called like an instance method on any object that implements <xref:System.Linq.IQueryable%601>. These methods that extend <xref:System.Linq.IQueryable%601> do not perform any querying directly. Instead, their functionality is to build an <xref:System.Linq.Expressions.Expression> object, which is an expression tree that represents the cumulative query. The methods then pass the new expression tree to either the <xref:System.Linq.IQueryProvider.Execute%60%601%28System.Linq.Expressions.Expression%29> method or the <xref:System.Linq.IQueryProvider.CreateQuery%60%601%28System.Linq.Expressions.Expression%29> method of the input <xref:System.Linq.IQueryable%601>. The method that is called depends on whether the Queryable method returns a singleton value, in which case <xref:System.Linq.IQueryProvider.Execute%60%601%28System.Linq.Expressions.Expression%29> is called, or has enumerable results, in which case <xref:System.Linq.IQueryProvider.CreateQuery%60%601%28System.Linq.Expressions.Expression%29> is called.  
+  
+ The actual query execution on the target data is performed by a class that implements <xref:System.Linq.IQueryable%601>. The expectation of any <xref:System.Linq.IQueryable%601> implementation is that the result of executing an expression tree that was constructed by a Queryable standard query operator method is equivalent to the result of calling the corresponding method in the <xref:System.Linq.Enumerable> class, if the data source were an <xref:System.Collections.Generic.IEnumerable%601>.  
+  
+ In addition to the standard query operator methods that operate on <xref:System.Linq.IQueryable%601> objects, this class also contains a method, <xref:System.Linq.Queryable.AsQueryable%2A>, which types <xref:System.Collections.IEnumerable> objects as <xref:System.Linq.IQueryable> objects.  
+  
+ ]]></format>
+    </remarks>
   </Docs>
   <Members>
     <Member MemberName="Aggregate&lt;TSource&gt;">
@@ -194,10 +207,19 @@
         <Parameter Name="source" Type="System.Collections.IEnumerable" RefType="this" />
       </Parameters>
       <Docs>
-        <param name="source">To be added.</param>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
-        <remarks>To be added.</remarks>
+        <param name="source">A sequence to convert.</param>
+        <summary>Converts an &lt;xref:System.Collections.IEnumerable&gt; to an &lt;xref:System.Linq.IQueryable&gt;.</summary>
+        <returns>An &lt;see cref="T:System.Linq.IQueryable"&gt; that represents the input sequence.</returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ If the type of  implements <xref:System.Linq.IQueryable%601>, AsQueryable returns it directly. Otherwise, it returns an <xref:System.Linq.IQueryable%601> that executes queries by calling the equivalent query operator methods in <xref:System.Linq.Enumerable> instead of those in <xref:System.Linq.Queryable>.  
+  
+ This method assumes that  implements <xref:System.Collections.Generic.IEnumerable%601> for some . At runtime, the result is of type <xref:System.Linq.IQueryable%601> for the same . This method is useful in dynamic scenarios when you do not statically know the type of .  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="AsQueryable&lt;TElement&gt;">
@@ -238,10 +260,28 @@
         <Parameter Name="source" Type="System.Linq.IQueryable&lt;System.Decimal&gt;" RefType="this" />
       </Parameters>
       <Docs>
-        <param name="source">To be added.</param>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
-        <remarks>To be added.</remarks>
+        <param name="source">A sequence of &lt;xref:System.Decimal&gt; values to calculate the average of.</param>
+        <summary>Computes the average of a sequence of &lt;xref:System.Decimal&gt; values.</summary>
+        <returns>The average of the sequence of values.</returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ The Average method generates a <xref:System.Linq.Expressions.MethodCallExpression> that represents calling Average itself. It then passes the <xref:System.Linq.Expressions.MethodCallExpression> to the <xref:System.Linq.IQueryProvider.Execute%60%601%28System.Linq.Expressions.Expression%29> method of the <xref:System.Linq.IQueryProvider> represented by the <xref:System.Linq.IQueryable.Provider%2A> property of the  parameter.  
+  
+ The query behavior that occurs as a result of executing an expression tree that represents calling Average depends on the implementation of the type of the  parameter. The expected behavior is that it calculates the average of the values in .  
+  
+   
+  
+## Examples  
+ The following code example demonstrates how to use <xref:System.Linq.Queryable.Average%28System.Linq.IQueryable%7BSystem.Int32%7D%29> to calculate the average of a sequence of values.  
+  
+ [!INCLUDE[sqo_diff_overload_example_elementtype](../Token/sqo_diff_overload_example_elementtype_md.md)]  
+  
+ [!CODE [System.Linq.Queryable#8](../CodeSnippet/VS_Snippets_CLR_System/system.Linq.Queryable#8)]  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="Average">
@@ -258,10 +298,28 @@
         <Parameter Name="source" Type="System.Linq.IQueryable&lt;System.Double&gt;" RefType="this" />
       </Parameters>
       <Docs>
-        <param name="source">To be added.</param>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
-        <remarks>To be added.</remarks>
+        <param name="source">A sequence of &lt;xref:System.Double&gt; values to calculate the average of.</param>
+        <summary>Computes the average of a sequence of &lt;xref:System.Double&gt; values.</summary>
+        <returns>The average of the sequence of values.</returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ The Average method generates a <xref:System.Linq.Expressions.MethodCallExpression> that represents calling Average itself. It then passes the <xref:System.Linq.Expressions.MethodCallExpression> to the <xref:System.Linq.IQueryProvider.Execute%60%601%28System.Linq.Expressions.Expression%29> method of the <xref:System.Linq.IQueryProvider> represented by the <xref:System.Linq.IQueryable.Provider%2A> property of the  parameter.  
+  
+ The query behavior that occurs as a result of executing an expression tree that represents calling Average depends on the implementation of the type of the  parameter. The expected behavior is that it calculates the average of the values in .  
+  
+   
+  
+## Examples  
+ The following code example demonstrates how to use <xref:System.Linq.Queryable.Average%28System.Linq.IQueryable%7BSystem.Int32%7D%29> to calculate the average of a sequence of values.  
+  
+ [!INCLUDE[sqo_diff_overload_example_elementtype](../Token/sqo_diff_overload_example_elementtype_md.md)]  
+  
+ [!CODE [System.Linq.Queryable#8](../CodeSnippet/VS_Snippets_CLR_System/system.Linq.Queryable#8)]  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="Average">
@@ -278,10 +336,26 @@
         <Parameter Name="source" Type="System.Linq.IQueryable&lt;System.Int32&gt;" RefType="this" />
       </Parameters>
       <Docs>
-        <param name="source">To be added.</param>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
-        <remarks>To be added.</remarks>
+        <param name="source">A sequence of &lt;xref:System.Int32&gt; values to calculate the average of.</param>
+        <summary>Computes the average of a sequence of &lt;xref:System.Int32&gt; values.</summary>
+        <returns>The average of the sequence of values.</returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ The Average method generates a <xref:System.Linq.Expressions.MethodCallExpression> that represents calling Average itself. It then passes the <xref:System.Linq.Expressions.MethodCallExpression> to the <xref:System.Linq.IQueryProvider.Execute%60%601%28System.Linq.Expressions.Expression%29> method of the <xref:System.Linq.IQueryProvider> represented by the <xref:System.Linq.IQueryable.Provider%2A> property of the  parameter.  
+  
+ The query behavior that occurs as a result of executing an expression tree that represents calling Average depends on the implementation of the type of the  parameter. The expected behavior is that it calculates the average of the values in .  
+  
+   
+  
+## Examples  
+ The following code example demonstrates how to use Average to calculate the average of a sequence of values.  
+  
+ [!CODE [System.Linq.Queryable#8](../CodeSnippet/VS_Snippets_CLR_System/system.Linq.Queryable#8)]  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="Average">
@@ -298,10 +372,28 @@
         <Parameter Name="source" Type="System.Linq.IQueryable&lt;System.Int64&gt;" RefType="this" />
       </Parameters>
       <Docs>
-        <param name="source">To be added.</param>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
-        <remarks>To be added.</remarks>
+        <param name="source">A sequence of &lt;xref:System.Int64&gt; values to calculate the average of.</param>
+        <summary>Computes the average of a sequence of &lt;xref:System.Int64&gt; values.</summary>
+        <returns>The average of the sequence of values.</returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ The Average method generates a <xref:System.Linq.Expressions.MethodCallExpression> that represents calling Average itself. It then passes the <xref:System.Linq.Expressions.MethodCallExpression> to the <xref:System.Linq.IQueryProvider.Execute%60%601%28System.Linq.Expressions.Expression%29> method of the <xref:System.Linq.IQueryProvider> represented by the <xref:System.Linq.IQueryable.Provider%2A> property of the  parameter.  
+  
+ The query behavior that occurs as a result of executing an expression tree that represents calling Average depends on the implementation of the type of the  parameter. The expected behavior is that it calculates the average of the values in .  
+  
+   
+  
+## Examples  
+ The following code example demonstrates how to use <xref:System.Linq.Queryable.Average%28System.Linq.IQueryable%7BSystem.Int32%7D%29> to calculate the average of a sequence of values.  
+  
+ [!INCLUDE[sqo_diff_overload_example_elementtype](../Token/sqo_diff_overload_example_elementtype_md.md)]  
+  
+ [!CODE [System.Linq.Queryable#8](../CodeSnippet/VS_Snippets_CLR_System/system.Linq.Queryable#8)]  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="Average">
@@ -318,10 +410,28 @@
         <Parameter Name="source" Type="System.Linq.IQueryable&lt;System.Nullable&lt;System.Decimal&gt;&gt;" RefType="this" />
       </Parameters>
       <Docs>
-        <param name="source">To be added.</param>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
-        <remarks>To be added.</remarks>
+        <param name="source">A sequence of nullable &lt;xref:System.Decimal&gt; values to calculate the average of.</param>
+        <summary>Computes the average of a sequence of nullable &lt;xref:System.Decimal&gt; values.</summary>
+        <returns>The average of the sequence of values, or `null` if the source sequence is empty or contains only `null` values.</returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ The Average method generates a <xref:System.Linq.Expressions.MethodCallExpression> that represents calling Average itself. It then passes the <xref:System.Linq.Expressions.MethodCallExpression> to the <xref:System.Linq.IQueryProvider.Execute%60%601%28System.Linq.Expressions.Expression%29> method of the <xref:System.Linq.IQueryProvider> represented by the <xref:System.Linq.IQueryable.Provider%2A> property of the  parameter.  
+  
+ The query behavior that occurs as a result of executing an expression tree that represents calling Average depends on the implementation of the type of the  parameter. The expected behavior is that it calculates the average of the values in .  
+  
+   
+  
+## Examples  
+ The following code example demonstrates how to use <xref:System.Linq.Queryable.Average%28System.Linq.IQueryable%7BSystem.Nullable%7BSystem.Int64%7D%7D%29> to calculate the average of a sequence of values.  
+  
+ [!INCLUDE[sqo_diff_overload_example_elementtype](../Token/sqo_diff_overload_example_elementtype_md.md)]  
+  
+ [!CODE [System.Linq.Queryable#12](../CodeSnippet/VS_Snippets_CLR_System/system.Linq.Queryable#12)]  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="Average">
@@ -338,10 +448,28 @@
         <Parameter Name="source" Type="System.Linq.IQueryable&lt;System.Nullable&lt;System.Double&gt;&gt;" RefType="this" />
       </Parameters>
       <Docs>
-        <param name="source">To be added.</param>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
-        <remarks>To be added.</remarks>
+        <param name="source">A sequence of nullable &lt;xref:System.Double&gt; values to calculate the average of.</param>
+        <summary>Computes the average of a sequence of nullable &lt;xref:System.Double&gt; values.</summary>
+        <returns>The average of the sequence of values, or `null` if the source sequence is empty or contains only `null` values.</returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ The Average method generates a <xref:System.Linq.Expressions.MethodCallExpression> that represents calling Average itself. It then passes the <xref:System.Linq.Expressions.MethodCallExpression> to the <xref:System.Linq.IQueryProvider.Execute%60%601%28System.Linq.Expressions.Expression%29> method of the <xref:System.Linq.IQueryProvider> represented by the <xref:System.Linq.IQueryable.Provider%2A> property of the  parameter.  
+  
+ The query behavior that occurs as a result of executing an expression tree that represents calling Average depends on the implementation of the type of the  parameter. The expected behavior is that it calculates the average of the values in .  
+  
+   
+  
+## Examples  
+ The following code example demonstrates how to use <xref:System.Linq.Queryable.Average%28System.Linq.IQueryable%7BSystem.Nullable%7BSystem.Int64%7D%7D%29> to calculate the average of a sequence of values.  
+  
+ [!INCLUDE[sqo_diff_overload_example_elementtype](../Token/sqo_diff_overload_example_elementtype_md.md)]  
+  
+ [!CODE [System.Linq.Queryable#12](../CodeSnippet/VS_Snippets_CLR_System/system.Linq.Queryable#12)]  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="Average">
@@ -358,10 +486,28 @@
         <Parameter Name="source" Type="System.Linq.IQueryable&lt;System.Nullable&lt;System.Int32&gt;&gt;" RefType="this" />
       </Parameters>
       <Docs>
-        <param name="source">To be added.</param>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
-        <remarks>To be added.</remarks>
+        <param name="source">A sequence of nullable &lt;xref:System.Int32&gt; values to calculate the average of.</param>
+        <summary>Computes the average of a sequence of nullable &lt;xref:System.Int32&gt; values.</summary>
+        <returns>The average of the sequence of values, or `null` if the source sequence is empty or contains only `null` values.</returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ The Average method generates a <xref:System.Linq.Expressions.MethodCallExpression> that represents calling Average itself. It then passes the <xref:System.Linq.Expressions.MethodCallExpression> to the <xref:System.Linq.IQueryProvider.Execute%60%601%28System.Linq.Expressions.Expression%29> method of the <xref:System.Linq.IQueryProvider> represented by the <xref:System.Linq.IQueryable.Provider%2A> property of the  parameter.  
+  
+ The query behavior that occurs as a result of executing an expression tree that represents calling Average depends on the implementation of the type of the  parameter. The expected behavior is that it calculates the average of the values in .  
+  
+   
+  
+## Examples  
+ The following code example demonstrates how to use <xref:System.Linq.Queryable.Average%28System.Linq.IQueryable%7BSystem.Nullable%7BSystem.Int64%7D%7D%29> to calculate the average of a sequence of values.  
+  
+ [!INCLUDE[sqo_diff_overload_example_elementtype](../Token/sqo_diff_overload_example_elementtype_md.md)]  
+  
+ [!CODE [System.Linq.Queryable#12](../CodeSnippet/VS_Snippets_CLR_System/system.Linq.Queryable#12)]  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="Average">
@@ -378,10 +524,26 @@
         <Parameter Name="source" Type="System.Linq.IQueryable&lt;System.Nullable&lt;System.Int64&gt;&gt;" RefType="this" />
       </Parameters>
       <Docs>
-        <param name="source">To be added.</param>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
-        <remarks>To be added.</remarks>
+        <param name="source">A sequence of nullable &lt;xref:System.Int64&gt; values to calculate the average of.</param>
+        <summary>Computes the average of a sequence of nullable &lt;xref:System.Int64&gt; values.</summary>
+        <returns>The average of the sequence of values, or `null` if the source sequence is empty or contains only `null` values.</returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ The Average method generates a <xref:System.Linq.Expressions.MethodCallExpression> that represents calling Average itself. It then passes the <xref:System.Linq.Expressions.MethodCallExpression> to the <xref:System.Linq.IQueryProvider.Execute%60%601%28System.Linq.Expressions.Expression%29> method of the <xref:System.Linq.IQueryProvider> represented by the <xref:System.Linq.IQueryable.Provider%2A> property of the  parameter.  
+  
+ The query behavior that occurs as a result of executing an expression tree that represents calling Average depends on the implementation of the type of the  parameter. The expected behavior is that it calculates the average of the values in .  
+  
+   
+  
+## Examples  
+ The following code example demonstrates how to use Average to calculate the average of a sequence of values.  
+  
+ [!CODE [System.Linq.Queryable#12](../CodeSnippet/VS_Snippets_CLR_System/system.Linq.Queryable#12)]  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="Average">
@@ -398,10 +560,28 @@
         <Parameter Name="source" Type="System.Linq.IQueryable&lt;System.Nullable&lt;System.Single&gt;&gt;" RefType="this" />
       </Parameters>
       <Docs>
-        <param name="source">To be added.</param>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
-        <remarks>To be added.</remarks>
+        <param name="source">A sequence of nullable &lt;xref:System.Single&gt; values to calculate the average of.</param>
+        <summary>Computes the average of a sequence of nullable &lt;xref:System.Single&gt; values.</summary>
+        <returns>The average of the sequence of values, or `null` if the source sequence is empty or contains only `null` values.</returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ The Average method generates a <xref:System.Linq.Expressions.MethodCallExpression> that represents calling Average itself. It then passes the <xref:System.Linq.Expressions.MethodCallExpression> to the <xref:System.Linq.IQueryProvider.Execute%60%601%28System.Linq.Expressions.Expression%29> method of the <xref:System.Linq.IQueryProvider> represented by the <xref:System.Linq.IQueryable.Provider%2A> property of the  parameter.  
+  
+ The query behavior that occurs as a result of executing an expression tree that represents calling Average depends on the implementation of the type of the  parameter. The expected behavior is that it calculates the average of the values in .  
+  
+   
+  
+## Examples  
+ The following code example demonstrates how to use <xref:System.Linq.Queryable.Average%28System.Linq.IQueryable%7BSystem.Nullable%7BSystem.Int64%7D%7D%29> to calculate the average of a sequence of values.  
+  
+ [!INCLUDE[sqo_diff_overload_example_elementtype](../Token/sqo_diff_overload_example_elementtype_md.md)]  
+  
+ [!CODE [System.Linq.Queryable#12](../CodeSnippet/VS_Snippets_CLR_System/system.Linq.Queryable#12)]  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="Average">
@@ -418,10 +598,28 @@
         <Parameter Name="source" Type="System.Linq.IQueryable&lt;System.Single&gt;" RefType="this" />
       </Parameters>
       <Docs>
-        <param name="source">To be added.</param>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
-        <remarks>To be added.</remarks>
+        <param name="source">A sequence of &lt;xref:System.Single&gt; values to calculate the average of.</param>
+        <summary>Computes the average of a sequence of &lt;xref:System.Single&gt; values.</summary>
+        <returns>The average of the sequence of values.</returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ The Average method generates a <xref:System.Linq.Expressions.MethodCallExpression> that represents calling Average itself. It then passes the <xref:System.Linq.Expressions.MethodCallExpression> to the <xref:System.Linq.IQueryProvider.Execute%60%601%28System.Linq.Expressions.Expression%29> method of the <xref:System.Linq.IQueryProvider> represented by the <xref:System.Linq.IQueryable.Provider%2A> property of the  parameter.  
+  
+ The query behavior that occurs as a result of executing an expression tree that represents calling Average depends on the implementation of the type of the  parameter. The expected behavior is that it calculates the average of the values in .  
+  
+   
+  
+## Examples  
+ The following code example demonstrates how to use <xref:System.Linq.Queryable.Average%28System.Linq.IQueryable%7BSystem.Int32%7D%29> to calculate the average of a sequence of values.  
+  
+ [!INCLUDE[sqo_diff_overload_example_elementtype](../Token/sqo_diff_overload_example_elementtype_md.md)]  
+  
+ [!CODE [System.Linq.Queryable#8](../CodeSnippet/VS_Snippets_CLR_System/system.Linq.Queryable#8)]  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="Average&lt;TSource&gt;">
@@ -2458,10 +2656,28 @@
         <Parameter Name="source" Type="System.Linq.IQueryable&lt;System.Decimal&gt;" RefType="this" />
       </Parameters>
       <Docs>
-        <param name="source">To be added.</param>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
-        <remarks>To be added.</remarks>
+        <param name="source">A sequence of &lt;xref:System.Decimal&gt; values to calculate the sum of.</param>
+        <summary>Computes the sum of a sequence of &lt;xref:System.Decimal&gt; values.</summary>
+        <returns>The sum of the values in the sequence.</returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ The Sum method generates a <xref:System.Linq.Expressions.MethodCallExpression> that represents calling Sum itself as a constructed generic method. It then passes the <xref:System.Linq.Expressions.MethodCallExpression> to the <xref:System.Linq.IQueryProvider.Execute%60%601%28System.Linq.Expressions.Expression%29> method of the <xref:System.Linq.IQueryProvider> represented by the <xref:System.Linq.IQueryable.Provider%2A> property of the  parameter.  
+  
+ The query behavior that occurs as a result of executing an expression tree that represents calling Sum depends on the implementation of the type of the  parameter. The expected behavior is that it returns the sum of the values in .  
+  
+   
+  
+## Examples  
+ The following code example demonstrates how to use <xref:System.Linq.Queryable.Sum%28System.Linq.IQueryable%7BSystem.Single%7D%29> to sum the values of a sequence.  
+  
+ [!INCLUDE[sqo_diff_overload_example_elementtype](../Token/sqo_diff_overload_example_elementtype_md.md)]  
+  
+ [!CODE [System.Linq.Queryable#120](../CodeSnippet/VS_Snippets_CLR_System/system.Linq.Queryable#120)]  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="Sum">
@@ -2478,10 +2694,28 @@
         <Parameter Name="source" Type="System.Linq.IQueryable&lt;System.Double&gt;" RefType="this" />
       </Parameters>
       <Docs>
-        <param name="source">To be added.</param>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
-        <remarks>To be added.</remarks>
+        <param name="source">A sequence of &lt;xref:System.Double&gt; values to calculate the sum of.</param>
+        <summary>Computes the sum of a sequence of &lt;xref:System.Double&gt; values.</summary>
+        <returns>The sum of the values in the sequence.</returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ The Sum method generates a <xref:System.Linq.Expressions.MethodCallExpression> that represents calling Sum itself as a constructed generic method. It then passes the <xref:System.Linq.Expressions.MethodCallExpression> to the <xref:System.Linq.IQueryProvider.Execute%60%601%28System.Linq.Expressions.Expression%29> method of the <xref:System.Linq.IQueryProvider> represented by the <xref:System.Linq.IQueryable.Provider%2A> property of the  parameter.  
+  
+ The query behavior that occurs as a result of executing an expression tree that represents calling Sum depends on the implementation of the type of the  parameter. The expected behavior is that it returns the sum of the values in .  
+  
+   
+  
+## Examples  
+ The following code example demonstrates how to use <xref:System.Linq.Queryable.Sum%28System.Linq.IQueryable%7BSystem.Single%7D%29> to sum the values of a sequence.  
+  
+ [!INCLUDE[sqo_diff_overload_example_elementtype](../Token/sqo_diff_overload_example_elementtype_md.md)]  
+  
+ [!CODE [System.Linq.Queryable#120](../CodeSnippet/VS_Snippets_CLR_System/system.Linq.Queryable#120)]  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="Sum">
@@ -2498,10 +2732,28 @@
         <Parameter Name="source" Type="System.Linq.IQueryable&lt;System.Int32&gt;" RefType="this" />
       </Parameters>
       <Docs>
-        <param name="source">To be added.</param>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
-        <remarks>To be added.</remarks>
+        <param name="source">A sequence of &lt;xref:System.Int32&gt; values to calculate the sum of.</param>
+        <summary>Computes the sum of a sequence of &lt;xref:System.Int32&gt; values.</summary>
+        <returns>The sum of the values in the sequence.</returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ The Sum method generates a <xref:System.Linq.Expressions.MethodCallExpression> that represents calling Sum itself as a constructed generic method. It then passes the <xref:System.Linq.Expressions.MethodCallExpression> to the <xref:System.Linq.IQueryProvider.Execute%60%601%28System.Linq.Expressions.Expression%29> method of the <xref:System.Linq.IQueryProvider> represented by the <xref:System.Linq.IQueryable.Provider%2A> property of the  parameter.  
+  
+ The query behavior that occurs as a result of executing an expression tree that represents calling Sum depends on the implementation of the type of the  parameter. The expected behavior is that it returns the sum of the values in .  
+  
+   
+  
+## Examples  
+ The following code example demonstrates how to use <xref:System.Linq.Queryable.Sum%28System.Linq.IQueryable%7BSystem.Single%7D%29> to sum the values of a sequence.  
+  
+ [!INCLUDE[sqo_diff_overload_example_elementtype](../Token/sqo_diff_overload_example_elementtype_md.md)]  
+  
+ [!CODE [System.Linq.Queryable#120](../CodeSnippet/VS_Snippets_CLR_System/system.Linq.Queryable#120)]  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="Sum">
@@ -2518,10 +2770,28 @@
         <Parameter Name="source" Type="System.Linq.IQueryable&lt;System.Int64&gt;" RefType="this" />
       </Parameters>
       <Docs>
-        <param name="source">To be added.</param>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
-        <remarks>To be added.</remarks>
+        <param name="source">A sequence of &lt;xref:System.Int64&gt; values to calculate the sum of.</param>
+        <summary>Computes the sum of a sequence of &lt;xref:System.Int64&gt; values.</summary>
+        <returns>The sum of the values in the sequence.</returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ The Sum method generates a <xref:System.Linq.Expressions.MethodCallExpression> that represents calling Sum itself as a constructed generic method. It then passes the <xref:System.Linq.Expressions.MethodCallExpression> to the <xref:System.Linq.IQueryProvider.Execute%60%601%28System.Linq.Expressions.Expression%29> method of the <xref:System.Linq.IQueryProvider> represented by the <xref:System.Linq.IQueryable.Provider%2A> property of the  parameter.  
+  
+ The query behavior that occurs as a result of executing an expression tree that represents calling Sum depends on the implementation of the type of the  parameter. The expected behavior is that it returns the sum of the values in .  
+  
+   
+  
+## Examples  
+ The following code example demonstrates how to use <xref:System.Linq.Queryable.Sum%28System.Linq.IQueryable%7BSystem.Single%7D%29> to sum the values of a sequence.  
+  
+ [!INCLUDE[sqo_diff_overload_example_elementtype](../Token/sqo_diff_overload_example_elementtype_md.md)]  
+  
+ [!CODE [System.Linq.Queryable#120](../CodeSnippet/VS_Snippets_CLR_System/system.Linq.Queryable#120)]  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="Sum">
@@ -2538,10 +2808,28 @@
         <Parameter Name="source" Type="System.Linq.IQueryable&lt;System.Nullable&lt;System.Decimal&gt;&gt;" RefType="this" />
       </Parameters>
       <Docs>
-        <param name="source">To be added.</param>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
-        <remarks>To be added.</remarks>
+        <param name="source">A sequence of nullable &lt;xref:System.Decimal&gt; values to calculate the sum of.</param>
+        <summary>Computes the sum of a sequence of nullable &lt;xref:System.Decimal&gt; values.</summary>
+        <returns>The sum of the values in the sequence.</returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ The Sum method generates a <xref:System.Linq.Expressions.MethodCallExpression> that represents calling Sum itself as a constructed generic method. It then passes the <xref:System.Linq.Expressions.MethodCallExpression> to the <xref:System.Linq.IQueryProvider.Execute%60%601%28System.Linq.Expressions.Expression%29> method of the <xref:System.Linq.IQueryProvider> represented by the <xref:System.Linq.IQueryable.Provider%2A> property of the  parameter.  
+  
+ The query behavior that occurs as a result of executing an expression tree that represents calling Sum depends on the implementation of the type of the  parameter. The expected behavior is that it returns the sum of the values in .  
+  
+   
+  
+## Examples  
+ The following code example demonstrates how to use <xref:System.Linq.Queryable.Sum%28System.Linq.IQueryable%7BSystem.Nullable%7BSystem.Single%7D%7D%29> to sum the values of a sequence.  
+  
+ [!INCLUDE[sqo_diff_overload_example_elementtype](../Token/sqo_diff_overload_example_elementtype_md.md)]  
+  
+ [!CODE [System.Linq.Queryable#121](../CodeSnippet/VS_Snippets_CLR_System/system.Linq.Queryable#121)]  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="Sum">
@@ -2558,10 +2846,28 @@
         <Parameter Name="source" Type="System.Linq.IQueryable&lt;System.Nullable&lt;System.Double&gt;&gt;" RefType="this" />
       </Parameters>
       <Docs>
-        <param name="source">To be added.</param>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
-        <remarks>To be added.</remarks>
+        <param name="source">A sequence of nullable &lt;xref:System.Double&gt; values to calculate the sum of.</param>
+        <summary>Computes the sum of a sequence of nullable &lt;xref:System.Double&gt; values.</summary>
+        <returns>The sum of the values in the sequence.</returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ The Sum method generates a <xref:System.Linq.Expressions.MethodCallExpression> that represents calling Sum itself as a constructed generic method. It then passes the <xref:System.Linq.Expressions.MethodCallExpression> to the <xref:System.Linq.IQueryProvider.Execute%60%601%28System.Linq.Expressions.Expression%29> method of the <xref:System.Linq.IQueryProvider> represented by the <xref:System.Linq.IQueryable.Provider%2A> property of the  parameter.  
+  
+ The query behavior that occurs as a result of executing an expression tree that represents calling Sum depends on the implementation of the type of the  parameter. The expected behavior is that it returns the sum of the values in .  
+  
+   
+  
+## Examples  
+ The following code example demonstrates how to use <xref:System.Linq.Queryable.Sum%28System.Linq.IQueryable%7BSystem.Nullable%7BSystem.Single%7D%7D%29> to sum the values of a sequence.  
+  
+ [!INCLUDE[sqo_diff_overload_example_elementtype](../Token/sqo_diff_overload_example_elementtype_md.md)]  
+  
+ [!CODE [System.Linq.Queryable#121](../CodeSnippet/VS_Snippets_CLR_System/system.Linq.Queryable#121)]  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="Sum">
@@ -2578,10 +2884,28 @@
         <Parameter Name="source" Type="System.Linq.IQueryable&lt;System.Nullable&lt;System.Int32&gt;&gt;" RefType="this" />
       </Parameters>
       <Docs>
-        <param name="source">To be added.</param>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
-        <remarks>To be added.</remarks>
+        <param name="source">A sequence of nullable &lt;xref:System.Int32&gt; values to calculate the sum of.</param>
+        <summary>Computes the sum of a sequence of nullable &lt;xref:System.Int32&gt; values.</summary>
+        <returns>The sum of the values in the sequence.</returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ The Sum method generates a <xref:System.Linq.Expressions.MethodCallExpression> that represents calling Sum itself as a constructed generic method. It then passes the <xref:System.Linq.Expressions.MethodCallExpression> to the <xref:System.Linq.IQueryProvider.Execute%60%601%28System.Linq.Expressions.Expression%29> method of the <xref:System.Linq.IQueryProvider> represented by the <xref:System.Linq.IQueryable.Provider%2A> property of the  parameter.  
+  
+ The query behavior that occurs as a result of executing an expression tree that represents calling Sum depends on the implementation of the type of the  parameter. The expected behavior is that it returns the sum of the values in .  
+  
+   
+  
+## Examples  
+ The following code example demonstrates how to use <xref:System.Linq.Queryable.Sum%28System.Linq.IQueryable%7BSystem.Nullable%7BSystem.Single%7D%7D%29> to sum the values of a sequence.  
+  
+ [!INCLUDE[sqo_diff_overload_example_elementtype](../Token/sqo_diff_overload_example_elementtype_md.md)]  
+  
+ [!CODE [System.Linq.Queryable#121](../CodeSnippet/VS_Snippets_CLR_System/system.Linq.Queryable#121)]  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="Sum">
@@ -2598,10 +2922,28 @@
         <Parameter Name="source" Type="System.Linq.IQueryable&lt;System.Nullable&lt;System.Int64&gt;&gt;" RefType="this" />
       </Parameters>
       <Docs>
-        <param name="source">To be added.</param>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
-        <remarks>To be added.</remarks>
+        <param name="source">A sequence of nullable &lt;xref:System.Int64&gt; values to calculate the sum of.</param>
+        <summary>Computes the sum of a sequence of nullable &lt;xref:System.Int64&gt; values.</summary>
+        <returns>The sum of the values in the sequence.</returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ The Sum method generates a <xref:System.Linq.Expressions.MethodCallExpression> that represents calling Sum itself as a constructed generic method. It then passes the <xref:System.Linq.Expressions.MethodCallExpression> to the <xref:System.Linq.IQueryProvider.Execute%60%601%28System.Linq.Expressions.Expression%29> method of the <xref:System.Linq.IQueryProvider> represented by the <xref:System.Linq.IQueryable.Provider%2A> property of the  parameter.  
+  
+ The query behavior that occurs as a result of executing an expression tree that represents calling Sum depends on the implementation of the type of the  parameter. The expected behavior is that it returns the sum of the values in .  
+  
+   
+  
+## Examples  
+ The following code example demonstrates how to use <xref:System.Linq.Queryable.Sum%28System.Linq.IQueryable%7BSystem.Nullable%7BSystem.Single%7D%7D%29> to sum the values of a sequence.  
+  
+ [!INCLUDE[sqo_diff_overload_example_elementtype](../Token/sqo_diff_overload_example_elementtype_md.md)]  
+  
+ [!CODE [System.Linq.Queryable#121](../CodeSnippet/VS_Snippets_CLR_System/system.Linq.Queryable#121)]  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="Sum">
@@ -2618,10 +2960,26 @@
         <Parameter Name="source" Type="System.Linq.IQueryable&lt;System.Nullable&lt;System.Single&gt;&gt;" RefType="this" />
       </Parameters>
       <Docs>
-        <param name="source">To be added.</param>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
-        <remarks>To be added.</remarks>
+        <param name="source">A sequence of nullable &lt;xref:System.Single&gt; values to calculate the sum of.</param>
+        <summary>Computes the sum of a sequence of nullable &lt;xref:System.Single&gt; values.</summary>
+        <returns>The sum of the values in the sequence.</returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ The Sum method generates a <xref:System.Linq.Expressions.MethodCallExpression> that represents calling Sum itself as a constructed generic method. It then passes the <xref:System.Linq.Expressions.MethodCallExpression> to the <xref:System.Linq.IQueryProvider.Execute%60%601%28System.Linq.Expressions.Expression%29> method of the <xref:System.Linq.IQueryProvider> represented by the <xref:System.Linq.IQueryable.Provider%2A> property of the  parameter.  
+  
+ The query behavior that occurs as a result of executing an expression tree that represents calling Sum depends on the implementation of the type of the  parameter. The expected behavior is that it returns the sum of the values in .  
+  
+   
+  
+## Examples  
+ The following code example demonstrates how to use Sum to sum the values of a sequence.  
+  
+ [!CODE [System.Linq.Queryable#121](../CodeSnippet/VS_Snippets_CLR_System/system.Linq.Queryable#121)]  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="Sum">
@@ -2638,10 +2996,26 @@
         <Parameter Name="source" Type="System.Linq.IQueryable&lt;System.Single&gt;" RefType="this" />
       </Parameters>
       <Docs>
-        <param name="source">To be added.</param>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
-        <remarks>To be added.</remarks>
+        <param name="source">A sequence of &lt;xref:System.Single&gt; values to calculate the sum of.</param>
+        <summary>Computes the sum of a sequence of &lt;xref:System.Single&gt; values.</summary>
+        <returns>The sum of the values in the sequence.</returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ The Sum method generates a <xref:System.Linq.Expressions.MethodCallExpression> that represents calling Sum itself as a constructed generic method. It then passes the <xref:System.Linq.Expressions.MethodCallExpression> to the <xref:System.Linq.IQueryProvider.Execute%60%601%28System.Linq.Expressions.Expression%29> method of the <xref:System.Linq.IQueryProvider> represented by the <xref:System.Linq.IQueryable.Provider%2A> property of the  parameter.  
+  
+ The query behavior that occurs as a result of executing an expression tree that represents calling Sum depends on the implementation of the type of the  parameter. The expected behavior is that it returns the sum of the values in .  
+  
+   
+  
+## Examples  
+ The following code example demonstrates how to use Sum to sum the values of a sequence.  
+  
+ [!CODE [System.Linq.Queryable#120](../CodeSnippet/VS_Snippets_CLR_System/system.Linq.Queryable#120)]  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="Sum&lt;TSource&gt;">

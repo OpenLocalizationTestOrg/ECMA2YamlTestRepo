@@ -15,8 +15,32 @@
     </Attribute>
   </Attributes>
   <Docs>
-    <summary>To be added.</summary>
-    <remarks>To be added.</remarks>
+    <summary>Converts a set of characters into a sequence of bytes.</summary>
+    <remarks>
+      <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ To obtain an instance of an implementation of the Encoder class, the application should use the <xref:System.Text.Encoding.GetEncoder%2A> method of an <xref:System.Text.Encoding> implementation.  
+  
+ The <xref:System.Text.Encoder.GetByteCount%2A> method determines how many bytes result in encoding a set of Unicode characters, and the <xref:System.Text.Encoder.GetBytes%2A> method performs the actual encoding. There are several versions of both of these methods available in the Encoder class. For more information, see <xref:System.Text.Encoding.GetBytes%2A?displayProperty=fullName>.  
+  
+ A Encoder object maintains state information between successive calls to `GetBytes` or <xref:System.Text.Decoder.Convert%2A> methods so that it can correctly encode character sequences that span blocks. The Encoder also preserves trailing characters at the end of data blocks and uses the trailing characters in the next encoding operation. For example, a data block might end with an unmatched high surrogate, and the matching low surrogate might be in the next data block. Therefore, <xref:System.Text.Encoding.GetDecoder%2A> and <xref:System.Text.Encoding.GetEncoder%2A> are useful for network transmission and file operations, because those operations often deal with blocks of data instead of a complete data stream.  
+  
+> [!NOTE]
+>  When the application is done with a stream of data it should make sure that the state information is flushed by setting the  parameter to `true` in the appropriate method call. If an exception occurs or if the application switches streams, it should call <xref:System.Text.Encoder.Reset%2A> to clear the internal state of the `Encoder` object.  
+  
+## Version Considerations  
+ A <xref:System.Text.Decoder> or Encoder object can be serialized during a conversion operation. The state of the object is retained if it is deserialized in the same version of the .NET Framework, but lost if it is deserialized in another version.  
+  
+   
+  
+## Examples  
+ The following example demonstrates how to convert an array of Unicode characters into blocks of bytes using a specified encoding. For comparison, the array of characters is first encoded using <xref:System.Text.UTF7Encoding>. Next, the array of characters is encoded using an Encoder.  
+  
+ [!CODE [System.Text.Encoder Example#1](../CodeSnippet/VS_Snippets_CLR_System/system.Text.Encoder Example#1)]  
+  
+ ]]></format>
+    </remarks>
   </Docs>
   <Members>
     <Member MemberName=".ctor">
@@ -28,8 +52,22 @@
       </AssemblyInfo>
       <Parameters />
       <Docs>
-        <summary>To be added.</summary>
-        <remarks>To be added.</remarks>
+        <summary>Initializes a new instance of the &lt;see cref="T:System.Text.Encoder"&gt; class.</summary>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ To obtain an instance of an implementation of this class, the application should use the <xref:System.Text.Encoding.GetEncoder%2A> method of an <xref:System.Text.Encoding> implementation.  
+  
+   
+  
+## Examples  
+ The following example demonstrates two techniques for initializing a new <xref:System.Text.Encoder> instance.  
+  
+ [!CODE [System.Text.Encoder.ctor Example#1](../CodeSnippet/VS_Snippets_CLR_System/system.Text.Encoder.ctor Example#1)]  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="Convert">
@@ -64,16 +102,29 @@
         <Parameter Name="completed" Type="System.Boolean&amp;" RefType="out" />
       </Parameters>
       <Docs>
-        <param name="chars">To be added.</param>
-        <param name="charCount">To be added.</param>
-        <param name="bytes">To be added.</param>
-        <param name="byteCount">To be added.</param>
-        <param name="flush">To be added.</param>
-        <param name="charsUsed">To be added.</param>
-        <param name="bytesUsed">To be added.</param>
-        <param name="completed">To be added.</param>
-        <summary>To be added.</summary>
-        <remarks>To be added.</remarks>
+        <param name="chars">The address of a string of UTF-16 encoded characters to convert.</param>
+        <param name="charCount">The number of characters in  to convert.</param>
+        <param name="bytes">The address of a buffer to store the converted bytes.</param>
+        <param name="byteCount">The maximum number of bytes in  to use in the conversion.</param>
+        <param name="flush">`true` to indicate no further data is to be converted; otherwise, `false`.</param>
+        <param name="charsUsed">When this method returns, contains the number of characters from  that were used in the conversion. This parameter is passed uninitialized.</param>
+        <param name="bytesUsed">When this method returns, contains the number of bytes that were used in the conversion. This parameter is passed uninitialized.</param>
+        <param name="completed">When this method returns, contains `true` if all the characters specified by  were converted; otherwise, `false`. This parameter is passed uninitialized.</param>
+        <summary>Converts a buffer of Unicode characters to an encoded byte sequence and stores the result in another buffer.</summary>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ Remember that the <xref:System.Text.Encoder> object saves state between calls to Convert. When the application is done with a stream of data, it should set the  parameter to `true` to make sure that the state information is flushed. With this setting, the encoder ignores invalid bytes at the end of the data block and clears the internal buffer. Any remaining processed data that is part of a logical unit, such as the high surrogate of a surrogate pair, is converted according to the current fallback settings.  
+  
+ The `Convert` method is designed to be used in a loop to encode an arbitrary amount of input, such as data read from a file or stream. It stores the output of the encoding operation in a fixed-size buffer. <xref:System.Text.Encoder.GetBytes%2A> will throw an exception if the output buffer isn't large enough, but Convert will fill as much space as possible and return the chars read and bytes written. Also see the <xref:System.Text.Encoding.GetBytes%2A?displayProperty=fullName> topic for more comments.  
+  
+ The  output parameter indicates whether all the data in the input buffer was converted and stored in the output buffer. This parameter is set to `false` if the number of characters specified by the  parameter cannot be converted without exceeding the number of bytes specified by the  parameter. In that situation, the application should use the contents of the output buffer or provide a new output buffer, increment the  parameter by the number of characters specified by the  parameter, then call the `Convert` method again to process the remaining input.  
+  
+ The  parameter can also be set to `false`, even though the  and  parameters are equal. This situation occurs if there is still data in the <xref:System.Text.Encoder> object that has not been stored in the  buffer.  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="Convert">
@@ -104,18 +155,38 @@
         <Parameter Name="completed" Type="System.Boolean&amp;" RefType="out" />
       </Parameters>
       <Docs>
-        <param name="chars">To be added.</param>
-        <param name="charIndex">To be added.</param>
-        <param name="charCount">To be added.</param>
-        <param name="bytes">To be added.</param>
-        <param name="byteIndex">To be added.</param>
-        <param name="byteCount">To be added.</param>
-        <param name="flush">To be added.</param>
-        <param name="charsUsed">To be added.</param>
-        <param name="bytesUsed">To be added.</param>
-        <param name="completed">To be added.</param>
-        <summary>To be added.</summary>
-        <remarks>To be added.</remarks>
+        <param name="chars">An array of characters to convert.</param>
+        <param name="charIndex">The first element of  to convert.</param>
+        <param name="charCount">The number of elements of  to convert.</param>
+        <param name="bytes">An array where the converted bytes are stored.</param>
+        <param name="byteIndex">The first element of  in which data is stored.</param>
+        <param name="byteCount">The maximum number of elements of  to use in the conversion.</param>
+        <param name="flush">`true` to indicate no further data is to be converted; otherwise, `false`.</param>
+        <param name="charsUsed">When this method returns, contains the number of characters from  that were used in the conversion. This parameter is passed uninitialized.</param>
+        <param name="bytesUsed">When this method returns, contains the number of bytes that were produced by the conversion. This parameter is passed uninitialized.</param>
+        <param name="completed">When this method returns, contains `true` if all the characters specified by  were converted; otherwise, `false`. This parameter is passed uninitialized.</param>
+        <summary>Converts an array of Unicode characters to an encoded byte sequence and stores the result in an array of bytes.</summary>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ Remember that the <xref:System.Text.Encoder> object saves state between calls to Convert. When the application is done with a stream of data, it should set the  parameter to `true` to make sure that the state information is flushed. With this setting, the encoder ignores invalid bytes at the end of the data block and clears the internal buffer. Any remaining processed data that is part of a logical unit, such as the high surrogate of a surrogate pair, is converted according to the current fallback settings.  
+  
+ The `Convert` method is designed to be used in a loop to decode an arbitrary amount of input, such as data read from a file or stream. It stores the output of the encoding operation in a fixed-size buffer. <xref:System.Text.Encoder.GetBytes%2A> will throw an exception if the output buffer isn't large enough, but Convert will fill as much space as possible and return the chars read and bytes written. Also see the <xref:System.Text.Encoding.GetBytes%2A?displayProperty=fullName> topic for more comments.  
+  
+ The  output parameter indicates whether all the data in the input buffer was converted and stored in the output buffer. This parameter is set to `false` if the number of characters specified by the  parameter cannot be converted without exceeding the number of bytes specified by the  parameter. In that situation, the application should use the contents of the output buffer or provide a new output buffer, increment the  parameter by the number of characters specified by the  parameter, then call the `Convert` method again to process the remaining input.  
+  
+ The  parameter can also be set to `false`, even though the  and  parameters are equal. This situation occurs if there is still data in the <xref:System.Text.Encoder> object that has not been stored in the  buffer.  
+  
+   
+  
+## Examples  
+ The following example uses the Convert method to convert a file of UTF-16 characters to UTF-8, then uses the <xref:System.Text.Decoder.Convert%2A> method to convert the UTF-8 characters back to UTF-16 characters.  
+  
+ [!CODE [sys.txt.EncoderDecoder.convert#1](../CodeSnippet/VS_Snippets_CLR/sys.txt.EncoderDecoder.convert#1)]  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="Fallback">
@@ -134,9 +205,16 @@
         <ReturnType>System.Text.EncoderFallback</ReturnType>
       </ReturnValue>
       <Docs>
-        <summary>To be added.</summary>
-        <value>To be added.</value>
-        <remarks>To be added.</remarks>
+        <summary>Gets or sets a &lt;see cref="T:System.Text.EncoderFallback"&gt; object for the current &lt;xref:System.Text.Encoder&gt; object.</summary>
+        <value>A &lt;see cref="T:System.Text.EncoderFallback"&gt; object.</value>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ The <xref:System.Text.EncoderFallback> object represents an error handler that is invoked when a character cannot be converted into an encoded byte sequence.  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="FallbackBuffer">
@@ -155,9 +233,16 @@
         <ReturnType>System.Text.EncoderFallbackBuffer</ReturnType>
       </ReturnValue>
       <Docs>
-        <summary>To be added.</summary>
-        <value>To be added.</value>
-        <remarks>To be added.</remarks>
+        <summary>Gets the &lt;see cref="T:System.Text.EncoderFallbackBuffer"&gt; object associated with the current &lt;xref:System.Text.Encoder&gt; object.</summary>
+        <value>A &lt;see cref="T:System.Text.EncoderFallbackBuffer"&gt; object.</value>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ The FallbackBuffer object represents data used by the <xref:System.Text.EncoderFallback> object. The <xref:System.Text.EncoderFallback> object represents an error handler that is invoked when a character cannot be converted into an encoded byte sequence.  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="GetByteCount">
@@ -187,12 +272,23 @@
         <Parameter Name="flush" Type="System.Boolean" />
       </Parameters>
       <Docs>
-        <param name="chars">To be added.</param>
-        <param name="count">To be added.</param>
-        <param name="flush">To be added.</param>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
-        <remarks>To be added.</remarks>
+        <param name="chars">A pointer to the first character to encode.</param>
+        <param name="count">The number of characters to encode.</param>
+        <param name="flush">`true` to simulate clearing the internal state of the encoder after the calculation; otherwise, `false`.</param>
+        <summary>When overridden in a derived class, calculates the number of bytes produced by encoding a set of characters starting at the specified character pointer. A parameter indicates whether to clear the internal state of the encoder after the calculation.</summary>
+        <returns>The number of bytes produced by encoding the specified characters and any characters in the internal buffer.</returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ This method does not affect the state of the encoder.  
+  
+ To calculate the exact array size that <xref:System.Text.Encoder.GetBytes%2A> requires to store the resulting bytes, the application should use GetByteCount.  
+  
+ If `GetBytes` is called with  set to `false`, the encoder stores trailing characters at the end of the data block in an internal buffer and uses them in the next encoding operation. The application should call `GetByteCount` on a block of data immediately before calling `GetBytes` on the same block, so that any trailing characters from the previous block are included in the calculation.  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="GetByteCount">
@@ -212,13 +308,31 @@
         <Parameter Name="flush" Type="System.Boolean" />
       </Parameters>
       <Docs>
-        <param name="chars">To be added.</param>
-        <param name="index">To be added.</param>
-        <param name="count">To be added.</param>
-        <param name="flush">To be added.</param>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
-        <remarks>To be added.</remarks>
+        <param name="chars">The character array containing the set of characters to encode.</param>
+        <param name="index">The index of the first character to encode.</param>
+        <param name="count">The number of characters to encode.</param>
+        <param name="flush">`true` to simulate clearing the internal state of the encoder after the calculation; otherwise, `false`.</param>
+        <summary>When overridden in a derived class, calculates the number of bytes produced by encoding a set of characters from the specified character array. A parameter indicates whether to clear the internal state of the encoder after the calculation.</summary>
+        <returns>The number of bytes produced by encoding the specified characters and any characters in the internal buffer.</returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ This method does not affect the state of the encoder.  
+  
+ To calculate the exact array size that <xref:System.Text.Encoder.GetBytes%2A> requires to store the resulting bytes, the application should use GetByteCount.  
+  
+ If `GetBytes` is called with  set to `false`, the encoder stores trailing characters at the end of the data block in an internal buffer and uses them in the next encoding operation. The application should call `GetByteCount` on a block of data immediately before calling `GetBytes` on the same block, so that any trailing characters from the previous block are included in the calculation.  
+  
+   
+  
+## Examples  
+ The following code example demonstrates how to use the GetByteCount method to return the number of bytes required to encode an array of characters using a Unicode <xref:System.Text.Encoder>.  
+  
+ [!CODE [System.Text.Encoder.GetByteCount Example#1](../CodeSnippet/VS_Snippets_CLR_System/system.Text.Encoder.GetByteCount Example#1)]  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="GetBytes">
@@ -250,14 +364,27 @@
         <Parameter Name="flush" Type="System.Boolean" />
       </Parameters>
       <Docs>
-        <param name="chars">To be added.</param>
-        <param name="charCount">To be added.</param>
-        <param name="bytes">To be added.</param>
-        <param name="byteCount">To be added.</param>
-        <param name="flush">To be added.</param>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
-        <remarks>To be added.</remarks>
+        <param name="chars">A pointer to the first character to encode.</param>
+        <param name="charCount">The number of characters to encode.</param>
+        <param name="bytes">A pointer to the location at which to start writing the resulting sequence of bytes.</param>
+        <param name="byteCount">The maximum number of bytes to write.</param>
+        <param name="flush">`true` to clear the internal state of the encoder after the conversion; otherwise, `false`.</param>
+        <summary>When overridden in a derived class, encodes a set of characters starting at the specified character pointer and any characters in the internal buffer into a sequence of bytes that are stored starting at the specified byte pointer. A parameter indicates whether to clear the internal state of the encoder after the conversion.</summary>
+        <returns>The actual number of bytes written at the location indicated by the  parameter.</returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ Remember that the <xref:System.Text.Encoder> object saves state between calls to GetBytes. When the application is done with a stream of data, it should set the  parameter to `true` in the last call to `GetBytes` to make sure that the state information is flushed and that the encoded bytes are properly terminated. With this setting, the encoder ignores invalid bytes at the end of the data block, such as unmatched surrogates or incomplete combining sequences, and clears the internal buffer.  
+  
+ To calculate the exact buffer size that `GetBytes` requires to store the resulting characters, the application should use <xref:System.Text.Encoder.GetByteCount%2A>.  
+  
+ If `GetBytes` is called with  set to `false`, the encoder stores trailing bytes at the end of the data block in an internal buffer and uses them in the next encoding operation. The application should call `GetByteCount` on a block of data immediately before calling `GetBytes` on the same block, so that any trailing characters from the previous block are included in the calculation.  
+  
+ If your application is to convert many segments of an input stream, consider using the <xref:System.Text.Encoder.Convert%2A> method. GetBytes will throw an exception if the output buffer isn't large enough, but <xref:System.Text.Encoder.Convert%2A> will fill as much space as possible and return the chars read and bytes written. Also see the <xref:System.Text.Encoding.GetBytes%2A?displayProperty=fullName> topic for more comments.  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="GetBytes">
@@ -279,15 +406,35 @@
         <Parameter Name="flush" Type="System.Boolean" />
       </Parameters>
       <Docs>
-        <param name="chars">To be added.</param>
-        <param name="charIndex">To be added.</param>
-        <param name="charCount">To be added.</param>
-        <param name="bytes">To be added.</param>
-        <param name="byteIndex">To be added.</param>
-        <param name="flush">To be added.</param>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
-        <remarks>To be added.</remarks>
+        <param name="chars">The character array containing the set of characters to encode.</param>
+        <param name="charIndex">The index of the first character to encode.</param>
+        <param name="charCount">The number of characters to encode.</param>
+        <param name="bytes">The byte array to contain the resulting sequence of bytes.</param>
+        <param name="byteIndex">The index at which to start writing the resulting sequence of bytes.</param>
+        <param name="flush">`true` to clear the internal state of the encoder after the conversion; otherwise, `false`.</param>
+        <summary>When overridden in a derived class, encodes a set of characters from the specified character array and any characters in the internal buffer into the specified byte array. A parameter indicates whether to clear the internal state of the encoder after the conversion.</summary>
+        <returns>The actual number of bytes written into .</returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ Remember that the <xref:System.Text.Encoder> object saves state between calls to GetBytes. When the application is done with a stream of data, it should set the  parameter to `true` in the last call to `GetBytes` to make sure that the state information is flushed and that the encoded bytes are properly terminated. With this setting, the encoder ignores invalid bytes at the end of the data block, such as unmatched surrogates or incomplete combining sequences, and clears the internal buffer.  
+  
+ To calculate the exact buffer size that `GetBytes` requires to store the resulting characters, the application should use <xref:System.Text.Encoder.GetByteCount%2A>.  
+  
+ If `GetBytes` is called with  set to `false`, the encoder stores trailing bytes at the end of the data block in an internal buffer and uses them in the next encoding operation. The application should call `GetByteCount` on a block of data immediately before calling `GetBytes` on the same block, so that any trailing characters from the previous block are included in the calculation.  
+  
+ If your application is to convert many segments of an input stream, consider using the <xref:System.Text.Encoder.Convert%2A> method. GetBytes will throw an exception if the output buffer isn't large enough, but <xref:System.Text.Encoder.Convert%2A> will fill as much space as possible and return the chars read and bytes written. Also see the <xref:System.Text.Encoding.GetBytes%2A?displayProperty=fullName> topic for more comments.  
+  
+   
+  
+## Examples  
+ The following example demonstrates how to encode a range of elements from a character array and store the encoded bytes in a range of elements in a byte array. The <xref:System.Text.Encoder.GetByteCount%2A> method is used to determine the size of the array required by GetBytes.  
+  
+ [!CODE [System.Text.Encoder.GetBytes Example#1](../CodeSnippet/VS_Snippets_CLR_System/system.Text.Encoder.GetBytes Example#1)]  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="Reset">
@@ -307,8 +454,17 @@
       </ReturnValue>
       <Parameters />
       <Docs>
-        <summary>To be added.</summary>
-        <remarks>To be added.</remarks>
+        <summary>When overridden in a derived class, sets the encoder back to its initial state.</summary>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ This method clears the internal state of the <xref:System.Text.Encoder> object. The method clears any state information preserved from a previous call to <xref:System.Text.Encoder.GetBytes%2A> or <xref:System.Text.Decoder.Convert%2A>, including trailing characters at the end of the previous data block, such as an unmatched high surrogate.  
+  
+ Your application should call the `Reset` method if it wants to reuse the same encoder even after an exception is thrown by <xref:System.Text.Encoder.GetBytes%2A> or <xref:System.Text.Encoder.GetByteCount%2A>, or if the application switches streams.  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
   </Members>
