@@ -1,25 +1,40 @@
 using System;
 using System.IO;
 
-public class AppendTextTest 
+class Test 
 {
     public static void Main() 
     {
-        FileInfo fi = new FileInfo("temp.txt");
-        // Create a writer, ready to add entries to the file.
-        StreamWriter sw = fi.AppendText();
-        sw.WriteLine("Add as many lines as you like...");
-        sw.WriteLine("Add another line to the output...");
-        sw.Flush();
-        sw.Close();
-        // Get the information out of the file and display it.
-        // Remember that the file might have other lines if it already existed.
-        StreamReader sr = new StreamReader(fi.OpenRead());
-        while (sr.Peek() != -1)
-            Console.WriteLine( sr.ReadLine() );
+        string path = @"c:\temp\MyTest.txt";
+        // This text is added only once to the file.
+        if (!File.Exists(path)) 
+        {
+            // Create a file to write to.
+            using (StreamWriter sw = File.CreateText(path)) 
+            {
+                sw.WriteLine("Hello");
+                sw.WriteLine("And");
+                sw.WriteLine("Welcome");
+            }	
+        }
+
+        // This text is always added, making the file longer over time
+        // if it is not deleted.
+        using (StreamWriter sw = File.AppendText(path)) 
+        {
+            sw.WriteLine("This");
+            sw.WriteLine("is Extra");
+            sw.WriteLine("Text");
+        }	
+
+        // Open the file to read from.
+        using (StreamReader sr = File.OpenText(path)) 
+        {
+            string s = "";
+            while ((s = sr.ReadLine()) != null) 
+            {
+                Console.WriteLine(s);
+            }
+        }
     }
 }
-//This code produces output similar to the following; 
-//results may vary based on the computer/file structure/etc.:
-//Add as many lines as you like...
-//Add another line to the output...
