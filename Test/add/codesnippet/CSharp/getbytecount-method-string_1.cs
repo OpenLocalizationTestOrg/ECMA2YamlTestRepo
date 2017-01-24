@@ -3,20 +3,20 @@ using System.Text;
 
 class UTF8EncodingExample {
     public static void Main() {
-        String chars = "UTF8 Encoding Example";
-        Encoding utf8 = Encoding.UTF8;
+        String chars = "UTF-16 Encoding Example";
+        Encoding unicode = Encoding.Unicode;
 
         Console.WriteLine("Bytes needed to encode '{0}':", chars);
         Console.WriteLine("   Maximum:         {0}",
-                          utf8.GetMaxByteCount(chars.Length));
+                          unicode.GetMaxByteCount(chars.Length));
         Console.WriteLine("   Actual:          {0}",
-                          utf8.GetByteCount(chars));
+                          unicode.GetByteCount(chars));
         Console.WriteLine("   Actual with BOM: {0}",
-                          utf8.GetByteCount(chars) + utf8.GetPreamble().Length);
+                          unicode.GetByteCount(chars) + unicode.GetPreamble().Length);
     }
 }
 // The example displays the following output:
-//       Bytes needed to encode 'UTF8 Encoding Example':
-//          Maximum:         66
-//          Actual:          21
-//          Actual with BOM: 24
+//       Bytes needed to encode 'UTF-16 Encoding Example':
+//          Maximum:         48
+//          Actual:          46
+//          Actual with BOM: 48

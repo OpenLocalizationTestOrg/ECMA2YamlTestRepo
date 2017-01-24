@@ -1,49 +1,78 @@
+// Note: You must compile this sample using the unsafe flag.
+// From the command line, type the following: csc sample.cs /unsafe
 using System;
 using System.IO;
+using System.Runtime.InteropServices;
+using System.Text;
 
-class BinaryRW
+unsafe class Program
 {
     static void Main()
     {
-        int i = 0;
+        // Create some data to write.
+        byte[] text = UnicodeEncoding.Unicode.GetBytes("Data to write.");
 
-        // Create random data to write to the stream.
-        byte[] writeArray = new byte[1000];
-        new Random().NextBytes(writeArray);
+        // Allocate a block of unmanaged memory.
+        IntPtr memIntPtr = Marshal.AllocHGlobal(text.Length);
 
-        BinaryWriter binWriter = new BinaryWriter(new MemoryStream());
-        BinaryReader binReader = 
-            new BinaryReader(binWriter.BaseStream);
+        // Get a byte pointer from the unmanaged memory block.
+        byte* memBytePtr = (byte*)memIntPtr.ToPointer();
 
-        try
+        UnmanagedMemoryStream writeStream =
+            new UnmanagedMemoryStream(
+            memBytePtr, text.Length, text.Length, FileAccess.Write);
+
+        // Write the data.
+        WriteToStream(writeStream, text);
+
+        // Close the stream.
+        writeStream.Close();
+
+        // Create another UnmanagedMemoryStream for reading.
+        UnmanagedMemoryStream readStream =
+            new UnmanagedMemoryStream(memBytePtr, text.Length);
+
+        // Display the contents of the stream to the console.
+        PrintStream(readStream);
+
+        // Close the reading stream.
+        readStream.Close();
+
+        // Free up the unmanaged memory.
+        Marshal.FreeHGlobal(memIntPtr);
+
+    }
+
+    public static void WriteToStream(UnmanagedMemoryStream writeStream, byte[] text)
+    {
+        // Verify that the stream is writable:
+        // By default, UnmanagedMemoryStream objects do not have write access,
+        // write access must be set explicitly.
+        if (writeStream.CanWrite)
         {
-            // Write the data to the stream.
-            Console.WriteLine("Writing the data.");
-            for(i = 0; i < writeArray.Length; i++)
+            // Write the data, byte by byte
+            for (int i = 0; i < writeStream.Length; i++)
             {
-                binWriter.Write(writeArray[i]);
+                writeStream.WriteByte(text[i]);
             }
+        }
+    }
 
-            // Set the stream position to the beginning of the stream.
-            binReader.BaseStream.Position = 0;
-
-            // Read and verify the data from the stream.
-            for(i = 0; i < writeArray.Length; i++)
+    public static void PrintStream(UnmanagedMemoryStream readStream)
+    {
+        byte[] text = new byte[readStream.Length];
+        // Verify that the stream is writable:
+        // By default, UnmanagedMemoryStream objects do not have write access,
+        // write access must be set explicitly.
+        if (readStream.CanRead)
+        {
+            // Write the data, byte by byte
+            for (int i = 0; i < readStream.Length; i++)
             {
-                if(binReader.ReadByte() != writeArray[i])
-                {
-                    Console.WriteLine("Error writing the data.");
-                    return;
-                }
+                text[i] = (byte)readStream.ReadByte();
             }
-            Console.WriteLine("The data was written and verified.");
         }
 
-        // Catch the EndOfStreamException and write an error message.
-        catch(EndOfStreamException e)
-        {
-            Console.WriteLine("Error writing the data.\n{0}",
-                e.GetType().Name);
-        }
+        Console.WriteLine(UnicodeEncoding.Unicode.GetString(text));
     }
 }

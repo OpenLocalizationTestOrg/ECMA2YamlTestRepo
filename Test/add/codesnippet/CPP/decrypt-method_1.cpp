@@ -1,58 +1,47 @@
 using namespace System;
 using namespace System::IO;
-using namespace System::Security::AccessControl;
-
-
-	static void Addencryption(String^ fileName)
-{
-    // Create a new FileInfo object.
-	FileInfo^ fInfo = gcnew FileInfo(fileName);
-	if (!fInfo->Exists)
-	{
-		fInfo->Create();
-	}
-	// Add encryption.
-    fInfo->Encrypt();
-	
-}
-
-
-	static void Removeencryption(String^ fileName)
-{
-//    Create a new FileInfo object.
-    FileInfo^ fInfo = gcnew FileInfo(fileName);
-	if (!fInfo->Exists)
-	{
-		fInfo->Create();
-	}
-    // Remove encryption.
-    fInfo->Decrypt();
-}
 
 int main()
 {
-	try
+    String^ fileName = "test.xml";
+    if (!File::Exists(fileName))
     {
-		String^ fileName = "c:\\MyTest.txt";
+        Console::WriteLine("The file " + fileName
+            + " does not exist.");
+        return 0;
+    }
+    try
+    {
         Console::WriteLine("Encrypt " + fileName);
 
         // Encrypt the file.
-     
-		Addencryption(fileName);
-		Console::WriteLine("Decrypt " + fileName);
+        File::Encrypt(fileName);
+
+        Console::WriteLine("Decrypt " + fileName);
 
         // Decrypt the file.
-        Removeencryption(fileName);
-		Console::WriteLine("Done");
-     }
-     catch (IOException^ ex)
-     {
-		Console::WriteLine(ex->Message);
-     }
+        File::Decrypt(fileName);
+
+        Console::WriteLine("Done");
+    }
+    catch (IOException^ ex)
+    {
+        Console::WriteLine("There was an IO problem.");
+        Console::WriteLine(ex->Message);
+    }
+    catch (PlatformNotSupportedException^)
+    {
+        Console::WriteLine("Encryption is not supported on " +
+            "this system.");
+    }
+    catch (NotSupportedException^)
+    {
+        Console::WriteLine("Encryption is not supported on " +
+            "this system.");
+    }
+    catch (UnauthorizedAccessException^)
+    {
+        Console::WriteLine("The operation could not be "
+            + "carried out.");
+    }
 }
-//This code produces output similar to the following; 
-//results may vary based on the computer/file structure/etc.:
-//
-//Encrypt c:\MyTest.txt
-//Decrypt c:\MyTest.txt
-//Done

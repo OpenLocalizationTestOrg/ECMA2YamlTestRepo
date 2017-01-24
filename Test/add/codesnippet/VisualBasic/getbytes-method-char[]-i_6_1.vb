@@ -2,7 +2,7 @@ Imports System
 Imports System.Text
 Imports Microsoft.VisualBasic
 
-Public Class SamplesEncoding   
+Public Class SamplesUTF32Encoding   
 
    Public Shared Sub Main()
 
@@ -14,21 +14,21 @@ Public Class SamplesEncoding
       '    Greek Small Letter Beta (U+03B2)
       '    a high-surrogate value (U+D8FF)
       '    a low-surrogate value (U+DCFF)
-      Dim myChars() As Char = {"z"c, "a"c, ChrW(&H0306), ChrW(&H01FD), ChrW(&H03B2), ChrW(&HD8FF), ChrW(&HDCFF) }
+      Dim myChars() As Char = {"z"c, "a"c, ChrW(&H0306), ChrW(&H01FD), ChrW(&H03B2), ChrW(&HD8FF), ChrW(&HDCFF)}
 
-      ' Get different encodings.
-      Dim u7 As Encoding = Encoding.UTF7
-      Dim u8 As Encoding = Encoding.UTF8
-      Dim u16LE As Encoding = Encoding.Unicode
-      Dim u16BE As Encoding = Encoding.BigEndianUnicode
-      Dim u32 As Encoding = Encoding.UTF32
+      ' Create instances of different encodings.
+      Dim u7 As New UTF7Encoding()
+      Dim u8Nobom As New UTF8Encoding(False, True)
+      Dim u8Bom As New UTF8Encoding(True, True)
+      Dim u32Nobom As New UTF32Encoding(False, False, True)
+      Dim u32Bom As New UTF32Encoding(False, True, True)
 
-      ' Encode three characters starting at index 4, and print out the counts and the resulting bytes.
+      ' Encode three characters starting at index 4 and print out the counts and the resulting bytes.
       PrintCountsAndBytes(myChars, 4, 3, u7)
-      PrintCountsAndBytes(myChars, 4, 3, u8)
-      PrintCountsAndBytes(myChars, 4, 3, u16LE)
-      PrintCountsAndBytes(myChars, 4, 3, u16BE)
-      PrintCountsAndBytes(myChars, 4, 3, u32)
+      PrintCountsAndBytes(myChars, 4, 3, u8Nobom)
+      PrintCountsAndBytes(myChars, 4, 3, u8Bom)
+      PrintCountsAndBytes(myChars, 4, 3, u32Nobom)
+      PrintCountsAndBytes(myChars, 4, 3, u32Bom)
 
    End Sub 'Main
 
@@ -36,7 +36,7 @@ Public Class SamplesEncoding
    Public Shared Sub PrintCountsAndBytes(chars() As Char, index As Integer, count As Integer, enc As Encoding)
 
       ' Display the name of the encoding used.
-      Console.Write("{0,-30} :", enc.ToString())
+      Console.Write("{0,-25} :", enc.ToString())
 
       ' Display the exact byte count.
       Dim iBC As Integer = enc.GetByteCount(chars, index, count)
@@ -46,14 +46,15 @@ Public Class SamplesEncoding
       Dim iMBC As Integer = enc.GetMaxByteCount(count)
       Console.Write(" {0,-3} :", iMBC)
 
-      ' Encode the array of chars.
-      Dim bytes As Byte() = enc.GetBytes(chars, index, count)
+      ' Get the byte order mark, if any.
+      Dim preamble As Byte() = enc.GetPreamble()
 
-      ' The following is an alternative way to encode the array of chars:
-      ' NOTE: In VB.NET, arrays contain one extra element by default.
-      '       The following line creates the array with the exact number of elements required.
-      ' Dim bytes(iBC - 1) As Byte
-      ' enc.GetBytes( chars, index, count, bytes, bytes.GetLowerBound(0) )
+      ' Combine the preamble and the encoded bytes.
+      ' NOTE: In Visual Basic, arrays contain one extra element by default.
+      '       The following line creates an array with the exact number of elements required.
+      Dim bytes(preamble.Length + iBC - 1) As Byte
+      Array.Copy(preamble, bytes, preamble.Length)
+      enc.GetBytes(chars, index, count, bytes, preamble.Length)
 
       ' Display all the encoded bytes.
       PrintHexBytes(bytes)
@@ -75,13 +76,13 @@ Public Class SamplesEncoding
 
    End Sub 'PrintHexBytes 
 
-End Class 'SamplesEncoding
+End Class 'SamplesUTF32Encoding
 
 
 'This code produces the following output.
 '
-'System.Text.UTF7Encoding       : 10  11  :2B 41 37 4C 59 2F 39 7A 2F 2D
-'System.Text.UTF8Encoding       : 6   12  :CE B2 F1 8F B3 BF
-'System.Text.UnicodeEncoding    : 6   8   :B2 03 FF D8 FF DC
-'System.Text.UnicodeEncoding    : 6   8   :03 B2 D8 FF DC FF
-'System.Text.UTF32Encoding      : 8   16  :B2 03 00 00 FF FC 04 00
+'System.Text.UTF7Encoding  : 10  11  :2B 41 37 4C 59 2F 39 7A 2F 2D
+'System.Text.UTF8Encoding  : 6   12  :CE B2 F1 8F B3 BF
+'System.Text.UTF8Encoding  : 6   12  :EF BB BF CE B2 F1 8F B3 BF
+'System.Text.UTF32Encoding : 8   12  :B2 03 00 00 FF FC 04 00
+'System.Text.UTF32Encoding : 8   12  :FF FE 00 00 B2 03 00 00 FF FC 04 00

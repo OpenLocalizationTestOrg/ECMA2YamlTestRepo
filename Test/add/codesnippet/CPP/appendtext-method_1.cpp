@@ -1,56 +1,25 @@
 using namespace System;
 using namespace System::IO;
-
 int main()
 {
-   String^ path = "c:\\temp\\MyTest.txt";
-   
-   // This text is added only once to the file.
-   if (  !File::Exists( path ) )
-   {
-      // Create a file to write to.
-      StreamWriter^ sw = File::CreateText( path );
-      try
-      {
-         sw->WriteLine( "Hello" );
-         sw->WriteLine( "And" );
-         sw->WriteLine( "Welcome" );
-      }
-      finally
-      {
-         if ( sw )
-            delete (IDisposable^)sw;
-      }
-   }
-   
-   // This text is always added, making the file longer over time
-   // if it is not deleted.
-   StreamWriter^ sw = File::AppendText( path );
-   try
-   {
-      sw->WriteLine( "This" );
-      sw->WriteLine( "is Extra" );
-      sw->WriteLine( "Text" );
-   }
-   finally
-   {
-      if ( sw )
-         delete (IDisposable^)sw;
-   }
-   
-   // Open the file to read from.
-   StreamReader^ sr = File::OpenText( path );
-   try
-   {
-      String^ s = "";
-      while ( s = sr->ReadLine() )
-      {
-         Console::WriteLine( s );
-      }
-   }
-   finally
-   {
-      if ( sr )
-         delete (IDisposable^)sr;
-   }
+
+   FileInfo^ fi = gcnew FileInfo( "temp.txt" );
+
+   // Create a writer, ready to add entries to the file.
+   StreamWriter^ sw = fi->AppendText();
+   sw->WriteLine( "Add as many lines as you like..." );
+   sw->WriteLine( "Add another line to the output..." );
+   sw->Flush();
+   sw->Close();
+
+   // Get the information out of the file and display it.
+   // Remember that the file might have other lines if it already existed.
+   StreamReader^ sr = gcnew StreamReader( fi->OpenRead() );
+   while ( sr->Peek() != -1 )
+      Console::WriteLine( sr->ReadLine() );
+//This code produces output similar to the following;
+//results may vary based on the computer/file structure/etc.:
+//Add as many lines as you like...
+//Add another line to the output...
+
 }

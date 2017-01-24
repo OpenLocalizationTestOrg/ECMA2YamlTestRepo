@@ -1,7 +1,7 @@
 using System;
 using System.Text;
 
-public class SamplesEncoding  {
+public class SamplesUTF32Encoding  {
 
    public static void Main()  {
 
@@ -13,21 +13,21 @@ public class SamplesEncoding  {
       //    Greek Small Letter Beta (U+03B2)
       //    a high-surrogate value (U+D8FF)
       //    a low-surrogate value (U+DCFF)
-      char[] myChars = new char[] { 'z', 'a', '\u0306', '\u01FD', '\u03B2', '\uD8FF', '\uDCFF' };
+      char[] myChars = new char[7] { 'z', 'a', '\u0306', '\u01FD', '\u03B2', '\uD8FF', '\uDCFF' };
 
-      // Get different encodings.
-      Encoding  u7    = Encoding.UTF7;
-      Encoding  u8    = Encoding.UTF8;
-      Encoding  u16LE = Encoding.Unicode;
-      Encoding  u16BE = Encoding.BigEndianUnicode;
-      Encoding  u32   = Encoding.UTF32;
+      // Create instances of different encodings.
+      UTF7Encoding  u7       = new UTF7Encoding();
+      UTF8Encoding  u8Nobom  = new UTF8Encoding( false, true );
+      UTF8Encoding  u8Bom    = new UTF8Encoding( true,  true );
+      UTF32Encoding u32Nobom = new UTF32Encoding( false, false, true );
+      UTF32Encoding u32Bom   = new UTF32Encoding( false, true,  true );
 
-      // Encode three characters starting at index 4, and print out the counts and the resulting bytes.
+      // Encode three characters starting at index 4 and print out the counts and the resulting bytes.
       PrintCountsAndBytes( myChars, 4, 3, u7 );
-      PrintCountsAndBytes( myChars, 4, 3, u8 );
-      PrintCountsAndBytes( myChars, 4, 3, u16LE );
-      PrintCountsAndBytes( myChars, 4, 3, u16BE );
-      PrintCountsAndBytes( myChars, 4, 3, u32 );
+      PrintCountsAndBytes( myChars, 4, 3, u8Nobom );
+      PrintCountsAndBytes( myChars, 4, 3, u8Bom );
+      PrintCountsAndBytes( myChars, 4, 3, u32Nobom );
+      PrintCountsAndBytes( myChars, 4, 3, u32Bom );
 
    }
 
@@ -35,7 +35,7 @@ public class SamplesEncoding  {
    public static void PrintCountsAndBytes( char[] chars, int index, int count, Encoding enc )  {
 
       // Display the name of the encoding used.
-      Console.Write( "{0,-30} :", enc.ToString() );
+      Console.Write( "{0,-25} :", enc.ToString() );
 
       // Display the exact byte count.
       int iBC  = enc.GetByteCount( chars, index, count );
@@ -45,12 +45,13 @@ public class SamplesEncoding  {
       int iMBC = enc.GetMaxByteCount( count );
       Console.Write( " {0,-3} :", iMBC );
 
-      // Encode the array of chars.
-      byte[] bytes = enc.GetBytes( chars, index, count );
+      // Get the byte order mark, if any.
+      byte[] preamble = enc.GetPreamble();
 
-      // The following is an alternative way to encode the array of chars:
-      // byte[] bytes = new byte[iBC];
-      // enc.GetBytes( chars, index, count, bytes, bytes.GetLowerBound(0) );
+      // Combine the preamble and the encoded bytes.
+      byte[] bytes = new byte[preamble.Length + iBC];
+      Array.Copy( preamble, bytes, preamble.Length );
+      enc.GetBytes( chars, index, count, bytes, preamble.Length );
 
       // Display all the encoded bytes.
       PrintHexBytes( bytes );
@@ -76,10 +77,10 @@ public class SamplesEncoding  {
 /* 
 This code produces the following output.
 
-System.Text.UTF7Encoding       : 10  11  :2B 41 37 4C 59 2F 39 7A 2F 2D
-System.Text.UTF8Encoding       : 6   12  :CE B2 F1 8F B3 BF
-System.Text.UnicodeEncoding    : 6   8   :B2 03 FF D8 FF DC
-System.Text.UnicodeEncoding    : 6   8   :03 B2 D8 FF DC FF
-System.Text.UTF32Encoding      : 8   16  :B2 03 00 00 FF FC 04 00
+System.Text.UTF7Encoding  : 10  11  :2B 41 37 4C 59 2F 39 7A 2F 2D
+System.Text.UTF8Encoding  : 6   12  :CE B2 F1 8F B3 BF
+System.Text.UTF8Encoding  : 6   12  :EF BB BF CE B2 F1 8F B3 BF
+System.Text.UTF32Encoding : 8   12  :B2 03 00 00 FF FC 04 00
+System.Text.UTF32Encoding : 8   12  :FF FE 00 00 B2 03 00 00 FF FC 04 00
 
 */

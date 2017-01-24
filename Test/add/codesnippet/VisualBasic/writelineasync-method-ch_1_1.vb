@@ -8,22 +8,12 @@ Module Module1
     End Sub
 
     Async Sub WriteCharacters()
-        Dim stringToWrite As StringBuilder = New StringBuilder("Characters in StringBuilder")
-        stringToWrite.AppendLine()
+        Dim ue As UnicodeEncoding = New UnicodeEncoding()
+        Dim charsToAdd() = ue.GetChars(ue.GetBytes("First line and second line"))
 
-        Using writer As StringWriter = New StringWriter(stringToWrite)
-
-            Dim ue As UnicodeEncoding = New UnicodeEncoding()
-            Dim charsToAdd() = ue.GetChars(ue.GetBytes("and chars to add"))
-
-            Await writer.WriteLineAsync(charsToAdd, 0, charsToAdd.Length)
-
-            Console.WriteLine(stringToWrite.ToString())
+        Using writer As StreamWriter = File.CreateText("newfile.txt")
+            Await writer.WriteLineAsync(charsToAdd, 0, 11)
+            Await writer.WriteLineAsync(charsToAdd, 11, charsToAdd.Length - 11)
         End Using
     End Sub
 End Module
-' The example displays the following output:
-'
-' Characters in StringBuilder
-' and chars to add
-'

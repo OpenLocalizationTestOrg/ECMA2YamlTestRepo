@@ -5,52 +5,30 @@ int main()
 {
    
    // Create two instances of UTF32Encoding: one with little-endian byte order and one with big-endian byte order.
-   UTF32Encoding^ u32LE = gcnew UTF32Encoding( false,true,true );
-   UTF32Encoding^ u32BE = gcnew UTF32Encoding( true,true,true );
+   Encoding^ u32LE = Encoding::GetEncoding( "utf-32" );
+   Encoding^ u32BE = Encoding::GetEncoding( "utf-32BE" );
    
-   // Create byte arrays from the same string containing the following characters:
+   // Use a string containing the following characters:
    //    Latin Small Letter Z (U+007A)
    //    Latin Small Letter A (U+0061)
    //    Combining Breve (U+0306)
    //    Latin Small Letter AE With Acute (U+01FD)
    //    Greek Small Letter Beta (U+03B2)
-   String^ myStr = L"za\u0306\u01FD\u03B2\xD8FF\xDCFF";
+   String^ myStr = "za\u0306\u01FD\u03B2";
    
-   // barrBE uses the big-endian byte order.
+   // Encode the string using the big-endian byte order.
    array<Byte>^barrBE = gcnew array<Byte>(u32BE->GetByteCount( myStr ));
    u32BE->GetBytes( myStr, 0, myStr->Length, barrBE, 0 );
    
-   // barrLE uses the little-endian byte order.
+   // Encode the string using the little-endian byte order.
    array<Byte>^barrLE = gcnew array<Byte>(u32LE->GetByteCount( myStr ));
    u32LE->GetBytes( myStr, 0, myStr->Length, barrLE, 0 );
    
-   // Get the char counts and decode the byte arrays.
+   // Get the char counts, and decode the byte arrays.
    Console::Write( "BE array with BE encoding : " );
    PrintCountsAndChars( barrBE, u32BE );
    Console::Write( "LE array with LE encoding : " );
    PrintCountsAndChars( barrLE, u32LE );
-   
-   // Decode the byte arrays using an encoding with a different byte order.
-   Console::Write( "BE array with LE encoding : " );
-   try
-   {
-      PrintCountsAndChars( barrBE, u32LE );
-   }
-   catch ( System::ArgumentException^ e ) 
-   {
-      Console::WriteLine( e->Message );
-   }
-
-   Console::Write( "LE array with BE encoding : " );
-   try
-   {
-      PrintCountsAndChars( barrLE, u32BE );
-   }
-   catch ( System::ArgumentException^ e ) 
-   {
-      Console::WriteLine( e->Message );
-   }
-
 }
 
 void PrintCountsAndChars( array<Byte>^bytes, Encoding^ enc )
@@ -68,17 +46,14 @@ void PrintCountsAndChars( array<Byte>^bytes, Encoding^ enc )
    Console::Write( " {0,-3} :", iMCC );
    
    // Decode the bytes and display the characters.
-   array<Char>^chars = gcnew array<Char>(iCC);
-   enc->GetChars( bytes, 0, bytes->Length, chars, 0 );
+   array<Char>^chars = enc->GetChars( bytes );
    Console::WriteLine( chars );
 }
 
 /* 
 This code produces the following output.  The question marks take the place of characters that cannot be displayed at the console.
 
-BE array with BE encoding : System.Text.UTF32Encoding : 7   14  :za??�?
-LE array with LE encoding : System.Text.UTF32Encoding : 7   14  :za??�?
-BE array with LE encoding : System.Text.UTF32Encoding :Invalid byte was found at byte index 3.
-LE array with BE encoding : System.Text.UTF32Encoding :Invalid byte was found at byte index 3.
+BE array with BE encoding : System.Text.UTF32Encoding : 5   12  :za??�
+LE array with LE encoding : System.Text.UTF32Encoding : 5   12  :za??�
 
 */

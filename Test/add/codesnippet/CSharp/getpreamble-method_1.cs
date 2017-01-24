@@ -1,38 +1,39 @@
 using System;
-using System.IO;
 using System.Text;
 
-public class Example
+public class SamplesUTF32Encoding
 {
    public static void Main()
    {
-      String s = "This is a string to write to a file using UTF-8 encoding.";
+      // Create instances of UTF32Encoding, with the byte order mark and without.
+      UTF32Encoding u32LeNone = new UTF32Encoding();
+      UTF32Encoding u32BeNone = new UTF32Encoding( true, false );
+      UTF32Encoding u32LeBom  = new UTF32Encoding( false, true );
+      UTF32Encoding u32BeBom  = new UTF32Encoding( true, true );
 
-      // Write a file using the default constructor without a BOM.
-      var enc = new UTF8Encoding();
-      Byte[] bytes = enc.GetBytes(s);
-      WriteToFile(@".\NoPreamble.txt", enc, bytes);
-
-      // Use BOM.
-      enc = new UTF8Encoding(true);
-      WriteToFile(@".\Preamble.txt", enc, bytes);
+      // Display the preamble for each instance.
+      PrintHexBytes( u32LeNone.GetPreamble() );
+      PrintHexBytes( u32BeNone.GetPreamble() );
+      PrintHexBytes( u32LeBom.GetPreamble() );
+      PrintHexBytes( u32BeBom.GetPreamble() );
    }
 
-   private static void WriteToFile(String fn, Encoding enc, Byte[] bytes)
+   public static void PrintHexBytes( byte[] bytes )
    {
-      var fs = new FileStream(fn, FileMode.Create);
-      Byte[] preamble = enc.GetPreamble();
-      fs.Write(preamble, 0, preamble.Length);
-      Console.WriteLine("Preamble has {0} bytes", preamble.Length);
-      fs.Write(bytes, 0, bytes.Length);
-      Console.WriteLine("Wrote {0} bytes to {1}.", fs.Length, fn);
-      fs.Close();
-      Console.WriteLine();
+
+      if (( bytes == null ) || ( bytes.Length == 0 ))
+         Console.WriteLine( "<none>" );
+      else  {
+         for ( int i = 0; i < bytes.Length; i++ )
+            Console.Write( "{0:X2} ", bytes[i] );
+         Console.WriteLine();
+      }
    }
 }
-// The example displays the following output:
-//       Preamble has 0 bytes
-//       Wrote 57 bytes to NoPreamble.txt.
-//
-//       Preamble has 3 bytes
-//       Wrote 60 bytes to Preamble.txt.
+/*
+This example displays the following output.
+      FF FE 00 00
+      <none>
+      FF FE 00 00
+      00 00 FE FF
+*/

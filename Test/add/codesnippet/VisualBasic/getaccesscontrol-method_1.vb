@@ -4,64 +4,75 @@ Imports System.Security.AccessControl
 
 
 
-Module DirectoryExample
+Module FileExample
 
     Sub Main()
         Try
-            Dim DirectoryName As String = "TestDirectory"
+            Dim FileName As String = "c:\test.xml"
 
-            Console.WriteLine("Adding access control entry for " + DirectoryName)
+            Console.WriteLine("Adding access control entry for " & FileName)
 
-            ' Add the access control entry to the directory.
-            AddDirectorySecurity(DirectoryName, "MYDOMAIN\MyAccount", FileSystemRights.ReadData, AccessControlType.Allow)
+            ' Add the access control entry to the file.
+            ' Before compiling this snippet, change MyDomain to your 
+            ' domain name and MyAccessAccount to the name 
+            ' you use to access your domain.
+            AddFileSecurity(FileName, "MyDomain\\MyAccessAccount", FileSystemRights.ReadData, AccessControlType.Allow)
 
-            Console.WriteLine("Removing access control entry from " + DirectoryName)
+            Console.WriteLine("Removing access control entry from " & FileName)
 
-            ' Remove the access control entry from the directory.
-            RemoveDirectorySecurity(DirectoryName, "MYDOMAIN\MyAccount", FileSystemRights.ReadData, AccessControlType.Allow)
+            ' Remove the access control entry from the file.
+            ' Before compiling this snippet, change MyDomain to your 
+            ' domain name and MyAccessAccount to the name 
+            ' you use to access your domain.
+            RemoveFileSecurity(FileName, "MyDomain\\MyAccessAccount", FileSystemRights.ReadData, AccessControlType.Allow)
 
             Console.WriteLine("Done.")
         Catch e As Exception
             Console.WriteLine(e)
         End Try
 
-        Console.ReadLine()
+    End Sub
+
+
+    ' Adds an ACL entry on the specified file for the specified account.
+    Sub AddFileSecurity(ByVal FileName As String, ByVal Account As String, ByVal Rights As FileSystemRights, ByVal ControlType As AccessControlType)
+        ' Create a new FileInfo object.
+        Dim fInfo As New FileInfo(FileName)
+
+        ' Get a FileSecurity object that represents the 
+        ' current security settings.
+        Dim fSecurity As FileSecurity = fInfo.GetAccessControl()
+
+        ' Add the FileSystemAccessRule to the security settings. 
+        fSecurity.AddAccessRule(New FileSystemAccessRule(Account, Rights, ControlType))
+
+        ' Set the new access settings.
+        fInfo.SetAccessControl(fSecurity)
 
     End Sub
 
 
-    ' Adds an ACL entry on the specified directory for the specified account.
-    Sub AddDirectorySecurity(ByVal FileName As String, ByVal Account As String, ByVal Rights As FileSystemRights, ByVal ControlType As AccessControlType)
-        ' Create a new DirectoryInfoobject.
-        Dim dInfo As New DirectoryInfo(FileName)
+    ' Removes an ACL entry on the specified file for the specified account.
+    Sub RemoveFileSecurity(ByVal FileName As String, ByVal Account As String, ByVal Rights As FileSystemRights, ByVal ControlType As AccessControlType)
+        ' Create a new FileInfo object.
+        Dim fInfo As New FileInfo(FileName)
 
-        ' Get a DirectorySecurity object that represents the 
+        ' Get a FileSecurity object that represents the 
         ' current security settings.
-        Dim dSecurity As DirectorySecurity = dInfo.GetAccessControl()
+        Dim fSecurity As FileSecurity = fInfo.GetAccessControl()
 
         ' Add the FileSystemAccessRule to the security settings. 
-        dSecurity.AddAccessRule(New FileSystemAccessRule(Account, Rights, ControlType))
+        fSecurity.RemoveAccessRule(New FileSystemAccessRule(Account, Rights, ControlType))
 
         ' Set the new access settings.
-        dInfo.SetAccessControl(dSecurity)
-
-    End Sub
-
-
-    ' Removes an ACL entry on the specified directory for the specified account.
-    Sub RemoveDirectorySecurity(ByVal FileName As String, ByVal Account As String, ByVal Rights As FileSystemRights, ByVal ControlType As AccessControlType)
-        ' Create a new DirectoryInfo object.
-        Dim dInfo As New DirectoryInfo(FileName)
-
-        ' Get a DirectorySecurity object that represents the 
-        ' current security settings.
-        Dim dSecurity As DirectorySecurity = dInfo.GetAccessControl()
-
-        ' Add the FileSystemAccessRule to the security settings. 
-        dSecurity.RemoveAccessRule(New FileSystemAccessRule(Account, Rights, ControlType))
-
-        ' Set the new access settings.
-        dInfo.SetAccessControl(dSecurity)
+        fInfo.SetAccessControl(fSecurity)
 
     End Sub
 End Module
+'This code produces output similar to the following; 
+'results may vary based on the computer/file structure/etc.:
+'
+'Adding access control entry for c:\test.xml
+'Removing access control entry from c:\test.xml
+'Done.
+'
