@@ -17,6 +17,10 @@ items:
   nameWithType: Logger
   fullName: Microsoft.Build.Utilities.Logger
   type: Class
+  summary: When overridden in a derived form, provides functionality for loggers that handle events raised by the [!INCLUDE[vstecmsbuild](../../add/includes/vstecmsbuild-md.md)] engine.
+  remarks: "## Remarks  \n This abstract class provides default implementations for the methods and properties of the <xref:Microsoft.Build.Framework.ILogger> interface.  \n  \n This class can only be instantiated in a derived form."
+  example:
+  - "## Examples  \n The following example shows how to write a basic logger that responds to build events.  \n  \n [!code-cs[msbuild_BasicLogger#1](../../add/codesnippet/CSharp/msbuild_BasicLogger/msbuild_BasicLogger.cs#1)]"
   syntax:
     content: 'public abstract class Logger : Microsoft.Build.Framework.ILogger'
   inheritance:
@@ -47,6 +51,8 @@ items:
   assemblies:
   - Microsoft.Build.Utilities.v4.0
   namespace: Microsoft.Build.Utilities
+  summary: Initializes a new instance of the <see cref="T:Microsoft.Build.Utilities.Logger"> class.
+  remarks: To be added.
   syntax:
     content: protected Logger ();
     parameters: []
@@ -66,15 +72,17 @@ items:
   assemblies:
   - Microsoft.Build.Utilities.v4.0
   namespace: Microsoft.Build.Utilities
+  summary: Generates an error message that is in the default format, from a <see cref="T:Microsoft.Build.Framework.BuildErrorEventArgs"> object.
+  remarks: To be added.
   syntax:
     content: public virtual string FormatErrorEvent (Microsoft.Build.Framework.BuildErrorEventArgs args);
     parameters:
     - id: args
       type: Microsoft.Build.Framework.BuildErrorEventArgs
-      description: Parameter description to be filled
+      description: The arguments of the error event.
     return:
       type: System.String
-      description: Parameter description to be filled
+      description: A <xref:System.String> that represents an error message in canonical format.
   platform:
   - net-11
   - net-20
@@ -91,15 +99,17 @@ items:
   assemblies:
   - Microsoft.Build.Utilities.v4.0
   namespace: Microsoft.Build.Utilities
+  summary: Generates a warning message that is in the default format, from a <see cref="T:Microsoft.Build.Framework.BuildWarningEventArgs"> object.
+  remarks: To be added.
   syntax:
     content: public virtual string FormatWarningEvent (Microsoft.Build.Framework.BuildWarningEventArgs args);
     parameters:
     - id: args
       type: Microsoft.Build.Framework.BuildWarningEventArgs
-      description: Parameter description to be filled
+      description: The arguments of the warning event.
     return:
       type: System.String
-      description: Parameter description to be filled
+      description: A <xref:System.String> that represents a warning message in canonical format.
   platform:
   - net-11
   - net-20
@@ -116,12 +126,16 @@ items:
   assemblies:
   - Microsoft.Build.Utilities.v4.0
   namespace: Microsoft.Build.Utilities
+  summary: When overridden in a derived class, subscribes the logger to specific events.
+  remarks: "## Remarks  \n This method must be overridden in the derived class to perform initialization logic and to subscribe to build events published by <xref:Microsoft.Build.Framework.IEventSource>."
+  example:
+  - "## Examples  \n The following example shows how to write a basic logger that responds to build events.  \n  \n [!code-cs[msbuild_BasicLogger#1](../../add/codesnippet/CSharp/msbuild_BasicLogger/msbuild_BasicLogger.cs#1)]"
   syntax:
     content: public abstract void Initialize (Microsoft.Build.Framework.IEventSource eventSource);
     parameters:
     - id: eventSource
       type: Microsoft.Build.Framework.IEventSource
-      description: Parameter description to be filled
+      description: The available events that a logger can subscribe to.
   platform:
   - net-11
   - net-20
@@ -138,15 +152,19 @@ items:
   assemblies:
   - Microsoft.Build.Utilities.v4.0
   namespace: Microsoft.Build.Utilities
+  summary: Determines whether the current <xref:Microsoft.Build.Utilities.Logger.Verbosity%2A> setting is at least the value that is passed in.
+  remarks: ''
+  example:
+  - "## Examples  \n The following example shows how to write a basic logger that responds to build events.  \n  \n [!code-cs[msbuild_BasicLogger#1](../../add/codesnippet/CSharp/msbuild_BasicLogger/msbuild_BasicLogger.cs#1)]"
   syntax:
     content: public bool IsVerbosityAtLeast (Microsoft.Build.Framework.LoggerVerbosity checkVerbosity);
     parameters:
     - id: checkVerbosity
       type: Microsoft.Build.Framework.LoggerVerbosity
-      description: Parameter description to be filled
+      description: The logger verbosity setting passed in.
     return:
       type: System.Boolean
-      description: Parameter description to be filled
+      description: '`true` if the current logger verbosity setting is at least the value that is passed in; otherwise, `false`.'
   platform:
   - net-11
   - net-20
@@ -163,11 +181,15 @@ items:
   assemblies:
   - Microsoft.Build.Utilities.v4.0
   namespace: Microsoft.Build.Utilities
+  summary: Gets or sets the user-defined parameters of the logger.
+  remarks: "## Remarks  \n If the derived class does not take parameters, then it can ignore this property."
+  example:
+  - "## Examples  \n The following example shows how to write a basic logger that responds to build events.  \n  \n [!code-cs[msbuild_BasicLogger#1](../../add/codesnippet/CSharp/msbuild_BasicLogger/msbuild_BasicLogger.cs#1)]"
   syntax:
     content: public virtual string Parameters { get; set; }
     return:
       type: System.String
-      description: Parameter description to be filled
+      description: To be added.
   platform:
   - net-11
   - net-20
@@ -184,6 +206,10 @@ items:
   assemblies:
   - Microsoft.Build.Utilities.v4.0
   namespace: Microsoft.Build.Utilities
+  summary: When overridden in a derived class, releases the resources allocated to the logger at the time of initialization or during the build.
+  remarks: "## Remarks  \n This method can be overridden in the derived class to perform shutdown logic, such as releasing acquired resources."
+  example:
+  - "## Examples  \n The following example shows how to write a basic logger that responds to build events.  \n  \n [!code-cs[msbuild_BasicLogger#1](../../add/codesnippet/CSharp/msbuild_BasicLogger/msbuild_BasicLogger.cs#1)]"
   syntax:
     content: public virtual void Shutdown ();
     parameters: []
@@ -203,11 +229,13 @@ items:
   assemblies:
   - Microsoft.Build.Utilities.v4.0
   namespace: Microsoft.Build.Utilities
+  summary: Gets or sets the level of detail to show in the event log.
+  remarks: "  \n  \n## Remarks  \n While a logger is free to choose the events it logs, following the verbosity guidelines creates a consistent user experience.  \n  \n "
   syntax:
     content: public virtual Microsoft.Build.Framework.LoggerVerbosity Verbosity { get; set; }
     return:
       type: Microsoft.Build.Framework.LoggerVerbosity
-      description: Parameter description to be filled
+      description: To be added.
   platform:
   - net-11
   - net-20

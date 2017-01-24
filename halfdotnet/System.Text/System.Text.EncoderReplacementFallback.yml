@@ -16,6 +16,10 @@ items:
   nameWithType: EncoderReplacementFallback
   fullName: System.Text.EncoderReplacementFallback
   type: Class
+  summary: Provides a failure handling mechanism, called a fallback, for an input character that cannot be converted to an output byte sequence. The fallback uses a user-specified replacement string instead of the original input character. This class cannot be inherited.
+  remarks: "## Remarks  \n A common reason for an encoding or decoding operation to fail is if the underlying encoding class does not provide a mapping between a character and an equivalent byte sequence. For example, an <xref:System.Text.ASCIIEncoding> object cannot encode a character having a Unicode code point value that is outside the range U+0000 to U+007F. If the input character cannot be converted to an output byte sequence, a EncoderReplacementFallback object substitutes a specified replacement string for the original input character. The conversion process encodes the replacement string and then continues to process the remainder of the original input.  \n  \n The replacement string used by an EncoderReplacementFallback object is determined by the call to its class constructor. Two options are available:  \n  \n-   Replacement with the default character. If you call the <xref:System.Text.EncoderReplacementFallback.%23ctor> constructor, the replacement character is \"?\" (U+003F).  \n  \n-   Replacement with a string of your choice. If you call the <xref:System.Text.EncoderReplacementFallback.%23ctor%28System.String%29> constructor, you provide the replacement string.  \n  \n If you choose a fallback string to use with this class, make sure that the string is composed entirely of characters that can be encoded in the target encoding. Otherwise, a recursive fallback results, causing an <xref:System.ArgumentException>.  \n  \n This class is one of two .NET Framework classes that implement different fallback strategies for handling encoding conversion failures. The other class is the <xref:System.Text.EncoderExceptionFallback> class, which throws an <xref:System.Text.EncoderFallbackException> when an invalid character is encountered."
+  example:
+  - "## Examples  \n The following example demonstrates the EncoderReplacementFallback class.  \n  \n [!CODE [sys.txt.fallbackEncRpl#1](../CodeSnippet/VS_Snippets_CLR/sys.txt.fallbackEncRpl#1)]"
   syntax:
     content: 'public sealed class EncoderReplacementFallback : System.Text.EncoderFallback'
   inheritance:
@@ -46,6 +50,8 @@ items:
   assemblies:
   - mscorlib
   namespace: System.Text
+  summary: Initializes a new instance of the <see cref="T:System.Text.EncoderReplacementFallback"> class.
+  remarks: "  \n  \n## Remarks  \n By default, the replacement string that is the value of this <xref:System.Text.EncoderReplacementFallback> object is \"?\".  \n  \n "
   syntax:
     content: public EncoderReplacementFallback ();
     parameters: []
@@ -65,12 +71,14 @@ items:
   assemblies:
   - mscorlib
   namespace: System.Text
+  summary: Initializes a new instance of the <see cref="T:System.Text.EncoderReplacementFallback"> class using a specified replacement string.
+  remarks: "  \n  \n## Remarks  \n The  parameter initializes the replacement string that is the value of this <xref:System.Text.EncoderReplacementFallback> object. You application must provide a  value that contains only characters that can be encoded in the target encoding. Otherwise, a recursive fallback results, causing an <xref:System.ArgumentException>. For example, the fallback provided for an <xref:System.Text.ASCIIEncoding> object cannot include the character \"¿\" (U+00BF) because that character is itself not a valid ASCII character.  \n  \n As a result of this, U+FFFD, which is a good choice for a fallback string for <xref:System.Text.DecoderExceptionFallback>, is not generally a good choice for this class. Also, the null character (U+0000) cannot be used in the fallback string.  \n  \n "
   syntax:
     content: public EncoderReplacementFallback (string replacement);
     parameters:
     - id: replacement
       type: System.String
-      description: Parameter description to be filled
+      description: A string that is converted in an encoding operation in place of an input character that cannot be encoded.
   platform:
   - net-11
   - net-20
@@ -87,12 +95,14 @@ items:
   assemblies:
   - mscorlib
   namespace: System.Text
+  summary: Creates a <see cref="T:System.Text.EncoderFallbackBuffer"> object that is initialized with the replacement string of this <xref:System.Text.EncoderReplacementFallback> object.
+  remarks: To be added.
   syntax:
     content: public override System.Text.EncoderFallbackBuffer CreateFallbackBuffer ();
     parameters: []
     return:
       type: System.Text.EncoderFallbackBuffer
-      description: Parameter description to be filled
+      description: A <see cref="T:System.Text.EncoderFallbackBuffer"> object equal to this <xref:System.Text.EncoderReplacementFallback> object.
   platform:
   - net-11
   - net-20
@@ -109,11 +119,13 @@ items:
   assemblies:
   - mscorlib
   namespace: System.Text
+  summary: Gets the replacement string that is the value of the <see cref="T:System.Text.EncoderReplacementFallback"> object.
+  remarks: To be added.
   syntax:
     content: public string DefaultString { get; }
     return:
       type: System.String
-      description: Parameter description to be filled
+      description: To be added.
   platform:
   - net-11
   - net-20
@@ -130,15 +142,17 @@ items:
   assemblies:
   - mscorlib
   namespace: System.Text
+  summary: Indicates whether the value of a specified object is equal to the <see cref="T:System.Text.EncoderReplacementFallback"> object.
+  remarks: "  \n  \n## Remarks  \n The value of a <xref:System.Text.EncoderReplacementFallback> object is the value of its <xref:System.Text.EncoderReplacementFallback.DefaultString%2A> property.  \n  \n "
   syntax:
     content: public override bool Equals (object value);
     parameters:
     - id: value
       type: System.Object
-      description: Parameter description to be filled
+      description: A <see cref="T:System.Text.EncoderReplacementFallback"> object.
     return:
       type: System.Boolean
-      description: Parameter description to be filled
+      description: '`true` if the  parameter specifies an <see cref="T:System.Text.EncoderReplacementFallback"> object and the replacement string of that object is equal to the replacement string of this <see cref="T:System.Text.EncoderReplacementFallback"> object; otherwise, `false`.'
   platform:
   - net-11
   - net-20
@@ -155,12 +169,14 @@ items:
   assemblies:
   - mscorlib
   namespace: System.Text
+  summary: Retrieves the hash code for the value of the <see cref="T:System.Text.EncoderReplacementFallback"> object.
+  remarks: "  \n  \n## Remarks  \n The value of a <xref:System.Text.EncoderReplacementFallback> object is the value of its <xref:System.Text.EncoderReplacementFallback.DefaultString%2A> property.  \n  \n "
   syntax:
     content: public override int GetHashCode ();
     parameters: []
     return:
       type: System.Int32
-      description: Parameter description to be filled
+      description: The hash code of the value of the object.
   platform:
   - net-11
   - net-20
@@ -177,11 +193,13 @@ items:
   assemblies:
   - mscorlib
   namespace: System.Text
+  summary: Gets the number of characters in the replacement string for the <see cref="T:System.Text.EncoderReplacementFallback"> object.
+  remarks: To be added.
   syntax:
     content: public override int MaxCharCount { get; }
     return:
       type: System.Int32
-      description: Parameter description to be filled
+      description: To be added.
   platform:
   - net-11
   - net-20

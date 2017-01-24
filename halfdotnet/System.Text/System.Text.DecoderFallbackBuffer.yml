@@ -15,6 +15,8 @@ items:
   nameWithType: DecoderFallbackBuffer
   fullName: System.Text.DecoderFallbackBuffer
   type: Class
+  summary: Provides a buffer that allows a fallback handler to return an alternate string to a decoder when it cannot decode an input byte sequence.
+  remarks: "  \n  \n## Remarks  \n An encoding defines a mapping between a Unicode character and an encoded sequence of bytes. A decoding operation, which converts an input byte sequence to an output character, fails if no mapping is defined for a particular byte sequence.  \n  \n The .NET Framework provides a failure handling mechanism, called a fallback, if a conversion cannot be performed. All decoder fallback handlers must implement the following:  \n  \n-   A decoder fallback, which is represented by a class derived from the <xref:System.Text.DecoderFallback> class.  \n  \n-   A decoder fallback buffer, which is represented by a type derived from the DecoderFallbackBuffer class that can return a string to the conversion operation.  \n  \n Fallbacks can use three strategies to handle conversion failures:  \n  \n-   Best-fit mapping. The decoder fallback buffer can return a string that represents a close approximation to the input byte sequence. The .NET Framework does not provide a public best-fit DecoderFallbackBuffer implementation.  \n  \n-   Replacement. The decoder fallback buffer can return a string, such as a question mark (\"?\"), that indicates that a byte sequence could not be decoded. In the .NET Framework, the <xref:System.Text.DecoderReplacementFallback> and <xref:System.Text.DecoderReplacementFallbackBuffer> classes provide a public replacement fallback buffer implementation. The constructor of the <xref:System.Text.DecoderReplacementFallback> class enables you to define the replacement string.  \n  \n-   Exception. The DecoderFallbackBuffer implementation throws an exception, which indicates that a byte sequence cannot be decoded, and terminates the decoding operation. In this case, the fallback handler must provide a DecoderFallbackBuffer implementation, although it does not return a string to the decoder. In the .NET Framework, the <xref:System.Text.DecoderExceptionFallback> and <xref:System.Text.DecoderExceptionFallbackBuffer> classes provide a public exception fallback implementation that throws a <xref:System.Text.DecoderFallbackException> when a byte sequence cannot be decoded.  \n  \n The buffer in a DecoderFallbackBuffer implementation represents the entire string to be returned to the decoder in response to a decoder fallback. Generally, implementations also include state information, such as the index of the next character to return to the decoder and the number of remaining characters to be returned. Because DecoderFallbackBuffer is an abstract class, it requires derived classes to implement the following members at a minimum:  \n  \n-   The <xref:System.Text.DecoderFallbackBuffer.Fallback%2A> method, which is called by the decoder when it cannot decode a byte sequence. The decoder passes two pieces of information to the fallback buffer implementation: an array containing the bytes that could not be decoded and the index of the first byte in the input byte array. In a decoder fallback exception handler, the exception is thrown in this method. Otherwise, the method returns `true` if it provides a fallback, or `false` if it does not.  \n  \n-   The <xref:System.Text.DecoderFallbackBuffer.GetNextChar%2A> method, which is called repeatedly by the decoder if the <xref:System.Text.DecoderFallbackBuffer.Fallback%2A> method returns `true`. In successive calls, the handler should return each character in its buffer. When it has returned all characters, it should return U+0000. An exception fallback handler always returns U+0000.  \n  \n-   The <xref:System.Text.DecoderFallbackBuffer.MovePrevious%2A> method, which tries to move the pointer to the previous position in the buffer and indicates whether the move was successful. An exception handler always returns `false`.  \n  \n-   The <xref:System.Text.DecoderFallbackBuffer.Remaining%2A> property, which indicates the number of remaining characters to be returned to the decoder. An exception fallback handler always returns zero.  \n  \n "
   syntax:
     content: public abstract class DecoderFallbackBuffer
   inheritance:
@@ -44,6 +46,8 @@ items:
   assemblies:
   - mscorlib
   namespace: System.Text
+  summary: Initializes a new instance of the <see cref="T:System.Text.DecoderFallbackBuffer"> class.
+  remarks: To be added.
   syntax:
     content: protected DecoderFallbackBuffer ();
     parameters: []
@@ -63,18 +67,20 @@ items:
   assemblies:
   - mscorlib
   namespace: System.Text
+  summary: When overridden in a derived class, prepares the fallback buffer to handle the specified input byte sequence.
+  remarks: "  \n  \n## Remarks  \n The <xref:System.Text.Encoding.GetChars%2A?displayProperty=fullName>, <xref:System.Text.Encoding.GetString%2A?displayProperty=fullName>, and <xref:System.Text.Decoder.Convert%2A?displayProperty=fullName> methods call Fallback if they encounter an unknown input byte sequence that cannot be decoded. A return value of `true` indicates that the fallback buffer can process the input byte sequence, which causes the calling method to call the <xref:System.Text.DecoderFallbackBuffer.GetNextChar%2A> method to obtain each character of the fallback buffer. Because it does not process individual bytes, the Fallback method in an exception fallback handler throws an exception.  \n  \n "
   syntax:
     content: public abstract bool Fallback (byte[] bytesUnknown, int index);
     parameters:
     - id: bytesUnknown
       type: System.Byte[]
-      description: Parameter description to be filled
+      description: An input array of bytes.
     - id: index
       type: System.Int32
-      description: Parameter description to be filled
+      description: The index position of a byte in .
     return:
       type: System.Boolean
-      description: Parameter description to be filled
+      description: '`true` if the fallback buffer can process ; `false` if the fallback buffer ignores .'
   platform:
   - net-11
   - net-20
@@ -91,12 +97,14 @@ items:
   assemblies:
   - mscorlib
   namespace: System.Text
+  summary: When overridden in a derived class, retrieves the next character in the fallback buffer.
+  remarks: "  \n  \n## Remarks  \n A decoding operation calls the <xref:System.Text.DecoderFallbackBuffer.Fallback%2A> method if the operation encounters an unknown byte sequence in the input. If the <xref:System.Text.DecoderFallbackBuffer.Fallback%2A> method returns `true`, a substitute string exists that can be inserted in the output instead of decoding the unknown input. The decoding operation calls the GetNextChar method repeatedly and obtains the substitute string one character at a time. When all characters in the fallback buffer have been returned to the decoder, the method should return U+0000.  \n  \n For an exception fallback handler, the GetNextChar method should return U+0000.  \n  \n "
   syntax:
     content: public abstract char GetNextChar ();
     parameters: []
     return:
       type: System.Char
-      description: Parameter description to be filled
+      description: The next character in the fallback buffer.
   platform:
   - net-11
   - net-20
@@ -113,12 +121,14 @@ items:
   assemblies:
   - mscorlib
   namespace: System.Text
+  summary: When overridden in a derived class, causes the next call to the <xref:System.Text.DecoderFallbackBuffer.GetNextChar%2A> method to access the data buffer character position that is prior to the current character position.
+  remarks: "  \n  \n## Remarks  \n An exception fallback handler should return `false`.  \n  \n "
   syntax:
     content: public abstract bool MovePrevious ();
     parameters: []
     return:
       type: System.Boolean
-      description: Parameter description to be filled
+      description: '`true` if the MovePrevious operation was successful; otherwise, `false`.'
   platform:
   - net-11
   - net-20
@@ -135,11 +145,13 @@ items:
   assemblies:
   - mscorlib
   namespace: System.Text
+  summary: When overridden in a derived class, gets the number of characters in the current <see cref="T:System.Text.DecoderFallbackBuffer"> object that remain to be processed.
+  remarks: "  \n  \n## Remarks  \n The <xref:System.Text.DecoderFallbackBuffer.Fallback%2A> method returns `true` if Remaining is a nonzero value.  \n  \n For an exception fallback handler, the Remaining method should return zero.  \n  \n "
   syntax:
     content: public abstract int Remaining { get; }
     return:
       type: System.Int32
-      description: Parameter description to be filled
+      description: To be added.
   platform:
   - net-11
   - net-20
@@ -156,6 +168,8 @@ items:
   assemblies:
   - mscorlib
   namespace: System.Text
+  summary: Initializes all data and state information pertaining to this fallback buffer.
+  remarks: To be added.
   syntax:
     content: public virtual void Reset ();
     parameters: []

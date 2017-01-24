@@ -15,6 +15,8 @@ items:
   nameWithType: EncoderExceptionFallbackBuffer
   fullName: System.Text.EncoderExceptionFallbackBuffer
   type: Class
+  summary: Throws <see cref="T:System.Text.EncoderFallbackException"> when an input character cannot be converted to an encoded output byte sequence. This class cannot be inherited.
+  remarks: "  \n  \n## Remarks  \n A common reason for an encoding or decoding operation to fail is if the underlying encoding class does not provide a mapping between a character and an equivalent byte sequence. If the input character cannot be converted to an output byte sequence, the encoding operation calls the <xref:System.Text.EncoderExceptionFallbackBuffer.Fallback%2A> method, which throws <xref:System.Text.EncoderFallbackException>.  \n  \n The <xref:System.Text.EncoderFallbackBuffer?displayProperty=fullName> class, which represents a data buffer used in an encoding operation, is the base class for the EncoderExceptionFallbackBuffer class. However, instead of a data buffer, the EncoderExceptionFallbackBuffer class represents a standard behavior wherein an exception is thrown if an encoding operation fails. No actual data buffer exists, and the members designed to manipulate such a buffer do no significant work.  \n  \n "
   syntax:
     content: 'public sealed class EncoderExceptionFallbackBuffer : System.Text.EncoderFallbackBuffer'
   inheritance:
@@ -46,6 +48,8 @@ items:
   assemblies:
   - mscorlib
   namespace: System.Text
+  summary: Initializes a new instance of the <see cref="T:System.Text.EncoderExceptionFallbackBuffer"> class.
+  remarks: To be added.
   syntax:
     content: public EncoderExceptionFallbackBuffer ();
     parameters: []
@@ -65,18 +69,20 @@ items:
   assemblies:
   - mscorlib
   namespace: System.Text
+  summary: Throws an exception because the input character cannot be encoded. Parameters specify the value and index position of the character that cannot be converted.
+  remarks: "  \n  \n## Remarks  \n The <xref:System.Text.Encoding.GetBytes%2A> and <xref:System.Text.Encoder.Convert%2A> methods call Fallback if they encounter an unknown character in their input. In response, Fallback always throws <xref:System.Text.EncoderFallbackException>.  \n  \n "
   syntax:
     content: public override bool Fallback (char charUnknown, int index);
     parameters:
     - id: charUnknown
       type: System.Char
-      description: Parameter description to be filled
+      description: An input character.
     - id: index
       type: System.Int32
-      description: Parameter description to be filled
+      description: The index position of the character in the input buffer.
     return:
       type: System.Boolean
-      description: Parameter description to be filled
+      description: None. No value is returned because the Fallback method always throws an exception.
   overload: System.Text.EncoderExceptionFallbackBuffer.Fallback*
   platform:
   - net-11
@@ -94,21 +100,23 @@ items:
   assemblies:
   - mscorlib
   namespace: System.Text
+  summary: Throws an exception because the input character cannot be encoded. Parameters specify the value and index position of the surrogate pair in the input, and the nominal return value is not used.
+  remarks: "  \n  \n## Remarks  \n The <xref:System.Text.Encoding.GetBytes%2A> and <xref:System.Text.Encoder.Convert%2A> methods call Fallback if they encounter a surrogate pair in their input. In response, Fallback always throws an exception.  \n  \n "
   syntax:
     content: public override bool Fallback (char charUnknownHigh, char charUnknownLow, int index);
     parameters:
     - id: charUnknownHigh
       type: System.Char
-      description: Parameter description to be filled
+      description: The high surrogate of the input pair.
     - id: charUnknownLow
       type: System.Char
-      description: Parameter description to be filled
+      description: The low surrogate of the input pair.
     - id: index
       type: System.Int32
-      description: Parameter description to be filled
+      description: The index position of the surrogate pair in the input buffer.
     return:
       type: System.Boolean
-      description: Parameter description to be filled
+      description: None. No value is returned because the Fallback method always throws an exception.
   overload: System.Text.EncoderExceptionFallbackBuffer.Fallback*
   platform:
   - net-11
@@ -126,12 +134,14 @@ items:
   assemblies:
   - mscorlib
   namespace: System.Text
+  summary: Retrieves the next character in the exception fallback buffer.
+  remarks: "  \n  \n## Remarks  \n Because <xref:System.Text.EncoderExceptionFallbackBuffer> has no actual exception data buffer, the GetNextChar method always returns the Unicode NULL character.  \n  \n "
   syntax:
     content: public override char GetNextChar ();
     parameters: []
     return:
       type: System.Char
-      description: Parameter description to be filled
+      description: "The return value is always the Unicode character, NULL (U+0000).  \n  \n A return value is defined, although it is unchanging, because this method implements an abstract method."
   platform:
   - net-11
   - net-20
@@ -148,12 +158,14 @@ items:
   assemblies:
   - mscorlib
   namespace: System.Text
+  summary: Causes the next call to the <xref:System.Text.EncoderExceptionFallbackBuffer.GetNextChar%2A> method to access the exception data buffer character position that is prior to the current position.
+  remarks: "  \n  \n## Remarks  \n Because <xref:System.Text.EncoderExceptionFallbackBuffer> has no actual exception data buffer, the MovePrevious method always returns `false`.  \n  \n "
   syntax:
     content: public override bool MovePrevious ();
     parameters: []
     return:
       type: System.Boolean
-      description: Parameter description to be filled
+      description: "The return value is always `false`.  \n  \n A return value is defined, although it is unchanging, because this method implements an abstract method."
   platform:
   - net-11
   - net-20
@@ -170,11 +182,13 @@ items:
   assemblies:
   - mscorlib
   namespace: System.Text
+  summary: Gets the number of characters in the current <see cref="T:System.Text.EncoderExceptionFallbackBuffer"> object that remain to be processed.
+  remarks: "  \n  \n## Remarks  \n Because <xref:System.Text.EncoderExceptionFallbackBuffer> has no actual exception data buffer, the Remaining property always returns zero.  \n  \n "
   syntax:
     content: public override int Remaining { get; }
     return:
       type: System.Int32
-      description: Parameter description to be filled
+      description: To be added.
   platform:
   - net-11
   - net-20

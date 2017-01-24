@@ -32,6 +32,10 @@ items:
   nameWithType: Path
   fullName: System.IO.Path
   type: Class
+  summary: "Performs operations on <xref:System.String> instances that contain file or directory path information. These operations are performed in a cross-platform manner.  \n  \n To browse the .NET Framework source code for this type, see the [Reference Source](http://referencesource.microsoft.com/#mscorlib/system/io/path.cs#090eca8621a248ee)."
+  remarks: "## Remarks  \n  \n> [!NOTE]\n>  To view the .NET Framework source code for this type, see the [Reference Source](http://referencesource.microsoft.com/#mscorlib/system/io/path.cs#090eca8621a248ee). You can browse through the source code online, download the reference for offline viewing, and step through the sources (including patches and updates) during debugging; see [instructions](http://referencesource.microsoft.com/).  \n  \n The .NET Framework does not support direct access to physical disks through paths that are device names, such as \"\\\\\\\\.\\PHYSICALDRIVE0 \".  \n  \n A path is a string that provides the location of a file or directory. A path does not necessarily point to a location on disk; for example, a path might map to a location in memory or on a device. The exact format of a path is determined by the current platform. For example, on some systems, a path can start with a drive or volume letter, while this element is not present in other systems. On some systems, file paths can contain extensions, which indicate the type of information stored in the file. The format of a file name extension is platform-dependent; for example, some systems limit extensions to three characters, and others do not. The current platform also determines the set of characters used to separate the elements of a path, and the set of characters that cannot be used when specifying paths. Because of these differences, the fields of the `Path` class as well as the exact behavior of some members of the `Path` class are platform-dependent.  \n  \n A path can contain absolute or relative location information. Absolute paths fully specify a location: the file or directory can be uniquely identified regardless of the current location. Relative paths specify a partial location: the current location is used as the starting point when locating a file specified with a relative path. To determine the current directory, call <xref:System.IO.Directory.GetCurrentDirectory%2A?displayProperty=fullName>.  \n  \n Most members of the `Path` class do not interact with the file system and do not verify the existence of the file specified by a path string. `Path` class members that modify a path string, such as <xref:System.IO.Path.ChangeExtension%2A>, have no effect on names of files in the file system. `Path` members do, however, validate the contents of a specified path string, and throw an <xref:System.ArgumentException> exception if the string contains characters that are not valid in path strings, as defined in the characters returned from the <xref:System.IO.Path.GetInvalidPathChars%2A> method. For example, on Windows-based desktop platforms, invalid path characters might include quote (\"), less than (\\<), greater than (>), pipe (&#124;), backspace (\\b), null (\\0), and Unicode characters 16 through 18 and 20 through 25.  \n  \n The members of the `Path` class enable you to quickly and easily perform common operations such as determining whether a file name extension is part of a path, and combining two strings into one path name.  \n  \n All members of the `Path` class are static and can therefore be called without having an instance of a path.  \n  \n> [!NOTE]\n>  In members that accept a path as an input string, that path must be well-formed or an exception is raised. For example, if a path is fully qualified but begins with a space, the path is not trimmed in methods of the class. Therefore, the path is malformed and an exception is raised. Similarly, a path or a combination of paths cannot be fully qualified twice. For example, \"c:\\temp c:\\windows\" also raises an exception in most cases. Ensure that your paths are well-formed when using methods that accept a path string.  \n  \n In members that accept a path, the path can refer to a file or just a directory. The specified path can also refer to a relative path or a Universal Naming Convention (UNC) path for a server and share name. For example, all the following are acceptable paths:  \n  \n-   \"c:\\\\\\MyDir\\\\\\MyFile.txt\" in C#, or \"c:\\MyDir\\MyFile.txt\" in Visual Basic.  \n  \n-   \"c:\\\\\\MyDir\" in C#, or \"c:\\MyDir\" in Visual Basic.  \n  \n-   \"MyDir\\\\\\MySubdir\" in C#, or \"MyDir\\MySubDir\" in Visual Basic.  \n  \n-   \"\\\\\\\\\\\\\\MyServer\\\\\\MyShare\" in C#, or \"\\\\\\MyServer\\MyShare\" in Visual Basic.  \n  \n Because all these operations are performed on strings, it is impossible to verify that the results are valid in all scenarios. For example, the <xref:System.IO.Path.GetExtension%2A> method parses a string that you pass to it and returns the extension from that string. However, this does not mean that a file with that extension exists on the disk.  \n  \n For a list of common I/O tasks, see [Common I/O Tasks](../Topic/Common%20I-O%20Tasks.md)."
+  example:
+  - "## Examples  \n The following code example demonstrates some of the main members of the `Path` class.  \n  \n [!CODE [path class#1](../CodeSnippet/VS_Snippets_CLR/Path Class#1)]"
   syntax:
     content: >-
       [System.Runtime.InteropServices.ComVisible(true)]
@@ -64,11 +68,15 @@ items:
   assemblies:
   - mscorlib
   namespace: System.IO
+  summary: Provides a platform-specific alternate character used to separate directory levels in a path string that reflects a hierarchical file system organization.
+  remarks: "## Remarks  \n The character stored in this field cannot be in <xref:System.IO.Path.InvalidPathChars>. This field can be set to the same value as <xref:System.IO.Path.DirectorySeparatorChar>. `AltDirectorySeparatorChar` and `DirectorySeparatorChar` are both valid for separating directory levels in a path string.  \n  \n The value of this field is a backslash ('\\\\') on UNIX, and a slash ('/') on Windows and Macintosh operating systems."
+  example:
+  - "## Examples  \n The following code example demonstrates a use of the `AltDirectorySeparatorChar` field.  \n  \n [!CODE [System.IO.Path Members#13](../CodeSnippet/VS_Snippets_CLR_System/system.IO.Path Members#13)]"
   syntax:
     content: public static readonly char AltDirectorySeparatorChar;
     return:
       type: System.Char
-      description: Parameter description to be filled
+      description: To be added.
   platform:
   - net-11
   - net-20
@@ -85,18 +93,22 @@ items:
   assemblies:
   - mscorlib
   namespace: System.IO
+  summary: Changes the extension of a path string.
+  remarks: "## Remarks  \n If neither  nor  contains a period (.), `ChangeExtension` adds the period.  \n  \n The  parameter can contain multiple periods and any valid path characters, and can be any length. If  is `null`, the returned string contains the contents of  with the last period and all characters following it removed.  \n  \n If  is an empty string, the returned path string contains the contents of  with any characters following the last period removed.  \n  \n If  does not have an extension and  is not `null`, the returned string contains  followed by .  \n  \n If  is not `null` and does not contain a leading period, the period is added.  \n  \n If  contains a multiple extension separated by multiple periods, the returned string contains the contents of  with the last period and all characters following it replaced by . For example, if  is \"\\Dir1\\examples\\pathtests.csx.txt\" and  is \"cs\", the modified path is \"\\Dir1\\examples\\pathtests.csx.cs\".  \n  \n It is not possible to verify that the returned results are valid in all scenarios. For example, if  is empty,  is appended.  \n  \n For a list of common I/O tasks, see [Common I/O Tasks](../Topic/Common%20I-O%20Tasks.md)."
+  example:
+  - "## Examples  \n The following code example demonstrates a use of the `ChangeExtension` method.  \n  \n [!CODE [System.IO.Path Members#1](../CodeSnippet/VS_Snippets_CLR_System/system.IO.Path Members#1)]"
   syntax:
     content: public static string ChangeExtension (string path, string extension);
     parameters:
     - id: path
       type: System.String
-      description: Parameter description to be filled
+      description: The path information to modify. The path cannot contain any of the characters defined in <xref:System.IO.Path.GetInvalidPathChars%2A>.
     - id: extension
       type: System.String
-      description: Parameter description to be filled
+      description: The new extension (with or without a leading period). Specify `null` to remove an existing extension from .
     return:
       type: System.String
-      description: Parameter description to be filled
+      description: "The modified path information.  \n  \n On Windows-based desktop platforms, if  is `null` or an empty string (\"\"), the path information is returned unmodified. If  is `null`, the returned string contains the specified path with its extension removed. If  has no extension, and  is not `null`, the returned path string contains  appended to the end of ."
   platform:
   - net-11
   - net-20
@@ -113,15 +125,19 @@ items:
   assemblies:
   - mscorlib
   namespace: System.IO
+  summary: Combines an array of strings into a path.
+  remarks: "## Remarks  \n should be an array of the parts of the path to combine. If the one of the subsequent paths is an absolute path, then the combine operation resets starting with that absolute path, discarding all previous combined paths.  \n  \n Zero-length strings are omitted from the combined path.  \n  \n The parameters are not parsed if they have white space.  \n  \n Not all invalid characters for directory and file names are interpreted as unacceptable by the `Combine` method, because you can use these characters for search wildcard characters. For example, while `Path.Combine(\"c:\\\\\", \"*.txt\")` might be invalid if you were to create a file from it, it is valid as a search string. It is therefore successfully interpreted by the `Combine` method."
+  example:
+  - "## Examples  \n The following example combines an array of strings into a path.  \n  \n [!CODE [System.IO.Path.Combine#3](../CodeSnippet/VS_Snippets_CLR_System/system.io.path.combine#3)]"
   syntax:
     content: public static string Combine (string[] paths);
     parameters:
     - id: paths
       type: System.String[]
-      description: Parameter description to be filled
+      description: An array of parts of the path.
     return:
       type: System.String
-      description: Parameter description to be filled
+      description: The combined paths.
   overload: System.IO.Path.Combine*
   platform:
   - net-11
@@ -139,18 +155,22 @@ items:
   assemblies:
   - mscorlib
   namespace: System.IO
+  summary: Combines two strings into a path.
+  remarks: "## Remarks  \n If  is not a drive reference (that is, \"C:\" or \"D:\") and does not end with a valid separator character as defined in <xref:System.IO.Path.DirectorySeparatorChar>, <xref:System.IO.Path.AltDirectorySeparatorChar>, or <xref:System.IO.Path.VolumeSeparatorChar>, <xref:System.IO.Path.DirectorySeparatorChar> is appended to  before concatenation.  \n  \n If  does not include a root (for example, if  does not start with a separator character or a drive specification), the result is a concatenation of the two paths, with an intervening separator character. If  includes a root,  is returned.  \n  \n The parameters are not parsed if they have white space. Therefore, if  includes white space (for example, \" \\file.txt \"), the Combine method appends  to  instead of returning only .  \n  \n Not all invalid characters for directory and file names are interpreted as unacceptable by the `Combine` method, because you can use these characters for search wildcard characters. For example, while `Path.Combine(\"c:\\\\\", \"*.txt\")` might be invalid if you were to create a file from it, it is valid as a search string. It is therefore successfully interpreted by the `Combine` method.  \n  \n For a list of common I/O tasks, see [Common I/O Tasks](../Topic/Common%20I-O%20Tasks.md)."
+  example:
+  - "## Examples  \n The following code example demonstrates using the `Combine` method on a Windows-based desktop platform.  \n  \n [!CODE [pathcombine#1](../CodeSnippet/VS_Snippets_CLR/pathcombine#1)]"
   syntax:
     content: public static string Combine (string path1, string path2);
     parameters:
     - id: path1
       type: System.String
-      description: Parameter description to be filled
+      description: The first path to combine.
     - id: path2
       type: System.String
-      description: Parameter description to be filled
+      description: The second path to combine.
     return:
       type: System.String
-      description: Parameter description to be filled
+      description: The combined paths. If one of the specified paths is a zero-length string, this method returns the other path. If  contains an absolute path, this method returns .
   overload: System.IO.Path.Combine*
   platform:
   - net-11
@@ -168,21 +188,25 @@ items:
   assemblies:
   - mscorlib
   namespace: System.IO
+  summary: Combines three strings into a path.
+  remarks: "## Remarks  \n should be an absolute path (for example, \"d:\\archives\" or \"\\\\\\archives\\public\"). If  or  is also an absolute path, the combine operation discards all previously combined paths and resets to that absolute path.  \n  \n Zero-length strings are omitted from the combined path.  \n  \n If  is not a drive reference (that is, \"C:\" or \"D:\") and does not end with a valid separator character as defined in <xref:System.IO.Path.DirectorySeparatorChar>, <xref:System.IO.Path.AltDirectorySeparatorChar>, or <xref:System.IO.Path.VolumeSeparatorChar>, <xref:System.IO.Path.DirectorySeparatorChar> is appended to  before concatenation.  \n  \n If  does not include a root (for example, if  does not start with a separator character or a drive specification), the result is a concatenation of the two paths, with an intervening separator character. If  includes a root,  is returned.  \n  \n The parameters are not parsed if they have white space. Therefore, if  includes white space (for example, \" \\file.txt \"), the <xref:System.IO.Path.Combine%2A> method appends  to .  \n  \n Not all invalid characters for directory and file names are interpreted as unacceptable by the `Combine` method, because you can use these characters for search wildcard characters. For example, while `Path.Combine(\"c:\\\\\", \"*.txt\")` might be invalid if you were to create a file from it, it is valid as a search string. It is therefore successfully interpreted by the `Combine` method."
+  example:
+  - "## Examples  \n The following example combines three paths.  \n  \n [!CODE [System.IO.Path.Combine#1](../CodeSnippet/VS_Snippets_CLR_System/system.io.path.combine#1)]"
   syntax:
     content: public static string Combine (string path1, string path2, string path3);
     parameters:
     - id: path1
       type: System.String
-      description: Parameter description to be filled
+      description: The first path to combine.
     - id: path2
       type: System.String
-      description: Parameter description to be filled
+      description: The second path to combine.
     - id: path3
       type: System.String
-      description: Parameter description to be filled
+      description: The third path to combine.
     return:
       type: System.String
-      description: Parameter description to be filled
+      description: The combined paths.
   overload: System.IO.Path.Combine*
   platform:
   - net-11
@@ -200,24 +224,28 @@ items:
   assemblies:
   - mscorlib
   namespace: System.IO
+  summary: Combines four strings into a path.
+  remarks: "## Remarks  \n should be an absolute path (for example, \"d:\\archives\" or \"\\\\\\archives\\public\").If one of the subsequent paths is also an absolute path, the combine operation discards all previously combined paths and resets to that absolute path.  \n  \n Zero-length strings are omitted from the combined path.  \n  \n If  is not a drive reference (that is, \"C:\" or \"D:\") and does not end with a valid separator character as defined in <xref:System.IO.Path.DirectorySeparatorChar>, <xref:System.IO.Path.AltDirectorySeparatorChar>, or <xref:System.IO.Path.VolumeSeparatorChar>, <xref:System.IO.Path.DirectorySeparatorChar> is appended to  before concatenation.  \n  \n If  does not include a root (for example, if  does not start with a separator character or a drive specification), the result is a concatenation of the two paths, with an intervening separator character. If  includes a root,  is returned.  \n  \n The parameters are not parsed if they have white space. Therefore, if  includes white space (for example, \" \\file.txt \"), the <xref:System.IO.Path.Combine%2A> method appends  to .  \n  \n Not all invalid characters for directory and file names are interpreted as unacceptable by the `Combine` method, because you can use these characters for search wildcard characters. For example, while `Path.Combine(\"c:\\\\\", \"*.txt\")` might be invalid if you were to create a file from it, it is valid as a search string. It is therefore successfully interpreted by the `Combine` method."
+  example:
+  - "## Examples  \n The following example combines four paths.  \n  \n [!CODE [System.IO.Path.Combine#2](../CodeSnippet/VS_Snippets_CLR_System/system.io.path.combine#2)]"
   syntax:
     content: public static string Combine (string path1, string path2, string path3, string path4);
     parameters:
     - id: path1
       type: System.String
-      description: Parameter description to be filled
+      description: The first path to combine.
     - id: path2
       type: System.String
-      description: Parameter description to be filled
+      description: The second path to combine.
     - id: path3
       type: System.String
-      description: Parameter description to be filled
+      description: The third path to combine.
     - id: path4
       type: System.String
-      description: Parameter description to be filled
+      description: The fourth path to combine.
     return:
       type: System.String
-      description: Parameter description to be filled
+      description: The combined paths.
   overload: System.IO.Path.Combine*
   platform:
   - net-11
@@ -235,11 +263,15 @@ items:
   assemblies:
   - mscorlib
   namespace: System.IO
+  summary: Provides a platform-specific character used to separate directory levels in a path string that reflects a hierarchical file system organization.
+  remarks: "## Remarks  \n The character stored in this field cannot be in <xref:System.IO.Path.InvalidPathChars>. <xref:System.IO.Path.AltDirectorySeparatorChar> and `DirectorySeparatorChar` are both valid for separating directory levels in a path string."
+  example:
+  - "## Examples  \n The following code example demonstrates the use of the `DirectorySeparatorChar` field.  \n  \n [!CODE [System.IO.Path Members#13](../CodeSnippet/VS_Snippets_CLR_System/system.IO.Path Members#13)]"
   syntax:
     content: public static readonly char DirectorySeparatorChar;
     return:
       type: System.Char
-      description: Parameter description to be filled
+      description: To be added.
   platform:
   - net-11
   - net-20
@@ -256,15 +288,19 @@ items:
   assemblies:
   - mscorlib
   namespace: System.IO
+  summary: Returns the directory information for the specified path string.
+  remarks: "## Remarks  \n In most cases, the string returned by this method consists of all characters in the path up to but not including the last <xref:System.IO.Path.DirectorySeparatorChar> or <xref:System.IO.Path.AltDirectorySeparatorChar>. If the path consists of a root directory, such as \"c:\\\\\", null is returned. Note that this method does not support paths using \"file:\". Because the returned path does not include the <xref:System.IO.Path.DirectorySeparatorChar> or <xref:System.IO.Path.AltDirectorySeparatorChar>, passing the returned path back into the GetDirectoryName method will result in the truncation of one folder level per subsequent call on the result string. For example, passing the path \"C:\\Directory\\SubDirectory\\test.txt\" into the GetDirectoryName method will return \"C:\\Directory\\SubDirectory\". Passing that string, \"C:\\Directory\\SubDirectory\", into GetDirectoryName will result in \"C:\\Directory\".  \n  \n For a list of common I/O tasks, see [Common I/O Tasks](../Topic/Common%20I-O%20Tasks.md)."
+  example:
+  - "## Examples  \n The following code example demonstrates using the `GetDirectoryName` method on a Windows-based desktop platform.  \n  \n [!CODE [System.IO.Path Members#3](../CodeSnippet/VS_Snippets_CLR_System/system.IO.Path Members#3)]"
   syntax:
     content: public static string GetDirectoryName (string path);
     parameters:
     - id: path
       type: System.String
-      description: Parameter description to be filled
+      description: The path of a file or directory.
     return:
       type: System.String
-      description: Parameter description to be filled
+      description: Directory information for , or `null` if  denotes a root directory or is null. Returns <xref:System.String?displayProperty=fullName> if  does not contain directory information.
   platform:
   - net-11
   - net-20
@@ -281,15 +317,19 @@ items:
   assemblies:
   - mscorlib
   namespace: System.IO
+  summary: Returns the extension of the specified path string.
+  remarks: "## Remarks  \n The extension of  is obtained by searching  for a period (.), starting with the last character in path and continuing toward the start of path. If a period is found before a <xref:System.IO.Path.DirectorySeparatorChar> or <xref:System.IO.Path.AltDirectorySeparatorChar> character, the returned string contains the period and the characters after it; otherwise, <xref:System.String.Empty> is returned.  \n  \n For a list of common I/O tasks, see [Common I/O Tasks](../Topic/Common%20I-O%20Tasks.md)."
+  example:
+  - "## Examples  \n The following code example demonstrates using the `GetExtension` method on a Windows-based desktop platform.  \n  \n [!CODE [System.IO.Path Members#4](../CodeSnippet/VS_Snippets_CLR_System/system.IO.Path Members#4)]"
   syntax:
     content: public static string GetExtension (string path);
     parameters:
     - id: path
       type: System.String
-      description: Parameter description to be filled
+      description: The path string from which to get the extension.
     return:
       type: System.String
-      description: Parameter description to be filled
+      description: The extension of the specified path (including the period "."), or `null`, or <xref:System.String?displayProperty=fullName>. If  is `null`, GetExtension returns `null`. If  does not have extension information, GetExtension returns <xref:System.String?displayProperty=fullName>.
   platform:
   - net-11
   - net-20
@@ -306,15 +346,19 @@ items:
   assemblies:
   - mscorlib
   namespace: System.IO
+  summary: Returns the file name and extension of the specified path string.
+  remarks: "## Remarks  \n The returned value is `null` if the file path is `null`.  \n  \n The separator characters used to determine the start of the file name are <xref:System.IO.Path.DirectorySeparatorChar> and <xref:System.IO.Path.AltDirectorySeparatorChar>.  \n  \n For a list of common I/O tasks, see [Common I/O Tasks](../Topic/Common%20I-O%20Tasks.md)."
+  example:
+  - "## Examples  \n The following code example demonstrates the behavior of the `GetFileName` method on a Windows-based desktop platform.  \n  \n [!CODE [System.IO.Path Members#5](../CodeSnippet/VS_Snippets_CLR_System/system.IO.Path Members#5)]"
   syntax:
     content: public static string GetFileName (string path);
     parameters:
     - id: path
       type: System.String
-      description: Parameter description to be filled
+      description: The path string from which to obtain the file name and extension.
     return:
       type: System.String
-      description: Parameter description to be filled
+      description: The characters after the last directory character in . If the last character of  is a directory or volume separator character, this method returns <xref:System.String?displayProperty=fullName>. If  is `null`, this method returns `null`.
   platform:
   - net-11
   - net-20
@@ -331,15 +375,19 @@ items:
   assemblies:
   - mscorlib
   namespace: System.IO
+  summary: Returns the file name of the specified path string without the extension.
+  remarks: "## Remarks  \n This method does not verify that the path or file name exists.  \n  \n For a list of common I/O tasks, see [Common I/O Tasks](../Topic/Common%20I-O%20Tasks.md)."
+  example:
+  - "## Examples  \n The following code example demonstrates a use of the `GetFileNameWithoutExtension` method.  \n  \n [!CODE [System.IO.Path Members#6](../CodeSnippet/VS_Snippets_CLR_System/system.IO.Path Members#6)]"
   syntax:
     content: public static string GetFileNameWithoutExtension (string path);
     parameters:
     - id: path
       type: System.String
-      description: Parameter description to be filled
+      description: The path of the file.
     return:
       type: System.String
-      description: Parameter description to be filled
+      description: The string returned by <xref:System.IO.Path.GetFileName%2A>, minus the last period (.) and all characters following it.
   platform:
   - net-11
   - net-20
@@ -356,15 +404,19 @@ items:
   assemblies:
   - mscorlib
   namespace: System.IO
+  summary: Returns the absolute path for the specified path string.
+  remarks: "## Remarks  \n The .NET Framework does not support direct access to physical disks through paths that are device names, such as \"\\\\\\\\.\\PHYSICALDRIVE0 \".  \n  \n The absolute path includes all information required to locate a file or directory on a system.  \n  \n The file or directory specified by  is not required to exist. For example, if c:\\temp\\newdir is the current directory, calling `GetFullPath` on a file name such as test.txt returns c:\\temp\\newdir\\test.txt. The file need not exist.  \n  \n However, if  does exist, the caller must have permission to obtain path information for . Note that unlike most members of the <xref:System.IO.Path> class, this method accesses the file system.  \n  \n This method uses current directory and current volume information to fully qualify . If you specify a file name only in , `GetFullPath` returns the fully qualified path of the current directory.  \n  \n If you pass in a short file name, it is expanded to a long file name.  \n  \n If a path contains no significant characters it is invalid unless it contains one or more \".\" characters followed by any number of spaces, then it will be parsed as either \".\" or \"..\".  \n  \n For a list of common I/O tasks, see [Common I/O Tasks](../Topic/Common%20I-O%20Tasks.md)."
+  example:
+  - "## Examples  \n The following code example demonstrates the `GetFullPath` method on a Windows-based desktop platform.  \n  \n [!CODE [System.IO.Path Members#7](../CodeSnippet/VS_Snippets_CLR_System/system.IO.Path Members#7)]"
   syntax:
     content: public static string GetFullPath (string path);
     parameters:
     - id: path
       type: System.String
-      description: Parameter description to be filled
+      description: The file or directory for which to obtain absolute path information.
     return:
       type: System.String
-      description: Parameter description to be filled
+      description: The fully qualified location of , such as "C:\MyFile.txt".
   platform:
   - net-11
   - net-20
@@ -381,12 +433,16 @@ items:
   assemblies:
   - mscorlib
   namespace: System.IO
+  summary: Gets an array containing the characters that are not allowed in file names.
+  remarks: "## Remarks  \n The array returned from this method is not guaranteed to contain the complete set of characters that are invalid in file and directory names. The full set of invalid characters can vary by file system. For example, on Windows-based desktop platforms, invalid path characters might include ASCII/Unicode characters 1 through 31, as well as quote (\"), less than (\\<), greater than (>), pipe (&#124;), backspace (\\b), null (\\0) and tab (\\t)."
+  example:
+  - "## Examples  \n The following code example demonstrates the GetInvalidFileNameChars method and the <xref:System.IO.Path.GetInvalidPathChars%2A> method to retrieve invalid characters.  \n  \n [!CODE [IO.Path.GetInvalidFile-PathChars#1](../CodeSnippet/VS_Snippets_CLR/IO.Path.GetInvalidFile-PathChars#1)]"
   syntax:
     content: public static char[] GetInvalidFileNameChars ();
     parameters: []
     return:
       type: System.Char[]
-      description: Parameter description to be filled
+      description: An array containing the characters that are not allowed in file names.
   platform:
   - net-11
   - net-20
@@ -403,12 +459,16 @@ items:
   assemblies:
   - mscorlib
   namespace: System.IO
+  summary: Gets an array containing the characters that are not allowed in path names.
+  remarks: "## Remarks  \n The array returned from this method is not guaranteed to contain the complete set of characters that are invalid in file and directory names. The full set of invalid characters can vary by file system. For example, on Windows-based desktop platforms, invalid path characters might include ASCII/Unicode characters 1 through 31, as well as quote (\"), less than (\\<), greater than (>), pipe (&#124;), backspace (\\b), null (\\0) and tab (\\t)."
+  example:
+  - "## Examples  \n The following code example demonstrates the <xref:System.IO.Path.GetInvalidFileNameChars%2A> method and the GetInvalidPathChars method to retrieve invalid characters.  \n  \n [!CODE [IO.Path.GetInvalidFile-PathChars#1](../CodeSnippet/VS_Snippets_CLR/IO.Path.GetInvalidFile-PathChars#1)]"
   syntax:
     content: public static char[] GetInvalidPathChars ();
     parameters: []
     return:
       type: System.Char[]
-      description: Parameter description to be filled
+      description: An array containing the characters that are not allowed in path names.
   platform:
   - net-11
   - net-20
@@ -425,15 +485,19 @@ items:
   assemblies:
   - mscorlib
   namespace: System.IO
+  summary: Gets the root directory information of the specified path.
+  remarks: "## Remarks  \n This method does not verify that the path or file name exists.  \n  \n Possible patterns for the string returned by this method are as follows:  \n  \n-   An empty string ( specified a relative path on the current drive or volume).  \n  \n-   \"/\" ( specified an absolute path on the current drive).  \n  \n-   \"X:\" ( specified a relative path on a drive, where X represents a drive or volume letter).  \n  \n-   \"X:/\" ( specified an absolute path on a given drive).  \n  \n-   \"\\\\\\ComputerName\\SharedFolder\" (a UNC path).  \n  \n The .NET Framework does not support direct access to physical disks through paths that are device names, such as \"\\\\\\\\.\\PHYSICALDRIVE0 \".  \n  \n For a list of common I/O tasks, see [Common I/O Tasks](../Topic/Common%20I-O%20Tasks.md)."
+  example:
+  - "## Examples  \n The following code example demonstrates a use of the `GetPathRoot` method.  \n  \n [!CODE [System.IO.Path Members#8](../CodeSnippet/VS_Snippets_CLR_System/system.IO.Path Members#8)]"
   syntax:
     content: public static string GetPathRoot (string path);
     parameters:
     - id: path
       type: System.String
-      description: Parameter description to be filled
+      description: The path from which to obtain root directory information.
     return:
       type: System.String
-      description: Parameter description to be filled
+      description: The root directory of , such as "C:\\", or `null` if  is `null`, or an empty string if  does not contain root directory information.
   platform:
   - net-11
   - net-20
@@ -450,12 +514,16 @@ items:
   assemblies:
   - mscorlib
   namespace: System.IO
+  summary: Returns a random folder name or file name.
+  remarks: "## Remarks  \n The GetRandomFileName method returns a cryptographically strong, random string that can be used as either a folder name or a file name. Unlike <xref:System.IO.Path.GetTempFileName%2A>, GetRandomFileName does not create a file. When the security of your file system is paramount, this method should be used instead of <xref:System.IO.Path.GetTempFileName%2A>."
+  example:
+  - "## Examples  \n The following example show output from the GetRandomFileName method.  \n  \n [!CODE [System.IO.Path Members#20](../CodeSnippet/VS_Snippets_CLR_System/system.IO.Path Members#20)]"
   syntax:
     content: public static string GetRandomFileName ();
     parameters: []
     return:
       type: System.String
-      description: Parameter description to be filled
+      description: A random folder name or file name.
   platform:
   - net-11
   - net-20
@@ -472,12 +540,14 @@ items:
   assemblies:
   - mscorlib
   namespace: System.IO
+  summary: Creates a uniquely named, zero-byte temporary file on disk and returns the full path of that file.
+  remarks: "  \n  \n## Remarks  \n This method creates a temporary file with a .TMP file extension. The temporary file is created within the user’s temporary folder, which is the path returned by the <xref:System.IO.Path.GetTempPath%2A> method.  \n  \n The GetTempFileName method will raise an <xref:System.IO.IOException> if it is used to create more than 65535 files without deleting previous temporary files.  \n  \n The GetTempFileName method will raise an <xref:System.IO.IOException> if no unique temporary file name is available. To resolve this error, delete all unneeded temporary files.  \n  \n For a list of common I/O tasks, see [Common I/O Tasks](../Topic/Common%20I-O%20Tasks.md).  \n  \n "
   syntax:
     content: public static string GetTempFileName ();
     parameters: []
     return:
       type: System.String
-      description: Parameter description to be filled
+      description: The full path of the temporary file.
   platform:
   - net-11
   - net-20
@@ -494,12 +564,16 @@ items:
   assemblies:
   - mscorlib
   namespace: System.IO
+  summary: Returns the path of the current user's temporary folder.
+  remarks: "## Remarks  \n This method checks for the existence of environment variables in the following order and uses the first path found:  \n  \n1.  The path specified by the TMP environment variable.  \n  \n2.  The path specified by the TEMP environment variable.  \n  \n3.  The path specified by the USERPROFILE environment variable.  \n  \n4.  The Windows directory."
+  example:
+  - "## Examples  \n The following code shows how to call the GetTempPath method.  \n  \n```vb  \nresult As String = Path.GetTempPath()  \nConsole.WriteLine(result)  \n```  \n  \n```c#  \nstring result = Path.GetTempPath();  \nConsole.WriteLine(result);  \n```  \n  \n This example produces output similar to the following.  \n  \n```  \nC:\\Users\\UserName\\AppData\\Local\\Temp\\  \n```"
   syntax:
     content: public static string GetTempPath ();
     parameters: []
     return:
       type: System.String
-      description: Parameter description to be filled
+      description: The path to the temporary folder, ending with a backslash.
   platform:
   - net-11
   - net-20
@@ -516,15 +590,19 @@ items:
   assemblies:
   - mscorlib
   namespace: System.IO
+  summary: Determines whether a path includes a file name extension.
+  remarks: "## Remarks  \n Starting from the end of , this method searches for a period (.) followed by at least one character. If this pattern is found before a <xref:System.IO.Path.DirectorySeparatorChar>, <xref:System.IO.Path.AltDirectorySeparatorChar>, or <xref:System.IO.Path.VolumeSeparatorChar> character is encountered, this method returns `true`.  \n  \n For a list of common I/O tasks, see [Common I/O Tasks](../Topic/Common%20I-O%20Tasks.md)."
+  example:
+  - "## Examples  \n The following code example demonstrates the use of the `HasExtension` method.  \n  \n [!CODE [System.IO.Path Members#11](../CodeSnippet/VS_Snippets_CLR_System/system.IO.Path Members#11)]"
   syntax:
     content: public static bool HasExtension (string path);
     parameters:
     - id: path
       type: System.String
-      description: Parameter description to be filled
+      description: The path to search for an extension.
     return:
       type: System.Boolean
-      description: Parameter description to be filled
+      description: '`true` if the characters that follow the last directory separator (\\\ or /) or volume separator (:) in the path include a period (.) followed by one or more characters; otherwise, `false`.'
   platform:
   - net-11
   - net-20
@@ -541,11 +619,15 @@ items:
   assemblies:
   - mscorlib
   namespace: System.IO
+  summary: Provides a platform-specific array of characters that cannot be specified in path string arguments passed to members of the <see cref="T:System.IO.Path"> class.
+  remarks: "## Remarks  \n The array returned from this method is not guaranteed to contain the complete set of characters that are invalid in file and directory names. The full set of invalid characters can vary by file system. For example, on Windows-based desktop platforms, invalid path characters might include ASCII/Unicode characters 1 through 31, as well as quote (\"), less than (\\<), greater than (>), pipe (&#124;), backspace (\\b), null (\\0) and tab (\\t).  \n  \n> [!CAUTION]\n>  Do not useInvalidPathChars if you think your code might execute in the same application domain as untrusted code. InvalidPathChars is an array, so its elements can be overwritten. If untrusted code overwrites elements of InvalidPathChars, it might cause your code to malfunction in ways that could be exploited."
+  example:
+  - "## Examples  \n The following code example demonstrates the use of the `InvalidPathChars` property.  \n  \n [!CODE [System.IO.Path Members#13](../CodeSnippet/VS_Snippets_CLR_System/system.IO.Path Members#13)]"
   syntax:
     content: public static readonly char[] InvalidPathChars;
     return:
       type: System.Char[]
-      description: Parameter description to be filled
+      description: To be added.
   platform:
   - net-11
   - net-20
@@ -562,15 +644,19 @@ items:
   assemblies:
   - mscorlib
   namespace: System.IO
+  summary: Gets a value indicating whether the specified path string contains a root.
+  remarks: "## Remarks  \n The IsPathRooted method returns `true` if the first character is a directory separator character such as \"\\\\\", or if the path starts with a drive letter and colon (:). For example, it returns `true` for  strings such as \"\\\\\\MyDir\\\\\\MyFile.txt\", \"C:\\\\\\MyDir\", or \"C:MyDir\". It returns `false` for  strings such as \"MyDir\".  \n  \n This method does not verify that the path or file name exists.  \n  \n For a list of common I/O tasks, see [Common I/O Tasks](../Topic/Common%20I-O%20Tasks.md)."
+  example:
+  - "## Examples  \n The following code example demonstrates how the `IsPathRooted` method can be used to test three strings.  \n  \n [!CODE [System.IO.Path Members#12](../CodeSnippet/VS_Snippets_CLR_System/system.IO.Path Members#12)]"
   syntax:
     content: public static bool IsPathRooted (string path);
     parameters:
     - id: path
       type: System.String
-      description: Parameter description to be filled
+      description: The path to test.
     return:
       type: System.Boolean
-      description: Parameter description to be filled
+      description: '`true` if  contains a root; otherwise, `false`.'
   platform:
   - net-11
   - net-20
@@ -587,11 +673,15 @@ items:
   assemblies:
   - mscorlib
   namespace: System.IO
+  summary: A platform-specific separator character used to separate path strings in environment variables.
+  remarks: "## Remarks  \n On Windows-based desktop platforms, the value of this field is the semicolon (;) by default, but might vary on other platforms."
+  example:
+  - "## Examples  \n The following code example demonstrates the use of the `PathSeparator` field.  \n  \n [!CODE [System.IO.Path Members#13](../CodeSnippet/VS_Snippets_CLR_System/system.IO.Path Members#13)]"
   syntax:
     content: public static readonly char PathSeparator;
     return:
       type: System.Char
-      description: Parameter description to be filled
+      description: To be added.
   platform:
   - net-11
   - net-20
@@ -608,11 +698,15 @@ items:
   assemblies:
   - mscorlib
   namespace: System.IO
+  summary: Provides a platform-specific volume separator character.
+  remarks: "## Remarks  \n The value of this field is a colon (:) on Windows and Macintosh, and a slash (/) on UNIX operating systems. This is most useful for parsing paths such as \"c:\\windows\" or \"MacVolume:System Folder\"."
+  example:
+  - "## Examples  \n The following code example demonstrates the use of the `VolumeSeparatorChar` field.  \n  \n [!CODE [System.IO.Path Members#13](../CodeSnippet/VS_Snippets_CLR_System/system.IO.Path Members#13)]"
   syntax:
     content: public static readonly char VolumeSeparatorChar;
     return:
       type: System.Char
-      description: Parameter description to be filled
+      description: To be added.
   platform:
   - net-11
   - net-20

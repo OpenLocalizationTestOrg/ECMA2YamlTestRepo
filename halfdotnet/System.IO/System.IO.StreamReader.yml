@@ -37,6 +37,10 @@ items:
   nameWithType: StreamReader
   fullName: System.IO.StreamReader
   type: Class
+  summary: "Implements a <see cref=\"T:System.IO.TextReader\"> that reads characters from a byte stream in a particular encoding.  \n  \n To browse the .NET Framework source code for this type, see the [Reference Source](http://referencesource.microsoft.com/#mscorlib/system/io/streamreader.cs#b5fe1efcec14de32)."
+  remarks: "## Remarks  \n  \n> [!NOTE]\n>  To view the .NET Framework source code for this type, see the [Reference Source](http://referencesource.microsoft.com/#mscorlib/system/io/streamreader.cs#b5fe1efcec14de32). You can browse through the source code online, download the reference for offline viewing, and step through the sources (including patches and updates) during debugging; see [instructions](http://referencesource.microsoft.com/).  \n  \n StreamReader is designed for character input in a particular encoding, whereas the <xref:System.IO.Stream> class is designed for byte input and output. Use StreamReader for reading lines of information from a standard text file.  \n  \n> [!IMPORTANT]\n>  This type implements the <xref:System.IDisposable> interface. When you have finished using the type, you should dispose of it either directly or indirectly. To dispose of the type directly, call its <xref:System.IDisposable.Dispose%2A> method in a `try`/`catch` block. To dispose of it indirectly, use a language construct such as `using` (in C#) or `Using` (in Visual Basic). For more information, see the “Using an Object that Implements IDisposable” section in the <xref:System.IDisposable> interface topic.  \n  \n StreamReader defaults to UTF-8 encoding unless specified otherwise, instead of defaulting to the ANSI code page for the current system. UTF-8 handles Unicode characters correctly and provides consistent results on localized versions of the operating system. If you get the current character encoding using the <xref:System.IO.StreamReader.CurrentEncoding%2A> property, the value is not reliable until after the first <xref:System.IO.StreamReader.Read%2A> method, since encoding auto detection is not done until the first call to a <xref:System.IO.StreamReader.Read%2A> method.  \n  \n By default, a StreamReader is not thread safe. See <xref:System.IO.TextReader.Synchronized%2A?displayProperty=fullName> for a thread-safe wrapper.  \n  \n The [Read(Char\\[\\], Int32, Int32)](assetId:///M:System.IO.StreamReader.Read(System.Char[],System.Int32,System.Int32)?qualifyHint=False&autoUpgrade=False) and [Write(Char\\[\\], Int32, Int32)](assetId:///M:System.IO.StreamWriter.Write(System.Char[],System.Int32,System.Int32)?qualifyHint=False&autoUpgrade=False) method overloads read and write the number of characters specified by the  parameter. These are to be distinguished from <xref:System.IO.BufferedStream.Read%2A?displayProperty=fullName> and <xref:System.IO.BufferedStream.Write%2A?displayProperty=fullName>, which read and write the number of bytes specified by the  parameter. Use the <xref:System.IO.BufferedStream> methods only for reading and writing an integral number of byte array elements.  \n  \n> [!NOTE]\n>  When reading from a <xref:System.IO.Stream>, it is more efficient to use a buffer that is the same size as the internal buffer of the stream.  \n  \n For a list of common I/O tasks, see [Common I/O Tasks](../Topic/Common%20I-O%20Tasks.md)."
+  example:
+  - "## Examples  \n The following example uses an instance of StreamReader to read text from a file. The constructor used in this example is not supported for use in [!INCLUDE[win8_appstore_long](../../add/includes/win8-appstore-long-md.md)] Apps.  \n  \n [!CODE [readtextfile#1](../CodeSnippet/VS_Snippets_CLR/ReadTextFile#1)]  \n  \n The following example instantiates a StreamReader object and calls its <xref:System.IO.StreamReader.ReadAsync%2A> method to read a file asynchronously.  \n  \n [!CODE [System.IO.StreamReader#51](../CodeSnippet/VS_Snippets_CLR_System/system.IO.StreamReader#51)]"
   syntax:
     content: >-
       [System.Runtime.InteropServices.ComVisible(true)]
@@ -77,12 +81,16 @@ items:
   assemblies:
   - mscorlib
   namespace: System.IO
+  summary: Initializes a new instance of the <see cref="T:System.IO.StreamReader"> class for the specified stream.
+  remarks: "## Remarks  \n This constructor initializes the encoding to <xref:System.Text.UTF8Encoding>, the <xref:System.IO.StreamReader.BaseStream%2A> property using the  parameter, and the internal buffer size to 1024 bytes.  \n  \n The <xref:System.IO.StreamReader> object calls <xref:System.IO.Stream.Dispose> on the provided <xref:System.IO.Stream> object when <xref:System.IO.StreamReader.Dispose%2A?displayProperty=fullName> is called.  \n  \n> [!CAUTION]\n>  When you compile a set of characters with a particular cultural setting and retrieve those same characters with a different cultural setting, the characters might not be interpretable, and could cause an exception to be thrown.  \n  \n For a list of common I/O tasks, see [Common I/O Tasks](../Topic/Common%20I-O%20Tasks.md)."
+  example:
+  - "## Examples  \n The following code example demonstrates this <xref:System.IO.StreamReader> constructor.  \n  \n [!CODE [strmreader ctor1#1](../CodeSnippet/VS_Snippets_CLR/StrmReader Ctor1#1)]"
   syntax:
     content: public StreamReader (System.IO.Stream stream);
     parameters:
     - id: stream
       type: System.IO.Stream
-      description: Parameter description to be filled
+      description: The stream to be read.
   platform:
   - net-11
   - net-20
@@ -99,12 +107,16 @@ items:
   assemblies:
   - mscorlib
   namespace: System.IO
+  summary: Initializes a new instance of the <see cref="T:System.IO.StreamReader"> class for the specified file name.
+  remarks: "## Remarks  \n The complete file path is specified by the  parameter. This constructor initializes the encoding to <xref:System.Text.UTF8Encoding> and the buffer size to 1024 bytes.  \n  \n The  parameter can be a file name, including a file on a Universal Naming Convention (UNC) share.  \n  \n The  parameter is not required to be a file stored on disk; it can be any part of a system that supports access using streams.  \n  \n> [!CAUTION]\n>  When you compile a set of characters with a particular cultural setting and retrieve those same characters with a different cultural setting, the characters might not be interpretable, and could cause an exception to be thrown.  \n  \n For a list of common I/O tasks, see [Common I/O Tasks](../Topic/Common%20I-O%20Tasks.md)."
+  example:
+  - "## Examples  \n The following code example demonstrates this <xref:System.IO.StreamReader> constructor.  \n  \n [!CODE [strmreader ctor2#1](../CodeSnippet/VS_Snippets_CLR/StrmReader Ctor2#1)]"
   syntax:
     content: public StreamReader (string path);
     parameters:
     - id: path
       type: System.String
-      description: Parameter description to be filled
+      description: The complete file path to be read.
   platform:
   - net-11
   - net-20
@@ -121,15 +133,19 @@ items:
   assemblies:
   - mscorlib
   namespace: System.IO
+  summary: Initializes a new instance of the <see cref="T:System.IO.StreamReader"> class for the specified stream, with the specified byte order mark detection option.
+  remarks: "## Remarks  \n This constructor initializes the encoding to <xref:System.Text.UTF8Encoding>, the <xref:System.IO.StreamReader.BaseStream%2A> property using the  parameter, and the internal buffer size to 1024 bytes.  \n  \n The  parameter detects the encoding by looking at the first three bytes of the stream. It automatically recognizes UTF-8, little-endian Unicode, and big-endian Unicode text if the file starts with the appropriate byte order marks. See the <xref:System.Text.Encoding.GetPreamble%2A?displayProperty=fullName> method for more information.  \n  \n The <xref:System.IO.StreamReader> object calls <xref:System.IO.Stream.Dispose> on the provided <xref:System.IO.Stream> object when <xref:System.IO.StreamReader.Dispose%2A?displayProperty=fullName> is called.  \n  \n For a list of common I/O tasks, see [Common I/O Tasks](../Topic/Common%20I-O%20Tasks.md)."
+  example:
+  - "## Examples  \n The following code example demonstrates this <xref:System.IO.StreamReader> constructor.  \n  \n [!CODE [System.IO.StreamReader#2](../CodeSnippet/VS_Snippets_CLR_System/system.IO.StreamReader#2)]"
   syntax:
     content: public StreamReader (System.IO.Stream stream, bool detectEncodingFromByteOrderMarks);
     parameters:
     - id: stream
       type: System.IO.Stream
-      description: Parameter description to be filled
+      description: The stream to be read.
     - id: detectEncodingFromByteOrderMarks
       type: System.Boolean
-      description: Parameter description to be filled
+      description: Indicates whether to look for byte order marks at the beginning of the file.
   platform:
   - net-11
   - net-20
@@ -146,15 +162,19 @@ items:
   assemblies:
   - mscorlib
   namespace: System.IO
+  summary: Initializes a new instance of the <see cref="T:System.IO.StreamReader"> class for the specified stream, with the specified character encoding.
+  remarks: "## Remarks  \n The character encoding is set by the  parameter, and the buffer size is set to 1024 bytes. The <xref:System.IO.StreamReader> object attempts to  detect the encoding by looking at the first three bytes of the stream. It automatically recognizes UTF-8, little-endian Unicode, and big-endian Unicode text if the file starts with the appropriate byte order marks. Otherwise, the user-provided encoding is used. See the <xref:System.Text.Encoding.GetPreamble%2A?displayProperty=fullName> method for more information.  \n  \n The <xref:System.IO.StreamReader> object calls <xref:System.IO.Stream.Dispose> on the provided <xref:System.IO.Stream> object when <xref:System.IO.StreamReader.Dispose%2A?displayProperty=fullName> is called.  \n  \n> [!CAUTION]\n>  When you compile a set of characters with a particular cultural setting and retrieve those same characters with a different cultural setting, the characters might not be interpretable, and could cause an exception to be thrown.  \n  \n For a list of common I/O tasks, see [Common I/O Tasks](../Topic/Common%20I-O%20Tasks.md)."
+  example:
+  - "## Examples  \n The following code example demonstrates this <xref:System.IO.StreamReader> constructor.  \n  \n [!CODE [System.IO.StreamReader#2](../CodeSnippet/VS_Snippets_CLR_System/system.IO.StreamReader#2)]"
   syntax:
     content: public StreamReader (System.IO.Stream stream, System.Text.Encoding encoding);
     parameters:
     - id: stream
       type: System.IO.Stream
-      description: Parameter description to be filled
+      description: The stream to be read.
     - id: encoding
       type: System.Text.Encoding
-      description: Parameter description to be filled
+      description: The character encoding to use.
   platform:
   - net-11
   - net-20
@@ -171,15 +191,19 @@ items:
   assemblies:
   - mscorlib
   namespace: System.IO
+  summary: Initializes a new instance of the <see cref="T:System.IO.StreamReader"> class for the specified file name, with the specified byte order mark detection option.
+  remarks: "## Remarks  \n This constructor initializes the encoding to <xref:System.Text.UTF8Encoding>, the <xref:System.IO.StreamReader.BaseStream%2A> property using the  parameter, and the internal buffer size to 1024 bytes.  \n  \n The  parameter can be a file name, including a file on a Universal Naming Convention (UNC) share.  \n  \n The  parameter is not required to be a file stored on disk; it can be any part of a system that supports access using streams.  \n  \n The  parameter detects the encoding by looking at the first three bytes of the stream. It automatically recognizes UTF-8, little-endian Unicode, and big-endian Unicode text if the file starts with the appropriate byte order marks. Otherwise, the <xref:System.Text.UTF8Encoding> is used. See the <xref:System.Text.Encoding.GetPreamble%2A?displayProperty=fullName> method for more information.  \n  \n For a list of common I/O tasks, see [Common I/O Tasks](../Topic/Common%20I-O%20Tasks.md)."
+  example:
+  - "## Examples  \n The following code example demonstrates this <xref:System.IO.StreamReader> constructor.  \n  \n [!CODE [System.IO.StreamReader#2](../CodeSnippet/VS_Snippets_CLR_System/system.IO.StreamReader#2)]"
   syntax:
     content: public StreamReader (string path, bool detectEncodingFromByteOrderMarks);
     parameters:
     - id: path
       type: System.String
-      description: Parameter description to be filled
+      description: The complete file path to be read.
     - id: detectEncodingFromByteOrderMarks
       type: System.Boolean
-      description: Parameter description to be filled
+      description: Indicates whether to look for byte order marks at the beginning of the file.
   platform:
   - net-11
   - net-20
@@ -196,15 +220,19 @@ items:
   assemblies:
   - mscorlib
   namespace: System.IO
+  summary: Initializes a new instance of the <see cref="T:System.IO.StreamReader"> class for the specified file name, with the specified character encoding.
+  remarks: "## Remarks  \n This constructor initializes the encoding as specified by the  parameter, and the internal buffer size to 1024 bytes. The <xref:System.IO.StreamReader> object attempts to  detect the encoding by looking at the first three bytes of the stream. It automatically recognizes UTF-8, little-endian Unicode, and big-endian Unicode text if the file starts with the appropriate byte order marks. Otherwise, the user-provided encoding is used. See the <xref:System.Text.Encoding.GetPreamble%2A?displayProperty=fullName> method for more information.  \n  \n The  parameter can be a file name, including a file on a Universal Naming Convention (UNC) share.  \n  \n The  parameter is not required to be a file stored on disk; it can be any part of a system that supports access using streams.  \n  \n> [!CAUTION]\n>  When you compile a set of characters with a particular cultural setting and retrieve those same characters with a different cultural setting, the characters might not be interpretable, and could cause an exception to be thrown.  \n  \n For a list of common I/O tasks, see [Common I/O Tasks](../Topic/Common%20I-O%20Tasks.md)."
+  example:
+  - "## Examples  \n The following code example demonstrates this <xref:System.IO.StreamReader> constructor.  \n  \n [!CODE [System.IO.StreamReader#2](../CodeSnippet/VS_Snippets_CLR_System/system.IO.StreamReader#2)]"
   syntax:
     content: public StreamReader (string path, System.Text.Encoding encoding);
     parameters:
     - id: path
       type: System.String
-      description: Parameter description to be filled
+      description: The complete file path to be read.
     - id: encoding
       type: System.Text.Encoding
-      description: Parameter description to be filled
+      description: The character encoding to use.
   platform:
   - net-11
   - net-20
@@ -221,18 +249,22 @@ items:
   assemblies:
   - mscorlib
   namespace: System.IO
+  summary: Initializes a new instance of the <see cref="T:System.IO.StreamReader"> class for the specified stream, with the specified character encoding and byte order mark detection option.
+  remarks: "## Remarks  \n This constructor initializes the encoding as specified by the  parameter, the <xref:System.IO.StreamReader.BaseStream%2A> property using the  parameter, and the internal buffer size to 1024 bytes.  \n  \n The  parameter detects the encoding by looking at the first three bytes of the stream. It automatically recognizes UTF-8, little-endian Unicode, and big-endian Unicode text if the file starts with the appropriate byte order marks. Otherwise, the user-provided encoding is used. See the <xref:System.Text.Encoding.GetPreamble%2A?displayProperty=fullName> method for more information.  \n  \n The <xref:System.IO.StreamReader> object calls <xref:System.IO.Stream.Dispose> on the provided <xref:System.IO.Stream> object when <xref:System.IO.StreamReader.Dispose%2A?displayProperty=fullName> is called.  \n  \n> [!CAUTION]\n>  When you compile a set of characters with a particular cultural setting and retrieve those same characters with a different cultural setting, the characters might not be interpretable, and could cause an exception to be thrown.  \n  \n For a list of common I/O tasks, see [Common I/O Tasks](../Topic/Common%20I-O%20Tasks.md)."
+  example:
+  - "## Examples  \n The following code example demonstrates this <xref:System.IO.StreamReader> constructor.  \n  \n [!CODE [System.IO.StreamReader#2](../CodeSnippet/VS_Snippets_CLR_System/system.IO.StreamReader#2)]"
   syntax:
     content: public StreamReader (System.IO.Stream stream, System.Text.Encoding encoding, bool detectEncodingFromByteOrderMarks);
     parameters:
     - id: stream
       type: System.IO.Stream
-      description: Parameter description to be filled
+      description: The stream to be read.
     - id: encoding
       type: System.Text.Encoding
-      description: Parameter description to be filled
+      description: The character encoding to use.
     - id: detectEncodingFromByteOrderMarks
       type: System.Boolean
-      description: Parameter description to be filled
+      description: Indicates whether to look for byte order marks at the beginning of the file.
   platform:
   - net-11
   - net-20
@@ -249,18 +281,22 @@ items:
   assemblies:
   - mscorlib
   namespace: System.IO
+  summary: Initializes a new instance of the <see cref="T:System.IO.StreamReader"> class for the specified file name, with the specified character encoding and byte order mark detection option.
+  remarks: "## Remarks  \n This constructor initializes the encoding as specified by the  parameter, and the internal buffer size to 1024 bytes.  \n  \n The  parameter detects the encoding by looking at the first three bytes of the stream. It automatically recognizes UTF-8, little-endian Unicode, and big-endian Unicode text if the file starts with the appropriate byte order marks. Otherwise, the user-provided encoding is used. See the <xref:System.Text.Encoding.GetPreamble%2A?displayProperty=fullName> method for more information.  \n  \n The  parameter can be a file name, including a file on a Universal Naming Convention (UNC) share.  \n  \n The  parameter is not required to be a file stored on disk; it can be any part of a system that supports access using streams.  \n  \n> [!CAUTION]\n>  When you compile a set of characters with a particular cultural setting and retrieve those same characters with a different cultural setting, the characters might not be interpretable, and could cause an exception to be thrown.  \n  \n For a list of common I/O tasks, see [Common I/O Tasks](../Topic/Common%20I-O%20Tasks.md)."
+  example:
+  - "## Examples  \n The following code example demonstrates this <xref:System.IO.StreamReader> constructor.  \n  \n [!CODE [System.IO.StreamReader#2](../CodeSnippet/VS_Snippets_CLR_System/system.IO.StreamReader#2)]"
   syntax:
     content: public StreamReader (string path, System.Text.Encoding encoding, bool detectEncodingFromByteOrderMarks);
     parameters:
     - id: path
       type: System.String
-      description: Parameter description to be filled
+      description: The complete file path to be read.
     - id: encoding
       type: System.Text.Encoding
-      description: Parameter description to be filled
+      description: The character encoding to use.
     - id: detectEncodingFromByteOrderMarks
       type: System.Boolean
-      description: Parameter description to be filled
+      description: Indicates whether to look for byte order marks at the beginning of the file.
   platform:
   - net-11
   - net-20
@@ -277,21 +313,25 @@ items:
   assemblies:
   - mscorlib
   namespace: System.IO
+  summary: Initializes a new instance of the <see cref="T:System.IO.StreamReader"> class for the specified stream, with the specified character encoding, byte order mark detection option, and buffer size.
+  remarks: "## Remarks  \n The buffer size, in number of 16-bit characters, is set by the  parameter. If  is less than the minimum allowable size (128 characters), the minimum allowable size is used.  \n  \n This constructor allows you to change the encoding the first time you read from the <xref:System.IO.StreamReader> object. The  parameter detects the encoding by looking at the first three bytes of the stream. It automatically recognizes UTF-8, little-endian Unicode, and big-endian Unicode text if the file starts with the appropriate byte order marks. Otherwise, the user-provided encoding is used. See the <xref:System.Text.Encoding.GetPreamble%2A?displayProperty=fullName> method for more information.  \n  \n The <xref:System.IO.StreamReader> object calls <xref:System.IO.Stream.Dispose> on the provided <xref:System.IO.Stream> object when <xref:System.IO.StreamReader.Dispose%2A?displayProperty=fullName> is called.  \n  \n> [!NOTE]\n>  When reading from a <xref:System.IO.Stream>, it is more efficient to use a buffer that is the same size as the internal buffer of the stream.  \n  \n> [!CAUTION]\n>  When you compile a set of characters with a particular cultural setting and retrieve those same characters with a different cultural setting, the characters might not be interpretable, and could cause an exception to be thrown.  \n  \n For a list of common I/O tasks, see [Common I/O Tasks](../Topic/Common%20I-O%20Tasks.md)."
+  example:
+  - "## Examples  \n The following code example demonstrates this <xref:System.IO.StreamReader> constructor.  \n  \n [!CODE [System.IO.StreamReader#2](../CodeSnippet/VS_Snippets_CLR_System/system.IO.StreamReader#2)]"
   syntax:
     content: public StreamReader (System.IO.Stream stream, System.Text.Encoding encoding, bool detectEncodingFromByteOrderMarks, int bufferSize);
     parameters:
     - id: stream
       type: System.IO.Stream
-      description: Parameter description to be filled
+      description: The stream to be read.
     - id: encoding
       type: System.Text.Encoding
-      description: Parameter description to be filled
+      description: The character encoding to use.
     - id: detectEncodingFromByteOrderMarks
       type: System.Boolean
-      description: Parameter description to be filled
+      description: Indicates whether to look for byte order marks at the beginning of the file.
     - id: bufferSize
       type: System.Int32
-      description: Parameter description to be filled
+      description: The minimum buffer size.
   platform:
   - net-11
   - net-20
@@ -308,21 +348,25 @@ items:
   assemblies:
   - mscorlib
   namespace: System.IO
+  summary: Initializes a new instance of the <see cref="T:System.IO.StreamReader"> class for the specified file name, with the specified character encoding, byte order mark detection option, and buffer size.
+  remarks: "## Remarks  \n This constructor initializes the encoding as specified by the  parameter.  \n  \n This constructor allows you to change the encoding the first time you read from the <xref:System.IO.StreamReader> object. The  parameter detects the encoding by looking at the first three bytes of the stream. It automatically recognizes UTF-8, little-endian Unicode, and big-endian Unicode text if the file starts with the appropriate byte order marks. Otherwise, the user-provided encoding is used. See the <xref:System.Text.Encoding.GetPreamble%2A?displayProperty=fullName> method for more information.  \n  \n The buffer size, in number of 16-bit characters, is set by the  parameter. If  is less than the minimum allowable size (128 characters), the minimum allowable size is used.  \n  \n The  parameter can be a file name, including a file on a Universal Naming Convention (UNC) share.  \n  \n The  parameter is not required to be a file stored on disk; it can be any part of a system that supports access using streams.  \n  \n> [!CAUTION]\n>  When you compile a set of characters with a particular cultural setting and retrieve those same characters with a different cultural setting, the characters might not be interpretable, and could cause an exception to be thrown.  \n  \n For a list of common I/O tasks, see [Common I/O Tasks](../Topic/Common%20I-O%20Tasks.md)."
+  example:
+  - "## Examples  \n The following code example demonstrates this <xref:System.IO.StreamReader> constructor.  \n  \n [!CODE [System.IO.StreamReader#2](../CodeSnippet/VS_Snippets_CLR_System/system.IO.StreamReader#2)]"
   syntax:
     content: public StreamReader (string path, System.Text.Encoding encoding, bool detectEncodingFromByteOrderMarks, int bufferSize);
     parameters:
     - id: path
       type: System.String
-      description: Parameter description to be filled
+      description: The complete file path to be read.
     - id: encoding
       type: System.Text.Encoding
-      description: Parameter description to be filled
+      description: The character encoding to use.
     - id: detectEncodingFromByteOrderMarks
       type: System.Boolean
-      description: Parameter description to be filled
+      description: Indicates whether to look for byte order marks at the beginning of the file.
     - id: bufferSize
       type: System.Int32
-      description: Parameter description to be filled
+      description: The minimum buffer size, in number of 16-bit characters.
   platform:
   - net-11
   - net-20
@@ -339,24 +383,26 @@ items:
   assemblies:
   - mscorlib
   namespace: System.IO
+  summary: Initializes a new instance of the <see cref="T:System.IO.StreamReader"> class for the specified stream based on the specified character encoding, byte order mark detection option, and buffer size, and optionally leaves the stream open.
+  remarks: "  \n  \n## Remarks  \n Unless you set the  parameter to `true`, the <xref:System.IO.StreamReader> object calls <xref:System.IO.Stream.Dispose> on the provided <xref:System.IO.Stream> object when <xref:System.IO.StreamReader.Dispose%2A?displayProperty=fullName> is called.  \n  \n The buffer size, in number of 16-bit characters, is set by the  parameter. If  is less than the minimum allowable size (128 characters), the minimum allowable size is used.  \n  \n This constructor enables you to change the encoding the first time you read from the <xref:System.IO.StreamReader> object. If the  parameter is `true`, the constructor detects the encoding by looking at the first three bytes of the stream. It automatically recognizes UTF-8, little-endian Unicode, and big-endian Unicode text if the file starts with the appropriate byte order marks. Otherwise, the user-provided encoding is used. See the <xref:System.Text.Encoding.GetPreamble%2A?displayProperty=fullName> method for more information.  \n  \n> [!NOTE]\n>  When reading from a <xref:System.IO.Stream>, it is more efficient to use a buffer that is the same size as the internal buffer of the stream.  \n  \n> [!CAUTION]\n>  When you compile a set of characters with a particular cultural setting and retrieve those same characters with a different cultural setting, the characters might not be interpreted correctly, and could cause an exception to be thrown.  \n  \n "
   syntax:
     content: public StreamReader (System.IO.Stream stream, System.Text.Encoding encoding, bool detectEncodingFromByteOrderMarks, int bufferSize, bool leaveOpen);
     parameters:
     - id: stream
       type: System.IO.Stream
-      description: Parameter description to be filled
+      description: The stream to read.
     - id: encoding
       type: System.Text.Encoding
-      description: Parameter description to be filled
+      description: The character encoding to use.
     - id: detectEncodingFromByteOrderMarks
       type: System.Boolean
-      description: Parameter description to be filled
+      description: '`true` to look for byte order marks at the beginning of the file; otherwise, `false`.'
     - id: bufferSize
       type: System.Int32
-      description: Parameter description to be filled
+      description: The minimum buffer size.
     - id: leaveOpen
       type: System.Boolean
-      description: Parameter description to be filled
+      description: '`true` to leave the stream open after the <see cref="T:System.IO.StreamReader"> object is disposed; otherwise, `false`.'
   platform:
   - net-11
   - net-20
@@ -373,11 +419,13 @@ items:
   assemblies:
   - mscorlib
   namespace: System.IO
+  summary: Returns the underlying stream.
+  remarks: "  \n  \n## Remarks  \n You use this property to access the underlying stream. The <xref:System.IO.StreamReader> class buffers input from the underlying stream when you call one of the <xref:System.IO.StreamReader.Read%2A> methods. If you manipulate the position of the underlying stream after reading data into the buffer, the position of the underlying stream might not match the position of the internal buffer. To reset the internal buffer, call the <xref:System.IO.StreamReader.DiscardBufferedData%2A> method; however, this method slows performance and should be called only when absolutely necessary. The <xref:System.IO.StreamReader> constructors that have the  parameter can change the encoding the first time you read from the <xref:System.IO.StreamReader> object.  \n  \n For a list of common I/O tasks, see [Common I/O Tasks](../Topic/Common%20I-O%20Tasks.md).  \n  \n "
   syntax:
     content: public virtual System.IO.Stream BaseStream { get; }
     return:
       type: System.IO.Stream
-      description: Parameter description to be filled
+      description: To be added.
   platform:
   - net-11
   - net-20
@@ -394,6 +442,8 @@ items:
   assemblies:
   - mscorlib
   namespace: System.IO
+  summary: Closes the <see cref="T:System.IO.StreamReader"> object and the underlying stream, and releases any system resources associated with the reader.
+  remarks: "  \n  \n## Remarks  \n This method overrides the <xref:System.IO.TextWriter.Close%2A?displayProperty=fullName> method.  \n  \n This implementation of Close calls the <xref:System.IO.StreamReader.Dispose%2A> method passing a `true` value.  \n  \n Flushing the stream will not flush its underlying encoder unless you explicitly call Close. Setting <xref:System.IO.StreamWriter.AutoFlush%2A> to `true` means that data will be flushed from the buffer to the stream, but the encoder state will not be flushed. This allows the encoder to keep its state (partial characters) so that it can encode the next block of characters correctly. This scenario affects UTF8 and UTF7, where certain characters can be encoded only after the encoder receives the adjacent character or characters.  \n  \n Following a call to Close, any operations on the reader might raise exceptions.  \n  \n "
   syntax:
     content: public override void Close ();
     parameters: []
@@ -413,11 +463,15 @@ items:
   assemblies:
   - mscorlib
   namespace: System.IO
+  summary: Gets the current character encoding that the current <see cref="T:System.IO.StreamReader"> object is using.
+  remarks: "## Remarks  \n For a list of common I/O tasks, see [Common I/O Tasks](../Topic/Common%20I-O%20Tasks.md)."
+  example:
+  - "## Examples  \n The following code example gets the encoding of the specified <xref:System.IO.StreamReader> object.  \n  \n [!CODE [strmreader currentencoding#1](../CodeSnippet/VS_Snippets_CLR/StrmReader CurrentEncoding#1)]"
   syntax:
     content: public virtual System.Text.Encoding CurrentEncoding { get; }
     return:
       type: System.Text.Encoding
-      description: Parameter description to be filled
+      description: To be added.
   platform:
   - net-11
   - net-20
@@ -434,6 +488,10 @@ items:
   assemblies:
   - mscorlib
   namespace: System.IO
+  summary: Clears the internal buffer.
+  remarks: "## Remarks  \n Use the DiscardBufferedData method to reset the internal buffer for the <xref:System.IO.StreamReader> object. You need to call this method only when the position of the internal buffer and the <xref:System.IO.StreamReader.BaseStream%2A> do not match. These positions can become mismatched when you read data into the buffer and then seek a new position in the underlying stream. This method slows performance and should be used only when absolutely necessary, such as when you want to read a portion of the contents of a <xref:System.IO.StreamReader> object more than once.  \n  \n For a list of common I/O tasks, see [Common I/O Tasks](../Topic/Common%20I-O%20Tasks.md)."
+  example:
+  - "## Examples  \n The following example shows a scenario where the DiscardBufferedData method must be called to synchronize the internal buffer and the underlying stream. The file in the example is used to illustrate position and consists of the text `abcdefghijklmnopqrstuvwxyz`. By calling DiscardBufferedData after the data is read, the example works as expected. After the first 15 characters are read, the position is reset to the offset value of 2 and all the remaining characters are read. If you remove the call to DiscardBufferedData, the example does not work as expected. The first 15 characters are read, but only the position of the underlying stream is reset. The internal buffer of the <xref:System.IO.StreamReader> object is still on the 16th character. Therefore, <xref:System.IO.StreamReader.ReadToEnd%2A> returns all the characters in the buffer plus the characters in the underlying stream starting from the reset position.  \n  \n [!CODE [System.IO.StreamReader#30](../CodeSnippet/VS_Snippets_CLR_System/system.IO.StreamReader#30)]"
   syntax:
     content: public void DiscardBufferedData ();
     parameters: []
@@ -453,12 +511,14 @@ items:
   assemblies:
   - mscorlib
   namespace: System.IO
+  summary: Closes the underlying stream, releases the unmanaged resources used by the <see cref="T:System.IO.StreamReader">, and optionally releases the managed resources.
+  remarks: "  \n  \n## Remarks  \n This method is called by the public <xref:System.IDisposable.Dispose%2A> method and the <xref:System.Object.Finalize%2A> method. <xref:System.IDisposable.Dispose%2A> invokes the protected Dispose method with the  parameter set to true. <xref:System.Object.Finalize%2A> invokes Dispose with  set to false.  \n  \n When the  parameter is `true`, this method releases all resources held by any managed objects that the <xref:System.IO.StreamReader> object references. This method invokes the <xref:System.IDisposable.Dispose%2A> method of each referenced object.  \n  \n .  \n  \n "
   syntax:
     content: protected override void Dispose (bool disposing);
     parameters:
     - id: disposing
       type: System.Boolean
-      description: Parameter description to be filled
+      description: '`true` to release both managed and unmanaged resources; `false` to release only unmanaged resources.'
   platform:
   - net-11
   - net-20
@@ -475,11 +535,13 @@ items:
   assemblies:
   - mscorlib
   namespace: System.IO
+  summary: Gets a value that indicates whether the current stream position is at the end of the stream.
+  remarks: To be added.
   syntax:
     content: public bool EndOfStream { get; }
     return:
       type: System.Boolean
-      description: Parameter description to be filled
+      description: To be added.
   platform:
   - net-11
   - net-20
@@ -496,11 +558,13 @@ items:
   assemblies:
   - mscorlib
   namespace: System.IO
+  summary: A <see cref="T:System.IO.StreamReader"> object around an empty stream.
+  remarks: "  \n  \n## Remarks  \n When read methods are invoked on Null, zero is always returned. When <xref:System.IO.StreamReader.ReadLine%2A> is invoked on Null, `null` is returned.  \n  \n For a list of common I/O tasks, see [Common I/O Tasks](../Topic/Common%20I-O%20Tasks.md).  \n  \n "
   syntax:
     content: public static readonly System.IO.StreamReader Null;
     return:
       type: System.IO.StreamReader
-      description: Parameter description to be filled
+      description: To be added.
   platform:
   - net-11
   - net-20
@@ -517,12 +581,16 @@ items:
   assemblies:
   - mscorlib
   namespace: System.IO
+  summary: Returns the next available character but does not consume it.
+  remarks: "## Remarks  \n The Peek method returns an integer value in order to determine whether the end of the file, or another error has occurred. This allows a user to first check if the returned value is -1 before casting it to a <xref:System.Char> type.  \n  \n This method overrides <xref:System.IO.TextReader.Peek%2A?displayProperty=fullName>.  \n  \n The current position of the <xref:System.IO.StreamReader> object is not changed by Peek."
+  example:
+  - "## Examples  \n The following code example reads lines from a file until the end of the file is reached.  \n  \n [!CODE [strmreader peek#1](../CodeSnippet/VS_Snippets_CLR/StrmReader Peek#1)]"
   syntax:
     content: public override int Peek ();
     parameters: []
     return:
       type: System.Int32
-      description: Parameter description to be filled
+      description: An integer representing the next character to be read, or -1 if there are no characters to be read or if the stream does not support seeking.
   platform:
   - net-11
   - net-20
@@ -539,12 +607,16 @@ items:
   assemblies:
   - mscorlib
   namespace: System.IO
+  summary: Reads the next character from the input stream and advances the character position by one character.
+  remarks: "## Remarks  \n This method overrides <xref:System.IO.TextReader.Read%2A?displayProperty=fullName>.  \n  \n This method returns an integer so that it can return -1 if the end of the stream has been reached. If you manipulate the position of the underlying stream after reading data into the buffer, the position of the underlying stream might not match the position of the internal buffer. To reset the internal buffer, call the <xref:System.IO.StreamReader.DiscardBufferedData%2A> method; however, this method slows performance and should be called only when absolutely necessary.  \n  \n For a list of common I/O tasks, see [Common I/O Tasks](../Topic/Common%20I-O%20Tasks.md)."
+  example:
+  - "## Examples  \n The following code example demonstrates a simple use of the <xref:System.IO.StreamReader.Read%2A> method.  \n  \n [!CODE [strmreader read1#1](../CodeSnippet/VS_Snippets_CLR/StrmReader Read1#1)]  \n  \n The following code example demonstrates reading a single character using the Read method overload, formatting the ASCII integer output as decimal and hexadecimal.  \n  \n [!CODE [StrmRdrRead#1](../CodeSnippet/VS_Snippets_CLR/StrmRdrRead#1)]"
   syntax:
     content: public override int Read ();
     parameters: []
     return:
       type: System.Int32
-      description: Parameter description to be filled
+      description: The next character from the input stream represented as an <xref:System.Int32> object, or -1 if no more characters are available.
   overload: System.IO.StreamReader.Read*
   platform:
   - net-11
@@ -562,21 +634,25 @@ items:
   assemblies:
   - mscorlib
   namespace: System.IO
+  summary: Reads a specified maximum of characters from the current stream into a buffer, beginning at the specified index.
+  remarks: "## Remarks  \n This method overrides <xref:System.IO.TextReader.Read%2A?displayProperty=fullName>.  \n  \n This method returns an integer so that it can return 0 if the end of the stream has been reached.  \n  \n When using the Read method, it is more efficient to use a buffer that is the same size as the internal buffer of the stream, where the internal buffer is set to your desired block size, and to always read less than the block size. If the size of the internal buffer was unspecified when the stream was constructed, its default size is 4 kilobytes (4096 bytes). If you manipulate the position of the underlying stream after reading data into the buffer, the position of the underlying stream might not match the position of the internal buffer. To reset the internal buffer, call the <xref:System.IO.StreamReader.DiscardBufferedData%2A> method; however, this method slows performance and should be called only when absolutely necessary.  \n  \n This method returns after either the number of characters specified by the  parameter are read, or the end of the file is reached. <xref:System.IO.TextReader.ReadBlock%2A> is a blocking version of <xref:System.IO.StreamReader.Read%2A>.  \n  \n For a list of common I/O tasks, see [Common I/O Tasks](../Topic/Common%20I-O%20Tasks.md)."
+  example:
+  - "## Examples  \n The following code example reads five characters at a time until the end of the file is reached.  \n  \n [!CODE [strmreader read2#1](../CodeSnippet/VS_Snippets_CLR/StrmReader Read2#1)]"
   syntax:
     content: public override int Read (char[] buffer, int index, int count);
     parameters:
     - id: buffer
       type: System.Char[]
-      description: Parameter description to be filled
+      description: When this method returns, contains the specified character array with the values between  and () replaced by the characters read from the current source.
     - id: index
       type: System.Int32
-      description: Parameter description to be filled
+      description: The index of  at which to begin writing.
     - id: count
       type: System.Int32
-      description: Parameter description to be filled
+      description: The maximum number of characters to read.
     return:
       type: System.Int32
-      description: Parameter description to be filled
+      description: The number of characters that have been read, or 0 if at the end of the stream and no data was read. The number will be less than or equal to the  parameter, depending on whether the data is available within the stream.
   overload: System.IO.StreamReader.Read*
   platform:
   - net-11
@@ -594,21 +670,25 @@ items:
   assemblies:
   - mscorlib
   namespace: System.IO
+  summary: Reads a specified maximum number of characters from the current stream asynchronously and writes the data to a buffer, beginning at the specified index.
+  remarks: "## Remarks  \n The task completes after either the number of characters specified by the  parameter are read or the end of the stream is reached."
+  example:
+  - "## Examples  \n The following example shows how to read all the characters in a file by using the ReadAsync method. It checks whether each character is a letter, digit, or white space before adding the character to an instance of the <xref:System.Text.StringBuilder> class.  \n  \n [!CODE [System.IO.StreamReader#42](../CodeSnippet/VS_Snippets_CLR_System/system.IO.StreamReader#42)]"
   syntax:
     content: public override System.Threading.Tasks.Task<int> ReadAsync (char[] buffer, int index, int count);
     parameters:
     - id: buffer
       type: System.Char[]
-      description: Parameter description to be filled
+      description: When this method returns, contains the specified character array with the values between  and ( +  - 1) replaced by the characters read from the current source.
     - id: index
       type: System.Int32
-      description: Parameter description to be filled
+      description: The position in  at which to begin writing.
     - id: count
       type: System.Int32
-      description: Parameter description to be filled
+      description: The maximum number of characters to read. If the end of the stream is reached before the specified number of characters is written into the buffer, the current method returns.
     return:
       type: System.Threading.Tasks.Task{System.Int32}
-      description: Parameter description to be filled
+      description: A task that represents the asynchronous read operation. The value of the  parameter contains the total number of bytes read into the buffer. The result value can be less than the number of bytes requested if the number of bytes currently available is less than the requested number, or it can be 0 (zero) if the end of the stream has been reached.
   platform:
   - net-11
   - net-20
@@ -625,21 +705,23 @@ items:
   assemblies:
   - mscorlib
   namespace: System.IO
+  summary: Reads a specified maximum number of characters from the current stream and writes the data to a buffer, beginning at the specified index.
+  remarks: "  \n  \n## Remarks  \n The position of the underlying stream is advanced by the number of characters that were read into .  \n  \n The method blocks until either  characters are read, or the end of the stream has been reached. This is a blocking version of <xref:System.IO.StreamReader.Read%2A>.  \n  \n "
   syntax:
     content: public override int ReadBlock (char[] buffer, int index, int count);
     parameters:
     - id: buffer
       type: System.Char[]
-      description: Parameter description to be filled
+      description: When this method returns, contains the specified character array with the values between  and () replaced by the characters read from the current source.
     - id: index
       type: System.Int32
-      description: Parameter description to be filled
+      description: The position in  at which to begin writing.
     - id: count
       type: System.Int32
-      description: Parameter description to be filled
+      description: The maximum number of characters to read.
     return:
       type: System.Int32
-      description: Parameter description to be filled
+      description: The number of characters that have been read. The number will be less than or equal to , depending on whether all input characters have been read.
   platform:
   - net-11
   - net-20
@@ -656,21 +738,23 @@ items:
   assemblies:
   - mscorlib
   namespace: System.IO
+  summary: Reads a specified maximum number of characters from the current stream asynchronously and writes the data to a buffer, beginning at the specified index.
+  remarks: "  \n  \n## Remarks  \n The task does not complete until either the number of characters specified by the  parameter are read, or the end of the stream has been reached.  \n  \n "
   syntax:
     content: public override System.Threading.Tasks.Task<int> ReadBlockAsync (char[] buffer, int index, int count);
     parameters:
     - id: buffer
       type: System.Char[]
-      description: Parameter description to be filled
+      description: When this method returns, contains the specified character array with the values between  and ( +  - 1) replaced by the characters read from the current source.
     - id: index
       type: System.Int32
-      description: Parameter description to be filled
+      description: The position in  at which to begin writing.
     - id: count
       type: System.Int32
-      description: Parameter description to be filled
+      description: The maximum number of characters to read. If the end of the stream is reached before the specified number of characters is written into the buffer, the method returns.
     return:
       type: System.Threading.Tasks.Task{System.Int32}
-      description: Parameter description to be filled
+      description: A task that represents the asynchronous read operation. The value of the  parameter contains the total number of bytes read into the buffer. The result value can be less than the number of bytes requested if the number of bytes currently available is less than the requested number, or it can be 0 (zero) if the end of the stream has been reached.
   platform:
   - net-11
   - net-20
@@ -687,12 +771,16 @@ items:
   assemblies:
   - mscorlib
   namespace: System.IO
+  summary: Reads a line of characters from the current stream and returns the data as a string.
+  remarks: "## Remarks  \n A line is defined as a sequence of characters followed by a line feed (\"\\n\"), a carriage return (\"\\r\"), or a carriage return immediately followed by a line feed (\"\\r\\n\"). The string that is returned does not contain the terminating carriage return or line feed. The returned value is `null` if the end of the input stream is reached.  \n  \n This method overrides <xref:System.IO.TextReader.ReadLine%2A?displayProperty=fullName>.  \n  \n If the current method throws an <xref:System.OutOfMemoryException>, the reader's position in the underlying <xref:System.IO.Stream> object is advanced by the number of characters the method was able to read, but the characters already read into the internal ReadLine buffer are discarded. If you manipulate the position of the underlying stream after reading data into the buffer, the position of the underlying stream might not match the position of the internal buffer. To reset the internal buffer, call the <xref:System.IO.StreamReader.DiscardBufferedData%2A> method; however, this method slows performance and should be called only when absolutely necessary.  \n  \n For a list of common I/O tasks, see [Common I/O Tasks](../Topic/Common%20I-O%20Tasks.md)."
+  example:
+  - "## Examples  \n The following code example reads lines from a file until the end of the file is reached.  \n  \n [!CODE [strmreader readline#1](../CodeSnippet/VS_Snippets_CLR/StrmReader ReadLine#1)]"
   syntax:
     content: public override string ReadLine ();
     parameters: []
     return:
       type: System.String
-      description: Parameter description to be filled
+      description: The next line from the input stream, or `null` if the end of the input stream is reached.
   platform:
   - net-11
   - net-20
@@ -709,12 +797,16 @@ items:
   assemblies:
   - mscorlib
   namespace: System.IO
+  summary: Reads a line of characters asynchronously from the current stream and returns the data as a string.
+  remarks: ''
+  example:
+  - "## Examples  \n The following example shows how to read the first line of a file by using the ReadLineAsync method.  \n  \n [!CODE [System.IO.StreamReader#41](../CodeSnippet/VS_Snippets_CLR_System/system.IO.StreamReader#41)]"
   syntax:
     content: public override System.Threading.Tasks.Task<string> ReadLineAsync ();
     parameters: []
     return:
       type: System.Threading.Tasks.Task{System.String}
-      description: Parameter description to be filled
+      description: A task that represents the asynchronous read operation. The value of the  parameter contains the next line from the stream, or is `null` if all the characters have been read.
   platform:
   - net-11
   - net-20
@@ -731,12 +823,16 @@ items:
   assemblies:
   - mscorlib
   namespace: System.IO
+  summary: Reads all characters from the current position to the end of the stream.
+  remarks: "## Remarks  \n This method overrides <xref:System.IO.TextReader.ReadToEnd%2A?displayProperty=fullName>.  \n  \n ReadToEnd works best when you need to read all the input from the current position to the end of the stream. If more control is needed over how many characters are read from the stream, use the [Read(Char\\[\\], Int32, Int32)](assetId:///M:System.IO.StreamReader.Read(System.Char[],System.Int32,System.Int32)?qualifyHint=False&autoUpgrade=False) method overload, which generally results in better performance.  \n  \n ReadToEnd assumes that the stream knows when it has reached an end. For interactive protocols in which the server sends data only when you ask for it and does not close the connection, ReadToEnd might block indefinitely because it does not reach an end, and should be avoided.  \n  \n Note that when using the <xref:System.IO.StreamReader.Read%2A> method, it is more efficient to use a buffer that is the same size as the internal buffer of the stream. If the size of the buffer was unspecified when the stream was constructed, its default size is 4 kilobytes (4096 bytes).  \n  \n If the current method throws an <xref:System.OutOfMemoryException>, the reader's position in the underlying <xref:System.IO.Stream> object is advanced by the number of characters the method was able to read, but the characters already read into the internal <xref:System.IO.StreamReader.ReadLine%2A> buffer are discarded. If you manipulate the position of the underlying stream after reading data into the buffer, the position of the underlying stream might not match the position of the internal buffer. To reset the internal buffer, call the <xref:System.IO.StreamReader.DiscardBufferedData%2A> method; however, this method slows performance and should be called only when absolutely necessary.  \n  \n For a list of common I/O tasks, see [Common I/O Tasks](../Topic/Common%20I-O%20Tasks.md)."
+  example:
+  - "## Examples  \n The following code example reads all the way to the end of a file in one operation.  \n  \n [!CODE [strmreader readtoend#1](../CodeSnippet/VS_Snippets_CLR/StrmReader ReadToEnd#1)]"
   syntax:
     content: public override string ReadToEnd ();
     parameters: []
     return:
       type: System.String
-      description: Parameter description to be filled
+      description: The rest of the stream as a string, from the current position to the end. If the current position is at the end of the stream, returns an empty string ("").
   platform:
   - net-11
   - net-20
@@ -753,12 +849,16 @@ items:
   assemblies:
   - mscorlib
   namespace: System.IO
+  summary: Reads all characters from the current position to the end of the stream asynchronously and returns them as one string.
+  remarks: ''
+  example:
+  - "## Examples  \n The following example shows how to read the contents of a file by using the ReadToEndAsync method.  \n  \n [!CODE [System.IO.StreamReader#40](../CodeSnippet/VS_Snippets_CLR_System/system.IO.StreamReader#40)]"
   syntax:
     content: public override System.Threading.Tasks.Task<string> ReadToEndAsync ();
     parameters: []
     return:
       type: System.Threading.Tasks.Task{System.String}
-      description: Parameter description to be filled
+      description: A task that represents the asynchronous read operation. The value of the  parameter contains a string with the characters from the current position to the end of the stream.
   platform:
   - net-11
   - net-20

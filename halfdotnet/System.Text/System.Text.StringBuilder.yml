@@ -79,6 +79,10 @@ items:
   nameWithType: StringBuilder
   fullName: System.Text.StringBuilder
   type: Class
+  summary: "Represents a mutable string of characters. This class cannot be inherited.  \n  \n To browse the .NET Framework source code for this type, see the [Reference Source](http://referencesource.microsoft.com/#mscorlib/system/text/stringbuilder.cs#adf60ee46ebd299f)."
+  remarks: "## Remarks  \n  \n> [!NOTE]\n>  To view the .NET Framework source code for this type, see the [Reference Source](http://referencesource.microsoft.com/#mscorlib/system/text/stringbuilder.cs#adf60ee46ebd299f). You can browse through the source code online, download the reference for offline viewing, and step through the sources (including patches and updates) during debugging; see [instructions](http://referencesource.microsoft.com/).  \n  \n This class represents a string-like object whose value is a mutable sequence of characters.  \n  \n In this section:  \n  \n-   [The String and StringBuilder types](#StringAndSB)  \n  \n-   [How StringBuilder works](#HowWorks)  \n  \n-   [Memory allocation](#Memory)  \n  \n-   [Instantiating a StringBuilder object](#Instantiating)  \n  \n-   [Calling StringBuilder methods](#Calling)  \n  \n-   [Performing StringBuilder operations](#Operations)  \n  \n    -   [Iterating StringBuilder characters](#Iterating)  \n  \n    -   [Adding text to a StringBuilder object](#Adding)  \n  \n    -   [Deleting text from a StringBuilder object](#Deleting)  \n  \n    -   [Modifying the text in a StringBuilder object](#Modifying)  \n  \n-   [Searching the text in a StringBuilder object](#Searching)  \n  \n-   [Converting the StringBuilder object to a string](#Converting)  \n  \n<a name=\"StringAndSB\"></a>   \n## The String and StringBuilder types  \n Although StringBuilder and <xref:System.String> both represent sequences of characters, they are implemented differently. <xref:System.String> is an immutable type. That is, each operation that appears to modify a <xref:System.String> object actually creates a new string.  \n  \n For example, the call to the <xref:System.String.Concat%2A?displayProperty=fullName> method in the following C# example appears to change the value of a string variable named `value`. In fact, the <xref:System.String.Concat%2A> method returns a `value` object that has a different value and address from the `value` object that was passed to the method. Note that the example must be compiled using the `/unsafe` compiler option.  \n  \n [!CODE [System.Text.StringBuilder.Class#1](../CodeSnippet/VS_Snippets_CLR_System/system.text.stringbuilder.class#1)]  \n  \n For routines that perform extensive string manipulation (such as apps that modify a string numerous times in a loop), modifying a string repeatedly can exact a significant performance penalty. The alternative is to use StringBuilder, which is a mutable string class. Mutability means that once an instance of the class has been created, it can be modified by appending, removing, replacing, or inserting characters. A StringBuilder object maintains a buffer to accommodate expansions to the string. New data is appended to the buffer if room is available; otherwise, a new, larger buffer is allocated, data from the original buffer is copied to the new buffer, and the new data is then appended to the new buffer.  \n  \n> [!IMPORTANT]\n>  Although the StringBuilder class generally offers better performance than the <xref:System.String> class, you should not automatically replace <xref:System.String> with StringBuilder whenever you want to manipulate strings. Performance depends on the size of the string, the amount of memory to be allocated for the new string, the system on which your app is executing, and the type of operation. You should be prepared to test your app to determine whether StringBuilder actually offers a significant performance improvement.  \n  \n Consider using the <xref:System.String> class under these conditions:  \n  \n-   When the number of changes that your app will make to a string is small. In these cases, StringBuilder might offer negligible or no performance improvement over <xref:System.String>.  \n  \n-   When you are performing a fixed number of concatenation operations, particularly with string literals. In this case, the compiler might combine the concatenation operations into a single operation.  \n  \n-   When you have to perform extensive search operations while you are building your string. The StringBuilder class lacks search methods such as `IndexOf` or `StartsWith`. You'll have to convert the StringBuilder object to a <xref:System.String> for these operations, and this can negate the performance benefit from using StringBuilder. For more information, see the [Searching the text in a StringBuilder object](#Searching) section.  \n  \n Consider using the StringBuilder class under these conditions:  \n  \n-   When you expect your app to make an unknown number of changes to a string at design time (for example, when you are using a loop to concatenate a random number of strings that contain user input).  \n  \n-   When you expect your app to make a significant number of changes to a string.  \n  \n<a name=\"HowWorks\"></a>   \n## How StringBuilder works  \n The <xref:System.Text.StringBuilder.Length%2A?displayProperty=fullName> property indicates the number of characters the StringBuilder object currently contains. If you add characters to the StringBuilder object, its length increases until it equals the size of the <xref:System.Text.StringBuilder.Capacity%2A?displayProperty=fullName> property, which defines the number of characters that the object can contain. If the number of added characters causes the length of the StringBuilder object to exceed its current capacity, new memory is allocated, the value of the <xref:System.Text.StringBuilder.Capacity%2A> property is doubled, new characters are added to the StringBuilder object, and its <xref:System.Text.StringBuilder.Length%2A> property is adjusted. Additional memory for the StringBuilder object is allocated dynamically until it reaches the value defined by the <xref:System.Text.StringBuilder.MaxCapacity%2A?displayProperty=fullName> property. When the maximum capacity is reached, no further memory can be allocated for the StringBuilder object, and trying to add characters or expand it beyond its maximum capacity throws either an <xref:System.ArgumentOutOfRangeException> or an <xref:System.OutOfMemoryException> exception.  \n  \n The following example illustrates how a StringBuilder object allocates new memory and increases its capacity dynamically as the string assigned to the object expands. The code creates a StringBuilder object by calling its default (parameterless) constructor. The default capacity of this object is 16 characters, and its maximum capacity is more than 2 billion characters. Appending the string \"This is a sentence.\" results in a new memory allocation because the string length (19 characters) exceeds the default capacity of the StringBuilder object. The capacity of the object doubles to 32 characters, the new string is added, and the length of the object now equals 19 characters. The code then appends the string \"This is an additional sentence.\" to the value of the StringBuilder object 11 times. Whenever the append operation causes the length of the StringBuilder object to exceed its capacity, its existing capacity is doubled and the <xref:System.Text.StringBuilder.Append%2A> operation succeeds.  \n  \n [!CODE [System.Text.StringBuilder.Class#3](../CodeSnippet/VS_Snippets_CLR_System/system.text.stringbuilder.class#3)]  \n  \n<a name=\"Memory\"></a>   \n## Memory allocation  \n The default capacity of a StringBuilder object is 16 characters, and its default maximum capacity is <xref:System.Int32.MaxValue?displayProperty=fullName>. These default values are used if you call the <xref:System.Text.StringBuilder.%23ctor> and <xref:System.Text.StringBuilder.%23ctor%28System.String%29> constructors.  \n  \n You can explicitly define the initial capacity of a StringBuilder object in the following ways:  \n  \n-   By calling any of the StringBuilder constructors that includes a  parameter when you create the object.  \n  \n-   By explicitly assigning a new value to the <xref:System.Text.StringBuilder.Capacity%2A?displayProperty=fullName> property to expand an existing StringBuilder object. Note that the property throws an exception if the new capacity is less than the existing capacity or greater than the StringBuilder object's maximum capacity.  \n  \n-   By calling the <xref:System.Text.StringBuilder.EnsureCapacity%2A?displayProperty=fullName> method with the new capacity. The new capacity must not be greater than the StringBuilder object's maximum capacity. However, unlike an assignment to the <xref:System.Text.StringBuilder.Capacity%2A> property, <xref:System.Text.StringBuilder.EnsureCapacity%2A> does not throw an exception if the desired new capacity is less than the existing capacity; in this case, the method call has no effect.  \n  \n If the length of the string assigned to the StringBuilder object in the constructor call exceeds either the default capacity or the specified capacity, the <xref:System.Text.StringBuilder.Capacity%2A> property is set to the length of the string specified with the  parameter.  \n  \n You can explicitly define the maximum capacity of a StringBuilder object by calling the <xref:System.Text.StringBuilder.%23ctor%28System.Int32%2CSystem.Int32%29> constructor. You can't change the maximum capacity by assigning a new value to the <xref:System.Text.StringBuilder.MaxCapacity%2A> property, because it is read-only.  \n  \n As the previous section shows, whenever the existing capacity is inadequate, additional memory is allocated and the capacity of a StringBuilder object doubles up to the value defined by the <xref:System.Text.StringBuilder.MaxCapacity%2A> property.  \n  \n In general, the default capacity and maximum capacity are adequate for most apps. You might consider setting these values under the following conditions:  \n  \n-   If the eventual size of the StringBuilder object is likely to grow exceedingly large, typically in excess of several megabytes. In this case, there may be some performance benefit from setting the initial <xref:System.Text.StringBuilder.Capacity%2A> property to a significantly high value to eliminate the need for too many memory reallocations.  \n  \n-   If your app is running on a system with limited memory. In this case, you may want to consider setting the <xref:System.Text.StringBuilder.MaxCapacity%2A> property to less than <xref:System.Int32.MaxValue?displayProperty=fullName> if your app is handling large strings that may cause it to execute in a memory-constrained environment.  \n  \n<a name=\"Instantiating\"></a>   \n## Instantiating a StringBuilder object  \n You instantiate a StringBuilder object by calling one of its six overloaded class constructors, which are listed in the following table. Three of the constructors instantiate a StringBuilder object whose value is an empty string, but set its <xref:System.Text.StringBuilder.Capacity%2A> and <xref:System.Text.StringBuilder.MaxCapacity%2A> values differently. The remaining three constructors define a StringBuilder object that has a specific string value and capacity. Two of the three constructors use the default maximum capacity of <xref:System.Int32.MaxValue?displayProperty=fullName>, whereas the third allows you to set the maximum capacity.  \n  \n|Constructor|String value|Capacity|Maximum capacity|  \n|-----------------|------------------|--------------|----------------------|  \n|<xref:System.Text.StringBuilder.%23ctor>|<xref:System.String.Empty?displayProperty=fullName>|16|<xref:System.Int32.MaxValue?displayProperty=fullName>|  \n|<xref:System.Text.StringBuilder.%23ctor%28System.Int32%29>|<xref:System.String.Empty?displayProperty=fullName>|Defined by the  parameter|<xref:System.Int32.MaxValue?displayProperty=fullName>|  \n|<xref:System.Text.StringBuilder.%23ctor%28System.Int32%2CSystem.Int32%29>|<xref:System.String.Empty?displayProperty=fullName>|Defined by the  parameter|Defined by the  parameter|  \n|<xref:System.Text.StringBuilder.%23ctor%28System.String%29>|Defined by the  parameter|16 or . <xref:System.String.Length%2A>, whichever is greater|<xref:System.Int32.MaxValue?displayProperty=fullName>|  \n|<xref:System.Text.StringBuilder.%23ctor%28System.String%2CSystem.Int32%29>|Defined by the  parameter|Defined by the  parameter or . <xref:System.String.Length%2A>, whichever is greater.|<xref:System.Int32.MaxValue?displayProperty=fullName>|  \n|<xref:System.Text.StringBuilder.%23ctor%28System.String%2CSystem.Int32%2CSystem.Int32%2CSystem.Int32%29>|Defined by . <xref:System.String.Substring%2A>(,)|Defined by the  parameter or . <xref:System.String.Length%2A>, whichever is greater.|Defined by the  parameter|  \n  \n The following example uses three of these constructor overloads to instantiate StringBuilder objects.  \n  \n [!CODE [System.Text.StringBuilder.Class#6](../CodeSnippet/VS_Snippets_CLR_System/system.text.stringbuilder.class#6)]  \n  \n<a name=\"Calling\"></a>   \n## Calling StringBuilder methods  \n Most of the methods that modify the string in a StringBuilder instance return a reference to that same instance. This enables you to call StringBuilder methods in two ways:  \n  \n-   You can make individual method calls and ignore the return value, as the following example does.  \n  \n     [!CODE [System.Text.StringBuilder.Class#4](../CodeSnippet/VS_Snippets_CLR_System/system.text.stringbuilder.class#4)]  \n  \n-   You can make a series of method calls in a single statement. This can be convenient if you want to write a single statement that chains successive operations. The following example consolidates three method calls from the previous example into a single line of code.  \n  \n     [!CODE [System.Text.StringBuilder.Class#5](../CodeSnippet/VS_Snippets_CLR_System/system.text.stringbuilder.class#5)]  \n  \n<a name=\"Operations\"></a>   \n## Performing StringBuilder operations  \n You can use the methods of the StringBuilder class to iterate, add, delete, or modify characters in a StringBuilder object.  \n  \n<a name=\"Iterating\"></a>   \n### Iterating StringBuilder characters  \n You can access the characters in a StringBuilder object by using the <xref:System.Text.StringBuilder.Chars%2A?displayProperty=fullName> property. In C#, <xref:System.Text.StringBuilder.Chars%2A> is an indexer; in Visual Basic, it is the default property of the StringBuilder class. This enables you to set or retrieve individual characters by using their index only, without explicitly referencing the <xref:System.Text.StringBuilder.Chars%2A> property. Characters in a StringBuilder object begin at index 0 (zero) and continue to index <xref:System.Text.StringBuilder.Length%2A> - 1.  \n  \n The following example illustrates the <xref:System.Text.StringBuilder.Chars%2A> property. It appends ten random numbers to a StringBuilder object, and then iterates each character. If the character's Unicode category is <xref:System.Globalization.UnicodeCategory?displayProperty=fullName>, it decreases the number by 1 (or changes the number to 9 if its value is 0). The example displays the contents of the StringBuilder object both before and after the values of individual characters were changed.  \n  \n [!CODE [System.Text.StringBuilder.Class#7](../CodeSnippet/VS_Snippets_CLR_System/system.text.stringbuilder.class#7)]  \n  \n<a name=\"Adding\"></a>   \n### Adding text to a StringBuilder object  \n The StringBuilder class includes the following methods for expanding the contents of a StringBuilder object:  \n  \n-   The <xref:System.Text.StringBuilder.Append%2A> method appends a string, a substring, a character array, a portion of a character array, a single character repeated multiple times, or the string representation of a primitive data type to a StringBuilder object.  \n  \n-   The <xref:System.Text.StringBuilder.AppendLine%2A> method appends a line terminator or a string along with a line terminator to a StringBuilder object.  \n  \n-   The <xref:System.Text.StringBuilder.AppendFormat%2A> method appends a  to a StringBuilder object. The string representations of objects included in the result string can reflect the formatting conventions of the current system culture or a specified culture.  \n  \n-   The <xref:System.Text.StringBuilder.Insert%2A> method inserts a string, a substring, multiple repetitions of a string, a character array, a portion of a character array, or the string representation of a primitive data type at a specified position in the StringBuilder object. The position is defined by a zero-based index.  \n  \n The following example uses the <xref:System.Text.StringBuilder.Append%2A>, <xref:System.Text.StringBuilder.AppendLine%2A>, <xref:System.Text.StringBuilder.AppendFormat%2A>, and <xref:System.Text.StringBuilder.Insert%2A> methods to expand the text of a StringBuilder object.  \n  \n [!CODE [System.Text.StringBuilder.Class#9](../CodeSnippet/VS_Snippets_CLR_System/system.text.stringbuilder.class#9)]  \n  \n<a name=\"Deleting\"></a>   \n### Deleting text from a StringBuilder object  \n The StringBuilder class includes methods that can reduce the size of the current StringBuilder instance. The <xref:System.Text.StringBuilder.Clear%2A> method removes all characters and sets the <xref:System.Text.StringBuilder.Length%2A> property to zero. The <xref:System.Text.StringBuilder.Remove%2A> method deletes a specified number of characters starting at a particular index position. In addition, you can remove characters from the end of a StringBuilder object by setting its <xref:System.Text.StringBuilder.Length%2A> property to a value that is less than the length of the current instance.  \n  \n The following example removes some of the text from a StringBuilder object, displays its resulting capacity, maximum capacity, and length property values, and then calls the <xref:System.Text.StringBuilder.Clear%2A> method to remove all the characters from the StringBuilder object.  \n  \n [!CODE [System.Text.StringBuilder.Class#10](../CodeSnippet/VS_Snippets_CLR_System/system.text.stringbuilder.class#10)]  \n  \n<a name=\"Modifying\"></a>   \n### Modifying the text in a StringBuilder object  \n The <xref:System.Text.StringBuilder.Replace%2A?displayProperty=fullName> method replaces all occurrences of a character or a string in the entire StringBuilder object or in a particular character range. The following example uses the <xref:System.Text.StringBuilder.Replace%2A> method to replace all exclamation points (!) with question marks (?) in the StringBuilder object.  \n  \n [!CODE [System.Text.StringBuilder.Class#11](../CodeSnippet/VS_Snippets_CLR_System/system.text.stringbuilder.class#11)]  \n  \n<a name=\"Searching\"></a>   \n## Searching the text in a StringBuilder object  \n The StringBuilder class does not include methods similar to the <xref:System.String.Contains%2A?displayProperty=fullName>, <xref:System.String.IndexOf%2A?displayProperty=fullName>, and <xref:System.String.StartsWith%2A?displayProperty=fullName> methods provided by the <xref:System.String> class, which allow you to search the object for a particular character or a substring. Determining the presence or starting character position of a substring requires that you search a <xref:System.String> value by using either a string search method or a regular expression method. There are four ways to implement such searches, as the following table shows.  \n  \n|Technique|Pros|Cons|  \n|---------------|----------|----------|  \n|Search string values before adding them to the StringBuilder object.|Useful for determining whether a substring exists.|Cannot be used when the index position of a substring is important.|  \n|Call <xref:System.Text.StringBuilder.ToString%2A> and search the returned <xref:System.String> object.|Easy to use if you assign all the text to a StringBuilder object, and then begin to modify it.|Cumbersome to repeatedly call <xref:System.Text.StringBuilder.ToString%2A> if you must make modifications before all text is added to the StringBuilder object.<br /><br /> You must remember to work from the end of the StringBuilder object's text if you're making changes.|  \n|Use the <xref:System.Text.StringBuilder.Chars%2A> property to sequentially search a range of characters.|Useful if you're concerned with individual characters or a small substring.|Cumbersome if the number of characters to search is large or if the search logic is complex.|  \n|Convert the StringBuilder object to a <xref:System.String> object, and perform modifications on the <xref:System.String> object.|Useful if the number of modifications is small.|Negates the performance benefit of the StringBuilder class if the number of modifications is large.|  \n  \n Let's examine these techniques in greater detail.  \n  \n-   If the goal of the search is to determine whether a particular substring exists (that is, if you aren't interested in the position of the substring), you can search strings before storing them in the StringBuilder object. The following example provides one possible implementation. It defines a `StringBuilderFinder` class whose constructor is passed a reference to a StringBuilder object and the substring to find in the string. In this case, the example tries to determine whether recorded temperatures are in Fahrenheit or Celsius, and adds the appropriate introductory text to the beginning of the StringBuilder object. A random number generator is used to select an array that contains data in either degrees Celsius or degrees Fahrenheit.  \n  \n     [!CODE [System.Text.StringBuilder.Class#12](../CodeSnippet/VS_Snippets_CLR_System/system.text.stringbuilder.class#12)]  \n  \n-   Call the <xref:System.Text.StringBuilder.ToString%2A?displayProperty=fullName> method to convert the StringBuilder object to a <xref:System.String> object. You can search the string by using methods such as <xref:System.String.LastIndexOf%2A?displayProperty=fullName> or <xref:System.String.StartsWith%2A?displayProperty=fullName>, or you can use regular expressions and the <xref:System.Text.RegularExpressions.Regex> class to search for patterns. Because both StringBuilder and <xref:System.String> objects use UTF-16 encoding to store characters, the index positions of characters, substrings, and regular expression matches are the same in both objects. This enables you to use StringBuilder methods to make changes at the same position at which that text is found in the <xref:System.String> object.  \n  \n    > [!NOTE]\n    >  If you adopt this approach, you should work from the end of the StringBuilder object to its beginning so that you don't have to repeatedly convert the StringBuilder object to a string.  \n  \n     The following example illustrates this approach. It stores four occurrences of each letter of the English alphabet in a StringBuilder object. It then converts the text to a <xref:System.String> object and uses a regular expression to identify the starting position of each four-character sequence. Finally, it adds an underscore before each four-character sequence except for the first sequence, and converts the first character of the sequence to uppercase.  \n  \n     [!CODE [System.Text.StringBuilder.Class#13](../CodeSnippet/VS_Snippets_CLR_System/system.text.stringbuilder.class#13)]  \n  \n-   Use the <xref:System.Text.StringBuilder.Chars%2A?displayProperty=fullName> property to sequentially search a range of characters in a StringBuilder object. This approach may not be practical if the number of characters to be searched is large or the search logic is particularly complex.  \n  \n     The following example is identical in functionality to the previous example but differs in implementation. It uses the <xref:System.Text.StringBuilder.Chars%2A> property to detect when a character value has changed, inserts an underscore at that position, and converts the first character in the new sequence to uppercase.  \n  \n     [!CODE [System.Text.StringBuilder.Class#14](../CodeSnippet/VS_Snippets_CLR_System/system.text.stringbuilder.class#14)]  \n  \n-   Store all the unmodified text in the StringBuilder object, call the <xref:System.Text.StringBuilder.ToString%2A?displayProperty=fullName> method to convert the StringBuilder object to a <xref:System.String> object, and perform the modifications on the <xref:System.String> object. You can use this approach if you have only a few modifications; otherwise, the cost of working with immutable strings may negate the performance benefits of using a StringBuilder object.  \n  \n     The following example is identical in functionality to the previous two examples but differs in implementation. It creates a StringBuilder object, converts it to a <xref:System.String> object, and then uses a regular expression to perform all remaining modifications on the string. The <xref:System.Text.RegularExpressions.Regex.Replace%28System.String%2CSystem.String%2CSystem.Text.RegularExpressions.MatchEvaluator%29?displayProperty=fullName> method uses a lambda expression to perform the replacement on each match.  \n  \n     [!CODE [System.Text.StringBuilder.Class#15](../CodeSnippet/VS_Snippets_CLR_System/system.text.stringbuilder.class#15)]  \n  \n<a name=\"Converting\"></a>   \n## Converting the StringBuilder object to a string  \n You must convert the StringBuilder object to a <xref:System.String> object before you can pass the string represented by the StringBuilder object to a method that has a <xref:System.String> parameter or display it in the user interface. You perform this conversion by calling the <xref:System.Text.StringBuilder.ToString%2A?displayProperty=fullName> method. For an illustration, see the previous example, which calls the <xref:System.Text.StringBuilder.ToString%2A> method to convert a StringBuilder object to a string so that it can be passed to a regular expression method."
+  example:
+  - "## Examples  \n The following example shows how to call many of the methods defined by the StringBuilder class.  \n  \n [!CODE [StringBuilder#1](../CodeSnippet/VS_Snippets_CLR/StringBuilder#1)]"
   syntax:
     content: >-
       [System.Runtime.InteropServices.ComVisible(true)]
@@ -111,6 +115,10 @@ items:
   assemblies:
   - mscorlib
   namespace: System.Text
+  summary: Initializes a new instance of the <see cref="T:System.Text.StringBuilder"> class.
+  remarks: "## Remarks  \n The string value of this instance is set to <xref:System.String.Empty?displayProperty=fullName>, and the capacity is set to the implementation-specific default capacity."
+  example:
+  - "## Examples  \n The following example demonstrates how to call the <xref:System.Text.StringBuilder.%23ctor%2A> constructor with no parameters.  \n  \n [!CODE [System.Text.StringBuilder.Constructors#1](../CodeSnippet/VS_Snippets_CLR_System/system.Text.StringBuilder.Constructors#1)]"
   syntax:
     content: public StringBuilder ();
     parameters: []
@@ -130,12 +138,16 @@ items:
   assemblies:
   - mscorlib
   namespace: System.Text
+  summary: Initializes a new instance of the <see cref="T:System.Text.StringBuilder"> class using the specified capacity.
+  remarks: "## Remarks  \n The  parameter defines the maximum number of characters that can be stored in the memory allocated by the current instance. Its value is assigned to the <xref:System.Text.StringBuilder.Capacity%2A> property. If the number of characters to be stored in the current instance exceeds this  value, the <xref:System.Text.StringBuilder> object allocates additional memory to store them.  \n  \n The string value of this instance is set to <xref:System.String.Empty?displayProperty=fullName>. If  is zero, the implementation-specific default capacity is used."
+  example:
+  - "## Examples  \n The following example demonstrates how to call the <xref:System.Text.StringBuilder.%23ctor%2A> constructor with a specified capacity.  \n  \n [!CODE [System.Text.StringBuilder.Constructors#3](../CodeSnippet/VS_Snippets_CLR_System/system.Text.StringBuilder.Constructors#3)]"
   syntax:
     content: public StringBuilder (int capacity);
     parameters:
     - id: capacity
       type: System.Int32
-      description: Parameter description to be filled
+      description: The suggested starting size of this instance.
   platform:
   - net-11
   - net-20
@@ -152,12 +164,16 @@ items:
   assemblies:
   - mscorlib
   namespace: System.Text
+  summary: Initializes a new instance of the <see cref="T:System.Text.StringBuilder"> class using the specified string.
+  remarks: "## Remarks  \n If  is `null`, the new <xref:System.Text.StringBuilder> will contain the empty string (that is, it contains <xref:System.String.Empty>)."
+  example:
+  - "## Examples  \n The following example demonstrates how to call the <xref:System.Text.StringBuilder.%23ctor%2A> constructor with the specified string.  \n  \n [!CODE [System.Text.StringBuilder.Constructors#4](../CodeSnippet/VS_Snippets_CLR_System/system.Text.StringBuilder.Constructors#4)]"
   syntax:
     content: public StringBuilder (string value);
     parameters:
     - id: value
       type: System.String
-      description: Parameter description to be filled
+      description: The string used to initialize the value of the instance. If  is `null`, the new <see cref="T:System.Text.StringBuilder"> will contain the empty string (that is, it contains <xref:System.String.Empty>).
   platform:
   - net-11
   - net-20
@@ -174,15 +190,19 @@ items:
   assemblies:
   - mscorlib
   namespace: System.Text
+  summary: Initializes a new instance of the <see cref="T:System.Text.StringBuilder"> class that starts with a specified capacity and can grow to a specified maximum.
+  remarks: "## Remarks  \n The  parameter defines the maximum number of characters that can be stored in the memory allocated by the current instance. Its value is assigned to the <xref:System.Text.StringBuilder.Capacity%2A> property. If the number of characters to be stored in the current instance exceeds this  value, the <xref:System.Text.StringBuilder> object allocates additional memory to store them.  \n  \n If  is zero, the implementation-specific default capacity is used.  \n  \n The  property defines the maximum number of characters that the current instance can hold. Its value is assigned to the <xref:System.Text.StringBuilder.MaxCapacity%2A> property. If the number of characters to be stored in the current instance exceeds this  value, the <xref:System.Text.StringBuilder> object does not allocate additional memory, but instead throws an exception."
+  example:
+  - "## Examples  \n The following example demonstrates how to call the <xref:System.Text.StringBuilder.%23ctor%2A> constructor with a specified capacity and maximum capacity.  \n  \n [!CODE [System.Text.StringBuilder.Constructors#5](../CodeSnippet/VS_Snippets_CLR_System/system.Text.StringBuilder.Constructors#5)]"
   syntax:
     content: public StringBuilder (int capacity, int maxCapacity);
     parameters:
     - id: capacity
       type: System.Int32
-      description: Parameter description to be filled
+      description: The suggested starting size of the <see cref="T:System.Text.StringBuilder">.
     - id: maxCapacity
       type: System.Int32
-      description: Parameter description to be filled
+      description: The maximum number of characters the current string can contain.
   platform:
   - net-11
   - net-20
@@ -199,15 +219,19 @@ items:
   assemblies:
   - mscorlib
   namespace: System.Text
+  summary: Initializes a new instance of the <see cref="T:System.Text.StringBuilder"> class using the specified string and capacity.
+  remarks: "## Remarks  \n The  parameter defines the maximum number of characters that can be stored in the memory allocated by the current instance. Its value is assigned to the <xref:System.Text.StringBuilder.Capacity%2A> property. If the number of characters to be stored in the current instance exceeds this  value, the <xref:System.Text.StringBuilder> object allocates additional memory to store them.  \n  \n If  is zero, the implementation-specific default capacity is used."
+  example:
+  - "## Examples  \n The following example demonstrates how to call the <xref:System.Text.StringBuilder.%23ctor%2A> constructor with an initial string and a specified capacity.  \n  \n [!CODE [System.Text.StringBuilder.Constructors#7](../CodeSnippet/VS_Snippets_CLR_System/system.Text.StringBuilder.Constructors#7)]"
   syntax:
     content: public StringBuilder (string value, int capacity);
     parameters:
     - id: value
       type: System.String
-      description: Parameter description to be filled
+      description: The string used to initialize the value of the instance. If  is `null`, the new <see cref="T:System.Text.StringBuilder"> will contain the empty string (that is, it contains <xref:System.String.Empty>).
     - id: capacity
       type: System.Int32
-      description: Parameter description to be filled
+      description: The suggested starting size of the <see cref="T:System.Text.StringBuilder">.
   platform:
   - net-11
   - net-20
@@ -224,21 +248,25 @@ items:
   assemblies:
   - mscorlib
   namespace: System.Text
+  summary: Initializes a new instance of the <see cref="T:System.Text.StringBuilder"> class from the specified substring and capacity.
+  remarks: "## Remarks  \n The  parameter defines the maximum number of characters that can be stored in the memory allocated by the current instance. Its value is assigned to the <xref:System.Text.StringBuilder.Capacity%2A> property. If the number of characters to be stored in the current instance exceeds this  value, the <xref:System.Text.StringBuilder> object allocates additional memory to store them.  \n  \n If  is zero, the implementation-specific default capacity is used."
+  example:
+  - "## Examples  \n The following example demonstrates how to call the <xref:System.Text.StringBuilder.%23ctor%2A> constructor with the specified string.  \n  \n [!CODE [System.Text.StringBuilder.Constructors#6](../CodeSnippet/VS_Snippets_CLR_System/system.Text.StringBuilder.Constructors#6)]"
   syntax:
     content: public StringBuilder (string value, int startIndex, int length, int capacity);
     parameters:
     - id: value
       type: System.String
-      description: Parameter description to be filled
+      description: The string that contains the substring used to initialize the value of this instance. If  is `null`, the new <see cref="T:System.Text.StringBuilder"> will contain the empty string (that is, it contains <xref:System.String.Empty>).
     - id: startIndex
       type: System.Int32
-      description: Parameter description to be filled
+      description: The position within  where the substring begins.
     - id: length
       type: System.Int32
-      description: Parameter description to be filled
+      description: The number of characters in the substring.
     - id: capacity
       type: System.Int32
-      description: Parameter description to be filled
+      description: The suggested starting size of the <see cref="T:System.Text.StringBuilder">.
   platform:
   - net-11
   - net-20
@@ -255,15 +283,17 @@ items:
   assemblies:
   - mscorlib
   namespace: System.Text
+  summary: Appends the string representation of a specified Boolean value to this instance.
+  remarks: "  \n  \n## Remarks  \n The Append method modifies the existing instance of this class; it does not return a new class instance. Because of this, you can call a method or property on the existing reference and you do not have to assign the return value to a <xref:System.Text.StringBuilder> object, as the following example illustrates.  \n  \n [!CODE [System.Text.StringBuilder.Append#2](../CodeSnippet/VS_Snippets_CLR_System/system.Text.StringBuilder.Append#2)]  \n  \n The Append method calls the <xref:System.Boolean.ToString?displayProperty=fullName> method to get the string representation of . The capacity of this instance is adjusted as needed.  \n  \n "
   syntax:
     content: public System.Text.StringBuilder Append (bool value);
     parameters:
     - id: value
       type: System.Boolean
-      description: Parameter description to be filled
+      description: The Boolean value to append.
     return:
       type: System.Text.StringBuilder
-      description: Parameter description to be filled
+      description: A reference to this instance after the append operation has completed.
   overload: System.Text.StringBuilder.Append*
   platform:
   - net-11
@@ -281,15 +311,17 @@ items:
   assemblies:
   - mscorlib
   namespace: System.Text
+  summary: Appends the string representation of a specified 8-bit unsigned integer to this instance.
+  remarks: "  \n  \n## Remarks  \n The Append method modifies the existing instance of this class; it does not return a new class instance. Because of this, you can call a method or property on the existing reference and you do not have to assign the return value to a <xref:System.Text.StringBuilder> object, as the following example illustrates.  \n  \n [!CODE [System.Text.StringBuilder.Append#3](../CodeSnippet/VS_Snippets_CLR_System/system.Text.StringBuilder.Append#3)]  \n  \n The Append method calls the <xref:System.Byte.ToString%28System.IFormatProvider%29> method to get the string representation of  for the current culture. To control the formatting of , call the <xref:System.Text.StringBuilder.AppendFormat%2A> method.  \n  \n The capacity of this instance is adjusted as needed.  \n  \n "
   syntax:
     content: public System.Text.StringBuilder Append (byte value);
     parameters:
     - id: value
       type: System.Byte
-      description: Parameter description to be filled
+      description: The value to append.
     return:
       type: System.Text.StringBuilder
-      description: Parameter description to be filled
+      description: A reference to this instance after the append operation has completed.
   overload: System.Text.StringBuilder.Append*
   platform:
   - net-11
@@ -307,15 +339,17 @@ items:
   assemblies:
   - mscorlib
   namespace: System.Text
+  summary: Appends the string representation of a specified <xref:System.Char> object to this instance.
+  remarks: "  \n  \n## Remarks  \n The Append method modifies the existing instance of this class; it does not return a new class instance. Because of this, you can call a method or property on the existing reference and you do not have to assign the return value to a <xref:System.Text.StringBuilder> object, as the following example illustrates.  \n  \n [!CODE [System.Text.StringBuilder.Append#4](../CodeSnippet/VS_Snippets_CLR_System/system.Text.StringBuilder.Append#4)]  \n  \n The capacity of this instance is adjusted as needed.  \n  \n "
   syntax:
     content: public System.Text.StringBuilder Append (char value);
     parameters:
     - id: value
       type: System.Char
-      description: Parameter description to be filled
+      description: The UTF-16-encoded code unit to append.
     return:
       type: System.Text.StringBuilder
-      description: Parameter description to be filled
+      description: A reference to this instance after the append operation has completed.
   overload: System.Text.StringBuilder.Append*
   platform:
   - net-11
@@ -333,15 +367,17 @@ items:
   assemblies:
   - mscorlib
   namespace: System.Text
+  summary: Appends the string representation of the Unicode characters in a specified array to this instance.
+  remarks: "  \n  \n## Remarks  \n This method appends all the characters in the specified array to the current instance in the same order as they appear in . If  is `null`, no changes are made.  \n  \n The Append method modifies the existing instance of this class; it does not return a new class instance. Because of this, you can call a method or property on the existing reference and you do not have to assign the return value to a <xref:System.Text.StringBuilder> object, as the following example illustrates.  \n  \n [!CODE [System.Text.StringBuilder.Append#6](../CodeSnippet/VS_Snippets_CLR_System/system.Text.StringBuilder.Append#6)]  \n  \n The capacity of this instance is adjusted as needed.  \n  \n "
   syntax:
     content: public System.Text.StringBuilder Append (char[] value);
     parameters:
     - id: value
       type: System.Char[]
-      description: Parameter description to be filled
+      description: The array of characters to append.
     return:
       type: System.Text.StringBuilder
-      description: Parameter description to be filled
+      description: A reference to this instance after the append operation has completed.
   overload: System.Text.StringBuilder.Append*
   platform:
   - net-11
@@ -359,15 +395,17 @@ items:
   assemblies:
   - mscorlib
   namespace: System.Text
+  summary: Appends the string representation of a specified decimal number to this instance.
+  remarks: "  \n  \n## Remarks  \n The Append method modifies the existing instance of this class; it does not return a new class instance. Because of this, you can call a method or property on the existing reference and you do not have to assign the return value to a <xref:System.Text.StringBuilder> object, as the following example illustrates.  \n  \n [!CODE [System.Text.StringBuilder.Append#8](../CodeSnippet/VS_Snippets_CLR_System/system.Text.StringBuilder.Append#8)]  \n  \n The Append method calls the <xref:System.Decimal.ToString%28System.IFormatProvider%29?displayProperty=fullName> method to get the string representation of  for the current culture. To control the formatting of , call the <xref:System.Text.StringBuilder.AppendFormat%2A> method.  \n  \n The capacity of this instance is adjusted as needed.  \n  \n "
   syntax:
     content: public System.Text.StringBuilder Append (decimal value);
     parameters:
     - id: value
       type: System.Decimal
-      description: Parameter description to be filled
+      description: The value to append.
     return:
       type: System.Text.StringBuilder
-      description: Parameter description to be filled
+      description: A reference to this instance after the append operation has completed.
   overload: System.Text.StringBuilder.Append*
   platform:
   - net-11
@@ -385,15 +423,17 @@ items:
   assemblies:
   - mscorlib
   namespace: System.Text
+  summary: Appends the string representation of a specified double-precision floating-point number to this instance.
+  remarks: "  \n  \n## Remarks  \n The Append method modifies the existing instance of this class; it does not return a new class instance. Because of this, you can call a method or property on the existing reference and you do not have to assign the return value to a <xref:System.Text.StringBuilder> object, as the following example illustrates.  \n  \n [!CODE [System.Text.StringBuilder.Append#9](../CodeSnippet/VS_Snippets_CLR_System/system.Text.StringBuilder.Append#9)]  \n  \n The Append method calls the <xref:System.Double.ToString%28System.IFormatProvider%29?displayProperty=fullName> method to get the string representation of  for the current culture. To control the formatting of , call the <xref:System.Text.StringBuilder.AppendFormat%2A> method.  \n  \n The capacity of this instance is adjusted as needed.  \n  \n "
   syntax:
     content: public System.Text.StringBuilder Append (double value);
     parameters:
     - id: value
       type: System.Double
-      description: Parameter description to be filled
+      description: The value to append.
     return:
       type: System.Text.StringBuilder
-      description: Parameter description to be filled
+      description: A reference to this instance after the append operation has completed.
   overload: System.Text.StringBuilder.Append*
   platform:
   - net-11
@@ -411,15 +451,17 @@ items:
   assemblies:
   - mscorlib
   namespace: System.Text
+  summary: Appends the string representation of a specified 16-bit signed integer to this instance.
+  remarks: "  \n  \n## Remarks  \n The Append method modifies the existing instance of this class; it does not return a new class instance. Because of this, you can call a method or property on the existing reference and you do not have to assign the return value to a <xref:System.Text.StringBuilder> object, as the following example illustrates.  \n  \n [!CODE [System.Text.StringBuilder.Append#10](../CodeSnippet/VS_Snippets_CLR_System/system.Text.StringBuilder.Append#10)]  \n  \n The Append method calls the <xref:System.Int16.ToString%28System.IFormatProvider%29?displayProperty=fullName> method to get the string representation of  for the current culture. To control the formatting of , call the <xref:System.Text.StringBuilder.AppendFormat%2A> method.  \n  \n The capacity of this instance is adjusted as needed.  \n  \n "
   syntax:
     content: public System.Text.StringBuilder Append (short value);
     parameters:
     - id: value
       type: System.Int16
-      description: Parameter description to be filled
+      description: The value to append.
     return:
       type: System.Text.StringBuilder
-      description: Parameter description to be filled
+      description: A reference to this instance after the append operation has completed.
   overload: System.Text.StringBuilder.Append*
   platform:
   - net-11
@@ -437,15 +479,17 @@ items:
   assemblies:
   - mscorlib
   namespace: System.Text
+  summary: Appends the string representation of a specified 32-bit signed integer to this instance.
+  remarks: "  \n  \n## Remarks  \n The Append method modifies the existing instance of this class; it does not return a new class instance. Because of this, you can call a method or property on the existing reference and you do not have to assign the return value to a <xref:System.Text.StringBuilder> object, as the following example illustrates.  \n  \n [!CODE [System.Text.StringBuilder.Append#11](../CodeSnippet/VS_Snippets_CLR_System/system.Text.StringBuilder.Append#11)]  \n  \n The Append method calls the <xref:System.Int32.ToString%28System.IFormatProvider%29?displayProperty=fullName> method to get the string representation of  for the current culture. To control the formatting of , call the <xref:System.Text.StringBuilder.AppendFormat%2A> method.  \n  \n The capacity of this instance is adjusted as needed.  \n  \n "
   syntax:
     content: public System.Text.StringBuilder Append (int value);
     parameters:
     - id: value
       type: System.Int32
-      description: Parameter description to be filled
+      description: The value to append.
     return:
       type: System.Text.StringBuilder
-      description: Parameter description to be filled
+      description: A reference to this instance after the append operation has completed.
   overload: System.Text.StringBuilder.Append*
   platform:
   - net-11
@@ -463,15 +507,17 @@ items:
   assemblies:
   - mscorlib
   namespace: System.Text
+  summary: Appends the string representation of a specified 64-bit signed integer to this instance.
+  remarks: "  \n  \n## Remarks  \n The Append method modifies the existing instance of this class; it does not return a new class instance. Because of this, you can call a method or property on the existing reference and you do not have to assign the return value to a <xref:System.Text.StringBuilder> object, as the following example illustrates.  \n  \n [!CODE [System.Text.StringBuilder.Append#12](../CodeSnippet/VS_Snippets_CLR_System/system.Text.StringBuilder.Append#12)]  \n  \n The Append method calls the <xref:System.Int64.ToString%28System.IFormatProvider%29?displayProperty=fullName> to get the string representation of  for the current culture. To control the formatting of , call the <xref:System.Text.StringBuilder.AppendFormat%2A> method.  \n  \n The capacity of this instance is adjusted as needed.  \n  \n "
   syntax:
     content: public System.Text.StringBuilder Append (long value);
     parameters:
     - id: value
       type: System.Int64
-      description: Parameter description to be filled
+      description: The value to append.
     return:
       type: System.Text.StringBuilder
-      description: Parameter description to be filled
+      description: A reference to this instance after the append operation has completed.
   overload: System.Text.StringBuilder.Append*
   platform:
   - net-11
@@ -489,15 +535,17 @@ items:
   assemblies:
   - mscorlib
   namespace: System.Text
+  summary: Appends the string representation of a specified object to this instance.
+  remarks: "  \n  \n## Remarks  \n The Append method modifies the existing instance of this class; it does not return a new class instance. Because of this, you can call a method or property on the existing reference and you do not have to assign the return value to a <xref:System.Text.StringBuilder> object, as the following example illustrates. It defines a `Dog` class, creates a `Dog` object, and makes three calls to the <xref:System.Text.StringBuilder.Append%2A> method to create a string that contains the dog's name and breed.  \n  \n [!CODE [System.Text.Stringbuilder.Append#18](../CodeSnippet/VS_Snippets_CLR_System/system.Text.StringBuilder.Append#18)]  \n  \n The Append method calls the <xref:System.Object.ToString%2A?displayProperty=fullName> method to get the string representation of . If  is `null`, no changes are made to the <xref:System.Text.StringBuilder> object.  \n  \n The capacity of this instance is adjusted as needed.  \n  \n "
   syntax:
     content: public System.Text.StringBuilder Append (object value);
     parameters:
     - id: value
       type: System.Object
-      description: Parameter description to be filled
+      description: The object to append.
     return:
       type: System.Text.StringBuilder
-      description: Parameter description to be filled
+      description: A reference to this instance after the append operation has completed.
   overload: System.Text.StringBuilder.Append*
   platform:
   - net-11
@@ -515,15 +563,17 @@ items:
   assemblies:
   - mscorlib
   namespace: System.Text
+  summary: Appends the string representation of a specified 8-bit signed integer to this instance.
+  remarks: "  \n  \n## Remarks  \n The Append method modifies the existing instance of this class; it does not return a new class instance. Because of this, you can call a method or property on the existing reference and you do not have to assign the return value to a <xref:System.Text.StringBuilder> object, as the following example illustrates.  \n  \n [!CODE [System.Text.StringBuilder.Append#13](../CodeSnippet/VS_Snippets_CLR_System/system.Text.StringBuilder.Append#13)]  \n  \n The Append method calls the <xref:System.SByte.ToString%28System.IFormatProvider%29?displayProperty=fullName> method  to get the string representation of  for the current culture. To control the formatting of , call the <xref:System.Text.StringBuilder.AppendFormat%2A> method.  \n  \n The capacity of this instance is adjusted as needed.  \n  \n "
   syntax:
     content: public System.Text.StringBuilder Append (sbyte value);
     parameters:
     - id: value
       type: System.SByte
-      description: Parameter description to be filled
+      description: The value to append.
     return:
       type: System.Text.StringBuilder
-      description: Parameter description to be filled
+      description: A reference to this instance after the append operation has completed.
   overload: System.Text.StringBuilder.Append*
   platform:
   - net-11
@@ -541,15 +591,17 @@ items:
   assemblies:
   - mscorlib
   namespace: System.Text
+  summary: Appends the string representation of a specified single-precision floating-point number to this instance.
+  remarks: "  \n  \n## Remarks  \n The Append method modifies the existing instance of this class; it does not return a new class instance. Because of this, you can call a method or property on the existing reference and you do not have to assign the return value to a <xref:System.Text.StringBuilder> object, as the following example illustrates.  \n  \n [!CODE [System.Text.StringBuilder.Append#14](../CodeSnippet/VS_Snippets_CLR_System/system.Text.StringBuilder.Append#14)]  \n  \n The Append method calls the <xref:System.Single.ToString%2A?displayProperty=fullName> method to get the string representation of  for the current culture. To control the formatting of , call the <xref:System.Text.StringBuilder.AppendFormat%2A> method.  \n  \n The capacity of this instance is adjusted as needed.  \n  \n "
   syntax:
     content: public System.Text.StringBuilder Append (float value);
     parameters:
     - id: value
       type: System.Single
-      description: Parameter description to be filled
+      description: The value to append.
     return:
       type: System.Text.StringBuilder
-      description: Parameter description to be filled
+      description: A reference to this instance after the append operation has completed.
   overload: System.Text.StringBuilder.Append*
   platform:
   - net-11
@@ -567,15 +619,17 @@ items:
   assemblies:
   - mscorlib
   namespace: System.Text
+  summary: Appends a copy of the specified string to this instance.
+  remarks: "  \n  \n## Remarks  \n The Append method modifies the existing instance of this class; it does not return a new class instance. Because of this, you can call a method or property on the existing reference and you do not have to assign the return value to a <xref:System.Text.StringBuilder> object, as the following example illustrates.  \n  \n [!CODE [System.Text.StringBuilder.Append#2](../CodeSnippet/VS_Snippets_CLR_System/system.Text.StringBuilder.Append#2)]  \n  \n If  is `null`, no changes are made.  \n  \n The capacity of this instance is adjusted as needed.  \n  \n "
   syntax:
     content: public System.Text.StringBuilder Append (string value);
     parameters:
     - id: value
       type: System.String
-      description: Parameter description to be filled
+      description: The string to append.
     return:
       type: System.Text.StringBuilder
-      description: Parameter description to be filled
+      description: A reference to this instance after the append operation has completed.
   overload: System.Text.StringBuilder.Append*
   platform:
   - net-11
@@ -593,15 +647,17 @@ items:
   assemblies:
   - mscorlib
   namespace: System.Text
+  summary: Appends the string representation of a specified 16-bit unsigned integer to this instance.
+  remarks: "  \n  \n## Remarks  \n The Append method modifies the existing instance of this class; it does not return a new class instance. Because of this, you can call a method or property on the existing reference and you do not have to assign the return value to a <xref:System.Text.StringBuilder> object, as the following example illustrates.  \n  \n [!CODE [System.Text.StringBuilder.Append#15](../CodeSnippet/VS_Snippets_CLR_System/system.Text.StringBuilder.Append#15)]  \n  \n The Append method calls the <xref:System.UInt16.ToString%28System.IFormatProvider%29?displayProperty=fullName> method to get the string representation of . To control the formatting of , call the <xref:System.Text.StringBuilder.AppendFormat%2A> method.  \n  \n The capacity of this instance is adjusted as needed.  \n  \n "
   syntax:
     content: public System.Text.StringBuilder Append (ushort value);
     parameters:
     - id: value
       type: System.UInt16
-      description: Parameter description to be filled
+      description: The value to append.
     return:
       type: System.Text.StringBuilder
-      description: Parameter description to be filled
+      description: A reference to this instance after the append operation has completed.
   overload: System.Text.StringBuilder.Append*
   platform:
   - net-11
@@ -619,15 +675,17 @@ items:
   assemblies:
   - mscorlib
   namespace: System.Text
+  summary: Appends the string representation of a specified 32-bit unsigned integer to this instance.
+  remarks: "  \n  \n## Remarks  \n The Append method modifies the existing instance of this class; it does not return a new class instance. Because of this, you can call a method or property on the existing reference and you do not have to assign the return value to a <xref:System.Text.StringBuilder> object, as the following example illustrates.  \n  \n [!CODE [System.Text.StringBuilder.Append#16](../CodeSnippet/VS_Snippets_CLR_System/system.Text.StringBuilder.Append#16)]  \n  \n The Append calls the <xref:System.UInt32.ToString%2A?displayProperty=fullName> method to get the string representation of  for the current culture. To control the formatting of , call the <xref:System.Text.StringBuilder.AppendFormat%2A> method.  \n  \n The capacity of this instance is adjusted as needed.  \n  \n "
   syntax:
     content: public System.Text.StringBuilder Append (uint value);
     parameters:
     - id: value
       type: System.UInt32
-      description: Parameter description to be filled
+      description: The value to append.
     return:
       type: System.Text.StringBuilder
-      description: Parameter description to be filled
+      description: A reference to this instance after the append operation has completed.
   overload: System.Text.StringBuilder.Append*
   platform:
   - net-11
@@ -645,15 +703,17 @@ items:
   assemblies:
   - mscorlib
   namespace: System.Text
+  summary: Appends the string representation of a specified 64-bit unsigned integer to this instance.
+  remarks: "  \n  \n## Remarks  \n The Append method modifies the existing instance of this class; it does not return a new class instance. Because of this, you can call a method or property on the existing reference and you do not have to assign the return value to a <xref:System.Text.StringBuilder> object, as the following example illustrates.  \n  \n [!CODE [System.Text.StringBuilder.Append#17](../CodeSnippet/VS_Snippets_CLR_System/system.Text.StringBuilder.Append#17)]  \n  \n The Append method calls the <xref:System.UInt64.ToString%28System.IFormatProvider%29?displayProperty=fullName> method to get the string representation of  for the current culture. To control the formatting of , call the <xref:System.Text.StringBuilder.AppendFormat%2A> method.  \n  \n The capacity of this instance is adjusted as needed.  \n  \n "
   syntax:
     content: public System.Text.StringBuilder Append (ulong value);
     parameters:
     - id: value
       type: System.UInt64
-      description: Parameter description to be filled
+      description: The value to append.
     return:
       type: System.Text.StringBuilder
-      description: Parameter description to be filled
+      description: A reference to this instance after the append operation has completed.
   overload: System.Text.StringBuilder.Append*
   platform:
   - net-11
@@ -671,18 +731,20 @@ items:
   assemblies:
   - mscorlib
   namespace: System.Text
+  summary: Appends a specified number of copies of the string representation of a Unicode character to this instance.
+  remarks: "  \n  \n## Remarks  \n The Append method modifies the existing instance of this class; it does not return a new class instance. Because of this, you can call a method or property on the existing reference and you do not have to assign the return value to a <xref:System.Text.StringBuilder> object, as the following example illustrates.  \n  \n [!CODE [System.Text.StringBuilder.Append#5](../CodeSnippet/VS_Snippets_CLR_System/system.Text.StringBuilder.Append#5)]  \n  \n The capacity of this instance is adjusted as needed.  \n  \n "
   syntax:
     content: public System.Text.StringBuilder Append (char value, int repeatCount);
     parameters:
     - id: value
       type: System.Char
-      description: Parameter description to be filled
+      description: The character to append.
     - id: repeatCount
       type: System.Int32
-      description: Parameter description to be filled
+      description: The number of times to append .
     return:
       type: System.Text.StringBuilder
-      description: Parameter description to be filled
+      description: A reference to this instance after the append operation has completed.
   overload: System.Text.StringBuilder.Append*
   platform:
   - net-11
@@ -700,18 +762,20 @@ items:
   assemblies:
   - mscorlib
   namespace: System.Text
+  summary: Appends an array of Unicode characters starting at a specified address to this instance.
+  remarks: "  \n  \n## Remarks  \n This method appends  characters starting at address  to the current instance.  \n  \n The Append method modifies the existing instance of this class; it does not return a new class instance. Because of this, you can call a method or property on the existing reference and you do not have to assign the return value to a <xref:System.Text.StringBuilder> object.  \n  \n The capacity of this instance is adjusted as needed.  \n  \n "
   syntax:
     content: public System.Text.StringBuilder Append (char* value, int valueCount);
     parameters:
     - id: value
       type: System.Char*
-      description: Parameter description to be filled
+      description: A pointer to an array of characters.
     - id: valueCount
       type: System.Int32
-      description: Parameter description to be filled
+      description: The number of characters in the array.
     return:
       type: System.Text.StringBuilder
-      description: Parameter description to be filled
+      description: A reference to this instance after the append operation has completed.
   overload: System.Text.StringBuilder.Append*
   platform:
   - net-11
@@ -729,21 +793,23 @@ items:
   assemblies:
   - mscorlib
   namespace: System.Text
+  summary: Appends the string representation of a specified subarray of Unicode characters to this instance.
+  remarks: "  \n  \n## Remarks  \n This method appends the specified range of characters in  to the current instance. If  is `null` and  and  are both zero, no changes are made.  \n  \n The Append method modifies the existing instance of this class; it does not return a new class instance. Because of this, you can call a method or property on the existing reference and you do not have to assign the return value to a <xref:System.Text.StringBuilder> object, as the following example illustrates.  \n  \n [!CODE [System.Text.StringBuilder.Append#7](../CodeSnippet/VS_Snippets_CLR_System/system.Text.StringBuilder.Append#7)]  \n  \n The capacity of this instance is adjusted as needed.  \n  \n "
   syntax:
     content: public System.Text.StringBuilder Append (char[] value, int startIndex, int charCount);
     parameters:
     - id: value
       type: System.Char[]
-      description: Parameter description to be filled
+      description: A character array.
     - id: startIndex
       type: System.Int32
-      description: Parameter description to be filled
+      description: The starting position in .
     - id: charCount
       type: System.Int32
-      description: Parameter description to be filled
+      description: The number of characters to append.
     return:
       type: System.Text.StringBuilder
-      description: Parameter description to be filled
+      description: A reference to this instance after the append operation has completed.
   overload: System.Text.StringBuilder.Append*
   platform:
   - net-11
@@ -761,21 +827,23 @@ items:
   assemblies:
   - mscorlib
   namespace: System.Text
+  summary: Appends a copy of a specified substring to this instance.
+  remarks: "  \n  \n## Remarks  \n This method appends the specified range of characters in  to the current instance. If  is `null` and  and  are both zero, no changes are made.  \n  \n The Append method modifies the existing instance of this class; it does not return a new class instance. Because of this, you can call a method or property on the existing reference and you do not have to assign the return value to a <xref:System.Text.StringBuilder> object, as the following example illustrates.  \n  \n [!CODE [System.Text.StringBuilder.Append#19](../CodeSnippet/VS_Snippets_CLR_System/system.Text.StringBuilder.Append#19)]  \n  \n The capacity of this instance is adjusted as needed.  \n  \n "
   syntax:
     content: public System.Text.StringBuilder Append (string value, int startIndex, int count);
     parameters:
     - id: value
       type: System.String
-      description: Parameter description to be filled
+      description: The string that contains the substring to append.
     - id: startIndex
       type: System.Int32
-      description: Parameter description to be filled
+      description: The starting position of the substring within .
     - id: count
       type: System.Int32
-      description: Parameter description to be filled
+      description: The number of characters in  to append.
     return:
       type: System.Text.StringBuilder
-      description: Parameter description to be filled
+      description: A reference to this instance after the append operation has completed.
   overload: System.Text.StringBuilder.Append*
   platform:
   - net-11
@@ -793,18 +861,22 @@ items:
   assemblies:
   - mscorlib
   namespace: System.Text
+  summary: Appends the string returned by processing a composite format string, which contains zero or more format items, to this instance. Each format item is replaced by the string representation of a single argument.
+  remarks: "## Remarks  \n This method uses the [composite formatting feature](../Topic/Composite%20Formatting.md) of the .NET Framework to convert the value of an object to its text representation and embed that representation in the current <xref:System.Text.StringBuilder> object.  \n  \n The  parameter consists of zero or more runs of text intermixed with zero or more indexed placeholders, called format items. The index of the format items must be 0, to correspond to , the single object in the parameter list of this method. The formatting process replaces each format item with the string representation of .  \n  \n The syntax of a format item is as follows:  \n  \n {*index*[,*length*][:*formatString*]}  \n  \n Elements in square brackets are optional. The following table describes each element.  \n  \n|Element|Description|  \n|-------------|-----------------|  \n|*index*|The zero-based position in the parameter list of the object to be formatted. If the object specified by *index* is `null`, the format item is replaced by <xref:System.String.Empty?displayProperty=fullName>. If there is no parameter in the *index* position, a <xref:System.FormatException> is thrown.|  \n|,*length*|The minimum number of characters in the string representation of the parameter. If positive, the parameter is right-aligned; if negative, it is left-aligned.|  \n|:*formatString*|A standard or custom format string that is supported by the parameter.|  \n  \n> [!NOTE]\n>  For the standard and custom format strings used with date and time values, see [Standard Date and Time Format Strings](../Topic/Standard%20Date%20and%20Time%20Format%20Strings.md) and [Custom Date and Time Format Strings](../Topic/Custom%20Date%20and%20Time%20Format%20Strings.md). For the standard and custom format strings used with numeric values, see [Standard Numeric Format Strings](../Topic/Standard%20Numeric%20Format%20Strings.md) and [Custom Numeric Format Strings](../Topic/Custom%20Numeric%20Format%20Strings.md). For the standard format strings used with enumerations, see [Enumeration Format Strings](../Topic/Enumeration%20Format%20Strings.md).  \n  \n represents the object to be formatted. Each format item in  is replaced with the string representation of . If the format item includes  and  implements the <xref:System.IFormattable> interface, then `arg0.ToString(formatString, null)` defines the formatting. Otherwise, `arg0.ToString()` defines the formatting.  \n  \n If the string assigned to  is \"Thank you for your donation of {0:####} cans of food to our charitable organization.\" and  is an integer with the value 10, the return value will be \"Thank you for your donation of 10 cans of food to our charitable organization.\""
+  example:
+  - "## Examples  \n The following example demonstrates the <xref:System.Text.StringBuilder.AppendFormat%2A> method.  \n  \n [!CODE [stringbuilder.appendformat#1](../CodeSnippet/VS_Snippets_CLR/stringbuilder.appendformat#1)]"
   syntax:
     content: public System.Text.StringBuilder AppendFormat (string format, object arg0);
     parameters:
     - id: format
       type: System.String
-      description: Parameter description to be filled
+      description: A composite format string (see Remarks).
     - id: arg0
       type: System.Object
-      description: Parameter description to be filled
+      description: An object to format.
     return:
       type: System.Text.StringBuilder
-      description: Parameter description to be filled
+      description: A reference to this instance with  appended. Each format item in  is replaced by the string representation of .
   overload: System.Text.StringBuilder.AppendFormat*
   platform:
   - net-11
@@ -822,18 +894,22 @@ items:
   assemblies:
   - mscorlib
   namespace: System.Text
+  summary: Appends the string returned by processing a composite format string, which contains zero or more format items, to this instance. Each format item is replaced by the string representation of a corresponding argument in a parameter array.
+  remarks: "## Remarks  \n This method uses the [composite formatting feature](../Topic/Composite%20Formatting.md) of the .NET Framework to convert the value of an object to its text representation and embed that representation in the current <xref:System.Text.StringBuilder> object.  \n  \n The  parameter consists of zero or more runs of text intermixed with zero or more indexed placeholders, called format items, that correspond to objects in the parameter list of this method. The formatting process replaces each format item with the string representation of the corresponding object.  \n  \n The syntax of a format item is as follows:  \n  \n {*index*[,*length*][:*formatString*]}  \n  \n Elements in square brackets are optional. The following table describes each element.  \n  \n|Element|Description|  \n|-------------|-----------------|  \n|*index*|The zero-based position in the parameter list of the object to be formatted. If the object specified by *index* is `null`, the format item is replaced by <xref:System.String.Empty?displayProperty=fullName>. If there is no parameter in the *index* position, a <xref:System.FormatException> is thrown.|  \n|,*length*|The minimum number of characters in the string representation of the parameter. If positive, the parameter is right-aligned; if negative, it is left-aligned.|  \n|:*formatString*|A standard or custom format string that is supported by the parameter.|  \n  \n> [!NOTE]\n>  For the standard and custom format strings used with date and time values, see [Standard Date and Time Format Strings](../Topic/Standard%20Date%20and%20Time%20Format%20Strings.md) and [Custom Date and Time Format Strings](../Topic/Custom%20Date%20and%20Time%20Format%20Strings.md). For the standard and custom format strings used with numeric values, see [Standard Numeric Format Strings](../Topic/Standard%20Numeric%20Format%20Strings.md) and [Custom Numeric Format Strings](../Topic/Custom%20Numeric%20Format%20Strings.md). For the standard format strings used with enumerations, see [Enumeration Format Strings](../Topic/Enumeration%20Format%20Strings.md).  \n  \n represents the objects to be formatted. Each format item in  is replaced with the string representation of the corresponding object in . If the format item includes  and the corresponding object in  implements the <xref:System.IFormattable> interface, then `args[index].ToString(formatString, provider)` defines the formatting. Otherwise, `args[index].ToString()` defines the formatting.  \n  \n If the string assigned to  is \"Thank you for your donation of {0:####} cans of food to our charitable organization.\" and  is an integer with the value 10, the return value will be \"Thank you for your donation of 10 cans of food to our charitable organization.\""
+  example:
+  - "## Examples  \n The following example demonstrates the <xref:System.Text.StringBuilder.AppendFormat%2A> method.  \n  \n [!CODE [stringbuilder.appendformat#1](../CodeSnippet/VS_Snippets_CLR/stringbuilder.appendformat#1)]"
   syntax:
     content: public System.Text.StringBuilder AppendFormat (string format, object[] args);
     parameters:
     - id: format
       type: System.String
-      description: Parameter description to be filled
+      description: A composite format string (see Remarks).
     - id: args
       type: System.Object[]
-      description: Parameter description to be filled
+      description: An array of objects to format.
     return:
       type: System.Text.StringBuilder
-      description: Parameter description to be filled
+      description: A reference to this instance with  appended. Each format item in  is replaced by the string representation of the corresponding object argument.
   overload: System.Text.StringBuilder.AppendFormat*
   platform:
   - net-11
@@ -851,21 +927,25 @@ items:
   assemblies:
   - mscorlib
   namespace: System.Text
+  summary: Appends the string returned by processing a composite format string, which contains zero or more format items, to this instance. Each format item is replaced by the string representation of a single argument using a specified format provider.
+  remarks: "## Remarks  \n This method uses the  [composite formatting feature](../Topic/Composite%20Formatting.md) of the .NET Framework to convert the value of  to its text representation and embed that representation in the current <xref:System.Text.StringBuilder> object.  \n  \n The  parameter consists of zero or more runs of text intermixed with zero or more indexed placeholders, called format items. The index of each format item must be zero (0) since this method includes an argument list with a single argument. The formatting process replaces each format item with the string representation of .  \n  \n The syntax of a format item is as follows:  \n  \n {*index*[,*length*][:*formatString*]}  \n  \n Elements in square brackets are optional. The following table describes each element.  \n  \n|Element|Description|  \n|-------------|-----------------|  \n|*index*|The zero-based position in the parameter list of the object to be formatted. If the object specified by *index* is `null`, the format item is replaced by <xref:System.String.Empty?displayProperty=fullName>. In this case, since the AppendFormat method has a single argument in the argument list, the value of *index* must always be 0. If it is not, a <xref:System.FormatException> is thrown.|  \n|,*length*|The minimum number of characters in the string representation of the parameter. If positive, the parameter is right-aligned; if negative, it is left-aligned.|  \n|:*formatString*|A standard or custom format string that is supported by the parameter.|  \n  \n> [!NOTE]\n>  For the standard and custom format strings used with date and time values, see [Standard Date and Time Format Strings](../Topic/Standard%20Date%20and%20Time%20Format%20Strings.md) and [Custom Date and Time Format Strings](../Topic/Custom%20Date%20and%20Time%20Format%20Strings.md). For the standard and custom format strings used with numeric values, see [Standard Numeric Format Strings](../Topic/Standard%20Numeric%20Format%20Strings.md) and [Custom Numeric Format Strings](../Topic/Custom%20Numeric%20Format%20Strings.md). For the standard format strings used with enumerations, see [Enumeration Format Strings](../Topic/Enumeration%20Format%20Strings.md).  \n  \n The  parameter specifies an <xref:System.IFormatProvider> implementation that can provide formatting information for the objects in .  can be any of the following:  \n  \n-   A <xref:System.Globalization.CultureInfo> object that provides culture-specific formatting information.  \n  \n-   A <xref:System.Globalization.NumberFormatInfo> object that provides culture-specific formatting information for  if it is a numeric value.  \n  \n-   A <xref:System.Globalization.DateTimeFormatInfo> object that provides culture-specific formatting information for  if it is a date and time value.  \n  \n-   A custom <xref:System.IFormatProvider> implementation that provides formatting information for . Typically, such an implementation also implements the <xref:System.ICustomFormatter> interface.  \n  \n If the  parameter is `null`, formatting information is obtained from the current culture.  \n  \n represents the object to be formatted. Each format item in  is replaced with the string representation of . If the format item includes  and  implements the <xref:System.IFormattable> interface, then `arg0.ToString(formatString, provider)` defines the formatting. Otherwise, `arg0.ToString()` defines the formatting."
+  example:
+  - "## Examples  \n The following includes two calls to the AppendFormat method. Both use the formatting conventions of the English-Great Britain (en-GB) culture. The first inserts the string representation of a <xref:System.Decimal> value currency in a result string. The second inserts a <xref:System.DateTime> value in two places in a result string, the first including only the short date string and the second the short time string.  \n  \n [!CODE [System.Text.StringBuilder.AppendFormat#2](../CodeSnippet/VS_Snippets_CLR_System/system.text.stringbuilder.appendformat#2)]"
   syntax:
     content: public System.Text.StringBuilder AppendFormat (IFormatProvider provider, string format, object arg0);
     parameters:
     - id: provider
       type: System.IFormatProvider
-      description: Parameter description to be filled
+      description: An object that supplies culture-specific formatting information.
     - id: format
       type: System.String
-      description: Parameter description to be filled
+      description: A composite format string (see Remarks).
     - id: arg0
       type: System.Object
-      description: Parameter description to be filled
+      description: The object to format.
     return:
       type: System.Text.StringBuilder
-      description: Parameter description to be filled
+      description: A reference to this instance after the append operation has completed. After the append operation, this instance contains any data that existed before the operation, suffixed by a copy of  in which any format specification is replaced by the string representation of .
   overload: System.Text.StringBuilder.AppendFormat*
   platform:
   - net-11
@@ -883,21 +963,25 @@ items:
   assemblies:
   - mscorlib
   namespace: System.Text
+  summary: Appends the string returned by processing a composite format string, which contains zero or more format items, to this instance. Each format item is replaced by the string representation of a corresponding argument in a parameter array using a specified format provider.
+  remarks: "## Remarks  \n This method uses the [composite formatting feature](../Topic/Composite%20Formatting.md) of the .NET Framework to convert the value of an object to its text representation and embed that representation in the current <xref:System.Text.StringBuilder> object.  \n  \n The  parameter consists of zero or more runs of text intermixed with zero or more indexed placeholders, called format items, that correspond to objects in the parameter list of this method. The formatting process replaces each format item with the string representation of the corresponding object.  \n  \n The syntax of a format item is as follows:  \n  \n {*index*[,*length*][:*formatString*]}  \n  \n Elements in square brackets are optional. The following table describes each element.  \n  \n|Element|Description|  \n|-------------|-----------------|  \n|*index*|The zero-based position in the parameter list of the object to be formatted. If the object specified by *index* is `null`, the format item is replaced by <xref:System.String.Empty?displayProperty=fullName>. If there is no parameter in the *index* position, a <xref:System.FormatException> is thrown.|  \n|,*length*|The minimum number of characters in the string representation of the parameter. If positive, the parameter is right-aligned; if negative, it is left-aligned.|  \n|:*formatString*|A standard or custom format string that is supported by the parameter.|  \n  \n> [!NOTE]\n>  For the standard and custom format strings used with date and time values, see [Standard Date and Time Format Strings](../Topic/Standard%20Date%20and%20Time%20Format%20Strings.md) and [Custom Date and Time Format Strings](../Topic/Custom%20Date%20and%20Time%20Format%20Strings.md). For the standard and custom format strings used with numeric values, see [Standard Numeric Format Strings](../Topic/Standard%20Numeric%20Format%20Strings.md) and [Custom Numeric Format Strings](../Topic/Custom%20Numeric%20Format%20Strings.md). For the standard format strings used with enumerations, see [Enumeration Format Strings](../Topic/Enumeration%20Format%20Strings.md).  \n  \n The  parameter specifies an <xref:System.IFormatProvider> implementation that can provide formatting information for the objects in .  can be any of the following:  \n  \n-   A <xref:System.Globalization.CultureInfo> object that provides culture-specific formatting information.  \n  \n-   A <xref:System.Globalization.NumberFormatInfo> object that provides culture-specific formatting information for numeric values in .  \n  \n-   A <xref:System.Globalization.DateTimeFormatInfo> object that provides culture-specific formatting information for date and time values in .  \n  \n-   A custom <xref:System.IFormatProvider> implementation that provides formatting information for one or more of the objects in . Typically, such an implementation also implements the <xref:System.ICustomFormatter> interface. The second example in the next section illustrates an AppendFormat method call with a custom <xref:System.IFormatProvider> implementation.  \n  \n If the  parameter is `null`, format provider information is obtained from the current culture.  \n  \n represents the objects to be formatted. Each format item in  is replaced with the string representation of the corresponding object in . If the format item includes  and the corresponding object in  implements the <xref:System.IFormattable> interface, then `args[index].ToString(formatString, provider)` defines the formatting. Otherwise, `args[index].ToString()` defines the formatting."
+  example:
+  - "## Examples  \n The following example demonstrates the <xref:System.Text.StringBuilder.AppendFormat%2A> method.  \n  \n [!CODE [stringbuilder.appendformat#1](../CodeSnippet/VS_Snippets_CLR/stringbuilder.appendformat#1)]  \n  \n The following example defines a custom <xref:System.IFormatProvider> implementation named `CustomerFormatter` that formats a 10-digit customer number with hyphens after the fourth and seventh digits. It is passed to the AppendFormat method to create a string that includes the formatted customer number and customer name.  \n  \n [!CODE [System.Text.StringBuilder.AppendFormat#1](../CodeSnippet/VS_Snippets_CLR_System/system.text.stringbuilder.appendformat#1)]"
   syntax:
     content: public System.Text.StringBuilder AppendFormat (IFormatProvider provider, string format, object[] args);
     parameters:
     - id: provider
       type: System.IFormatProvider
-      description: Parameter description to be filled
+      description: An object that supplies culture-specific formatting information.
     - id: format
       type: System.String
-      description: Parameter description to be filled
+      description: A composite format string (see Remarks).
     - id: args
       type: System.Object[]
-      description: Parameter description to be filled
+      description: An array of objects to format.
     return:
       type: System.Text.StringBuilder
-      description: Parameter description to be filled
+      description: A reference to this instance after the append operation has completed. After the append operation, this instance contains any data that existed before the operation, suffixed by a copy of  where any format specification is replaced by the string representation of the corresponding object argument.
   overload: System.Text.StringBuilder.AppendFormat*
   platform:
   - net-11
@@ -915,21 +999,25 @@ items:
   assemblies:
   - mscorlib
   namespace: System.Text
+  summary: Appends the string returned by processing a composite format string, which contains zero or more format items, to this instance. Each format item is replaced by the string representation of either of two arguments.
+  remarks: "## Remarks  \n This method uses the [composite formatting feature](../Topic/Composite%20Formatting.md) of the .NET Framework to convert the value of an object to its text representation and embed that representation in the current <xref:System.Text.StringBuilder> object.  \n  \n The  parameter consists of zero or more runs of text intermixed with zero or more indexed placeholders, called format items, that correspond to  and , the two objects in the parameter list of this method. The formatting process replaces each format item with the string representation of the corresponding object.  \n  \n The syntax of a format item is as follows:  \n  \n {*index*[,*length*][:*formatString*]}  \n  \n Elements in square brackets are optional. The following table describes each element.  \n  \n|Element|Description|  \n|-------------|-----------------|  \n|*index*|The zero-based position in the parameter list of the object to be formatted. If the object specified by *index* is `null`, the format item is replaced by <xref:System.String.Empty?displayProperty=fullName>. If there is no parameter in the *index* position, a <xref:System.FormatException> is thrown.|  \n|,*length*|The minimum number of characters in the string representation of the parameter. If positive, the parameter is right-aligned; if negative, it is left-aligned.|  \n|:*formatString*|A standard or custom format string that is supported by the parameter.|  \n  \n> [!NOTE]\n>  For the standard and custom format strings used with date and time values, see [Standard Date and Time Format Strings](../Topic/Standard%20Date%20and%20Time%20Format%20Strings.md) and [Custom Date and Time Format Strings](../Topic/Custom%20Date%20and%20Time%20Format%20Strings.md). For the standard and custom format strings used with numeric values, see [Standard Numeric Format Strings](../Topic/Standard%20Numeric%20Format%20Strings.md) and [Custom Numeric Format Strings](../Topic/Custom%20Numeric%20Format%20Strings.md). For the standard format strings used with enumerations, see [Enumeration Format Strings](../Topic/Enumeration%20Format%20Strings.md).  \n  \n and  represent the objects to be formatted. Each format item in  is replaced with the string representation of either  or . If the format item includes  and the corresponding object implements the <xref:System.IFormattable> interface, then `arg`*x*`.ToString(formatString, provider)` defines the formatting, where *x* is the index of the argument. Otherwise, `arg`*x*`.ToString()` defines the formatting.  \n  \n If the string assigned to  is \"Thank you for your donation of {0:####} cans of food to our charitable organization.\" and  is an integer with the value 10, the return value will be \"Thank you for your donation of 10 cans of food to our charitable organization.\""
+  example:
+  - "## Examples  \n The following example demonstrates the <xref:System.Text.StringBuilder.AppendFormat%2A> method.  \n  \n [!CODE [stringbuilder.appendformat#1](../CodeSnippet/VS_Snippets_CLR/stringbuilder.appendformat#1)]"
   syntax:
     content: public System.Text.StringBuilder AppendFormat (string format, object arg0, object arg1);
     parameters:
     - id: format
       type: System.String
-      description: Parameter description to be filled
+      description: A composite format string (see Remarks).
     - id: arg0
       type: System.Object
-      description: Parameter description to be filled
+      description: The first object to format.
     - id: arg1
       type: System.Object
-      description: Parameter description to be filled
+      description: The second object to format.
     return:
       type: System.Text.StringBuilder
-      description: Parameter description to be filled
+      description: A reference to this instance with  appended. Each format item in  is replaced by the string representation of the corresponding object argument.
   overload: System.Text.StringBuilder.AppendFormat*
   platform:
   - net-11
@@ -947,24 +1035,28 @@ items:
   assemblies:
   - mscorlib
   namespace: System.Text
+  summary: Appends the string returned by processing a composite format string, which contains zero or more format items, to this instance. Each format item is replaced by the string representation of either of two arguments using a specified format provider.
+  remarks: "## Remarks  \n This method uses the [composite formatting feature](../Topic/Composite%20Formatting.md) of the .NET Framework to convert the value of an object to its text representation and embed that representation in the current <xref:System.Text.StringBuilder> object.  \n  \n The  parameter consists of zero or more runs of text intermixed with zero or more indexed placeholders, called format items, that correspond to objects in the parameter list of this method. The formatting process replaces each format item with the string representation of the corresponding object.  \n  \n The syntax of a format item is as follows:  \n  \n {*index*[,*length*][:*formatString*]}  \n  \n Elements in square brackets are optional. The following table describes each element.  \n  \n|Element|Description|  \n|-------------|-----------------|  \n|*index*|The zero-based position in the parameter list of the object to be formatted. If the object specified by *index* is `null`, the format item is replaced by <xref:System.String.Empty?displayProperty=fullName>. If there is no parameter in the *index* position, a <xref:System.FormatException> is thrown.|  \n|,*length*|The minimum number of characters in the string representation of the parameter. If positive, the parameter is right-aligned; if negative, it is left-aligned.|  \n|:*formatString*|A standard or custom format string that is supported by the parameter.|  \n  \n> [!NOTE]\n>  For the standard and custom format strings used with date and time values, see [Standard Date and Time Format Strings](../Topic/Standard%20Date%20and%20Time%20Format%20Strings.md) and [Custom Date and Time Format Strings](../Topic/Custom%20Date%20and%20Time%20Format%20Strings.md). For the standard and custom format strings used with numeric values, see [Standard Numeric Format Strings](../Topic/Standard%20Numeric%20Format%20Strings.md) and [Custom Numeric Format Strings](../Topic/Custom%20Numeric%20Format%20Strings.md). For the standard format strings used with enumerations, see [Enumeration Format Strings](../Topic/Enumeration%20Format%20Strings.md).  \n  \n The  parameter specifies an <xref:System.IFormatProvider> implementation that can provide formatting information for  and .  can be any of the following:  \n  \n-   A <xref:System.Globalization.CultureInfo> object that provides culture-specific formatting information.  \n  \n-   A <xref:System.Globalization.NumberFormatInfo> object that provides culture-specific formatting information for  or  if they are numeric values.  \n  \n-   A <xref:System.Globalization.DateTimeFormatInfo> object that provides culture-specific formatting information for  or  if they are date and time values.  \n  \n-   A custom <xref:System.IFormatProvider> implementation that provides formatting information for  and . Typically, such an implementation also implements the <xref:System.ICustomFormatter> interface.  \n  \n If the  parameter is `null`, format provider information is obtained from the current culture.  \n  \n and  represent the objects to be formatted. Each format item in  is replaced with the string representation of the object that has the corresponding index. If the format item includes  and the corresponding argument implements the <xref:System.IFormattable> interface, then the argument's `ToString(formatString, provider)` method defines the formatting. Otherwise, the argument's `ToString()` method defines the formatting."
+  example:
+  - "## Examples  \n The following example uses the AppendFormat method to display time and temperature data stored in a generic <xref:System.Collections.Generic.Dictionary%602> object. Note that the format string has three format items, although there are only to objects to format. This is because the first object in the list (a date and time value) is used by two format items: The first format item displays the time, and the second displays the date.  \n  \n [!CODE [System.Text.StringBuilder.AppendFormat#3](../CodeSnippet/VS_Snippets_CLR_System/system.text.stringbuilder.appendformat#3)]"
   syntax:
     content: public System.Text.StringBuilder AppendFormat (IFormatProvider provider, string format, object arg0, object arg1);
     parameters:
     - id: provider
       type: System.IFormatProvider
-      description: Parameter description to be filled
+      description: An object that supplies culture-specific formatting information.
     - id: format
       type: System.String
-      description: Parameter description to be filled
+      description: A composite format string (see Remarks).
     - id: arg0
       type: System.Object
-      description: Parameter description to be filled
+      description: The first object to format.
     - id: arg1
       type: System.Object
-      description: Parameter description to be filled
+      description: The second object to format.
     return:
       type: System.Text.StringBuilder
-      description: Parameter description to be filled
+      description: A reference to this instance after the append operation has completed. After the append operation, this instance contains any data that existed before the operation, suffixed by a copy of  where any format specification is replaced by the string representation of the corresponding object argument.
   overload: System.Text.StringBuilder.AppendFormat*
   platform:
   - net-11
@@ -982,24 +1074,28 @@ items:
   assemblies:
   - mscorlib
   namespace: System.Text
+  summary: Appends the string returned by processing a composite format string, which contains zero or more format items, to this instance. Each format item is replaced by the string representation of either of three arguments.
+  remarks: "## Remarks  \n This method uses the [composite formatting feature](../Topic/Composite%20Formatting.md) of the .NET Framework to convert the value of an object to its text representation and embed that representation in the current <xref:System.Text.StringBuilder> object.  \n  \n The  parameter consists of zero or more runs of text intermixed with zero or more indexed placeholders, called format items, that correspond to  through , the objects in the parameter list of this method. The formatting process replaces each format item with the string representation of the corresponding object.  \n  \n The syntax of a format item is as follows:  \n  \n {*index*[,*length*][:*formatString*]}  \n  \n Elements in square brackets are optional. The following table describes each element.  \n  \n|Element|Description|  \n|-------------|-----------------|  \n|*index*|The zero-based position in the parameter list of the object to be formatted. If the object specified by *index* is `null`, the format item is replaced by <xref:System.String.Empty?displayProperty=fullName>. If there is no parameter in the *index* position, a <xref:System.FormatException> is thrown.|  \n|,*length*|The minimum number of characters in the string representation of the parameter. If positive, the parameter is right-aligned; if negative, it is left-aligned.|  \n|:*formatString*|A standard or custom format string that is supported by the parameter.|  \n  \n> [!NOTE]\n>  For the standard and custom format strings used with date and time values, see [Standard Date and Time Format Strings](../Topic/Standard%20Date%20and%20Time%20Format%20Strings.md) and [Custom Date and Time Format Strings](../Topic/Custom%20Date%20and%20Time%20Format%20Strings.md). For the standard and custom format strings used with numeric values, see [Standard Numeric Format Strings](../Topic/Standard%20Numeric%20Format%20Strings.md) and [Custom Numeric Format Strings](../Topic/Custom%20Numeric%20Format%20Strings.md). For the standard format strings used with enumerations, see [Enumeration Format Strings](../Topic/Enumeration%20Format%20Strings.md).  \n  \n , , and  represent the objects to be formatted. Each format item in  is replaced with the string representation of either , , or , depending on the index of the format item. If the format item includes  and the corresponding object in  implements the <xref:System.IFormattable> interface, then `arg`*x*`.ToString(formatString, null)` defines the formatting, where *x* is the index of the argument. Otherwise, `arg`*x*`.ToString()` defines the formatting.  \n  \n If the string assigned to  is \"Thank you for your donation of {0:####} cans of food to our charitable organization.\" and  is an integer with the value 10, the return value will be \"Thank you for your donation of 10 cans of food to our charitable organization.\""
+  example:
+  - "## Examples  \n The following example demonstrates the <xref:System.Text.StringBuilder.AppendFormat%2A> method.  \n  \n [!CODE [stringbuilder.appendformat#1](../CodeSnippet/VS_Snippets_CLR/stringbuilder.appendformat#1)]"
   syntax:
     content: public System.Text.StringBuilder AppendFormat (string format, object arg0, object arg1, object arg2);
     parameters:
     - id: format
       type: System.String
-      description: Parameter description to be filled
+      description: A composite format string (see Remarks).
     - id: arg0
       type: System.Object
-      description: Parameter description to be filled
+      description: The first object to format.
     - id: arg1
       type: System.Object
-      description: Parameter description to be filled
+      description: The second object to format.
     - id: arg2
       type: System.Object
-      description: Parameter description to be filled
+      description: The third object to format.
     return:
       type: System.Text.StringBuilder
-      description: Parameter description to be filled
+      description: A reference to this instance with  appended. Each format item in  is replaced by the string representation of the corresponding object argument.
   overload: System.Text.StringBuilder.AppendFormat*
   platform:
   - net-11
@@ -1017,27 +1113,31 @@ items:
   assemblies:
   - mscorlib
   namespace: System.Text
+  summary: Appends the string returned by processing a composite format string, which contains zero or more format items, to this instance. Each format item is replaced by the string representation of either of three arguments using a specified format provider.
+  remarks: "## Remarks  \n This method uses the [composite formatting feature](../Topic/Composite%20Formatting.md) of the .NET Framework to convert the value of an object to its text representation and embed that representation in the current <xref:System.Text.StringBuilder> object.  \n  \n The  parameter consists of zero or more runs of text intermixed with zero or more indexed placeholders, called format items, that correspond to objects in the parameter list of this method. The formatting process replaces each format item with the string representation of the corresponding object.  \n  \n The syntax of a format item is as follows:  \n  \n {*index*[,*length*][:*formatString*]}  \n  \n Elements in square brackets are optional. The following table describes each element.  \n  \n|Element|Description|  \n|-------------|-----------------|  \n|*index*|The zero-based position in the parameter list of the object to be formatted. If the object specified by *index* is `null`, the format item is replaced by <xref:System.String.Empty?displayProperty=fullName>. If there is no parameter in the *index* position, a <xref:System.FormatException> is thrown.|  \n|,*length*|The minimum number of characters in the string representation of the parameter. If positive, the parameter is right-aligned; if negative, it is left-aligned.|  \n|:*formatString*|A standard or custom format string that is supported by the parameter.|  \n  \n> [!NOTE]\n>  For the standard and custom format strings used with date and time values, see [Standard Date and Time Format Strings](../Topic/Standard%20Date%20and%20Time%20Format%20Strings.md) and [Custom Date and Time Format Strings](../Topic/Custom%20Date%20and%20Time%20Format%20Strings.md). For the standard and custom format strings used with numeric values, see [Standard Numeric Format Strings](../Topic/Standard%20Numeric%20Format%20Strings.md) and [Custom Numeric Format Strings](../Topic/Custom%20Numeric%20Format%20Strings.md). For the standard format strings used with enumerations, see [Enumeration Format Strings](../Topic/Enumeration%20Format%20Strings.md).  \n  \n The  parameter specifies an <xref:System.IFormatProvider> implementation that can provide formatting information for  and .  can be any of the following:  \n  \n-   A <xref:System.Globalization.CultureInfo> object that provides culture-specific formatting information.  \n  \n-   A <xref:System.Globalization.NumberFormatInfo> object that provides culture-specific formatting information for  or  if they are numeric values.  \n  \n-   A <xref:System.Globalization.DateTimeFormatInfo> object that provides culture-specific formatting information for , , or  if they are date and time values.  \n  \n-   A custom <xref:System.IFormatProvider> implementation that provides formatting information for ,  , and . Typically, such an implementation also implements the <xref:System.ICustomFormatter> interface.  \n  \n If the  parameter is `null`, format provider information is obtained from the current culture.  \n  \n , , and  represent the objects to be formatted. Each format item in  is replaced with the string representation of the object that has the corresponding index. If the format item includes  and the corresponding argument implements the <xref:System.IFormattable> interface, then the argument's `ToString(formatString, provider)` method defines the formatting. Otherwise, the argument's `ToString()` method defines the formatting."
+  example:
+  - "## Examples  \n The following example uses the AppendFormat method to illustrate the result of a Boolean `And` operation with integer values. Note that the format string includes six format items, but the method has only three items in its argument list, because each item is formatted in two different ways.  \n  \n [!CODE [System.Text.StringBuilder.AppendFormat#4](../CodeSnippet/VS_Snippets_CLR_System/system.text.stringbuilder.appendformat#4)]"
   syntax:
     content: public System.Text.StringBuilder AppendFormat (IFormatProvider provider, string format, object arg0, object arg1, object arg2);
     parameters:
     - id: provider
       type: System.IFormatProvider
-      description: Parameter description to be filled
+      description: An object that supplies culture-specific formatting information.
     - id: format
       type: System.String
-      description: Parameter description to be filled
+      description: A composite format string (see Remarks).
     - id: arg0
       type: System.Object
-      description: Parameter description to be filled
+      description: The first object to format.
     - id: arg1
       type: System.Object
-      description: Parameter description to be filled
+      description: The second object to format.
     - id: arg2
       type: System.Object
-      description: Parameter description to be filled
+      description: The third object to format.
     return:
       type: System.Text.StringBuilder
-      description: Parameter description to be filled
+      description: A reference to this instance after the append operation has completed. After the append operation, this instance contains any data that existed before the operation, suffixed by a copy of  where any format specification is replaced by the string representation of the corresponding object argument.
   overload: System.Text.StringBuilder.AppendFormat*
   platform:
   - net-11
@@ -1055,12 +1155,16 @@ items:
   assemblies:
   - mscorlib
   namespace: System.Text
+  summary: Appends the default line terminator to the end of the current <see cref="T:System.Text.StringBuilder"> object.
+  remarks: "## Remarks  \n The default line terminator is the current value of the <xref:System.Environment.NewLine%2A?displayProperty=fullName> property.  \n  \n The capacity of this instance is adjusted as needed."
+  example:
+  - "## Examples  \n The following example demonstrates the <xref:System.Text.StringBuilder.AppendLine%2A> method.  \n  \n [!CODE [stringbuilder.appendline#1](../CodeSnippet/VS_Snippets_CLR/stringbuilder.appendline#1)]"
   syntax:
     content: public System.Text.StringBuilder AppendLine ();
     parameters: []
     return:
       type: System.Text.StringBuilder
-      description: Parameter description to be filled
+      description: A reference to this instance after the append operation has completed.
   overload: System.Text.StringBuilder.AppendLine*
   platform:
   - net-11
@@ -1078,15 +1182,17 @@ items:
   assemblies:
   - mscorlib
   namespace: System.Text
+  summary: Appends a copy of the specified string followed by the default line terminator to the end of the current <see cref="T:System.Text.StringBuilder"> object.
+  remarks: "  \n  \n## Remarks  \n The default line terminator is the current value of the <xref:System.Environment.NewLine%2A?displayProperty=fullName> property.  \n  \n The capacity of this instance is adjusted as needed.  \n  \n "
   syntax:
     content: public System.Text.StringBuilder AppendLine (string value);
     parameters:
     - id: value
       type: System.String
-      description: Parameter description to be filled
+      description: The string to append.
     return:
       type: System.Text.StringBuilder
-      description: Parameter description to be filled
+      description: A reference to this instance after the append operation has completed.
   overload: System.Text.StringBuilder.AppendLine*
   platform:
   - net-11
@@ -1104,11 +1210,15 @@ items:
   assemblies:
   - mscorlib
   namespace: System.Text
+  summary: Gets or sets the maximum number of characters that can be contained in the memory allocated by the current instance.
+  remarks: "## Remarks  \n Capacity does not affect the string value of the current instance. Capacity can be decreased as long as it is not less than <xref:System.Text.StringBuilder.Length%2A>.  \n  \n The <xref:System.Text.StringBuilder> dynamically allocates more space when required and increases Capacity accordingly. For performance reasons, a <xref:System.Text.StringBuilder> might allocate more memory than needed. The amount of memory allocated is implementation-specific."
+  example:
+  - "## Examples  \n The following example demonstrates the Capacity property.  \n  \n [!CODE [stringbuilder.ensurecapacity#1](../CodeSnippet/VS_Snippets_CLR/stringbuilder.ensurecapacity#1)]"
   syntax:
     content: public int Capacity { get; set; }
     return:
       type: System.Int32
-      description: Parameter description to be filled
+      description: To be added.
   platform:
   - net-11
   - net-20
@@ -1125,15 +1235,17 @@ items:
   assemblies:
   - mscorlib
   namespace: System.Text
+  summary: Gets or sets the character at the specified character position in this instance.
+  remarks: "  \n  \n## Remarks  \n The  parameter is the position of a character within the <xref:System.Text.StringBuilder>. The first character in the string is at index 0. The length of a string is the number of characters it contains. The last accessible character of a <xref:System.Text.StringBuilder> instance is at index <xref:System.Text.StringBuilder.Length%2A> - 1.  \n  \n Chars is the default property of the <xref:System.Text.StringBuilder> class. In C#, it is an indexer. This means that individual characters can be retrieved from the Chars property as shown in the following example, which counts the number of alphabetic, white-space, and punctuation characters in a string.  \n  \n [!CODE [System.Text.StringBuilder.Chars#1](../CodeSnippet/VS_Snippets_CLR_System/system.text.stringbuilder.chars#1)]  \n  \n "
   syntax:
     content: public char this[int index] { get; set; }
     parameters:
     - id: index
       type: System.Int32
-      description: Parameter description to be filled
+      description: The position of the character.
     return:
       type: System.Char
-      description: Parameter description to be filled
+      description: To be added.
   platform:
   - net-11
   - net-20
@@ -1150,12 +1262,16 @@ items:
   assemblies:
   - mscorlib
   namespace: System.Text
+  summary: Removes all characters from the current <see cref="T:System.Text.StringBuilder"> instance.
+  remarks: "## Remarks  \n Clear is a convenience method that is equivalent to setting the <xref:System.Text.StringBuilder.Length%2A> property of the current instance to 0 (zero).  \n  \n Calling the Clear method does not modify the current instance's <xref:System.Text.StringBuilder.Capacity%2A> or <xref:System.Text.StringBuilder.MaxCapacity%2A> property."
+  example:
+  - "## Examples  \n The following example instantiates a <xref:System.Text.StringBuilder> object with a string, calls the Clear method, and then appends a new string.  \n  \n [!CODE [System.Text.StringBuilder.Clear#1](../CodeSnippet/VS_Snippets_CLR_System/system.text.stringbuilder.clear#1)]"
   syntax:
     content: public System.Text.StringBuilder Clear ();
     parameters: []
     return:
       type: System.Text.StringBuilder
-      description: Parameter description to be filled
+      description: An object whose <xref:System.Text.StringBuilder.Length%2A> is 0 (zero).
   platform:
   - net-11
   - net-20
@@ -1172,21 +1288,25 @@ items:
   assemblies:
   - mscorlib
   namespace: System.Text
+  summary: Copies the characters from a specified segment of this instance to a specified segment of a destination <xref:System.Char> array.
+  remarks: "## Remarks  \n The CopyTo method is intended to be used in the rare situation when you need to efficiently copy successive sections of a <xref:System.Text.StringBuilder> object to an array. The array should be a fixed size, preallocated, reusable, and possibly globally accessible.  \n  \n For example, your application could populate a <xref:System.Text.StringBuilder> object with a large number of characters then use the CopyTo method to copy small, successive pieces of the <xref:System.Text.StringBuilder> object to an array where the pieces are processed. When all the data in the <xref:System.Text.StringBuilder> object is processed, the size of the <xref:System.Text.StringBuilder> object is set to zero and the cycle is repeated."
+  example:
+  - "## Examples  \n The following example demonstrates the CopyTo method.  \n  \n [!CODE [stringbuilder.copyto2#1](../CodeSnippet/VS_Snippets_CLR/stringbuilder.copyto2#1)]"
   syntax:
     content: public void CopyTo (int sourceIndex, char[] destination, int destinationIndex, int count);
     parameters:
     - id: sourceIndex
       type: System.Int32
-      description: Parameter description to be filled
+      description: The starting position in this instance where characters will be copied from. The index is zero-based.
     - id: destination
       type: System.Char[]
-      description: Parameter description to be filled
+      description: The array where characters will be copied.
     - id: destinationIndex
       type: System.Int32
-      description: Parameter description to be filled
+      description: The starting position in  where characters will be copied. The index is zero-based.
     - id: count
       type: System.Int32
-      description: Parameter description to be filled
+      description: The number of characters to be copied.
   platform:
   - net-11
   - net-20
@@ -1203,15 +1323,19 @@ items:
   assemblies:
   - mscorlib
   namespace: System.Text
+  summary: Ensures that the capacity of this instance of <see cref="T:System.Text.StringBuilder"> is at least the specified value.
+  remarks: "## Remarks  \n If the current capacity is less than the  parameter, memory for this instance is reallocated to hold at least  number of characters; otherwise, no memory is changed."
+  example:
+  - "## Examples  \n The following example demonstrates the EnsureCapacity method.  \n  \n [!CODE [stringbuilder.ensurecapacity#1](../CodeSnippet/VS_Snippets_CLR/stringbuilder.ensurecapacity#1)]"
   syntax:
     content: public int EnsureCapacity (int capacity);
     parameters:
     - id: capacity
       type: System.Int32
-      description: Parameter description to be filled
+      description: The minimum capacity to ensure.
     return:
       type: System.Int32
-      description: Parameter description to be filled
+      description: The new capacity of this instance.
   platform:
   - net-11
   - net-20
@@ -1228,15 +1352,19 @@ items:
   assemblies:
   - mscorlib
   namespace: System.Text
+  summary: Returns a value indicating whether this instance is equal to a specified object.
+  remarks: ''
+  example:
+  - "## Examples  \n The following code uses the Equals method to check whether two <xref:System.Text.StringBuilder> objects are equal. The method is called repeatedly after small changes are made to each object, and the results are displayed to the console.  \n  \n [!CODE [stringbuilder.ensurecapacity#1](../CodeSnippet/VS_Snippets_CLR/stringbuilder.ensurecapacity#1)]"
   syntax:
     content: public bool Equals (System.Text.StringBuilder sb);
     parameters:
     - id: sb
       type: System.Text.StringBuilder
-      description: Parameter description to be filled
+      description: An object to compare with this instance, or `null`.
     return:
       type: System.Boolean
-      description: Parameter description to be filled
+      description: '`true` if this instance and  have equal string, <xref:System.Text.StringBuilder.Capacity%2A>, and <xref:System.Text.StringBuilder.MaxCapacity%2A> values; otherwise, `false`.'
   platform:
   - net-11
   - net-20
@@ -1253,18 +1381,22 @@ items:
   assemblies:
   - mscorlib
   namespace: System.Text
+  summary: Inserts the string representation of a Boolean value into this instance at the specified character position.
+  remarks: "## Remarks  \n <xref:System.Boolean.ToString%2A?displayProperty=fullName> is used to get a string representation of . Existing characters are shifted to make room for the new text. The capacity is adjusted as needed."
+  example:
+  - "## Examples  \n The following example demonstrates the <xref:System.Text.StringBuilder.Insert%2A> method.  \n  \n [!CODE [stringbuilder.insert#1](../CodeSnippet/VS_Snippets_CLR/stringbuilder.insert#1)]"
   syntax:
     content: public System.Text.StringBuilder Insert (int index, bool value);
     parameters:
     - id: index
       type: System.Int32
-      description: Parameter description to be filled
+      description: The position in this instance where insertion begins.
     - id: value
       type: System.Boolean
-      description: Parameter description to be filled
+      description: The value to insert.
     return:
       type: System.Text.StringBuilder
-      description: Parameter description to be filled
+      description: A reference to this instance after the insert operation has completed.
   overload: System.Text.StringBuilder.Insert*
   platform:
   - net-11
@@ -1282,18 +1414,22 @@ items:
   assemblies:
   - mscorlib
   namespace: System.Text
+  summary: Inserts the string representation of a specified 8-bit unsigned integer into this instance at the specified character position.
+  remarks: "## Remarks  \n <xref:System.Byte.ToString%2A?displayProperty=fullName> is used to get a string representation of . Existing characters are shifted to make room for the new text. The capacity of this instance is adjusted as needed."
+  example:
+  - "## Examples  \n The following example demonstrates the <xref:System.Text.StringBuilder.Insert%2A> method.  \n  \n [!CODE [stringbuilder.insert#1](../CodeSnippet/VS_Snippets_CLR/stringbuilder.insert#1)]"
   syntax:
     content: public System.Text.StringBuilder Insert (int index, byte value);
     parameters:
     - id: index
       type: System.Int32
-      description: Parameter description to be filled
+      description: The position in this instance where insertion begins.
     - id: value
       type: System.Byte
-      description: Parameter description to be filled
+      description: The value to insert.
     return:
       type: System.Text.StringBuilder
-      description: Parameter description to be filled
+      description: A reference to this instance after the insert operation has completed.
   overload: System.Text.StringBuilder.Insert*
   platform:
   - net-11
@@ -1311,18 +1447,22 @@ items:
   assemblies:
   - mscorlib
   namespace: System.Text
+  summary: Inserts the string representation of a specified Unicode character into this instance at the specified character position.
+  remarks: "## Remarks  \n <xref:System.Char.ToString%2A?displayProperty=fullName> is used to get a string representation of . Existing characters are shifted to make room for the new text. The capacity of this instance is adjusted as needed."
+  example:
+  - "## Examples  \n The following example demonstrates the <xref:System.Text.StringBuilder.Insert%2A> method.  \n  \n [!CODE [stringbuilder.insert#1](../CodeSnippet/VS_Snippets_CLR/stringbuilder.insert#1)]"
   syntax:
     content: public System.Text.StringBuilder Insert (int index, char value);
     parameters:
     - id: index
       type: System.Int32
-      description: Parameter description to be filled
+      description: The position in this instance where insertion begins.
     - id: value
       type: System.Char
-      description: Parameter description to be filled
+      description: The value to insert.
     return:
       type: System.Text.StringBuilder
-      description: Parameter description to be filled
+      description: A reference to this instance after the insert operation has completed.
   overload: System.Text.StringBuilder.Insert*
   platform:
   - net-11
@@ -1340,18 +1480,22 @@ items:
   assemblies:
   - mscorlib
   namespace: System.Text
+  summary: Inserts the string representation of a specified array of Unicode characters into this instance at the specified character position.
+  remarks: "## Remarks  \n Existing characters are shifted to make room for the new text. The capacity of this instance is adjusted as needed.  \n  \n If  is `null`, the <xref:System.Text.StringBuilder> is not changed."
+  example:
+  - "## Examples  \n The following example demonstrates the <xref:System.Text.StringBuilder.Insert%2A> method.  \n  \n [!CODE [stringbuilder.insert#1](../CodeSnippet/VS_Snippets_CLR/stringbuilder.insert#1)]"
   syntax:
     content: public System.Text.StringBuilder Insert (int index, char[] value);
     parameters:
     - id: index
       type: System.Int32
-      description: Parameter description to be filled
+      description: The position in this instance where insertion begins.
     - id: value
       type: System.Char[]
-      description: Parameter description to be filled
+      description: The character array to insert.
     return:
       type: System.Text.StringBuilder
-      description: Parameter description to be filled
+      description: A reference to this instance after the insert operation has completed.
   overload: System.Text.StringBuilder.Insert*
   platform:
   - net-11
@@ -1369,18 +1513,22 @@ items:
   assemblies:
   - mscorlib
   namespace: System.Text
+  summary: Inserts the string representation of a decimal number into this instance at the specified character position.
+  remarks: "## Remarks  \n <xref:System.Decimal.ToString%2A?displayProperty=fullName> is used to get a string representation of . Existing characters are shifted to make room for the new text. The capacity of this instance is adjusted as needed."
+  example:
+  - "## Examples  \n The following example demonstrates the <xref:System.Text.StringBuilder.Insert%2A> method.  \n  \n [!CODE [stringbuilder.insert#1](../CodeSnippet/VS_Snippets_CLR/stringbuilder.insert#1)]"
   syntax:
     content: public System.Text.StringBuilder Insert (int index, decimal value);
     parameters:
     - id: index
       type: System.Int32
-      description: Parameter description to be filled
+      description: The position in this instance where insertion begins.
     - id: value
       type: System.Decimal
-      description: Parameter description to be filled
+      description: The value to insert.
     return:
       type: System.Text.StringBuilder
-      description: Parameter description to be filled
+      description: A reference to this instance after the insert operation has completed.
   overload: System.Text.StringBuilder.Insert*
   platform:
   - net-11
@@ -1398,18 +1546,22 @@ items:
   assemblies:
   - mscorlib
   namespace: System.Text
+  summary: Inserts the string representation of a double-precision floating-point number into this instance at the specified character position.
+  remarks: "## Remarks  \n <xref:System.Double.ToString%2A?displayProperty=fullName> is used to get a string representation of . Existing characters are shifted to make room for the new text. The capacity of this instance is adjusted as needed."
+  example:
+  - "## Examples  \n The following example demonstrates the <xref:System.Text.StringBuilder.Insert%2A> method.  \n  \n [!CODE [stringbuilder.insert#1](../CodeSnippet/VS_Snippets_CLR/stringbuilder.insert#1)]"
   syntax:
     content: public System.Text.StringBuilder Insert (int index, double value);
     parameters:
     - id: index
       type: System.Int32
-      description: Parameter description to be filled
+      description: The position in this instance where insertion begins.
     - id: value
       type: System.Double
-      description: Parameter description to be filled
+      description: The value to insert.
     return:
       type: System.Text.StringBuilder
-      description: Parameter description to be filled
+      description: A reference to this instance after the insert operation has completed.
   overload: System.Text.StringBuilder.Insert*
   platform:
   - net-11
@@ -1427,18 +1579,22 @@ items:
   assemblies:
   - mscorlib
   namespace: System.Text
+  summary: Inserts the string representation of a specified 16-bit signed integer into this instance at the specified character position.
+  remarks: "## Remarks  \n <xref:System.Int16.ToString%2A?displayProperty=fullName> is used to get a string representation of . Existing characters are shifted to make room for the new text. The capacity of this instance is adjusted as needed."
+  example:
+  - "## Examples  \n The following example demonstrates the <xref:System.Text.StringBuilder.Insert%2A> method.  \n  \n [!CODE [stringbuilder.insert#1](../CodeSnippet/VS_Snippets_CLR/stringbuilder.insert#1)]"
   syntax:
     content: public System.Text.StringBuilder Insert (int index, short value);
     parameters:
     - id: index
       type: System.Int32
-      description: Parameter description to be filled
+      description: The position in this instance where insertion begins.
     - id: value
       type: System.Int16
-      description: Parameter description to be filled
+      description: The value to insert.
     return:
       type: System.Text.StringBuilder
-      description: Parameter description to be filled
+      description: A reference to this instance after the insert operation has completed.
   overload: System.Text.StringBuilder.Insert*
   platform:
   - net-11
@@ -1456,18 +1612,22 @@ items:
   assemblies:
   - mscorlib
   namespace: System.Text
+  summary: Inserts the string representation of a specified 32-bit signed integer into this instance at the specified character position.
+  remarks: "## Remarks  \n <xref:System.Int32.ToString%2A?displayProperty=fullName> is used to get a string representation of . Existing characters are shifted to make room for the new text. The capacity of this instance is adjusted as needed."
+  example:
+  - "## Examples  \n The following example demonstrates the <xref:System.Text.StringBuilder.Insert%2A> method.  \n  \n [!CODE [stringbuilder.insert#1](../CodeSnippet/VS_Snippets_CLR/stringbuilder.insert#1)]"
   syntax:
     content: public System.Text.StringBuilder Insert (int index, int value);
     parameters:
     - id: index
       type: System.Int32
-      description: Parameter description to be filled
+      description: The position in this instance where insertion begins.
     - id: value
       type: System.Int32
-      description: Parameter description to be filled
+      description: The value to insert.
     return:
       type: System.Text.StringBuilder
-      description: Parameter description to be filled
+      description: A reference to this instance after the insert operation has completed.
   overload: System.Text.StringBuilder.Insert*
   platform:
   - net-11
@@ -1485,18 +1645,22 @@ items:
   assemblies:
   - mscorlib
   namespace: System.Text
+  summary: Inserts the string representation of a 64-bit signed integer into this instance at the specified character position.
+  remarks: "## Remarks  \n <xref:System.Int64.ToString%2A?displayProperty=fullName> is used to get a string representation of . Existing characters are shifted to make room for the new text. The capacity of this instance is adjusted as needed."
+  example:
+  - "## Examples  \n The following example demonstrates the <xref:System.Text.StringBuilder.Insert%2A> method.  \n  \n [!CODE [stringbuilder.insert#1](../CodeSnippet/VS_Snippets_CLR/stringbuilder.insert#1)]"
   syntax:
     content: public System.Text.StringBuilder Insert (int index, long value);
     parameters:
     - id: index
       type: System.Int32
-      description: Parameter description to be filled
+      description: The position in this instance where insertion begins.
     - id: value
       type: System.Int64
-      description: Parameter description to be filled
+      description: The value to insert.
     return:
       type: System.Text.StringBuilder
-      description: Parameter description to be filled
+      description: A reference to this instance after the insert operation has completed.
   overload: System.Text.StringBuilder.Insert*
   platform:
   - net-11
@@ -1514,18 +1678,22 @@ items:
   assemblies:
   - mscorlib
   namespace: System.Text
+  summary: Inserts the string representation of an object into this instance at the specified character position.
+  remarks: "## Remarks  \n <xref:System.Object.ToString%2A?displayProperty=fullName> is used to get a string representation of . Existing characters are shifted to make room for the new text. The capacity of this instance is adjusted as needed.  \n  \n If  is `null`, the value of this instance is unchanged."
+  example:
+  - "## Examples  \n The following example demonstrates the <xref:System.Text.StringBuilder.Insert%2A> method.  \n  \n [!CODE [stringbuilder.insert#1](../CodeSnippet/VS_Snippets_CLR/stringbuilder.insert#1)]"
   syntax:
     content: public System.Text.StringBuilder Insert (int index, object value);
     parameters:
     - id: index
       type: System.Int32
-      description: Parameter description to be filled
+      description: The position in this instance where insertion begins.
     - id: value
       type: System.Object
-      description: Parameter description to be filled
+      description: The object to insert, or `null`.
     return:
       type: System.Text.StringBuilder
-      description: Parameter description to be filled
+      description: A reference to this instance after the insert operation has completed.
   overload: System.Text.StringBuilder.Insert*
   platform:
   - net-11
@@ -1543,18 +1711,22 @@ items:
   assemblies:
   - mscorlib
   namespace: System.Text
+  summary: Inserts the string representation of a specified 8-bit signed integer into this instance at the specified character position.
+  remarks: "## Remarks  \n <xref:System.SByte.ToString%2A?displayProperty=fullName> is used to get a string representation of . Existing characters are shifted to make room for the new text. The capacity is adjusted as needed."
+  example:
+  - "## Examples  \n The following example demonstrates the <xref:System.Text.StringBuilder.Insert%2A> method.  \n  \n [!CODE [stringbuilder.insert#1](../CodeSnippet/VS_Snippets_CLR/stringbuilder.insert#1)]"
   syntax:
     content: public System.Text.StringBuilder Insert (int index, sbyte value);
     parameters:
     - id: index
       type: System.Int32
-      description: Parameter description to be filled
+      description: The position in this instance where insertion begins.
     - id: value
       type: System.SByte
-      description: Parameter description to be filled
+      description: The value to insert.
     return:
       type: System.Text.StringBuilder
-      description: Parameter description to be filled
+      description: A reference to this instance after the insert operation has completed.
   overload: System.Text.StringBuilder.Insert*
   platform:
   - net-11
@@ -1572,18 +1744,22 @@ items:
   assemblies:
   - mscorlib
   namespace: System.Text
+  summary: Inserts the string representation of a single-precision floating point number into this instance at the specified character position.
+  remarks: "## Remarks  \n <xref:System.Single.ToString%2A?displayProperty=fullName> is used to get a string representation of . Existing characters are shifted to make room for the new text. The capacity of this instance is adjusted as needed."
+  example:
+  - "## Examples  \n The following example demonstrates the <xref:System.Text.StringBuilder.Insert%2A> method.  \n  \n [!CODE [stringbuilder.insert#1](../CodeSnippet/VS_Snippets_CLR/stringbuilder.insert#1)]"
   syntax:
     content: public System.Text.StringBuilder Insert (int index, float value);
     parameters:
     - id: index
       type: System.Int32
-      description: Parameter description to be filled
+      description: The position in this instance where insertion begins.
     - id: value
       type: System.Single
-      description: Parameter description to be filled
+      description: The value to insert.
     return:
       type: System.Text.StringBuilder
-      description: Parameter description to be filled
+      description: A reference to this instance after the insert operation has completed.
   overload: System.Text.StringBuilder.Insert*
   platform:
   - net-11
@@ -1601,18 +1777,22 @@ items:
   assemblies:
   - mscorlib
   namespace: System.Text
+  summary: Inserts a string into this instance at the specified character position.
+  remarks: "## Remarks  \n Existing characters are shifted to make room for the new text. The capacity is adjusted as needed.  \n  \n This instance of <xref:System.Text.StringBuilder> is not changed if  is `null`, or  is not `null` but its length is zero."
+  example:
+  - "## Examples  \n The following example demonstrates the <xref:System.Text.StringBuilder.Insert%2A> method.  \n  \n [!CODE [stringbuilder.insert#1](../CodeSnippet/VS_Snippets_CLR/stringbuilder.insert#1)]"
   syntax:
     content: public System.Text.StringBuilder Insert (int index, string value);
     parameters:
     - id: index
       type: System.Int32
-      description: Parameter description to be filled
+      description: The position in this instance where insertion begins.
     - id: value
       type: System.String
-      description: Parameter description to be filled
+      description: The string to insert.
     return:
       type: System.Text.StringBuilder
-      description: Parameter description to be filled
+      description: A reference to this instance after the insert operation has completed.
   overload: System.Text.StringBuilder.Insert*
   platform:
   - net-11
@@ -1630,18 +1810,22 @@ items:
   assemblies:
   - mscorlib
   namespace: System.Text
+  summary: Inserts the string representation of a 16-bit unsigned integer into this instance at the specified character position.
+  remarks: "## Remarks  \n <xref:System.UInt16.ToString%2A?displayProperty=fullName> is used to get a string representation of . Existing characters are shifted to make room for the new text. The capacity of this instance is adjusted as needed."
+  example:
+  - "## Examples  \n The following example demonstrates the <xref:System.Text.StringBuilder.Insert%2A> method.  \n  \n [!CODE [stringbuilder.insert#1](../CodeSnippet/VS_Snippets_CLR/stringbuilder.insert#1)]"
   syntax:
     content: public System.Text.StringBuilder Insert (int index, ushort value);
     parameters:
     - id: index
       type: System.Int32
-      description: Parameter description to be filled
+      description: The position in this instance where insertion begins.
     - id: value
       type: System.UInt16
-      description: Parameter description to be filled
+      description: The value to insert.
     return:
       type: System.Text.StringBuilder
-      description: Parameter description to be filled
+      description: A reference to this instance after the insert operation has completed.
   overload: System.Text.StringBuilder.Insert*
   platform:
   - net-11
@@ -1659,18 +1843,22 @@ items:
   assemblies:
   - mscorlib
   namespace: System.Text
+  summary: Inserts the string representation of a 32-bit unsigned integer into this instance at the specified character position.
+  remarks: "## Remarks  \n <xref:System.UInt32.ToString%2A?displayProperty=fullName> is used to get a string representation of . Existing characters are shifted to make room for the new text. The capacity of this instance is adjusted as needed."
+  example:
+  - "## Examples  \n The following example demonstrates the <xref:System.Text.StringBuilder.Insert%2A> method.  \n  \n [!CODE [stringbuilder.insert#1](../CodeSnippet/VS_Snippets_CLR/stringbuilder.insert#1)]"
   syntax:
     content: public System.Text.StringBuilder Insert (int index, uint value);
     parameters:
     - id: index
       type: System.Int32
-      description: Parameter description to be filled
+      description: The position in this instance where insertion begins.
     - id: value
       type: System.UInt32
-      description: Parameter description to be filled
+      description: The value to insert.
     return:
       type: System.Text.StringBuilder
-      description: Parameter description to be filled
+      description: A reference to this instance after the insert operation has completed.
   overload: System.Text.StringBuilder.Insert*
   platform:
   - net-11
@@ -1688,18 +1876,22 @@ items:
   assemblies:
   - mscorlib
   namespace: System.Text
+  summary: Inserts the string representation of a 64-bit unsigned integer into this instance at the specified character position.
+  remarks: "## Remarks  \n <xref:System.UInt64.ToString%2A?displayProperty=fullName> is used to get a string representation of . Existing characters are shifted to make room for the new text. The capacity of this instance is adjusted as needed."
+  example:
+  - "## Examples  \n The following example demonstrates the <xref:System.Text.StringBuilder.Insert%2A> method.  \n  \n [!CODE [stringbuilder.insert#1](../CodeSnippet/VS_Snippets_CLR/stringbuilder.insert#1)]"
   syntax:
     content: public System.Text.StringBuilder Insert (int index, ulong value);
     parameters:
     - id: index
       type: System.Int32
-      description: Parameter description to be filled
+      description: The position in this instance where insertion begins.
     - id: value
       type: System.UInt64
-      description: Parameter description to be filled
+      description: The value to insert.
     return:
       type: System.Text.StringBuilder
-      description: Parameter description to be filled
+      description: A reference to this instance after the insert operation has completed.
   overload: System.Text.StringBuilder.Insert*
   platform:
   - net-11
@@ -1717,21 +1909,25 @@ items:
   assemblies:
   - mscorlib
   namespace: System.Text
+  summary: Inserts one or more copies of a specified string into this instance at the specified character position.
+  remarks: "## Remarks  \n Existing characters are shifted to make room for the new text. The capacity of this instance is adjusted as needed.  \n  \n This <xref:System.Text.StringBuilder> object is not changed if  is `null`,  is not `null` but its length is zero, or  is zero."
+  example:
+  - "## Examples  \n The following example demonstrates the <xref:System.Text.StringBuilder.Insert%2A> method.  \n  \n [!CODE [stringbuilder.insert#1](../CodeSnippet/VS_Snippets_CLR/stringbuilder.insert#1)]"
   syntax:
     content: public System.Text.StringBuilder Insert (int index, string value, int count);
     parameters:
     - id: index
       type: System.Int32
-      description: Parameter description to be filled
+      description: The position in this instance where insertion begins.
     - id: value
       type: System.String
-      description: Parameter description to be filled
+      description: The string to insert.
     - id: count
       type: System.Int32
-      description: Parameter description to be filled
+      description: The number of times to insert .
     return:
       type: System.Text.StringBuilder
-      description: Parameter description to be filled
+      description: A reference to this instance after insertion has completed.
   overload: System.Text.StringBuilder.Insert*
   platform:
   - net-11
@@ -1749,24 +1945,28 @@ items:
   assemblies:
   - mscorlib
   namespace: System.Text
+  summary: Inserts the string representation of a specified subarray of Unicode characters into this instance at the specified character position.
+  remarks: "## Remarks  \n Existing characters are shifted to make room for the new text. The capacity of this instance is adjusted as needed."
+  example:
+  - "## Examples  \n The following example demonstrates the <xref:System.Text.StringBuilder.Insert%2A> method.  \n  \n [!CODE [stringbuilder.insert#1](../CodeSnippet/VS_Snippets_CLR/stringbuilder.insert#1)]"
   syntax:
     content: public System.Text.StringBuilder Insert (int index, char[] value, int startIndex, int charCount);
     parameters:
     - id: index
       type: System.Int32
-      description: Parameter description to be filled
+      description: The position in this instance where insertion begins.
     - id: value
       type: System.Char[]
-      description: Parameter description to be filled
+      description: A character array.
     - id: startIndex
       type: System.Int32
-      description: Parameter description to be filled
+      description: The starting index within .
     - id: charCount
       type: System.Int32
-      description: Parameter description to be filled
+      description: The number of characters to insert.
     return:
       type: System.Text.StringBuilder
-      description: Parameter description to be filled
+      description: A reference to this instance after the insert operation has completed.
   overload: System.Text.StringBuilder.Insert*
   platform:
   - net-11
@@ -1784,11 +1984,15 @@ items:
   assemblies:
   - mscorlib
   namespace: System.Text
+  summary: Gets or sets the length of the current <see cref="T:System.Text.StringBuilder"> object.
+  remarks: "## Remarks  \n The length of a <xref:System.Text.StringBuilder> object is defined by its number of <xref:System.Char> objects.  \n  \n Like the<xref:System.String.Length%2A?displayProperty=fullName> property, the Length property indicates the length of the current string object. Unlike the <xref:System.String.Length%2A?displayProperty=fullName> property, which is read-only, the Length property allows you to modify the length of the string stored to the <xref:System.Text.StringBuilder> object.  \n  \n If the specified length is less than the current length, the current <xref:System.Text.StringBuilder> object is truncated to the specified length. If the specified length is greater than the current length, the end of the string value of the current <xref:System.Text.StringBuilder> object is padded with the Unicode NULL character (U+0000).  \n  \n If the specified length is greater than the current capacity, <xref:System.Text.StringBuilder.Capacity%2A> increases so that it is greater than or equal to the specified length."
+  example:
+  - "## Examples  \n The following example demonstrates the Length property.  \n  \n [!CODE [stringbuilder.ensurecapacity#1](../CodeSnippet/VS_Snippets_CLR/stringbuilder.ensurecapacity#1)]"
   syntax:
     content: public int Length { get; set; }
     return:
       type: System.Int32
-      description: Parameter description to be filled
+      description: To be added.
   platform:
   - net-11
   - net-20
@@ -1805,11 +2009,13 @@ items:
   assemblies:
   - mscorlib
   namespace: System.Text
+  summary: Gets the maximum capacity of this instance.
+  remarks: "  \n  \n## Remarks  \n The maximum capacity for this implementation is <xref:System.Int32?displayProperty=fullName>. However, this value is implementation-specific and might be different in other or later implementations. You can explicitly set the maximum capacity of a <xref:System.Text.StringBuilder> object by calling the <xref:System.Text.StringBuilder.%23ctor%28System.Int32%2CSystem.Int32%29> constructor.  \n  \n In the[!INCLUDE[net_v40_short](../../add/includes/net-v40-short-md.md)] and the [!INCLUDE[net_v45](../../add/includes/net-v45-md.md)], when you instantiate the <xref:System.Text.StringBuilder> object by calling the <xref:System.Text.StringBuilder.%23ctor%28System.Int32%2CSystem.Int32%29> constructor, both the length and the capacity of the <xref:System.Text.StringBuilder> instance can grow beyond the value of its MaxCapacity property. This can occur particularly when you call the <xref:System.Text.StringBuilder.Append%2A> and <xref:System.Text.StringBuilder.AppendFormat%2A> methods to append small strings.  \n  \n "
   syntax:
     content: public int MaxCapacity { get; }
     return:
       type: System.Int32
-      description: Parameter description to be filled
+      description: To be added.
   platform:
   - net-11
   - net-20
@@ -1826,18 +2032,22 @@ items:
   assemblies:
   - mscorlib
   namespace: System.Text
+  summary: Removes the specified range of characters from this instance.
+  remarks: "## Remarks  \n The current method removes the specified range of characters from the current instance. The characters at ( + ) are moved to , and the string value of the current instance is shortened by . The capacity of the current instance is unaffected.  \n  \n> [!NOTE]\n>  The Remove method modifies the value of the current <xref:System.Text.StringBuilder> instance and returns that instance. It does not create and return a new <xref:System.Text.StringBuilder> object."
+  example:
+  - "## Examples  \n The following example demonstrates the Remove method.  \n  \n [!CODE [stringbuilder.remove#1](../CodeSnippet/VS_Snippets_CLR/stringbuilder.remove#1)]"
   syntax:
     content: public System.Text.StringBuilder Remove (int startIndex, int length);
     parameters:
     - id: startIndex
       type: System.Int32
-      description: Parameter description to be filled
+      description: To be added.
     - id: length
       type: System.Int32
-      description: Parameter description to be filled
+      description: The number of characters to remove.
     return:
       type: System.Text.StringBuilder
-      description: Parameter description to be filled
+      description: A reference to this instance after the excise operation has completed.
   platform:
   - net-11
   - net-20
@@ -1854,18 +2064,22 @@ items:
   assemblies:
   - mscorlib
   namespace: System.Text
+  summary: Replaces all occurrences of a specified character in this instance with another specified character.
+  remarks: "## Remarks  \n This method performs an ordinal, case-sensitive comparison to identify occurrences of  in the current instance. The size of the current <xref:System.Text.StringBuilder> instance is unchanged after the replacement."
+  example:
+  - "## Examples  \n The following example demonstrates the <xref:System.Text.StringBuilder.Replace%2A> method.  \n  \n [!CODE [stringbuilder.replace#1](../CodeSnippet/VS_Snippets_CLR/stringbuilder.replace#1)]"
   syntax:
     content: public System.Text.StringBuilder Replace (char oldChar, char newChar);
     parameters:
     - id: oldChar
       type: System.Char
-      description: Parameter description to be filled
+      description: The character to replace.
     - id: newChar
       type: System.Char
-      description: Parameter description to be filled
+      description: The character that replaces .
     return:
       type: System.Text.StringBuilder
-      description: Parameter description to be filled
+      description: A reference to this instance with  replaced by .
   overload: System.Text.StringBuilder.Replace*
   platform:
   - net-11
@@ -1883,18 +2097,22 @@ items:
   assemblies:
   - mscorlib
   namespace: System.Text
+  summary: Replaces all occurrences of a specified string in this instance with another specified string.
+  remarks: "## Remarks  \n This method performs an ordinal, case-sensitive comparison to identify occurrences of  in the current instance. If  is `null`or<xref:System.String?displayProperty=fullName>, all occurrences of  are removed."
+  example:
+  - "## Examples  \n The following example demonstrates the <xref:System.Text.StringBuilder.Replace%2A> method.  \n  \n [!CODE [stringbuilder.replace#1](../CodeSnippet/VS_Snippets_CLR/stringbuilder.replace#1)]"
   syntax:
     content: public System.Text.StringBuilder Replace (string oldValue, string newValue);
     parameters:
     - id: oldValue
       type: System.String
-      description: Parameter description to be filled
+      description: The string to replace.
     - id: newValue
       type: System.String
-      description: Parameter description to be filled
+      description: The string that replaces , or `null`.
     return:
       type: System.Text.StringBuilder
-      description: Parameter description to be filled
+      description: A reference to this instance with all instances of  replaced by .
   overload: System.Text.StringBuilder.Replace*
   platform:
   - net-11
@@ -1912,24 +2130,28 @@ items:
   assemblies:
   - mscorlib
   namespace: System.Text
+  summary: Replaces, within a substring of this instance, all occurrences of a specified character with another specified character.
+  remarks: "## Remarks  \n This method performs an ordinal, case-sensitive comparison to identify occurrences of  in the current instance. The size of the current <xref:System.Text.StringBuilder> object is unchanged after the replacement."
+  example:
+  - "## Examples  \n The following example demonstrates the <xref:System.Text.StringBuilder.Replace%2A> method.  \n  \n [!CODE [stringbuilder.replace#1](../CodeSnippet/VS_Snippets_CLR/stringbuilder.replace#1)]"
   syntax:
     content: public System.Text.StringBuilder Replace (char oldChar, char newChar, int startIndex, int count);
     parameters:
     - id: oldChar
       type: System.Char
-      description: Parameter description to be filled
+      description: The character to replace.
     - id: newChar
       type: System.Char
-      description: Parameter description to be filled
+      description: The character that replaces .
     - id: startIndex
       type: System.Int32
-      description: Parameter description to be filled
+      description: The position in this instance where the substring begins.
     - id: count
       type: System.Int32
-      description: Parameter description to be filled
+      description: The length of the substring.
     return:
       type: System.Text.StringBuilder
-      description: Parameter description to be filled
+      description: A reference to this instance with  replaced by  in the range from  to  +  -1.
   overload: System.Text.StringBuilder.Replace*
   platform:
   - net-11
@@ -1947,24 +2169,28 @@ items:
   assemblies:
   - mscorlib
   namespace: System.Text
+  summary: Replaces, within a substring of this instance, all occurrences of a specified string with another specified string.
+  remarks: "## Remarks  \n This method performs an ordinal, case-sensitive comparison to identify occurrences of  in the specified substring. If  is `null`or<xref:System.String?displayProperty=fullName>, all occurrences of  are removed."
+  example:
+  - "## Examples  \n The following example demonstrates the <xref:System.Text.StringBuilder.Replace%2A> method.  \n  \n [!CODE [stringbuilder.replace#1](../CodeSnippet/VS_Snippets_CLR/stringbuilder.replace#1)]"
   syntax:
     content: public System.Text.StringBuilder Replace (string oldValue, string newValue, int startIndex, int count);
     parameters:
     - id: oldValue
       type: System.String
-      description: Parameter description to be filled
+      description: The string to replace.
     - id: newValue
       type: System.String
-      description: Parameter description to be filled
+      description: The string that replaces , or `null`.
     - id: startIndex
       type: System.Int32
-      description: Parameter description to be filled
+      description: The position in this instance where the substring begins.
     - id: count
       type: System.Int32
-      description: Parameter description to be filled
+      description: The length of the substring.
     return:
       type: System.Text.StringBuilder
-      description: Parameter description to be filled
+      description: A reference to this instance with all instances of  replaced by  in the range from  to  +  - 1.
   overload: System.Text.StringBuilder.Replace*
   platform:
   - net-11
@@ -1983,15 +2209,17 @@ items:
   assemblies:
   - mscorlib
   namespace: System.Text
+  summary: Populates a <xref:System.Runtime.Serialization.SerializationInfo?displayProperty=fullName> object with the data necessary to deserialize the current <xref:System.Text.StringBuilder> object.
+  remarks: "  \n  \n## Remarks  \n The  parameter is reserved for future use and does not participate in this operation.  \n  \n For more information, see the <xref:System.Runtime.Serialization.SerializationInfo.AddValue%28System.String%2CSystem.Object%2CSystem.Type%29?displayProperty=fullName> method.  \n  \n "
   syntax:
     content: void ISerializable.GetObjectData (System.Runtime.Serialization.SerializationInfo info, System.Runtime.Serialization.StreamingContext context);
     parameters:
     - id: info
       type: System.Runtime.Serialization.SerializationInfo
-      description: Parameter description to be filled
+      description: The object to populate with serialization information.
     - id: context
       type: System.Runtime.Serialization.StreamingContext
-      description: Parameter description to be filled
+      description: The place to store and retrieve serialized data. Reserved for future use.
   platform:
   - net-11
   - net-20
@@ -2008,12 +2236,16 @@ items:
   assemblies:
   - mscorlib
   namespace: System.Text
+  summary: Converts the value of this instance to a <xref:System.String>.
+  remarks: "## Remarks  \n You must call the ToString method to convert the <xref:System.Text.StringBuilder> object to a <xref:System.String> object before you can pass the string represented by the <xref:System.Text.StringBuilder> object to a method that has a <xref:System.String> parameter or display it in the user interface."
+  example:
+  - "## Examples  \n The following example demonstrates calling the ToString method. This example is part of a larger example provided for the <xref:System.Text.StringBuilder> class.  \n  \n [!CODE [StringBuilder#5](../CodeSnippet/VS_Snippets_CLR/StringBuilder#5)]"
   syntax:
     content: public override string ToString ();
     parameters: []
     return:
       type: System.String
-      description: Parameter description to be filled
+      description: A string whose value is the same as this instance.
   overload: System.Text.StringBuilder.ToString*
   platform:
   - net-11
@@ -2031,18 +2263,20 @@ items:
   assemblies:
   - mscorlib
   namespace: System.Text
+  summary: Converts the value of a substring of this instance to a <xref:System.String>.
+  remarks: "  \n  \n## Remarks  \n You must call the <xref:System.Text.StringBuilder.ToString%2A> method to convert the <xref:System.Text.StringBuilder> object to a <xref:System.String> object before you can pass the string represented by the <xref:System.Text.StringBuilder> object to a method that has a <xref:System.String> parameter or display it in the user interface.  \n  \n "
   syntax:
     content: public string ToString (int startIndex, int length);
     parameters:
     - id: startIndex
       type: System.Int32
-      description: Parameter description to be filled
+      description: The starting position of the substring in this instance.
     - id: length
       type: System.Int32
-      description: Parameter description to be filled
+      description: The length of the substring.
     return:
       type: System.String
-      description: Parameter description to be filled
+      description: A string whose value is the same as the specified substring of this instance.
   overload: System.Text.StringBuilder.ToString*
   platform:
   - net-11

@@ -66,6 +66,10 @@ items:
   nameWithType: TextWriter
   fullName: System.IO.TextWriter
   type: Class
+  summary: Represents a writer that can write a sequential series of characters. This class is abstract.
+  remarks: "## Remarks  \n TextWriter is the abstract base class of <xref:System.IO.StreamWriter> and <xref:System.IO.StringWriter>, which write characters to streams and strings, respectively. Create an instance of TextWriter to write an object to a string, write strings to a file, or to serialize XML. You can also use an instance of TextWriter to write text to a custom backing store using the same APIs you would use for a string or a stream, or to add support for text formatting.  \n  \n All the `Write` methods of TextWriter having primitive data types as parameters write out the values as strings.  \n  \n By default, a TextWriter is not thread safe. See <xref:System.IO.TextWriter.Synchronized%2A?displayProperty=fullName> for a thread-safe wrapper.  \n  \n> [!IMPORTANT]\n>  This type implements the <xref:System.IDisposable> interface. When you have finished using any type that derives from this type, you should dispose of it either directly or indirectly. To dispose of the type directly, call its <xref:System.IO.TextWriter.Dispose%2A> method in a `try`/`catch` block. To dispose of it indirectly, use a language construct such as `using` (in C#) or `Using` (in Visual Basic). For more information, see Dispose and the “Using an Object that Implements IDisposable” section in the <xref:System.IDisposable> interface topic.  \n  \n For a list of common I/O tasks, see [Common I/O Tasks](../Topic/Common%20I-O%20Tasks.md)."
+  example:
+  - "## Examples  \n The TextWriter class is an abstract class. Therefore, you do not instantiate it in your code. The <xref:System.IO.StreamWriter> class derives from TextWriter and provides implementations of the members for writing to a stream. The following example shows how to write two lines that consist of string values to a text file by using the <xref:System.IO.StreamWriter.WriteLineAsync%28System.String%29> method.  \n  \n Override Dispose in a derived class to provide  \n  \n [!CODE [System.IO.StreamWriter#23](../CodeSnippet/VS_Snippets_CLR_System/system.IO.StreamWriter#23)]"
   syntax:
     content: >-
       [System.Runtime.InteropServices.ComVisible(true)]
@@ -104,6 +108,8 @@ items:
   assemblies:
   - mscorlib
   namespace: System.IO
+  summary: Initializes a new instance of the <see cref="T:System.IO.TextWriter"> class.
+  remarks: "  \n  \n## Remarks  \n Use this constructor overload when you do not want to provide a value for the <xref:System.IO.TextWriter.FormatProvider%2A> property. When the <xref:System.IO.TextWriter.FormatProvider%2A> property is `null`, the culture of the current thread is used for formatting.  \n  \n Use this constructor for derived classes.  \n  \n For a list of common I/O tasks, see [Common I/O Tasks](../Topic/Common%20I-O%20Tasks.md).  \n  \n "
   syntax:
     content: protected TextWriter ();
     parameters: []
@@ -123,12 +129,14 @@ items:
   assemblies:
   - mscorlib
   namespace: System.IO
+  summary: Initializes a new instance of the <see cref="T:System.IO.TextWriter"> class with the specified format provider.
+  remarks: "  \n  \n## Remarks  \n Use this constructor overload to provide a value for the <xref:System.IO.TextWriter.FormatProvider%2A> property. The value of the <xref:System.IO.TextWriter.FormatProvider%2A> property specifies the culture-specific formatting that is used when you call the <xref:System.IO.TextWriter.Write%2A> and <xref:System.IO.TextWriter.WriteLine%2A> methods. If you do not want to provide a format provider, you create an instance by using the <xref:System.IO.TextWriter.%23ctor> constructor, which sets the <xref:System.IO.TextWriter.FormatProvider%2A> property to `null`. When the <xref:System.IO.TextWriter.FormatProvider%2A> property is `null`, the culture of the current thread is used for formatting.  \n  \n For a list of common I/O tasks, see [Common I/O Tasks](../Topic/Common%20I-O%20Tasks.md).  \n  \n "
   syntax:
     content: protected TextWriter (IFormatProvider formatProvider);
     parameters:
     - id: formatProvider
       type: System.IFormatProvider
-      description: Parameter description to be filled
+      description: An <xref:System.IFormatProvider> object that controls formatting.
   platform:
   - net-11
   - net-20
@@ -145,6 +153,8 @@ items:
   assemblies:
   - mscorlib
   namespace: System.IO
+  summary: Closes the current writer and releases any system resources associated with the writer.
+  remarks: "  \n  \n## Remarks  \n This implementation of `Close` calls the <xref:System.IO.TextWriter.Dispose%28System.Boolean%29?displayProperty=fullName> method and passes it a `true` value.  \n  \n Flushing the stream will not flush its underlying encoder unless you explicitly call <xref:System.IO.TextWriter.Flush%2A> or `Close`. Setting the <xref:System.IO.StreamWriter.AutoFlush%2A?displayProperty=fullName> property to `true` means that data will be flushed from the buffer to the stream, but the encoder state will not be flushed. This allows the encoder to keep its state (partial characters) so that it can encode the next block of characters correctly. This scenario affects UTF8 and UTF7 where certain characters can be encoded only after the encoder receives the adjacent character or characters.  \n  \n> [!NOTE]\n>  In derived classes, do not override the Close method. Instead, override the <xref:System.IO.TextWriter.Dispose%28System.Boolean%29?displayProperty=fullName> method to add code for releasing resources.  \n  \n "
   syntax:
     content: public virtual void Close ();
     parameters: []
@@ -164,11 +174,13 @@ items:
   assemblies:
   - mscorlib
   namespace: System.IO
+  summary: Stores the newline characters used for this `TextWriter`.
+  remarks: "  \n  \n## Remarks  \n For a list of common I/O tasks, see [Common I/O Tasks](../Topic/Common%20I-O%20Tasks.md).  \n  \n "
   syntax:
     content: protected char[] CoreNewLine;
     return:
       type: System.Char[]
-      description: Parameter description to be filled
+      description: To be added.
   platform:
   - net-11
   - net-20
@@ -185,6 +197,8 @@ items:
   assemblies:
   - mscorlib
   namespace: System.IO
+  summary: Releases all resources used by the <see cref="T:System.IO.TextWriter"> object.
+  remarks: "  \n  \n## Remarks  \n Call Dispose when you are finished using the <xref:System.IO.TextWriter>. The Dispose method leaves the <xref:System.IO.TextWriter> in an unusable state. After calling Dispose, you must release all references to the <xref:System.IO.TextWriter> so the garbage collector can reclaim the memory that the <xref:System.IO.TextWriter> was occupying.  \n  \n For more information, see [Cleaning Up Unmanaged Resources](../Topic/Cleaning%20Up%20Unmanaged%20Resources.md) and [Implementing a Dispose Method](../Topic/Implementing%20a%20Dispose%20Method.md).  \n  \n **Note** Always call Dispose before you release your last reference to the <xref:System.IO.TextWriter>. Otherwise, the resources it is using will not be freed until the garbage collector calls the <xref:System.IO.TextWriter> object's <xref:System.Object.Finalize%2A> method.  \n  \n "
   syntax:
     content: public void Dispose ();
     parameters: []
@@ -205,12 +219,14 @@ items:
   assemblies:
   - mscorlib
   namespace: System.IO
+  summary: Releases the unmanaged resources used by the <see cref="T:System.IO.TextWriter"> and optionally releases the managed resources.
+  remarks: "  \n  \n## Remarks  \n This method is called by `Dispose` and <xref:System.Object.Finalize%2A>. By default, this method specifies the  parameter as `true`. <xref:System.Object.Finalize%2A> specifies the  parameter as `false`.  \n  \n When the  parameter is `true`, this method releases all resources held by any managed objects that this <xref:System.IO.TextWriter> references. This method invokes the `Dispose` method of each referenced object.  \n  \n "
   syntax:
     content: protected virtual void Dispose (bool disposing);
     parameters:
     - id: disposing
       type: System.Boolean
-      description: Parameter description to be filled
+      description: '`true` to release both managed and unmanaged resources; `false` to release only unmanaged resources.'
   overload: System.IO.TextWriter.Dispose*
   platform:
   - net-11
@@ -228,11 +244,13 @@ items:
   assemblies:
   - mscorlib
   namespace: System.IO
+  summary: When overridden in a derived class, returns the character encoding in which the output is written.
+  remarks: "  \n  \n## Remarks  \n This property is necessary for some XML scenarios where a header must be written containing the encoding used by the `TextWriter`. This enables the XML code to consume an arbitrary `TextWriter` and generate the correct XML header.  \n  \n For a list of common I/O tasks, see [Common I/O Tasks](../Topic/Common%20I-O%20Tasks.md).  \n  \n "
   syntax:
     content: public abstract System.Text.Encoding Encoding { get; }
     return:
       type: System.Text.Encoding
-      description: Parameter description to be filled
+      description: To be added.
   platform:
   - net-11
   - net-20
@@ -249,6 +267,8 @@ items:
   assemblies:
   - mscorlib
   namespace: System.IO
+  summary: Clears all buffers for the current writer and causes any buffered data to be written to the underlying device.
+  remarks: "  \n  \n## Remarks  \n This default method does nothing, but derived classes can override the method to provide the appropriate functionality.  \n  \n Flushing the stream will not flush its underlying encoder unless you explicitly call `Flush` or <xref:System.IO.TextWriter.Close%2A>. Setting <xref:System.IO.StreamWriter.AutoFlush%2A> to `true` means that data will be flushed from the buffer to the stream, but the encoder state will not be flushed. This allows the encoder to keep its state (partial characters) so that it can encode the next block of characters correctly. This scenario affects UTF8 and UTF7 where certain characters can only be encoded after the encoder receives the adjacent character or characters.  \n  \n "
   syntax:
     content: public virtual void Flush ();
     parameters: []
@@ -268,12 +288,14 @@ items:
   assemblies:
   - mscorlib
   namespace: System.IO
+  summary: Asynchronously clears all buffers for the current writer and causes any buffered data to be written to the underlying device.
+  remarks: To be added.
   syntax:
     content: public virtual System.Threading.Tasks.Task FlushAsync ();
     parameters: []
     return:
       type: System.Threading.Tasks.Task
-      description: Parameter description to be filled
+      description: A task that represents the asynchronous flush operation.
   platform:
   - net-11
   - net-20
@@ -290,11 +312,13 @@ items:
   assemblies:
   - mscorlib
   namespace: System.IO
+  summary: Gets an object that controls formatting.
+  remarks: "  \n  \n## Remarks  \n The value of the FormatProvider property specifies the culture-specific formatting that is used when you call the <xref:System.IO.TextWriter.Write%2A> and <xref:System.IO.TextWriter.WriteLine%2A> methods. If you do not want to provide a format provider, you create an instance by using the <xref:System.IO.TextWriter.%23ctor> constructor, which sets the FormatProvider property to `null`. When the FormatProvider property contains `null`, the culture of the current thread is used for formatting.  \n  \n For an example of creating a file and writing text to a file, see [How to: Write Text to a File](../Topic/How%20to:%20Write%20Text%20to%20a%20File.md). For an example of reading text from a file, see [How to: Read Text from a File](../Topic/How%20to:%20Read%20Text%20from%20a%20File.md). For an example of reading from and writing to a binary file, see [How to: Read and Write to a Newly Created Data File](../Topic/How%20to:%20Read%20and%20Write%20to%20a%20Newly%20Created%20Data%20File.md).  \n  \n For a list of common I/O tasks, see [Common I/O Tasks](../Topic/Common%20I-O%20Tasks.md).  \n  \n "
   syntax:
     content: public virtual IFormatProvider FormatProvider { get; }
     return:
       type: System.IFormatProvider
-      description: Parameter description to be filled
+      description: To be added.
   platform:
   - net-11
   - net-20
@@ -311,11 +335,13 @@ items:
   assemblies:
   - mscorlib
   namespace: System.IO
+  summary: Gets or sets the line terminator string used by the current `TextWriter`.
+  remarks: "  \n  \n## Remarks  \n The default line terminator string is a carriage return followed by a line feed (\"\\r\\n\").  \n  \n The line terminator string is written to the text stream whenever one of the `WriteLine` methods is called. In order for text written by the `TextWriter` to be readable by a <xref:System.IO.TextReader>, only \"\\n\" or \"\\r\\n\" should be used as terminator strings. If `NewLine` is set to `null`, the default newline character is used instead.  \n  \n For a list of common I/O tasks, see [Common I/O Tasks](../Topic/Common%20I-O%20Tasks.md).  \n  \n "
   syntax:
     content: public virtual string NewLine { get; set; }
     return:
       type: System.String
-      description: Parameter description to be filled
+      description: To be added.
   platform:
   - net-11
   - net-20
@@ -332,11 +358,13 @@ items:
   assemblies:
   - mscorlib
   namespace: System.IO
+  summary: Provides a `TextWriter` with no backing store that can be written to, but not read from.
+  remarks: "  \n  \n## Remarks  \n Use `Null` to redirect output to a stream that will not consume any operating system resources.  \n  \n When the <xref:System.IO.TextWriter.Write%2A?displayProperty=fullName> methods are invoked on `Null`, the call simply returns, and no data is actually written to any backing store.  \n  \n For a list of common I/O tasks, see [Common I/O Tasks](../Topic/Common%20I-O%20Tasks.md).  \n  \n "
   syntax:
     content: public static readonly System.IO.TextWriter Null;
     return:
       type: System.IO.TextWriter
-      description: Parameter description to be filled
+      description: To be added.
   platform:
   - net-11
   - net-20
@@ -353,15 +381,17 @@ items:
   assemblies:
   - mscorlib
   namespace: System.IO
+  summary: Creates a thread-safe wrapper around the specified `TextWriter`.
+  remarks: "  \n  \n## Remarks  \n All write operations to the returned wrapper will be thread safe. You call this method to ensure that only one thread at a time can execute the methods on the <xref:System.IO.TextWriter> instance that is returned. For more information about synchronization and threading, see [Synchronizing Data for Multithreading](../Topic/Synchronizing%20Data%20for%20Multithreading.md).  \n  \n For a list of common I/O tasks, see [Common I/O Tasks](../Topic/Common%20I-O%20Tasks.md).  \n  \n "
   syntax:
     content: public static System.IO.TextWriter Synchronized (System.IO.TextWriter writer);
     parameters:
     - id: writer
       type: System.IO.TextWriter
-      description: Parameter description to be filled
+      description: The `TextWriter` to synchronize.
     return:
       type: System.IO.TextWriter
-      description: Parameter description to be filled
+      description: A thread-safe wrapper.
   platform:
   - net-11
   - net-20
@@ -378,12 +408,14 @@ items:
   assemblies:
   - mscorlib
   namespace: System.IO
+  summary: Writes the text representation of a `Boolean` value to the text string or stream.
+  remarks: "  \n  \n## Remarks  \n The text representation of the specified value is produced by calling the <xref:System.Boolean.ToString%2A?displayProperty=fullName> method.  \n  \n This method outputs either <xref:System.Boolean.TrueString?displayProperty=fullName> or <xref:System.Boolean.FalseString?displayProperty=fullName>.  \n  \n For a list of common I/O tasks, see [Common I/O Tasks](../Topic/Common%20I-O%20Tasks.md).  \n  \n "
   syntax:
     content: public virtual void Write (bool value);
     parameters:
     - id: value
       type: System.Boolean
-      description: Parameter description to be filled
+      description: The `Boolean` value to write.
   overload: System.IO.TextWriter.Write*
   platform:
   - net-11
@@ -401,12 +433,14 @@ items:
   assemblies:
   - mscorlib
   namespace: System.IO
+  summary: Writes a character to the text string or stream.
+  remarks: "  \n  \n## Remarks  \n This default method does nothing, but derived classes can override the method to provide the appropriate functionality.  \n  \n For a list of common I/O tasks, see [Common I/O Tasks](../Topic/Common%20I-O%20Tasks.md).  \n  \n "
   syntax:
     content: public virtual void Write (char value);
     parameters:
     - id: value
       type: System.Char
-      description: Parameter description to be filled
+      description: The character to write to the text stream.
   overload: System.IO.TextWriter.Write*
   platform:
   - net-11
@@ -424,12 +458,14 @@ items:
   assemblies:
   - mscorlib
   namespace: System.IO
+  summary: Writes a character array to the text string or stream.
+  remarks: "  \n  \n## Remarks  \n This method does not search the specified string for individual newline characters (hexadecimal 0x000a) and replace them with <xref:System.IO.TextWriter.NewLine%2A>.  \n  \n This default method calls the [Write(Char\\[\\], Int32, Int32)](assetId:///M:System.IO.TextWriter.Write(System.Char[],System.Int32,System.Int32)?qualifyHint=False&autoUpgrade=False) method and passes the entire character array. If the character array is `null`, nothing is written.  \n  \n For a list of common I/O tasks, see [Common I/O Tasks](../Topic/Common%20I-O%20Tasks.md).  \n  \n "
   syntax:
     content: public virtual void Write (char[] buffer);
     parameters:
     - id: buffer
       type: System.Char[]
-      description: Parameter description to be filled
+      description: The character array to write to the text stream.
   overload: System.IO.TextWriter.Write*
   platform:
   - net-11
@@ -447,12 +483,14 @@ items:
   assemblies:
   - mscorlib
   namespace: System.IO
+  summary: Writes the text representation of a decimal value to the text string or stream.
+  remarks: "  \n  \n## Remarks  \n The <xref:System.IO.TextWriter.FormatProvider%2A> property, if not `null`, specifies the culture-specific formatting.  \n  \n "
   syntax:
     content: public virtual void Write (decimal value);
     parameters:
     - id: value
       type: System.Decimal
-      description: Parameter description to be filled
+      description: The decimal value to write.
   overload: System.IO.TextWriter.Write*
   platform:
   - net-11
@@ -470,12 +508,14 @@ items:
   assemblies:
   - mscorlib
   namespace: System.IO
+  summary: Writes the text representation of an 8-byte floating-point value to the text string or stream.
+  remarks: "  \n  \n## Remarks  \n The text representation of the specified value is produced by calling the <xref:System.Double.ToString%2A?displayProperty=fullName> method. The <xref:System.IO.TextWriter.FormatProvider%2A?displayProperty=fullName> property, if not `null`, specifies the culture-specific formatting.  \n  \n For a list of common I/O tasks, see [Common I/O Tasks](../Topic/Common%20I-O%20Tasks.md).  \n  \n "
   syntax:
     content: public virtual void Write (double value);
     parameters:
     - id: value
       type: System.Double
-      description: Parameter description to be filled
+      description: The 8-byte floating-point value to write.
   overload: System.IO.TextWriter.Write*
   platform:
   - net-11
@@ -493,12 +533,14 @@ items:
   assemblies:
   - mscorlib
   namespace: System.IO
+  summary: Writes the text representation of a 4-byte signed integer to the text string or stream.
+  remarks: "  \n  \n## Remarks  \n The text representation of the specified value is produced by calling the <xref:System.Int32.ToString%2A?displayProperty=fullName> method. The <xref:System.IO.TextWriter.FormatProvider%2A?displayProperty=fullName> property, if not `null`, specifies the culture-specific formatting.  \n  \n For a list of common I/O tasks, see [Common I/O Tasks](../Topic/Common%20I-O%20Tasks.md).  \n  \n "
   syntax:
     content: public virtual void Write (int value);
     parameters:
     - id: value
       type: System.Int32
-      description: Parameter description to be filled
+      description: The 4-byte signed integer to write.
   overload: System.IO.TextWriter.Write*
   platform:
   - net-11
@@ -516,12 +558,14 @@ items:
   assemblies:
   - mscorlib
   namespace: System.IO
+  summary: Writes the text representation of an 8-byte signed integer to the text string or stream.
+  remarks: "  \n  \n## Remarks  \n The text representation of the specified value is produced by calling the <xref:System.Int64.ToString%2A?displayProperty=fullName> method. The <xref:System.IO.TextWriter.FormatProvider%2A?displayProperty=fullName> property, if not `null`, specifies the culture-specific formatting.  \n  \n For a list of common I/O tasks, see [Common I/O Tasks](../Topic/Common%20I-O%20Tasks.md).  \n  \n [How to: Write Text to a File](../Topic/How%20to:%20Write%20Text%20to%20a%20File.md)  \n  \n "
   syntax:
     content: public virtual void Write (long value);
     parameters:
     - id: value
       type: System.Int64
-      description: Parameter description to be filled
+      description: The 8-byte signed integer to write.
   overload: System.IO.TextWriter.Write*
   platform:
   - net-11
@@ -539,12 +583,14 @@ items:
   assemblies:
   - mscorlib
   namespace: System.IO
+  summary: Writes the text representation of an object to the text string or stream by calling the `ToString` method on that object.
+  remarks: "  \n  \n## Remarks  \n This overload is equivalent to the <xref:System.IO.TextWriter.Write%28System.String%29> overload.  \n  \n If the specified object is `null`, no action is taken and no exception is thrown. Otherwise, the object's `ToString` method is called to produce the string representation, and the resulting string is then written to the output stream. The <xref:System.IO.TextWriter.FormatProvider%2A> property, if not `null`, specifies the culture-specific formatting.  \n  \n For a list of common I/O tasks, see [Common I/O Tasks](../Topic/Common%20I-O%20Tasks.md).  \n  \n "
   syntax:
     content: public virtual void Write (object value);
     parameters:
     - id: value
       type: System.Object
-      description: Parameter description to be filled
+      description: The object to write.
   overload: System.IO.TextWriter.Write*
   platform:
   - net-11
@@ -562,12 +608,14 @@ items:
   assemblies:
   - mscorlib
   namespace: System.IO
+  summary: Writes the text representation of a 4-byte floating-point value to the text string or stream.
+  remarks: "  \n  \n## Remarks  \n The text representation of the specified value is produced by calling the <xref:System.Single.ToString%2A?displayProperty=fullName> method. The <xref:System.IO.TextWriter.FormatProvider%2A?displayProperty=fullName> property, if not `null`, specifies the culture-specific formatting.  \n  \n For a list of common I/O tasks, see [Common I/O Tasks](../Topic/Common%20I-O%20Tasks.md).  \n  \n "
   syntax:
     content: public virtual void Write (float value);
     parameters:
     - id: value
       type: System.Single
-      description: Parameter description to be filled
+      description: The 4-byte floating-point value to write.
   overload: System.IO.TextWriter.Write*
   platform:
   - net-11
@@ -585,12 +633,14 @@ items:
   assemblies:
   - mscorlib
   namespace: System.IO
+  summary: Writes a string to the text string or stream.
+  remarks: "  \n  \n## Remarks  \n This overload is equivalent to the [Write(Char\\[\\])](assetId:///M:System.IO.TextWriter.Write(System.Char[])?qualifyHint=False&autoUpgrade=False) overload.  \n  \n This method does not search the specified string for individual newline characters (hexadecimal 0x000a) and replace them with <xref:System.IO.TextWriter.NewLine%2A?displayProperty=fullName>.  \n  \n If  is `null`, nothing is written to the text stream.  \n  \n For a list of common I/O tasks, see [Common I/O Tasks](../Topic/Common%20I-O%20Tasks.md).  \n  \n "
   syntax:
     content: public virtual void Write (string value);
     parameters:
     - id: value
       type: System.String
-      description: Parameter description to be filled
+      description: The string to write.
   overload: System.IO.TextWriter.Write*
   platform:
   - net-11
@@ -608,12 +658,14 @@ items:
   assemblies:
   - mscorlib
   namespace: System.IO
+  summary: Writes the text representation of a 4-byte unsigned integer to the text string or stream.
+  remarks: "  \n  \n## Remarks  \n The text representation of the specified value is produced by calling the <xref:System.UInt32.ToString%2A?displayProperty=fullName> method. The <xref:System.IO.TextWriter.FormatProvider%2A?displayProperty=fullName> property, if not `null`, specifies the culture-specific formatting.  \n  \n For a list of common I/O tasks, see [Common I/O Tasks](../Topic/Common%20I-O%20Tasks.md).  \n  \n "
   syntax:
     content: public virtual void Write (uint value);
     parameters:
     - id: value
       type: System.UInt32
-      description: Parameter description to be filled
+      description: The 4-byte unsigned integer to write.
   overload: System.IO.TextWriter.Write*
   platform:
   - net-11
@@ -631,12 +683,14 @@ items:
   assemblies:
   - mscorlib
   namespace: System.IO
+  summary: Writes the text representation of an 8-byte unsigned integer to the text string or stream.
+  remarks: "  \n  \n## Remarks  \n The text representation of the specified value is produced by calling the <xref:System.UInt64.ToString%2A?displayProperty=fullName> method. The <xref:System.IO.TextWriter.FormatProvider%2A?displayProperty=fullName> property, if not `null`, specifies the culture-specific formatting.  \n  \n For a list of common I/O tasks, see [Common I/O Tasks](../Topic/Common%20I-O%20Tasks.md).  \n  \n "
   syntax:
     content: public virtual void Write (ulong value);
     parameters:
     - id: value
       type: System.UInt64
-      description: Parameter description to be filled
+      description: The 8-byte unsigned integer to write.
   overload: System.IO.TextWriter.Write*
   platform:
   - net-11
@@ -654,15 +708,17 @@ items:
   assemblies:
   - mscorlib
   namespace: System.IO
+  summary: Writes a formatted string to the text string or stream, using the same semantics as the <xref:System.String.Format%28System.String%2CSystem.Object%29?displayProperty=fullName> method.
+  remarks: "  \n  \n## Remarks  \n This method uses the  of the .NET Framework to convert the value of an object to its string representation and to embed that representation in a string. The .NET Framework provides extensive formatting support, which is described in greater detail in the following formatting topics:  \n  \n-   For more information about the composite formatting feature, see [Composite Formatting](../Topic/Composite%20Formatting.md).  \n  \n-   For more information about numeric format specifiers, see [Standard Numeric Format Strings](../Topic/Standard%20Numeric%20Format%20Strings.md) and [Custom Numeric Format Strings](../Topic/Custom%20Numeric%20Format%20Strings.md).  \n  \n-   For more information about date and time format specifiers, see [Standard Date and Time Format Strings](../Topic/Standard%20Date%20and%20Time%20Format%20Strings.md) and [Custom Date and Time Format Strings](../Topic/Custom%20Date%20and%20Time%20Format%20Strings.md).  \n  \n-   For more information about enumeration format specifiers, see [Enumeration Format Strings](../Topic/Enumeration%20Format%20Strings.md).  \n  \n-   For more information about formatting, see [Formatting Types](../Topic/Formatting%20Types%20in%20the%20.NET%20Framework.md).  \n  \n The  parameter consists of zero or more runs of text intermixed with zero or more indexed placeholders, called format items, that correspond to an object in the parameter list of this method. The formatting process replaces each format item with the string representation of the value of the corresponding object.  \n  \n The syntax of a format item is as follows:  \n  \n {*index*[,*length*][:*formatString*]}  \n  \n Elements in square brackets are optional. The following table describes each element. For more information about the composite formatting feature, including the syntax of a format item, see [Composite Formatting](../Topic/Composite%20Formatting.md).  \n  \n|Element|Description|  \n|-------------|-----------------|  \n|index|The zero-based position in the parameter list of the object to be formatted. If the object specified by *index* is `null`, the format item is replaced by <xref:System.String?displayProperty=fullName>. Because this overload has only a single object in its parameter list, the value of *index* must always be 0. If there is no parameter in the *index* position, a <xref:System.FormatException> is thrown.|  \n|,*length*|The minimum number of characters in the string representation of the parameter. If positive, the parameter is right-aligned; if negative, it is left-aligned.|  \n|:*formatString*|A standard or custom format string that is supported by the object to be formatted. Possible values for *formatString* are the same as the values supported by the object's `ToString(``)` method. If *formatString* is not specified and the object to be formatted implements the <xref:System.IFormattable> interface, `null` is passed as the value of the  parameter that is used as the <xref:System.IFormattable.ToString%2A?displayProperty=fullName> format string.|  \n  \n The leading and trailing brace characters, \"{\" and \"}\", are required. To specify a single literal brace character in , specify two leading or trailing brace characters; that is, \"{{\" or \"}}\".  \n  \n . This method does not search the specified string for individual newline characters (hexadecimal 0x000a) and replace them with <xref:System.IO.TextWriter.NewLine%2A?displayProperty=fullName>.  \n  \n If a specified object is not referenced in the format string, it is ignored.  \n  \n For a list of common I/O tasks, see [Common I/O Tasks](../Topic/Common%20I-O%20Tasks.md).  \n  \n "
   syntax:
     content: public virtual void Write (string format, object arg0);
     parameters:
     - id: format
       type: System.String
-      description: Parameter description to be filled
+      description: A composite format string (see Remarks).
     - id: arg0
       type: System.Object
-      description: Parameter description to be filled
+      description: The object to format and write.
   overload: System.IO.TextWriter.Write*
   platform:
   - net-11
@@ -680,15 +736,17 @@ items:
   assemblies:
   - mscorlib
   namespace: System.IO
+  summary: Writes a formatted string to the text string or stream, using the same semantics as the [String.Format(String, Object\[\])](assetId:///M:System.String.Format(System.String,System.Object[])?qualifyHint=True&autoUpgrade=False) method.
+  remarks: "  \n  \n## Remarks  \n This method uses the  of the .NET Framework to convert the value of an object to its string representation and to embed that representation in a string. The .NET Framework provides extensive formatting support, which is described in greater detail in the following formatting topics:  \n  \n-   For more information about the composite formatting feature, see [Composite Formatting](../Topic/Composite%20Formatting.md).  \n  \n-   For more information about numeric format specifiers, see [Standard Numeric Format Strings](../Topic/Standard%20Numeric%20Format%20Strings.md) and [Custom Numeric Format Strings](../Topic/Custom%20Numeric%20Format%20Strings.md).  \n  \n-   For more information about date and time format specifiers, see [Standard Date and Time Format Strings](../Topic/Standard%20Date%20and%20Time%20Format%20Strings.md) and [Custom Date and Time Format Strings](../Topic/Custom%20Date%20and%20Time%20Format%20Strings.md).  \n  \n-   For more information about enumeration format specifiers, see [Enumeration Format Strings](../Topic/Enumeration%20Format%20Strings.md).  \n  \n-   For more information about formatting, see [Formatting Types](../Topic/Formatting%20Types%20in%20the%20.NET%20Framework.md).  \n  \n The  parameter consists of zero or more runs of text intermixed with zero or more indexed placeholders, called format items, that correspond to an object in the parameter list of this method. The formatting process replaces each format item with the string representation of the value of the corresponding object.  \n  \n The syntax of a format item is as follows:  \n  \n {*index*[,*length*][:*formatString*]}  \n  \n Elements in square brackets are optional. The following table describes each element. For more information about the composite formatting feature, including the syntax of a format item, see [Composite Formatting](../Topic/Composite%20Formatting.md).  \n  \n|Element|Description|  \n|-------------|-----------------|  \n|index|The zero-based position in the parameter list of the object to be formatted. If the object specified by *index* is `null`, the format item is replaced by <xref:System.String?displayProperty=fullName>. Because this overload has an array in its parameter list, the value of *index* must always be less than the length of the array. If there is no parameter in the *index* position, a <xref:System.FormatException> is thrown.|  \n|,*length*|The minimum number of characters in the string representation of the parameter. If positive, the parameter is right-aligned; if negative, it is left-aligned.|  \n|:*formatString*|A standard or custom format string that is supported by the object to be formatted. Possible values for *formatString* are the same as the values supported by the object's `ToString(``)` method. If *formatString* is not specified and the object to be formatted implements the <xref:System.IFormattable> interface, `null` is passed as the value of the  parameter that is used as the <xref:System.IFormattable.ToString%2A?displayProperty=fullName> format string.|  \n  \n The leading and trailing brace characters, \"{\" and \"}\", are required. To specify a single literal brace character in , specify two leading or trailing brace characters; that is, \"{{\" or \"}}\".  \n  \n This method does not search the specified string for individual newline characters (hexadecimal 0x000a) and replace them with <xref:System.IO.TextWriter.NewLine%2A?displayProperty=fullName>.  \n  \n If a specified object is not referenced in the format string, it is ignored.  \n  \n For a list of common I/O tasks, see [Common I/O Tasks](../Topic/Common%20I-O%20Tasks.md).  \n  \n "
   syntax:
     content: public virtual void Write (string format, object[] arg);
     parameters:
     - id: format
       type: System.String
-      description: Parameter description to be filled
+      description: A composite format string (see Remarks).
     - id: arg
       type: System.Object[]
-      description: Parameter description to be filled
+      description: An object array that contains zero or more objects to format and write.
   overload: System.IO.TextWriter.Write*
   platform:
   - net-11
@@ -706,18 +764,20 @@ items:
   assemblies:
   - mscorlib
   namespace: System.IO
+  summary: Writes a subarray of characters to the text string or stream.
+  remarks: "  \n  \n## Remarks  \n This method will write  characters of data into this `TextWriter` from the  character array starting at position .  \n  \n This overload is equivalent to the [Write(Char\\[\\])](assetId:///M:System.IO.TextWriter.Write(System.Char[])?qualifyHint=False&autoUpgrade=False) overload for each character in  between  and ( + ).  \n  \n For a list of common I/O tasks, see [Common I/O Tasks](../Topic/Common%20I-O%20Tasks.md).  \n  \n "
   syntax:
     content: public virtual void Write (char[] buffer, int index, int count);
     parameters:
     - id: buffer
       type: System.Char[]
-      description: Parameter description to be filled
+      description: The character array to write data from.
     - id: index
       type: System.Int32
-      description: Parameter description to be filled
+      description: The character position in the buffer at which to start retrieving data.
     - id: count
       type: System.Int32
-      description: Parameter description to be filled
+      description: The number of characters to write.
   overload: System.IO.TextWriter.Write*
   platform:
   - net-11
@@ -735,18 +795,20 @@ items:
   assemblies:
   - mscorlib
   namespace: System.IO
+  summary: Writes a formatted string to the text string or stream, using the same semantics as the <xref:System.String.Format%28System.String%2CSystem.Object%2CSystem.Object%29?displayProperty=fullName> method.
+  remarks: "  \n  \n## Remarks  \n This method uses the  of the .NET Framework to convert the value of an object to its string representation and to embed that representation in a string. The .NET Framework provides extensive formatting support, which is described in greater detail in the following formatting topics:  \n  \n-   For more information about the composite formatting feature, see [Composite Formatting](../Topic/Composite%20Formatting.md).  \n  \n-   For more information about numeric format specifiers, see [Standard Numeric Format Strings](../Topic/Standard%20Numeric%20Format%20Strings.md) and [Custom Numeric Format Strings](../Topic/Custom%20Numeric%20Format%20Strings.md).  \n  \n-   For more information about date and time format specifiers, see [Standard Date and Time Format Strings](../Topic/Standard%20Date%20and%20Time%20Format%20Strings.md) and [Custom Date and Time Format Strings](../Topic/Custom%20Date%20and%20Time%20Format%20Strings.md).  \n  \n-   For more information about enumeration format specifiers, see [Enumeration Format Strings](../Topic/Enumeration%20Format%20Strings.md).  \n  \n-   For more information about formatting, see [Formatting Types](../Topic/Formatting%20Types%20in%20the%20.NET%20Framework.md).  \n  \n The  parameter consists of zero or more runs of text intermixed with zero or more indexed placeholders, called format items, that correspond to an object in the parameter list of this method. The formatting process replaces each format item with the string representation of the value of the corresponding object.  \n  \n The syntax of a format item is as follows:  \n  \n {*index*[,*length*][:*formatString*]}  \n  \n Elements in square brackets are optional. The following table describes each element. For more information about the composite formatting feature, including the syntax of a format item, see [Composite Formatting](../Topic/Composite%20Formatting.md).  \n  \n|Element|Description|  \n|-------------|-----------------|  \n|index|The zero-based position in the parameter list of the object to be formatted. If the object specified by *index* is `null`, the format item is replaced by <xref:System.String?displayProperty=fullName>. Because this overload has two objects in its parameter list, the value of *index* must always be 0 or 1. If there is no parameter in the *index* position, a <xref:System.FormatException> is thrown.|  \n|,*length*|The minimum number of characters in the string representation of the parameter. If positive, the parameter is right-aligned; if negative, it is left-aligned.|  \n|:*formatString*|A standard or custom format string that is supported by the object to be formatted. Possible values for *formatString* are the same as the values supported by the object's `ToString(``)` method. If *formatString* is not specified and the object to be formatted implements the <xref:System.IFormattable> interface, `null` is passed as the value of the  parameter that is used as the <xref:System.IFormattable.ToString%2A?displayProperty=fullName> format string.|  \n  \n The leading and trailing brace characters, \"{\" and \"}\", are required. To specify a single literal brace character in , specify two leading or trailing brace characters; that is, \"{{\" or \"}}\".  \n  \n This method does not search the specified string for individual newline characters (hexadecimal 0x000a) and replace them with <xref:System.IO.TextWriter.NewLine%2A?displayProperty=fullName>.  \n  \n If a specified object is not referenced in the format string, it is ignored.  \n  \n For a list of common I/O tasks, see [Common I/O Tasks](../Topic/Common%20I-O%20Tasks.md).  \n  \n "
   syntax:
     content: public virtual void Write (string format, object arg0, object arg1);
     parameters:
     - id: format
       type: System.String
-      description: Parameter description to be filled
+      description: A composite format string (see Remarks).
     - id: arg0
       type: System.Object
-      description: Parameter description to be filled
+      description: The first object to format and write.
     - id: arg1
       type: System.Object
-      description: Parameter description to be filled
+      description: The second object to format and write.
   overload: System.IO.TextWriter.Write*
   platform:
   - net-11
@@ -764,21 +826,23 @@ items:
   assemblies:
   - mscorlib
   namespace: System.IO
+  summary: Writes a formatted string to the text string or stream, using the same semantics as the <xref:System.String.Format%28System.String%2CSystem.Object%2CSystem.Object%2CSystem.Object%29?displayProperty=fullName> method.
+  remarks: "  \n  \n## Remarks  \n This method uses the  of the .NET Framework to convert the value of an object to its string representation and to embed that representation in a string. The .NET Framework provides extensive formatting support, which is described in greater detail in the following formatting topics:  \n  \n-   For more information about the composite formatting feature, see [Composite Formatting](../Topic/Composite%20Formatting.md).  \n  \n-   For more information about numeric format specifiers, see [Standard Numeric Format Strings](../Topic/Standard%20Numeric%20Format%20Strings.md) and [Custom Numeric Format Strings](../Topic/Custom%20Numeric%20Format%20Strings.md).  \n  \n-   For more information about date and time format specifiers, see [Standard Date and Time Format Strings](../Topic/Standard%20Date%20and%20Time%20Format%20Strings.md) and [Custom Date and Time Format Strings](../Topic/Custom%20Date%20and%20Time%20Format%20Strings.md).  \n  \n-   For more information about enumeration format specifiers, see [Enumeration Format Strings](../Topic/Enumeration%20Format%20Strings.md).  \n  \n-   For more information about formatting, see [Formatting Types](../Topic/Formatting%20Types%20in%20the%20.NET%20Framework.md).  \n  \n The  parameter consists of zero or more runs of text intermixed with zero or more indexed placeholders, called format items, that correspond to an object in the parameter list of this method. The formatting process replaces each format item with the string representation of the value of the corresponding object.  \n  \n The syntax of a format item is as follows:  \n  \n {*index*[,*length*][:*formatString*]}  \n  \n Elements in square brackets are optional. The following table describes each element. For more information about the composite formatting feature, including the syntax of a format item, see [Composite Formatting](../Topic/Composite%20Formatting.md).  \n  \n|Element|Description|  \n|-------------|-----------------|  \n|index|The zero-based position in the parameter list of the object to be formatted. If the object specified by *index* is `null`, the format item is replaced by <xref:System.String?displayProperty=fullName>. Because this overload has three objects in its parameter list, the value of *index* must always be 0, 1, or 2. If there is no parameter in the *index* position, a <xref:System.FormatException> is thrown.|  \n|,*length*|The minimum number of characters in the string representation of the parameter. If positive, the parameter is right-aligned; if negative, it is left-aligned.|  \n|:*formatString*|A standard or custom format string that is supported by the object to be formatted. Possible values for *formatString* are the same as the values supported by the object's `ToString(``)` method. If *formatString* is not specified and the object to be formatted implements the <xref:System.IFormattable> interface, `null` is passed as the value of the  parameter that is used as the <xref:System.IFormattable.ToString%2A?displayProperty=fullName> format string.|  \n  \n The leading and trailing brace characters, \"{\" and \"}\", are required. To specify a single literal brace character in , specify two leading or trailing brace characters; that is, \"{{\" or \"}}\".  \n  \n This method does not search the specified string  for individual newline characters (hexadecimal 0x000a) and replace them with <xref:System.IO.TextWriter.NewLine%2A?displayProperty=fullName>.  \n  \n If a specified object is not referenced in the format string, it is ignored.  \n  \n For a list of common I/O tasks, see [Common I/O Tasks](../Topic/Common%20I-O%20Tasks.md).  \n  \n "
   syntax:
     content: public virtual void Write (string format, object arg0, object arg1, object arg2);
     parameters:
     - id: format
       type: System.String
-      description: Parameter description to be filled
+      description: A composite format string (see Remarks).
     - id: arg0
       type: System.Object
-      description: Parameter description to be filled
+      description: The first object to format and write.
     - id: arg1
       type: System.Object
-      description: Parameter description to be filled
+      description: The second object to format and write.
     - id: arg2
       type: System.Object
-      description: Parameter description to be filled
+      description: The third object to format and write.
   overload: System.IO.TextWriter.Write*
   platform:
   - net-11
@@ -796,15 +860,17 @@ items:
   assemblies:
   - mscorlib
   namespace: System.IO
+  summary: Writes a character to the text string or stream asynchronously.
+  remarks: "  \n  \n## Remarks  \n The <xref:System.IO.TextWriter> class is an abstract class. Therefore, you do not instantiate it in your code. For an example of using the WriteAsync method, see the <xref:System.IO.StreamWriter.WriteAsync%2A?displayProperty=fullName> method.  \n  \n "
   syntax:
     content: public virtual System.Threading.Tasks.Task WriteAsync (char value);
     parameters:
     - id: value
       type: System.Char
-      description: Parameter description to be filled
+      description: The character to write to the text stream.
     return:
       type: System.Threading.Tasks.Task
-      description: Parameter description to be filled
+      description: A task that represents the asynchronous write operation.
   overload: System.IO.TextWriter.WriteAsync*
   platform:
   - net-11
@@ -822,15 +888,17 @@ items:
   assemblies:
   - mscorlib
   namespace: System.IO
+  summary: Writes a character array to the text string or stream asynchronously.
+  remarks: To be added.
   syntax:
     content: public System.Threading.Tasks.Task WriteAsync (char[] buffer);
     parameters:
     - id: buffer
       type: System.Char[]
-      description: Parameter description to be filled
+      description: The character array to write to the text stream. If  is `null`, nothing is written.
     return:
       type: System.Threading.Tasks.Task
-      description: Parameter description to be filled
+      description: A task that represents the asynchronous write operation.
   overload: System.IO.TextWriter.WriteAsync*
   platform:
   - net-11
@@ -848,15 +916,17 @@ items:
   assemblies:
   - mscorlib
   namespace: System.IO
+  summary: Writes a string to the text string or stream asynchronously.
+  remarks: "  \n  \n## Remarks  \n The <xref:System.IO.TextWriter> class is an abstract class. Therefore, you do not instantiate it in your code. For an example of using the WriteAsync method, see the <xref:System.IO.StreamWriter.WriteAsync%2A?displayProperty=fullName> method.  \n  \n "
   syntax:
     content: public virtual System.Threading.Tasks.Task WriteAsync (string value);
     parameters:
     - id: value
       type: System.String
-      description: Parameter description to be filled
+      description: The string to write. If  is `null`, nothing is written to the text stream.
     return:
       type: System.Threading.Tasks.Task
-      description: Parameter description to be filled
+      description: A task that represents the asynchronous write operation.
   overload: System.IO.TextWriter.WriteAsync*
   platform:
   - net-11
@@ -874,21 +944,23 @@ items:
   assemblies:
   - mscorlib
   namespace: System.IO
+  summary: Writes a subarray of characters to the text string or stream asynchronously.
+  remarks: "  \n  \n## Remarks  \n The <xref:System.IO.TextWriter> class is an abstract class. Therefore, you do not instantiate it in your code. For an example of using the WriteAsync method, see the <xref:System.IO.StreamWriter.WriteAsync%2A?displayProperty=fullName> method.  \n  \n "
   syntax:
     content: public virtual System.Threading.Tasks.Task WriteAsync (char[] buffer, int index, int count);
     parameters:
     - id: buffer
       type: System.Char[]
-      description: Parameter description to be filled
+      description: The character array to write data from.
     - id: index
       type: System.Int32
-      description: Parameter description to be filled
+      description: The character position in the buffer at which to start retrieving data.
     - id: count
       type: System.Int32
-      description: Parameter description to be filled
+      description: The number of characters to write.
     return:
       type: System.Threading.Tasks.Task
-      description: Parameter description to be filled
+      description: A task that represents the asynchronous write operation.
   overload: System.IO.TextWriter.WriteAsync*
   platform:
   - net-11
@@ -906,6 +978,8 @@ items:
   assemblies:
   - mscorlib
   namespace: System.IO
+  summary: Writes a line terminator to the text string or stream.
+  remarks: "  \n  \n## Remarks  \n The line terminator is defined by the <xref:System.IO.TextWriter> field.  \n  \n For a list of common I/O tasks, see [Common I/O Tasks](../Topic/Common%20I-O%20Tasks.md).  \n  \n "
   syntax:
     content: public virtual void WriteLine ();
     parameters: []
@@ -926,12 +1000,14 @@ items:
   assemblies:
   - mscorlib
   namespace: System.IO
+  summary: Writes the text representation of a `Boolean` value followed by a line terminator to the text string or stream.
+  remarks: "  \n  \n## Remarks  \n The text representation of the specified value is produced by calling the <xref:System.Boolean.ToString%2A?displayProperty=fullName> method.  \n  \n This method outputs either <xref:System.Boolean.TrueString?displayProperty=fullName> or <xref:System.Boolean.FalseString?displayProperty=fullName>.  \n  \n The line terminator is defined by the <xref:System.IO.TextWriter.CoreNewLine> field.  \n  \n For a list of common I/O tasks, see [Common I/O Tasks](../Topic/Common%20I-O%20Tasks.md).  \n  \n "
   syntax:
     content: public virtual void WriteLine (bool value);
     parameters:
     - id: value
       type: System.Boolean
-      description: Parameter description to be filled
+      description: The `Boolean` value to write.
   overload: System.IO.TextWriter.WriteLine*
   platform:
   - net-11
@@ -949,12 +1025,14 @@ items:
   assemblies:
   - mscorlib
   namespace: System.IO
+  summary: Writes a character followed by a line terminator to the text string or stream.
+  remarks: "  \n  \n## Remarks  \n This overload is equivalent to <xref:System.IO.TextWriter.Write%28System.Char%29> followed by <xref:System.IO.TextWriter.WriteLine> .  \n  \n The line terminator is defined by the <xref:System.IO.TextWriter.CoreNewLine> field.  \n  \n For a list of common I/O tasks, see [Common I/O Tasks](../Topic/Common%20I-O%20Tasks.md).  \n  \n "
   syntax:
     content: public virtual void WriteLine (char value);
     parameters:
     - id: value
       type: System.Char
-      description: Parameter description to be filled
+      description: The character to write to the text stream.
   overload: System.IO.TextWriter.WriteLine*
   platform:
   - net-11
@@ -972,12 +1050,14 @@ items:
   assemblies:
   - mscorlib
   namespace: System.IO
+  summary: Writes an array of characters followed by a line terminator to the text string or stream.
+  remarks: "  \n  \n## Remarks  \n All the characters in  are written to the underlying stream. If the character array is `null`, only the line terminator is written.  \n  \n This overload is equivalent to [Write(Char\\[\\])](assetId:///M:System.IO.TextWriter.Write(System.Char[])?qualifyHint=False&autoUpgrade=False) followed by <xref:System.IO.TextWriter.WriteLine> .  \n  \n The line terminator is defined by the <xref:System.IO.TextWriter.CoreNewLine> field.  \n  \n For a list of common I/O tasks, see [Common I/O Tasks](../Topic/Common%20I-O%20Tasks.md).  \n  \n "
   syntax:
     content: public virtual void WriteLine (char[] buffer);
     parameters:
     - id: buffer
       type: System.Char[]
-      description: Parameter description to be filled
+      description: The character array from which data is read.
   overload: System.IO.TextWriter.WriteLine*
   platform:
   - net-11
@@ -995,12 +1075,14 @@ items:
   assemblies:
   - mscorlib
   namespace: System.IO
+  summary: Writes the text representation of a decimal value followed by a line terminator to the text string or stream.
+  remarks: "  \n  \n## Remarks  \n The <xref:System.IO.TextWriter.FormatProvider%2A> property, if not `null`, specifies the culture-specific formatting. For a list of common I/O tasks, see [Common I/O Tasks](../Topic/Common%20I-O%20Tasks.md).  \n  \n The line terminator is defined by the <xref:System.IO.TextWriter.CoreNewLine> field.  \n  \n "
   syntax:
     content: public virtual void WriteLine (decimal value);
     parameters:
     - id: value
       type: System.Decimal
-      description: Parameter description to be filled
+      description: The decimal value to write.
   overload: System.IO.TextWriter.WriteLine*
   platform:
   - net-11
@@ -1018,12 +1100,14 @@ items:
   assemblies:
   - mscorlib
   namespace: System.IO
+  summary: Writes the text representation of a 8-byte floating-point value followed by a line terminator to the text string or stream.
+  remarks: "  \n  \n## Remarks  \n The <xref:System.IO.TextWriter.FormatProvider%2A> property, if not `null`, specifies the culture-specific formatting. For a list of common I/O tasks, see [Common I/O Tasks](../Topic/Common%20I-O%20Tasks.md).  \n  \n The line terminator is defined by the <xref:System.IO.TextWriter.CoreNewLine> field.  \n  \n "
   syntax:
     content: public virtual void WriteLine (double value);
     parameters:
     - id: value
       type: System.Double
-      description: Parameter description to be filled
+      description: The 8-byte floating-point value to write.
   overload: System.IO.TextWriter.WriteLine*
   platform:
   - net-11
@@ -1041,12 +1125,14 @@ items:
   assemblies:
   - mscorlib
   namespace: System.IO
+  summary: Writes the text representation of a 4-byte signed integer followed by a line terminator to the text string or stream.
+  remarks: "  \n  \n## Remarks  \n The text representation of the specified value is produced by calling the <xref:System.Int32.ToString%2A?displayProperty=fullName> method. The <xref:System.IO.TextWriter.FormatProvider%2A?displayProperty=fullName> property, if not `null`, specifies the culture-specific formatting.  \n  \n The line terminator is defined by the <xref:System.IO.TextWriter.CoreNewLine> field.  \n  \n For a list of common I/O tasks, see [Common I/O Tasks](../Topic/Common%20I-O%20Tasks.md).  \n  \n "
   syntax:
     content: public virtual void WriteLine (int value);
     parameters:
     - id: value
       type: System.Int32
-      description: Parameter description to be filled
+      description: The 4-byte signed integer to write.
   overload: System.IO.TextWriter.WriteLine*
   platform:
   - net-11
@@ -1064,12 +1150,14 @@ items:
   assemblies:
   - mscorlib
   namespace: System.IO
+  summary: Writes the text representation of an 8-byte signed integer followed by a line terminator to the text string or stream.
+  remarks: "  \n  \n## Remarks  \n The text representation of the specified value is produced by calling the <xref:System.Int64.ToString%2A?displayProperty=fullName> method. The <xref:System.IO.TextWriter.FormatProvider%2A?displayProperty=fullName> property, if not `null`, specifies the culture-specific formatting.  \n  \n The line terminator is defined by the <xref:System.IO.TextWriter.CoreNewLine> field.  \n  \n For a list of common I/O tasks, see [Common I/O Tasks](../Topic/Common%20I-O%20Tasks.md).  \n  \n "
   syntax:
     content: public virtual void WriteLine (long value);
     parameters:
     - id: value
       type: System.Int64
-      description: Parameter description to be filled
+      description: The 8-byte signed integer to write.
   overload: System.IO.TextWriter.WriteLine*
   platform:
   - net-11
@@ -1087,12 +1175,14 @@ items:
   assemblies:
   - mscorlib
   namespace: System.IO
+  summary: Writes the text representation of an object by calling the `ToString` method on that object, followed by a line terminator to the text string or stream.
+  remarks: "  \n  \n## Remarks  \n This overload is equivalent to the <xref:System.IO.TextWriter.Write%28System.String%2CSystem.Object%29> overload. The <xref:System.IO.TextWriter.FormatProvider%2A> property, if not `null`, specifies the culture-specific formatting.  \n  \n The line terminator is defined by the <xref:System.IO.TextWriter.CoreNewLine> field.  \n  \n For a list of common I/O tasks, see [Common I/O Tasks](../Topic/Common%20I-O%20Tasks.md).  \n  \n "
   syntax:
     content: public virtual void WriteLine (object value);
     parameters:
     - id: value
       type: System.Object
-      description: Parameter description to be filled
+      description: The object to write. If  is `null`, only the line terminator is written.
   overload: System.IO.TextWriter.WriteLine*
   platform:
   - net-11
@@ -1110,12 +1200,14 @@ items:
   assemblies:
   - mscorlib
   namespace: System.IO
+  summary: Writes the text representation of a 4-byte floating-point value followed by a line terminator to the text string or stream.
+  remarks: "  \n  \n## Remarks  \n The <xref:System.IO.TextWriter.FormatProvider%2A> property, if not `null`, specifies the culture-specific formatting. For a list of common I/O tasks, see [Common I/O Tasks](../Topic/Common%20I-O%20Tasks.md).  \n  \n The line terminator is defined by the <xref:System.IO.TextWriter.CoreNewLine> field.  \n  \n "
   syntax:
     content: public virtual void WriteLine (float value);
     parameters:
     - id: value
       type: System.Single
-      description: Parameter description to be filled
+      description: The 4-byte floating-point value to write.
   overload: System.IO.TextWriter.WriteLine*
   platform:
   - net-11
@@ -1133,12 +1225,14 @@ items:
   assemblies:
   - mscorlib
   namespace: System.IO
+  summary: Writes a string followed by a line terminator to the text string or stream.
+  remarks: "  \n  \n## Remarks  \n This overload is equivalent to the [Write(Char\\[\\])](assetId:///M:System.IO.TextWriter.Write(System.Char[])?qualifyHint=False&autoUpgrade=False) overload.  \n  \n The line terminator is defined by the <xref:System.IO.TextWriter.CoreNewLine> field.  \n  \n This method does not search the specified string for individual newline characters (hexadecimal 0x000a) and replace them with <xref:System.IO.TextWriter.NewLine%2A>.  \n  \n For a list of common I/O tasks, see [Common I/O Tasks](../Topic/Common%20I-O%20Tasks.md).  \n  \n "
   syntax:
     content: public virtual void WriteLine (string value);
     parameters:
     - id: value
       type: System.String
-      description: Parameter description to be filled
+      description: The string to write. If  is `null`, only the line terminator is written.
   overload: System.IO.TextWriter.WriteLine*
   platform:
   - net-11
@@ -1156,12 +1250,14 @@ items:
   assemblies:
   - mscorlib
   namespace: System.IO
+  summary: Writes the text representation of a 4-byte unsigned integer followed by a line terminator to the text string or stream.
+  remarks: "  \n  \n## Remarks  \n The text representation of the specified value is produced by calling the <xref:System.UInt32.ToString%2A?displayProperty=fullName> method. The <xref:System.IO.TextWriter.FormatProvider%2A> property, if not `null`, specifies the culture-specific formatting.  \n  \n The line terminator is defined by the <xref:System.IO.TextWriter.CoreNewLine> field.  \n  \n For a list of common I/O tasks, see [Common I/O Tasks](../Topic/Common%20I-O%20Tasks.md).  \n  \n "
   syntax:
     content: public virtual void WriteLine (uint value);
     parameters:
     - id: value
       type: System.UInt32
-      description: Parameter description to be filled
+      description: The 4-byte unsigned integer to write.
   overload: System.IO.TextWriter.WriteLine*
   platform:
   - net-11
@@ -1179,12 +1275,14 @@ items:
   assemblies:
   - mscorlib
   namespace: System.IO
+  summary: Writes the text representation of an 8-byte unsigned integer followed by a line terminator to the text string or stream.
+  remarks: "  \n  \n## Remarks  \n The text representation of the specified value is produced by calling the <xref:System.UInt64.ToString%2A?displayProperty=fullName> method. The <xref:System.IO.TextWriter.FormatProvider%2A> property, if not `null`, specifies the culture-specific formatting.  \n  \n The line terminator is defined by the <xref:System.IO.TextWriter.CoreNewLine> field.  \n  \n For a list of common I/O tasks, see [Common I/O Tasks](../Topic/Common%20I-O%20Tasks.md).  \n  \n "
   syntax:
     content: public virtual void WriteLine (ulong value);
     parameters:
     - id: value
       type: System.UInt64
-      description: Parameter description to be filled
+      description: The 8-byte unsigned integer to write.
   overload: System.IO.TextWriter.WriteLine*
   platform:
   - net-11
@@ -1202,15 +1300,17 @@ items:
   assemblies:
   - mscorlib
   namespace: System.IO
+  summary: Writes a formatted string and a new line to the text string or stream, using the same semantics as the <xref:System.String.Format%28System.String%2CSystem.Object%29?displayProperty=fullName> method.
+  remarks: "  \n  \n## Remarks  \n This method uses the  of the .NET Framework to convert the value of an object to its string representation and to embed that representation in a string. The .NET Framework provides extensive formatting support, which is described in greater detail in the following formatting topics:  \n  \n-   For more information about the composite formatting feature, see [Composite Formatting](../Topic/Composite%20Formatting.md).  \n  \n-   For more information about numeric format specifiers, see [Standard Numeric Format Strings](../Topic/Standard%20Numeric%20Format%20Strings.md) and [Custom Numeric Format Strings](../Topic/Custom%20Numeric%20Format%20Strings.md).  \n  \n-   For more information about date and time format specifiers, see [Standard Date and Time Format Strings](../Topic/Standard%20Date%20and%20Time%20Format%20Strings.md) and [Custom Date and Time Format Strings](../Topic/Custom%20Date%20and%20Time%20Format%20Strings.md).  \n  \n-   For more information about enumeration format specifiers, see [Enumeration Format Strings](../Topic/Enumeration%20Format%20Strings.md).  \n  \n-   For more information about formatting, see [Formatting Types](../Topic/Formatting%20Types%20in%20the%20.NET%20Framework.md).  \n  \n The  parameter consists of zero or more runs of text intermixed with zero or more indexed placeholders, called format items, that correspond to an object in the parameter list of this method. The formatting process replaces each format item with the string representation of the value of the corresponding object.  \n  \n The syntax of a format item is as follows:  \n  \n {*index*[,*length*][:*formatString*]}  \n  \n Elements in square brackets are optional. The following table describes each element. For more information about the composite formatting feature, including the syntax of a format item, see [Composite Formatting](../Topic/Composite%20Formatting.md).  \n  \n|Element|Description|  \n|-------------|-----------------|  \n|index|The zero-based position in the parameter list of the object to be formatted. If the object specified by *index* is `null`, the format item is replaced by <xref:System.String?displayProperty=fullName>. Because this overload has only a single object in its parameter list, the value of *index* must always be 0. If there is no parameter in the *index* position, a <xref:System.FormatException> is thrown.|  \n|,*length*|The minimum number of characters in the string representation of the parameter. If positive, the parameter is right-aligned; if negative, it is left-aligned.|  \n|:*formatString*|A standard or custom format string that is supported by the object to be formatted. Possible values for *formatString* are the same as the values supported by the object's `ToString(``)` method. If *formatString* is not specified and the object to be formatted implements the <xref:System.IFormattable> interface, `null` is passed as the value of the  parameter that is used as the <xref:System.IFormattable.ToString%2A?displayProperty=fullName> format string.|  \n  \n The leading and trailing brace characters, \"{\" and \"}\", are required. To specify a single literal brace character in , specify two leading or trailing brace characters; that is, \"{{\" or \"}}\".  \n  \n This method does not search the specified string for individual newline characters (hexadecimal 0x000a) and replace them with <xref:System.IO.TextWriter.NewLine%2A>.  \n  \n If a specified object is not referenced in the format string, it is ignored.  \n  \n The line terminator is defined by the <xref:System.IO.TextWriter.CoreNewLine> field.  \n  \n For a list of common I/O tasks, see [Common I/O Tasks](../Topic/Common%20I-O%20Tasks.md).  \n  \n "
   syntax:
     content: public virtual void WriteLine (string format, object arg0);
     parameters:
     - id: format
       type: System.String
-      description: Parameter description to be filled
+      description: A composite format string (see Remarks).
     - id: arg0
       type: System.Object
-      description: Parameter description to be filled
+      description: The object to format and write.
   overload: System.IO.TextWriter.WriteLine*
   platform:
   - net-11
@@ -1228,15 +1328,17 @@ items:
   assemblies:
   - mscorlib
   namespace: System.IO
+  summary: Writes out a formatted string and a new line, using the same semantics as <xref:System.String.Format%2A>.
+  remarks: "  \n  \n## Remarks  \n This method uses the  of the .NET Framework to convert the value of an object to its string representation and to embed that representation in a string. The .NET Framework provides extensive formatting support, which is described in greater detail in the following formatting topics:  \n  \n-   For more information about the composite formatting feature, see [Composite Formatting](../Topic/Composite%20Formatting.md).  \n  \n-   For more information about numeric format specifiers, see [Standard Numeric Format Strings](../Topic/Standard%20Numeric%20Format%20Strings.md) and [Custom Numeric Format Strings](../Topic/Custom%20Numeric%20Format%20Strings.md).  \n  \n-   For more information about date and time format specifiers, see [Standard Date and Time Format Strings](../Topic/Standard%20Date%20and%20Time%20Format%20Strings.md) and [Custom Date and Time Format Strings](../Topic/Custom%20Date%20and%20Time%20Format%20Strings.md).  \n  \n-   For more information about enumeration format specifiers, see [Enumeration Format Strings](../Topic/Enumeration%20Format%20Strings.md).  \n  \n-   For more information about formatting, see [Formatting Types](../Topic/Formatting%20Types%20in%20the%20.NET%20Framework.md).  \n  \n The  parameter consists of zero or more runs of text intermixed with zero or more indexed placeholders, called format items, that correspond to an object in the parameter list of this method. The formatting process replaces each format item with the string representation of the value of the corresponding object.  \n  \n The syntax of a format item is as follows:  \n  \n {*index*[,*length*][:*formatString*]}  \n  \n Elements in square brackets are optional. The following table describes each element. For more information about the composite formatting feature, including the syntax of a format item, see [Composite Formatting](../Topic/Composite%20Formatting.md).  \n  \n|Element|Description|  \n|-------------|-----------------|  \n|index|The zero-based position in the parameter list of the object to be formatted. If the object specified by *index* is `null`, the format item is replaced by <xref:System.String?displayProperty=fullName>. Because this overload has an array in its parameter list, the value of *index* must always be less than the length of the array. If there is no parameter in the *index* position, a <xref:System.FormatException> is thrown.|  \n|,*length*|The minimum number of characters in the string representation of the parameter. If positive, the parameter is right-aligned; if negative, it is left-aligned.|  \n|:*formatString*|A standard or custom format string that is supported by the object to be formatted. Possible values for *formatString* are the same as the values supported by the object's `ToString(``)` method. If *formatString* is not specified and the object to be formatted implements the <xref:System.IFormattable> interface, `null` is passed as the value of the  parameter that is used as the <xref:System.IFormattable.ToString%2A?displayProperty=fullName> format string.|  \n  \n The leading and trailing brace characters, \"{\" and \"}\", are required. To specify a single literal brace character in , specify two leading or trailing brace characters; that is, \"{{\" or \"}}\".  \n  \n This method does not search the specified string for individual newline characters (hexadecimal 0x000a) and replace them with <xref:System.IO.TextWriter.NewLine%2A>.  \n  \n If a specified object is not referenced in the format string, it is ignored.  \n  \n The line terminator is defined by the <xref:System.IO.TextWriter.CoreNewLine> field.  \n  \n For a list of common I/O tasks, see [Common I/O Tasks](../Topic/Common%20I-O%20Tasks.md).  \n  \n "
   syntax:
     content: public virtual void WriteLine (string format, object[] arg);
     parameters:
     - id: format
       type: System.String
-      description: Parameter description to be filled
+      description: A composite format string (see Remarks).
     - id: arg
       type: System.Object[]
-      description: Parameter description to be filled
+      description: An object array that contains zero or more objects to format and write.
   overload: System.IO.TextWriter.WriteLine*
   platform:
   - net-11
@@ -1254,18 +1356,20 @@ items:
   assemblies:
   - mscorlib
   namespace: System.IO
+  summary: Writes a subarray of characters followed by a line terminator to the text string or stream.
+  remarks: "  \n  \n## Remarks  \n This method will write  characters of data into this `TextWriter` from the  character array starting at position .  \n  \n This overload is equivalent to calling the [Write(Char\\[\\])](assetId:///M:System.IO.TextWriter.Write(System.Char[])?qualifyHint=False&autoUpgrade=False) method followed by <xref:System.IO.TextWriter.WriteLine%2A> for each character in  between  and ( + ).  \n  \n The line terminator is defined by the <xref:System.IO.TextWriter.CoreNewLine> field.  \n  \n For a list of common I/O tasks, see [Common I/O Tasks](../Topic/Common%20I-O%20Tasks.md).  \n  \n "
   syntax:
     content: public virtual void WriteLine (char[] buffer, int index, int count);
     parameters:
     - id: buffer
       type: System.Char[]
-      description: Parameter description to be filled
+      description: The character array from which data is read.
     - id: index
       type: System.Int32
-      description: Parameter description to be filled
+      description: The character position in  at which to start reading data.
     - id: count
       type: System.Int32
-      description: Parameter description to be filled
+      description: The maximum number of characters to write.
   overload: System.IO.TextWriter.WriteLine*
   platform:
   - net-11
@@ -1283,18 +1387,20 @@ items:
   assemblies:
   - mscorlib
   namespace: System.IO
+  summary: Writes a formatted string and a new line to the text string or stream, using the same semantics as the <xref:System.String.Format%28System.String%2CSystem.Object%2CSystem.Object%29?displayProperty=fullName> method.
+  remarks: "  \n  \n## Remarks  \n This method uses the  of the .NET Framework to convert the value of an object to its string representation and to embed that representation in a string. The .NET Framework provides extensive formatting support, which is described in greater detail in the following formatting topics:  \n  \n-   For more information about the composite formatting feature, see [Composite Formatting](../Topic/Composite%20Formatting.md).  \n  \n-   For more information about numeric format specifiers, see [Standard Numeric Format Strings](../Topic/Standard%20Numeric%20Format%20Strings.md) and [Custom Numeric Format Strings](../Topic/Custom%20Numeric%20Format%20Strings.md).  \n  \n-   For more information about date and time format specifiers, see [Standard Date and Time Format Strings](../Topic/Standard%20Date%20and%20Time%20Format%20Strings.md) and [Custom Date and Time Format Strings](../Topic/Custom%20Date%20and%20Time%20Format%20Strings.md).  \n  \n-   For more information about enumeration format specifiers, see [Enumeration Format Strings](../Topic/Enumeration%20Format%20Strings.md).  \n  \n-   For more information about formatting, see [Formatting Types](../Topic/Formatting%20Types%20in%20the%20.NET%20Framework.md).  \n  \n The  parameter consists of zero or more runs of text intermixed with zero or more indexed placeholders, called format items, that correspond to an object in the parameter list of this method. The formatting process replaces each format item with the string representation of the value of the corresponding object.  \n  \n The syntax of a format item is as follows:  \n  \n {*index*[,*length*][:*formatString*]}  \n  \n Elements in square brackets are optional. The following table describes each element. For more information about the composite formatting feature, including the syntax of a format item, see [Composite Formatting](../Topic/Composite%20Formatting.md).  \n  \n|Element|Description|  \n|-------------|-----------------|  \n|index|The zero-based position in the parameter list of the object to be formatted. If the object specified by *index* is `null`, the format item is replaced by <xref:System.String?displayProperty=fullName>. Because this overload has two objects in its parameter list, the value of *index* must always be 0 or 1. If there is no parameter in the *index* position, a <xref:System.FormatException> is thrown.|  \n|,*length*|The minimum number of characters in the string representation of the parameter. If positive, the parameter is right-aligned; if negative, it is left-aligned.|  \n|:*formatString*|A standard or custom format string that is supported by the object to be formatted. Possible values for *formatString* are the same as the values supported by the object's `ToString(``)` method. If *formatString* is not specified and the object to be formatted implements the <xref:System.IFormattable> interface, `null` is passed as the value of the  parameter that is used as the <xref:System.IFormattable.ToString%2A?displayProperty=fullName> format string.|  \n  \n The leading and trailing brace characters, \"{\" and \"}\", are required. To specify a single literal brace character in , specify two leading or trailing brace characters; that is, \"{{\" or \"}}\".  \n  \n This method does not search the specified string for individual newline characters (hexadecimal 0x000a) and replace them with <xref:System.IO.TextWriter.NewLine%2A>.  \n  \n If a specified object is not referenced in the format string, it is ignored.  \n  \n The line terminator is defined by the <xref:System.IO.TextWriter.CoreNewLine> field.  \n  \n For a list of common I/O tasks, see [Common I/O Tasks](../Topic/Common%20I-O%20Tasks.md).  \n  \n "
   syntax:
     content: public virtual void WriteLine (string format, object arg0, object arg1);
     parameters:
     - id: format
       type: System.String
-      description: Parameter description to be filled
+      description: A composite format string (see Remarks).
     - id: arg0
       type: System.Object
-      description: Parameter description to be filled
+      description: The first object to format and write.
     - id: arg1
       type: System.Object
-      description: Parameter description to be filled
+      description: The second object to format and write.
   overload: System.IO.TextWriter.WriteLine*
   platform:
   - net-11
@@ -1312,21 +1418,23 @@ items:
   assemblies:
   - mscorlib
   namespace: System.IO
+  summary: Writes out a formatted string and a new line, using the same semantics as <xref:System.String.Format%2A>.
+  remarks: "  \n  \n## Remarks  \n This method uses the  of the .NET Framework to convert the value of an object to its string representation and to embed that representation in a string. The .NET Framework provides extensive formatting support, which is described in greater detail in the following formatting topics:  \n  \n-   For more information about the composite formatting feature, see [Composite Formatting](../Topic/Composite%20Formatting.md).  \n  \n-   For more information about numeric format specifiers, see [Standard Numeric Format Strings](../Topic/Standard%20Numeric%20Format%20Strings.md) and [Custom Numeric Format Strings](../Topic/Custom%20Numeric%20Format%20Strings.md).  \n  \n-   For more information about date and time format specifiers, see [Standard Date and Time Format Strings](../Topic/Standard%20Date%20and%20Time%20Format%20Strings.md) and [Custom Date and Time Format Strings](../Topic/Custom%20Date%20and%20Time%20Format%20Strings.md).  \n  \n-   For more information about enumeration format specifiers, see [Enumeration Format Strings](../Topic/Enumeration%20Format%20Strings.md).  \n  \n-   For more information about formatting, see [Formatting Types](../Topic/Formatting%20Types%20in%20the%20.NET%20Framework.md).  \n  \n The  parameter consists of zero or more runs of text intermixed with zero or more indexed placeholders, called format items, that correspond to an object in the parameter list of this method. The formatting process replaces each format item with the string representation of the value of the corresponding object.  \n  \n The syntax of a format item is as follows:  \n  \n {*index*[,*length*][:*formatString*]}  \n  \n Elements in square brackets are optional. The following table describes each element. For more information about the composite formatting feature, including the syntax of a format item, see [Composite Formatting](../Topic/Composite%20Formatting.md).  \n  \n|Element|Description|  \n|-------------|-----------------|  \n|index|The zero-based position in the parameter list of the object to be formatted. If the object specified by *index* is `null`, the format item is replaced by <xref:System.String?displayProperty=fullName>. Because this overload has three objects in its parameter list, the value of *index* must always be 0, 1, or 2. If there is no parameter in the *index* position, a <xref:System.FormatException> is thrown.|  \n|,*length*|The minimum number of characters in the string representation of the parameter. If positive, the parameter is right-aligned; if negative, it is left-aligned.|  \n|:*formatString*|A standard or custom format string that is supported by the object to be formatted. Possible values for *formatString* are the same as the values supported by the object's `ToString(``)` method. If *formatString* is not specified and the object to be formatted implements the <xref:System.IFormattable> interface, `null` is passed as the value of the  parameter that is used as the <xref:System.IFormattable.ToString%2A?displayProperty=fullName> format string.|  \n  \n The leading and trailing brace characters, \"{\" and \"}\", are required. To specify a single literal brace character in , specify two leading or trailing brace characters; that is, \"{{\" or \"}}\".  \n  \n This method does not search the specified string for individual newline characters (hexadecimal 0x000a) and replace them with <xref:System.IO.TextWriter.NewLine%2A>.  \n  \n If a specified object is not referenced in the format string, it is ignored.  \n  \n The line terminator is defined by the <xref:System.IO.TextWriter.CoreNewLine> field.  \n  \n For a list of common I/O tasks, see [Common I/O Tasks](../Topic/Common%20I-O%20Tasks.md).  \n  \n "
   syntax:
     content: public virtual void WriteLine (string format, object arg0, object arg1, object arg2);
     parameters:
     - id: format
       type: System.String
-      description: Parameter description to be filled
+      description: A composite format string (see Remarks).
     - id: arg0
       type: System.Object
-      description: Parameter description to be filled
+      description: The first object to format and write.
     - id: arg1
       type: System.Object
-      description: Parameter description to be filled
+      description: The second object to format and write.
     - id: arg2
       type: System.Object
-      description: Parameter description to be filled
+      description: The third object to format and write.
   overload: System.IO.TextWriter.WriteLine*
   platform:
   - net-11
@@ -1344,12 +1452,14 @@ items:
   assemblies:
   - mscorlib
   namespace: System.IO
+  summary: Writes a line terminator asynchronously to the text string or stream.
+  remarks: "  \n  \n## Remarks  \n The line terminator is defined by the <xref:System.IO.TextWriter.CoreNewLine> field.  \n  \n "
   syntax:
     content: public virtual System.Threading.Tasks.Task WriteLineAsync ();
     parameters: []
     return:
       type: System.Threading.Tasks.Task
-      description: Parameter description to be filled
+      description: A task that represents the asynchronous write operation.
   overload: System.IO.TextWriter.WriteLineAsync*
   platform:
   - net-11
@@ -1367,15 +1477,17 @@ items:
   assemblies:
   - mscorlib
   namespace: System.IO
+  summary: Writes a character followed by a line terminator asynchronously to the text string or stream.
+  remarks: "  \n  \n## Remarks  \n The line terminator is defined by the <xref:System.IO.TextWriter.CoreNewLine> field.  \n  \n The <xref:System.IO.TextWriter> class is an abstract class. Therefore, you do not instantiate it in your code. For an example of using the WriteLineAsync method, see the <xref:System.IO.StreamWriter.WriteLineAsync%2A?displayProperty=fullName> method.  \n  \n "
   syntax:
     content: public virtual System.Threading.Tasks.Task WriteLineAsync (char value);
     parameters:
     - id: value
       type: System.Char
-      description: Parameter description to be filled
+      description: The character to write to the text stream.
     return:
       type: System.Threading.Tasks.Task
-      description: Parameter description to be filled
+      description: A task that represents the asynchronous write operation.
   overload: System.IO.TextWriter.WriteLineAsync*
   platform:
   - net-11
@@ -1393,15 +1505,17 @@ items:
   assemblies:
   - mscorlib
   namespace: System.IO
+  summary: Writes an array of characters followed by a line terminator asynchronously to the text string or stream.
+  remarks: "  \n  \n## Remarks  \n The line terminator is defined by the <xref:System.IO.TextWriter.CoreNewLine> field.  \n  \n "
   syntax:
     content: public System.Threading.Tasks.Task WriteLineAsync (char[] buffer);
     parameters:
     - id: buffer
       type: System.Char[]
-      description: Parameter description to be filled
+      description: The character array to write to the text stream. If the character array is `null`, only the line terminator is written.
     return:
       type: System.Threading.Tasks.Task
-      description: Parameter description to be filled
+      description: A task that represents the asynchronous write operation.
   overload: System.IO.TextWriter.WriteLineAsync*
   platform:
   - net-11
@@ -1419,15 +1533,17 @@ items:
   assemblies:
   - mscorlib
   namespace: System.IO
+  summary: Writes a string followed by a line terminator asynchronously to the text string or stream.
+  remarks: "  \n  \n## Remarks  \n The line terminator is defined by the <xref:System.IO.TextWriter.CoreNewLine> field.  \n  \n The <xref:System.IO.TextWriter> class is an abstract class. Therefore, you do not instantiate it in your code. For an example of using the WriteLineAsync method, see the <xref:System.IO.StreamWriter.WriteLineAsync%2A?displayProperty=fullName> method.  \n  \n "
   syntax:
     content: public virtual System.Threading.Tasks.Task WriteLineAsync (string value);
     parameters:
     - id: value
       type: System.String
-      description: Parameter description to be filled
+      description: The string to write. If the value is `null`, only a line terminator is written.
     return:
       type: System.Threading.Tasks.Task
-      description: Parameter description to be filled
+      description: A task that represents the asynchronous write operation.
   overload: System.IO.TextWriter.WriteLineAsync*
   platform:
   - net-11
@@ -1445,21 +1561,23 @@ items:
   assemblies:
   - mscorlib
   namespace: System.IO
+  summary: Writes a subarray of characters followed by a line terminator asynchronously to the text string or stream.
+  remarks: "  \n  \n## Remarks  \n The line terminator is defined by the <xref:System.IO.TextWriter.CoreNewLine> field.  \n  \n The <xref:System.IO.TextWriter> class is an abstract class. Therefore, you do not instantiate it in your code. For an example of using the WriteLineAsync method, see the <xref:System.IO.StreamWriter.WriteLineAsync%2A?displayProperty=fullName> method.  \n  \n "
   syntax:
     content: public virtual System.Threading.Tasks.Task WriteLineAsync (char[] buffer, int index, int count);
     parameters:
     - id: buffer
       type: System.Char[]
-      description: Parameter description to be filled
+      description: The character array to write data from.
     - id: index
       type: System.Int32
-      description: Parameter description to be filled
+      description: The character position in the buffer at which to start retrieving data.
     - id: count
       type: System.Int32
-      description: Parameter description to be filled
+      description: The number of characters to write.
     return:
       type: System.Threading.Tasks.Task
-      description: Parameter description to be filled
+      description: A task that represents the asynchronous write operation.
   overload: System.IO.TextWriter.WriteLineAsync*
   platform:
   - net-11

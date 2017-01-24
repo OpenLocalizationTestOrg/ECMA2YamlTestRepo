@@ -37,6 +37,10 @@ items:
   nameWithType: FileInfo
   fullName: System.IO.FileInfo
   type: Class
+  summary: "Provides properties and instance methods for the creation, copying, deletion, moving, and opening of files, and aids in the creation of <see cref=\"T:System.IO.FileStream\"> objects. This class cannot be inherited.  \n  \n To browse the .NET Framework source code for this type, see the [Reference Source](http://referencesource.microsoft.com/#mscorlib/system/io/fileinfo.cs#4ee673c1a4ecad41)."
+  remarks: "## Remarks  \n  \n> [!NOTE]\n>  To view the .NET Framework source code for this type, see the [Reference Source](http://referencesource.microsoft.com/#mscorlib/system/io/fileinfo.cs#4ee673c1a4ecad41). You can browse through the source code online, download the reference for offline viewing, and step through the sources (including patches and updates) during debugging; see [instructions](http://referencesource.microsoft.com/).  \n  \n Use the FileInfo class for typical operations such as copying, moving, renaming, creating, opening, deleting, and appending to files.  \n  \n If you are performing multiple operations on the same file, it can be more efficient to use FileInfo instance methods instead of the corresponding static methods of the <xref:System.IO.File> class, because a security check will not always be necessary.  \n  \n Many of the FileInfo methods return other I/O types when you create or open files. You can use these other types to further manipulate a file. For more information, see specific FileInfo members such as <xref:System.IO.FileInfo.Open%2A>, <xref:System.IO.FileInfo.OpenRead%2A>, <xref:System.IO.FileInfo.OpenText%2A>, <xref:System.IO.FileInfo.CreateText%2A>, or <xref:System.IO.FileInfo.Create%2A>.  \n  \n By default, full read/write access to new files is granted to all users.  \n  \n The following table describes the enumerations that are used to customize the behavior of various FileInfo methods.  \n  \n|Enumeration|Description|  \n|-----------------|-----------------|  \n|<xref:System.IO.FileAccess>|Specifies read and write access to a file.|  \n|<xref:System.IO.FileShare>|Specifies the level of access permitted for a file that is already in use.|  \n|<xref:System.IO.FileMode>|Specifies whether the contents of an existing file are preserved or overwritten, and whether requests to create an existing file cause an exception.|  \n  \n> [!NOTE]\n>  In members that accept a path as an input string, that path must be well-formed or an exception is raised. For example, if a path is fully qualified but begins with a space, the path is not trimmed in methods of the class. Therefore, the path is malformed and an exception is raised. Similarly, a path or a combination of paths cannot be fully qualified twice. For example, \"c:\\temp c:\\windows\" also raises an exception in most cases. Ensure that your paths are well-formed when using methods that accept a path string.  \n  \n In members that accept a path, the path can refer to a file or just a directory. The specified path can also refer to a relative path or a Universal Naming Convention (UNC) path for a server and share name. For example, all the following are acceptable paths:  \n  \n-   \"c:\\\\\\MyDir\\\\\\MyFile.txt\" in C#, or \"c:\\MyDir\\MyFile.txt\" in Visual Basic.  \n  \n-   \"c:\\\\\\MyDir\" in C#, or \"c:\\MyDir\" in Visual Basic.  \n  \n-   \"MyDir\\\\\\MySubdir\" in C#, or \"MyDir\\MySubDir\" in Visual Basic.  \n  \n-   \"\\\\\\\\\\\\\\MyServer\\\\\\MyShare\" in C#, or \"\\\\\\MyServer\\MyShare\" in Visual Basic.  \n  \n The FileInfo class provides the following properties that enable you to retrieve information about a file. For an example of how to use each property, see the property pages.  \n  \n-   The <xref:System.IO.FileInfo.Directory%2A> property retrieves an object that represents the parent directory of a file.  \n  \n-   The <xref:System.IO.FileInfo.DirectoryName%2A> property retrieves the full path of the parent directory of a file.  \n  \n-   The <xref:System.IO.FileInfo.Exists%2A> property checks for the presence of a file before operating on it.  \n  \n-   The <xref:System.IO.FileInfo.IsReadOnly%2A> property retrieves or sets a value that specifies whether a file can be modified.  \n  \n-   The <xref:System.IO.FileInfo.Length%2A> retrieves the size of a file.  \n  \n-   The <xref:System.IO.FileInfo.Name%2A> retrieves the name of a file."
+  example:
+  - "## Examples  \n The following example demonstrates some of the main members of the `FileInfo` class.  \n  \n When the properties are first retrieved, FileInfo calls the <xref:System.IO.FileSystemInfo.Refresh%2A> method and caches information about the file. On subsequent calls, you must call <xref:System.IO.FileSystemInfo.Refresh%2A> to get the latest copy of the information.  \n  \n [!CODE [FInfo Class#1](../CodeSnippet/VS_Snippets_CLR/FInfo Class#1)]  \n  \n This example produces output similar to the following.  \n  \n```  \nHello  \nAnd  \nWelcome  \nC:\\Users\\userName\\AppData\\Local\\Temp\\tmp70AB.tmp was copied to C:\\Users\\userName\\AppData\\Local\\Temp\\tmp70CB.tmp.  \nC:\\Users\\userName\\AppData\\Local\\Temp\\tmp70CB.tmp was successfully deleted.  \n```"
   syntax:
     content: >-
       [System.Runtime.InteropServices.ComVisible(true)]
@@ -87,12 +91,16 @@ items:
   assemblies:
   - mscorlib
   namespace: System.IO
+  summary: Initializes a new instance of the <see cref="T:System.IO.FileInfo"> class, which acts as a wrapper for a file path.
+  remarks: "## Remarks  \n You can specify either the fully qualified or the relative file name, but the security check gets the fully qualified name."
+  example:
+  - "## Examples  \n The following example uses this constructor to create two files, which are then written to, read from, copied, and deleted.  \n  \n [!CODE [finfo ctor#1](../CodeSnippet/VS_Snippets_CLR/FInfo Ctor#1)]  \n  \n The following example opens an existing file or creates a file, appends text to the file, and displays the results.  \n  \n [!CODE [fileinfomain#1](../CodeSnippet/VS_Snippets_CLR/fileinfomain#1)]"
   syntax:
     content: public FileInfo (string fileName);
     parameters:
     - id: fileName
       type: System.String
-      description: Parameter description to be filled
+      description: The fully qualified name of the new file, or the relative file name. Do not end the path with the directory separator character.
   platform:
   - net-11
   - net-20
@@ -109,12 +117,16 @@ items:
   assemblies:
   - mscorlib
   namespace: System.IO
+  summary: Creates a <see cref="T:System.IO.StreamWriter"> that appends text to the file represented by this instance of the <xref:System.IO.FileInfo>.
+  remarks: ''
+  example:
+  - "## Examples  \n The following example appends text to a file and reads from the file.  \n  \n [!CODE [finfo appendtext#1](../CodeSnippet/VS_Snippets_CLR/FInfo AppendText#1)]  \n  \n The following example demonstrates appending text to the end of a file and also displays the result of the append operation to the console. The first time this routine is called, the file is created if it does not exist. After that, the specified text is appended to the file.  \n  \n [!CODE [fileinfoappendtext#1](../CodeSnippet/VS_Snippets_CLR/fileinfoappendtext#1)]"
   syntax:
     content: public System.IO.StreamWriter AppendText ();
     parameters: []
     return:
       type: System.IO.StreamWriter
-      description: Parameter description to be filled
+      description: A new `StreamWriter`.
   platform:
   - net-11
   - net-20
@@ -131,15 +143,19 @@ items:
   assemblies:
   - mscorlib
   namespace: System.IO
+  summary: Copies an existing file to a new file, disallowing the overwriting of an existing file.
+  remarks: "## Remarks  \n Use the <xref:System.IO.FileInfo.CopyTo%2A> method to allow overwriting of an existing file.  \n  \n> [!CAUTION]\n>  Whenever possible, avoid using short file names (such as XXXXXX~1.XXX) with this method. If two files have equivalent short file names then this method may fail and raise an exception and/or result in undesirable behavior"
+  example:
+  - "## Examples  \n The following example demonstrates both overloads of the `CopyTo` method.  \n  \n [!CODE [finfo copyto2#1](../CodeSnippet/VS_Snippets_CLR/FInfo CopyTo2#1)]  \n  \n The following example demonstrates copying one file to another file, throwing an exception if the destination file already exists.  \n  \n [!CODE [FileInfoCopyTo1#1](../CodeSnippet/VS_Snippets_CLR/FileInfoCopyTo1#1)]"
   syntax:
     content: public System.IO.FileInfo CopyTo (string destFileName);
     parameters:
     - id: destFileName
       type: System.String
-      description: Parameter description to be filled
+      description: The name of the new file to copy to.
     return:
       type: System.IO.FileInfo
-      description: Parameter description to be filled
+      description: A new file with a fully qualified path.
   overload: System.IO.FileInfo.CopyTo*
   platform:
   - net-11
@@ -157,18 +173,22 @@ items:
   assemblies:
   - mscorlib
   namespace: System.IO
+  summary: Copies an existing file to a new file, allowing the overwriting of an existing file.
+  remarks: "## Remarks  \n Use this method to allow or prevent overwriting of an existing file. Use the <xref:System.IO.FileInfo.CopyTo%2A> method to prevent overwriting of an existing file by default.  \n  \n> [!CAUTION]\n>  Whenever possible, avoid using short file names (such as XXXXXX~1.XXX) with this method. If two files have equivalent short file names then this method may fail and raise an exception and/or result in undesirable behavior"
+  example:
+  - "## Examples  \n The following example demonstrates both overloads of the `CopyTo` method.  \n  \n [!CODE [finfo copyto2#1](../CodeSnippet/VS_Snippets_CLR/FInfo CopyTo2#1)]  \n  \n The following example demonstrates copying one file to another file, specifying whether to overwrite a file that already exists.  \n  \n [!CODE [fileinfocopyto#1](../CodeSnippet/VS_Snippets_CLR/fileinfocopyto#1)]"
   syntax:
     content: public System.IO.FileInfo CopyTo (string destFileName, bool overwrite);
     parameters:
     - id: destFileName
       type: System.String
-      description: Parameter description to be filled
+      description: The name of the new file to copy to.
     - id: overwrite
       type: System.Boolean
-      description: Parameter description to be filled
+      description: '`true` to allow an existing file to be overwritten; otherwise, `false`.'
     return:
       type: System.IO.FileInfo
-      description: Parameter description to be filled
+      description: A new file, or an overwrite of an existing file if  is `true`. If the file exists and  is `false`, an <see cref="T:System.IO.IOException"> is thrown.
   overload: System.IO.FileInfo.CopyTo*
   platform:
   - net-11
@@ -186,12 +206,16 @@ items:
   assemblies:
   - mscorlib
   namespace: System.IO
+  summary: Creates a file.
+  remarks: "## Remarks  \n By default, full read/write access to new files is granted to all users.  \n  \n This method is a wrapper for the functionality provided by <xref:System.IO.File.Create%2A?displayProperty=fullName>."
+  example:
+  - "## Examples  \n The following example creates a reference to a file, and then creates the file on disk using `FileInfo.Create()`.  \n  \n [!CODE [fileinfodelete#1](../CodeSnippet/VS_Snippets_CLR/fileinfodelete#1)]  \n  \n The following example creates a file, adds some text to it, and reads from the file.  \n  \n [!CODE [finfo create#1](../CodeSnippet/VS_Snippets_CLR/FInfo Create#1)]"
   syntax:
     content: public System.IO.FileStream Create ();
     parameters: []
     return:
       type: System.IO.FileStream
-      description: Parameter description to be filled
+      description: A new file.
   platform:
   - net-11
   - net-20
@@ -208,12 +232,16 @@ items:
   assemblies:
   - mscorlib
   namespace: System.IO
+  summary: Creates a <see cref="T:System.IO.StreamWriter"> that writes a new text file.
+  remarks: "## Remarks  \n By default, full read/write access to new files is granted to all users."
+  example:
+  - "## Examples  \n The following example demonstrates the `CreateText` method.  \n  \n [!CODE [finfo createtext#1](../CodeSnippet/VS_Snippets_CLR/FInfo CreateText#1)]"
   syntax:
     content: public System.IO.StreamWriter CreateText ();
     parameters: []
     return:
       type: System.IO.StreamWriter
-      description: Parameter description to be filled
+      description: A new `StreamWriter`.
   platform:
   - net-11
   - net-20
@@ -230,6 +258,10 @@ items:
   assemblies:
   - mscorlib
   namespace: System.IO
+  summary: Decrypts a file that was encrypted by the current account using the <xref:System.IO.FileInfo.Encrypt%2A> method.
+  remarks: "## Remarks  \n The Decrypt method allows you to decrypt a file that was encrypted using the <xref:System.IO.FileInfo.Encrypt%2A> method.  The Decrypt method can decrypt only files that were encrypted using the current user account.  \n  \n Both the <xref:System.IO.FileInfo.Encrypt%2A> method and the Decrypt method use the cryptographic service provider (CSP) installed on the computer and the file encryption keys of the process calling the method.  \n  \n The current file system must be formatted as NTFS and the current operating system must be Microsoft Windows NT or later."
+  example:
+  - "## Examples  \n The following code example uses the <xref:System.IO.FileInfo.Encrypt%2A> method and the Decrypt method to encrypt and then decrypt a file.  \n  \n [!CODE [IO.FileInfo.Encrypt-Decrypt#1](../CodeSnippet/VS_Snippets_CLR/IO.FileInfo.Encrypt-Decrypt#1)]"
   syntax:
     content: public void Decrypt ();
     parameters: []
@@ -249,6 +281,10 @@ items:
   assemblies:
   - mscorlib
   namespace: System.IO
+  summary: Permanently deletes a file.
+  remarks: "## Remarks  \n If the file does not exist, this method does nothing."
+  example:
+  - "## Examples  \n The following example demonstrates the `Delete` method.  \n  \n [!CODE [finfo delete#1](../CodeSnippet/VS_Snippets_CLR/FInfo Delete#1)]  \n  \n The following example creates, closes, and deletes a file.  \n  \n [!CODE [fileinfodelete#1](../CodeSnippet/VS_Snippets_CLR/fileinfodelete#1)]"
   syntax:
     content: public override void Delete ();
     parameters: []
@@ -268,11 +304,15 @@ items:
   assemblies:
   - mscorlib
   namespace: System.IO
+  summary: Gets an instance of the parent directory.
+  remarks: "## Remarks  \n To get the parent directory as a string, use the <xref:System.IO.FileInfo.DirectoryName%2A> property."
+  example:
+  - "## Examples  \n The following example opens or creates a file, determines its full path, and determines and displays the full contents of the directory.  \n  \n [!CODE [fileinfodirectory#1](../CodeSnippet/VS_Snippets_CLR/fileinfodirectory#1)]"
   syntax:
     content: public System.IO.DirectoryInfo Directory { get; }
     return:
       type: System.IO.DirectoryInfo
-      description: Parameter description to be filled
+      description: To be added.
   platform:
   - net-11
   - net-20
@@ -289,11 +329,15 @@ items:
   assemblies:
   - mscorlib
   namespace: System.IO
+  summary: Gets a string representing the directory's full path.
+  remarks: "## Remarks  \n To get the parent directory as a <xref:System.IO.DirectoryInfo> object, use the <xref:System.IO.FileInfo.Directory%2A> property.  \n  \n When first called, <xref:System.IO.FileInfo> calls <xref:System.IO.FileSystemInfo.Refresh%2A> and caches information about the file. On subsequent calls, you must call <xref:System.IO.FileSystemInfo.Refresh%2A> to get the latest copy of the information."
+  example:
+  - "## Examples  \n The following example retrieves the full path of the specified file.  \n  \n [!CODE [System.IO.FileInfo members#3](../CodeSnippet/VS_Snippets_CLR_System/system.IO.FileInfo members#3)]"
   syntax:
     content: public string DirectoryName { get; }
     return:
       type: System.String
-      description: Parameter description to be filled
+      description: To be added.
   platform:
   - net-11
   - net-20
@@ -310,6 +354,10 @@ items:
   assemblies:
   - mscorlib
   namespace: System.IO
+  summary: Encrypts a file so that only the account used to encrypt the file can decrypt it.
+  remarks: "## Remarks  \n The Encrypt method allows you to encrypt a file so that only the account used to call this method can decrypt it.  Use the <xref:System.IO.FileInfo.Decrypt%2A> method to decrypt a file encrypted by the Encrypt method.  \n  \n Both the Encrypt method and the <xref:System.IO.FileInfo.Decrypt%2A> method use the cryptographic service provider (CSP) installed on the computer and the file encryption keys of the process calling the method.  \n  \n The current file system must be formatted as NTFS and the current operating system must be Microsoft Windows NT or later."
+  example:
+  - "## Examples  \n The following code example uses the Encrypt method and the <xref:System.IO.FileInfo.Decrypt%2A> method to encrypt a file and then decrypt it.  \n  \n [!CODE [IO.FileInfo.Encrypt-Decrypt#1](../CodeSnippet/VS_Snippets_CLR/IO.FileInfo.Encrypt-Decrypt#1)]"
   syntax:
     content: public void Encrypt ();
     parameters: []
@@ -329,11 +377,15 @@ items:
   assemblies:
   - mscorlib
   namespace: System.IO
+  summary: Gets a value indicating whether a file exists.
+  remarks: "## Remarks  \n When first called, <xref:System.IO.FileInfo> calls <xref:System.IO.FileSystemInfo.Refresh%2A> and caches information about the file. On subsequent calls, you must call <xref:System.IO.FileSystemInfo.Refresh%2A> to get the latest copy of the information.  \n  \n The Exists property returns `false` if any error occurs while trying to determine if the specified file exists. This can occur in situations that raise exceptions such as passing a file name with invalid characters or too many characters, a failing or missing disk, or if the caller does not have permission to read the file."
+  example:
+  - "## Examples  \n The following code example uses the Exists property ensure a file exists before opening it.  You can use this technique to throw a custom exception when the file is not found.  \n  \n [!CODE [IO.FileInfo.Exists#1](../CodeSnippet/VS_Snippets_CLR/IO.FileInfo.Exists#1)]"
   syntax:
     content: public override bool Exists { get; }
     return:
       type: System.Boolean
-      description: Parameter description to be filled
+      description: To be added.
   platform:
   - net-11
   - net-20
@@ -350,12 +402,16 @@ items:
   assemblies:
   - mscorlib
   namespace: System.IO
+  summary: Gets a <xref:System.Security.AccessControl.FileSecurity> object that encapsulates the access control list (ACL) entries for the file described by the current <xref:System.IO.FileInfo> object.
+  remarks: "## Remarks  \n Use the GetAccessControl method to retrieve the access control list (ACL) entries for the current file.  \n  \n An ACL describes individuals and/or groups who have, or do not have, rights to specific actions on the given file. For more information, see [How to: Add or Remove Access Control List Entries](../Topic/How%20to:%20Add%20or%20Remove%20Access%20Control%20List%20Entries.md)."
+  example:
+  - "## Examples  \n The following code example uses the GetAccessControl method and the <xref:System.IO.FileInfo.SetAccessControl%2A> method to add and then remove an access control list (ACL) entry from a file.  You must supply a valid user or group account to run this example.  \n  \n [!CODE [IO.FileInfo.GetAccessControl-SetAccessControl#1](../CodeSnippet/VS_Snippets_CLR/IO.FileInfo.GetAccessControl-SetAccessControl#1)]"
   syntax:
     content: public System.Security.AccessControl.FileSecurity GetAccessControl ();
     parameters: []
     return:
       type: System.Security.AccessControl.FileSecurity
-      description: Parameter description to be filled
+      description: A <xref:System.Security.AccessControl.FileSecurity> object that encapsulates the access control rules for the current file.
   overload: System.IO.FileInfo.GetAccessControl*
   platform:
   - net-11
@@ -373,15 +429,17 @@ items:
   assemblies:
   - mscorlib
   namespace: System.IO
+  summary: Gets a <xref:System.Security.AccessControl.FileSecurity> object that encapsulates the specified type of access control list (ACL) entries for the file described by the current <xref:System.IO.FileInfo> object.
+  remarks: "  \n  \n## Remarks  \n Use the GetAccessControl method to retrieve the access control list (ACL) entries for the current file.  \n  \n An ACL describes individuals and/or groups who have, or do not have, rights to specific actions on the given file. For more information, see [How to: Add or Remove Access Control List Entries](../Topic/How%20to:%20Add%20or%20Remove%20Access%20Control%20List%20Entries.md).  \n  \n "
   syntax:
     content: public System.Security.AccessControl.FileSecurity GetAccessControl (System.Security.AccessControl.AccessControlSections includeSections);
     parameters:
     - id: includeSections
       type: System.Security.AccessControl.AccessControlSections
-      description: Parameter description to be filled
+      description: One of the <xref:System.Security.AccessControl.AccessControlSections> values that specifies which group of access control entries to retrieve.
     return:
       type: System.Security.AccessControl.FileSecurity
-      description: Parameter description to be filled
+      description: A <xref:System.Security.AccessControl.FileSecurity> object that encapsulates the access control rules for the current file.
   overload: System.IO.FileInfo.GetAccessControl*
   platform:
   - net-11
@@ -399,11 +457,15 @@ items:
   assemblies:
   - mscorlib
   namespace: System.IO
+  summary: Gets or sets a value that determines if the current file is read only.
+  remarks: "## Remarks  \n Use the IsReadOnly property to quickly determine or change whether the current file is read only.  \n  \n When first called, <xref:System.IO.FileInfo> calls <xref:System.IO.FileSystemInfo.Refresh%2A> and caches information about the file. On subsequent calls, you must call <xref:System.IO.FileSystemInfo.Refresh%2A> to get the latest copy of the information."
+  example:
+  - "## Examples  \n The following example uses the IsReadOnly property to mark a file as read only and then mark it as read-write.  \n  \n [!CODE [IO.FileInfo.IsReadOnly#1](../CodeSnippet/VS_Snippets_CLR/IO.FileInfo.isReadOnly#1)]"
   syntax:
     content: public bool IsReadOnly { get; set; }
     return:
       type: System.Boolean
-      description: Parameter description to be filled
+      description: To be added.
   platform:
   - net-11
   - net-20
@@ -420,11 +482,15 @@ items:
   assemblies:
   - mscorlib
   namespace: System.IO
+  summary: Gets the size, in bytes, of the current file.
+  remarks: "## Remarks  \n The value of the Length property is pre-cached if the current instance of the <xref:System.IO.FileInfo> object was returned from any of the following <xref:System.IO.DirectoryInfo>methods:  \n  \n-   <xref:System.IO.DirectoryInfo.GetDirectories%2A>  \n  \n-   <xref:System.IO.DirectoryInfo.GetFiles%2A>  \n  \n-   <xref:System.IO.DirectoryInfo.GetFileSystemInfos%2A>  \n  \n-   <xref:System.IO.DirectoryInfo.EnumerateDirectories%2A>  \n  \n-   <xref:System.IO.DirectoryInfo.EnumerateFiles%2A>  \n  \n-   <xref:System.IO.DirectoryInfo.EnumerateFileSystemInfos%2A>  \n  \n To get the latest value, call the <xref:System.IO.FileSystemInfo.Refresh%2A> method."
+  example:
+  - "## Examples  \n The following example displays the size of the specified files.  \n  \n [!CODE [FileLength#1](../CodeSnippet/VS_Snippets_CLR/FileLength#1)]"
   syntax:
     content: public long Length { get; }
     return:
       type: System.Int64
-      description: Parameter description to be filled
+      description: To be added.
   platform:
   - net-11
   - net-20
@@ -441,12 +507,16 @@ items:
   assemblies:
   - mscorlib
   namespace: System.IO
+  summary: Moves a specified file to a new location, providing the option to specify a new file name.
+  remarks: "## Remarks  \n This method works across disk volumes. For example, the file c:\\MyFile.txt can be moved to d:\\public and renamed NewFile.txt."
+  example:
+  - "## Examples  \n The following example demonstrates moving a file to a different location and renaming the file.  \n  \n [!CODE [IO.FileInfo.MoveTo#1](../CodeSnippet/VS_Snippets_Misc/IO.FileInfo.MoveTo#1)]"
   syntax:
     content: public void MoveTo (string destFileName);
     parameters:
     - id: destFileName
       type: System.String
-      description: Parameter description to be filled
+      description: The path to move the file to, which can specify a different file name.
   platform:
   - net-11
   - net-20
@@ -463,11 +533,15 @@ items:
   assemblies:
   - mscorlib
   namespace: System.IO
+  summary: Gets the name of the file.
+  remarks: "## Remarks  \n When first called, <xref:System.IO.FileInfo> calls <xref:System.IO.FileSystemInfo.Refresh%2A> and caches information about the file. On subsequent calls, you must call <xref:System.IO.FileSystemInfo.Refresh%2A> to get the latest copy of the information.  \n  \n The name of the file includes the file extension."
+  example:
+  - "## Examples  \n The following example uses the `Name` property to display the names of files in the current directory.  \n  \n [!CODE [fileinfoname#1](../CodeSnippet/VS_Snippets_CLR/fileinfoname#1)]"
   syntax:
     content: public override string Name { get; }
     return:
       type: System.String
-      description: Parameter description to be filled
+      description: To be added.
   platform:
   - net-11
   - net-20
@@ -484,15 +558,19 @@ items:
   assemblies:
   - mscorlib
   namespace: System.IO
+  summary: Opens a file in the specified mode.
+  remarks: ''
+  example:
+  - "## Examples  \n The following example opens a file, adds some information to the file, and reads the file.  \n  \n [!CODE [finfo open1#1](../CodeSnippet/VS_Snippets_CLR/FInfo Open1#1)]"
   syntax:
     content: public System.IO.FileStream Open (System.IO.FileMode mode);
     parameters:
     - id: mode
       type: System.IO.FileMode
-      description: Parameter description to be filled
+      description: A <see cref="T:System.IO.FileMode"> constant specifying the mode (for example, `Open` or `Append`) in which to open the file.
     return:
       type: System.IO.FileStream
-      description: Parameter description to be filled
+      description: A file opened in the specified mode, with read/write access and unshared.
   overload: System.IO.FileInfo.Open*
   platform:
   - net-11
@@ -510,18 +588,22 @@ items:
   assemblies:
   - mscorlib
   namespace: System.IO
+  summary: Opens a file in the specified mode with read, write, or read/write access.
+  remarks: ''
+  example:
+  - "## Examples  \n The following example opens a file as read-only and reads from the file.  \n  \n [!CODE [finfo open2#1](../CodeSnippet/VS_Snippets_CLR/FInfo Open2#1)]"
   syntax:
     content: public System.IO.FileStream Open (System.IO.FileMode mode, System.IO.FileAccess access);
     parameters:
     - id: mode
       type: System.IO.FileMode
-      description: Parameter description to be filled
+      description: A <see cref="T:System.IO.FileMode"> constant specifying the mode (for example, `Open` or `Append`) in which to open the file.
     - id: access
       type: System.IO.FileAccess
-      description: Parameter description to be filled
+      description: A <see cref="T:System.IO.FileAccess"> constant specifying whether to open the file with `Read`, `Write`, or `ReadWrite` file access.
     return:
       type: System.IO.FileStream
-      description: Parameter description to be filled
+      description: A <see cref="T:System.IO.FileStream"> object opened in the specified mode and access, and unshared.
   overload: System.IO.FileInfo.Open*
   platform:
   - net-11
@@ -539,21 +621,25 @@ items:
   assemblies:
   - mscorlib
   namespace: System.IO
+  summary: Opens a file in the specified mode with read, write, or read/write access and the specified sharing option.
+  remarks: ''
+  example:
+  - "## Examples  \n The following example demonstrates opening a file for reading and writing, but disallowing access to other users or processes.  \n  \n [!CODE [fileinfoopen#1](../CodeSnippet/VS_Snippets_CLR/fileinfoopen#1)]"
   syntax:
     content: public System.IO.FileStream Open (System.IO.FileMode mode, System.IO.FileAccess access, System.IO.FileShare share);
     parameters:
     - id: mode
       type: System.IO.FileMode
-      description: Parameter description to be filled
+      description: A <see cref="T:System.IO.FileMode"> constant specifying the mode (for example, `Open` or `Append`) in which to open the file.
     - id: access
       type: System.IO.FileAccess
-      description: Parameter description to be filled
+      description: A <see cref="T:System.IO.FileAccess"> constant specifying whether to open the file with `Read`, `Write`, or `ReadWrite` file access.
     - id: share
       type: System.IO.FileShare
-      description: Parameter description to be filled
+      description: A <see cref="T:System.IO.FileShare"> constant specifying the type of access other `FileStream` objects have to this file.
     return:
       type: System.IO.FileStream
-      description: Parameter description to be filled
+      description: A <see cref="T:System.IO.FileStream"> object opened with the specified mode, access, and sharing options.
   overload: System.IO.FileInfo.Open*
   platform:
   - net-11
@@ -571,12 +657,16 @@ items:
   assemblies:
   - mscorlib
   namespace: System.IO
+  summary: Creates a read-only <see cref="T:System.IO.FileStream">.
+  remarks: "## Remarks  \n This method returns a read-only <xref:System.IO.FileStream> object with the <xref:System.IO.FileShare> mode set to <xref:System.IO.FileShare>."
+  example:
+  - "## Examples  \n The following example opens a file as read-only and reads from it.  \n  \n [!CODE [finfo openread#1](../CodeSnippet/VS_Snippets_CLR/FInfo OpenRead#1)]"
   syntax:
     content: public System.IO.FileStream OpenRead ();
     parameters: []
     return:
       type: System.IO.FileStream
-      description: Parameter description to be filled
+      description: A new read-only <see cref="T:System.IO.FileStream"> object.
   platform:
   - net-11
   - net-20
@@ -593,12 +683,16 @@ items:
   assemblies:
   - mscorlib
   namespace: System.IO
+  summary: Creates a <see cref="T:System.IO.StreamReader"> with UTF8 encoding that reads from an existing text file.
+  remarks: ''
+  example:
+  - "## Examples  \n The following example reads text from a file.  \n  \n [!CODE [finfo opentext#1](../CodeSnippet/VS_Snippets_CLR/FInfo OpenText#1)]"
   syntax:
     content: public System.IO.StreamReader OpenText ();
     parameters: []
     return:
       type: System.IO.StreamReader
-      description: Parameter description to be filled
+      description: A new `StreamReader` with UTF8 encoding.
   platform:
   - net-11
   - net-20
@@ -615,12 +709,16 @@ items:
   assemblies:
   - mscorlib
   namespace: System.IO
+  summary: Creates a write-only <see cref="T:System.IO.FileStream">.
+  remarks: "## Remarks  \n The OpenWrite method opens a file if one already exists for the file path, or creates a new file if one does not exist. For an existing file, it does not append the new text to the existing text. Instead, it overwrites the existing characters with the new characters. If you overwrite a longer string (such as \"This is a test of the OpenWrite method\") with a shorter string (like \"Second run\"), the file will contain a mix of the strings (\"Second runtest of the OpenWrite method\")."
+  example:
+  - "## Examples  \n The following example opens a file for writing and then reads from the file.  \n  \n [!CODE [finfo openwrite#1](../CodeSnippet/VS_Snippets_CLR/FInfo OpenWrite#1)]"
   syntax:
     content: public System.IO.FileStream OpenWrite ();
     parameters: []
     return:
       type: System.IO.FileStream
-      description: Parameter description to be filled
+      description: A write-only unshared <see cref="T:System.IO.FileStream"> object for a new or existing file.
   platform:
   - net-11
   - net-20
@@ -637,18 +735,22 @@ items:
   assemblies:
   - mscorlib
   namespace: System.IO
+  summary: Replaces the contents of a specified file with the file described by the current <see cref="T:System.IO.FileInfo"> object, deleting the original file, and creating a backup of the replaced file.
+  remarks: "## Remarks  \n The Replace method replaces the contents of a specified file with the contents of the file described by the current <xref:System.IO.FileInfo> object.  It also creates a backup of the file that was replaced.  Finally, it returns a new <xref:System.IO.FileInfo> object that describes the overwritten file.  \n  \n> [!CAUTION]\n>  This method will succeed in Windows 2000 environments if the  is read-only and will not raise an exception. Use the <xref:System.IO.FileInfo.IsReadOnly%2A> property to check if the destination file is read-only before attempting to replace it.  \n  \n Pass `null` to the  parameter if you do not want to create a backup of the file being replaced."
+  example:
+  - "## Examples  \n The following example uses the <xref:System.IO.File.Replace%2A> method to replace a file with another file and create a backup of the replaced file.  \n  \n [!CODE [IO.FileInfo.Replace#1](../CodeSnippet/VS_Snippets_CLR/IO.FileInfo.Replace#1)]"
   syntax:
     content: public System.IO.FileInfo Replace (string destinationFileName, string destinationBackupFileName);
     parameters:
     - id: destinationFileName
       type: System.String
-      description: Parameter description to be filled
+      description: The name of a file to replace with the current file.
     - id: destinationBackupFileName
       type: System.String
-      description: Parameter description to be filled
+      description: The name of a file with which to create a backup of the file described by the  parameter.
     return:
       type: System.IO.FileInfo
-      description: Parameter description to be filled
+      description: A <see cref="T:System.IO.FileInfo"> object that encapsulates information about the file described by the  parameter.
   overload: System.IO.FileInfo.Replace*
   platform:
   - net-11
@@ -666,21 +768,25 @@ items:
   assemblies:
   - mscorlib
   namespace: System.IO
+  summary: Replaces the contents of a specified file with the file described by the current <see cref="T:System.IO.FileInfo"> object, deleting the original file, and creating a backup of the replaced file.  Also specifies whether to ignore merge errors.
+  remarks: "## Remarks  \n The Replace method replaces the contents of a specified file with the contents of the file described by the current <xref:System.IO.FileInfo> object.  It also creates a backup of the file that was replaced.  Finally, it returns a new <xref:System.IO.FileInfo> object that describes the overwritten file.  \n  \n> [!CAUTION]\n>  This method will succeed in Windows 2000 environments if the  is read-only and will not raise an exception. Use the <xref:System.IO.FileInfo.IsReadOnly%2A> property to check if the destination file is read-only before attempting to replace it.  \n  \n Pass `null` to the  parameter if you do not want to create a backup of the file being replaced."
+  example:
+  - "## Examples  \n The following example uses the <xref:System.IO.File.Replace%2A> method to replace a file with another file and create a backup of the replaced file.  \n  \n [!CODE [IO.FileInfo.Replace#1](../CodeSnippet/VS_Snippets_CLR/IO.FileInfo.Replace#1)]"
   syntax:
     content: public System.IO.FileInfo Replace (string destinationFileName, string destinationBackupFileName, bool ignoreMetadataErrors);
     parameters:
     - id: destinationFileName
       type: System.String
-      description: Parameter description to be filled
+      description: The name of a file to replace with the current file.
     - id: destinationBackupFileName
       type: System.String
-      description: Parameter description to be filled
+      description: The name of a file with which to create a backup of the file described by the  parameter.
     - id: ignoreMetadataErrors
       type: System.Boolean
-      description: Parameter description to be filled
+      description: '`true` to ignore merge errors (such as attributes and ACLs) from the replaced file to the replacement file; otherwise `false`.'
     return:
       type: System.IO.FileInfo
-      description: Parameter description to be filled
+      description: A <see cref="T:System.IO.FileInfo"> object that encapsulates information about the file described by the  parameter.
   overload: System.IO.FileInfo.Replace*
   platform:
   - net-11
@@ -698,12 +804,16 @@ items:
   assemblies:
   - mscorlib
   namespace: System.IO
+  summary: Applies access control list (ACL) entries described by a <xref:System.Security.AccessControl.FileSecurity> object to the file described by the current <xref:System.IO.FileInfo> object.
+  remarks: "## Remarks  \n The SetAccessControl method applies access control list (ACL) entries to the current file that represents the noninherited ACL list.  \n  \n Use the SetAccessControl method whenever you need to add or remove ACL entries from a file.  \n  \n> [!CAUTION]\n>  The ACL specified for the  parameter replaces the existing ACL for the file. To add permissions for a new user, use the <xref:System.IO.Directory.GetAccessControl%2A> method to obtain the existing ACL, modify it, and then use SetAccessControl to apply it back to the file.  \n  \n An ACL describes individuals and/or groups who have, or do not have, rights to specific actions on the given file. For more information, see [How to: Add or Remove Access Control List Entries](../Topic/How%20to:%20Add%20or%20Remove%20Access%20Control%20List%20Entries.md).  \n  \n The SetAccessControl method persists only <xref:System.Security.AccessControl.FileSecurity> objects that have been modified after object creation.  If a <xref:System.Security.AccessControl.FileSecurity> object has not been modified, it will not be persisted to a file.  Therefore, it is not possible to retrieve a <xref:System.Security.AccessControl.FileSecurity> object from one file and reapply the same object to another file.  \n  \n To copy ACL information from one file to another:  \n  \n1.  Use the <xref:System.IO.FileInfo.GetAccessControl%2A> method to retrieve the <xref:System.Security.AccessControl.FileSecurity> object from the source file.  \n  \n2.  Create a new <xref:System.Security.AccessControl.FileSecurity> object for the destination file.  \n  \n3.  Use the <xref:System.Security.AccessControl.ObjectSecurity.GetSecurityDescriptorBinaryForm%2A> or <xref:System.Security.AccessControl.ObjectSecurity.GetSecurityDescriptorSddlForm%2A> method of the source <xref:System.Security.AccessControl.FileSecurity> object to retrieve the ACL information.  \n  \n4.  Use the <xref:System.Security.AccessControl.ObjectSecurity.SetSecurityDescriptorBinaryForm%2A> or <xref:System.Security.AccessControl.ObjectSecurity.SetSecurityDescriptorSddlForm%2A> method to copy the information retrieved in step 3 to the destination <xref:System.Security.AccessControl.FileSecurity> object.  \n  \n5.  Set the destination <xref:System.Security.AccessControl.FileSecurity> object to the destination file using the SetAccessControl method."
+  example:
+  - "## Examples  \n The following code example uses the <xref:System.IO.FileInfo.GetAccessControl%2A> method and the SetAccessControl method to add and then remove an ACL entry from a file.  You must supply a valid user or group account to run this example.  \n  \n [!CODE [IO.FileInfo.GetAccessControl-SetAccessControl#1](../CodeSnippet/VS_Snippets_CLR/IO.FileInfo.GetAccessControl-SetAccessControl#1)]"
   syntax:
     content: public void SetAccessControl (System.Security.AccessControl.FileSecurity fileSecurity);
     parameters:
     - id: fileSecurity
       type: System.Security.AccessControl.FileSecurity
-      description: Parameter description to be filled
+      description: A <xref:System.Security.AccessControl.FileSecurity> object that describes an access control list (ACL) entry to apply to the current file.
   platform:
   - net-11
   - net-20
@@ -720,12 +830,14 @@ items:
   assemblies:
   - mscorlib
   namespace: System.IO
+  summary: Returns the path as a string.
+  remarks: "  \n  \n## Remarks  \n The string returned by the ToString method represents path that was passed to the constructor.  When you create a <xref:System.IO.FileInfo> object using the constructors, the ToString method returns the fully qualified path.  However, there are cases where the string returned by the ToString method does not represent the fully qualified path.  For example, when you create a <xref:System.IO.FileInfo> object using the <xref:System.IO.DirectoryInfo.GetFiles%2A> method, the ToString method does not represent the fully qualified path.  \n  \n "
   syntax:
     content: public override string ToString ();
     parameters: []
     return:
       type: System.String
-      description: Parameter description to be filled
+      description: A string representing the path.
   platform:
   - net-11
   - net-20
