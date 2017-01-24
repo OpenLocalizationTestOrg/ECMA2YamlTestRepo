@@ -3,10 +3,10 @@ using namespace System::Text;
 int main()
 {
    
-   // Get an encoder and a decoder from UnicodeEncoding.
-   UnicodeEncoding^ u16 = gcnew UnicodeEncoding( false,true,true );
-   Encoder^ myEnc = u16->GetEncoder();
-   Decoder^ myDec = u16->GetDecoder();
+   // Get an encoder and a decoder from UTF32Encoding.
+   UTF32Encoding ^ u32 = gcnew UTF32Encoding( false,true,true );
+   Encoder^ myEnc = u32->GetEncoder();
+   Decoder^ myDec = u32->GetDecoder();
    
    // The characters to encode:
    //    Latin Small Letter Z (U+007A)
@@ -21,20 +21,20 @@ int main()
    Console::WriteLine( myChars );
    
    // Encode the character array.
-   int iBC = myEnc->GetByteCount( myChars, 0, myChars->Length, true );
+   int iBC = myEnc->GetByteCount( myChars, 0, myChars.Length, true );
    array<Byte>^myBytes = gcnew array<Byte>(iBC);
-   myEnc->GetBytes( myChars, 0, myChars->Length, myBytes, 0, true );
+   myEnc->GetBytes( myChars, 0, myChars.Length, myBytes, 0, true );
    
    // Print the resulting bytes.
    Console::Write( "Using the encoder       : " );
-   for ( int i = 0; i < myBytes->Length; i++ )
+   for ( int i = 0; i < myBytes.Length; i++ )
       Console::Write( "{0:X2} ", myBytes[ i ] );
    Console::WriteLine();
    
    // Decode the byte array back into an array of characters.
-   int iCC = myDec->GetCharCount( myBytes, 0, myBytes->Length, true );
+   int iCC = myDec->GetCharCount( myBytes, 0, myBytes.Length, true );
    array<Char>^myDecodedChars = gcnew array<Char>(iCC);
-   myDec->GetChars( myBytes, 0, myBytes->Length, myDecodedChars, 0, true );
+   myDec->GetChars( myBytes, 0, myBytes.Length, myDecodedChars, 0, true );
    
    // Print the resulting characters.
    Console::Write( "Using the decoder       : " );
@@ -44,8 +44,8 @@ int main()
 /* 
 This code produces the following output.  The question marks take the place of characters that cannot be displayed at the console.
 
-The original characters : za??�
-Using the encoder       : 7A 00 61 00 06 03 FD 01 B2 03
-Using the decoder       : za??�
+The original characters : za??
+Using the encoder       : 7A 00 00 00 61 00 00 00 06 03 00 00 FD 01 00 00 B2 03 00 00
+Using the decoder       : za??
 
 */

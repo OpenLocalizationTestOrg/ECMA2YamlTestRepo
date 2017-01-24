@@ -1,7 +1,6 @@
 using namespace System;
 using namespace System::Text;
 void PrintCountsAndBytes( String^ s, Encoding^ enc );
-void PrintCountsAndBytes( String^ s, int index, int count, Encoding^ enc );
 void PrintHexBytes( array<Byte>^bytes );
 int main()
 {
@@ -16,36 +15,26 @@ int main()
    //    a low-surrogate value (U+DCFF)
    String^ myStr = L"za\u0306\u01FD\u03B2\xD8FF\xDCFF";
    
-   // Get different encodings.
-   Encoding^ u7 = Encoding::UTF7;
-   Encoding^ u8 = Encoding::UTF8;
-   Encoding^ u16LE = Encoding::Unicode;
-   Encoding^ u16BE = Encoding::BigEndianUnicode;
-   Encoding^ u32 = Encoding::UTF32;
+   // Create instances of different encodings.
+   UTF7Encoding^ u7 = gcnew UTF7Encoding;
+   UTF8Encoding^ u8Nobom = gcnew UTF8Encoding( false,true );
+   UTF8Encoding^ u8Bom = gcnew UTF8Encoding( true,true );
+   UTF32Encoding ^ u32Nobom = gcnew UTF32Encoding( false,false,true );
+   UTF32Encoding ^ u32Bom = gcnew UTF32Encoding( false,true,true );
    
-   // Encode the entire string, and print out the counts and the resulting bytes.
-   Console::WriteLine( "Encoding the entire string:" );
+   // Get the byte counts and the bytes.
    PrintCountsAndBytes( myStr, u7 );
-   PrintCountsAndBytes( myStr, u8 );
-   PrintCountsAndBytes( myStr, u16LE );
-   PrintCountsAndBytes( myStr, u16BE );
-   PrintCountsAndBytes( myStr, u32 );
-   Console::WriteLine();
-   
-   // Encode three characters starting at index 4, and print out the counts and the resulting bytes.
-   Console::WriteLine( "Encoding the characters from index 4 through 6:" );
-   PrintCountsAndBytes( myStr, 4, 3, u7 );
-   PrintCountsAndBytes( myStr, 4, 3, u8 );
-   PrintCountsAndBytes( myStr, 4, 3, u16LE );
-   PrintCountsAndBytes( myStr, 4, 3, u16BE );
-   PrintCountsAndBytes( myStr, 4, 3, u32 );
+   PrintCountsAndBytes( myStr, u8Nobom );
+   PrintCountsAndBytes( myStr, u8Bom );
+   PrintCountsAndBytes( myStr, u32Nobom );
+   PrintCountsAndBytes( myStr, u32Bom );
 }
 
 void PrintCountsAndBytes( String^ s, Encoding^ enc )
 {
    
    // Display the name of the encoding used.
-   Console::Write( "{0,-30} :", enc );
+   Console::Write( "{0,-25} :", enc );
    
    // Display the exact byte count.
    int iBC = enc->GetByteCount( s );
@@ -55,30 +44,13 @@ void PrintCountsAndBytes( String^ s, Encoding^ enc )
    int iMBC = enc->GetMaxByteCount( s->Length );
    Console::Write( " {0,-3} :", iMBC );
    
-   // Encode the entire string.
-   array<Byte>^bytes = enc->GetBytes( s );
+   // Get the byte order mark, if any.
+   array<Byte>^preamble = enc->GetPreamble();
    
-   // Display all the encoded bytes.
-   PrintHexBytes( bytes );
-}
-
-void PrintCountsAndBytes( String^ s, int index, int count, Encoding^ enc )
-{
-   
-   // Display the name of the encoding used.
-   Console::Write( "{0,-30} :", enc );
-   
-   // Display the exact byte count.
-   int iBC = enc->GetByteCount( s->ToCharArray(), index, count );
-   Console::Write( " {0,-3}", iBC );
-   
-   // Display the maximum byte count.
-   int iMBC = enc->GetMaxByteCount( count );
-   Console::Write( " {0,-3} :", iMBC );
-   
-   // Encode a range of characters in the string.
-   array<Byte>^bytes = gcnew array<Byte>(iBC);
-   enc->GetBytes( s, index, count, bytes, bytes->GetLowerBound( 0 ) );
+   // Combine the preamble and the encoded bytes.
+   array<Byte>^bytes = gcnew array<Byte>(preamble->Length + iBC);
+   Array::Copy( preamble, bytes, preamble->Length );
+   enc->GetBytes( s, 0, s->Length, bytes, preamble->Length );
    
    // Display all the encoded bytes.
    PrintHexBytes( bytes );
@@ -99,18 +71,10 @@ void PrintHexBytes( array<Byte>^bytes )
 /* 
 This code produces the following output.
 
-Encoding the entire string:
-System.Text.UTF7Encoding       : 18  23  :7A 61 2B 41 77 59 42 2F 51 4F 79 32 50 2F 63 2F 77 2D
-System.Text.UTF8Encoding       : 12  24  :7A 61 CC 86 C7 BD CE B2 F1 8F B3 BF
-System.Text.UnicodeEncoding    : 14  16  :7A 00 61 00 06 03 FD 01 B2 03 FF D8 FF DC
-System.Text.UnicodeEncoding    : 14  16  :00 7A 00 61 03 06 01 FD 03 B2 D8 FF DC FF
-System.Text.UTF32Encoding      : 24  32  :7A 00 00 00 61 00 00 00 06 03 00 00 FD 01 00 00 B2 03 00 00 FF FC 04 00
-
-Encoding the characters from index 4 through 6:
-System.Text.UTF7Encoding       : 10  11  :2B 41 37 4C 59 2F 39 7A 2F 2D
-System.Text.UTF8Encoding       : 6   12  :CE B2 F1 8F B3 BF
-System.Text.UnicodeEncoding    : 6   8   :B2 03 FF D8 FF DC
-System.Text.UnicodeEncoding    : 6   8   :03 B2 D8 FF DC FF
-System.Text.UTF32Encoding      : 8   16  :B2 03 00 00 FF FC 04 00
+System.Text.UTF7Encoding  : 18  23  :7A 61 2B 41 77 59 42 2F 51 4F 79 32 50 2F 63 2F 77 2D
+System.Text.UTF8Encoding  : 12  24  :7A 61 CC 86 C7 BD CE B2 F1 8F B3 BF
+System.Text.UTF8Encoding  : 12  24  :EF BB BF 7A 61 CC 86 C7 BD CE B2 F1 8F B3 BF
+System.Text.UTF32Encoding : 24  28  :7A 00 00 00 61 00 00 00 06 03 00 00 FD 01 00 00 B2 03 00 00 FF FC 04 00
+System.Text.UTF32Encoding : 24  28  :FF FE 00 00 7A 00 00 00 61 00 00 00 06 03 00 00 FD 01 00 00 B2 03 00 00 FF FC 04 00
 
 */

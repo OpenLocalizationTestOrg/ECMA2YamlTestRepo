@@ -2,14 +2,14 @@ Imports System
 Imports System.Text
 Imports Microsoft.VisualBasic
 
-Public Class SamplesUnicodeEncoding   
+Public Class SamplesUTF32Encoding   
 
    Public Shared Sub Main()
 
-      ' Get an encoder and a decoder from UnicodeEncoding.
-      Dim u16 As New UnicodeEncoding(False, True, True)
-      Dim myEnc As Encoder = u16.GetEncoder()
-      Dim myDec As Decoder = u16.GetDecoder()
+      ' Get an encoder and a decoder from UTF32Encoding.
+      Dim u32 As New UTF32Encoding(False, True, True)
+      Dim myEnc As Encoder = u32.GetEncoder()
+      Dim myDec As Decoder = u32.GetDecoder()
 
       ' The characters to encode:
       '    Latin Small Letter Z (U+007A)
@@ -49,11 +49,11 @@ Public Class SamplesUnicodeEncoding
 
    End Sub 'Main 
 
-End Class 'SamplesUnicodeEncoding
+End Class 'SamplesUTF32Encoding
 
 
 'This code produces the following output.  The question marks take the place of characters that cannot be displayed at the console.
 '
 'The original characters : za??ß
-'Using the encoder       : 7A 00 61 00 06 03 FD 01 B2 03
+'Using the encoder       : 7A 00 00 00 61 00 00 00 06 03 00 00 FD 01 00 00 B2 03 00 00
 'Using the decoder       : za??ß

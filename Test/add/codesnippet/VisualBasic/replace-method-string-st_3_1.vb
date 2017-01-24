@@ -1,65 +1,47 @@
 Imports System
-Imports System.Text
+Imports System.IO
 
-Class Sample
-   Public Shared Sub Main()
-      '                    0----+----1----+----2----+----3----+----4---
-      '                    01234567890123456789012345678901234567890123
-      Dim str As String = "The quick br!wn d#g jumps #ver the lazy cat."
-      Dim sb As New StringBuilder(str)
-      
-      Console.WriteLine()
-      Console.WriteLine("StringBuilder.Replace method")
-      Console.WriteLine()
-      
-      Console.WriteLine("Original value:")
-      Show(sb)
-      
-      sb.Replace("#"c, "!"c, 15, 29)   ' Some '#' -> '!'
-      Show(sb)
-      sb.Replace("!"c, "o"c)           ' All '!' -> 'o'
-      Show(sb)
-      sb.Replace("cat", "dog")         ' All "cat" -> "dog"
-      Show(sb)
-      sb.Replace("dog", "fox", 15, 20) ' Some "dog" -> "fox"
-      Console.WriteLine("Final value:")
-      Show(sb)
-   End Sub 'Main
-   
-   Public Shared Sub Show(sbs As StringBuilder)
-      Dim rule1 As String = "0----+----1----+----2----+----3----+----4---"
-      Dim rule2 As String = "01234567890123456789012345678901234567890123"
-      
-      Console.WriteLine(rule1)
-      Console.WriteLine(rule2)
-      Console.WriteLine("{0}", sbs.ToString())
-      Console.WriteLine()
-   End Sub 'Show
-End Class 'Sample
-'
-'This example produces the following results:
-'
-'StringBuilder.Replace method
-'
-'Original value:
-'0----+----1----+----2----+----3----+----4---
-'01234567890123456789012345678901234567890123
-'The quick br!wn d#g jumps #ver the lazy cat.
-'
-'0----+----1----+----2----+----3----+----4---
-'01234567890123456789012345678901234567890123
-'The quick br!wn d!g jumps !ver the lazy cat.
-'
-'0----+----1----+----2----+----3----+----4---
-'01234567890123456789012345678901234567890123
-'The quick brown dog jumps over the lazy cat.
-'
-'0----+----1----+----2----+----3----+----4---
-'01234567890123456789012345678901234567890123
-'The quick brown dog jumps over the lazy dog.
-'
-'Final value:
-'0----+----1----+----2----+----3----+----4---
-'01234567890123456789012345678901234567890123
-'The quick brown fox jumps over the lazy dog.
-'
+Module FileExample
+
+    Sub Main()
+        Try
+            ' originalFile and fileToReplace must contain the path to files that already exist in the  
+            ' file system. backUpOfFileToReplace is created during the execution of the Replace method.
+
+            Dim originalFile As String = "test.xml"
+            Dim fileToReplace As String = "test2.xml"
+            Dim backUpOfFileToReplace As String = "test2.xml.bak"
+
+            If (File.Exists(originalFile) And (File.Exists(fileToReplace))) Then
+                Console.WriteLine("Move the contents of " + originalFile + " into " + fileToReplace + ", delete " + originalFile + ", and create a backup of " + fileToReplace + ".")
+
+                ' Replace the file.
+                ReplaceFile(originalFile, fileToReplace, backUpOfFileToReplace)
+
+                Console.WriteLine("Done")
+
+            Else
+                Console.WriteLine("Either the file {0} or {1} doesn't " + "exist.", originalFile, fileToReplace)
+            End If
+        Catch e As Exception
+            Console.WriteLine(e.Message)
+        End Try
+
+        Console.ReadLine()
+
+    End Sub
+
+    ' Move a file into another file, delete the original, and create a backup of the replaced file.
+    Sub ReplaceFile(ByVal fileToMoveAndDelete As String, ByVal fileToReplace As String, ByVal backupOfFileToReplace As String)
+        ' Create a new FileInfo object.
+        Dim fInfo As New FileInfo(fileToMoveAndDelete)
+
+        ' Replace the file.
+        fInfo.Replace(fileToReplace, backupOfFileToReplace, False)
+
+    End Sub
+End Module
+
+' Move the contents of test.txt into test2.txt, delete test.txt, and 
+' create a backup of test2.txt.
+' Done

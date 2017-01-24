@@ -1,14 +1,14 @@
 using System;
 using System.Text;
 
-public class SamplesUnicodeEncoding  {
+public class SamplesUTF32Encoding  {
 
    public static void Main()  {
 
-      // Get an encoder and a decoder from UnicodeEncoding.
-      UnicodeEncoding u16 = new UnicodeEncoding( false, true, true );
-      Encoder myEnc = u16.GetEncoder();
-      Decoder myDec = u16.GetDecoder();
+      // Get an encoder and a decoder from UTF32Encoding.
+      UTF32Encoding u32 = new UTF32Encoding( false, true, true );
+      Encoder myEnc = u32.GetEncoder();
+      Decoder myDec = u32.GetDecoder();
 
       // The characters to encode:
       //    Latin Small Letter Z (U+007A)
@@ -49,7 +49,7 @@ public class SamplesUnicodeEncoding  {
 This code produces the following output.  The question marks take the place of characters that cannot be displayed at the console.
 
 The original characters : za??�
-Using the encoder       : 7A 00 61 00 06 03 FD 01 B2 03
+Using the encoder       : 7A 00 00 00 61 00 00 00 06 03 00 00 FD 01 00 00 B2 03 00 00
 Using the decoder       : za??�
 
 */

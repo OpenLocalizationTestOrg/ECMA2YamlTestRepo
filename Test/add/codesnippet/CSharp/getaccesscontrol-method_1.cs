@@ -4,29 +4,23 @@ using System.Security.AccessControl;
 
 namespace FileSystemExample
 {
-    class FileExample
+    class DirectoryExample
     {
         public static void Main()
         {
             try
             {
-                string FileName = "c:/test.xml";
+                string DirectoryName = "TestDirectory";
 
-                Console.WriteLine("Adding access control entry for " + FileName);
+                Console.WriteLine("Adding access control entry for " + DirectoryName);
 
-                // Add the access control entry to the file.
-                // Before compiling this snippet, change MyDomain to your 
-                // domain name and MyAccessAccount to the name 
-                // you use to access your domain.
-                AddFileSecurity(FileName, @"MyDomain\MyAccessAccount", FileSystemRights.ReadData, AccessControlType.Allow);
+                // Add the access control entry to the directory.
+                AddDirectorySecurity(DirectoryName, @"MYDOMAIN\MyAccount", FileSystemRights.ReadData, AccessControlType.Allow);
 
-                Console.WriteLine("Removing access control entry from " + FileName);
+                Console.WriteLine("Removing access control entry from " + DirectoryName);
 
-                // Remove the access control entry from the file.
-                // Before compiling this snippet, change MyDomain to your 
-                // domain name and MyAccessAccount to the name 
-                // you use to access your domain.
-                RemoveFileSecurity(FileName, @"MyDomain\MyAccessAccount", FileSystemRights.ReadData, AccessControlType.Allow);
+                // Remove the access control entry from the directory.
+                RemoveDirectorySecurity(DirectoryName, @"MYDOMAIN\MyAccount", FileSystemRights.ReadData, AccessControlType.Allow);
 
                 Console.WriteLine("Done.");
             }
@@ -35,53 +29,47 @@ namespace FileSystemExample
                 Console.WriteLine(e);
             }
 
+            Console.ReadLine();
         }
 
-        // Adds an ACL entry on the specified file for the specified account.
-        public static void AddFileSecurity(string FileName, string Account, FileSystemRights Rights, AccessControlType ControlType)
+        // Adds an ACL entry on the specified directory for the specified account.
+        public static void AddDirectorySecurity(string FileName, string Account, FileSystemRights Rights, AccessControlType ControlType)
         {
-            // Create a new FileInfo object.
-            FileInfo fInfo = new FileInfo(FileName);
+            // Create a new DirectoryInfo object.
+            DirectoryInfo dInfo = new DirectoryInfo(FileName);
 
-            // Get a FileSecurity object that represents the 
+            // Get a DirectorySecurity object that represents the 
             // current security settings.
-            FileSecurity fSecurity = fInfo.GetAccessControl();
+            DirectorySecurity dSecurity = dInfo.GetAccessControl();
 
             // Add the FileSystemAccessRule to the security settings. 
-            fSecurity.AddAccessRule(new FileSystemAccessRule(Account,
+            dSecurity.AddAccessRule(new FileSystemAccessRule(Account,
                                                             Rights,
                                                             ControlType));
 
             // Set the new access settings.
-            fInfo.SetAccessControl(fSecurity);
+            dInfo.SetAccessControl(dSecurity);
 
         }
 
-        // Removes an ACL entry on the specified file for the specified account.
-        public static void RemoveFileSecurity(string FileName, string Account, FileSystemRights Rights, AccessControlType ControlType)
+        // Removes an ACL entry on the specified directory for the specified account.
+        public static void RemoveDirectorySecurity(string FileName, string Account, FileSystemRights Rights, AccessControlType ControlType)
         {
-            // Create a new FileInfo object.
-            FileInfo fInfo = new FileInfo(FileName);
+            // Create a new DirectoryInfo object.
+            DirectoryInfo dInfo = new DirectoryInfo(FileName);
 
-            // Get a FileSecurity object that represents the 
+            // Get a DirectorySecurity object that represents the 
             // current security settings.
-            FileSecurity fSecurity = fInfo.GetAccessControl();
+            DirectorySecurity dSecurity = dInfo.GetAccessControl();
 
             // Add the FileSystemAccessRule to the security settings. 
-            fSecurity.RemoveAccessRule(new FileSystemAccessRule(Account,
+            dSecurity.RemoveAccessRule(new FileSystemAccessRule(Account,
                                                             Rights,
                                                             ControlType));
 
             // Set the new access settings.
-            fInfo.SetAccessControl(fSecurity);
+            dInfo.SetAccessControl(dSecurity);
 
         }
     }
 }
-//This code produces output similar to the following; 
-//results may vary based on the computer/file structure/etc.:
-//
-//Adding access control entry for c:\test.xml
-//Removing access control entry from c:\test.xml
-//Done.
-//

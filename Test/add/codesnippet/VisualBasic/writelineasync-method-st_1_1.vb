@@ -8,9 +8,17 @@ Module Module1
     End Sub
 
     Async Sub WriteCharacters()
-        Using writer As StreamWriter = File.CreateText("newfile.txt")
-            Await writer.WriteLineAsync("First line of example")
-            Await writer.WriteLineAsync("and second line")
+        Dim stringToWrite As StringBuilder = New StringBuilder("Characters in StringBuilder")
+        stringToWrite.AppendLine()
+
+        Using writer As StringWriter = New StringWriter(stringToWrite)
+            Await writer.WriteLineAsync("and add characters through StringWriter")
+            Console.WriteLine(stringToWrite.ToString())
         End Using
     End Sub
 End Module
+' The example displays the following output:
+'
+' Characters in StringBuilder
+' and add characters through StringWriter
+'

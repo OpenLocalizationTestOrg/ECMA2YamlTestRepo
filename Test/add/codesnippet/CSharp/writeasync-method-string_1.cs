@@ -1,4 +1,5 @@
 using System;
+using System.Text;
 using System.IO;
 
 namespace ConsoleApplication
@@ -12,10 +13,19 @@ namespace ConsoleApplication
 
         static async void WriteCharacters()
         {
-            using (StreamWriter writer = File.CreateText("newfile.txt"))
+            StringBuilder stringToWrite = new StringBuilder("Characters in StringBuilder");
+            stringToWrite.AppendLine();
+
+            using (StringWriter writer = new StringWriter(stringToWrite))
             {
-                await writer.WriteAsync("Example text as string");
+                await writer.WriteAsync("and add characters through StringWriter");
+                Console.WriteLine(stringToWrite.ToString());
             }
         }
     }
 }
+// The example displays the following output:
+//
+// Characters in StringBuilder
+// and add characters through StringWriter
+//

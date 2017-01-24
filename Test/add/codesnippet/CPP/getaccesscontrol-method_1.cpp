@@ -1,95 +1,83 @@
-#using <System.Security.dll>
 using namespace System;
 using namespace System::IO;
 using namespace System::Security::AccessControl;
-using namespace System::Security::Principal;
 
-// Adds an ACL entry on the specified file for the specified account.
-static void AddFileSecurity(String^ fileName, String^ account,
-                     FileSystemRights^ rights, 
-                     AccessControlType^ controlType)
+// Adds an ACL entry on the specified directory for the
+// specified account.
+void AddDirectorySecurity(String^ directoryName, String^ account, 
+     FileSystemRights rights, AccessControlType controlType)
 {
-    // Create a new FileInfo object.
-    FileInfo^ fInfo = gcnew FileInfo(fileName);
-	if (!fInfo->Exists)
-	{
-		fInfo->Create();
-	}
+    // Create a new DirectoryInfo object.
+    DirectoryInfo^ dInfo = gcnew DirectoryInfo(directoryName);
 
-    // Get a FileSecurity object that represents the
+    // Get a DirectorySecurity object that represents the
     // current security settings.
-    FileSecurity^ fSecurity = fInfo->GetAccessControl();
+    DirectorySecurity^ dSecurity = dInfo->GetAccessControl();
 
     // Add the FileSystemAccessRule to the security settings.
-    fSecurity->AddAccessRule(gcnew FileSystemAccessRule(account,
-        *rights, *controlType));
+    dSecurity->AddAccessRule( gcnew FileSystemAccessRule(account,
+        rights, controlType));
 
     // Set the new access settings.
-    fInfo->SetAccessControl(fSecurity);
+    dInfo->SetAccessControl(dSecurity);
 }
 
-// Removes an ACL entry on the specified file for the specified account.
-static void RemoveFileSecurity(String^ fileName, String^ account,
-                        FileSystemRights^ rights, 
-                        AccessControlType^ controlType)
+// Removes an ACL entry on the specified directory for the
+// specified account.
+void RemoveDirectorySecurity(String^ directoryName, String^ account,
+     FileSystemRights rights, AccessControlType controlType)
 {
-    // Create a new FileInfo object.
-    FileInfo^ fInfo = gcnew FileInfo(fileName);
-	if (!fInfo->Exists)
-	{
-		fInfo->Create();
-	}
+    // Create a new DirectoryInfo object.
+    DirectoryInfo^ dInfo = gcnew DirectoryInfo(directoryName);
 
-    // Get a FileSecurity object that represents the
+    // Get a DirectorySecurity object that represents the
     // current security settings.
-    FileSecurity^ fSecurity = fInfo->GetAccessControl();
+    DirectorySecurity^ dSecurity = dInfo->GetAccessControl();
 
-    // Remove the FileSystemAccessRule from the security settings.
-    fSecurity->RemoveAccessRule(gcnew FileSystemAccessRule(account, 
-		*rights, *controlType));
+    // Add the FileSystemAccessRule to the security settings.
+    dSecurity->RemoveAccessRule(gcnew FileSystemAccessRule(account,
+        rights, controlType));
 
     // Set the new access settings.
-    fInfo->SetAccessControl(fSecurity);
-}
+    dInfo->SetAccessControl(dSecurity);
+}    
 
 int main()
 {
+    String^ directoryName = "TestDirectory";
+    String^ accountName = "MYDOMAIN\\MyAccount";
+    if (!Directory::Exists(directoryName))
+    {
+        Console::WriteLine("The directory {0} could not be found.", 
+            directoryName);
+        return 0;
+    }
     try
     {
-		String^ fileName = "c:\\test.xml";
+        Console::WriteLine("Adding access control entry for {0}",
+            directoryName);
 
-        Console::WriteLine("Adding access control entry for " +
-            fileName);
-
-        // Add the access control entry to the file.
-        // Before compiling this snippet, change MyDomain to your 
-        // domain name and MyAccessAccount to the name 
-        // you use to access your domain.
-        AddFileSecurity(fileName, "MyDomain\\MyAccessAccount",
+        // Add the access control entry to the directory.
+        AddDirectorySecurity(directoryName, accountName,
             FileSystemRights::ReadData, AccessControlType::Allow);
 
-        Console::WriteLine("Removing access control entry from " +
-            fileName);
+        Console::WriteLine("Removing access control entry from {0}",
+            directoryName);
 
-        // Remove the access control entry from the file.
-        // Before compiling this snippet, change MyDomain to your 
-        // domain name and MyAccessAccount to the name 
-        // you use to access your domain.
-        RemoveFileSecurity(fileName, "MyDomain\\MyAccessAccount",
+        // Remove the access control entry from the directory.
+        RemoveDirectorySecurity(directoryName, accountName, 
             FileSystemRights::ReadData, AccessControlType::Allow);
 
         Console::WriteLine("Done.");
     }
-    catch (Exception^ e)
+    catch (UnauthorizedAccessException^)
     {
-        Console::WriteLine(e);
+        Console::WriteLine("You are not authorised to carry" +
+            " out this procedure.");
     }
-
+    catch (System::Security::Principal::
+        IdentityNotMappedException^)
+    {
+        Console::WriteLine("The account {0} could not be found.", accountName);
+    }
 }
-//This code produces output similar to the following; 
-//results may vary based on the computer/file structure/etc.:
-//
-//Adding access control entry for c:\test.xml
-//Removing access control entry from c:\test.xml
-//Done.
-//

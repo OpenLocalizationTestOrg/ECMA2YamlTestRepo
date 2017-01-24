@@ -8,7 +8,7 @@ Module FileExample
 
     Sub Main()
         Try
-            Dim FileName As String = "test.xml"
+            Dim FileName As String = "c:\MyTest.txt"
 
             Console.WriteLine("Encrypt " + FileName)
 
@@ -25,23 +25,37 @@ Module FileExample
             Console.WriteLine(e)
         End Try
 
-        Console.ReadLine()
-
     End Sub
 
 
-    ' Encrypt a file.
+
     Sub AddEncryption(ByVal FileName As String)
-
-        File.Encrypt(FileName)
+        ' Create a new FileInfo object.
+        Dim fInfo As New FileInfo(FileName)
+        If fInfo.Exists = False Then
+            fInfo.Create()
+        End If
+        ' Add encryption.
+        fInfo.Encrypt()
 
     End Sub
 
 
-    ' Decrypt the file.
-    Sub RemoveEncryption(ByVal FileName As String)
 
-        File.Decrypt(FileName)
+    Sub RemoveEncryption(ByVal FileName As String)
+        ' Create a new FileInfo object.
+        Dim fInfo As New FileInfo(FileName)
+        If fInfo.Exists = False Then
+            fInfo.Create()
+        End If
+        ' Remove encryption.
+        fInfo.Decrypt()
 
     End Sub
 End Module
+'This code produces output similar to the following; 
+'results may vary based on the computer/file structure/etc.:
+'
+'Encrypt c:\MyTest.txt
+'Decrypt c:\MyTest.txt
+'Done

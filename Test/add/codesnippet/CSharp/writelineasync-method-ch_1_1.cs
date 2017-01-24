@@ -13,13 +13,23 @@ namespace ConsoleApplication
 
         static async void WriteCharacters()
         {
-            UnicodeEncoding ue = new UnicodeEncoding();
-            char[] charsToAdd = ue.GetChars(ue.GetBytes("First line and second line"));
-            using (StreamWriter writer = File.CreateText("newfile.txt"))
+            StringBuilder stringToWrite = new StringBuilder("Characters in StringBuilder");
+            stringToWrite.AppendLine();
+
+            using (StringWriter writer = new StringWriter(stringToWrite))
             {
-                await writer.WriteLineAsync(charsToAdd, 0, 11);
-                await writer.WriteLineAsync(charsToAdd, 11, charsToAdd.Length - 11);
+                UnicodeEncoding ue = new UnicodeEncoding();
+                char[] charsToAdd = ue.GetChars(ue.GetBytes("and chars to add"));
+
+                await writer.WriteLineAsync(charsToAdd, 0, charsToAdd.Length);
+                
+                Console.WriteLine(stringToWrite.ToString());
             }
         }
     }
 }
+// The example displays the following output:
+//
+// Characters in StringBuilder
+// and chars to add
+//
