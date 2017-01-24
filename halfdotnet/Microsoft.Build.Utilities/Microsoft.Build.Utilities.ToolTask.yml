@@ -55,7 +55,7 @@ items:
   fullName: Microsoft.Build.Utilities.ToolTask
   type: Class
   summary: When overridden in a derived form, provides functionality for a task that wraps a command line tool.
-  remarks: "## Remarks  \n This abstract class provides default implementations for the methods and properties of a task that wraps a command line tool."
+  remarks: This abstract class provides default implementations for the methods and properties of a task that wraps a command line tool.
   example:
   - "## Examples  \n The following example creates a ToolTask that runs [Ilasm.exe (IL Assembler)](../Topic/Ilasm.exe%20\\(IL%20Assembler\\).md). The <xref:Microsoft.Build.Utilities.CommandLineBuilder>, <xref:Microsoft.Build.Utilities.ToolLocationHelper>, and <xref:Microsoft.Build.Utilities.TaskLoggingHelper> classes are used to generate the information needed to run the task.  \n  \n [!code-cs[msbuild_ToolTask#1](../../add/codesnippet/CSharp/ILAsm/ILAsm.cs#1)]\n [!code-vb[msbuild_ToolTask#1](../../add/codesnippet/VisualBasic/ILAsmVB/ILAsm.vb#1)]"
   syntax:
@@ -215,7 +215,7 @@ items:
   - Microsoft.Build.Utilities.v4.0
   namespace: Microsoft.Build.Utilities
   summary: Deletes the specified temporary file.
-  remarks: "  \n  \n## Remarks  \n If the delete operation fails for any reason (such as if a file is locked by antivirus software), then this method logs a warning rather than throwing an exception, which would cause the build to fail.  \n  \n "
+  remarks: If the delete operation fails for any reason (such as if a file is locked by antivirus software), then this method logs a warning rather than throwing an exception, which would cause the build to fail.
   syntax:
     content: protected void DeleteTempFile (string fileName);
     parameters:
@@ -239,7 +239,7 @@ items:
   - Microsoft.Build.Utilities.v4.0
   namespace: Microsoft.Build.Utilities
   summary: Indicates that command line echoing is turned off.
-  remarks: "  \n  \n## Remarks  \n MSBuild turns off command line echoing by passing /Q on the cmd.exe command line.  \n  \n "
+  remarks: MSBuild turns off command line echoing by passing /Q on the cmd.exe command line.
   syntax:
     content: public bool EchoOff { get; set; }
     return:
@@ -262,7 +262,7 @@ items:
   - Microsoft.Build.Utilities.v4.0
   namespace: Microsoft.Build.Utilities
   summary: Gets a set of environment variable name-value pairs. Designed to be overridden in a custom task class (derived from ToolTask) to return a set of new or altered environment variables to create the execution context of the associated tool.
-  remarks: "## Remarks  \n The ExecuteTool method passes these environment variables to the StartInfo of the process in which the tool executes. Any environment variables not included in the EnvironmentOverride dictionary are inherited from the process in which the ExecuteTool method executes."
+  remarks: The ExecuteTool method passes these environment variables to the StartInfo of the process in which the tool executes. Any environment variables not included in the EnvironmentOverride dictionary are inherited from the process in which the ExecuteTool method executes.
   example:
   - "## Examples  \n  \n```  \nusing System;  \nusing Microsoft.Build.Utilities;  \nusing System.Collections.Specialized;  \n  \n/// <summary>  \n/// CustomToolTask overrides the EnvironmentOverride property of ToolTask to add a directory  \n/// to the Path environment variable of the process being executed  \n/// </summary>  \nabstract class CustomToolTask : ToolTask  \n{  \n      protected override StringDictionary EnvironmentOverride  \n      {  \n            get  \n            {  \n                  string newPath = Environment.GetEnvironmentVariable(\"Path\", EnvironmentVariableTarget.Process) + @\";C:\\MyDirectory\";  \n                  StringDictionary result = new StringDictionary();  \n                  result.Add(\"Path\", newPath);  \n                  return result;  \n            }  \n      }  \n}  \n  \n```"
   syntax:
@@ -287,7 +287,7 @@ items:
   - Microsoft.Build.Utilities.v4.0
   namespace: Microsoft.Build.Utilities
   summary: Array of equals-separated pairs of environment variables that should be passed to the spawned executable, in addition to (or selectively overriding) the regular environment block.
-  remarks: "  \n  \n## Remarks  \n Using this instead of EnvironmentOverride as that takes a StringDictionary, which cannot be set from an MSBuild project.  \n  \n "
+  remarks: Using this instead of EnvironmentOverride as that takes a StringDictionary, which cannot be set from an MSBuild project.
   syntax:
     content: public string[] EnvironmentVariables { get; set; }
     return:
@@ -390,7 +390,7 @@ items:
   - Microsoft.Build.Utilities.v4.0
   namespace: Microsoft.Build.Utilities
   summary: Returns a string value containing the command line arguments to pass directly to the executable file.
-  remarks: "## Remarks  \n This method is called after <xref:Microsoft.Build.Utilities.ToolTask.ValidateParameters%2A> and <xref:Microsoft.Build.Utilities.ToolTask.SkipTaskExecution%2A>."
+  remarks: This method is called after <xref:Microsoft.Build.Utilities.ToolTask.ValidateParameters%2A> and <xref:Microsoft.Build.Utilities.ToolTask.SkipTaskExecution%2A>.
   example:
   - "## Examples  \n The following example creates a <xref:Microsoft.Build.Utilities.ToolTask> that runs [Ilasm.exe (IL Assembler)](../Topic/Ilasm.exe%20\\(IL%20Assembler\\).md). The <xref:Microsoft.Build.Utilities.CommandLineBuilder>, <xref:Microsoft.Build.Utilities.ToolLocationHelper>, and <xref:Microsoft.Build.Utilities.TaskLoggingHelper> classes are used to generate the information needed to run the task.  \n  \n [!code-cs[msbuild_ToolTask#1](../../add/codesnippet/CSharp/ILAsm/ILAsm.cs#1)]\n [!code-vb[msbuild_ToolTask#1](../../add/codesnippet/VisualBasic/ILAsmVB/ILAsm.vb#1)]"
   syntax:
@@ -416,7 +416,7 @@ items:
   - Microsoft.Build.Utilities.v4.0
   namespace: Microsoft.Build.Utilities
   summary: Returns the fully qualified path to the executable file.
-  remarks: "## Remarks  \n This method returns the value of the <xref:Microsoft.Build.Utilities.ToolTask.ToolName%2A> property if the tool is located in the system path."
+  remarks: This method returns the value of the <xref:Microsoft.Build.Utilities.ToolTask.ToolName%2A> property if the tool is located in the system path.
   example:
   - "## Examples  \n The following example creates a <xref:Microsoft.Build.Utilities.ToolTask> that runs [Ilasm.exe (IL Assembler)](../Topic/Ilasm.exe%20\\(IL%20Assembler\\).md). The <xref:Microsoft.Build.Utilities.CommandLineBuilder>, <xref:Microsoft.Build.Utilities.ToolLocationHelper>, and <xref:Microsoft.Build.Utilities.TaskLoggingHelper> classes are used to generate the information needed to run the task.  \n  \n [!code-cs[msbuild_ToolTask#1](../../add/codesnippet/CSharp/ILAsm/ILAsm.cs#1)]\n [!code-vb[msbuild_ToolTask#1](../../add/codesnippet/VisualBasic/ILAsmVB/ILAsm.vb#1)]"
   syntax:
@@ -442,7 +442,7 @@ items:
   - Microsoft.Build.Utilities.v4.0
   namespace: Microsoft.Build.Utilities
   summary: Returns a string value containing the command line arguments to add to the response (.rsp) file before running the executable file.
-  remarks: "  \n  \n## Remarks  \n This method is called after <xref:Microsoft.Build.Utilities.ToolTask.ValidateParameters%2A> and <xref:Microsoft.Build.Utilities.ToolTask.SkipTaskExecution%2A>.  \n  \n "
+  remarks: This method is called after <xref:Microsoft.Build.Utilities.ToolTask.ValidateParameters%2A> and <xref:Microsoft.Build.Utilities.ToolTask.SkipTaskExecution%2A>.
   syntax:
     content: protected virtual string GenerateResponseFileCommands ();
     parameters: []
@@ -499,7 +499,7 @@ items:
   - Microsoft.Build.Utilities.v4.0
   namespace: Microsoft.Build.Utilities
   summary: Returns the command line switch used by the executable file to specifiy a response (.rsp) file.
-  remarks: "  \n  \n## Remarks  \n This method is only called if <xref:Microsoft.Build.Utilities.ToolTask.GenerateResponseFileCommands%2A> returns a non-empty string value.  \n  \n This method is called after <xref:Microsoft.Build.Utilities.ToolTask.ValidateParameters%2A>, <xref:Microsoft.Build.Utilities.ToolTask.SkipTaskExecution%2A> and <xref:Microsoft.Build.Utilities.ToolTask.GenerateResponseFileCommands%2A>.  \n  \n "
+  remarks: "This method is only called if <xref:Microsoft.Build.Utilities.ToolTask.GenerateResponseFileCommands%2A> returns a non-empty string value.  \n  \n This method is called after <xref:Microsoft.Build.Utilities.ToolTask.ValidateParameters%2A>, <xref:Microsoft.Build.Utilities.ToolTask.SkipTaskExecution%2A> and <xref:Microsoft.Build.Utilities.ToolTask.GenerateResponseFileCommands%2A>."
   syntax:
     content: protected virtual string GetResponseFileSwitch (string responseFilePath);
     parameters:
@@ -526,7 +526,7 @@ items:
   - Microsoft.Build.Utilities.v4.0
   namespace: Microsoft.Build.Utilities
   summary: Returns the directory in which to run the executable file.
-  remarks: "  \n  \n## Remarks  \n This is a method rather than a property so that derived classes (like Exec) can choose to expose a public WorkingDirectory property, and it would be confusing to have two properties.  \n  \n "
+  remarks: This is a method rather than a property so that derived classes (like Exec) can choose to expose a public WorkingDirectory property, and it would be confusing to have two properties.
   syntax:
     content: protected virtual string GetWorkingDirectory ();
     parameters: []
@@ -550,7 +550,7 @@ items:
   - Microsoft.Build.Utilities.v4.0
   namespace: Microsoft.Build.Utilities
   summary: Handles execution errors raised by the executable file.
-  remarks: "  \n  \n## Remarks  \n This method is called only if the executable file returns a non-zero exit code.  \n  \n The return value of this method is used as the return value of the task.  \n  \n "
+  remarks: "This method is called only if the executable file returns a non-zero exit code.  \n  \n The return value of this method is used as the return value of the task."
   syntax:
     content: protected virtual bool HandleTaskExecutionErrors ();
     parameters: []
@@ -722,7 +722,7 @@ items:
   - Microsoft.Build.Utilities.v4.0
   namespace: Microsoft.Build.Utilities
   summary: Gets the <see cref="T:System.Text.Encoding"> of the response file.
-  remarks: "  \n  \n## Remarks  \n The encoding is <xref:System.Text.Encoding.UTF8%2A> by default.  \n  \n "
+  remarks: The encoding is <xref:System.Text.Encoding.UTF8%2A> by default.
   syntax:
     content: protected virtual System.Text.Encoding ResponseFileEncoding { get; }
     return:
@@ -772,7 +772,7 @@ items:
   - Microsoft.Build.Utilities.v4.0
   namespace: Microsoft.Build.Utilities
   summary: Indicates whether task execution should be skipped.
-  remarks: "  \n  \n## Remarks  \n This method is called after <xref:Microsoft.Build.Utilities.ToolTask.ValidateParameters%2A>.  \n  \n "
+  remarks: This method is called after <xref:Microsoft.Build.Utilities.ToolTask.ValidateParameters%2A>.
   syntax:
     content: protected virtual bool SkipTaskExecution ();
     parameters: []
@@ -796,7 +796,7 @@ items:
   - Microsoft.Build.Utilities.v4.0
   namespace: Microsoft.Build.Utilities
   summary: Gets the <see cref="T:System.Text.Encoding"> of the standard error stream of the task.
-  remarks: "  \n  \n## Remarks  \n Console-based output uses the current system OEM code page by default. Note that we should not use Console.OutputEncoding here since processes we run don't really have much to do with our console window (and also Console.OutputEncoding doesn't return the OEM code page if the running application that hosts MSBuild is not a console application).  \n  \n "
+  remarks: Console-based output uses the current system OEM code page by default. Note that we should not use Console.OutputEncoding here since processes we run don't really have much to do with our console window (and also Console.OutputEncoding doesn't return the OEM code page if the running application that hosts MSBuild is not a console application).
   syntax:
     content: protected virtual System.Text.Encoding StandardErrorEncoding { get; }
     return:
@@ -888,7 +888,7 @@ items:
   - Microsoft.Build.Utilities.v4.0
   namespace: Microsoft.Build.Utilities
   summary: Gets the <see cref="T:System.Text.Encoding"> of the standard output stream of the task.
-  remarks: "  \n  \n## Remarks  \n Console-based output uses the current system OEM code page by default. Note that we should not use Console.OutputEncoding here since processes we run don't really have much to do with our console window (and also Console.OutputEncoding doesn't return the OEM code page if the running application that hosts MSBuild is not a console application).  \n  \n "
+  remarks: Console-based output uses the current system OEM code page by default. Note that we should not use Console.OutputEncoding here since processes we run don't really have much to do with our console window (and also Console.OutputEncoding doesn't return the OEM code page if the running application that hosts MSBuild is not a console application).
   syntax:
     content: protected virtual System.Text.Encoding StandardOutputEncoding { get; }
     return:
