@@ -15,8 +15,37 @@
     </Attribute>
   </Attributes>
   <Docs>
-    <summary>To be added.</summary>
-    <remarks>To be added.</remarks>
+    <summary>Creates a stream whose backing store is memory.  
+  
+ To browse the .NET Framework source code for this type, see the [Reference Source](http://referencesource.microsoft.com/#mscorlib/system/io/memorystream.cs#1a4dcb744a23ba6f).</summary>
+    <remarks>
+      <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+  
+> [!NOTE]
+>  To view the .NET Framework source code for this type, see the [Reference Source](http://referencesource.microsoft.com/#mscorlib/system/io/memorystream.cs#1a4dcb744a23ba6f). You can browse through the source code online, download the reference for offline viewing, and step through the sources (including patches and updates) during debugging; see [instructions](http://referencesource.microsoft.com/).  
+  
+ The current position of a stream is the position at which the next read or write operation could take place. The current position can be retrieved or set through the <xref:System.IO.MemoryStream.Seek%2A> method. When a new instance of MemoryStream is created, the current position is set to zero.  
+  
+> [!IMPORTANT]
+>  This type implements the <xref:System.IDisposable> interface. When you have finished using the type, you should dispose of it either directly or indirectly. To dispose of the type directly, call its <xref:System.IDisposable.Dispose%2A> method in a `try`/`catch` block. To dispose of it indirectly, use a language construct such as `using` (in C#) or `Using` (in Visual Basic). For more information, see the “Using an Object that Implements IDisposable” section in the <xref:System.IDisposable> interface topic.  
+  
+ Memory streams created with an unsigned byte array provide a non-resizable stream of the data. When using a byte array, you can neither append to nor shrink the stream, although you might be able to modify the existing contents depending on the parameters passed into the constructor. Empty memory streams are resizable, and can be written to and read from.  
+  
+ If a MemoryStream object is added to a ResX file or a .resources file, call the <xref:System.Resources.ResourceManager.GetStream%2A> method at runtime to retrieve it.  
+  
+ If a MemoryStream object is serialized to a resource file it will actually be serialized as an <xref:System.IO.UnmanagedMemoryStream>. This behavior provides better performance, as well as the ability to get a pointer to the data directly, without having to go through <xref:System.IO.Stream> methods.  
+  
+   
+  
+## Examples  
+ The following code example shows how to read and write data using memory as a backing store.  
+  
+ [!CODE [System.IO.MemoryStream#1](../CodeSnippet/VS_Snippets_CLR_System/system.IO.MemoryStream#1)]  
+  
+ ]]></format>
+    </remarks>
   </Docs>
   <Members>
     <Member MemberName=".ctor">
@@ -28,8 +57,19 @@
       </AssemblyInfo>
       <Parameters />
       <Docs>
-        <summary>To be added.</summary>
-        <remarks>To be added.</remarks>
+        <summary>Initializes a new instance of the &lt;see cref="T:System.IO.MemoryStream"&gt; class with an expandable capacity initialized to zero.</summary>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ The <xref:System.IO.MemoryStream.CanRead%2A>, <xref:System.IO.MemoryStream.CanSeek%2A>, and <xref:System.IO.MemoryStream.CanWrite%2A> properties are all set to `true`.  
+  
+ The capacity of the current stream automatically increases when you use the <xref:System.IO.MemoryStream.SetLength%2A> method to set the length to a value larger than the capacity of the current stream.  
+  
+ This constructor exposes the underlying stream, which <xref:System.IO.MemoryStream.GetBuffer%2A> returns.  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName=".ctor">
@@ -43,9 +83,23 @@
         <Parameter Name="buffer" Type="System.Byte[]" />
       </Parameters>
       <Docs>
-        <param name="buffer">To be added.</param>
-        <summary>To be added.</summary>
-        <remarks>To be added.</remarks>
+        <param name="buffer">  
+ The array of unsigned bytes from which to create the current stream.  
+  
+ </param>
+        <summary>Initializes a new non-resizable instance of the &lt;see cref="T:System.IO.MemoryStream"&gt; class based on the specified byte array.</summary>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ The <xref:System.IO.MemoryStream.CanRead%2A>, <xref:System.IO.MemoryStream.CanSeek%2A>, and <xref:System.IO.MemoryStream.CanWrite%2A> properties are all set to `true`. <xref:System.IO.MemoryStream.Capacity%2A> is set to the length of the specified byte array. The new stream can be written to, but is not resizable.  
+  
+ The length of the stream cannot be set to a value greater than the initial length of the specified byte array; however, the stream can be truncated (see <xref:System.IO.MemoryStream.SetLength%2A>).  
+  
+ This constructor does not expose the underlying stream. <xref:System.IO.MemoryStream.GetBuffer%2A> throws <xref:System.UnauthorizedAccessException>.  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName=".ctor">
@@ -59,9 +113,30 @@
         <Parameter Name="capacity" Type="System.Int32" />
       </Parameters>
       <Docs>
-        <param name="capacity">To be added.</param>
-        <summary>To be added.</summary>
-        <remarks>To be added.</remarks>
+        <param name="capacity">  
+ The initial size of the internal array in bytes.  
+  
+ </param>
+        <summary>Initializes a new instance of the &lt;see cref="T:System.IO.MemoryStream"&gt; class with an expandable capacity initialized as specified.</summary>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ The <xref:System.IO.MemoryStream.CanRead%2A>, <xref:System.IO.MemoryStream.CanSeek%2A>, and <xref:System.IO.MemoryStream.CanWrite%2A> properties are all set to `true`.  
+  
+ The capacity automatically increases when you use the <xref:System.IO.MemoryStream.SetLength%2A> method to set the length to a value larger than the capacity of the current stream. Except for a `MemoryStream` constructed with a byte[] parameter, write operations at the end of a `MemoryStream` expand the `MemoryStream`.  
+  
+ This constructor exposes the underlying stream that <xref:System.IO.MemoryStream.GetBuffer%2A> returns.  
+  
+   
+  
+## Examples  
+ This code example is part of a larger example provided for the <xref:System.IO.MemoryStream> class.  
+  
+ [!CODE [System.IO.MemoryStream#2](../CodeSnippet/VS_Snippets_CLR_System/system.IO.MemoryStream#2)]  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName=".ctor">
@@ -76,10 +151,27 @@
         <Parameter Name="writable" Type="System.Boolean" />
       </Parameters>
       <Docs>
-        <param name="buffer">To be added.</param>
-        <param name="writable">To be added.</param>
-        <summary>To be added.</summary>
-        <remarks>To be added.</remarks>
+        <param name="buffer">  
+ The array of unsigned bytes from which to create this stream.  
+  
+ </param>
+        <param name="writable">  
+ The setting of the &lt;xref:System.IO.MemoryStream.CanWrite%2A&gt; property, which determines whether the stream supports writing.  
+  
+ </param>
+        <summary>Initializes a new non-resizable instance of the &lt;see cref="T:System.IO.MemoryStream"&gt; class based on the specified byte array with the &lt;xref:System.IO.MemoryStream.CanWrite%2A&gt; property set as specified.</summary>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ The <xref:System.IO.MemoryStream.CanRead%2A> and <xref:System.IO.MemoryStream.CanSeek%2A> properties are both set to `true`. <xref:System.IO.MemoryStream.Capacity%2A> is set to the length of the specified byte array.  
+  
+ The length of the stream cannot be set to a value greater than the initial length of the specified byte array; however, the stream can be truncated (see <xref:System.IO.MemoryStream.SetLength%2A>).  
+  
+ This constructor does not expose the underlying stream. <xref:System.IO.MemoryStream.GetBuffer%2A> throws <xref:System.UnauthorizedAccessException>.  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName=".ctor">
@@ -95,11 +187,31 @@
         <Parameter Name="count" Type="System.Int32" />
       </Parameters>
       <Docs>
-        <param name="buffer">To be added.</param>
-        <param name="index">To be added.</param>
-        <param name="count">To be added.</param>
-        <summary>To be added.</summary>
-        <remarks>To be added.</remarks>
+        <param name="buffer">  
+ The array of unsigned bytes from which to create this stream.  
+  
+ </param>
+        <param name="index">  
+ The index into  at which the stream begins.  
+  
+ </param>
+        <param name="count">  
+ The length of the stream in bytes.  
+  
+ </param>
+        <summary>Initializes a new non-resizable instance of the &lt;see cref="T:System.IO.MemoryStream"&gt; class based on the specified region (index) of a byte array.</summary>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ The <xref:System.IO.MemoryStream.CanRead%2A>, <xref:System.IO.MemoryStream.CanSeek%2A>, and <xref:System.IO.MemoryStream.CanWrite%2A> properties are all set to `true`, but the capacity cannot be changed. <xref:System.IO.MemoryStream.Capacity%2A> is set to .  
+  
+ The length of the stream cannot be set to a value greater than the initial length of the specified byte array; however, the stream can be truncated (see <xref:System.IO.MemoryStream.SetLength%2A>).  
+  
+ This constructor does not expose the underlying stream. <xref:System.IO.MemoryStream.GetBuffer%2A> throws <xref:System.UnauthorizedAccessException>. However, you can write to the stream.  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName=".ctor">
@@ -116,12 +228,35 @@
         <Parameter Name="writable" Type="System.Boolean" />
       </Parameters>
       <Docs>
-        <param name="buffer">To be added.</param>
-        <param name="index">To be added.</param>
-        <param name="count">To be added.</param>
-        <param name="writable">To be added.</param>
-        <summary>To be added.</summary>
-        <remarks>To be added.</remarks>
+        <param name="buffer">  
+ The array of unsigned bytes from which to create this stream.  
+  
+ </param>
+        <param name="index">  
+ The index in  at which the stream begins.  
+  
+ </param>
+        <param name="count">  
+ The length of the stream in bytes.  
+  
+ </param>
+        <param name="writable">  
+ The setting of the &lt;xref:System.IO.MemoryStream.CanWrite%2A&gt; property, which determines whether the stream supports writing.  
+  
+ </param>
+        <summary>Initializes a new non-resizable instance of the &lt;see cref="T:System.IO.MemoryStream"&gt; class based on the specified region of a byte array, with the &lt;xref:System.IO.MemoryStream.CanWrite%2A&gt; property set as specified.</summary>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ The <xref:System.IO.MemoryStream.CanRead%2A> and <xref:System.IO.MemoryStream.CanSeek%2A> properties are both set to `true`. <xref:System.IO.MemoryStream.Capacity%2A> is set to .  
+  
+ The length of the stream cannot be set to a value greater than the initial length of the specified byte array; however, the stream can be truncated (see <xref:System.IO.MemoryStream.SetLength%2A>).  
+  
+ This constructor does not expose the underlying stream. <xref:System.IO.MemoryStream.GetBuffer%2A> throws <xref:System.UnauthorizedAccessException>. However, you can write to the stream if  is `true`.  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName=".ctor">
@@ -139,13 +274,37 @@
         <Parameter Name="publiclyVisible" Type="System.Boolean" />
       </Parameters>
       <Docs>
-        <param name="buffer">To be added.</param>
-        <param name="index">To be added.</param>
-        <param name="count">To be added.</param>
-        <param name="writable">To be added.</param>
-        <param name="publiclyVisible">To be added.</param>
-        <summary>To be added.</summary>
-        <remarks>To be added.</remarks>
+        <param name="buffer">  
+ The array of unsigned bytes from which to create this stream.  
+  
+ </param>
+        <param name="index">  
+ The index into  at which the stream begins.  
+  
+ </param>
+        <param name="count">  
+ The length of the stream in bytes.  
+  
+ </param>
+        <param name="writable">  
+ The setting of the &lt;xref:System.IO.MemoryStream.CanWrite%2A&gt; property, which determines whether the stream supports writing.  
+  
+ </param>
+        <param name="publiclyVisible">  
+ `true` to enable &lt;xref:System.IO.MemoryStream.GetBuffer%2A&gt;, which returns the unsigned byte array from which the stream was created; otherwise, `false`.  
+  
+ </param>
+        <summary>Initializes a new instance of the &lt;see cref="T:System.IO.MemoryStream"&gt; class based on the specified region of a byte array, with the &lt;xref:System.IO.MemoryStream.CanWrite%2A&gt; property set as specified, and the ability to call &lt;xref:System.IO.MemoryStream.GetBuffer%2A&gt; set as specified.</summary>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ The <xref:System.IO.MemoryStream.CanRead%2A> and <xref:System.IO.MemoryStream.CanSeek%2A> properties are both set to `true`. <xref:System.IO.MemoryStream.Capacity%2A> is set to .  
+  
+ The new stream instance can be written to, but the <xref:System.IO.MemoryStream.Capacity%2A> of the underlying byte array cannot be changed. The length of the stream cannot be set to a value greater than the initial length of the specified byte array; however, the stream can be truncated (see <xref:System.IO.MemoryStream.SetLength%2A>).  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="CanRead">
@@ -159,9 +318,18 @@
         <ReturnType>System.Boolean</ReturnType>
       </ReturnValue>
       <Docs>
-        <summary>To be added.</summary>
-        <value>To be added.</value>
-        <remarks>To be added.</remarks>
+        <summary>Gets a value indicating whether the current stream supports reading.</summary>
+        <value>`true` if the stream is open.</value>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ If a class derived from <xref:System.IO.Stream> does not support reading, calls to the <xref:System.IO.MemoryStream.Read%2A> and <xref:System.IO.MemoryStream.ReadByte%2A> methods throw a <xref:System.NotSupportedException>.  
+  
+ If the stream is closed, this property returns `false`.  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="CanSeek">
@@ -175,9 +343,18 @@
         <ReturnType>System.Boolean</ReturnType>
       </ReturnValue>
       <Docs>
-        <summary>To be added.</summary>
-        <value>To be added.</value>
-        <remarks>To be added.</remarks>
+        <summary>Gets a value indicating whether the current stream supports seeking.</summary>
+        <value>`true` if the stream is open.</value>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ If a class derived from <xref:System.IO.Stream> does not support seeking, calls to <xref:System.IO.MemoryStream.Length%2A>, <xref:System.IO.MemoryStream.SetLength%2A>, <xref:System.IO.MemoryStream.Position%2A>, and <xref:System.IO.MemoryStream.Seek%2A> throw a <xref:System.NotSupportedException>.  
+  
+ If the stream is closed, this property returns `false`.  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="CanWrite">
@@ -191,9 +368,18 @@
         <ReturnType>System.Boolean</ReturnType>
       </ReturnValue>
       <Docs>
-        <summary>To be added.</summary>
-        <value>To be added.</value>
-        <remarks>To be added.</remarks>
+        <summary>Gets a value indicating whether the current stream supports writing.</summary>
+        <value>`true` if the stream supports writing; otherwise, `false`.</value>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ If a class derived from <xref:System.IO.Stream> does not support writing, a call to <xref:System.IO.Stream.SetLength%2A>, <xref:System.IO.Stream.Write%2A>, or <xref:System.IO.Stream.WriteByte%2A> throws a <xref:System.NotSupportedException>.  
+  
+ If the stream is closed, this property returns `false`.  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="Capacity">
@@ -207,9 +393,23 @@
         <ReturnType>System.Int32</ReturnType>
       </ReturnValue>
       <Docs>
-        <summary>To be added.</summary>
-        <value>To be added.</value>
-        <remarks>To be added.</remarks>
+        <summary>Gets or sets the number of bytes allocated for this stream.</summary>
+        <value>The length of the usable portion of the buffer for the stream.</value>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ `Capacity` is the buffer length for system-provided byte arrays. `Capacity` cannot be set to a value less than the current length of the stream.  
+  
+   
+  
+## Examples  
+ This code example is part of a larger example provided for the <xref:System.IO.MemoryStream> class.  
+  
+ [!CODE [System.IO.MemoryStream#5](../CodeSnippet/VS_Snippets_CLR_System/system.IO.MemoryStream#5)]  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="CopyToAsync">
@@ -228,11 +428,20 @@
         <Parameter Name="cancellationToken" Type="System.Threading.CancellationToken" />
       </Parameters>
       <Docs>
-        <param name="destination">To be added.</param>
-        <param name="bufferSize">To be added.</param>
-        <param name="cancellationToken">To be added.</param>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
+        <param name="destination">  
+ The stream to which the contents of the current stream will be copied.  
+  
+ </param>
+        <param name="bufferSize">  
+ The size, in bytes, of the buffer. This value must be greater than zero.  
+  
+ </param>
+        <param name="cancellationToken">  
+ The token to monitor for cancellation requests.  
+  
+ </param>
+        <summary>Asynchronously reads all the bytes from the current stream and writes them to another stream, using a specified buffer size and cancellation token.</summary>
+        <returns>A task that represents the asynchronous copy operation.</returns>
         <remarks>To be added.</remarks>
       </Docs>
     </Member>
@@ -250,9 +459,21 @@
         <Parameter Name="disposing" Type="System.Boolean" />
       </Parameters>
       <Docs>
-        <param name="disposing">To be added.</param>
-        <summary>To be added.</summary>
-        <remarks>To be added.</remarks>
+        <param name="disposing">  
+ `true` to release both managed and unmanaged resources; `false` to release only unmanaged resources.  
+  
+ </param>
+        <summary>Releases the unmanaged resources used by the &lt;see cref="T:System.IO.MemoryStream"&gt; class and optionally releases the managed resources.</summary>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ This method is called by the public <xref:System.ComponentModel.Component.Dispose%2A> method and the <xref:System.Object.Finalize%2A> method. <xref:System.ComponentModel.Component.Dispose%2A> invokes the protected Dispose method with the  parameter set to `true`. <xref:System.Object.Finalize%2A> invokes Dispose with  set to `false`.  
+  
+ When the  parameter is `true`, this method releases all resources held by any managed objects that this <xref:System.IO.MemoryStream> references. This method invokes the <xref:System.ComponentModel.Component.Dispose%2A> method of each referenced object.  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="Flush">
@@ -267,8 +488,17 @@
       </ReturnValue>
       <Parameters />
       <Docs>
-        <summary>To be added.</summary>
-        <remarks>To be added.</remarks>
+        <summary>Overrides the &lt;xref:System.IO.Stream.Flush%2A?displayProperty=fullName&gt; method so that no action is performed.</summary>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ This method overrides the <xref:System.IO.Stream.Flush%2A?displayProperty=fullName> method.  
+  
+ Because any data written to a <xref:System.IO.MemoryStream> object is written into RAM, this method is redundant.  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="FlushAsync">
@@ -290,10 +520,24 @@
         <Parameter Name="cancellationToken" Type="System.Threading.CancellationToken" />
       </Parameters>
       <Docs>
-        <param name="cancellationToken">To be added.</param>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
-        <remarks>To be added.</remarks>
+        <param name="cancellationToken">  
+ The token to monitor for cancellation requests.  
+  
+ </param>
+        <summary>Asynchronously clears all buffers for this stream, and monitors cancellation requests.</summary>
+        <returns>A task that represents the asynchronous flush operation.</returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ Because any data written to a <xref:System.IO.MemoryStream> object is written into RAM, this method is redundant.  
+  
+ If the operation is canceled before it completes, the returned task contains the <xref:System.Threading.Tasks.TaskStatus> value for the <xref:System.Threading.Tasks.Task.Status%2A> property.  
+  
+ You can create a cancellation token by creating an instance of the <xref:System.Threading.CancellationTokenSource> class and passing the <xref:System.Threading.CancellationTokenSource.Token%2A> property as the  parameter.  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="GetBuffer">
@@ -308,9 +552,23 @@
       </ReturnValue>
       <Parameters />
       <Docs>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
-        <remarks>To be added.</remarks>
+        <summary>Returns the array of unsigned bytes from which this stream was created.</summary>
+        <returns>The byte array from which this stream was created, or the underlying array if a byte array was not provided to the &lt;see cref="T:System.IO.MemoryStream"&gt; constructor during construction of the current instance.</returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ Note that the buffer contains allocated bytes which might be unused. For example, if the string "test" is written into the <xref:System.IO.MemoryStream> object, the length of the buffer returned from GetBuffer is 256, not 4, with 252 bytes unused. To obtain only the data in the buffer, use the <xref:System.IO.MemoryStream.ToArray%2A> method; however, <xref:System.IO.MemoryStream.ToArray%2A> creates a copy of the data in memory.  
+  
+ The buffer can also be `null`.  
+  
+ To create a `MemoryStream` instance with a publicly visible buffer, use <xref:System.IO.MemoryStream.%23ctor%2A>, [MemoryStream(Byte\[\], Int32, Int32, Boolean, Boolean)](assetId:///M:System.IO.MemoryStream.#ctor(System.Byte[],System.Int32,System.Int32,System.Boolean,System.Boolean)?qualifyHint=False&autoUpgrade=False), or <xref:System.IO.MemoryStream.%23ctor%28System.Int32%29>. If the current stream is resizable, two calls to this method do not return the same array if the underlying byte array is resized between calls. For additional information, see <xref:System.IO.MemoryStream.Capacity%2A>.  
+  
+> [!NOTE]
+>  This method works when the memory stream is closed.  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="Length">
@@ -324,9 +582,18 @@
         <ReturnType>System.Int64</ReturnType>
       </ReturnValue>
       <Docs>
-        <summary>To be added.</summary>
-        <value>To be added.</value>
-        <remarks>To be added.</remarks>
+        <summary>Gets the length of the stream in bytes.</summary>
+        <value>The length of the stream in bytes.</value>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Examples  
+ This code example is part of a larger example provided for the <xref:System.IO.MemoryStream> class.  
+  
+ [!CODE [System.IO.MemoryStream#5](../CodeSnippet/VS_Snippets_CLR_System/system.IO.MemoryStream#5)]  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="Position">
@@ -340,9 +607,18 @@
         <ReturnType>System.Int64</ReturnType>
       </ReturnValue>
       <Docs>
-        <summary>To be added.</summary>
-        <value>To be added.</value>
-        <remarks>To be added.</remarks>
+        <summary>Gets or sets the current position within the stream.</summary>
+        <value>The current position within the stream.</value>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Examples  
+ This code example is part of a larger example provided for the <xref:System.IO.MemoryStream> class.  
+  
+ [!CODE [System.IO.MemoryStream#5](../CodeSnippet/VS_Snippets_CLR_System/system.IO.MemoryStream#5)]  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="Read">
@@ -361,12 +637,46 @@
         <Parameter Name="count" Type="System.Int32" />
       </Parameters>
       <Docs>
-        <param name="buffer">To be added.</param>
-        <param name="offset">To be added.</param>
-        <param name="count">To be added.</param>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
-        <remarks>To be added.</remarks>
+        <param name="buffer">  
+ When this method returns, contains the specified byte array with the values between  and ( +  - 1) replaced by the characters read from the current stream.  
+  
+ </param>
+        <param name="offset">  
+ The zero-based byte offset in  at which to begin storing data from the current stream.  
+  
+ </param>
+        <param name="count">  
+ The maximum number of bytes to read.  
+  
+ </param>
+        <summary>Reads a block of bytes from the current stream and writes the data to a buffer.</summary>
+        <returns>The total number of bytes written into the buffer. This can be less than the number of bytes requested if that number of bytes are not currently available, or zero if the end of the stream is reached before any bytes are read.</returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ This method overrides <xref:System.IO.Stream.Read%2A>.  
+  
+ The  parameter gives the offset of the first byte in  to which data from the current stream is written. The  parameter gives the maximum number of bytes to read from the current stream. The returned value is the actual number of bytes read, or zero if the end of the stream is reached.  
+  
+ If the read operation is successful, the current position within the stream advances by the number of bytes read. If an exception occurs, the current position within the stream remains unchanged.  
+  
+ The `Read` method will return zero only if the end of the stream is reached. In all other cases, `Read` always reads at least one byte from the stream before returning. By definition, if no data is available from the stream upon a call to `Read`, the `Read` method returns zero (the end of the stream is reached automatically). An implementation is free to return fewer bytes than requested even if the end of the stream has not been reached.  
+  
+ Use <xref:System.IO.BinaryReader> for reading primitive data types.  
+  
+> [!CAUTION]
+>  If the byte array specified in the  parameter is the underlying buffer returned by the <xref:System.IO.MemoryStream.GetBuffer%2A> method, the array contents are overwritten, and no exception is thrown.  
+  
+   
+  
+## Examples  
+ This code example is part of a larger example provided for the <xref:System.IO.MemoryStream> class.  
+  
+ [!CODE [System.IO.MemoryStream#7](../CodeSnippet/VS_Snippets_CLR_System/system.IO.MemoryStream#7)]  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="ReadAsync">
@@ -391,13 +701,34 @@
         <Parameter Name="cancellationToken" Type="System.Threading.CancellationToken" />
       </Parameters>
       <Docs>
-        <param name="buffer">To be added.</param>
-        <param name="offset">To be added.</param>
-        <param name="count">To be added.</param>
-        <param name="cancellationToken">To be added.</param>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
-        <remarks>To be added.</remarks>
+        <param name="buffer">  
+ The buffer to write the data into.  
+  
+ </param>
+        <param name="offset">  
+ The byte offset in  at which to begin writing data from the stream.  
+  
+ </param>
+        <param name="count">  
+ The maximum number of bytes to read.  
+  
+ </param>
+        <param name="cancellationToken">  
+ The token to monitor for cancellation requests. The default value is &lt;xref:System.Threading.CancellationToken.None%2A&gt;.  
+  
+ </param>
+        <summary>Asynchronously reads a sequence of bytes from the current stream, advances the position within the stream by the number of bytes read, and monitors cancellation requests.</summary>
+        <returns>A task that represents the asynchronous read operation. The value of the  parameter contains the total number of bytes read into the buffer. The result value can be less than the number of bytes requested if the number of bytes currently available is less than the requested number, or it can be 0 (zero) if the end of the stream has been reached.</returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ If the operation is canceled before it completes, the returned task contains the <xref:System.Threading.Tasks.TaskStatus> value for the <xref:System.Threading.Tasks.Task.Status%2A> property.  
+  
+ You can create a cancellation token by creating an instance of the <xref:System.Threading.CancellationTokenSource> class and passing the <xref:System.Threading.CancellationTokenSource.Token%2A> property as the  parameter.  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="ReadByte">
@@ -412,9 +743,25 @@
       </ReturnValue>
       <Parameters />
       <Docs>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
-        <remarks>To be added.</remarks>
+        <summary>Reads a byte from the current stream.</summary>
+        <returns>The byte cast to a &lt;xref:System.Int32&gt;, or -1 if the end of the stream has been reached.</returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ This method overrides <xref:System.IO.Stream.ReadByte%2A>.  
+  
+ If the read operation is successful, the current position within the stream is advanced by one byte. If an exception occurs, the current position within the stream is unchanged.  
+  
+   
+  
+## Examples  
+ This code example is part of a larger example provided for the <xref:System.IO.MemoryStream> class.  
+  
+ [!CODE [System.IO.MemoryStream#8](../CodeSnippet/VS_Snippets_CLR_System/system.IO.MemoryStream#8)]  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="Seek">
@@ -432,11 +779,35 @@
         <Parameter Name="loc" Type="System.IO.SeekOrigin" />
       </Parameters>
       <Docs>
-        <param name="offset">To be added.</param>
-        <param name="loc">To be added.</param>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
-        <remarks>To be added.</remarks>
+        <param name="offset">  
+ The new position within the stream. This is relative to the  parameter, and can be positive or negative.  
+  
+ </param>
+        <param name="loc">  
+ A value of type &lt;see cref="T:System.IO.SeekOrigin"&gt;, which acts as the seek reference point.  
+  
+ </param>
+        <summary>Sets the position within the current stream to the specified value.</summary>
+        <returns>The new position within the stream, calculated by combining the initial reference point and the offset.</returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ This method overrides <xref:System.IO.Stream.Seek%2A?displayProperty=fullName>.  
+  
+ Seeking to any location beyond the length of the stream is supported.  
+  
+ Do not use the Seek method to determine the new position in the stream if the <xref:System.IO.MemoryStream> was initialized with a non-zero offset. If you do, Seek will return an inaccurate value. Instead, use the <xref:System.IO.MemoryStream.Position%2A> property to get the new position of the stream.  
+  
+   
+  
+## Examples  
+ This code example is part of a larger example provided for the <xref:System.IO.MemoryStream> class.  
+  
+ [!CODE [System.IO.MemoryStream#6](../CodeSnippet/VS_Snippets_CLR_System/system.IO.MemoryStream#6)]  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="SetLength">
@@ -453,9 +824,24 @@
         <Parameter Name="value" Type="System.Int64" />
       </Parameters>
       <Docs>
-        <param name="value">To be added.</param>
-        <summary>To be added.</summary>
-        <remarks>To be added.</remarks>
+        <param name="value">  
+ The value at which to set the length.  
+  
+ </param>
+        <summary>Sets the length of the current stream to the specified value.</summary>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ This method overrides <xref:System.IO.Stream.SetLength%2A>.  
+  
+ If the specified value is less than the current length of the stream, the stream is truncated. If after the truncation the current position within the stream is past the end of the stream, the <xref:System.IO.MemoryStream.ReadByte%2A> method returns -1, the <xref:System.IO.MemoryStream.Read%2A> method reads zero bytes into the provided byte array, and <xref:System.IO.MemoryStream.Write%2A> and <xref:System.IO.MemoryStream.WriteByte%2A> methods append specified bytes at the end of the stream, increasing its length. If the specified value is larger than the current capacity and the stream is resizable, the capacity is increased, and the current position within the stream is unchanged. If the length is increased, the contents of the stream between the old and the new length are initialized to zeros.  
+  
+> [!NOTE]
+>  A <xref:System.IO.MemoryStream> instance must support writing for this method to work. Use the <xref:System.IO.MemoryStream.CanWrite%2A> property to determine whether the current instance supports writing. For additional information, see <xref:System.IO.Stream.CanWrite%2A>.  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="ToArray">
@@ -470,9 +856,21 @@
       </ReturnValue>
       <Parameters />
       <Docs>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
-        <remarks>To be added.</remarks>
+        <summary>Writes the stream contents to a byte array, regardless of the &lt;xref:System.IO.MemoryStream.Position%2A&gt; property.</summary>
+        <returns>A new byte array.</returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ This method omits unused bytes in <xref:System.IO.MemoryStream> from the array. To get the entire buffer, use the <xref:System.IO.MemoryStream.GetBuffer%2A> method.  
+  
+ This method returns a copy of the contents of the <xref:System.IO.MemoryStream> as a byte array. If the current instance was constructed on a provided byte array, a copy of the section of the array to which this instance has access is returned. See the <xref:System.IO.MemoryStream.%23ctor%2A> constructor for details.  
+  
+> [!NOTE]
+>  This method works when the <xref:System.IO.MemoryStream> is closed.  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="TryGetBuffer">
@@ -489,9 +887,12 @@
         <Parameter Name="buffer" Type="System.ArraySegment&lt;System.Byte&gt;&amp;" RefType="out" />
       </Parameters>
       <Docs>
-        <param name="buffer">To be added.</param>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
+        <param name="buffer">  
+ The byte array segment from which this stream was created.  
+  
+ </param>
+        <summary>Returns the array of unsigned bytes from which this stream was created. The return value indicates whether the conversion succeeded.</summary>
+        <returns>`true` if the conversion was successful; otherwise, `false`.</returns>
         <remarks>To be added.</remarks>
       </Docs>
     </Member>
@@ -511,11 +912,38 @@
         <Parameter Name="count" Type="System.Int32" />
       </Parameters>
       <Docs>
-        <param name="buffer">To be added.</param>
-        <param name="offset">To be added.</param>
-        <param name="count">To be added.</param>
-        <summary>To be added.</summary>
-        <remarks>To be added.</remarks>
+        <param name="buffer">  
+ The buffer to write data from.  
+  
+ </param>
+        <param name="offset">  
+ The zero-based byte offset in  at which to begin copying bytes to the current stream.  
+  
+ </param>
+        <param name="count">  
+ The maximum number of bytes to write.  
+  
+ </param>
+        <summary>Writes a block of bytes to the current stream using data read from a buffer.</summary>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ This method overrides <xref:System.IO.Stream.Write%2A>.  
+  
+ The  parameter gives the offset of the first byte in  to write from, and the  parameter gives the number of bytes to write. If the write operation is successful, the current position within the stream is advanced by the number of bytes written. If an exception occurs, the current position within the stream is unchanged.  
+  
+ Except for a `MemoryStream` constructed with a byte[] parameter, write operations at the end of a `MemoryStream` expand the `MemoryStream`.  
+  
+   
+  
+## Examples  
+ This code example is part of a larger example provided for the <xref:System.IO.MemoryStream> class.  
+  
+ [!CODE [System.IO.MemoryStream#3](../CodeSnippet/VS_Snippets_CLR_System/system.IO.MemoryStream#3)]  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="WriteAsync">
@@ -540,13 +968,34 @@
         <Parameter Name="cancellationToken" Type="System.Threading.CancellationToken" />
       </Parameters>
       <Docs>
-        <param name="buffer">To be added.</param>
-        <param name="offset">To be added.</param>
-        <param name="count">To be added.</param>
-        <param name="cancellationToken">To be added.</param>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
-        <remarks>To be added.</remarks>
+        <param name="buffer">  
+ The buffer to write data from.  
+  
+ </param>
+        <param name="offset">  
+ The zero-based byte offset in  from which to begin copying bytes to the stream.  
+  
+ </param>
+        <param name="count">  
+ The maximum number of bytes to write.  
+  
+ </param>
+        <param name="cancellationToken">  
+ The token to monitor for cancellation requests. The default value is &lt;xref:System.Threading.CancellationToken.None%2A&gt;.  
+  
+ </param>
+        <summary>Asynchronously writes a sequence of bytes to the current stream, advances the current position within this stream by the number of bytes written, and monitors cancellation requests.</summary>
+        <returns>A task that represents the asynchronous write operation.</returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ If the operation is canceled before it completes, the returned task contains the <xref:System.Threading.Tasks.TaskStatus> value for the <xref:System.Threading.Tasks.Task.Status%2A> property.  
+  
+ You can create a cancellation token by creating an instance of the <xref:System.Threading.CancellationTokenSource> class and passing the <xref:System.Threading.CancellationTokenSource.Token%2A> property as the  parameter.  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="WriteByte">
@@ -563,9 +1012,28 @@
         <Parameter Name="value" Type="System.Byte" />
       </Parameters>
       <Docs>
-        <param name="value">To be added.</param>
-        <summary>To be added.</summary>
-        <remarks>To be added.</remarks>
+        <param name="value">  
+ The byte to write.  
+  
+ </param>
+        <summary>Writes a byte to the current stream at the current position.</summary>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ This method overrides <xref:System.IO.Stream.WriteByte%2A>.  
+  
+ Except for a `MemoryStream` constructed with a byte[] parameter, write operations at the end of a `MemoryStream` expand the `MemoryStream`.  
+  
+   
+  
+## Examples  
+ This code example is part of a larger example provided for the <xref:System.IO.MemoryStream> class.  
+  
+ [!CODE [System.IO.MemoryStream#4](../CodeSnippet/VS_Snippets_CLR_System/system.IO.MemoryStream#4)]  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="WriteTo">
@@ -582,9 +1050,19 @@
         <Parameter Name="stream" Type="System.IO.Stream" />
       </Parameters>
       <Docs>
-        <param name="stream">To be added.</param>
-        <summary>To be added.</summary>
-        <remarks>To be added.</remarks>
+        <param name="stream">  
+ The stream to write this memory stream to.  
+  
+ </param>
+        <summary>Writes the entire contents of this memory stream to another stream.</summary>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ When the current stream is open, this method is equivalent to calling <xref:System.IO.Stream.Write%2A?displayProperty=fullName> on the underlying buffer of this stream.  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
   </Members>
