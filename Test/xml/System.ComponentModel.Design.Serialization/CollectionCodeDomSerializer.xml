@@ -10,8 +10,15 @@
   </Base>
   <Interfaces />
   <Docs>
-    <summary>To be added.</summary>
-    <remarks>To be added.</remarks>
+    <summary>Serializes collections.</summary>
+    <remarks>
+      <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ The CollectionCodeDomSerializer class can create either statements or expressions. If the object to serialize is an array, the CollectionCodeDomSerializer will create an expression and assign it to the statement in the current context stack. If the object is a collection with an *AddRange* or similar method, the CollectionCodeDomSerializer will create a statement that calls the method.  
+  
+ ]]></format>
+    </remarks>
   </Docs>
   <Members>
     <Member MemberName=".ctor">
@@ -23,7 +30,7 @@
       </AssemblyInfo>
       <Parameters />
       <Docs>
-        <summary>To be added.</summary>
+        <summary>Initializes a new instance of the &lt;see cref="T:System.ComponentModel.Design.Serialization.CollectionCodeDomSerializer"&gt; class.</summary>
         <remarks>To be added.</remarks>
       </Docs>
     </Member>
@@ -41,10 +48,17 @@
         <Parameter Name="method" Type="System.Reflection.MethodInfo" />
       </Parameters>
       <Docs>
-        <param name="method">To be added.</param>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
-        <remarks>To be added.</remarks>
+        <param name="method">The &lt;see cref="T:System.Reflection.MethodInfo"&gt; to check for serialization attributes.</param>
+        <summary>Verifies serialization support by the .</summary>
+        <returns>`true` if the  supports serialization; otherwise, `false`.</returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ Checks the  attributes to see if they support serialization.  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="Serialize">
@@ -62,11 +76,28 @@
         <Parameter Name="value" Type="System.Object" />
       </Parameters>
       <Docs>
-        <param name="manager">To be added.</param>
-        <param name="value">To be added.</param>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
-        <remarks>To be added.</remarks>
+        <param name="manager">The &lt;xref:System.ComponentModel.Design.Serialization.IDesignerSerializationManager&gt; to use during serialization.</param>
+        <param name="value">The object to serialize.</param>
+        <summary>Serializes the given collection into a CodeDOM object.</summary>
+        <returns>A CodeDOM object representing .</returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ Collections are serialized as follows:  
+  
+1.  If the collection is an array, the array is written.  
+  
+    1.  If the collection has an *AddRange* method, it will be called and provided with an array.  
+  
+    2.  If the collection has an *Add* method, it will be called repeatedly until all items in the collection are written.  
+  
+2.  If the collection is an <xref:System.Collections.IList>, the Serialize method will cast the collection to an <xref:System.Collections.IList> and add through that interface.  
+  
+    1.  If the collection has no *Add* method, but is marked with <xref:System.ComponentModel.DesignerSerializationVisibility?displayProperty=fullName>, Serialize will enumerate the collection and serialize each element.  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="SerializeCollection">
@@ -87,14 +118,21 @@
         <Parameter Name="valuesToSerialize" Type="System.Collections.ICollection" />
       </Parameters>
       <Docs>
-        <param name="manager">To be added.</param>
-        <param name="targetExpression">To be added.</param>
-        <param name="targetType">To be added.</param>
-        <param name="originalCollection">To be added.</param>
-        <param name="valuesToSerialize">To be added.</param>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
-        <remarks>To be added.</remarks>
+        <param name="manager">The &lt;xref:System.ComponentModel.Design.Serialization.IDesignerSerializationManager&gt; to use during serialization.</param>
+        <param name="targetExpression">The &lt;xref:System.CodeDom.CodeExpression&gt; that refers to the collection</param>
+        <param name="targetType">The &lt;see cref="T:System.Type"&gt; of the collection.</param>
+        <param name="originalCollection">The collection to serialize.</param>
+        <param name="valuesToSerialize">The values to serialize.</param>
+        <summary>Serializes the given collection.</summary>
+        <returns>Serialized collection if the serialization process succeeded; otherwise, `null`.</returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ The <xref:System.CodeDom.CodeExpression> that refers to the collection can be `null`.  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
   </Members>

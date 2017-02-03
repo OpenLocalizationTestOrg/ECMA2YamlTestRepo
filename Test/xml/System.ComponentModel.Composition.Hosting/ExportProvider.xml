@@ -10,7 +10,7 @@
   </Base>
   <Interfaces />
   <Docs>
-    <summary>To be added.</summary>
+    <summary>Retrieves exports which match a specified &lt;see cref="T:System.ComponentModel.Composition.Primitives.ImportDefinition"&gt; object.</summary>
     <remarks>To be added.</remarks>
   </Docs>
   <Members>
@@ -23,7 +23,7 @@
       </AssemblyInfo>
       <Parameters />
       <Docs>
-        <summary>To be added.</summary>
+        <summary>Initializes a new instance of the &lt;see cref="T:System.ComponentModel.Composition.Hosting.ExportProvider"&gt; class.</summary>
         <remarks>To be added.</remarks>
       </Docs>
     </Member>
@@ -38,7 +38,7 @@
         <ReturnType>System.EventHandler&lt;System.ComponentModel.Composition.Hosting.ExportsChangeEventArgs&gt;</ReturnType>
       </ReturnValue>
       <Docs>
-        <summary>To be added.</summary>
+        <summary>Occurs when the exports in the &lt;see cref="T:System.ComponentModel.Composition.Hosting.ExportProvider"&gt; change.</summary>
         <remarks>To be added.</remarks>
       </Docs>
     </Member>
@@ -53,7 +53,7 @@
         <ReturnType>System.EventHandler&lt;System.ComponentModel.Composition.Hosting.ExportsChangeEventArgs&gt;</ReturnType>
       </ReturnValue>
       <Docs>
-        <summary>To be added.</summary>
+        <summary>Occurs when the provided exports are changing.</summary>
         <remarks>To be added.</remarks>
       </Docs>
     </Member>
@@ -300,9 +300,9 @@
         <Parameter Name="definition" Type="System.ComponentModel.Composition.Primitives.ImportDefinition" />
       </Parameters>
       <Docs>
-        <param name="definition">To be added.</param>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
+        <param name="definition">The object that defines the conditions of the &lt;see cref="T:System.ComponentModel.Composition.Primitives.Export"&gt; objects to get.</param>
+        <summary>Gets all exports that match the conditions of the specified import definition.</summary>
+        <returns>A collection of all the &lt;see cref="T:System.ComponentModel.Composition.Primitives.Export"&gt; objects matching the condition specified by .</returns>
         <remarks>To be added.</remarks>
       </Docs>
     </Member>
@@ -321,10 +321,10 @@
         <Parameter Name="atomicComposition" Type="System.ComponentModel.Composition.Hosting.AtomicComposition" />
       </Parameters>
       <Docs>
-        <param name="definition">To be added.</param>
-        <param name="atomicComposition">To be added.</param>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
+        <param name="definition">The object that defines the conditions of the &lt;see cref="T:System.ComponentModel.Composition.Primitives.Export"&gt; objects to get.</param>
+        <param name="atomicComposition">The transactional container for the composition.</param>
+        <summary>Gets all exports that match the conditions of the specified import definition and composition.</summary>
+        <returns>A collection of all the &lt;see cref="T:System.ComponentModel.Composition.Primitives.Export"&gt; objects matching the condition specified by  and .</returns>
         <remarks>To be added.</remarks>
       </Docs>
     </Member>
@@ -344,12 +344,21 @@
         <Parameter Name="contractName" Type="System.String" />
       </Parameters>
       <Docs>
-        <param name="type">To be added.</param>
-        <param name="metadataViewType">To be added.</param>
-        <param name="contractName">To be added.</param>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
-        <remarks>To be added.</remarks>
+        <param name="type">The type parameter of the &lt;xref:System.Lazy%602&gt; objects to return.</param>
+        <param name="metadataViewType">The type of the metadata view of the &lt;xref:System.Lazy%602&gt; objects to return.</param>
+        <param name="contractName">The contract name of the &lt;xref:System.Lazy%602&gt; object to return, or `null` or an empty string ("") to use the default contract name.</param>
+        <summary>Gets all the exports with the specified contract name.</summary>
+        <returns>A collection of all the &lt;xref:System.Lazy%602&gt; objects for the contract matching .</returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ The default contract name is the result of calling the <xref:System.ComponentModel.Composition.AttributedModelServices.GetContractName%2A> method on .  
+  
+ The contract name is compared by using the <xref:System.StringComparer.Ordinal%2A> property to perform a case-sensitive, non-linguistic comparison.  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="GetExports&lt;T&gt;">
@@ -461,11 +470,18 @@
         <Parameter Name="atomicComposition" Type="System.ComponentModel.Composition.Hosting.AtomicComposition" />
       </Parameters>
       <Docs>
-        <param name="definition">To be added.</param>
-        <param name="atomicComposition">To be added.</param>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
-        <remarks>To be added.</remarks>
+        <param name="definition">The object that defines the conditions of the &lt;see cref="T:System.ComponentModel.Composition.Primitives.Export"&gt; objects to return.</param>
+        <param name="atomicComposition">The transactional container for the composition.</param>
+        <summary>Gets all the exports that match the constraint defined by the specified definition.</summary>
+        <returns>A collection that contains all the exports that match the specified condition.</returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ Overrides of this method should not treat cardinality-related mismatches as errors, and should not throw exceptions in those cases. For example, if <xref:System.ComponentModel.Composition.Primitives.ImportDefinition.Cardinality%2A> is <xref:System.ComponentModel.Composition.Primitives.ImportCardinality> and there are zero <xref:System.ComponentModel.Composition.Primitives.Export> objects that match the conditions of the specified <xref:System.ComponentModel.Composition.Primitives.ImportDefinition>, an empty <xref:System.Collections.Generic.IEnumerable%601> collection should be returned.  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="OnExportsChanged">
@@ -482,8 +498,8 @@
         <Parameter Name="e" Type="System.ComponentModel.Composition.Hosting.ExportsChangeEventArgs" />
       </Parameters>
       <Docs>
-        <param name="e">To be added.</param>
-        <summary>To be added.</summary>
+        <param name="e">An &lt;see cref="T:System.ComponentModel.Composition.Hosting.ExportsChangeEventArgs"&gt; that contains the event data.</param>
+        <summary>Raises the &lt;see cref="E:System.ComponentModel.Composition.Hosting.ExportProvider.ExportsChanged"&gt; event.</summary>
         <remarks>To be added.</remarks>
       </Docs>
     </Member>
@@ -501,8 +517,8 @@
         <Parameter Name="e" Type="System.ComponentModel.Composition.Hosting.ExportsChangeEventArgs" />
       </Parameters>
       <Docs>
-        <param name="e">To be added.</param>
-        <summary>To be added.</summary>
+        <param name="e">An &lt;see cref="T:System.ComponentModel.Composition.Hosting.ExportsChangeEventArgs"&gt; that contains the event data.</param>
+        <summary>Raises the &lt;see cref="E:System.ComponentModel.Composition.Hosting.ExportProvider.ExportsChanging"&gt; event.</summary>
         <remarks>To be added.</remarks>
       </Docs>
     </Member>
@@ -522,11 +538,11 @@
         <Parameter Name="exports" Type="System.Collections.Generic.IEnumerable&lt;System.ComponentModel.Composition.Primitives.Export&gt;&amp;" RefType="out" />
       </Parameters>
       <Docs>
-        <param name="definition">To be added.</param>
-        <param name="atomicComposition">To be added.</param>
-        <param name="exports">To be added.</param>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
+        <param name="definition">The object that defines the conditions of the &lt;see cref="T:System.ComponentModel.Composition.Primitives.Export"&gt; objects to get.</param>
+        <param name="atomicComposition">The transactional container for the composition.</param>
+        <param name="exports">When this method returns, contains a collection of &lt;see cref="T:System.ComponentModel.Composition.Primitives.Export"&gt; objects that match the conditions defined by &lt;xref:System.ComponentModel.Composition.Primitives.ImportDefinition&gt;, if found; otherwise, an empty &lt;xref:System.Collections.Generic.IEnumerable%601&gt; object. This parameter is passed uninitialized.</param>
+        <summary>Gets all the exports that match the conditions of the specified import.</summary>
+        <returns>`true` if &lt;xref:System.ComponentModel.Composition.Primitives.ImportDefinition.Cardinality%2A&gt; is &lt;xref:System.ComponentModel.Composition.Primitives.ImportCardinality&gt; or &lt;xref:System.ComponentModel.Composition.Primitives.ImportCardinality&gt; and there are zero &lt;xref:System.ComponentModel.Composition.Primitives.Export&gt; objects that match the conditions of the specified &lt;xref:System.ComponentModel.Composition.Primitives.ImportDefinition&gt;; `true` if &lt;xref:System.ComponentModel.Composition.Primitives.ImportDefinition.Cardinality%2A&gt; is &lt;xref:System.ComponentModel.Composition.Primitives.ImportCardinality&gt; or &lt;xref:System.ComponentModel.Composition.Primitives.ImportCardinality&gt; and there is exactly one &lt;xref:System.ComponentModel.Composition.Primitives.Export&gt; that matches the conditions of the specified &lt;xref:System.ComponentModel.Composition.Primitives.ImportDefinition&gt;; otherwise, `false`.</returns>
         <remarks>To be added.</remarks>
       </Docs>
     </Member>

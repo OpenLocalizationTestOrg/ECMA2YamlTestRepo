@@ -17,8 +17,46 @@
     </Attribute>
   </Attributes>
   <Docs>
-    <summary>To be added.</summary>
-    <remarks>To be added.</remarks>
+    <summary>Determines the styles permitted in numeric string arguments that are passed to the `Parse` and `TryParse` methods of the integral and floating-point numeric types.</summary>
+    <remarks>
+      <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ The NumberStyles enumeration consists of two kinds of enumeration values that are used to parse the string representations of numeric values:  
+  
+-   Individual field flags, which define specific style elements (such as white space and group separators) that can be present in the parsed string.  
+  
+-   Composite number styles, which consist of multiple field flags that define the style elements that can be present in the parsed string.  
+  
+ Except for F:System.Globalization.NumberStyles.AllowHexSpecifier?qualifyHint=False&autoUpgrade=True, the individual field flags in the NumberStyles enumeration define style elements that are used when parsing the string representation of a decimal number. F:System.Globalization.NumberStyles.None?qualifyHint=False&autoUpgrade=True indicates that only digits can be present in the parsed string. The remaining individual field flags define style elements that may be, but do not have to be, present in the string representation of a decimal number for the parse operation to succeed. In contrast, the F:System.Globalization.NumberStyles.AllowHexSpecifier?qualifyHint=False&autoUpgrade=True flag indicates that the string to be parsed is always interpreted as a hexadecimal value. The only individual field flags that can be used with F:System.Globalization.NumberStyles.AllowHexSpecifier?qualifyHint=False&autoUpgrade=True are F:System.Globalization.NumberStyles.AllowLeadingWhite?qualifyHint=False&autoUpgrade=True and F:System.Globalization.NumberStyles.AllowTrailingWhite?qualifyHint=False&autoUpgrade=True. The NumberStyles enumeration includes a composite number style, F:System.Globalization.NumberStyles.HexNumber?qualifyHint=False&autoUpgrade=True, that consists of all three flags.  
+  
+ The symbols (such as the currency symbol, the group separator, the decimal separator, and the positive and negative signs) that can appear in the string to be parsed are defined by the members of the T:System.Globalization.NumberFormatInfo?qualifyHint=True&autoUpgrade=True object that is passed either implicitly or explicitly to the `Parse` method. The members table in this topic provides a description of each individual flag and indicates its relationship to T:System.Globalization.NumberFormatInfo?qualifyHint=False&autoUpgrade=True properties.  
+  
+ The following table lists the composite number styles and indicates which individual field flags they include. A "1" in a cell indicates that the composite number style includes the individual number style in that row. A "0" indicates that the composite number style does not include the individual number style.  
+  
+||Any|Currency|Float|Integer|Number|HexNumber|  
+|-|---------|--------------|-----------|-------------|------------|---------------|  
+|AllowHexSpecifier (0x0200)|0|0|0|0|0|1|  
+|AllowCurrencySymbol (0x0100)|1|1|0|0|0|0|  
+|AllowExponent (0x0080)|1|0|1|0|0|0|  
+|AllowThousands (0x0040)|1|1|0|0|1|0|  
+|AllowDecimalPoint (0x0020)|1|1|1|0|1|0|  
+|AllowParentheses (0x0010)|1|1|0|0|0|0|  
+|AllowTrailingSign (0x0008)|1|1|0|0|1|0|  
+|AllowLeadingSign (0x0004)|1|1|1|1|1|0|  
+|AllowTrailingWhite (0x0002)|1|1|1|1|1|1|  
+|AllowLeadingWhite (0x0001)|1|1|1|1|1|1|  
+||(0x1ff)|(0x17f)|(0x0a7)|(0x007)|(0x06f)|(0x203)|  
+  
+   
+  
+## Examples  
+ This example shows how to parse a string into a 32-bit integer by using various NumberStyles flags.  
+  
+ [!CODE [NumberStyles#1](../CodeSnippet/VS_Snippets_CLR/NumberStyles#1)]  
+  
+ ]]></format>
+    </remarks>
   </Docs>
   <Members>
     <Member MemberName="AllowCurrencySymbol">
@@ -32,7 +70,7 @@
         <ReturnType>System.Globalization.NumberStyles</ReturnType>
       </ReturnValue>
       <Docs>
-        <summary>To be added.</summary>
+        <summary>Indicates that the numeric string can contain a currency symbol. Valid currency symbols are determined by the P:System.Globalization.NumberFormatInfo.CurrencySymbol?qualifyHint=True&amp;autoUpgrade=True property.</summary>
       </Docs>
     </Member>
     <Member MemberName="AllowDecimalPoint">
@@ -46,7 +84,7 @@
         <ReturnType>System.Globalization.NumberStyles</ReturnType>
       </ReturnValue>
       <Docs>
-        <summary>To be added.</summary>
+        <summary>Indicates that the numeric string can have a decimal point. If the NumberStyles value includes the F:System.Globalization.NumberStyles.AllowCurrencySymbol?qualifyHint=False&amp;autoUpgrade=True flag and the parsed string includes a currency symbol, the decimal separator character is determined by the P:System.Globalization.NumberFormatInfo.CurrencyDecimalSeparator?qualifyHint=True&amp;autoUpgrade=True property. Otherwise, the decimal separator character is determined by the P:System.Globalization.NumberFormatInfo.NumberDecimalSeparator?qualifyHint=True&amp;autoUpgrade=True property.</summary>
       </Docs>
     </Member>
     <Member MemberName="AllowExponent">
@@ -60,7 +98,7 @@
         <ReturnType>System.Globalization.NumberStyles</ReturnType>
       </ReturnValue>
       <Docs>
-        <summary>To be added.</summary>
+        <summary>Indicates that the numeric string can be in exponential notation. The F:System.Globalization.NumberStyles.AllowExponent?qualifyHint=False&amp;autoUpgrade=True flag allows the parsed string to contain an exponent that begins with the "E" or "e" character and that is followed by an optional positive or negative sign and an integer. In other words, it successfully parses strings in the form *nnn*E*xx*, *nnn*E+*xx*, and *nnn*E-*xx*. It does not allow a decimal separator or sign in the significand or mantissa; to allow these elements in the string to be parsed, use the F:System.Globalization.NumberStyles.AllowDecimalPoint?qualifyHint=False&amp;autoUpgrade=True and F:System.Globalization.NumberStyles.AllowLeadingSign?qualifyHint=False&amp;autoUpgrade=True flags, or use a composite style that includes these individual flags.</summary>
       </Docs>
     </Member>
     <Member MemberName="AllowHexSpecifier">
@@ -74,7 +112,7 @@
         <ReturnType>System.Globalization.NumberStyles</ReturnType>
       </ReturnValue>
       <Docs>
-        <summary>To be added.</summary>
+        <summary>Indicates that the numeric string represents a hexadecimal value. Valid hexadecimal values include the numeric digits 0-9 and the hexadecimal digits A-F and a-f. Strings that are parsed using this style cannot be prefixed with "0x" or "&amp;h". A string that is parsed with the F:System.Globalization.NumberStyles.AllowHexSpecifier?qualifyHint=False&amp;autoUpgrade=True style will always be interpreted as a hexadecimal value. The only flags that can be combined with F:System.Globalization.NumberStyles.AllowHexSpecifier?qualifyHint=False&amp;autoUpgrade=True are F:System.Globalization.NumberStyles.AllowLeadingWhite?qualifyHint=False&amp;autoUpgrade=True and F:System.Globalization.NumberStyles.AllowTrailingWhite?qualifyHint=False&amp;autoUpgrade=True. The NumberStyles enumeration includes a composite style, F:System.Globalization.NumberStyles.HexNumber?qualifyHint=False&amp;autoUpgrade=True, that consists of these three flags.</summary>
       </Docs>
     </Member>
     <Member MemberName="AllowLeadingSign">
@@ -88,7 +126,7 @@
         <ReturnType>System.Globalization.NumberStyles</ReturnType>
       </ReturnValue>
       <Docs>
-        <summary>To be added.</summary>
+        <summary>Indicates that the numeric string can have a leading sign. Valid leading sign characters are determined by the P:System.Globalization.NumberFormatInfo.PositiveSign?qualifyHint=True&amp;autoUpgrade=True and P:System.Globalization.NumberFormatInfo.NegativeSign?qualifyHint=True&amp;autoUpgrade=True properties.</summary>
       </Docs>
     </Member>
     <Member MemberName="AllowLeadingWhite">
@@ -102,7 +140,7 @@
         <ReturnType>System.Globalization.NumberStyles</ReturnType>
       </ReturnValue>
       <Docs>
-        <summary>To be added.</summary>
+        <summary>Indicates that leading white-space characters can be present in the parsed string. Valid white-space characters have the Unicode values U+0009, U+000A, U+000B, U+000C, U+000D, and U+0020. Note that this is a subset of the characters for which the M:System.Char.IsWhiteSpace(System.Char)?qualifyHint=True&amp;autoUpgrade=True method returns `true`.</summary>
       </Docs>
     </Member>
     <Member MemberName="AllowParentheses">
@@ -116,7 +154,7 @@
         <ReturnType>System.Globalization.NumberStyles</ReturnType>
       </ReturnValue>
       <Docs>
-        <summary>To be added.</summary>
+        <summary>Indicates that the numeric string can have one pair of parentheses enclosing the number. The parentheses indicate that the string to be parsed represents a negative number.</summary>
       </Docs>
     </Member>
     <Member MemberName="AllowThousands">
@@ -130,7 +168,7 @@
         <ReturnType>System.Globalization.NumberStyles</ReturnType>
       </ReturnValue>
       <Docs>
-        <summary>To be added.</summary>
+        <summary>Indicates that the numeric string can have group separators, such as symbols that separate hundreds from thousands. If the NumberStyles value includes the F:System.Globalization.NumberStyles.AllowCurrencySymbol?qualifyHint=False&amp;autoUpgrade=True flag and the string to be parsed includes a currency symbol, the valid group separator character is determined by the P:System.Globalization.NumberFormatInfo.CurrencyGroupSeparator?qualifyHint=True&amp;autoUpgrade=True property,  and the number of digits in each group is determined by the P:System.Globalization.NumberFormatInfo.CurrencyGroupSizes?qualifyHint=True&amp;autoUpgrade=True property. Otherwise, the valid group separator character is determined by the P:System.Globalization.NumberFormatInfo.NumberGroupSeparator?qualifyHint=True&amp;autoUpgrade=True property, and the number of digits in each group is determined by the P:System.Globalization.NumberFormatInfo.NumberGroupSizes?qualifyHint=True&amp;autoUpgrade=True property.</summary>
       </Docs>
     </Member>
     <Member MemberName="AllowTrailingSign">
@@ -144,7 +182,7 @@
         <ReturnType>System.Globalization.NumberStyles</ReturnType>
       </ReturnValue>
       <Docs>
-        <summary>To be added.</summary>
+        <summary>Indicates that the numeric string can have a trailing sign. Valid trailing sign characters are determined by the P:System.Globalization.NumberFormatInfo.PositiveSign?qualifyHint=True&amp;autoUpgrade=True and P:System.Globalization.NumberFormatInfo.NegativeSign?qualifyHint=True&amp;autoUpgrade=True properties.</summary>
       </Docs>
     </Member>
     <Member MemberName="AllowTrailingWhite">
@@ -158,7 +196,7 @@
         <ReturnType>System.Globalization.NumberStyles</ReturnType>
       </ReturnValue>
       <Docs>
-        <summary>To be added.</summary>
+        <summary>Indicates that trailing white-space characters can be present in the parsed string. Valid white-space characters have the Unicode values U+0009, U+000A, U+000B, U+000C, U+000D, and U+0020. Note that this is a subset of the characters for which the M:System.Char.IsWhiteSpace(System.Char)?qualifyHint=True&amp;autoUpgrade=True method returns `true`.</summary>
       </Docs>
     </Member>
     <Member MemberName="Any">
@@ -172,7 +210,7 @@
         <ReturnType>System.Globalization.NumberStyles</ReturnType>
       </ReturnValue>
       <Docs>
-        <summary>To be added.</summary>
+        <summary>Indicates that all styles except F:System.Globalization.NumberStyles.AllowHexSpecifier?qualifyHint=False&amp;autoUpgrade=True are used. This is a composite number style.</summary>
       </Docs>
     </Member>
     <Member MemberName="Currency">
@@ -186,7 +224,7 @@
         <ReturnType>System.Globalization.NumberStyles</ReturnType>
       </ReturnValue>
       <Docs>
-        <summary>To be added.</summary>
+        <summary>Indicates that all styles except F:System.Globalization.NumberStyles.AllowExponent?qualifyHint=False&amp;autoUpgrade=True and F:System.Globalization.NumberStyles.AllowHexSpecifier?qualifyHint=False&amp;autoUpgrade=True are used. This is a composite number style.</summary>
       </Docs>
     </Member>
     <Member MemberName="Float">
@@ -200,7 +238,7 @@
         <ReturnType>System.Globalization.NumberStyles</ReturnType>
       </ReturnValue>
       <Docs>
-        <summary>To be added.</summary>
+        <summary>Indicates that the F:System.Globalization.NumberStyles.AllowLeadingWhite?qualifyHint=False&amp;autoUpgrade=True, F:System.Globalization.NumberStyles.AllowTrailingWhite?qualifyHint=False&amp;autoUpgrade=True, F:System.Globalization.NumberStyles.AllowLeadingSign?qualifyHint=False&amp;autoUpgrade=True, F:System.Globalization.NumberStyles.AllowDecimalPoint?qualifyHint=False&amp;autoUpgrade=True, and F:System.Globalization.NumberStyles.AllowExponent?qualifyHint=False&amp;autoUpgrade=True styles are used. This is a composite number style.</summary>
       </Docs>
     </Member>
     <Member MemberName="HexNumber">
@@ -214,7 +252,7 @@
         <ReturnType>System.Globalization.NumberStyles</ReturnType>
       </ReturnValue>
       <Docs>
-        <summary>To be added.</summary>
+        <summary>Indicates that the F:System.Globalization.NumberStyles.AllowLeadingWhite?qualifyHint=False&amp;autoUpgrade=True, F:System.Globalization.NumberStyles.AllowTrailingWhite?qualifyHint=False&amp;autoUpgrade=True, and F:System.Globalization.NumberStyles.AllowHexSpecifier?qualifyHint=False&amp;autoUpgrade=True styles are used. This is a composite number style.</summary>
       </Docs>
     </Member>
     <Member MemberName="Integer">
@@ -228,7 +266,7 @@
         <ReturnType>System.Globalization.NumberStyles</ReturnType>
       </ReturnValue>
       <Docs>
-        <summary>To be added.</summary>
+        <summary>Indicates that the F:System.Globalization.NumberStyles.AllowLeadingWhite?qualifyHint=False&amp;autoUpgrade=True, F:System.Globalization.NumberStyles.AllowTrailingWhite?qualifyHint=False&amp;autoUpgrade=True, and F:System.Globalization.NumberStyles.AllowLeadingSign?qualifyHint=False&amp;autoUpgrade=True styles are used. This is a composite number style.</summary>
       </Docs>
     </Member>
     <Member MemberName="None">
@@ -242,7 +280,7 @@
         <ReturnType>System.Globalization.NumberStyles</ReturnType>
       </ReturnValue>
       <Docs>
-        <summary>To be added.</summary>
+        <summary>Indicates that no style elements, such as leading or trailing white space, thousands separators, or a decimal separator, can be present in the parsed string. The string to be parsed must consist of integral decimal digits only.</summary>
       </Docs>
     </Member>
     <Member MemberName="Number">
@@ -256,7 +294,7 @@
         <ReturnType>System.Globalization.NumberStyles</ReturnType>
       </ReturnValue>
       <Docs>
-        <summary>To be added.</summary>
+        <summary>Indicates that the F:System.Globalization.NumberStyles.AllowLeadingWhite?qualifyHint=False&amp;autoUpgrade=True, F:System.Globalization.NumberStyles.AllowTrailingWhite?qualifyHint=False&amp;autoUpgrade=True, F:System.Globalization.NumberStyles.AllowLeadingSign?qualifyHint=False&amp;autoUpgrade=True, F:System.Globalization.NumberStyles.AllowTrailingSign?qualifyHint=False&amp;autoUpgrade=True, F:System.Globalization.NumberStyles.AllowDecimalPoint?qualifyHint=False&amp;autoUpgrade=True, and F:System.Globalization.NumberStyles.AllowThousands?qualifyHint=False&amp;autoUpgrade=True styles are used. This is a composite number style.</summary>
       </Docs>
     </Member>
   </Members>

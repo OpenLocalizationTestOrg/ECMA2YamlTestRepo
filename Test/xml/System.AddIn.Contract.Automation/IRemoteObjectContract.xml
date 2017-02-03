@@ -11,8 +11,15 @@
     </Interface>
   </Interfaces>
   <Docs>
-    <summary>To be added.</summary>
-    <remarks>To be added.</remarks>
+    <summary>Defines a contract that components can use to access an object across application domain and process boundaries.</summary>
+    <remarks>
+      <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ When you implement IRemoteObjectContract on a type, components can use the contract to access type information for objects of the type. Components access type information by calling the <xref:System.AddIn.Contract.Automation.IRemoteObjectContract.GetRemoteType%2A> method to obtain an <xref:System.AddIn.Contract.Automation.IRemoteTypeContract>. The <xref:System.AddIn.Contract.Automation.IRemoteTypeContract> interface defines a contract that components can use to access specific type and member information, and to invoke members.  
+  
+ ]]></format>
+    </remarks>
   </Docs>
   <Members>
     <Member MemberName="GetRemoteType">
@@ -27,9 +34,16 @@
       </ReturnValue>
       <Parameters />
       <Docs>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
-        <remarks>To be added.</remarks>
+        <summary>Returns an &lt;see cref="T:System.AddIn.Contract.Automation.IRemoteTypeContract"&gt; that specifies the type of the current &lt;xref:System.AddIn.Contract.Automation.IRemoteObjectContract&gt;.</summary>
+        <returns>An &lt;see cref="T:System.AddIn.Contract.Automation.IRemoteTypeContract"&gt; that specifies the type of the current &lt;xref:System.AddIn.Contract.Automation.IRemoteObjectContract&gt;.</returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ Use the GetRemoteType method to access the members of the remote object that the current <xref:System.AddIn.Contract.Automation.IRemoteObjectContract> identifies.  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="RemoteCast">
@@ -46,10 +60,21 @@
         <Parameter Name="canonicalName" Type="System.String" />
       </Parameters>
       <Docs>
-        <param name="canonicalName">To be added.</param>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
-        <remarks>To be added.</remarks>
+        <param name="canonicalName">The canonical name of the type to cast the object to.</param>
+        <summary>Casts the object identified by the current &lt;see cref="T:System.AddIn.Contract.Automation.IRemoteObjectContract"&gt; to a specified type.</summary>
+        <returns>A &lt;see cref="T:System.AddIn.Contract.RemoteArgument"&gt; that represents the result of the cast operation.</returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ A canonical name is a globally unique name, such as a GUID. Strings in the format \<*assembly name*>, \<*fully qualified type name*> are recommended. An example of the recommended format of a canonical name is "ShapeApp, Microsoft.VisualStudio.Tools.Applications.Samples.ShapeApp.Application".  
+  
+ The canonical name for a type cannot change after a type is published in a component. Changing the canonical name of a type in a future version of a component breaks compatibility between the component and clients that are already using the type.  
+  
+ It is recommended that RemoteCast implementations throw an <xref:System.InvalidCastException> if the cast operation fails.  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
   </Members>

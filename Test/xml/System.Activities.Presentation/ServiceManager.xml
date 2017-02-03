@@ -17,8 +17,15 @@
     </Interface>
   </Interfaces>
   <Docs>
-    <summary>To be added.</summary>
-    <remarks>To be added.</remarks>
+    <summary>Implements &lt;xref:System.IserviceProvider&gt; and provides access to services offered by the editing context.</summary>
+    <remarks>
+      <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <xref:System.Activities.Presentation.EditingContext.Services%2A> represent functionality that is either provided by the host for the designer to use or that is used by the designer to make functionality available to all designers within the editor. It is obtained from the <xref:System.Activities.Presentation.EditingContext> by the <xref:System.Activities.Presentation.EditingContext.Services%2A> property.  
+  
+ ]]></format>
+    </remarks>
   </Docs>
   <Members>
     <Member MemberName=".ctor">
@@ -30,7 +37,7 @@
       </AssemblyInfo>
       <Parameters />
       <Docs>
-        <summary>To be added.</summary>
+        <summary>Initializes a new instance of the &lt;see cref="T:System.Activities.Presentation.ServiceManager"&gt; class.</summary>
         <remarks>To be added.</remarks>
       </Docs>
     </Member>
@@ -48,9 +55,9 @@
         <Parameter Name="serviceType" Type="System.Type" />
       </Parameters>
       <Docs>
-        <param name="serviceType">To be added.</param>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
+        <param name="serviceType">The type of service to check.</param>
+        <summary>Returns a Boolean value that indicates whether the service manager contains a service of the given type.</summary>
+        <returns>`true` if a service of type  has been published; otherwise, `false`.</returns>
         <remarks>To be added.</remarks>
       </Docs>
     </Member>
@@ -87,8 +94,8 @@
       </ReturnValue>
       <Parameters />
       <Docs>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
+        <summary>Retrieves an enumerator that can be used to enumerate all of the services that this service manager publishes.</summary>
+        <returns>Returns &lt;xref:System.Collections.Generic.IEnumerator%601&gt;, which contains an enumeration of published services.</returns>
         <remarks>To be added.</remarks>
       </Docs>
     </Member>
@@ -127,9 +134,9 @@
         <Parameter Name="serviceType" Type="System.Type" />
       </Parameters>
       <Docs>
-        <param name="serviceType">To be added.</param>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
+        <param name="serviceType">The type of service to retrieve.</param>
+        <summary>Retrieves the requested service.  This method returns `null` if the service could not be located.</summary>
+        <returns>Returns &lt;see cref="T:System.Object"&gt;, which is an instance of the service, or `null` if the service has not been published.</returns>
         <remarks>To be added.</remarks>
       </Docs>
     </Member>
@@ -168,9 +175,9 @@
         <Parameter Name="callback" Type="System.Delegate" />
       </Parameters>
       <Docs>
-        <param name="callback">To be added.</param>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
+        <param name="callback">The delegate to get the target for.</param>
+        <summary>A helper method that returns the target object for a delegate. If the delegate was created to proxy a generic delegate, this will correctly return the original object, not the proxy.</summary>
+        <returns>Returns &lt;see cref="T:System.Object"&gt;, which is the callback target. This can return `null` if the callback represents a static object.</returns>
         <remarks>To be added.</remarks>
       </Docs>
     </Member>
@@ -189,9 +196,9 @@
         <Parameter Name="callback" Type="System.Activities.Presentation.PublishServiceCallback" />
       </Parameters>
       <Docs>
-        <param name="serviceType">To be added.</param>
-        <param name="callback">To be added.</param>
-        <summary>To be added.</summary>
+        <param name="serviceType">The type of service to publish.</param>
+        <param name="callback">A callback that will be invoked when an instance of the service is needed.</param>
+        <summary>Publishes the specified service type, but does not declare an instance. When the service is requested, the Publish service callback will be invoked to create the instance. The callback is invoked only once. After that, the instance it returned is cached.</summary>
         <remarks>To be added.</remarks>
       </Docs>
     </Member>
@@ -210,9 +217,9 @@
         <Parameter Name="serviceInstance" Type="System.Object" />
       </Parameters>
       <Docs>
-        <param name="serviceType">To be added.</param>
-        <param name="serviceInstance">To be added.</param>
-        <summary>To be added.</summary>
+        <param name="serviceType">The type of service to publish.</param>
+        <param name="serviceInstance">An instance of the service.</param>
+        <summary>Publishes the given service. After it is published, the service instance remains in the service manager until the editing context is disposed of.</summary>
         <remarks>To be added.</remarks>
       </Docs>
     </Member>
@@ -277,10 +284,10 @@
         <Parameter Name="toRemove" Type="System.Delegate" />
       </Parameters>
       <Docs>
-        <param name="existing">To be added.</param>
-        <param name="toRemove">To be added.</param>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
+        <param name="existing">The existing delegate to remove the callback from.</param>
+        <param name="toRemove">The callback to remove.</param>
+        <summary>A helper method that performs a `Delegate.Remove` operation, and unwraps delegates that are proxies to generic callbacks. You should use this method in your &lt;xref:System.Activities.Presentation.ServiceManager.UnSubscribe%2A&gt; implementations.</summary>
+        <returns>Returns &lt;see cref="T:System.Delegate"&gt;, which is  a new value to assign to the existing delegate.</returns>
         <remarks>To be added.</remarks>
       </Docs>
     </Member>
@@ -299,9 +306,9 @@
         <Parameter Name="callback" Type="System.Activities.Presentation.SubscribeServiceCallback" />
       </Parameters>
       <Docs>
-        <param name="serviceType">To be added.</param>
-        <param name="callback">To be added.</param>
-        <summary>To be added.</summary>
+        <param name="serviceType">The type of service to subscribe to.</param>
+        <param name="callback">A callback that will be notified when the service is available.</param>
+        <summary>Invokes the provided callback when someone has published the requested service. If the service was already available, this method invokes the callback immediately.</summary>
         <remarks>To be added.</remarks>
       </Docs>
     </Member>
@@ -340,8 +347,8 @@
       </ReturnValue>
       <Parameters />
       <Docs>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
+        <summary>Retrieves an enumerator that can be used to enumerate all of the services that this service manager publishes.</summary>
+        <returns>Returns &lt;see cref="T:System.Collections.IEnumerator"&gt;, which contains an enumeration of published services.</returns>
         <remarks>To be added.</remarks>
       </Docs>
     </Member>
@@ -360,9 +367,9 @@
         <Parameter Name="callback" Type="System.Activities.Presentation.SubscribeServiceCallback" />
       </Parameters>
       <Docs>
-        <param name="serviceType">To be added.</param>
-        <param name="callback">To be added.</param>
-        <summary>To be added.</summary>
+        <param name="serviceType">The type of service to remove the subscription from.</param>
+        <param name="callback">The callback object to remove from the subscription.</param>
+        <summary>Removes a subscription for a service type.</summary>
         <remarks>To be added.</remarks>
       </Docs>
     </Member>

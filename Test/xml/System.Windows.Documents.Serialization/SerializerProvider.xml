@@ -10,7 +10,7 @@
   </Base>
   <Interfaces />
   <Docs>
-    <summary>To be added.</summary>
+    <summary>Manages serialization plug-ins created, using &lt;see cref="T:System.Windows.Documents.Serialization.ISerializerFactory"&gt; and &lt;xref:System.Windows.Documents.Serialization.SerializerDescriptor&gt;, by manufacturers who have their own proprietary serialization formats.</summary>
     <remarks>To be added.</remarks>
   </Docs>
   <Members>
@@ -28,8 +28,24 @@
       </Attributes>
       <Parameters />
       <Docs>
-        <summary>To be added.</summary>
-        <remarks>To be added.</remarks>
+        <summary>Initializes a new instance of the &lt;see cref="T:System.Windows.Documents.Serialization.SerializerProvider"&gt; class.</summary>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ Only fully trusted callers can create a <xref:System.Windows.Documents.Serialization.SerializerProvider>.  
+  
+   
+  
+## Examples  
+ The following examples show use of the <xref:System.Windows.Documents.Serialization.SerializerProvider> constructor.  
+  
+ [!code-cs[DocumentSerialize#DocSerializeFileFilter](../../add/codesnippet/CSharp/DocumentSerialize/ThumbViewer.cs#docserializefilefilter)]  
+  
+ [!code-cs[DocumentSerialize#DocSerializePlugIn](../../add/codesnippet/CSharp/DocumentSerialize/ThumbViewer.cs#docserializeplugin)]  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="CreateSerializerWriter">
@@ -52,11 +68,25 @@
         <Parameter Name="stream" Type="System.IO.Stream" />
       </Parameters>
       <Docs>
-        <param name="serializerDescriptor">To be added.</param>
-        <param name="stream">To be added.</param>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
-        <remarks>To be added.</remarks>
+        <param name="serializerDescriptor">A &lt;see cref="T:System.Windows.Documents.Serialization.SerializerDescriptor"&gt; that contains serialization information for the &lt;xref:System.Windows.Documents.Serialization.SerializerWriter&gt;.</param>
+        <param name="stream">The &lt;see cref="T:System.IO.Stream"&gt; to which the returned object writes.</param>
+        <summary>Initializes an object derived from the abstract &lt;see cref="T:System.Windows.Documents.Serialization.SerializerWriter"&gt; class for the specified &lt;xref:System.IO.Stream&gt; that will use the specified descriptor.</summary>
+        <returns>An object of a class derived from &lt;see cref="T:System.Windows.Documents.Serialization.SerializerWriter"&gt;.</returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ Only fully trusted applications can call CreateSerializerWriter.  
+  
+   
+  
+## Examples  
+ The following example shows using CreateSerializerWriter to return a plug-in serialization writer for saving a file.  
+  
+ [!code-cs[DocumentSerialize#DocSerializePlugIn](../../add/codesnippet/CSharp/DocumentSerialize/ThumbViewer.cs#docserializeplugin)]  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="InstalledSerializers">
@@ -70,9 +100,20 @@
         <ReturnType>System.Collections.ObjectModel.ReadOnlyCollection&lt;System.Windows.Documents.Serialization.SerializerDescriptor&gt;</ReturnType>
       </ReturnValue>
       <Docs>
-        <summary>To be added.</summary>
-        <value>To be added.</value>
-        <remarks>To be added.</remarks>
+        <summary>Gets a collection of the installed plug-in serializers.</summary>
+        <value>A &lt;xref:System.Collections.ObjectModel.ReadOnlyCollection%601&gt; of the &lt;xref:System.Windows.Documents.Serialization.SerializerDescriptor&gt; objects already registered.</value>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Examples  
+ The following examples show using InstalledSerializers to enumerate the plug-in serializers when saving a file.  
+  
+ [!code-cs[DocumentSerialize#DocSerializePlugIn](../../add/codesnippet/CSharp/DocumentSerialize/ThumbViewer.cs#docserializeplugin)]  
+  
+ [!code-cs[DocumentSerialize#DocSerializeFileFilter](../../add/codesnippet/CSharp/DocumentSerialize/ThumbViewer.cs#docserializefilefilter)]  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="RegisterSerializer">
@@ -95,10 +136,19 @@
         <Parameter Name="overwrite" Type="System.Boolean" />
       </Parameters>
       <Docs>
-        <param name="serializerDescriptor">To be added.</param>
-        <param name="overwrite">To be added.</param>
-        <summary>To be added.</summary>
-        <remarks>To be added.</remarks>
+        <param name="serializerDescriptor">The &lt;see cref="T:System.Windows.Documents.Serialization.SerializerDescriptor"&gt; for the plug-in.</param>
+        <param name="overwrite">`true` to overwrite an existing registration for the same plug-in; otherwise, `false`. See Remarks.</param>
+        <summary>Registers a serializer plug-in.</summary>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ Only fully trusted callers can use this method.  
+  
+ The method will interpret an already registered plug-in as the same one if it is the same in all these properties: <xref:System.Windows.Documents.Serialization.SerializerDescriptor.DisplayName%2A>, <xref:System.Windows.Documents.Serialization.SerializerDescriptor.AssemblyName%2A>, <xref:System.Windows.Documents.Serialization.SerializerDescriptor.AssemblyVersion%2A>, and <xref:System.Windows.Documents.Serialization.SerializerDescriptor.WinFXVersion%2A>.  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="UnregisterSerializer">
@@ -120,9 +170,18 @@
         <Parameter Name="serializerDescriptor" Type="System.Windows.Documents.Serialization.SerializerDescriptor" />
       </Parameters>
       <Docs>
-        <param name="serializerDescriptor">To be added.</param>
-        <summary>To be added.</summary>
-        <remarks>To be added.</remarks>
+        <param name="serializerDescriptor">The &lt;see cref="T:System.Windows.Documents.Serialization.SerializerDescriptor"&gt; for the plug-in.</param>
+        <summary>Deletes a serializer plug-in from the registry.</summary>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ Only fully trusted callers can use this method.  
+  
+ The method will interpret a registered plug-in as the same one passed to this method only if it is the same in all these properties: <xref:System.Windows.Documents.Serialization.SerializerDescriptor.DisplayName%2A>, <xref:System.Windows.Documents.Serialization.SerializerDescriptor.AssemblyName%2A>, <xref:System.Windows.Documents.Serialization.SerializerDescriptor.AssemblyVersion%2A>, and <xref:System.Windows.Documents.Serialization.SerializerDescriptor.WinFXVersion%2A>.  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
   </Members>

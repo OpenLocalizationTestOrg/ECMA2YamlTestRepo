@@ -18,8 +18,33 @@
     </Attribute>
   </Attributes>
   <Docs>
-    <summary>To be added.</summary>
-    <remarks>To be added.</remarks>
+    <summary>Represents a collection of constraints for a &lt;see cref="T:System.Data.DataTable"&gt;.</summary>
+    <remarks>
+      <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ The ConstraintCollection is accessed through the <xref:System.Data.DataTable.Constraints%2A?displayProperty=fullName> property.  
+  
+ The ConstraintCollection can contain both <xref:System.Data.UniqueConstraint> and <xref:System.Data.ForeignKeyConstraint> objects for the <xref:System.Data.DataTable>. A <xref:System.Data.UniqueConstraint> object makes sure that data in a specific column is always unique to preserve the data integrity. The <xref:System.Data.ForeignKeyConstraint> determines what will occur in related tables when data in the <xref:System.Data.DataTable> is either updated or deleted. For example, if a row is deleted, the <xref:System.Data.ForeignKeyConstraint> will determine whether the related rows are also deleted (a cascade), or some other course of action.  
+  
+> [!NOTE]
+>  When you add a <xref:System.Data.DataRelation> that creates a relationship between two tables to a <xref:System.Data.DataSet>, both a <xref:System.Data.ForeignKeyConstraint> and a <xref:System.Data.UniqueConstraint> are created automatically. The <xref:System.Data.UniqueConstraint> is applied to the primary key column in the parent <xref:System.Data.DataTable>, and the constraint is added to that table's ConstraintCollection. The <xref:System.Data.ForeignKeyConstraint> is applied to the primary key column and the foreign key column, and the constraint is added to the child table's ConstraintCollection.  
+  
+ The ConstraintCollection uses standard collection methods such as <xref:System.Data.ConstraintCollection.Add%2A>, <xref:System.Data.ConstraintCollection.Clear%2A>, and <xref:System.Data.ConstraintCollection.Remove%2A>. In addition, the <xref:System.Data.ConstraintCollection.Contains%2A> method can be used to look for the existence of a particular constraint in the collection.  
+  
+ A <xref:System.Data.UniqueConstraint> is created when a <xref:System.Data.DataColumn> with its <xref:System.Data.DataColumn.Unique%2A> property set to `true` is added to a <xref:System.Data.DataTable> object's <xref:System.Data.DataColumnCollection>.  
+  
+ A <xref:System.Data.ForeignKeyConstraint> is created when a <xref:System.Data.DataRelation> is added to a <xref:System.Data.DataSet> object's <xref:System.Data.DataRelationCollection>.  
+  
+   
+  
+## Examples  
+ The first example creates a <xref:System.Data.DataTable>, and adds a <xref:System.Data.DataColumn> (with its <xref:System.Data.DataColumn.Unique%2A> property set to `true`) to the <xref:System.Data.DataColumnCollection>. The second example creates a <xref:System.Data.DataSet>, two <xref:System.Data.DataTable> objects, four columns, and a <xref:System.Data.DataRelation>. The count of constraints is then printed to show that a <xref:System.Data.ForeignKeyConstraint> and a <xref:System.Data.UniqueConstraint> are created when a <xref:System.Data.DataRelation> is added to the <xref:System.Data.DataSet> object's <xref:System.Data.DataRelationCollection.%23ctor%2A>.  
+  
+ [!CODE [Classic WebData ConstraintCollection Example#1](../CodeSnippet/VS_Snippets_ADO.NET/Classic WebData ConstraintCollection Example#1)]  
+  
+ ]]></format>
+    </remarks>
   </Docs>
   <Members>
     <Member MemberName="Add">
@@ -36,9 +61,23 @@
         <Parameter Name="constraint" Type="System.Data.Constraint" />
       </Parameters>
       <Docs>
-        <param name="constraint">To be added.</param>
-        <summary>To be added.</summary>
-        <remarks>To be added.</remarks>
+        <param name="constraint">The `Constraint` to add.</param>
+        <summary>Adds the specified &lt;see cref="T:System.Data.Constraint"&gt; object to the collection.</summary>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ If the collection is successfully changed by adding or removing constraints, the <xref:System.Data.ConstraintCollection.CollectionChanged> event occurs.  
+  
+   
+  
+## Examples  
+ The following example adds a <xref:System.Data.UniqueConstraint> to the <xref:System.Data.ConstraintCollection> of a <xref:System.Data.DataTable>.  
+  
+ [!CODE [Classic WebData ConstraintCollection.Add Example#1](../CodeSnippet/VS_Snippets_ADO.NET/Classic WebData ConstraintCollection.Add Example#1)]  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="Add">
@@ -57,12 +96,26 @@
         <Parameter Name="primaryKey" Type="System.Boolean" />
       </Parameters>
       <Docs>
-        <param name="name">To be added.</param>
-        <param name="column">To be added.</param>
-        <param name="primaryKey">To be added.</param>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
-        <remarks>To be added.</remarks>
+        <param name="name">The name of the `UniqueConstraint`.</param>
+        <param name="column">The &lt;see cref="T:System.Data.DataColumn"&gt; to which the constraint applies.</param>
+        <param name="primaryKey">Specifies whether the column should be the primary key. If `true`, the column will be a primary key column.</param>
+        <summary>Constructs a new &lt;see cref="T:System.Data.UniqueConstraint"&gt; with the specified name, &lt;xref:System.Data.DataColumn&gt;, and value that indicates whether the column is a primary key, and adds it to the collection.</summary>
+        <returns>A new `UniqueConstraint`.</returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ The <xref:System.Data.ConstraintCollection.CollectionChanged> event occurs if the constraint is added successfully.  
+  
+   
+  
+## Examples  
+ The following example uses the <xref:System.Data.ConstraintCollection.Add%2A> method to create and add a new <xref:System.Data.UniqueConstraint> to a <xref:System.Data.ConstraintCollection>.  
+  
+ [!CODE [Classic WebData ConstraintCollection.Add2 Example#1](../CodeSnippet/VS_Snippets_ADO.NET/Classic WebData ConstraintCollection.Add2 Example#1)]  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="Add">
@@ -81,12 +134,26 @@
         <Parameter Name="foreignKeyColumn" Type="System.Data.DataColumn" />
       </Parameters>
       <Docs>
-        <param name="name">To be added.</param>
-        <param name="primaryKeyColumn">To be added.</param>
-        <param name="foreignKeyColumn">To be added.</param>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
-        <remarks>To be added.</remarks>
+        <param name="name">The name of the &lt;see cref="T:System.Data.ForeignKeyConstraint"&gt;.</param>
+        <param name="primaryKeyColumn">The primary key, or parent, &lt;see cref="T:System.Data.DataColumn"&gt;.</param>
+        <param name="foreignKeyColumn">The foreign key, or child, &lt;see cref="T:System.Data.DataColumn"&gt;.</param>
+        <summary>Constructs a new &lt;see cref="T:System.Data.ForeignKeyConstraint"&gt; with the specified name, parent column, and child column, and adds the constraint to the collection.</summary>
+        <returns>A new `ForeignKeyConstraint`.</returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ The <xref:System.Data.ConstraintCollection.CollectionChanged> event occurs if the constraint is added successfully.  
+  
+   
+  
+## Examples  
+ The following example adds a new <xref:System.Data.ForeignKeyConstraint> to the <xref:System.Data.ConstraintCollection> of a <xref:System.Data.DataTable>.  
+  
+ [!CODE [Classic WebData ConstraintCollection.Add3 Example#1](../CodeSnippet/VS_Snippets_ADO.NET/Classic WebData ConstraintCollection.Add3 Example#1)]  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="Add">
@@ -105,12 +172,26 @@
         <Parameter Name="primaryKey" Type="System.Boolean" />
       </Parameters>
       <Docs>
-        <param name="name">To be added.</param>
-        <param name="columns">To be added.</param>
-        <param name="primaryKey">To be added.</param>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
-        <remarks>To be added.</remarks>
+        <param name="name">The name of the &lt;see cref="T:System.Data.UniqueConstraint"&gt;.</param>
+        <param name="columns">An array of &lt;see cref="T:System.Data.DataColumn"&gt; objects to which the constraint applies.</param>
+        <param name="primaryKey">Specifies whether the column should be the primary key. If `true`, the column will be a primary key column.</param>
+        <summary>Constructs a new &lt;see cref="T:System.Data.UniqueConstraint"&gt; with the specified name, array of &lt;xref:System.Data.DataColumn&gt; objects, and value that indicates whether the column is a primary key, and adds it to the collection.</summary>
+        <returns>A new `UniqueConstraint`.</returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ The <xref:System.Data.ConstraintCollection.CollectionChanged> event occurs if the constraint is added successfully.  
+  
+   
+  
+## Examples  
+ The following example creates an array of <xref:System.Data.DataColumn> objects that are used to create a new <xref:System.Data.UniqueConstraint> in a specific <xref:System.Data.DataTable>.  
+  
+ [!CODE [Classic WebData ConstraintCollection.Add1 Example#1](../CodeSnippet/VS_Snippets_ADO.NET/Classic WebData ConstraintCollection.Add1 Example#1)]  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="Add">
@@ -129,12 +210,26 @@
         <Parameter Name="foreignKeyColumns" Type="System.Data.DataColumn[]" />
       </Parameters>
       <Docs>
-        <param name="name">To be added.</param>
-        <param name="primaryKeyColumns">To be added.</param>
-        <param name="foreignKeyColumns">To be added.</param>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
-        <remarks>To be added.</remarks>
+        <param name="name">The name of the &lt;see cref="T:System.Data.ForeignKeyConstraint"&gt;.</param>
+        <param name="primaryKeyColumns">An array of &lt;see cref="T:System.Data.DataColumn"&gt; objects that are the primary key, or parent, columns.</param>
+        <param name="foreignKeyColumns">An array of &lt;see cref="T:System.Data.DataColumn"&gt; objects that are the foreign key, or child, columns.</param>
+        <summary>Constructs a new &lt;see cref="T:System.Data.ForeignKeyConstraint"&gt;, with the specified arrays of parent columns and child columns, and adds the constraint to the collection.</summary>
+        <returns>A new `ForeignKeyConstraint`.</returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ The <xref:System.Data.ConstraintCollection.CollectionChanged> event occurs if the constraint is added successfully.  
+  
+   
+  
+## Examples  
+ The following example creates two arrays of <xref:System.Data.DataColumn> objects, and then creates two <xref:System.Data.ForeignKeyConstraint> relationships between two tables in a dataset.  
+  
+ [!CODE [Classic WebData ConstraintCollection.Add4 Example#1](../CodeSnippet/VS_Snippets_ADO.NET/Classic WebData ConstraintCollection.Add4 Example#1)]  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="AddRange">
@@ -151,9 +246,23 @@
         <Parameter Name="constraints" Type="System.Data.Constraint[]" />
       </Parameters>
       <Docs>
-        <param name="constraints">To be added.</param>
-        <summary>To be added.</summary>
-        <remarks>To be added.</remarks>
+        <param name="constraints">An array of &lt;see cref="T:System.Data.ConstraintCollection"&gt; objects to add to the collection.</param>
+        <summary>Copies the elements of the specified &lt;see cref="T:System.Data.ConstraintCollection"&gt; array to the end of the collection.</summary>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ If <xref:System.Data.DataTable.BeginInit%2A> has been called, `AddRange` does not add any objects to the collection until <xref:System.Data.DataTable.EndInit%2A> is called. At the time that `EndInit` is called, the collection will be populated with the items specified in the most recent call to `AddRange`. If `AddRange` is called multiple times within a `BeginInit` / `EndInit` sequence, only those items specified in the most recent call to `AddRange` are added.  
+  
+   
+  
+## Examples  
+ The following example creates primary and foreign key constraints, and adds them to the <xref:System.Data.ConstraintCollection>.  
+  
+ [!CODE [Classic WebData ConstraintCollection.AddRange Example#1](../CodeSnippet/VS_Snippets_ADO.NET/Classic WebData ConstraintCollection.AddRange Example#1)]  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="CanRemove">
@@ -170,10 +279,24 @@
         <Parameter Name="constraint" Type="System.Data.Constraint" />
       </Parameters>
       <Docs>
-        <param name="constraint">To be added.</param>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
-        <remarks>To be added.</remarks>
+        <param name="constraint">The &lt;see cref="T:System.Data.Constraint"&gt; to be tested for removal from the collection.</param>
+        <summary>Indicates whether a &lt;see cref="T:System.Data.Constraint"&gt; can be removed.</summary>
+        <returns>`true` if the &lt;see cref="T:System.Data.Constraint"&gt; can be removed from collection; otherwise, `false`.</returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ The default behavior whenever a <xref:System.Data.DataRelation> is added to a <xref:System.Data.DataSet>, is to add a <xref:System.Data.ForeignKeyConstraint> to the parent table and a <xref:System.Data.UniqueConstraint> to the child table. The <xref:System.Data.UniqueConstraint> is applied to the primary key column of the parent table, and the <xref:System.Data.ForeignKeyConstraint> is applied to the foreign key column of the child table. Because trying to remove the <xref:System.Data.UniqueConstraint> before removing the <xref:System.Data.ForeignKeyConstraint> causes an exception to be thrown, you should always use the CanRemove method before calling Remove, to make sure that the <xref:System.Data.UniqueConstraint> can be removed.  
+  
+   
+  
+## Examples  
+ The following example uses the CanRemove method to determine whether a <xref:System.Data.Constraint> can be removed, before trying to remove it.  
+  
+ [!CODE [Classic WebData ConstraintCollection.CanRemove Example#1](../CodeSnippet/VS_Snippets_ADO.NET/Classic WebData ConstraintCollection.CanRemove Example#1)]  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="Clear">
@@ -188,8 +311,22 @@
       </ReturnValue>
       <Parameters />
       <Docs>
-        <summary>To be added.</summary>
-        <remarks>To be added.</remarks>
+        <summary>Clears the collection of any &lt;see cref="T:System.Data.Constraint"&gt; objects.</summary>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ The <xref:System.Data.ConstraintCollection.CollectionChanged> event occurs if this action is successful.  
+  
+   
+  
+## Examples  
+ The following example clears all constraints from the <xref:System.Data.ConstraintCollection>.  
+  
+ [!CODE [Classic WebData ConstraintCollection.Clear Example#1](../CodeSnippet/VS_Snippets_ADO.NET/Classic WebData ConstraintCollection.Clear Example#1)]  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="CollectionChanged">
@@ -203,8 +340,22 @@
         <ReturnType>System.ComponentModel.CollectionChangeEventHandler</ReturnType>
       </ReturnValue>
       <Docs>
-        <summary>To be added.</summary>
-        <remarks>To be added.</remarks>
+        <summary>Occurs whenever the &lt;see cref="T:System.Data.ConstraintCollection"&gt; is changed because of &lt;xref:System.Data.Constraint&gt; objects being added or removed.</summary>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ For more information about handling events, see [NIB: Consuming Events](http://msdn.microsoft.com/en-us/01e4f1bc-e55e-413f-98c7-6588493e5f67).  
+  
+   
+  
+## Examples  
+ The following example demonstrates how to use the CollectionChanged event.  
+  
+ [!CODE [Classic WebData ConstraintCollection.CollectionChanged Example#1](../CodeSnippet/VS_Snippets_ADO.NET/Classic WebData ConstraintCollection.CollectionChanged Example#1)]  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="Contains">
@@ -221,10 +372,24 @@
         <Parameter Name="name" Type="System.String" />
       </Parameters>
       <Docs>
-        <param name="name">To be added.</param>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
-        <remarks>To be added.</remarks>
+        <param name="name">The &lt;xref:System.Data.Constraint.ConstraintName%2A&gt; of the constraint.</param>
+        <summary>Indicates whether the &lt;see cref="T:System.Data.Constraint"&gt; object specified by name exists in the collection.</summary>
+        <returns>`true` if the collection contains the specified constraint; otherwise, `false`.</returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ Use the Contains method to determine whether the specified <xref:System.Data.Constraint> exists before trying to remove it from the collection. You can also use the <xref:System.Data.ConstraintCollection.CanRemove%2A> method to determine whether a <xref:System.Data.Constraint> can be removed.  
+  
+   
+  
+## Examples  
+ The following example determines whether the specified <xref:System.Data.Constraint> exists in the <xref:System.Data.ConstraintCollection> before its deletion.  
+  
+ [!CODE [Classic WebData ConstraintCollection.Contains Example#1](../CodeSnippet/VS_Snippets_ADO.NET/Classic WebData ConstraintCollection.Contains Example#1)]  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="CopyTo">
@@ -242,9 +407,9 @@
         <Parameter Name="index" Type="System.Int32" />
       </Parameters>
       <Docs>
-        <param name="array">To be added.</param>
-        <param name="index">To be added.</param>
-        <summary>To be added.</summary>
+        <param name="array">The one-dimensional &lt;see cref="T:System.Array"&gt; that is the destination of the values copied from the collection.</param>
+        <param name="index">The index of the array at which to start inserting.</param>
+        <summary>Copies the collection objects to a one-dimensional &lt;see cref="T:System.Array"&gt; instance starting at the specified index.</summary>
         <remarks>To be added.</remarks>
       </Docs>
     </Member>
@@ -262,10 +427,24 @@
         <Parameter Name="constraint" Type="System.Data.Constraint" />
       </Parameters>
       <Docs>
-        <param name="constraint">To be added.</param>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
-        <remarks>To be added.</remarks>
+        <param name="constraint">The &lt;see cref="T:System.Data.Constraint"&gt; to search for.</param>
+        <summary>Gets the index of the specified &lt;see cref="T:System.Data.Constraint"&gt;.</summary>
+        <returns>The zero-based index of the &lt;see cref="T:System.Data.Constraint"&gt; if it is in the collection; otherwise, -1.</returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ Use the IndexOf method to return an index to be used with either the <xref:System.Data.ConstraintCollection.Contains%2A> or <xref:System.Data.ConstraintCollection.Remove%2A> method.  
+  
+   
+  
+## Examples  
+ The following example uses the IndexOf method to return the index of a <xref:System.Data.Constraint>. The index is passed to the <xref:System.Data.ConstraintCollection.Contains%2A> method, before it is removed, to determine whether the collection contains the constraint.  
+  
+ [!CODE [Classic WebData ConstraintCollection.IndexOf1 Example#1](../CodeSnippet/VS_Snippets_ADO.NET/Classic WebData ConstraintCollection.IndexOf1 Example#1)]  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="IndexOf">
@@ -282,10 +461,24 @@
         <Parameter Name="constraintName" Type="System.String" />
       </Parameters>
       <Docs>
-        <param name="constraintName">To be added.</param>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
-        <remarks>To be added.</remarks>
+        <param name="constraintName">The name of the &lt;see cref="T:System.Data.Constraint"&gt;.</param>
+        <summary>Gets the index of the &lt;see cref="T:System.Data.Constraint"&gt; specified by name.</summary>
+        <returns>The index of the &lt;see cref="T:System.Data.Constraint"&gt; if it is in the collection; otherwise, -1.</returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ Use the <xref:System.Data.ConstraintCollection.IndexOf%2A> method to return an index to be used with either the <xref:System.Data.ConstraintCollection.Contains%2A> or <xref:System.Data.ConstraintCollection.Remove%2A> method.  
+  
+   
+  
+## Examples  
+ The following example uses the <xref:System.Data.ConstraintCollection.IndexOf%2A> method to return the index of a <xref:System.Data.Constraint>. The index is passed to the <xref:System.Data.ConstraintCollection.Contains%2A> method to determine whether the collection contains the constraint, before removing it.  
+  
+ [!CODE [Classic WebData ConstraintCollection.IndexOf Example#1](../CodeSnippet/VS_Snippets_ADO.NET/Classic WebData ConstraintCollection.IndexOf Example#1)]  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="Item">
@@ -302,10 +495,24 @@
         <Parameter Name="index" Type="System.Int32" />
       </Parameters>
       <Docs>
-        <param name="index">To be added.</param>
-        <summary>To be added.</summary>
-        <value>To be added.</value>
-        <remarks>To be added.</remarks>
+        <param name="index">The index of the constraint to return.</param>
+        <summary>Gets the &lt;see cref="T:System.Data.Constraint"&gt; from the collection at the specified index.</summary>
+        <value>The &lt;see cref="T:System.Data.Constraint"&gt; at the specified index.</value>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ Use the <xref:System.Data.ConstraintCollection.Contains%2A> method to test for the existence of a specific constraint.  
+  
+   
+  
+## Examples  
+ The following example gets each <xref:System.Data.Constraint> from the <xref:System.Data.ConstraintCollection>.  
+  
+ [!CODE [Classic WebData ConstraintCollection.this Example#1](../CodeSnippet/VS_Snippets_ADO.NET/Classic WebData ConstraintCollection.this Example#1)]  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="Item">
@@ -322,10 +529,24 @@
         <Parameter Name="name" Type="System.String" />
       </Parameters>
       <Docs>
-        <param name="name">To be added.</param>
-        <summary>To be added.</summary>
-        <value>To be added.</value>
-        <remarks>To be added.</remarks>
+        <param name="name">The &lt;xref:System.Data.Constraint.ConstraintName%2A&gt; of the constraint to return.</param>
+        <summary>Gets the &lt;see cref="T:System.Data.Constraint"&gt; from the collection with the specified name.</summary>
+        <value>The &lt;see cref="T:System.Data.Constraint"&gt; with the specified name; otherwise a null value if the &lt;see cref="T:System.Data.Constraint"&gt; does not exist.</value>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ Use the <xref:System.Data.ConstraintCollection.Contains%2A> method to test for the existence of a specific constraint.  
+  
+   
+  
+## Examples  
+ The following example gets the named <xref:System.Data.Constraint>.  
+  
+ [!CODE [Classic WebData ConstraintCollection.this1 Example#1](../CodeSnippet/VS_Snippets_ADO.NET/Classic WebData ConstraintCollection.this1 Example#1)]  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="List">
@@ -358,9 +579,23 @@
         <Parameter Name="constraint" Type="System.Data.Constraint" />
       </Parameters>
       <Docs>
-        <param name="constraint">To be added.</param>
-        <summary>To be added.</summary>
-        <remarks>To be added.</remarks>
+        <param name="constraint">The &lt;see cref="T:System.Data.Constraint"&gt; to remove.</param>
+        <summary>Removes the specified &lt;see cref="T:System.Data.Constraint"&gt; from the collection.</summary>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ Before using the `Remove` method, you can use the <xref:System.Data.ConstraintCollection.Contains%2A> method to determine whether the collection contains the target <xref:System.Data.Constraint>, and the <xref:System.Data.ConstraintCollection.CanRemove%2A> method to determine whether a <xref:System.Data.Constraint> can be removed.  
+  
+ The <xref:System.Data.ConstraintCollection.CollectionChanged> event occurs if the constraint is successfully removed.  
+  
+   
+  
+## Examples  
+ [!CODE [Classic WebData ConstraintCollection.Remove Example#1](../CodeSnippet/VS_Snippets_ADO.NET/Classic WebData ConstraintCollection.Remove Example#1)]  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="Remove">
@@ -377,9 +612,25 @@
         <Parameter Name="name" Type="System.String" />
       </Parameters>
       <Docs>
-        <param name="name">To be added.</param>
-        <summary>To be added.</summary>
-        <remarks>To be added.</remarks>
+        <param name="name">The name of the &lt;see cref="T:System.Data.Constraint"&gt; to remove.</param>
+        <summary>Removes the &lt;see cref="T:System.Data.Constraint"&gt; object specified by name from the collection.</summary>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ Before using the `Remove` method, you can use the <xref:System.Data.ConstraintCollection.Contains%2A> method to determine whether the collection contains the target <xref:System.Data.Constraint>, and the <xref:System.Data.ConstraintCollection.CanRemove%2A> method to determine whether a <xref:System.Data.Constraint> can be removed.  
+  
+ The <xref:System.Data.ConstraintCollection.CollectionChanged> event occurs if the constraint is successfully removed.  
+  
+   
+  
+## Examples  
+ The following example removes a <xref:System.Data.Constraint> from a <xref:System.Data.ConstraintCollection> after testing for its presence with the <xref:System.Data.ConstraintCollection.Contains%2A> method, and whether it can be removed with the <xref:System.Data.ConstraintCollection.CanRemove%2A> method.  
+  
+ [!CODE [Classic WebData ConstraintCollection.Remove1 Example#1](../CodeSnippet/VS_Snippets_ADO.NET/Classic WebData ConstraintCollection.Remove1 Example#1)]  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="RemoveAt">
@@ -396,9 +647,27 @@
         <Parameter Name="index" Type="System.Int32" />
       </Parameters>
       <Docs>
-        <param name="index">To be added.</param>
-        <summary>To be added.</summary>
-        <remarks>To be added.</remarks>
+        <param name="index">The index of the &lt;see cref="T:System.Data.Constraint"&gt; to remove.</param>
+        <summary>Removes the &lt;see cref="T:System.Data.Constraint"&gt; object at the specified index from the collection.</summary>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ The <xref:System.Data.ConstraintCollection.IndexOf%2A> method returns the index of a specific <xref:System.Data.Constraint>.  
+  
+ Before using the `RemoveAt` method, you can use the <xref:System.Data.ConstraintCollection.Contains%2A> method to determine whether the collection contains the target <xref:System.Data.Constraint>, and the <xref:System.Data.ConstraintCollection.CanRemove%2A> method to determine whether a <xref:System.Data.Constraint> can be removed.  
+  
+ The <xref:System.Data.ConstraintCollection.CollectionChanged> event occurs if the constraint is successfully removed.  
+  
+   
+  
+## Examples  
+ The following example uses the <xref:System.Data.ConstraintCollection.IndexOf%2A> method together with the RemoveAt method to remove a constraint from the <xref:System.Data.ConstraintCollection>.  
+  
+ [!CODE [Classic WebData ConstraintCollection.RemoveAt Example#1](../CodeSnippet/VS_Snippets_ADO.NET/Classic WebData ConstraintCollection.RemoveAt Example#1)]  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
   </Members>

@@ -15,8 +15,26 @@
     </Attribute>
   </Attributes>
   <Docs>
-    <summary>To be added.</summary>
-    <remarks>To be added.</remarks>
+    <summary>Manipulates arrays of primitive types.</summary>
+    <remarks>
+      <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ Buffer only affects arrays of primitive types; this class does not apply to objects. Each primitive type is treated as a series of bytes without regard to any behavior or limitation associated with the primitive type.  
+  
+ Buffer provides methods to copy bytes from one array of primitive types to another array of primitive types, get a byte from an array, set a byte in an array, and obtain the length of an array. This class provides better performance for manipulating primitive types than similar methods in the <xref:System.Array?displayProperty=fullName> class.  
+  
+ Buffer is applicable to the following primitive types: <xref:System.Boolean>, <xref:System.Char>, <xref:System.SByte>, <xref:System.Byte>, <xref:System.Int16>, <xref:System.UInt16>, <xref:System.Int32>, <xref:System.UInt32>, <xref:System.Int64>, <xref:System.UInt64>, <xref:System.IntPtr>, <xref:System.UIntPtr>, <xref:System.Single>, and <xref:System.Double>.  
+  
+   
+  
+## Examples  
+ The following code example illustrates the use of several `Buffer` class methods.  
+  
+ [!CODE [System.Buffer.BlockCopy#1](../CodeSnippet/VS_Snippets_CLR_System/system.Buffer.BlockCopy#1)]  
+  
+ ]]></format>
+    </remarks>
   </Docs>
   <Members>
     <Member MemberName="BlockCopy">
@@ -42,13 +60,37 @@
         <Parameter Name="count" Type="System.Int32" />
       </Parameters>
       <Docs>
-        <param name="src">To be added.</param>
-        <param name="srcOffset">To be added.</param>
-        <param name="dst">To be added.</param>
-        <param name="dstOffset">To be added.</param>
-        <param name="count">To be added.</param>
-        <summary>To be added.</summary>
-        <remarks>To be added.</remarks>
+        <param name="src">The source buffer.</param>
+        <param name="srcOffset">The zero-based byte offset into .</param>
+        <param name="dst">The destination buffer.</param>
+        <param name="dstOffset">The zero-based byte offset into .</param>
+        <param name="count">The number of bytes to copy.</param>
+        <summary>Copies a specified number of bytes from a source array starting at a particular offset to a destination array starting at a particular offset.</summary>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ This method copies  bytes from , beginning at , to , beginning at . Both  and  are zero-based; that is, the first byte in each buffer is at position 0, not position 1.  
+  
+ The BlockCopy method accesses the bytes in the  parameter array using offsets into memory, not programming constructs such as indexes or upper and lower array bounds. For example, if in the programming language of your application you declare an <xref:System.Int32> array with a zero-based lower bound of -50, and then pass the array and an offset of 5 to the BlockCopy method, the first array element the method will access is the second element of the array, which is at index -49. Furthermore, which byte of array element -49 is accessed first depends on the endianness of the computer that is executing your application.  
+  
+ As its name suggests, the BlockCopy method copies a block of bytes as a whole, rather than copying one byte at a time. Therefore, if  and  reference the same array, and the range from  +  -1 overlaps the range from  +  - 1, the values of the overlapping bytes are not overwritten before they are copied to the destination. In the following example, the values of bytes 0-16 in an array named `arr` are copied to bytes 12-28. Despite the overlapping range, the values of the source bytes are successfully copied.  
+  
+ [!CODE [System.Buffer.BlockCopy#3](../CodeSnippet/VS_Snippets_CLR_System/system.Buffer.BlockCopy#3)]  
+  
+ In the following example, the values of bytes 12-28 in an array named `arr` are copied to bytes 0-16. Again, despite the overlapping range, the values of the source bytes are successfully copied.  
+  
+ [!CODE [System.Buffer.BlockCopy#4](../CodeSnippet/VS_Snippets_CLR_System/system.Buffer.BlockCopy#4)]  
+  
+   
+  
+## Examples  
+ The following example copies regions of arrays by using the BlockCopy method. For each BlockCopy operation, it lists the source and destination arrays as both an array of values and as a sequence of bytes. The example illustrates the importance of considering a system's endianness when working with the BlockCopy method: Because Windows systems are little-endian, the lower-order bytes of a primitive data type's value precede the higher-order bytes.  
+  
+ [!CODE [System.Buffer.BlockCopy#2](../CodeSnippet/VS_Snippets_CLR_System/system.Buffer.BlockCopy#2)]  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="ByteLength">
@@ -70,10 +112,19 @@
         <Parameter Name="array" Type="System.Array" />
       </Parameters>
       <Docs>
-        <param name="array">To be added.</param>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
-        <remarks>To be added.</remarks>
+        <param name="array">An array.</param>
+        <summary>Returns the number of bytes in the specified array.</summary>
+        <returns>The number of bytes in the array.</returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Examples  
+ The following code example illustrates the use of the `ByteLength` method to return the number of bytes in an array.  
+  
+ [!CODE [System.Buffer.Bytes#1](../CodeSnippet/VS_Snippets_CLR_System/system.Buffer.Bytes#1)]  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="GetByte">
@@ -96,11 +147,25 @@
         <Parameter Name="index" Type="System.Int32" />
       </Parameters>
       <Docs>
-        <param name="array">To be added.</param>
-        <param name="index">To be added.</param>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
-        <remarks>To be added.</remarks>
+        <param name="array">An array.</param>
+        <param name="index">A location in the array.</param>
+        <summary>Retrieves the byte at a specified location in a specified array.</summary>
+        <returns>Returns the  byte in the array.</returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ The `GetByte` method gets a particular byte out of the array. The array must be an array of primitives.  
+  
+   
+  
+## Examples  
+ The following code example displays the byte values at specified locations within arrays using the `GetByte` method.  
+  
+ [!CODE [System.Buffer.Bytes#3](../CodeSnippet/VS_Snippets_CLR_System/system.Buffer.Bytes#3)]  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="MemoryCopy">
@@ -128,12 +193,21 @@
         <Parameter Name="sourceBytesToCopy" Type="System.Int64" />
       </Parameters>
       <Docs>
-        <param name="source">To be added.</param>
-        <param name="destination">To be added.</param>
-        <param name="destinationSizeInBytes">To be added.</param>
-        <param name="sourceBytesToCopy">To be added.</param>
-        <summary>To be added.</summary>
-        <remarks>To be added.</remarks>
+        <param name="source">The address of the bytes to copy.</param>
+        <param name="destination">The target address.</param>
+        <param name="destinationSizeInBytes">The number of bytes available in the destination memory block.</param>
+        <param name="sourceBytesToCopy">The number of bytes to copy.</param>
+        <summary>Copies a number of bytes specified as a long integer value from one address in memory to another.  
+  
+ This API is not CLS-compliant.</summary>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ This method copies  bytes from the address specified by  to the address specified by . If the buffers overlap and the difference between  minus  is less than , the source block is copied to the destination block in reverse order.  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="MemoryCopy">
@@ -161,12 +235,21 @@
         <Parameter Name="sourceBytesToCopy" Type="System.UInt64" />
       </Parameters>
       <Docs>
-        <param name="source">To be added.</param>
-        <param name="destination">To be added.</param>
-        <param name="destinationSizeInBytes">To be added.</param>
-        <param name="sourceBytesToCopy">To be added.</param>
-        <summary>To be added.</summary>
-        <remarks>To be added.</remarks>
+        <param name="source">The address of the bytes to copy.</param>
+        <param name="destination">The target address.</param>
+        <param name="destinationSizeInBytes">The number of bytes available in the destination memory block.</param>
+        <param name="sourceBytesToCopy">The number of bytes to copy.</param>
+        <summary>Copies a number of bytes specified as an unsigned long integer value from one address in memory to another.  
+  
+ This API is not CLS-compliant.</summary>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ This method copies  bytes from the address specified by  to the address specified by . If the buffers overlap and the difference between  minus  is less than , the source block is copied to the destination block in reverse order.  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="SetByte">
@@ -190,11 +273,25 @@
         <Parameter Name="value" Type="System.Byte" />
       </Parameters>
       <Docs>
-        <param name="array">To be added.</param>
-        <param name="index">To be added.</param>
-        <param name="value">To be added.</param>
-        <summary>To be added.</summary>
-        <remarks>To be added.</remarks>
+        <param name="array">An array.</param>
+        <param name="index">A location in the array.</param>
+        <param name="value">A value to assign.</param>
+        <summary>Assigns a specified value to a byte at a particular location in a specified array.</summary>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ must be an array of primitives.  
+  
+   
+  
+## Examples  
+ The following code example assigns values to bytes at particular locations within arrays using the `SetByte` method.  
+  
+ [!CODE [System.Buffer.Bytes#2](../CodeSnippet/VS_Snippets_CLR_System/system.Buffer.Bytes#2)]  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
   </Members>

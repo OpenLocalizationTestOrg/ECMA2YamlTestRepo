@@ -10,8 +10,17 @@
   </Base>
   <Interfaces />
   <Docs>
-    <summary>To be added.</summary>
-    <remarks>To be added.</remarks>
+    <summary>Serializes a set of components into a serialization store.</summary>
+    <remarks>
+      <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ The CodeDomComponentSerializationService class serializes a set of components or serializable objects into a serialization store. The store can then be deserialized at a later time. The CodeDomComponentSerializationService class differs from other serialization schemes in that the serialization format is opaque, and it allows for partial serialization of objects. For example, you can choose to serialize only selected properties for an object.  
+  
+ The base class, <xref:System.ComponentModel.Design.Serialization.ComponentSerializationService>, replaces the <xref:System.ComponentModel.Design.Serialization.IDesignerSerializationService> interface from the .NET Framework version 1.0, although the latter is retained for backward compatibility. The CodeDomComponentSerializationService class does not implement the <xref:System.ComponentModel.Design.Serialization.IDesignerSerializationService> interface, but if you query for <xref:System.ComponentModel.Design.Serialization.IDesignerSerializationService>, the <xref:System.ComponentModel.Design.Serialization.CodeDomDesignerLoader> provides a bridge implementation to ensure backward compatibility.  
+  
+ ]]></format>
+    </remarks>
   </Docs>
   <Members>
     <Member MemberName=".ctor">
@@ -23,7 +32,7 @@
       </AssemblyInfo>
       <Parameters />
       <Docs>
-        <summary>To be added.</summary>
+        <summary>Initializes a new instance of the &lt;see cref="T:System.ComponentModel.Design.Serialization.CodeDomComponentSerializationService"&gt; class.</summary>
         <remarks>To be added.</remarks>
       </Docs>
     </Member>
@@ -38,8 +47,8 @@
         <Parameter Name="provider" Type="System.IServiceProvider" />
       </Parameters>
       <Docs>
-        <param name="provider">To be added.</param>
-        <summary>To be added.</summary>
+        <param name="provider">An &lt;see cref="T:System.IServiceProvider"&gt; to use for resolving services.</param>
+        <summary>Initializes a new instance of the &lt;see cref="T:System.ComponentModel.Design.Serialization.CodeDomComponentSerializationService"&gt; class using the given service provider to resolve services.</summary>
         <remarks>To be added.</remarks>
       </Docs>
     </Member>
@@ -55,9 +64,16 @@
       </ReturnValue>
       <Parameters />
       <Docs>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
-        <remarks>To be added.</remarks>
+        <summary>Creates a new &lt;xref:System.ComponentModel.Design.Serialization.SerializationStore&gt;.</summary>
+        <returns>A new serialization store.</returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ The serialization store can be passed to any of the <xref:System.ComponentModel.Design.Serialization.CodeDomComponentSerializationService.Serialize%2A> methods to build up serialization state for a group of objects.  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="Deserialize">
@@ -74,9 +90,9 @@
         <Parameter Name="store" Type="System.ComponentModel.Design.Serialization.SerializationStore" />
       </Parameters>
       <Docs>
-        <param name="store">To be added.</param>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
+        <param name="store">The &lt;xref:System.ComponentModel.Design.Serialization.SerializationStore&gt; from which objects will be deserialized.</param>
+        <summary>Deserializes the given store to produce a collection of objects.</summary>
+        <returns>A collection of deserialized components.</returns>
         <remarks>To be added.</remarks>
       </Docs>
     </Member>
@@ -95,11 +111,18 @@
         <Parameter Name="container" Type="System.ComponentModel.IContainer" />
       </Parameters>
       <Docs>
-        <param name="store">To be added.</param>
-        <param name="container">To be added.</param>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
-        <remarks>To be added.</remarks>
+        <param name="store">The &lt;xref:System.ComponentModel.Design.Serialization.SerializationStore&gt; from which objects will be deserialized.</param>
+        <param name="container">A container to which &lt;xref:System.ComponentModel.IComponent&gt; objects will be added.</param>
+        <summary>Deserializes the given store and populates the given &lt;xref:System.ComponentModel.IContainer&gt; with deserialized &lt;xref:System.ComponentModel.IComponent&gt; objects.</summary>
+        <returns>A collection of deserialized components.</returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ Created objects that implement the <xref:System.ComponentModel.IComponent> interface will be added to the  parameter.  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="DeserializeTo">
@@ -119,12 +142,19 @@
         <Parameter Name="applyDefaults" Type="System.Boolean" />
       </Parameters>
       <Docs>
-        <param name="store">To be added.</param>
-        <param name="container">To be added.</param>
-        <param name="validateRecycledTypes">To be added.</param>
-        <param name="applyDefaults">To be added.</param>
-        <summary>To be added.</summary>
-        <remarks>To be added.</remarks>
+        <param name="store">The &lt;xref:System.ComponentModel.Design.Serialization.SerializationStore&gt; from which the objects will be deserialized.</param>
+        <param name="container">A container of objects to which data will be applied.</param>
+        <param name="validateRecycledTypes">`true` to validate the recycled type; otherwise, `false`.</param>
+        <param name="applyDefaults">`true` to apply default property values; otherwise, `false`.</param>
+        <summary>Deserializes the given &lt;xref:System.ComponentModel.Design.Serialization.SerializationStore&gt; to the given container, optionally applying default property values.</summary>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ The DeserializeTo method deserializes the given store, but rather than producing new objects, the data in the store is applied to an existing set of objects that are taken from the  parameter. As a result, the caller can create in advance an object however it sees fit. If an object has deserialization state and the object is not named in the set of existing objects, a new object will be created. If that object also implements <xref:System.ComponentModel.IComponent>, it will be added to the given container. Objects in the container must have names and types that match objects in the serialization store in order for an existing object to be used.  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="LoadStore">
@@ -141,10 +171,17 @@
         <Parameter Name="stream" Type="System.IO.Stream" />
       </Parameters>
       <Docs>
-        <param name="stream">To be added.</param>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
-        <remarks>To be added.</remarks>
+        <param name="stream">The stream from which to load the &lt;xref:System.ComponentModel.Design.Serialization.SerializationStore&gt;.</param>
+        <summary>Loads a &lt;xref:System.ComponentModel.Design.Serialization.SerializationStore&gt; from the given stream.</summary>
+        <returns>The loaded &lt;xref:System.ComponentModel.Design.Serialization.SerializationStore&gt;.</returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ You can use the returned store to deserialize objects by passing it to the various <xref:System.ComponentModel.Design.Serialization.CodeDomComponentSerializationService.Deserialize%2A> methods.  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="Serialize">
@@ -162,10 +199,17 @@
         <Parameter Name="value" Type="System.Object" />
       </Parameters>
       <Docs>
-        <param name="store">To be added.</param>
-        <param name="value">To be added.</param>
-        <summary>To be added.</summary>
-        <remarks>To be added.</remarks>
+        <param name="store">The &lt;xref:System.ComponentModel.Design.Serialization.SerializationStore&gt; to which  will be serialized.</param>
+        <param name="value">The object to serialize.</param>
+        <summary>Serializes the given object to the given &lt;xref:System.ComponentModel.Design.Serialization.SerializationStore&gt;.</summary>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ The  parameter can be used to serialize more than one object by calling this method once for each object.  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="SerializeAbsolute">
@@ -183,10 +227,17 @@
         <Parameter Name="value" Type="System.Object" />
       </Parameters>
       <Docs>
-        <param name="store">To be added.</param>
-        <param name="value">To be added.</param>
-        <summary>To be added.</summary>
-        <remarks>To be added.</remarks>
+        <param name="store">The &lt;xref:System.ComponentModel.Design.Serialization.SerializationStore&gt; to which  will be serialized.</param>
+        <param name="value">The object to serialize.</param>
+        <summary>Serializes the given object, accounting for default property values.</summary>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ The store can be used to serialize more than one object by calling this method more than once.  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="SerializeMember">
@@ -205,11 +256,18 @@
         <Parameter Name="member" Type="System.ComponentModel.MemberDescriptor" />
       </Parameters>
       <Docs>
-        <param name="store">To be added.</param>
-        <param name="owningObject">To be added.</param>
-        <param name="member">To be added.</param>
-        <summary>To be added.</summary>
-        <remarks>To be added.</remarks>
+        <param name="store">The &lt;xref:System.ComponentModel.Design.Serialization.SerializationStore&gt; to which  will be serialized.</param>
+        <param name="owningObject">The object that owns the .</param>
+        <param name="member">The given member.</param>
+        <summary>Serializes the given member on the given object.</summary>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ This method can be invoked multiple times for the same object to build up a list of serialized members within the serialization store. The member generally has to be a property or an event.  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="SerializeMemberAbsolute">
@@ -228,11 +286,18 @@
         <Parameter Name="member" Type="System.ComponentModel.MemberDescriptor" />
       </Parameters>
       <Docs>
-        <param name="store">To be added.</param>
-        <param name="owningObject">To be added.</param>
-        <param name="member">To be added.</param>
-        <summary>To be added.</summary>
-        <remarks>To be added.</remarks>
+        <param name="store">The &lt;xref:System.ComponentModel.Design.Serialization.SerializationStore&gt; to which  will be serialized.</param>
+        <param name="owningObject">The object that owns the .</param>
+        <param name="member">The given member.</param>
+        <summary>Serializes the given member on the given object, but also serializes the member if it contains the default property value.</summary>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ For some members, containing the default property value and setting the same value back to the member are different concepts. For example, if a property inherits its value from a parent object if no local value is set, setting the value back to the property may not be what is desired. The SerializeMemberAbsolute method takes this into account and would clear the state of the property in this case.  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
   </Members>

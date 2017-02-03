@@ -28,8 +28,54 @@
     </Attribute>
   </Attributes>
   <Docs>
-    <summary>To be added.</summary>
-    <remarks>To be added.</remarks>
+    <summary>Provides methods for creating, manipulating, searching, and sorting arrays, thereby serving as the base class for all arrays in the common language runtime.  
+  
+ To browse the .NET Framework source code for this type, see the [Reference Source](http://referencesource.microsoft.com/#mscorlib/system/array.cs#156e066ecc4ccedf).</summary>
+    <remarks>
+      <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+  
+> [!NOTE]
+>  To view the .NET Framework source code for this type, see the [Reference Source](http://referencesource.microsoft.com/#mscorlib/system/array.cs#156e066ecc4ccedf). You can browse through the source code online, download the reference for offline viewing, and step through the sources (including patches and updates) during debugging; see [instructions](http://referencesource.microsoft.com/).  
+  
+ The Array class is not part of the <xref:System.Collections> namespaces. However, it is still considered a collection because it is based on the <xref:System.Collections.IList> interface.  
+  
+ The Array class is the base class for language implementations that support arrays. However, only the system and compilers can derive explicitly from the Array class. Users should employ the array constructs provided by the language.  
+  
+ An element is a value in an Array. The length of an Array is the total number of elements it can contain. The lower bound of an Array is the index of its first element. An Array can have any lower bound, but it has a lower bound of zero by default. A different lower bound can be defined when creating an instance of the Array class using <xref:System.Array.CreateInstance%2A>.A multidimensional Array can have different bounds for each dimension. An array can have a maximum of 32 dimensions.  
+  
+ Unlike the classes in the <xref:System.Collections> namespaces, Array has a fixed capacity. To increase the capacity, you must create a new Array object with the required capacity, copy the elements from the old Array object to the new one, and delete the old Array.  
+  
+ By default, the maximum size of an Array is 2 gigabytes (GB). In a 64-bit environment, you can avoid the size restriction by setting the `enabled` attribute of the [gcAllowVeryLargeObjects](../Topic/%3CgcAllowVeryLargeObjects%3E%20Element.md) configuration element to `true` in the run-time environment. However, the array will still be limited to a total of 4 billion elements, and to a maximum index of 0X7FEFFFFF in any given dimension (0X7FFFFFC7 for byte arrays and arrays of single-byte structures).  
+  
+ Starting with the .NET Framework 2.0, the Array class implements the <xref:System.Collections.Generic.IList%601?displayProperty=fullName>, <xref:System.Collections.Generic.ICollection%601?displayProperty=fullName>, and <xref:System.Collections.Generic.IEnumerable%601?displayProperty=fullName> generic interfaces. The implementations are provided to arrays at run time, and as a result, the generic interfaces do not appear in the declaration syntax for the Array class. In addition,  there are no reference topics for interface members that are accessible only by casting an array to the generic interface type (explicit interface implementations). The key thing to be aware of when you cast an array to one of these interfaces is that members which add, insert, or remove elements throw <xref:System.NotSupportedException>.  
+  
+ <xref:System.Type> objects provide information about array type declarations. Array objects with the same array type share the same <xref:System.Type> object.  
+  
+ <xref:System.Type.IsArray%2A?displayProperty=fullName> and <xref:System.Type.GetElementType%2A?displayProperty=fullName> might not return the expected results with Array because if an array is cast to the type Array, the result is an object, not an array. That is, `typeof(System.Array).IsArray` returns `false`, and `typeof(System.Array).GetElementType` returns `null`.  
+  
+ The <xref:System.Array.Copy%2A?displayProperty=fullName> method copies elements not only between arrays of the same type but also between standard arrays of different types; it handles type casting automatically.  
+  
+ Some methods, such as <xref:System.Array.CreateInstance%2A>, <xref:System.Array.Copy%2A>, <xref:System.Array.CopyTo%2A>, <xref:System.Array.GetValue%2A>, and <xref:System.Array.SetValue%2A>, provide overloads that accept 64-bit integers as parameters to accommodate large capacity arrays. <xref:System.Array.LongLength%2A> and <xref:System.Array.GetLongLength%2A> return 64-bit integers indicating the length of the array.  
+  
+ The Array is not guaranteed to be sorted.  You must sort the Array prior to performing operations (such as <xref:System.Array.BinarySearch%2A>) that require the Array to be sorted.  
+  
+ Using an Array object of pointers in native code is not supported and will throw a <xref:System.NotSupportedException> for several methods.  
+  
+   
+  
+## Examples  
+ The following code example shows how <xref:System.Array.Copy%2A?displayProperty=fullName> copies elements between an array of type integer and an array of type <xref:System.Object>.  
+  
+ [!CODE [Classic Array Example#1](../CodeSnippet/VS_Snippets_CLR_Classic/classic Array Example#1)]  
+  
+ The following code example creates and initializes an Array and displays its properties and its elements.  
+  
+ [!CODE [Classic Array Example#2](../CodeSnippet/VS_Snippets_CLR_Classic/classic Array Example#2)]  
+  
+ ]]></format>
+    </remarks>
   </Docs>
   <Members>
     <Member MemberName="AsReadOnly&lt;T&gt;">
@@ -76,11 +122,44 @@
         <Parameter Name="value" Type="System.Object" />
       </Parameters>
       <Docs>
-        <param name="array">To be added.</param>
-        <param name="value">To be added.</param>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
-        <remarks>To be added.</remarks>
+        <param name="array">The sorted one-dimensional &lt;see cref="T:System.Array"&gt; to search.</param>
+        <param name="value">The object to search for.</param>
+        <summary>Searches an entire one-dimensional sorted array for a specific element, using the &lt;see cref="T:System.IComparable"&gt; interface implemented by each element of the array and by the specified object.</summary>
+        <returns>The index of the specified  in the specified , if  is found; otherwise, a negative number. If  is not found and  is less than one or more elements in , the negative number returned is the bitwise complement of the index of the first element that is larger than . If  is not found and  is greater than all elements in , the negative number returned is the bitwise complement of (the index of the last element plus 1). If this method is called with a non-sorted , the return value can be incorrect and a negative number could be returned, even if  is present in .</returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ This method does not support searching arrays that contain negative indexes.  must be sorted before calling this method.  
+  
+ If the <xref:System.Array> does not contain the specified value, the method returns a negative integer. You can apply the bitwise complement operator (~ in C#, `Not` in Visual Basic) to the negative result  to produce an index. If this index is one greater than the upper bound of the array, there are no elements larger than  in the array. Otherwise, it is the index of the first element that is larger than .  
+  
+ Either  or every element of  must implement the <xref:System.IComparable> interface, which is used for comparisons. The elements of  must already be sorted in increasing value according to the sort order defined by the <xref:System.IComparable> implementation; otherwise, the result might be incorrect.  
+  
+> [!NOTE]
+>  If does not implement the <xref:System.IComparable> interface, the elements of  are not tested for <xref:System.IComparable> before the search begins. An exception is thrown if the search encounters an element that does not implement <xref:System.IComparable>.  
+  
+ Duplicate elements are allowed. If the <xref:System.Array> contains more than one element equal to , the method returns the index of only one of the occurrences, and not necessarily the first one.  
+  
+ `null` can always be compared with any other reference type; therefore, comparisons with `null` do not generate an exception.  
+  
+> [!NOTE]
+>  For every element tested,  is passed to the appropriate <xref:System.IComparable> implementation, even if  is `null`. That is, the <xref:System.IComparable> implementation determines how a given element compares to `null`.  
+  
+ This method is an O(log ) operation, where  is the <xref:System.Array.Length%2A> of .  
+  
+   
+  
+## Examples  
+ The following code example shows how to use <xref:System.Array.BinarySearch%2A> to locate a specific object in an <xref:System.Array>.  
+  
+> [!NOTE]
+>  The array is created with its elements in ascending sort order. The <xref:System.Array.BinarySearch%2A> method requires the array to be sorted in ascending order.  
+  
+ [!CODE [Classic Array.BinarySearch Example#1](../CodeSnippet/VS_Snippets_CLR_Classic/classic Array.BinarySearch Example#1)]  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="BinarySearch">
@@ -104,12 +183,43 @@
         <Parameter Name="comparer" Type="System.Collections.IComparer" />
       </Parameters>
       <Docs>
-        <param name="array">To be added.</param>
-        <param name="value">To be added.</param>
-        <param name="comparer">To be added.</param>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
-        <remarks>To be added.</remarks>
+        <param name="array">The sorted one-dimensional &lt;see cref="T:System.Array"&gt; to search.</param>
+        <param name="value">The object to search for.</param>
+        <param name="comparer">The &lt;see cref="T:System.Collections.IComparer"&gt; implementation to use when comparing elements.  
+  
+ -or-  
+  
+ `null` to use the &lt;xref:System.IComparable&gt; implementation of each element.</param>
+        <summary>Searches an entire one-dimensional sorted array for a value using the specified &lt;see cref="T:System.Collections.IComparer"&gt; interface.</summary>
+        <returns>The index of the specified  in the specified , if  is found; otherwise, a negative number. If  is not found and  is less than one or more elements in , the negative number returned is the bitwise complement of the index of the first element that is larger than . If  is not found and  is greater than all elements in , the negative number returned is the bitwise complement of (the index of the last element plus 1). If this method is called with a non-sorted , the return value can be incorrect and a negative number could be returned, even if  is present in .</returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ This method does not support searching arrays that contain negative indexes.  must be sorted before calling this method.  
+  
+ If the <xref:System.Array> does not contain the specified value, the method returns a negative integer. You can apply the bitwise complement operator (~ in C#, `Not` in Visual Basic) to the negative result  to produce an index. If this index is one greater than the upper bound of the array, there are no elements larger than  in the array. Otherwise, it is the index of the first element that is larger than .  
+  
+ The comparer customizes how the elements are compared. For example, you can use a <xref:System.Collections.CaseInsensitiveComparer?displayProperty=fullName> as the comparer to perform case-insensitive string searches.  
+  
+ If  is not `null`, the elements of  are compared to the specified value using the specified <xref:System.Collections.IComparer> implementation. The elements of  must already be sorted in increasing value according to the sort order defined by ; otherwise, the result might be incorrect.  
+  
+ If is `null`, the comparison is done using the <xref:System.IComparable> implementation provided by the element itself or by the specified value. The elements of  must already be sorted in increasing value according to the sort order defined by the <xref:System.IComparable> implementation; otherwise, the result might be incorrect.  
+  
+> [!NOTE]
+>  If  is `null` and  does not implement the <xref:System.IComparable> interface, the elements of  are not tested for <xref:System.IComparable> before the search begins. An exception is thrown if the search encounters an element that does not implement <xref:System.IComparable>.  
+  
+ Duplicate elements are allowed. If the <xref:System.Array> contains more than one element equal to , the method returns the index of only one of the occurrences, and not necessarily the first one.  
+  
+ `null` can always be compared with any other reference type; therefore, comparisons with `null` do not generate an exception.  
+  
+> [!NOTE]
+>  For every element tested,  is passed to the appropriate <xref:System.IComparable> implementation, even if  is `null`. That is, the <xref:System.IComparable> implementation determines how a given element compares to `null`.  
+  
+ This method is an O(log ) operation, where  is the <xref:System.Array.Length%2A> of .  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="BinarySearch">
@@ -134,13 +244,36 @@
         <Parameter Name="value" Type="System.Object" />
       </Parameters>
       <Docs>
-        <param name="array">To be added.</param>
-        <param name="index">To be added.</param>
-        <param name="length">To be added.</param>
-        <param name="value">To be added.</param>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
-        <remarks>To be added.</remarks>
+        <param name="array">The sorted one-dimensional &lt;see cref="T:System.Array"&gt; to search.</param>
+        <param name="index">The starting index of the range to search.</param>
+        <param name="length">The length of the range to search.</param>
+        <param name="value">The object to search for.</param>
+        <summary>Searches a range of elements in a one-dimensional sorted array for a value, using the &lt;see cref="T:System.IComparable"&gt; interface implemented by each element of the array and by the specified value.</summary>
+        <returns>The index of the specified  in the specified , if  is found; otherwise, a negative number. If  is not found and  is less than one or more elements in , the negative number returned is the bitwise complement of the index of the first element that is larger than . If  is not found and  is greater than all elements in , the negative number returned is the bitwise complement of (the index of the last element plus 1). If this method is called with a non-sorted , the return value can be incorrect and a negative number could be returned, even if  is present in .</returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ This method does not support searching arrays that contain negative indexes.  must be sorted before calling this method.  
+  
+ If the <xref:System.Array> does not contain the specified value, the method returns a negative integer. You can apply the bitwise complement operator (~ in C#, `Not` in Visual Basic) to the negative result to produce an index. If this index is one greater than the upper bound of the array, there are no elements larger than  in the array. Otherwise, it is the index of the first element that is larger than .  
+  
+ Either  or every element of  must implement the <xref:System.IComparable> interface, which is used for comparisons. The elements of  must already be sorted in increasing value according to the sort order defined by the <xref:System.IComparable> implementation; otherwise, the result might be incorrect.  
+  
+> [!NOTE]
+>  If  does not implement the <xref:System.IComparable> interface, the elements of  are not tested for <xref:System.IComparable> before the search begins. An exception is thrown if the search encounters an element that does not implement <xref:System.IComparable>.  
+  
+ Duplicate elements are allowed. If the <xref:System.Array> contains more than one element equal to , the method returns the index of only one of the occurrences, and not necessarily the first one.  
+  
+ `null` can always be compared with any other reference type; therefore, comparisons with `null` do not generate an exception.  
+  
+> [!NOTE]
+>  For every element tested,  is passed to the appropriate <xref:System.IComparable> implementation, even if  is `null`. That is, the <xref:System.IComparable> implementation determines how a given element compares to `null`.  
+  
+ This method is an O(log ) operation, where  is .  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="BinarySearch">
@@ -169,14 +302,45 @@
         <Parameter Name="comparer" Type="System.Collections.IComparer" />
       </Parameters>
       <Docs>
-        <param name="array">To be added.</param>
-        <param name="index">To be added.</param>
-        <param name="length">To be added.</param>
-        <param name="value">To be added.</param>
-        <param name="comparer">To be added.</param>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
-        <remarks>To be added.</remarks>
+        <param name="array">The sorted one-dimensional &lt;see cref="T:System.Array"&gt; to search.</param>
+        <param name="index">The starting index of the range to search.</param>
+        <param name="length">The length of the range to search.</param>
+        <param name="value">The object to search for.</param>
+        <param name="comparer">The &lt;see cref="T:System.Collections.IComparer"&gt; implementation to use when comparing elements.  
+  
+ -or-  
+  
+ `null` to use the &lt;xref:System.IComparable&gt; implementation of each element.</param>
+        <summary>Searches a range of elements in a one-dimensional sorted array for a value, using the specified &lt;see cref="T:System.Collections.IComparer"&gt; interface.</summary>
+        <returns>The index of the specified  in the specified , if  is found; otherwise, a negative number. If  is not found and  is less than one or more elements in , the negative number returned is the bitwise complement of the index of the first element that is larger than . If  is not found and  is greater than all elements in , the negative number returned is the bitwise complement of (the index of the last element plus 1). If this method is called with a non-sorted , the return value can be incorrect and a negative number could be returned, even if  is present in .</returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ This method does not support searching arrays that contain negative indexes.  must be sorted before calling this method.  
+  
+ If the <xref:System.Array> does not contain the specified value, the method returns a negative integer. You can apply the bitwise complement operator (~ in C#, `Not` in Visual Basic) to the negative result  to produce an index. If this index is one greater than the upper bound of the array, there are no elements larger than  in the array. Otherwise, it is the index of the first element that is larger than .  
+  
+ The comparer customizes how the elements are compared. For example, you can use a <xref:System.Collections.CaseInsensitiveComparer?displayProperty=fullName> as the comparer to perform case-insensitive string searches.  
+  
+ If  is not `null`, the elements of  are compared to the specified value using the specified <xref:System.Collections.IComparer> implementation. The elements of  must already be sorted in increasing value according to the sort order defined by ; otherwise, the result might be incorrect.  
+  
+ If  is `null`, the comparison is done using the <xref:System.IComparable> implementation provided by the element itself or by the specified value. The elements of  must already be sorted in increasing value according to the sort order defined by the <xref:System.IComparable> implementation; otherwise, the result might be incorrect.  
+  
+> [!NOTE]
+>  If  is `null` and  does not implement the <xref:System.IComparable> interface, the elements of  are not tested for <xref:System.IComparable> before the search begins. An exception is thrown if the search encounters an element that does not implement <xref:System.IComparable>.  
+  
+ Duplicate elements are allowed. If the <xref:System.Array> contains more than one element equal to , the method returns the index of only one of the occurrences, and not necessarily the first one.  
+  
+ `null` can always be compared with any other reference type; therefore, comparisons with `null` do not generate an exception when using <xref:System.IComparable>.  
+  
+> [!NOTE]
+>  For every element tested,  is passed to the appropriate <xref:System.IComparable> implementation, even if  is `null`. That is, the <xref:System.IComparable> implementation determines how a given element compares to `null`.  
+  
+ This method is an O(log ) operation, where  is .  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="BinarySearch&lt;T&gt;">
@@ -339,11 +503,42 @@
         <Parameter Name="length" Type="System.Int32" />
       </Parameters>
       <Docs>
-        <param name="array">To be added.</param>
-        <param name="index">To be added.</param>
-        <param name="length">To be added.</param>
-        <summary>To be added.</summary>
-        <remarks>To be added.</remarks>
+        <param name="array">The array whose elements need to be cleared.</param>
+        <param name="index">The starting index of the range of elements to clear.</param>
+        <param name="length">The number of elements to clear.</param>
+        <summary>Sets a range of elements in an array to the default value of each element type.</summary>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ This method resets each element in an array to the element type's default value. It sets elements of reference types (including <xref:System.String> elements) to `null`, and sets elements of value types to the default values shown in the following table.  
+  
+|Type|Value|  
+|----------|-----------|  
+|<xref:System.Boolean>|`false`|  
+|All integral and floating point numeric types|0 (zero)|  
+|<xref:System.DateTime>|<xref:System.DateTime.MinValue?displayProperty=fullName>|  
+|Other value types|Default value of the type's fields|  
+  
+ The range of cleared elements wrap from row to row in a multi-dimensional array.  
+  
+ This method only clears the values of the elements; it does not delete the elements themselves. An array has a fixed size; therefore, elements cannot be added or removed.  
+  
+ This method is an O() operation, where  is .  
+  
+   
+  
+## Examples  
+ The following example uses the Clear method to reset integer values in a one-dimensional, two-dimensional, and three-dimensional array.  
+  
+ [!CODE [System.Array.Clear#1](../CodeSnippet/VS_Snippets_CLR_System/system.Array.Clear#1)]  
+  
+ The following example defines a `TimeZoneTime` structure that includes a <xref:System.TimeZoneInfo> field and a <xref:System.DateTimeOffset> field. It then calls the Clear method to clear one element in a two-element array of `TimeZoneTime` values. The method sets the value of the cleared element to the default value of a <xref:System.TimeZoneInfo> object, which is `null`, and the default value of a <xref:System.DateTimeOffset> object, which is <xref:System.DateTimeOffset.MinValue?displayProperty=fullName>.  
+  
+ [!CODE [System.Array.Clear#2](../CodeSnippet/VS_Snippets_CLR_System/system.Array.Clear#2)]  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="Clone">
@@ -358,9 +553,29 @@
       </ReturnValue>
       <Parameters />
       <Docs>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
-        <remarks>To be added.</remarks>
+        <summary>Creates a shallow copy of the &lt;see cref="T:System.Array"&gt;.</summary>
+        <returns>A shallow copy of the &lt;see cref="T:System.Array"&gt;.</returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ A shallow copy of an <xref:System.Array> copies only the elements of the <xref:System.Array>, whether they are reference types or value types, but it does not copy the objects that the references refer to. The references in the new <xref:System.Array> point to the same objects that the references in the original <xref:System.Array> point to.  
+  
+ In contrast, a deep copy of an <xref:System.Array> copies the elements and everything directly or indirectly referenced by the elements.  
+  
+ The clone is of the same <xref:System.Type> as the original <xref:System.Array>.  
+  
+ This method is an O() operation, where  is <xref:System.Array.Length%2A>.  
+  
+   
+  
+## Examples  
+ The following code example clones a <xref:System.Globalization.CultureInfo?displayProperty=fullName> array and demonstrates the behavior of a shallow copy.  
+  
+ [!CODE [System.Array.Clone#1](../CodeSnippet/VS_Snippets_CLR_System/system.Array.Clone#1)]  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="ConstrainedCopy">
@@ -389,13 +604,34 @@
         <Parameter Name="length" Type="System.Int32" />
       </Parameters>
       <Docs>
-        <param name="sourceArray">To be added.</param>
-        <param name="sourceIndex">To be added.</param>
-        <param name="destinationArray">To be added.</param>
-        <param name="destinationIndex">To be added.</param>
-        <param name="length">To be added.</param>
-        <summary>To be added.</summary>
-        <remarks>To be added.</remarks>
+        <param name="sourceArray">The &lt;see cref="T:System.Array"&gt; that contains the data to copy.</param>
+        <param name="sourceIndex">A 32-bit integer that represents the index in the  at which copying begins.</param>
+        <param name="destinationArray">The &lt;see cref="T:System.Array"&gt; that receives the data.</param>
+        <param name="destinationIndex">A 32-bit integer that represents the index in the  at which storing begins.</param>
+        <param name="length">A 32-bit integer that represents the number of elements to copy.</param>
+        <summary>Copies a range of elements from an &lt;see cref="T:System.Array"&gt; starting at the specified source index and pastes them to another &lt;see cref="T:System.Array"&gt; starting at the specified destination index.  Guarantees that all changes are undone if the copy does not succeed completely.</summary>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ The  and  parameters must have the same number of dimensions.  The  type must be the same as or derived from the  type; otherwise, an <xref:System.ArrayTypeMismatchException> is thrown.  Unlike <xref:System.Array.Copy%2A>, ConstrainedCopy verifies the compatibility of the array types before performing any operation.  
+  
+ When copying between multidimensional arrays, the array behaves like a long one-dimensional array, where the rows (or columns) are conceptually laid end-to-end. For example, if an array has three rows (or columns) with four elements each, copying six elements from the beginning of the array would copy all four elements of the first row (or column) and the first two elements of the second row (or column). To start copying from the second element of the third row (or column),  must be the upper bound of the first row (or column) plus the length of the second row (or column) plus two.  
+  
+ If  and  overlap, this method behaves as if the original values of  were preserved in a temporary location before  is overwritten.  
+  
+ [C++]  
+  
+ This method is equivalent to the standard C/C++ function `memmove`, not `memcpy`.  
+  
+ The arrays can be reference-type arrays or value-type arrays.  If  and  are both reference-type arrays or are both arrays of type <xref:System.Object>, a shallow copy is performed. A shallow copy of an <xref:System.Array> is a new <xref:System.Array> containing references to the same elements as the original <xref:System.Array>. The elements themselves or anything referenced by the elements are not copied. In contrast, a deep copy of an <xref:System.Array> copies the elements and everything directly or indirectly referenced by the elements.  
+  
+ If this method throws an exception while copying, the  remains unchanged; therefore, ConstrainedCopy can be used within a constrained execution region (<xref:System.Runtime.ConstrainedExecution.Cer>).  
+  
+ This method is an O() operation, where  is .  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="ConvertAll&lt;TInput,TOutput&gt;">
@@ -450,11 +686,52 @@
         <Parameter Name="length" Type="System.Int32" />
       </Parameters>
       <Docs>
-        <param name="sourceArray">To be added.</param>
-        <param name="destinationArray">To be added.</param>
-        <param name="length">To be added.</param>
-        <summary>To be added.</summary>
-        <remarks>To be added.</remarks>
+        <param name="sourceArray">The &lt;see cref="T:System.Array"&gt; that contains the data to copy.</param>
+        <param name="destinationArray">The &lt;see cref="T:System.Array"&gt; that receives the data.</param>
+        <param name="length">A 32-bit integer that represents the number of elements to copy.</param>
+        <summary>Copies a range of elements from an &lt;see cref="T:System.Array"&gt; starting at the first element and pastes them into another &lt;see cref="T:System.Array"&gt; starting at the first element. The length is specified as a 32-bit integer.</summary>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ The  and  parameters must have the same number of dimensions. In addition,  must already have been dimensioned and must have a sufficient number of elements to accommodate the copied data.  
+  
+ When copying between multidimensional arrays, the array behaves like a long one-dimensional array, where the rows (or columns) are conceptually laid end to end. For example, if an array has three rows (or columns) with four elements each, copying six elements from the beginning of the array would copy all four elements of the first row (or column) and the first two elements of the second row (or column).  
+  
+ If  and  overlap, this method behaves as if the original values of  were preserved in a temporary location before  is overwritten.  
+  
+ [C++]  
+  
+ This method is equivalent to the standard C/C++ function `memmove`, not `memcpy`.  
+  
+ The arrays can be reference-type arrays or value-type arrays. Type downcasting is performed, as required.  
+  
+-   When copying from a reference-type array to a value-type array, each element is unboxed and then copied. When copying from a value-type array to a reference-type array, each element is boxed and then copied.  
+  
+-   When copying from a reference-type or value-type array to an <xref:System.Object> array, an <xref:System.Object> is created to hold each value or reference and then copied. When copying from an <xref:System.Object> array to a reference-type or value-type array and the assignment is not possible, an <xref:System.InvalidCastException> is thrown.  
+  
+-   If  and  are both reference-type arrays or are both arrays of type <xref:System.Object>, a shallow copy is performed. A shallow copy of an <xref:System.Array> is a new <xref:System.Array> containing references to the same elements as the original <xref:System.Array>. The elements themselves or anything referenced by the elements are not copied. In contrast, a deep copy of an <xref:System.Array> copies the elements and everything directly or indirectly referenced by the elements.  
+  
+ An <xref:System.ArrayTypeMismatchException> is thrown if the arrays are of incompatible types. Type compatibility is defined as follows:  
+  
+-   A type is compatible with itself.  
+  
+-   A value type is compatible with <xref:System.Object> and with an interface type implemented by that value type. A value type is considered connected to an interface only if it implements that interface directly. Disconnected types are not compatible.  
+  
+-   Two intrinsic (predefined) value types are compatible if copying from the source type to the destination type is a widening conversion. A widening conversion never loses information, whereas a narrowing conversion can lose information. For example, converting a 32-bit signed integer to a 64-bit signed integer is a widening conversion, and converting a 64-bit signed integer to a 32-bit signed integer is a narrowing conversion. For more information about conversions, see <xref:System.Convert>.  
+  
+-   A nonintrinsic (user-defined) value type is compatible only with itself.  
+  
+-   Enumerations have an implicit conversion to <xref:System.Enum> and to their underlying type.  
+  
+ If every element in  requires a downcast (for example, from a base class to a derived class or from an interface to an object) and one or more elements cannot be cast to the corresponding type in , an <xref:System.InvalidCastException> is thrown.  
+  
+ If this method throws an exception while copying, the state of  is undefined.  
+  
+ This method is an O() operation, where  is .  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="Copy">
@@ -478,11 +755,52 @@
         <Parameter Name="length" Type="System.Int64" />
       </Parameters>
       <Docs>
-        <param name="sourceArray">To be added.</param>
-        <param name="destinationArray">To be added.</param>
-        <param name="length">To be added.</param>
-        <summary>To be added.</summary>
-        <remarks>To be added.</remarks>
+        <param name="sourceArray">The &lt;see cref="T:System.Array"&gt; that contains the data to copy.</param>
+        <param name="destinationArray">The &lt;see cref="T:System.Array"&gt; that receives the data.</param>
+        <param name="length">A 64-bit integer that represents the number of elements to copy. The integer must be between zero and &lt;xref:System.Int32.MaxValue?displayProperty=fullName&gt;, inclusive.</param>
+        <summary>Copies a range of elements from an &lt;see cref="T:System.Array"&gt; starting at the first element and pastes them into another &lt;see cref="T:System.Array"&gt; starting at the first element. The length is specified as a 64-bit integer.</summary>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ The  and  parameters must have the same number of dimensions. In addition,  must already have been dimensioned and must have a sufficient number of elements to accommodate the copied data.  
+  
+ When copying between multidimensional arrays, the array behaves like a long one-dimensional array, where the rows (or columns) are conceptually laid end to end. For example, if an array has three rows (or columns) with four elements each, copying six elements from the beginning of the array would copy all four elements of the first row (or column) and the first two elements of the second row (or column).  
+  
+ If  and  overlap, this method behaves as if the original values of  were preserved in a temporary location before  is overwritten.  
+  
+ [C++]  
+  
+ This method is equivalent to the standard C/C++ function `memmove`, not `memcpy`.  
+  
+ The arrays can be reference-type arrays or value-type arrays. Type downcasting is performed, as required.  
+  
+-   When copying from a reference-type array to a value-type array, each element is unboxed and then copied. When copying from a value-type array to a reference-type array, each element is boxed and then copied.  
+  
+-   When copying from a reference-type or value-type array to an <xref:System.Object> array, an <xref:System.Object> is created to hold each value or reference and then copied. When copying from an <xref:System.Object> array to a reference-type or value-type array and the assignment is not possible, an <xref:System.InvalidCastException> is thrown.  
+  
+-   If  and  are both reference-type arrays or are both arrays of type <xref:System.Object>, a shallow copy is performed. A shallow copy of an <xref:System.Array> is a new <xref:System.Array> containing references to the same elements as the original <xref:System.Array>. The elements themselves or anything referenced by the elements are not copied. In contrast, a deep copy of an <xref:System.Array> copies the elements and everything directly or indirectly referenced by the elements.  
+  
+ An <xref:System.ArrayTypeMismatchException> is thrown if the arrays are of incompatible types. Type compatibility is defined as follows:  
+  
+-   A type is compatible with itself.  
+  
+-   A value type is compatible with <xref:System.Object> and with an interface type implemented by that value type. A value type is considered connected to an interface only if it implements that interface directly. Disconnected types are not compatible.  
+  
+-   Two intrinsic (predefined) value types are compatible if copying from the source type to the destination type is a widening conversion. A widening conversion never loses information, whereas a narrowing conversion can lose information. For example, converting a 32-bit signed integer to a 64-bit signed integer is a widening conversion, and converting a 64-bit signed integer to a 32-bit signed integer is a narrowing conversion. For more information about conversions, see <xref:System.Convert>.  
+  
+-   A nonintrinsic (user-defined) value type is compatible only with itself.  
+  
+-   Enumerations have an implicit conversion to <xref:System.Enum> and to their underlying type.  
+  
+ If every element in  requires a downcast (for example, from a base class to a derived class or from an interface to an object) and one or more elements cannot be cast to the corresponding type in , an <xref:System.InvalidCastException> is thrown.  
+  
+ If this method throws an exception while copying, the state of  is undefined.  
+  
+ This method is an O() operation, where  is .  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="Copy">
@@ -511,13 +829,61 @@
         <Parameter Name="length" Type="System.Int32" />
       </Parameters>
       <Docs>
-        <param name="sourceArray">To be added.</param>
-        <param name="sourceIndex">To be added.</param>
-        <param name="destinationArray">To be added.</param>
-        <param name="destinationIndex">To be added.</param>
-        <param name="length">To be added.</param>
-        <summary>To be added.</summary>
-        <remarks>To be added.</remarks>
+        <param name="sourceArray">The &lt;see cref="T:System.Array"&gt; that contains the data to copy.</param>
+        <param name="sourceIndex">A 32-bit integer that represents the index in the  at which copying begins.</param>
+        <param name="destinationArray">The &lt;see cref="T:System.Array"&gt; that receives the data.</param>
+        <param name="destinationIndex">A 32-bit integer that represents the index in the  at which storing begins.</param>
+        <param name="length">A 32-bit integer that represents the number of elements to copy.</param>
+        <summary>Copies a range of elements from an &lt;see cref="T:System.Array"&gt; starting at the specified source index and pastes them to another &lt;see cref="T:System.Array"&gt; starting at the specified destination index. The length and the indexes are specified as 32-bit integers.</summary>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ The  and  parameters must have the same number of dimensions. In addition,  must already have been dimensioned and must have a sufficient number of elements starting from the  position to accommodate the copied data.  
+  
+ When copying between multidimensional arrays, the array behaves like a long one-dimensional array, where the rows (or columns) are conceptually laid end-to-end. For example, if an array has three rows (or columns) with four elements each, copying six elements from the beginning of the array would copy all four elements of the first row (or column) and the first two elements of the second row (or column). To start copying from the second element of the third row (or column),  must be the upper bound of the first row (or column) plus the length of the second row (or column) plus two.  
+  
+ If  and  overlap, this method behaves as if the original values of  were preserved in a temporary location before  is overwritten.  
+  
+ [C++]  
+  
+ This method is equivalent to the standard C/C++ function `memmove`, not `memcpy`.  
+  
+ The arrays can be reference-type arrays or value-type arrays. Type downcasting is performed, as required.  
+  
+-   When copying from a reference-type array to a value-type array, each element is unboxed and then copied. When copying from a value-type array to a reference-type array, each element is boxed and then copied.  
+  
+-   When copying from a reference-type or value-type array to an <xref:System.Object> array, an <xref:System.Object> is created to hold each value or reference and then copied. When copying from an <xref:System.Object> array to a reference-type or value-type array and the assignment is not possible, an <xref:System.InvalidCastException> is thrown.  
+  
+-   If  and  are both reference-type arrays or are both arrays of type <xref:System.Object>, a shallow copy is performed. A shallow copy of an <xref:System.Array> is a new <xref:System.Array> containing references to the same elements as the original <xref:System.Array>. The elements themselves or anything referenced by the elements are not copied. In contrast, a deep copy of an <xref:System.Array> copies the elements and everything directly or indirectly referenced by the elements.  
+  
+ An <xref:System.ArrayTypeMismatchException> is thrown if the arrays are of incompatible types. Type compatibility is defined as follows:  
+  
+-   A type is compatible with itself.  
+  
+-   A value type is compatible with <xref:System.Object> and with an interface type implemented by that value type. A value type is considered connected to an interface only if it implements that interface directly. Disconnected types are not compatible.  
+  
+-   Two intrinsic (predefined) value types are compatible if copying from the source type to the destination type is a widening conversion. A widening conversion never loses information, whereas a narrowing conversion can lose information. For example, converting a 32-bit signed integer to a 64-bit signed integer is a widening conversion, and converting a 64-bit signed integer to a 32-bit signed integer is a narrowing conversion. For more information about conversions, see <xref:System.Convert>.  
+  
+-   A nonintrinsic (user-defined) value type is compatible only with itself.  
+  
+-   Enumerations have an implicit conversion to <xref:System.Enum> and to their underlying type.  
+  
+ If every element in  requires a downcast (for example, from a base class to a derived class or from an interface to an object) and one or more elements cannot be cast to the corresponding type in , an <xref:System.InvalidCastException> is thrown.  
+  
+ If this method throws an exception while copying, the state of  is undefined.  
+  
+ This method is an O() operation, where  is .  
+  
+   
+  
+## Examples  
+ The following code example shows how to copy from one <xref:System.Array> of type <xref:System.Object> to another <xref:System.Array> of type integer.  
+  
+ [!CODE [Classic Array.Copy1 Example#1](../CodeSnippet/VS_Snippets_CLR_Classic/classic Array.Copy1 Example#1)]  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="Copy">
@@ -543,13 +909,61 @@
         <Parameter Name="length" Type="System.Int64" />
       </Parameters>
       <Docs>
-        <param name="sourceArray">To be added.</param>
-        <param name="sourceIndex">To be added.</param>
-        <param name="destinationArray">To be added.</param>
-        <param name="destinationIndex">To be added.</param>
-        <param name="length">To be added.</param>
-        <summary>To be added.</summary>
-        <remarks>To be added.</remarks>
+        <param name="sourceArray">The &lt;see cref="T:System.Array"&gt; that contains the data to copy.</param>
+        <param name="sourceIndex">A 64-bit integer that represents the index in the  at which copying begins.</param>
+        <param name="destinationArray">The &lt;see cref="T:System.Array"&gt; that receives the data.</param>
+        <param name="destinationIndex">A 64-bit integer that represents the index in the  at which storing begins.</param>
+        <param name="length">A 64-bit integer that represents the number of elements to copy. The integer must be between zero and &lt;xref:System.Int32.MaxValue?displayProperty=fullName&gt;, inclusive.</param>
+        <summary>Copies a range of elements from an &lt;see cref="T:System.Array"&gt; starting at the specified source index and pastes them to another &lt;see cref="T:System.Array"&gt; starting at the specified destination index. The length and the indexes are specified as 64-bit integers.</summary>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ The  and  parameters must have the same number of dimensions. In addition,  must already have been dimensioned and must have a sufficient number of elements starting from the  position to accommodate the copied data.  
+  
+ When copying between multidimensional arrays, the array behaves like a long one-dimensional array, where the rows (or columns) are conceptually laid end-to-end. For example, if an array has three rows (or columns) with four elements each, copying six elements from the beginning of the array would copy all four elements of the first row (or column) and the first two elements of the second row (or column). To start copying from the second element of the third row (or column),  must be the upper bound of the first row (or column) plus the length of the second row (or column) plus two.  
+  
+ If  and  overlap, this method behaves as if the original values of  were preserved in a temporary location before  is overwritten.  
+  
+ [C++]  
+  
+ This method is equivalent to the standard C/C++ function `memmove`, not `memcpy`.  
+  
+ The arrays can be reference-type arrays or value-type arrays. Type downcasting is performed, as required.  
+  
+-   When copying from a reference-type array to a value-type array, each element is unboxed and then copied. When copying from a value-type array to a reference-type array, each element is boxed and then copied.  
+  
+-   When copying from a reference-type or value-type array to an <xref:System.Object> array, an <xref:System.Object> is created to hold each value or reference and then copied. When copying from an <xref:System.Object> array to a reference-type or value-type array and the assignment is not possible, an <xref:System.InvalidCastException> is thrown.  
+  
+-   If  and  are both reference-type arrays or are both arrays of type <xref:System.Object>, a shallow copy is performed. A shallow copy of an <xref:System.Array> is a new <xref:System.Array>containing references to the same elements as the original <xref:System.Array>. The elements themselves or anything referenced by the elements are not copied. In contrast, a deep copy of an <xref:System.Array> copies the elements and everything directly or indirectly referenced by the elements.  
+  
+ An <xref:System.ArrayTypeMismatchException> is thrown if the arrays are of incompatible types. Type compatibility is defined as follows:  
+  
+-   A type is compatible with itself.  
+  
+-   A value type is compatible with <xref:System.Object> and with an interface type implemented by that value type. A value type is considered connected to an interface only if it implements that interface directly. Disconnected types are not compatible.  
+  
+-   Two intrinsic (predefined) value types are compatible if copying from the source type to the destination type is a widening conversion. A widening conversion never loses information, whereas a narrowing conversion can lose information. For example, converting a 32-bit signed integer to a 64-bit signed integer is a widening conversion, and converting a 64-bit signed integer to a 32-bit signed integer is a narrowing conversion. For more information about conversions, see <xref:System.Convert>.  
+  
+-   A nonintrinsic (user-defined) value type is compatible only with itself.  
+  
+-   Enumerations have an implicit conversion to <xref:System.Enum> and to their underlying type.  
+  
+ If every element in  requires a downcast (for example, from a base class to a derived class or from an interface to an object) and one or more elements cannot be cast to the corresponding type in , an <xref:System.InvalidCastException> is thrown.  
+  
+ If this method throws an exception while copying, the state of  is undefined.  
+  
+ This method is an O() operation, where  is .  
+  
+   
+  
+## Examples  
+ The following code example shows how to copy from one <xref:System.Array> of type <xref:System.Object> to another <xref:System.Array> of type integer.  
+  
+ [!CODE [Classic Array.Copy1 Example#1](../CodeSnippet/VS_Snippets_CLR_Classic/classic Array.Copy1 Example#1)]  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="CopyTo">
@@ -567,10 +981,34 @@
         <Parameter Name="index" Type="System.Int32" />
       </Parameters>
       <Docs>
-        <param name="array">To be added.</param>
-        <param name="index">To be added.</param>
-        <summary>To be added.</summary>
-        <remarks>To be added.</remarks>
+        <param name="array">The one-dimensional array that is the destination of the elements copied from the current array.</param>
+        <param name="index">A 32-bit integer that represents the index in  at which copying begins.</param>
+        <summary>Copies all the elements of the current one-dimensional array to the specified one-dimensional array starting at the specified destination array index. The index is specified as a 32-bit integer.</summary>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ This method copies all the elements of the current array instance to the  destination array, starting at index . The  destination array must already have been dimensioned and must have a sufficient number of elements to accommodate the copied elements. Otherwise, the method throws an exception.  
+  
+ This method supports the <xref:System.Collections.ICollection?displayProperty=fullName> interface. If implementing <xref:System.Collections.ICollection?displayProperty=fullName> is not explicitly required, use <xref:System.Array.Copy%2A> to avoid an extra indirection.  
+  
+ If this method throws an exception while copying, the state of  is undefined.  
+  
+ This method is an O() operation, where  is <xref:System.Array.Length%2A>.It performs a shallow copy only.  
+  
+   
+  
+## Examples  
+ The following code example shows how to copy an <xref:System.Array> to another <xref:System.Array>.  
+  
+ [!CODE [Classic Array.CopyTo Example#1](../CodeSnippet/VS_Snippets_CLR_Classic/classic Array.CopyTo Example#1)]  
+  
+ The following code example shows how to copy an <xref:System.Array> to another <xref:System.Array> with a nonzero lower bound. Note that the entire source <xref:System.Array> is copied, including empty elements that overwrite existing elements in the target <xref:System.Array>.  
+  
+ [!CODE [Classic Array.CopyTo Example#2](../CodeSnippet/VS_Snippets_CLR_Classic/classic Array.CopyTo Example#2)]  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="CopyTo">
@@ -593,10 +1031,34 @@
         <Parameter Name="index" Type="System.Int64" />
       </Parameters>
       <Docs>
-        <param name="array">To be added.</param>
-        <param name="index">To be added.</param>
-        <summary>To be added.</summary>
-        <remarks>To be added.</remarks>
+        <param name="array">The one-dimensional array that is the destination of the elements copied from the current array.</param>
+        <param name="index">A 64-bit integer that represents the index in  at which copying begins.</param>
+        <summary>Copies all the elements of the current one-dimensional array to the specified one-dimensional array starting at the specified destination array index. The index is specified as a 64-bit integer.</summary>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ This method copies all the elements of the current array instance to the  destination array, starting at index . The  destination array must already have been dimensioned and must have a sufficient number of elements to accommodate the copied elements. Otherwise, the method throws an exception.  
+  
+ This method supports the <xref:System.Collections.ICollection?displayProperty=fullName> interface. If implementing <xref:System.Collections.ICollection?displayProperty=fullName> is not explicitly required, use <xref:System.Array.Copy%2A> to avoid an extra indirection.  
+  
+ If this method throws an exception while copying, the state of  is undefined.  
+  
+ This method is an O() operation, where  is <xref:System.Array.Length%2A>.It performs a shallow copy only.  
+  
+   
+  
+## Examples  
+ The following code example shows how to copy an <xref:System.Array> to another <xref:System.Array>.  
+  
+ [!CODE [Classic Array.CopyTo Example#1](../CodeSnippet/VS_Snippets_CLR_Classic/classic Array.CopyTo Example#1)]  
+  
+ The following code example shows how to copy an <xref:System.Array> to another <xref:System.Array> with a nonzero lower bound. Note that the entire source <xref:System.Array> is copied, including empty elements that overwrite existing elements in the target <xref:System.Array>.  
+  
+ [!CODE [Classic Array.CopyTo Example#2](../CodeSnippet/VS_Snippets_CLR_Classic/classic Array.CopyTo Example#2)]  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="CreateInstance">
@@ -619,11 +1081,29 @@
         <Parameter Name="length" Type="System.Int32" />
       </Parameters>
       <Docs>
-        <param name="elementType">To be added.</param>
-        <param name="length">To be added.</param>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
-        <remarks>To be added.</remarks>
+        <param name="elementType">The &lt;see cref="T:System.Type"&gt; of the &lt;xref:System.Array&gt; to create.</param>
+        <param name="length">The size of the &lt;see cref="T:System.Array"&gt; to create.</param>
+        <summary>Creates a one-dimensional &lt;see cref="T:System.Array"&gt; of the specified &lt;xref:System.Type&gt; and length, with zero-based indexing.</summary>
+        <returns>A new one-dimensional &lt;see cref="T:System.Array"&gt; of the specified &lt;xref:System.Type&gt; with the specified length, using zero-based indexing.</returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ Unlike most classes, <xref:System.Array> provides the <xref:System.Array.CreateInstance%2A> method, instead of public constructors, to allow for late bound access.  
+  
+ Reference-type elements are initialized to `null`. Value-type elements are initialized to zero.  
+  
+ This method is an O() operation, where  is .  
+  
+   
+  
+## Examples  
+ The following code example shows how to create and initialize a one-dimensional <xref:System.Array>.  
+  
+ [!CODE [Classic Array.CreateInstance Example#1](../CodeSnippet/VS_Snippets_CLR_Classic/classic Array.CreateInstance Example#1)]  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="CreateInstance">
@@ -652,11 +1132,31 @@
         </Parameter>
       </Parameters>
       <Docs>
-        <param name="elementType">To be added.</param>
-        <param name="lengths">To be added.</param>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
-        <remarks>To be added.</remarks>
+        <param name="elementType">The &lt;see cref="T:System.Type"&gt; of the &lt;xref:System.Array&gt; to create.</param>
+        <param name="lengths">An array of 32-bit integers that represent the size of each dimension of the &lt;see cref="T:System.Array"&gt; to create.</param>
+        <summary>Creates a multidimensional &lt;see cref="T:System.Array"&gt; of the specified &lt;xref:System.Type&gt; and dimension lengths, with zero-based indexing. The dimension lengths are specified in an array of 32-bit integers.</summary>
+        <returns>A new multidimensional &lt;see cref="T:System.Array"&gt; of the specified &lt;xref:System.Type&gt; with the specified length for each dimension, using zero-based indexing.</returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ Unlike most classes, <xref:System.Array> provides the <xref:System.Array.CreateInstance%2A> method, instead of public constructors, to allow for late bound access.  
+  
+ The number of elements in the  array must equal the number of dimensions in the new <xref:System.Array>. Each element of the  array must specify the length of the corresponding dimension in the new <xref:System.Array>.  
+  
+ Reference-type elements are initialized to `null`. Value-type elements are initialized to zero.  
+  
+ This method is an O() operation, where  is the product of all values in .  
+  
+   
+  
+## Examples  
+ The following code example shows how to create and initialize a multidimensional <xref:System.Array>.  
+  
+ [!CODE [Classic Array.CreateInstance3 Example#1](../CodeSnippet/VS_Snippets_CLR_Classic/classic Array.CreateInstance3 Example#1)]  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="CreateInstance">
@@ -680,11 +1180,31 @@
         </Parameter>
       </Parameters>
       <Docs>
-        <param name="elementType">To be added.</param>
-        <param name="lengths">To be added.</param>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
-        <remarks>To be added.</remarks>
+        <param name="elementType">The &lt;see cref="T:System.Type"&gt; of the &lt;xref:System.Array&gt; to create.</param>
+        <param name="lengths">An array of 64-bit integers that represent the size of each dimension of the &lt;see cref="T:System.Array"&gt; to create. Each integer in the array must be between zero and &lt;xref:System.Int32.MaxValue?displayProperty=fullName&gt;, inclusive.</param>
+        <summary>Creates a multidimensional &lt;see cref="T:System.Array"&gt; of the specified &lt;xref:System.Type&gt; and dimension lengths, with zero-based indexing. The dimension lengths are specified in an array of 64-bit integers.</summary>
+        <returns>A new multidimensional &lt;see cref="T:System.Array"&gt; of the specified &lt;xref:System.Type&gt; with the specified length for each dimension, using zero-based indexing.</returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ Unlike most classes, <xref:System.Array> provides the <xref:System.Array.CreateInstance%2A> method, instead of public constructors, to allow for late bound access.  
+  
+ The number of elements in the  array must equal the number of dimensions in the new <xref:System.Array>. Each element of the  array must specify the length of the corresponding dimension in the new <xref:System.Array>.  
+  
+ Reference-type elements are initialized to `null`. Value-type elements are initialized to zero.  
+  
+ This method is an O() operation, where  is the product of all values in .  
+  
+   
+  
+## Examples  
+ The following code example shows how to create and initialize a multidimensional <xref:System.Array>.  
+  
+ [!CODE [Classic Array.CreateInstance3 Example#1](../CodeSnippet/VS_Snippets_CLR_Classic/classic Array.CreateInstance3 Example#1)]  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="CreateInstance">
@@ -708,12 +1228,30 @@
         <Parameter Name="length2" Type="System.Int32" />
       </Parameters>
       <Docs>
-        <param name="elementType">To be added.</param>
-        <param name="length1">To be added.</param>
-        <param name="length2">To be added.</param>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
-        <remarks>To be added.</remarks>
+        <param name="elementType">The &lt;see cref="T:System.Type"&gt; of the &lt;xref:System.Array&gt; to create.</param>
+        <param name="length1">The size of the first dimension of the &lt;see cref="T:System.Array"&gt; to create.</param>
+        <param name="length2">The size of the second dimension of the &lt;see cref="T:System.Array"&gt; to create.</param>
+        <summary>Creates a two-dimensional &lt;see cref="T:System.Array"&gt; of the specified &lt;xref:System.Type&gt; and dimension lengths, with zero-based indexing.</summary>
+        <returns>A new two-dimensional &lt;see cref="T:System.Array"&gt; of the specified &lt;xref:System.Type&gt; with the specified length for each dimension, using zero-based indexing.</returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ Unlike most classes, <xref:System.Array> provides the<xref:System.Array.CreateInstance%2A> method, instead of public constructors, to allow for late bound access.  
+  
+ Reference-type elements are initialized to `null`. Value-type elements are initialized to zero.  
+  
+ This method is an O() operation, where  is the product of  and .  
+  
+   
+  
+## Examples  
+ The following code example shows how to create and initialize a two-dimensional <xref:System.Array>.  
+  
+ [!CODE [Classic Array.CreateInstance1 Example#1](../CodeSnippet/VS_Snippets_CLR_Classic/classic Array.CreateInstance1 Example#1)]  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="CreateInstance">
@@ -737,12 +1275,36 @@
         <Parameter Name="lowerBounds" Type="System.Int32[]" />
       </Parameters>
       <Docs>
-        <param name="elementType">To be added.</param>
-        <param name="lengths">To be added.</param>
-        <param name="lowerBounds">To be added.</param>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
-        <remarks>To be added.</remarks>
+        <param name="elementType">The &lt;see cref="T:System.Type"&gt; of the &lt;xref:System.Array&gt; to create.</param>
+        <param name="lengths">A one-dimensional array that contains the size of each dimension of the &lt;see cref="T:System.Array"&gt; to create.</param>
+        <param name="lowerBounds">A one-dimensional array that contains the lower bound (starting index) of each dimension of the &lt;see cref="T:System.Array"&gt; to create.</param>
+        <summary>Creates a multidimensional &lt;see cref="T:System.Array"&gt; of the specified &lt;xref:System.Type&gt; and dimension lengths, with the specified lower bounds.</summary>
+        <returns>A new multidimensional &lt;see cref="T:System.Array"&gt; of the specified &lt;xref:System.Type&gt; with the specified length and lower bound for each dimension.</returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ Unlike most classes, <xref:System.Array> provides the <xref:System.Array.CreateInstance%2A> method, instead of public constructors, to allow for late bound access.  
+  
+ The  and  arrays must have the same number of elements. The number of elements in the  array must equal the number of dimensions in the new <xref:System.Array>.  
+  
+ Each element of the  array must specify the length of the corresponding dimension in the new <xref:System.Array>.  
+  
+ Each element of the  array must specify the lower bound of the corresponding dimension in the new <xref:System.Array>. Generally, the .NET Framework class library and many programming languages do not handle nonzero lower bounds.  
+  
+ Reference-type elements are initialized to `null`. Value-type elements are initialized to zero.  
+  
+ This method is an O() operation, where  is the product of all values in .  
+  
+   
+  
+## Examples  
+ The following code example shows how to create and initialize a multidimensional <xref:System.Array> with specified lower bounds.  
+  
+ [!CODE [Classic Array.CreateInstance4 Example#1](../CodeSnippet/VS_Snippets_CLR_Classic/classic Array.CreateInstance4 Example#1)]  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="CreateInstance">
@@ -767,13 +1329,31 @@
         <Parameter Name="length3" Type="System.Int32" />
       </Parameters>
       <Docs>
-        <param name="elementType">To be added.</param>
-        <param name="length1">To be added.</param>
-        <param name="length2">To be added.</param>
-        <param name="length3">To be added.</param>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
-        <remarks>To be added.</remarks>
+        <param name="elementType">The &lt;see cref="T:System.Type"&gt; of the &lt;xref:System.Array&gt; to create.</param>
+        <param name="length1">The size of the first dimension of the &lt;see cref="T:System.Array"&gt; to create.</param>
+        <param name="length2">The size of the second dimension of the &lt;see cref="T:System.Array"&gt; to create.</param>
+        <param name="length3">The size of the third dimension of the &lt;see cref="T:System.Array"&gt; to create.</param>
+        <summary>Creates a three-dimensional &lt;see cref="T:System.Array"&gt; of the specified &lt;xref:System.Type&gt; and dimension lengths, with zero-based indexing.</summary>
+        <returns>A new three-dimensional &lt;see cref="T:System.Array"&gt; of the specified &lt;xref:System.Type&gt; with the specified length for each dimension, using zero-based indexing.</returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ Unlike most classes, <xref:System.Array> provides the <xref:System.Array.CreateInstance%2A> method, instead of public constructors, to allow for late bound access.  
+  
+ Reference-type elements are initialized to `null`. Value-type elements are initialized to zero.  
+  
+ This method is an O() operation, where  is the product of , , and .  
+  
+   
+  
+## Examples  
+ The following code example shows how to create and initialize a three-dimensional <xref:System.Array>.  
+  
+ [!CODE [Classic Array.CreateInstance2 Example#1](../CodeSnippet/VS_Snippets_CLR_Classic/classic Array.CreateInstance2 Example#1)]  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="Empty&lt;T&gt;">
@@ -1111,9 +1691,39 @@
       </ReturnValue>
       <Parameters />
       <Docs>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
-        <remarks>To be added.</remarks>
+        <summary>Returns an &lt;see cref="T:System.Collections.IEnumerator"&gt; for the &lt;xref:System.Array&gt;.</summary>
+        <returns>An &lt;see cref="T:System.Collections.IEnumerator"&gt; for the &lt;xref:System.Array&gt;.</returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ [Visual Basic, C#]  
+  
+ The `foreach` statement of the C# language (`for each` in C++, `For Each` in Visual Basic) hides the complexity of the enumerators. Therefore, using `foreach` is recommended, instead of directly manipulating the enumerator.  
+  
+ Enumerators can be used to read the data in the collection, but they cannot be used to modify the underlying collection.  
+  
+ Initially, the enumerator is positioned before the first element in the collection. <xref:System.Collections.IEnumerator.Reset%2A> also brings the enumerator back to this position.  At this position, <xref:System.Collections.IEnumerator.Current%2A> is undefined. Therefore, you must call <xref:System.Collections.IEnumerator.MoveNext%2A> to advance the enumerator to the first element of the collection before reading the value of <xref:System.Collections.IEnumerator.Current%2A>.  
+  
+ <xref:System.Collections.IEnumerator.Current%2A> returns the same object until either <xref:System.Collections.IEnumerator.MoveNext%2A> or <xref:System.Collections.IEnumerator.Reset%2A> is called. <xref:System.Collections.IEnumerator.MoveNext%2A> sets <xref:System.Collections.IEnumerator.Current%2A> to the next element.  
+  
+ If <xref:System.Collections.IEnumerator.MoveNext%2A> passes the end of the collection, the enumerator is positioned after the last element in the collection and <xref:System.Collections.IEnumerator.MoveNext%2A> returns `false`. When the enumerator is at this position, subsequent calls to <xref:System.Collections.IEnumerator.MoveNext%2A> also return `false`. If the last call to <xref:System.Collections.IEnumerator.MoveNext%2A> returned `false`, <xref:System.Collections.IEnumerator.Current%2A> is undefined. To set <xref:System.Collections.IEnumerator.Current%2A> to the first element of the collection again, you can call <xref:System.Collections.IEnumerator.Reset%2A> followed by <xref:System.Collections.IEnumerator.MoveNext%2A>.  
+  
+ An enumerator remains valid as long as the collection remains unchanged. If changes are made to the collection, such as adding, modifying, or deleting elements, the enumerator is irrecoverably invalidated and its behavior is undefined.  
+  
+ The enumerator does not have exclusive access to the collection; therefore, enumerating through a collection is intrinsically not a thread safe procedure.  To guarantee thread safety during enumeration, you can lock the collection during the entire enumeration.  To allow the collection to be accessed by multiple threads for reading and writing, you must implement your own synchronization.  
+  
+ This method is an O(1) operation.  
+  
+   
+  
+## Examples  
+ The following code example shows how to use GetEnumerator to list the elements of an array.  
+  
+ [!CODE [System.Array_GetEnumerator#1](../CodeSnippet/VS_Snippets_CLR_System/system.Array_GetEnumerator#1)]  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="GetLength">
@@ -1135,10 +1745,26 @@
         <Parameter Name="dimension" Type="System.Int32" />
       </Parameters>
       <Docs>
-        <param name="dimension">To be added.</param>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
-        <remarks>To be added.</remarks>
+        <param name="dimension">A zero-based dimension of the &lt;see cref="T:System.Array"&gt; whose length needs to be determined.</param>
+        <summary>Gets a 32-bit integer that represents the number of elements in the specified dimension of the &lt;see cref="T:System.Array"&gt;.</summary>
+        <returns>A 32-bit integer that represents the number of elements in the specified dimension.</returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ An example of GetLength is `GetLength(0)`, which returns the number of elements in the first dimension of the <xref:System.Array>.  
+  
+ This method is an O(1) operation.  
+  
+   
+  
+## Examples  
+ The following example shows how to use GetLength to display the dimensions of two arrays with different ranks.  
+  
+ [!CODE [System.Array.GetLength#1](../CodeSnippet/VS_Snippets_CLR_System/system.array.getlength#1)]  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="GetLongLength">
@@ -1160,10 +1786,19 @@
         <Parameter Name="dimension" Type="System.Int32" />
       </Parameters>
       <Docs>
-        <param name="dimension">To be added.</param>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
-        <remarks>To be added.</remarks>
+        <param name="dimension">A zero-based dimension of the &lt;see cref="T:System.Array"&gt; whose length needs to be determined.</param>
+        <summary>Gets a 64-bit integer that represents the number of elements in the specified dimension of the &lt;see cref="T:System.Array"&gt;.</summary>
+        <returns>A 64-bit integer that represents the number of elements in the specified dimension.</returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ An example of GetLongLength is `GetLongLength(0)`, which returns the number of elements in the first dimension of the <xref:System.Array>.  
+  
+ This method is an O(1) operation.  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="GetLowerBound">
@@ -1188,10 +1823,30 @@
         <Parameter Name="dimension" Type="System.Int32" />
       </Parameters>
       <Docs>
-        <param name="dimension">To be added.</param>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
-        <remarks>To be added.</remarks>
+        <param name="dimension">A zero-based dimension of the array whose starting index needs to be determined.</param>
+        <summary>Gets the index of the first element of the specified dimension in the array.</summary>
+        <returns>The index of the first element of the specified dimension in the array.</returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ `GetLowerBound(0)` returns the starting index of the first dimension of the array, and `GetLowerBound(Rank - 1)` returns the starting index of the last dimension of the array.  
+  
+ The GetLowerBound method always returns a value that indicates the index of the lower bound of the array, even if the array is empty.  
+  
+ Note that, although most arrays in the .NET Framework are zero-based (that is, the GetLowerBound method returns zero for each dimension of an array), the .NET Framework does support arrays that are not zero-based. Such arrays can be created with the [CreateInstance(Type, Int32\[\], Int32\[\])](assetId:///M:System.Array.CreateInstance(System.Type,System.Int32[],System.Int32[])?qualifyHint=False&autoUpgrade=False) method, and can also be returned from unmanaged code.  
+  
+ This method is an O(1) operation.  
+  
+   
+  
+## Examples  
+ The following example uses the GetLowerBound and <xref:System.Array.GetUpperBound%2A> methods to display the bounds of a one-dimensional and two-dimensional array and to display the values of their array elements.  
+  
+ [!CODE [System.Array.GetUpperBound#1](../CodeSnippet/VS_Snippets_CLR_System/system.array.getupperbound#1)]  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="GetUpperBound">
@@ -1216,10 +1871,26 @@
         <Parameter Name="dimension" Type="System.Int32" />
       </Parameters>
       <Docs>
-        <param name="dimension">To be added.</param>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
-        <remarks>To be added.</remarks>
+        <param name="dimension">A zero-based dimension of the array whose upper bound needs to be determined.</param>
+        <summary>Gets the index of the last element of the specified dimension in the array.</summary>
+        <returns>The index of the last element of the specified dimension in the array, or -1 if the specified dimension is empty.</returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ `GetUpperBound(0)` returns the last index in the first dimension of the array, and `GetUpperBound(Rank - 1)` returns the last index of the last dimension of the array.  
+  
+ This method is an O(1) operation.  
+  
+   
+  
+## Examples  
+ The following example uses the <xref:System.Array.GetLowerBound%2A> and GetUpperBound methods to display the bounds of a one-dimensional and two-dimensional array and to display the values of their array elements.  
+  
+ [!CODE [System.Array.GetUpperBound#1](../CodeSnippet/VS_Snippets_CLR_System/system.array.getupperbound#1)]  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="GetValue">
@@ -1241,10 +1912,26 @@
         <Parameter Name="index" Type="System.Int32" />
       </Parameters>
       <Docs>
-        <param name="index">To be added.</param>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
-        <remarks>To be added.</remarks>
+        <param name="index">A 32-bit integer that represents the position of the &lt;see cref="T:System.Array"&gt; element to get.</param>
+        <summary>Gets the value at the specified position in the one-dimensional &lt;see cref="T:System.Array"&gt;. The index is specified as a 32-bit integer.</summary>
+        <returns>The value at the specified position in the one-dimensional &lt;see cref="T:System.Array"&gt;.</returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ The <xref:System.Array.GetLowerBound%2A> and <xref:System.Array.GetUpperBound%2A> methods can determine whether the value of  is out of bounds.  
+  
+ This method is an O(1) operation.  
+  
+   
+  
+## Examples  
+ The following code example demonstrates how to set and get a specific value in a one-dimensional or multidimensional array.  
+  
+ [!CODE [System.Array_GetSetValue#1](../CodeSnippet/VS_Snippets_CLR_System/system.Array_GetSetValue#1)]  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="GetValue">
@@ -1272,10 +1959,28 @@
         </Parameter>
       </Parameters>
       <Docs>
-        <param name="indices">To be added.</param>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
-        <remarks>To be added.</remarks>
+        <param name="indices">A one-dimensional array of 32-bit integers that represent the indexes specifying the position of the &lt;see cref="T:System.Array"&gt; element to get.</param>
+        <summary>Gets the value at the specified position in the multidimensional &lt;see cref="T:System.Array"&gt;. The indexes are specified as an array of 32-bit integers.</summary>
+        <returns>The value at the specified position in the multidimensional &lt;see cref="T:System.Array"&gt;.</returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ The number of elements in  must equal the number of dimensions in the <xref:System.Array>. All elements in the  array must collectively specify the position of the desired element in the multidimensional <xref:System.Array>.  
+  
+ The <xref:System.Array.GetLowerBound%2A> and <xref:System.Array.GetUpperBound%2A> methods can determine whether any of the indexes is out of bounds.  
+  
+ This method is an O(1) operation.  
+  
+   
+  
+## Examples  
+ The following code example demonstrates how to set and get a specific value in a one-dimensional or multidimensional array.  
+  
+ [!CODE [System.Array_GetSetValue#1](../CodeSnippet/VS_Snippets_CLR_System/system.Array_GetSetValue#1)]  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="GetValue">
@@ -1297,10 +2002,26 @@
         <Parameter Name="index" Type="System.Int64" />
       </Parameters>
       <Docs>
-        <param name="index">To be added.</param>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
-        <remarks>To be added.</remarks>
+        <param name="index">A 64-bit integer that represents the position of the &lt;see cref="T:System.Array"&gt; element to get.</param>
+        <summary>Gets the value at the specified position in the one-dimensional &lt;see cref="T:System.Array"&gt;. The index is specified as a 64-bit integer.</summary>
+        <returns>The value at the specified position in the one-dimensional &lt;see cref="T:System.Array"&gt;.</returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ The <xref:System.Array.GetLowerBound%2A> and <xref:System.Array.GetUpperBound%2A> methods can determine whether the value of  is out of bounds.  
+  
+ This method is an O(1) operation.  
+  
+   
+  
+## Examples  
+ The following code example demonstrates how to set and get a specific value in a one-dimensional or multidimensional array.  
+  
+ [!CODE [System.Array_GetSetValue#1](../CodeSnippet/VS_Snippets_CLR_System/system.Array_GetSetValue#1)]  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="GetValue">
@@ -1328,10 +2049,28 @@
         </Parameter>
       </Parameters>
       <Docs>
-        <param name="indices">To be added.</param>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
-        <remarks>To be added.</remarks>
+        <param name="indices">A one-dimensional array of 64-bit integers that represent the indexes specifying the position of the &lt;see cref="T:System.Array"&gt; element to get.</param>
+        <summary>Gets the value at the specified position in the multidimensional &lt;see cref="T:System.Array"&gt;. The indexes are specified as an array of 64-bit integers.</summary>
+        <returns>The value at the specified position in the multidimensional &lt;see cref="T:System.Array"&gt;.</returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ The number of elements in  must equal the number of dimensions in the <xref:System.Array>. All elements in the  array must collectively specify the position of the desired element in the multidimensional <xref:System.Array>.  
+  
+ The <xref:System.Array.GetLowerBound%2A> and <xref:System.Array.GetUpperBound%2A> methods can determine whether any of the indexes is out of bounds.  
+  
+ This method is an O(1) operation.  
+  
+   
+  
+## Examples  
+ The following code example demonstrates how to set and get a specific value in a one-dimensional or multidimensional array.  
+  
+ [!CODE [System.Array_GetSetValue#1](../CodeSnippet/VS_Snippets_CLR_System/system.Array_GetSetValue#1)]  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="GetValue">
@@ -1354,11 +2093,27 @@
         <Parameter Name="index2" Type="System.Int32" />
       </Parameters>
       <Docs>
-        <param name="index1">To be added.</param>
-        <param name="index2">To be added.</param>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
-        <remarks>To be added.</remarks>
+        <param name="index1">A 32-bit integer that represents the first-dimension index of the &lt;see cref="T:System.Array"&gt; element to get.</param>
+        <param name="index2">A 32-bit integer that represents the second-dimension index of the &lt;see cref="T:System.Array"&gt; element to get.</param>
+        <summary>Gets the value at the specified position in the two-dimensional &lt;see cref="T:System.Array"&gt;. The indexes are specified as 32-bit integers.</summary>
+        <returns>The value at the specified position in the two-dimensional &lt;see cref="T:System.Array"&gt;.</returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ The <xref:System.Array.GetLowerBound%2A> and <xref:System.Array.GetUpperBound%2A> methods can determine whether any of the indexes is out of bounds.  
+  
+ This method is an O(1) operation.  
+  
+   
+  
+## Examples  
+ The following code example demonstrates how to set and get a specific value in a one-dimensional or multidimensional array.  
+  
+ [!CODE [System.Array_GetSetValue#1](../CodeSnippet/VS_Snippets_CLR_System/system.Array_GetSetValue#1)]  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="GetValue">
@@ -1381,11 +2136,27 @@
         <Parameter Name="index2" Type="System.Int64" />
       </Parameters>
       <Docs>
-        <param name="index1">To be added.</param>
-        <param name="index2">To be added.</param>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
-        <remarks>To be added.</remarks>
+        <param name="index1">A 64-bit integer that represents the first-dimension index of the &lt;see cref="T:System.Array"&gt; element to get.</param>
+        <param name="index2">A 64-bit integer that represents the second-dimension index of the &lt;see cref="T:System.Array"&gt; element to get.</param>
+        <summary>Gets the value at the specified position in the two-dimensional &lt;see cref="T:System.Array"&gt;. The indexes are specified as 64-bit integers.</summary>
+        <returns>The value at the specified position in the two-dimensional &lt;see cref="T:System.Array"&gt;.</returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ The <xref:System.Array.GetLowerBound%2A> and <xref:System.Array.GetUpperBound%2A> methods can determine whether any of the indexes is out of bounds.  
+  
+ This method is an O(1) operation.  
+  
+   
+  
+## Examples  
+ The following code example demonstrates how to set and get a specific value in a one-dimensional or multidimensional array.  
+  
+ [!CODE [System.Array_GetSetValue#1](../CodeSnippet/VS_Snippets_CLR_System/system.Array_GetSetValue#1)]  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="GetValue">
@@ -1409,12 +2180,28 @@
         <Parameter Name="index3" Type="System.Int32" />
       </Parameters>
       <Docs>
-        <param name="index1">To be added.</param>
-        <param name="index2">To be added.</param>
-        <param name="index3">To be added.</param>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
-        <remarks>To be added.</remarks>
+        <param name="index1">A 32-bit integer that represents the first-dimension index of the &lt;see cref="T:System.Array"&gt; element to get.</param>
+        <param name="index2">A 32-bit integer that represents the second-dimension index of the &lt;see cref="T:System.Array"&gt; element to get.</param>
+        <param name="index3">A 32-bit integer that represents the third-dimension index of the &lt;see cref="T:System.Array"&gt; element to get.</param>
+        <summary>Gets the value at the specified position in the three-dimensional &lt;see cref="T:System.Array"&gt;. The indexes are specified as 32-bit integers.</summary>
+        <returns>The value at the specified position in the three-dimensional &lt;see cref="T:System.Array"&gt;.</returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ The <xref:System.Array.GetLowerBound%2A> and <xref:System.Array.GetUpperBound%2A> methods can determine whether any of the indexes is out of bounds.  
+  
+ This method is an O(1) operation.  
+  
+   
+  
+## Examples  
+ The following code example demonstrates how to set and get a specific value in a one-dimensional or multidimensional array.  
+  
+ [!CODE [System.Array_GetSetValue#1](../CodeSnippet/VS_Snippets_CLR_System/system.Array_GetSetValue#1)]  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="GetValue">
@@ -1438,12 +2225,28 @@
         <Parameter Name="index3" Type="System.Int64" />
       </Parameters>
       <Docs>
-        <param name="index1">To be added.</param>
-        <param name="index2">To be added.</param>
-        <param name="index3">To be added.</param>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
-        <remarks>To be added.</remarks>
+        <param name="index1">A 64-bit integer that represents the first-dimension index of the &lt;see cref="T:System.Array"&gt; element to get.</param>
+        <param name="index2">A 64-bit integer that represents the second-dimension index of the &lt;see cref="T:System.Array"&gt; element to get.</param>
+        <param name="index3">A 64-bit integer that represents the third-dimension index of the &lt;see cref="T:System.Array"&gt; element to get.</param>
+        <summary>Gets the value at the specified position in the three-dimensional &lt;see cref="T:System.Array"&gt;. The indexes are specified as 64-bit integers.</summary>
+        <returns>The value at the specified position in the three-dimensional &lt;see cref="T:System.Array"&gt;.</returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ The <xref:System.Array.GetLowerBound%2A> and <xref:System.Array.GetUpperBound%2A> methods can determine whether any of the indexes is out of bounds.  
+  
+ This method is an O(1) operation.  
+  
+   
+  
+## Examples  
+ The following code example demonstrates how to set and get a specific value in a one-dimensional or multidimensional array.  
+  
+ [!CODE [System.Array_GetSetValue#1](../CodeSnippet/VS_Snippets_CLR_System/system.Array_GetSetValue#1)]  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="IndexOf">
@@ -1466,11 +2269,35 @@
         <Parameter Name="value" Type="System.Object" />
       </Parameters>
       <Docs>
-        <param name="array">To be added.</param>
-        <param name="value">To be added.</param>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
-        <remarks>To be added.</remarks>
+        <param name="array">The one-dimensional array to search.</param>
+        <param name="value">The object to locate in .</param>
+        <summary>Searches for the specified object and returns the index of its first occurrence in a one-dimensional array.</summary>
+        <returns>The index of the first occurrence of  in , if found; otherwise, the lower bound of the array minus 1.</returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ This method searches all the elements of a one-dimensional arrayfor . To determine whether  exists in , the method performs an equality comparison by calling each element's `Equals` method until it finds a match. This means that if the element overrides the <xref:System.Object.Equals%28System.Object%29?displayProperty=fullName> method, that override is called.  
+  
+ Because most arrays have a lower bound of zero, this method generally returns –1 if isn’t found. In the rare case that the lower bound of the array is equal to <xref:System.Int32.MinValue?displayProperty=fullName>(0x80000000) and  isn’t found, this method returns <xref:System.Int32.MaxValue?displayProperty=fullName> (0x7FFFFFFF).  
+  
+ This method is an O() operation, where  is the <xref:System.Array.Length%2A> of .  
+  
+   
+  
+## Examples  
+ The example calls the following three overloads of the IndexOfmethod to find the index of a string in a string array:  
+  
+-   IndexOf, to determine the first occurrence of the string "the" in a string array.  
+  
+-   <xref:System.Array.IndexOf%28System.Array%2CSystem.Object%2CSystem.Int32%29>, to determine the first occurrence of the string "the" in the fourth to the last elements of a string array.  
+  
+-   <xref:System.Array.IndexOf%28System.Array%2CSystem.Object%2CSystem.Int32%2CSystem.Int32%29>, to determine the first occurrence of the string "the" in a string array from the element that follows the last successful match to the end of the array.  
+  
+ [!CODE [Classic Array.IndexOf Example#1](../CodeSnippet/VS_Snippets_CLR_Classic/classic Array.IndexOf Example#1)]  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="IndexOf">
@@ -1494,12 +2321,38 @@
         <Parameter Name="startIndex" Type="System.Int32" />
       </Parameters>
       <Docs>
-        <param name="array">To be added.</param>
-        <param name="value">To be added.</param>
-        <param name="startIndex">To be added.</param>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
-        <remarks>To be added.</remarks>
+        <param name="array">The one-dimensional array to search.</param>
+        <param name="value">The object to locate in .</param>
+        <param name="startIndex">The starting index of the search. 0 (zero) is valid in an empty array.</param>
+        <summary>Searches for the specified object in a range of elements of a one-dimensional array, and returns the index of its first occurrence. The range extends from a specified index to the end of the array.</summary>
+        <returns>The index of the first occurrence of , if it’s found, within the range of elements in  that extends from  to the last element; otherwise, the lower bound of the array minus 1.</returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ This method searches a one-dimensional array from the element at index to the last element. To determine whether  exists in , the method performs an equality comparison by calling the `Equals` method of every element until it finds a match. This means that if the element overrides the <xref:System.Object.Equals%28System.Object%29?displayProperty=fullName> method, that override is called.  
+  
+ Because most arrays have a lower bound of zero, this method generally returns –1 if  isn’t found. In the rare case that the lower bound of the array is equal to <xref:System.Int32.MinValue?displayProperty=fullName>(0x80000000) and  isn’t found, this method returns <xref:System.Int32.MaxValue?displayProperty=fullName> (0x7FFFFFFF).  
+  
+ If  equals <xref:System.Array.Length%2A?displayProperty=fullName>,the method returns -1. If  is greater than <xref:System.Array.Length%2A?displayProperty=fullName>, the method throws an <xref:System.ArgumentOutOfRangeException>.  
+  
+ This method is an O() operation, where  is the number of elements from  to the end of .  
+  
+   
+  
+## Examples  
+ The example calls the following three overloads of the <xref:System.Array.IndexOf%2A> method to find the index of a string in a string array:  
+  
+-   <xref:System.Array.IndexOf%28System.Array%2CSystem.Object%29>, to determine the first occurrence of the string "the" in a string array.  
+  
+-   IndexOf, to determine the first occurrence of the string "the" in the fourth to the last elements of a string array.  
+  
+-   <xref:System.Array.IndexOf%28System.Array%2CSystem.Object%2CSystem.Int32%2CSystem.Int32%29>, to determine the first occurrence of the string "the" in a string array from the element that follows the last successful match to the end of the array.  
+  
+ [!CODE [Classic Array.IndexOf Example#1](../CodeSnippet/VS_Snippets_CLR_Classic/classic Array.IndexOf Example#1)]  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="IndexOf">
@@ -1527,13 +2380,39 @@
         <Parameter Name="count" Type="System.Int32" />
       </Parameters>
       <Docs>
-        <param name="array">To be added.</param>
-        <param name="value">To be added.</param>
-        <param name="startIndex">To be added.</param>
-        <param name="count">To be added.</param>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
-        <remarks>To be added.</remarks>
+        <param name="array">The one-dimensional array to search.</param>
+        <param name="value">The object to locate in .</param>
+        <param name="startIndex">The starting index of the search. 0 (zero) is valid in an empty array.</param>
+        <param name="count">The number of elements to search.</param>
+        <summary>Searches for the specified object in a range of elements of a one-dimensional array, and returns the index of ifs first occurrence. The range extends from a specified index for a specified number of elements.</summary>
+        <returns>The index of the first occurrence of , if it’s found in the  from index  to  +  - 1; otherwise, the lower bound of the array minus 1.</returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ This method searches the elements of a one-dimensional arrayfrom to  plus  minus 1, if  is greater than 0. To determine whether  exists in , the method performs an equality comparison by calling the `Equals` method of every element until it finds a match. This means that if the element overrides the <xref:System.Object.Equals%2A?displayProperty=fullName> method, that override is called.  
+  
+ Becausemost arrays have a lower bound of zero, this method generally returns –1 when  isn’t found. In the rare case that the lower bound of the array is equal to <xref:System.Int32.MinValue?displayProperty=fullName> (0x80000000) and  isn’t found, this method returns <xref:System.Int32.MaxValue?displayProperty=fullName> (0x7FFFFFFF).  
+  
+ If  equals <xref:System.Array.Length%2A?displayProperty=fullName>, the method returns -1. If  is greater than <xref:System.Array.Length%2A?displayProperty=fullName>, the method throws an <xref:System.ArgumentOutOfRangeException>.  
+  
+ This method is an O() operation, where  is .  
+  
+   
+  
+## Examples  
+ The example calls the following three overloads of the <xref:System.Array.IndexOf%2A> method to find the index of a string in a string array:  
+  
+-   <xref:System.Array.IndexOf%28System.Array%2CSystem.Object%29>, to determine the first occurrence of the string "the" in a string array.  
+  
+-   <xref:System.Array.IndexOf%28System.Array%2CSystem.Object%2CSystem.Int32%29>, to determine the first occurrence of the string "the" in the fourth to the last elements of a string array.  
+  
+-   IndexOf, to determine the first occurrence of the string "the" in a string array from the element that follows the last successful match to the end of the array. To determine the value of the  argument, it subtracts the upper bound of the array from the starting index and adds one.  
+  
+ [!CODE [Classic Array.IndexOf Example#1](../CodeSnippet/VS_Snippets_CLR_Classic/classic Array.IndexOf Example#1)]  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="IndexOf&lt;T&gt;">
@@ -1637,8 +2516,24 @@
       </ReturnValue>
       <Parameters />
       <Docs>
-        <summary>To be added.</summary>
-        <remarks>To be added.</remarks>
+        <summary>Initializes every element of the value-type &lt;see cref="T:System.Array"&gt; by calling the default constructor of the value type.</summary>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ This method is designed to help compilers support value-type arrays; most users do not need this method. It must not be used on reference-type arrays.  
+  
+ If the <xref:System.Array> is not a value-type <xref:System.Array> or if the value type does not have a default constructor, the <xref:System.Array> is not modified.  
+  
+ The value-type <xref:System.Array> can have any lower bound and any number of dimensions.  
+  
+ This method is an O() operation, where  is <xref:System.Array.Length%2A>.  
+  
+> [!CAUTION]
+>  You can use this method only on value types that have constructors; however, value types that are native to C# do not have constructors.  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="IsFixedSize">
@@ -1652,9 +2547,20 @@
         <ReturnType>System.Boolean</ReturnType>
       </ReturnValue>
       <Docs>
-        <summary>To be added.</summary>
-        <value>To be added.</value>
-        <remarks>To be added.</remarks>
+        <summary>Gets a value indicating whether the &lt;see cref="T:System.Array"&gt; has a fixed size.</summary>
+        <value>This property is always `true` for all arrays.</value>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <xref:System.Array> implements the IsFixedSize property because it is required by the <xref:System.Collections.IList?displayProperty=fullName> interface.  
+  
+ An array with a fixed size does not allow the addition or removal of elements after the array is created, but it allows the modification of existing elements.  
+  
+ Retrieving the value of this property is an O(1) operation.  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="IsReadOnly">
@@ -1668,9 +2574,22 @@
         <ReturnType>System.Boolean</ReturnType>
       </ReturnValue>
       <Docs>
-        <summary>To be added.</summary>
-        <value>To be added.</value>
-        <remarks>To be added.</remarks>
+        <summary>Gets a value indicating whether the &lt;see cref="T:System.Array"&gt; is read-only.</summary>
+        <value>This property is always `false` for all arrays.</value>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <xref:System.Array> implements the IsReadOnly property because it is required by the <xref:System.Collections.IList?displayProperty=fullName> interface. An array that is read-only does not allow the addition, removal, or modification of elements after the array is created.  
+  
+ If you require a read-only collection, use a <xref:System.Collections> class that implements the <xref:System.Collections.IList?displayProperty=fullName> interface.  
+  
+ If you cast or convert an array to an <xref:System.Collections.IList> interface object, the <xref:System.Collections.IList.IsReadOnly%2A?displayProperty=fullName> property returns `false`. However, if you cast or convert an array to a <xref:System.Collections.Generic.IList%601> interface, the `IsReadOnly` property returns `true`.  
+  
+ Retrieving the value of this property is an O(1) operation.  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="IsSynchronized">
@@ -1684,9 +2603,31 @@
         <ReturnType>System.Boolean</ReturnType>
       </ReturnValue>
       <Docs>
-        <summary>To be added.</summary>
-        <value>To be added.</value>
-        <remarks>To be added.</remarks>
+        <summary>Gets a value indicating whether access to the &lt;see cref="T:System.Array"&gt; is synchronized (thread safe).</summary>
+        <value>This property is always `false` for all arrays.</value>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <xref:System.Array> implements the IsSynchronized property because it is required by the <xref:System.Collections.ICollection?displayProperty=fullName> interface.  
+  
+ .NET Framework classes based on <xref:System.Array> provide their own synchronized version of the collection using the <xref:System.Array.SyncRoot%2A> property.  
+  
+ Classes that use arrays can also implement their own synchronization using the <xref:System.Array.SyncRoot%2A> property. The synchronizing code must perform operations on the `SyncRoot` of the collection, not directly on the collection. This ensures proper operation of collections that are derived from other objects. Specifically, it maintains proper synchronization with other threads that might be simultaneously modifying the collection. Note that some implementations of <xref:System.Array.SyncRoot%2A> might return the <xref:System.Array> itself.  
+  
+ Enumerating through a collection is intrinsically not a thread safe procedure. Even when a collection is synchronized, other threads can still modify the collection, which causes the enumerator to throw an exception. To guarantee thread safety during enumeration, you can either lock the collection during the entire enumeration or catch the exceptions resulting from changes made by other threads.  
+  
+ Retrieving the value of this property is an O(1) operation.  
+  
+   
+  
+## Examples  
+ The following code example shows how to lock an array during the entire enumeration by using the <xref:System.Array.SyncRoot%2A>property.  
+  
+ [!CODE [System.Array.SyncRoot#1](../CodeSnippet/VS_Snippets_CLR_System/system.Array.SyncRoot#1)]  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="LastIndexOf">
@@ -1709,11 +2650,35 @@
         <Parameter Name="value" Type="System.Object" />
       </Parameters>
       <Docs>
-        <param name="array">To be added.</param>
-        <param name="value">To be added.</param>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
-        <remarks>To be added.</remarks>
+        <param name="array">The one-dimensional &lt;see cref="T:System.Array"&gt; to search.</param>
+        <param name="value">The object to locate in .</param>
+        <summary>Searches for the specified object and returns the index of the last occurrence within the entire one-dimensional &lt;see cref="T:System.Array"&gt;.</summary>
+        <returns>The index of the last occurrence of  within the entire , if found; otherwise, the lower bound of the array minus 1.</returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ The one-dimensional <xref:System.Array> is searched backward starting at the last element and ending at the first element.  
+  
+ The elements are compared to the specified value using the <xref:System.Object.Equals%2A?displayProperty=fullName> method. If the element type is a nonintrinsic (user-defined) type, the `Equals` implementation of that type is used.  
+  
+ Since most arrays will have a lower bound of zero, this method would generally return –1 when  is not found. In the rare case that the lower bound of the array is equal to <xref:System.Int32.MinValue?displayProperty=fullName> and  is not found, this method returns <xref:System.Int32.MaxValue?displayProperty=fullName>, which is `System.Int32.MinValue - 1`.  
+  
+ This method is an O() operation, where  is the <xref:System.Array.Length%2A> of .  
+  
+ In the .NET Framework version 2.0, this method uses the <xref:System.Object.Equals%2A> and <xref:System.IComparable.CompareTo%2A> methods of the <xref:System.Array> to determine whether the <xref:System.Object> specified by the  parameter exists. In the earlier versions of the .NET Framework, this determination was made by using the <xref:System.Object.Equals%2A> and <xref:System.IComparable.CompareTo%2A> methods of the <xref:System.Object> itself.  
+  
+ <xref:System.IComparable.CompareTo%2A> methods of the  parameter on the objects in the collection.  
+  
+   
+  
+## Examples  
+ The following code example shows how to determine the index of the last occurrence of a specified element in an array.  
+  
+ [!CODE [Classic Array.LastIndexOf Example#1](../CodeSnippet/VS_Snippets_CLR_Classic/classic Array.LastIndexOf Example#1)]  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="LastIndexOf">
@@ -1737,12 +2702,34 @@
         <Parameter Name="startIndex" Type="System.Int32" />
       </Parameters>
       <Docs>
-        <param name="array">To be added.</param>
-        <param name="value">To be added.</param>
-        <param name="startIndex">To be added.</param>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
-        <remarks>To be added.</remarks>
+        <param name="array">The one-dimensional &lt;see cref="T:System.Array"&gt; to search.</param>
+        <param name="value">The object to locate in .</param>
+        <param name="startIndex">The starting index of the backward search.</param>
+        <summary>Searches for the specified object and returns the index of the last occurrence within the range of elements in the one-dimensional &lt;see cref="T:System.Array"&gt; that extends from the first element to the specified index.</summary>
+        <returns>The index of the last occurrence of  within the range of elements in  that extends from the first element to , if found; otherwise, the lower bound of the array minus 1.</returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ The one-dimensional <xref:System.Array> is searched backward starting at  and ending at the first element.  
+  
+ The elements are compared to the specified value using the <xref:System.Object.Equals%2A?displayProperty=fullName> method. If the element type is a nonintrinsic (user-defined) type, the `Equals` implementation of that type is used.  
+  
+ Since most arrays will have a lower bound of zero, this method would generally return –1 when  is not found. In the rare case that the lower bound of the array is equal to <xref:System.Int32.MinValue?displayProperty=fullName> and  is not found, this method returns <xref:System.Int32.MaxValue?displayProperty=fullName>, which is `System.Int32.MinValue - 1`.  
+  
+ This method is an O() operation, where  is the number of elements from the beginning of  to .  
+  
+ In the .NET Framework version 2.0, this method uses the <xref:System.Object.Equals%2A> and <xref:System.IComparable.CompareTo%2A> methods of the <xref:System.Array> to determine whether the <xref:System.Object> specified by the  parameter exists. In the earlier versions of the .NET Framework, this determination was made by using the <xref:System.Object.Equals%2A> and <xref:System.IComparable.CompareTo%2A> methods of the <xref:System.Object> itself.  
+  
+   
+  
+## Examples  
+ The following code example shows how to determine the index of the last occurrence of a specified element in an array.  
+  
+ [!CODE [Classic Array.LastIndexOf Example#1](../CodeSnippet/VS_Snippets_CLR_Classic/classic Array.LastIndexOf Example#1)]  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="LastIndexOf">
@@ -1770,13 +2757,35 @@
         <Parameter Name="count" Type="System.Int32" />
       </Parameters>
       <Docs>
-        <param name="array">To be added.</param>
-        <param name="value">To be added.</param>
-        <param name="startIndex">To be added.</param>
-        <param name="count">To be added.</param>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
-        <remarks>To be added.</remarks>
+        <param name="array">The one-dimensional &lt;see cref="T:System.Array"&gt; to search.</param>
+        <param name="value">The object to locate in .</param>
+        <param name="startIndex">The starting index of the backward search.</param>
+        <param name="count">The number of elements in the section to search.</param>
+        <summary>Searches for the specified object and returns the index of the last occurrence within the range of elements in the one-dimensional &lt;see cref="T:System.Array"&gt; that contains the specified number of elements and ends at the specified index.</summary>
+        <returns>The index of the last occurrence of  within the range of elements in  that contains the number of elements specified in  and ends at , if found; otherwise, the lower bound of the array minus 1.</returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ The one-dimensional <xref:System.Array> is searched backward starting at  and ending at  minus  plus 1, if  is greater than 0.  
+  
+ The elements are compared to the specified value using the <xref:System.Object.Equals%2A?displayProperty=fullName> method. If the element type is a nonintrinsic (user-defined) type, the`Equals` implementation of that type is used.  
+  
+ Since most arrays will have a lower bound of zero, this method would generally return –1 when  is not found. In the rare case that the lower bound of the array is equal to <xref:System.Int32.MinValue?displayProperty=fullName> and  is not found, this method returns <xref:System.Int32.MaxValue?displayProperty=fullName>, which is `System.Int32.MinValue - 1`.  
+  
+ This method is an O() operation, where  is .  
+  
+ In the .NET Framework version 2.0, this method uses the <xref:System.Object.Equals%2A> and <xref:System.IComparable.CompareTo%2A> methods of the <xref:System.Array> to determine whether the <xref:System.Object> specified by the  parameter exists. In the earlier versions of the .NET Framework, this determination was made by using the <xref:System.Object.Equals%2A> and <xref:System.IComparable.CompareTo%2A> methods of the <xref:System.Object> itself.  
+  
+   
+  
+## Examples  
+ The following code example shows how to determine the index of the last occurrence of a specified element in an array. Note that the <xref:System.Array.LastIndexOf%2A> method is a backward search; therefore,  must be less than or equal to ( minus the lower bound of the array plus 1).  
+  
+ [!CODE [Classic Array.LastIndexOf Example#1](../CodeSnippet/VS_Snippets_CLR_Classic/classic Array.LastIndexOf Example#1)]  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="LastIndexOf&lt;T&gt;">
@@ -1882,9 +2891,23 @@
         <ReturnType>System.Int32</ReturnType>
       </ReturnValue>
       <Docs>
-        <summary>To be added.</summary>
-        <value>To be added.</value>
-        <remarks>To be added.</remarks>
+        <summary>Gets the total number of elements in all the dimensions of the &lt;see cref="T:System.Array"&gt;.</summary>
+        <value>The total number of elements in all the dimensions of the &lt;see cref="T:System.Array"&gt;; zero if there are no elements in the array.</value>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ Retrieving the value of this property is an O(1) operation.  
+  
+   
+  
+## Examples  
+ The following example uses the                                 Length property to get the total number of elements in an array. It also uses the                                 <xref:System.Array.GetUpperBound%2A> method to determine the number of elements in each dimension of a multidimensional array.  
+  
+ [!CODE [System.Array.Length#1](../CodeSnippet/VS_Snippets_CLR_System/system.array.length#1)]  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="LongLength">
@@ -1909,9 +2932,16 @@
         <ReturnType>System.Int64</ReturnType>
       </ReturnValue>
       <Docs>
-        <summary>To be added.</summary>
-        <value>To be added.</value>
-        <remarks>To be added.</remarks>
+        <summary>Gets a 64-bit integer that represents the total number of elements in all the dimensions of the &lt;see cref="T:System.Array"&gt;.</summary>
+        <value>A 64-bit integer that represents the total number of elements in all the dimensions of the &lt;see cref="T:System.Array"&gt;.</value>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ Retrieving the value of this property is an O(1) operation.  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="Rank">
@@ -1933,9 +2963,39 @@
         <ReturnType>System.Int32</ReturnType>
       </ReturnValue>
       <Docs>
-        <summary>To be added.</summary>
-        <value>To be added.</value>
-        <remarks>To be added.</remarks>
+        <summary>Gets the rank (number of dimensions) of the &lt;see cref="T:System.Array"&gt;. For example, a one-dimensional array returns 1, a two-dimensional array returns 2, and so on.</summary>
+        <value>The rank (number of dimensions) of the &lt;see cref="T:System.Array"&gt;.</value>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ For example, the Visual Basic code  
+  
+```  
+Dim TDArray(0,0,0) As Integer  
+```  
+  
+ and the C# code  
+  
+```  
+int[,,] TDArray = new int[1,1,1];  
+```  
+  
+ create an array of three dimensions with a Rank property whose value is 3.  
+  
+ A jagged array (an array of arrays) is a one-dimensional array; the value of its Rank property is 1.  
+  
+ Retrieving the value of this property is an O(1) operation.  
+  
+   
+  
+## Examples  
+ The following example initializes a one-dimensional array, a two-dimensional array, and a jagged array, and retrieves the Rank property of each.  
+  
+ [!CODE [System.Array.Rank#1](../CodeSnippet/VS_Snippets_CLR_System/system.array.rank#1)]  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="Resize&lt;T&gt;">
@@ -1987,9 +3047,29 @@
         <Parameter Name="array" Type="System.Array" />
       </Parameters>
       <Docs>
-        <param name="array">To be added.</param>
-        <summary>To be added.</summary>
-        <remarks>To be added.</remarks>
+        <param name="array">The one-dimensional &lt;see cref="T:System.Array"&gt; to reverse.</param>
+        <summary>Reverses the sequence of the elements in the entire one-dimensional &lt;see cref="T:System.Array"&gt;.</summary>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ After a call to this method, the element at `myArray[i]`, where  is any index in the array, moves to `myArray[j]`, where  equals `(myArray.Length + myArray.GetLowerBound(0)) - (i - myArray.GetLowerBound(0)) - 1`.  
+  
+ This method is an O() operation, where  is the <xref:System.Array.Length%2A> of .  
+  
+ As the following example shows, the Reverse method can be used to reverse a jagged array. It initializes a jagged array with one element for each month of the current year in the current culture's calendar. Each element contains an array with as many elements as that month has days. The example displays the contents of the array, calls the Reverse method, and then displays the contents of the reversed array.  
+  
+ [!CODE [System.Array.Reverse#1](../CodeSnippet/VS_Snippets_CLR_System/system.array.reverse#1)]  
+  
+   
+  
+## Examples  
+ The following code example shows how to reverse the sort of the values in an <xref:System.Array>.  
+  
+ [!CODE [Classic Array.Reverse Example#1](../CodeSnippet/VS_Snippets_CLR_Classic/classic Array.Reverse Example#1)]  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="Reverse">
@@ -2016,11 +3096,29 @@
         <Parameter Name="length" Type="System.Int32" />
       </Parameters>
       <Docs>
-        <param name="array">To be added.</param>
-        <param name="index">To be added.</param>
-        <param name="length">To be added.</param>
-        <summary>To be added.</summary>
-        <remarks>To be added.</remarks>
+        <param name="array">The one-dimensional &lt;see cref="T:System.Array"&gt; to reverse.</param>
+        <param name="index">The starting index of the section to reverse.</param>
+        <param name="length">The number of elements in the section to reverse.</param>
+        <summary>Reverses the sequence of the elements in a range of elements in the one-dimensional &lt;see cref="T:System.Array"&gt;.</summary>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ After a call to this method, the element at `myArray[i]`, where  is any index in the array, moves to `myArray[j]`, where  equals `(myArray.Length + myArray.GetLowerBound(0)) - (i - myArray.GetLowerBound(0)) - 1`.  
+  
+ The<xref:System.Array.Reverse%2A> method can be used to reverse a jagged array.  
+  
+ This method is an O() operation, where  is .  
+  
+   
+  
+## Examples  
+ The following code example shows how to reverse the sort of the values in a range of elements in an <xref:System.Array>.  
+  
+ [!CODE [Classic Array.Reverse1 Example#1](../CodeSnippet/VS_Snippets_CLR_Classic/classic Array.Reverse1 Example#1)]  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="SetValue">
@@ -2043,10 +3141,31 @@
         <Parameter Name="index" Type="System.Int32" />
       </Parameters>
       <Docs>
-        <param name="value">To be added.</param>
-        <param name="index">To be added.</param>
-        <summary>To be added.</summary>
-        <remarks>To be added.</remarks>
+        <param name="value">The new value for the specified element.</param>
+        <param name="index">A 32-bit integer that represents the position of the &lt;see cref="T:System.Array"&gt; element to set.</param>
+        <summary>Sets a value to the element at the specified position in the one-dimensional &lt;see cref="T:System.Array"&gt;. The index is specified as a 32-bit integer.</summary>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ The <xref:System.Array.GetLowerBound%2A> and <xref:System.Array.GetUpperBound%2A> methods can determine whether the value of  is out of bounds.  
+  
+ For more information about conversions, see <xref:System.Convert>.  
+  
+ This method is an O(1) operation.  
+  
+> [!NOTE]
+>  If <xref:System.Array.SetValue%2A> is used to assign `null` to an element of an array of value types, all fields of the element are initialized to zero. The value of the element is not a null reference, and cannot be found by searching for a null reference.  
+  
+   
+  
+## Examples  
+ The following code example demonstrates how to set and get a specific value in a one-dimensional or multidimensional array.  
+  
+ [!CODE [System.Array_GetSetValue#1](../CodeSnippet/VS_Snippets_CLR_System/system.Array_GetSetValue#1)]  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="SetValue">
@@ -2075,10 +3194,33 @@
         </Parameter>
       </Parameters>
       <Docs>
-        <param name="value">To be added.</param>
-        <param name="indices">To be added.</param>
-        <summary>To be added.</summary>
-        <remarks>To be added.</remarks>
+        <param name="value">The new value for the specified element.</param>
+        <param name="indices">A one-dimensional array of 32-bit integers that represent the indexes specifying the position of the element to set.</param>
+        <summary>Sets a value to the element at the specified position in the multidimensional &lt;see cref="T:System.Array"&gt;. The indexes are specified as an array of 32-bit integers.</summary>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ The number of elements in  must equal the number of dimensions in the <xref:System.Array>. All elements in the  array must collectively specify the position of the desired element in the multidimensional <xref:System.Array>.  
+  
+ The <xref:System.Array.GetLowerBound%2A> and <xref:System.Array.GetUpperBound%2A> methods can determine whether any of the values in the  array is out of bounds.  
+  
+ For more information about conversions, see <xref:System.Convert>.  
+  
+ This method is an O(1) operation.  
+  
+> [!NOTE]
+>  If <xref:System.Array.SetValue%2A> is used to assign `null` to an element of an array of value types, all fields of the element are initialized to zero. The value of the element is not a null reference, and cannot be found by searching for a null reference.  
+  
+   
+  
+## Examples  
+ The following code example demonstrates how to set and get a specific value in a one-dimensional or multidimensional array.  
+  
+ [!CODE [System.Array_GetSetValue#1](../CodeSnippet/VS_Snippets_CLR_System/system.Array_GetSetValue#1)]  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="SetValue">
@@ -2101,10 +3243,31 @@
         <Parameter Name="index" Type="System.Int64" />
       </Parameters>
       <Docs>
-        <param name="value">To be added.</param>
-        <param name="index">To be added.</param>
-        <summary>To be added.</summary>
-        <remarks>To be added.</remarks>
+        <param name="value">The new value for the specified element.</param>
+        <param name="index">A 64-bit integer that represents the position of the &lt;see cref="T:System.Array"&gt; element to set.</param>
+        <summary>Sets a value to the element at the specified position in the one-dimensional &lt;see cref="T:System.Array"&gt;. The index is specified as a 64-bit integer.</summary>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ The <xref:System.Array.GetLowerBound%2A> and <xref:System.Array.GetUpperBound%2A> methods can determine whether the value of  is out of bounds.  
+  
+ For more information about conversions, see <xref:System.Convert>.  
+  
+ This method is an O(1) operation.  
+  
+> [!NOTE]
+>  If <xref:System.Array.SetValue%2A> is used to assign `null` to an element of an array of value types, all fields of the element are initialized to zero. The value of the element is not a null reference, and cannot be found by searching for a null reference.  
+  
+   
+  
+## Examples  
+ The following code example demonstrates how to set and get a specific value in a one-dimensional or multidimensional array.  
+  
+ [!CODE [System.Array_GetSetValue#1](../CodeSnippet/VS_Snippets_CLR_System/system.Array_GetSetValue#1)]  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="SetValue">
@@ -2133,10 +3296,33 @@
         </Parameter>
       </Parameters>
       <Docs>
-        <param name="value">To be added.</param>
-        <param name="indices">To be added.</param>
-        <summary>To be added.</summary>
-        <remarks>To be added.</remarks>
+        <param name="value">The new value for the specified element.</param>
+        <param name="indices">A one-dimensional array of 64-bit integers that represent the indexes specifying the position of the element to set.</param>
+        <summary>Sets a value to the element at the specified position in the multidimensional &lt;see cref="T:System.Array"&gt;. The indexes are specified as an array of 64-bit integers.</summary>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ The number of elements in  must equal the number of dimensions in the <xref:System.Array>. All elements in the  array must collectively specify the position of the desired element in the multidimensional <xref:System.Array>.  
+  
+ The <xref:System.Array.GetLowerBound%2A> and <xref:System.Array.GetUpperBound%2A> methods can determine whether any of the values in the  array is out of bounds.  
+  
+ For more information about conversions, see <xref:System.Convert>.  
+  
+ This method is an O(1) operation.  
+  
+> [!NOTE]
+>  If <xref:System.Array.SetValue%2A> is used to assign `null` to an element of an array of value types, all fields of the element are initialized to zero. The value of the element is not a null reference, and cannot be found by searching for a null reference.  
+  
+   
+  
+## Examples  
+ The following code example demonstrates how to set and get a specific value in a one-dimensional or multidimensional array.  
+  
+ [!CODE [System.Array_GetSetValue#1](../CodeSnippet/VS_Snippets_CLR_System/system.Array_GetSetValue#1)]  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="SetValue">
@@ -2160,11 +3346,32 @@
         <Parameter Name="index2" Type="System.Int32" />
       </Parameters>
       <Docs>
-        <param name="value">To be added.</param>
-        <param name="index1">To be added.</param>
-        <param name="index2">To be added.</param>
-        <summary>To be added.</summary>
-        <remarks>To be added.</remarks>
+        <param name="value">The new value for the specified element.</param>
+        <param name="index1">A 32-bit integer that represents the first-dimension index of the &lt;see cref="T:System.Array"&gt; element to set.</param>
+        <param name="index2">A 32-bit integer that represents the second-dimension index of the &lt;see cref="T:System.Array"&gt; element to set.</param>
+        <summary>Sets a value to the element at the specified position in the two-dimensional &lt;see cref="T:System.Array"&gt;. The indexes are specified as 32-bit integers.</summary>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ The <xref:System.Array.GetLowerBound%2A> and <xref:System.Array.GetUpperBound%2A> methods can determine whether any of the indexes is out of bounds.  
+  
+ For more information about conversions, see <xref:System.Convert>.  
+  
+ This method is an O(1) operation.  
+  
+> [!NOTE]
+>  If <xref:System.Array.SetValue%2A> is used to assign `null` to an element of an array of value types, all fields of the element are initialized to zero. The value of the element is not a null reference, and cannot be found by searching for a null reference.  
+  
+   
+  
+## Examples  
+ The following code example demonstrates how to set and get a specific value in a one-dimensional or multidimensional array.  
+  
+ [!CODE [System.Array_GetSetValue#1](../CodeSnippet/VS_Snippets_CLR_System/system.Array_GetSetValue#1)]  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="SetValue">
@@ -2188,11 +3395,32 @@
         <Parameter Name="index2" Type="System.Int64" />
       </Parameters>
       <Docs>
-        <param name="value">To be added.</param>
-        <param name="index1">To be added.</param>
-        <param name="index2">To be added.</param>
-        <summary>To be added.</summary>
-        <remarks>To be added.</remarks>
+        <param name="value">The new value for the specified element.</param>
+        <param name="index1">A 64-bit integer that represents the first-dimension index of the &lt;see cref="T:System.Array"&gt; element to set.</param>
+        <param name="index2">A 64-bit integer that represents the second-dimension index of the &lt;see cref="T:System.Array"&gt; element to set.</param>
+        <summary>Sets a value to the element at the specified position in the two-dimensional &lt;see cref="T:System.Array"&gt;. The indexes are specified as 64-bit integers.</summary>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ The <xref:System.Array.GetLowerBound%2A> and <xref:System.Array.GetUpperBound%2A> methods can determine whether any of the indexes is out of bounds.  
+  
+ For more information about conversions, see <xref:System.Convert>.  
+  
+ This method is an O(1) operation.  
+  
+> [!NOTE]
+>  If <xref:System.Array.SetValue%2A> is used to assign `null` to an element of an array of value types, all fields of the element are initialized to zero. The value of the element is not a null reference, and cannot be found by searching for a null reference.  
+  
+   
+  
+## Examples  
+ The following code example demonstrates how to set and get a specific value in a one-dimensional or multidimensional array.  
+  
+ [!CODE [System.Array_GetSetValue#1](../CodeSnippet/VS_Snippets_CLR_System/system.Array_GetSetValue#1)]  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="SetValue">
@@ -2217,12 +3445,33 @@
         <Parameter Name="index3" Type="System.Int32" />
       </Parameters>
       <Docs>
-        <param name="value">To be added.</param>
-        <param name="index1">To be added.</param>
-        <param name="index2">To be added.</param>
-        <param name="index3">To be added.</param>
-        <summary>To be added.</summary>
-        <remarks>To be added.</remarks>
+        <param name="value">The new value for the specified element.</param>
+        <param name="index1">A 32-bit integer that represents the first-dimension index of the &lt;see cref="T:System.Array"&gt; element to set.</param>
+        <param name="index2">A 32-bit integer that represents the second-dimension index of the &lt;see cref="T:System.Array"&gt; element to set.</param>
+        <param name="index3">A 32-bit integer that represents the third-dimension index of the &lt;see cref="T:System.Array"&gt; element to set.</param>
+        <summary>Sets a value to the element at the specified position in the three-dimensional &lt;see cref="T:System.Array"&gt;. The indexes are specified as 32-bit integers.</summary>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ The <xref:System.Array.GetLowerBound%2A> and <xref:System.Array.GetUpperBound%2A> methods can determine whether any of the indexes is out of bounds.  
+  
+ For more information about conversions, see <xref:System.Convert>.  
+  
+ This method is an O(1) operation.  
+  
+> [!NOTE]
+>  If <xref:System.Array.SetValue%2A> is used to assign `null` to an element of an array of value types, all fields of the element are initialized to zero. The value of the element is not a null reference, and cannot be found by searching for a null reference.  
+  
+   
+  
+## Examples  
+ The following code example demonstrates how to set and get a specific value in a one-dimensional or multidimensional array.  
+  
+ [!CODE [System.Array_GetSetValue#1](../CodeSnippet/VS_Snippets_CLR_System/system.Array_GetSetValue#1)]  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="SetValue">
@@ -2247,12 +3496,33 @@
         <Parameter Name="index3" Type="System.Int64" />
       </Parameters>
       <Docs>
-        <param name="value">To be added.</param>
-        <param name="index1">To be added.</param>
-        <param name="index2">To be added.</param>
-        <param name="index3">To be added.</param>
-        <summary>To be added.</summary>
-        <remarks>To be added.</remarks>
+        <param name="value">The new value for the specified element.</param>
+        <param name="index1">A 64-bit integer that represents the first-dimension index of the &lt;see cref="T:System.Array"&gt; element to set.</param>
+        <param name="index2">A 64-bit integer that represents the second-dimension index of the &lt;see cref="T:System.Array"&gt; element to set.</param>
+        <param name="index3">A 64-bit integer that represents the third-dimension index of the &lt;see cref="T:System.Array"&gt; element to set.</param>
+        <summary>Sets a value to the element at the specified position in the three-dimensional &lt;see cref="T:System.Array"&gt;. The indexes are specified as 64-bit integers.</summary>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ The <xref:System.Array.GetLowerBound%2A> and <xref:System.Array.GetUpperBound%2A> methods can determine whether any of the indexes is out of bounds.  
+  
+ For more information about conversions, see <xref:System.Convert>.  
+  
+ This method is an O(1) operation.  
+  
+> [!NOTE]
+>  If <xref:System.Array.SetValue%2A> is used to assign `null` to an element of an array of value types, all fields of the element are initialized to zero. The value of the element is not a null reference, and cannot be found by searching for a null reference.  
+  
+   
+  
+## Examples  
+ The following code example demonstrates how to set and get a specific value in a one-dimensional or multidimensional array.  
+  
+ [!CODE [System.Array_GetSetValue#1](../CodeSnippet/VS_Snippets_CLR_System/system.Array_GetSetValue#1)]  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="Sort">
@@ -2274,9 +3544,37 @@
         <Parameter Name="array" Type="System.Array" />
       </Parameters>
       <Docs>
-        <param name="array">To be added.</param>
-        <summary>To be added.</summary>
-        <remarks>To be added.</remarks>
+        <param name="array">The one-dimensional &lt;see cref="T:System.Array"&gt; to sort.</param>
+        <summary>Sorts the elements in an entire one-dimensional &lt;see cref="T:System.Array"&gt; using the &lt;xref:System.IComparable&gt; implementation of each element of the &lt;see cref="T:System.Array"&gt;.</summary>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ Each element of  must implement the <xref:System.IComparable> interface to be capable of comparisons with every other element in .  
+  
+ If the sort is not successfully completed, the results are undefined.  
+  
+ This method uses the introspective sort (introsort) algorithm as follows:  
+  
+-   If the partition size is fewer than 16 elements, it uses an[insertion sort](http://en.wikipedia.org/wiki/Insertion_sort) algorithm.  
+  
+-   If the number of partitions exceeds 2 \* Log<sup>N</sup>, where *N* is the range of the input array, it uses a [Heapsort](http://en.wikipedia.org/wiki/Heapsort) algorithm.  
+  
+-   Otherwise, it uses a [Quicksort](http://en.wikipedia.org/wiki/Quicksort) algorithm.  
+  
+ This implementation performs an unstable sort; that is, if two elements are equal, their order might not be preserved. In contrast, a stable sort preserves the order of elements that are equal.  
+  
+ For arrays that are sorted by using the Heapsort and Quicksort algorithms, in the worst case, this method is an O( log ) operation, where  is the <xref:System.Array.Length%2A> of .  
+  
+   
+  
+## Examples  
+ The following code example shows how to sort the values in an <xref:System.Array> using the default comparer and a custom comparer that reverses the sort order. Note that the result might vary depending on the current <xref:System.Globalization.CultureInfo>.  
+  
+ [!CODE [System.Array.Sort#1](../CodeSnippet/VS_Snippets_CLR_System/system.Array.Sort#1)]  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="Sort">
@@ -2299,10 +3597,46 @@
         <Parameter Name="items" Type="System.Array" />
       </Parameters>
       <Docs>
-        <param name="keys">To be added.</param>
-        <param name="items">To be added.</param>
-        <summary>To be added.</summary>
-        <remarks>To be added.</remarks>
+        <param name="keys">The one-dimensional &lt;see cref="T:System.Array"&gt; that contains the keys to sort.</param>
+        <param name="items">The one-dimensional &lt;see cref="T:System.Array"&gt; that contains the items that correspond to each of the keys in the &lt;see cref="T:System.Array"&gt;.  
+  
+ -or-  
+  
+ `null` to sort only the &lt;see cref="T:System.Array"&gt;.</param>
+        <summary>Sorts a pair of one-dimensional &lt;see cref="T:System.Array"&gt; objects (one contains the keys and the other contains the corresponding items) based on the keys in the first &lt;see cref="T:System.Array"&gt; using the &lt;xref:System.IComparable&gt; implementation of each key.</summary>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ Each key in the <xref:System.Array> has a corresponding item in the <xref:System.Array>. When a key is repositioned during the sorting, the corresponding item in the <xref:System.Array> is similarly repositioned. Therefore, the <xref:System.Array> is sorted according to the arrangement of the corresponding keys in the <xref:System.Array>.  
+  
+ Each key in the <xref:System.Array> must implement the <xref:System.IComparable> interface to be capable of comparisons with every other key.  
+  
+ You can sort if there are more items than keys, but the items that have no corresponding keys will not be sorted. You cannot sort if there are more keys than items; doing this throws an <xref:System.ArgumentException>.  
+  
+ If the sort is not successfully completed, the results are undefined.  
+  
+ This method uses the introspective sort (introsort) algorithm as follows:  
+  
+-   If the partition size is fewer than 16 elements, it uses an [insertion sort](http://en.wikipedia.org/wiki/Insertion_sort) algorithm.  
+  
+-   If the number of partitions exceeds 2 \* Log<sup>N</sup>, where *N* is the range of the input array, it uses a [Heapsort](http://en.wikipedia.org/wiki/Heapsort) algorithm.  
+  
+-   Otherwise, it uses a [Quicksort](http://en.wikipedia.org/wiki/Quicksort) algorithm.  
+  
+ This implementation performs an unstable sort; that is, if two elements are equal, their order might not be preserved. In contrast, a stable sort preserves the order of elements that are equal.  
+  
+ For arrays that are sorted by using the Heapsort and Quicksort algorithms, in the worst case, this method is an O( log ) operation, where  is the <xref:System.Array.Length%2A> of .  
+  
+   
+  
+## Examples  
+ The following example shows how to sort two associated arrays where the first array contains the keys and the second array contains the values. Sorts are done using the default comparer and a custom comparer that reverses the sort order. Note that the result might vary depending on the current <xref:System.Globalization.CultureInfo>.  
+  
+ [!CODE [System.Array.Sort2#1](../CodeSnippet/VS_Snippets_CLR_System/system.Array.Sort2#1)]  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="Sort">
@@ -2325,10 +3659,53 @@
         <Parameter Name="comparer" Type="System.Collections.IComparer" />
       </Parameters>
       <Docs>
-        <param name="array">To be added.</param>
-        <param name="comparer">To be added.</param>
-        <summary>To be added.</summary>
-        <remarks>To be added.</remarks>
+        <param name="array">The one-dimensional array to sort.</param>
+        <param name="comparer">The implementation to use when comparing elements.  
+  
+ -or-  
+  
+ `null` to use the &lt;see cref="T:System.IComparable"&gt; implementation of each element.</param>
+        <summary>Sorts the elements in a one-dimensional &lt;see cref="T:System.Array"&gt; using the specified &lt;xref:System.Collections.IComparer&gt;.</summary>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ If  is `null`, each element of  must implement the <xref:System.IComparable> interface to be capable of comparisons with every other element in .  
+  
+ If the sort is not successfully completed, the results are undefined.  
+  
+ This method uses the introspective sort (introsort) algorithm as follows:  
+  
+-   If the partition size is fewer than 16 elements, it uses an [insertion sort](http://en.wikipedia.org/wiki/Insertion_sort) algorithm.  
+  
+-   If the number of partitions exceeds 2 \* Log<sup>N</sup>, where  *N* is the range of the input array, it uses a [Heapsort](http://en.wikipedia.org/wiki/Heapsort) algorithm.  
+  
+-   Otherwise, it uses a [Quicksort](http://en.wikipedia.org/wiki/Quicksort) algorithm.  
+  
+ This implementation performs an unstable sort; that is, if two elements are equal, their order might not be preserved. In contrast, a stable sort preserves the order of elements that are equal.  
+  
+ For arrays that are sorted by using the Heapsort and Quicksort algorithms, in the worst case, this method is an O( log ) operation, where  is the <xref:System.Array.Length%2A> of .  
+  
+ The .NET Framework includes predefined <xref:System.Collections.IComparer> implementations listed in the following table.  
+  
+|Implementation|Description|  
+|--------------------|-----------------|  
+|<xref:System.Collections.CaseInsensitiveComparer?displayProperty=fullName>|Compares any two objects, but performs a case-insensitive comparison of strings.|  
+|<xref:System.Collections.Comparer.Default?displayProperty=fullName>|Compares any two objects by using the sorting conventions of the current culture.|  
+|<xref:System.Collections.Comparer.DefaultInvariant?displayProperty=fullName>|Compares any two objects by using the sorting conventions of the invariant culture.|  
+|<xref:System.Collections.Generic.Comparer%601.Default%2A?displayProperty=fullName>|Compares two objects of type  by using the type's default sort order.|  
+  
+ You can also support custom comparisons by providing an instance of your own <xref:System.Collections.IComparer> implementation to the  parameter. The example does this by defining a `ReverseComparer` class that reverses the default sort order for instances of a type and performs case-insensitive string comparison.  
+  
+   
+  
+## Examples  
+ The following example sorts the values in a string arrayby using the default comparer. It also defines a custom <xref:System.Collections.IComparer> implementation named `ReverseComparer` that reverses an object's default sort order while performing a case-insensitive string comparison. Note that the output might vary depending on the current culture.  
+  
+ [!CODE [System.Array.Sort#1](../CodeSnippet/VS_Snippets_CLR_System/system.Array.Sort#1)]  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="Sort">
@@ -2352,11 +3729,62 @@
         <Parameter Name="comparer" Type="System.Collections.IComparer" />
       </Parameters>
       <Docs>
-        <param name="keys">To be added.</param>
-        <param name="items">To be added.</param>
-        <param name="comparer">To be added.</param>
-        <summary>To be added.</summary>
-        <remarks>To be added.</remarks>
+        <param name="keys">The one-dimensional &lt;see cref="T:System.Array"&gt; that contains the keys to sort.</param>
+        <param name="items">The one-dimensional &lt;see cref="T:System.Array"&gt; that contains the items that correspond to each of the keys in the &lt;see cref="T:System.Array"&gt;.  
+  
+ -or-  
+  
+ `null` to sort only the &lt;see cref="T:System.Array"&gt;.</param>
+        <param name="comparer">The &lt;see cref="T:System.Collections.IComparer"&gt; implementation to use when comparing elements.  
+  
+ -or-  
+  
+ `null` to use the &lt;xref:System.IComparable&gt; implementation of each element.</param>
+        <summary>Sorts a pair of one-dimensional &lt;see cref="T:System.Array"&gt; objects (one contains the keys and the other contains the corresponding items) based on the keys in the first &lt;see cref="T:System.Array"&gt; using the specified &lt;xref:System.Collections.IComparer&gt;.</summary>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ Each key in the <xref:System.Array> has a corresponding item in the <xref:System.Array>. When a key is repositioned during the sorting, the corresponding item in the <xref:System.Array> is similarly repositioned. Therefore, the <xref:System.Array> is sorted according to the arrangement of the corresponding keys in the <xref:System.Array>.  
+  
+ If  is `null`, each key in the <xref:System.Array> must implement the <xref:System.IComparable> interface to be capable of comparisons with every other key.  
+  
+ You can sort if there are more items than keys, but the items that have no corresponding keys will not be sorted. You cannot sort if there are more keys than items; doing this throws an <xref:System.ArgumentException>.  
+  
+ If the sort is not successfully completed, the results are undefined.  
+  
+ The .NET Framework includes predefined <xref:System.Collections.IComparer> implementations listed in the following table.  
+  
+|Implementation|Description|  
+|--------------------|-----------------|  
+|<xref:System.Collections.CaseInsensitiveComparer?displayProperty=fullName>|Compares any two objects, but performs a case-insensitive comparison of strings.|  
+|<xref:System.Collections.Comparer.Default?displayProperty=fullName>|Compares any two objects by using the sorting conventions of the current culture.|  
+|<xref:System.Collections.Comparer.DefaultInvariant?displayProperty=fullName>|Compares any two objects by using the sorting conventions of the invariant culture.|  
+|<xref:System.Collections.Generic.Comparer%601.Default%2A?displayProperty=fullName>|Compares two objects of type  by using the type's default sort order.|  
+  
+ You can also support custom comparisons by providing an instance of your own <xref:System.Collections.IComparer> implementation to the  parameter. The example does this by defining an <xref:System.Collections.IComparer> implementation that reverses the default sort order and performs case-insensitive string comparison.  
+  
+ This method uses the introspective sort (introsort) algorithm as follows:  
+  
+-   If the partition size is fewer than 16 elements, it uses an [insertion sort](http://en.wikipedia.org/wiki/Insertion_sort) algorithm.  
+  
+-   If the number of partitions exceeds 2 \* Log<sup>N</sup>, where  *N* is the range of the input array, it uses a [Heapsort](http://en.wikipedia.org/wiki/Heapsort) algorithm.  
+  
+-   Otherwise, it uses a [Quicksort](http://en.wikipedia.org/wiki/Quicksort) algorithm.  
+  
+ This implementation performs an unstable sort; that is, if two elements are equal, their order might not be preserved. In contrast, a stable sort preserves the order of elements that are equal.  
+  
+ For arrays that are sorted by using the Heapsort and Quicksort algorithms, in the worst case, this method is an O( log ) operation, where  is the <xref:System.Array.Length%2A> of .  
+  
+   
+  
+## Examples  
+ The following example shows how to sort two associated arrays where the first array contains the keys and the second array contains the values. Sorts are done using the default comparer and a custom comparer that reverses the sort order. Note that the result might vary depending on the current <xref:System.Globalization.CultureInfo>.  
+  
+ [!CODE [System.Array.Sort2#1](../CodeSnippet/VS_Snippets_CLR_System/system.Array.Sort2#1)]  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="Sort">
@@ -2380,11 +3808,39 @@
         <Parameter Name="length" Type="System.Int32" />
       </Parameters>
       <Docs>
-        <param name="array">To be added.</param>
-        <param name="index">To be added.</param>
-        <param name="length">To be added.</param>
-        <summary>To be added.</summary>
-        <remarks>To be added.</remarks>
+        <param name="array">The one-dimensional &lt;see cref="T:System.Array"&gt; to sort.</param>
+        <param name="index">The starting index of the range to sort.</param>
+        <param name="length">The number of elements in the range to sort.</param>
+        <summary>Sorts the elements in a range of elements in a one-dimensional &lt;see cref="T:System.Array"&gt; using the &lt;xref:System.IComparable&gt; implementation of each element of the &lt;see cref="T:System.Array"&gt;.</summary>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ Each element within the specified range of elements in  must implement the <xref:System.IComparable> interface to be capable of comparisons with every other element in .  
+  
+ If the sort is not successfully completed, the results are undefined.  
+  
+ This method uses the introspective sort (introsort) algorithm as follows:  
+  
+-   If the partition size is fewer than 16 elements, it uses an [insertion sort](http://en.wikipedia.org/wiki/Insertion_sort) algorithm.  
+  
+-   If the number of partitions exceeds 2 \* Log<sup>N</sup>, where  *N* is the range of the input array, it uses a [Heapsort](http://en.wikipedia.org/wiki/Heapsort) algorithm.  
+  
+-   Otherwise, it uses a [Quicksort](http://en.wikipedia.org/wiki/Quicksort) algorithm.  
+  
+ This implementation performs an unstable sort; that is, if two elements are equal, their order might not be preserved. In contrast, a stable sort preserves the order of elements that are equal.  
+  
+ For arrays that are sorted by using the Heapsort and Quicksort algorithms, in the worst case, this method is an O( log ) operation, where  is .  
+  
+   
+  
+## Examples  
+ The following code example shows how to sort the values in an <xref:System.Array> using the default comparer and a custom comparer that reverses the sort order. Note that the result might vary depending on the current <xref:System.Globalization.CultureInfo>.  
+  
+ [!CODE [System.Array.Sort#1](../CodeSnippet/VS_Snippets_CLR_System/system.Array.Sort#1)]  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="Sort">
@@ -2409,12 +3865,48 @@
         <Parameter Name="length" Type="System.Int32" />
       </Parameters>
       <Docs>
-        <param name="keys">To be added.</param>
-        <param name="items">To be added.</param>
-        <param name="index">To be added.</param>
-        <param name="length">To be added.</param>
-        <summary>To be added.</summary>
-        <remarks>To be added.</remarks>
+        <param name="keys">The one-dimensional &lt;see cref="T:System.Array"&gt; that contains the keys to sort.</param>
+        <param name="items">The one-dimensional &lt;see cref="T:System.Array"&gt; that contains the items that correspond to each of the keys in the &lt;see cref="T:System.Array"&gt;.  
+  
+ -or-  
+  
+ `null` to sort only the &lt;see cref="T:System.Array"&gt;.</param>
+        <param name="index">The starting index of the range to sort.</param>
+        <param name="length">The number of elements in the range to sort.</param>
+        <summary>Sorts a range of elements in a pair of one-dimensional &lt;see cref="T:System.Array"&gt; objects (one contains the keys and the other contains the corresponding items) based on the keys in the first &lt;see cref="T:System.Array"&gt; using the &lt;xref:System.IComparable&gt; implementation of each key.</summary>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ Each key in the <xref:System.Array> has a corresponding item in the <xref:System.Array>. When a key is repositioned during the sorting, the corresponding item in the <xref:System.Array> is similarly repositioned. Therefore, the <xref:System.Array> is sorted according to the arrangement of the corresponding keys in the <xref:System.Array>.  
+  
+ Each key within the specified range of elements in the <xref:System.Array> must implement the <xref:System.IComparable> interface to be capable of comparisons with every other key.  
+  
+ You can sort if there are more items than keys, but the items that have no corresponding keys will not be sorted. You cannot sort if there are more keys than items; doing this throws an <xref:System.ArgumentException>.  
+  
+ If the sort is not successfully completed, the results are undefined.  
+  
+ This method uses the introspective sort (introsort) algorithm as follows:  
+  
+-   If the partition size is fewer than 16 elements, it uses an [insertion sort](http://en.wikipedia.org/wiki/Insertion_sort) algorithm.  
+  
+-   If the number of partitions exceeds 2 \* Log<sup>N</sup>, where *N* is the range of the input array, it uses a [Heapsort](http://en.wikipedia.org/wiki/Heapsort) algorithm.  
+  
+-   Otherwise, it uses a [Quicksort](http://en.wikipedia.org/wiki/Quicksort) algorithm.  
+  
+ This implementation performs an unstable sort; that is, if two elements are equal, their order might not be preserved. In contrast, a stable sort preserves the order of elements that are equal.  
+  
+ For arrays that are sorted by using the Heapsort and Quicksort algorithms, in the worst case, this method is an O( log ) operation, where  is .  
+  
+   
+  
+## Examples  
+ The following code example shows how to sort two associated arrays where the first array contains the keys and the second array contains the values. Sorts are done using the default comparer and a custom comparer that reverses the sort order. Note that the result might vary depending on the current <xref:System.Globalization.CultureInfo>.  
+  
+ [!CODE [System.Array.Sort2#1](../CodeSnippet/VS_Snippets_CLR_System/system.Array.Sort2#1)]  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="Sort">
@@ -2439,12 +3931,55 @@
         <Parameter Name="comparer" Type="System.Collections.IComparer" />
       </Parameters>
       <Docs>
-        <param name="array">To be added.</param>
-        <param name="index">To be added.</param>
-        <param name="length">To be added.</param>
-        <param name="comparer">To be added.</param>
-        <summary>To be added.</summary>
-        <remarks>To be added.</remarks>
+        <param name="array">The one-dimensional &lt;see cref="T:System.Array"&gt; to sort.</param>
+        <param name="index">The starting index of the range to sort.</param>
+        <param name="length">The number of elements in the range to sort.</param>
+        <param name="comparer">The &lt;see cref="T:System.Collections.IComparer"&gt; implementation to use when comparing elements.  
+  
+ -or-  
+  
+ `null` to use the &lt;xref:System.IComparable&gt; implementation of each element.</param>
+        <summary>Sorts the elements in a range of elements in a one-dimensional &lt;see cref="T:System.Array"&gt; using the specified &lt;xref:System.Collections.IComparer&gt;.</summary>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ If  is `null`, each element within the specified range of elements in  must implement the <xref:System.IComparable> interface to be capable of comparisons with every other element in .  
+  
+ If the sort is not successfully completed, the results are undefined.  
+  
+ The .NET Framework includes predefined <xref:System.Collections.IComparer> implementations listed in the following table.  
+  
+|Implementation|Description|  
+|--------------------|-----------------|  
+|<xref:System.Collections.CaseInsensitiveComparer?displayProperty=fullName>|Compares any two objects, but performs a case-insensitive comparison of strings.|  
+|<xref:System.Collections.Comparer.Default?displayProperty=fullName>|Compares any two objects by using the sorting conventions of the current culture.|  
+|<xref:System.Collections.Comparer.DefaultInvariant?displayProperty=fullName>|Compares any two objects by using the sorting conventions of the invariant culture.|  
+|<xref:System.Collections.Generic.Comparer%601.Default%2A?displayProperty=fullName>|Compares two objects of type  by using the type's default sort order.|  
+  
+ You can also support custom comparisons by providing an instance of your own <xref:System.Collections.IComparer> implementation to the  parameter. The example does this by defining a `ReverseComparer` class that reverses the default sort order for instances of a type and performs case-insensitive string comparison.  
+  
+ This method uses the introspective sort (introsort) algorithm as follows:  
+  
+-   If the partition size is fewer than 16 elements, it uses an [insertion sort](http://en.wikipedia.org/wiki/Insertion_sort) algorithm.  
+  
+-   If the number of partitions exceeds 2 \* Log<sup>N</sup>, where  *N* is the range of the input array, it uses a [Heapsort](http://en.wikipedia.org/wiki/Heapsort) algorithm.  
+  
+-   Otherwise, it uses a [Quicksort](http://en.wikipedia.org/wiki/Quicksort) algorithm.  
+  
+ This implementation performs an unstable sort; that is, if two elements are equal, their order might not be preserved. In contrast, a stable sort preserves the order of elements that are equal.  
+  
+ For arrays that are sorted by using the Heapsort and Quicksort algorithms, in the worst case, this method is an O( log ) operation, where  is .  
+  
+   
+  
+## Examples  
+ The following code example shows how to sort the values in an <xref:System.Array> using the default comparer and a custom comparer that reverses the sort order. Note that the result might vary depending on the current <xref:System.Globalization.CultureInfo>.  
+  
+ [!CODE [System.Array.Sort#1](../CodeSnippet/VS_Snippets_CLR_System/system.Array.Sort#1)]  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="Sort">
@@ -2473,13 +4008,64 @@
         <Parameter Name="comparer" Type="System.Collections.IComparer" />
       </Parameters>
       <Docs>
-        <param name="keys">To be added.</param>
-        <param name="items">To be added.</param>
-        <param name="index">To be added.</param>
-        <param name="length">To be added.</param>
-        <param name="comparer">To be added.</param>
-        <summary>To be added.</summary>
-        <remarks>To be added.</remarks>
+        <param name="keys">The one-dimensional &lt;see cref="T:System.Array"&gt; that contains the keys to sort.</param>
+        <param name="items">The one-dimensional &lt;see cref="T:System.Array"&gt; that contains the items that correspond to each of the keys in the &lt;see cref="T:System.Array"&gt;.  
+  
+ -or-  
+  
+ `null` to sort only the &lt;see cref="T:System.Array"&gt;.</param>
+        <param name="index">The starting index of the range to sort.</param>
+        <param name="length">The number of elements in the range to sort.</param>
+        <param name="comparer">The &lt;see cref="T:System.Collections.IComparer"&gt; implementation to use when comparing elements.  
+  
+ -or-  
+  
+ `null` to use the &lt;xref:System.IComparable&gt; implementation of each element.</param>
+        <summary>Sorts a range of elements in a pair of one-dimensional &lt;see cref="T:System.Array"&gt; objects (one contains the keys and the other contains the corresponding items) based on the keys in the first &lt;see cref="T:System.Array"&gt; using the specified &lt;xref:System.Collections.IComparer&gt;.</summary>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ Each key in the <xref:System.Array> has a corresponding item in the <xref:System.Array>. When a key is repositioned during the sorting, the corresponding item in the <xref:System.Array> is similarly repositioned. Therefore, the <xref:System.Array> is sorted according to the arrangement of the corresponding keys in the <xref:System.Array>.  
+  
+ If  is `null`, each key within the specified range of elements in the <xref:System.Array> must implement the <xref:System.IComparable> interface to be capable of comparisons with every other key.  
+  
+ You can sort if there are more items than keys, but the items that have no corresponding keys will not be sorted. You cannot sort if there are more keys than items; doing this throws an <xref:System.ArgumentException>.  
+  
+ If the sort is not successfully completed, the results are undefined.  
+  
+ The .NET Framework includes predefined <xref:System.Collections.IComparer> implementations listed in the following table.  
+  
+|Implementation|Description|  
+|--------------------|-----------------|  
+|<xref:System.Collections.CaseInsensitiveComparer?displayProperty=fullName>|Compares any two objects, but performs a case-insensitive comparison of strings.|  
+|<xref:System.Collections.Comparer.Default?displayProperty=fullName>|Compares any two objects by using the sorting conventions of the current culture.|  
+|<xref:System.Collections.Comparer.DefaultInvariant?displayProperty=fullName>|Compares any two objects by using the sorting conventions of the invariant culture.|  
+|<xref:System.Collections.Generic.Comparer%601.Default%2A?displayProperty=fullName>|Compares two objects of type  by using the type's default sort order.|  
+  
+ You can also support custom comparisons by providing an instance of your own <xref:System.Collections.IComparer> implementation to the  parameter. The example does this by defining a custom <xref:System.Collections.IComparer> implementation that reverses the default sort order and performs case-insensitive string comparison.  
+  
+ This method uses the introspective sort (introsort) algorithm as follows:  
+  
+-   If the partition size is fewer than 16 elements, it uses an [insertion sort](http://en.wikipedia.org/wiki/Insertion_sort) algorithm.  
+  
+-   If the number of partitions exceeds 2 \* Log<sup>N</sup>, where *N* is the range of the input array, it uses a [Heapsort](http://en.wikipedia.org/wiki/Heapsort) algorithm.  
+  
+-   Otherwise, it uses a [Quicksort](http://en.wikipedia.org/wiki/Quicksort) algorithm.  
+  
+ This implementation performs an unstable sort; that is, if two elements are equal, their order might not be preserved. In contrast, a stable sort preserves the order of elements that are equal.  
+  
+ For arrays that are sorted by using the Heapsort and Quicksort algorithms, in the worst case, this method is an O( log ) operation, where  is .  
+  
+   
+  
+## Examples  
+ The following code example shows how to sort two associated arrays where the first array contains the keys and the second array contains the values. Sorts are done using the default comparer and a custom comparer that reverses the sort order. Note that the result might vary depending on the current <xref:System.Globalization.CultureInfo>.  
+  
+ [!CODE [System.Array.Sort2#1](../CodeSnippet/VS_Snippets_CLR_System/system.Array.Sort2#1)]  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="Sort&lt;T&gt;">
@@ -2788,9 +4374,31 @@
         <ReturnType>System.Object</ReturnType>
       </ReturnValue>
       <Docs>
-        <summary>To be added.</summary>
-        <value>To be added.</value>
-        <remarks>To be added.</remarks>
+        <summary>Gets an object that can be used to synchronize access to the &lt;see cref="T:System.Array"&gt;.</summary>
+        <value>An object that can be used to synchronize access to the &lt;see cref="T:System.Array"&gt;.</value>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ This property implements the <xref:System.Collections.ICollection?displayProperty=fullName> interface.  
+  
+ .NET Framework classes based on <xref:System.Array> provide their own synchronized version of the collection using the SyncRoot property.  
+  
+ Classes that use arrays can also implement their own synchronization using the SyncRoot property. The synchronizing code must perform operations on the `SyncRoot` of the collection, not directly on the collection. This ensures proper operation of collections that are derived from other objects. Specifically, it maintains proper synchronization with other threads that might be simultaneously modifying the collection. Note that some implementations of SyncRoot might return the <xref:System.Array> itself.  
+  
+ Enumerating through a collection is intrinsically not a thread safe procedure. Even when a collection is synchronized, other threads can still modify the collection, which causes the enumerator to throw an exception. To guarantee thread safety during enumeration, you can either lock the collection during the entire enumeration or catch the exceptions resulting from changes made by other threads.  
+  
+ Retrieving the value of this property is an O(1) operation.  
+  
+   
+  
+## Examples  
+ The following code example shows how to lock an array during the entire enumeration by using the SyncRoot property.  
+  
+ [!CODE [System.Array.SyncRoot#1](../CodeSnippet/VS_Snippets_CLR_System/system.Array.SyncRoot#1)]  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="System.Collections.ICollection.Count">
@@ -2804,9 +4412,16 @@
         <ReturnType>System.Int32</ReturnType>
       </ReturnValue>
       <Docs>
-        <summary>To be added.</summary>
-        <value>To be added.</value>
-        <remarks>To be added.</remarks>
+        <summary>Gets the number of elements contained in the &lt;see cref="T:System.Array"&gt;.</summary>
+        <value>The number of elements contained in the collection.</value>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ This member is an explicit interface member implementation. It can be used only when the <xref:System.Array> instance is cast to an <xref:System.Collections.ICollection> interface.  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="System.Collections.IList.Add">
@@ -2823,10 +4438,19 @@
         <Parameter Name="value" Type="System.Object" />
       </Parameters>
       <Docs>
-        <param name="value">To be added.</param>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
-        <remarks>To be added.</remarks>
+        <param name="value">The object to be added to the &lt;see cref="T:System.Collections.IList"&gt;.</param>
+        <summary>Calling this method always throws a &lt;see cref="T:System.NotSupportedException"&gt; exception.</summary>
+        <returns>Adding a value to an array is not supported. No value is returned.</returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ Ordinarily, an <xref:System.Collections.IList.Add%2A?displayProperty=fullName> implementation adds a member to a collection. However, because arrays have a fixed size (the <xref:System.Array.IsFixedSize%2A> property always returns `true`), this method always throws a <xref:System.NotSupportedException> exception.  
+  
+ This member is an explicit interface member implementation. It can be used only when the <xref:System.Array> instance is cast to an <xref:System.Collections.IList> interface.  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="System.Collections.IList.Clear">
@@ -2841,8 +4465,15 @@
       </ReturnValue>
       <Parameters />
       <Docs>
-        <summary>To be added.</summary>
-        <remarks>To be added.</remarks>
+        <summary>Removes all items from the &lt;see cref="T:System.Collections.IList"&gt;.</summary>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ This member is an explicit interface member implementation. It can be used only when the <xref:System.Array> instance is cast to an <xref:System.Collections.IList> interface.  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="System.Collections.IList.Contains">
@@ -2859,10 +4490,17 @@
         <Parameter Name="value" Type="System.Object" />
       </Parameters>
       <Docs>
-        <param name="value">To be added.</param>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
-        <remarks>To be added.</remarks>
+        <param name="value">The object to locate in the current list. The element to locate can be `null` for reference types.</param>
+        <summary>Determines whether an element is in the &lt;see cref="T:System.Collections.IList"&gt;.</summary>
+        <returns>`true` if  is found in the &lt;see cref="T:System.Collections.IList"&gt;; otherwise, `false`.</returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ This member is an explicit interface member implementation. It can be used only when the <xref:System.Array> instance is cast to an <xref:System.Collections.IList> interface.  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="System.Collections.IList.IndexOf">
@@ -2879,10 +4517,17 @@
         <Parameter Name="value" Type="System.Object" />
       </Parameters>
       <Docs>
-        <param name="value">To be added.</param>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
-        <remarks>To be added.</remarks>
+        <param name="value">The object to locate in the current list.</param>
+        <summary>Determines the index of a specific item in the &lt;see cref="T:System.Collections.IList"&gt;.</summary>
+        <returns>The index of value if found in the list; otherwise, -1.</returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ This member is an explicit interface member implementation. It can be used only when the <xref:System.Array> instance is cast to an <xref:System.Collections.IList> interface.  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="System.Collections.IList.Insert">
@@ -2900,10 +4545,17 @@
         <Parameter Name="value" Type="System.Object" />
       </Parameters>
       <Docs>
-        <param name="index">To be added.</param>
-        <param name="value">To be added.</param>
-        <summary>To be added.</summary>
-        <remarks>To be added.</remarks>
+        <param name="index">The index at which  should be inserted.</param>
+        <param name="value">The object to insert.</param>
+        <summary>Inserts an item to the &lt;see cref="T:System.Collections.IList"&gt; at the specified index.</summary>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ This member is an explicit interface member implementation. It can be used only when the <xref:System.Array> instance is cast to an <xref:System.Collections.IList> interface.  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="System.Collections.IList.Item">
@@ -2920,10 +4572,17 @@
         <Parameter Name="index" Type="System.Int32" />
       </Parameters>
       <Docs>
-        <param name="index">To be added.</param>
-        <summary>To be added.</summary>
-        <value>To be added.</value>
-        <remarks>To be added.</remarks>
+        <param name="index">The index of the element to get or set.</param>
+        <summary>Gets or sets the element at the specified index.</summary>
+        <value>The element at the specified index.</value>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ This member is an explicit interface member implementation. It can be used only when the <xref:System.Array> instance is cast to an<xref:System.Collections.IList> interface.  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="System.Collections.IList.Remove">
@@ -2940,9 +4599,16 @@
         <Parameter Name="value" Type="System.Object" />
       </Parameters>
       <Docs>
-        <param name="value">To be added.</param>
-        <summary>To be added.</summary>
-        <remarks>To be added.</remarks>
+        <param name="value">The object to remove from the &lt;see cref="T:System.Collections.IList"&gt;.</param>
+        <summary>Removes the first occurrence of a specific object from the &lt;see cref="T:System.Collections.IList"&gt;.</summary>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ This member is an explicit interface member implementation. It can be used only when the <xref:System.Array> instance is cast to an <xref:System.Collections.IList> interface.  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="System.Collections.IList.RemoveAt">
@@ -2959,9 +4625,16 @@
         <Parameter Name="index" Type="System.Int32" />
       </Parameters>
       <Docs>
-        <param name="index">To be added.</param>
-        <summary>To be added.</summary>
-        <remarks>To be added.</remarks>
+        <param name="index">The index of the element to remove.</param>
+        <summary>Removes the &lt;see cref="T:System.Collections.IList"&gt; item at the specified index.</summary>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ This member is an explicit interface member implementation. It can be used only when the <xref:System.Array> instance is cast to an <xref:System.Collections.IList> interface.  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="System.Collections.IStructuralComparable.CompareTo">
@@ -2979,11 +4652,24 @@
         <Parameter Name="comparer" Type="System.Collections.IComparer" />
       </Parameters>
       <Docs>
-        <param name="other">To be added.</param>
-        <param name="comparer">To be added.</param>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
-        <remarks>To be added.</remarks>
+        <param name="other">The object to compare with the current instance.</param>
+        <param name="comparer">An object that compares the current object and .</param>
+        <summary>Determines whether the current collection object precedes, occurs in the same position as, or follows another object in the sort order.</summary>
+        <returns>An integer that indicates the relationship of the current collection object to other, as shown in the following table.  
+  
+|Return value|Description|  
+|------------------|-----------------|  
+|-1|The current instance precedes .|  
+|0|The current instance and  are equal.|  
+|1|The current instance follows .|</returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ This member is an explicit interface member implementation. It can be used only when the <xref:System.Array> instance is cast to an <xref:System.Collections.IStructuralComparable> interface.  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="System.Collections.IStructuralEquatable.Equals">
@@ -3001,11 +4687,18 @@
         <Parameter Name="comparer" Type="System.Collections.IEqualityComparer" />
       </Parameters>
       <Docs>
-        <param name="other">To be added.</param>
-        <param name="comparer">To be added.</param>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
-        <remarks>To be added.</remarks>
+        <param name="other">The object to compare with the current instance.</param>
+        <param name="comparer">An object that determines whether the current instance and  are equal.</param>
+        <summary>Determines whether an object is equal to the current instance.</summary>
+        <returns>`true` if the two objects are equal; otherwise, `false`.</returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ This member is an explicit interface member implementation. It can be used only when the <xref:System.Array> instance is cast to an<xref:System.Collections.IStructuralEquatable>interface.  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="System.Collections.IStructuralEquatable.GetHashCode">
@@ -3022,10 +4715,17 @@
         <Parameter Name="comparer" Type="System.Collections.IEqualityComparer" />
       </Parameters>
       <Docs>
-        <param name="comparer">To be added.</param>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
-        <remarks>To be added.</remarks>
+        <param name="comparer">An object that computes the hash code of the current object.</param>
+        <summary>Returns a hash code for the current instance.</summary>
+        <returns>The hash code for the current instance.</returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ This member is an explicit interface member implementation. It can be used only when the <xref:System.Array> instance is cast to an<xref:System.Collections.IStructuralEquatable>interface.  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="TrueForAll&lt;T&gt;">

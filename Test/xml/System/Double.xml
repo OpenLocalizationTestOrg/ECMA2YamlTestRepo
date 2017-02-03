@@ -31,8 +31,202 @@
     </Attribute>
   </Attributes>
   <Docs>
-    <summary>To be added.</summary>
-    <remarks>To be added.</remarks>
+    <summary>Represents a double-precision floating-point number.</summary>
+    <remarks>
+      <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ The Double value type represents a double-precision 64-bit number with values ranging from negative 1.79769313486232e308 to positive 1.79769313486232e308, as well as positive or negative zero, <xref:System.Double.PositiveInfinity>, <xref:System.Double.NegativeInfinity>, and not a number (<xref:System.Double.NaN>). It is intended to represent values that are extremely large (such as distances between planets or galaxies) or extremely small (the molecular mass of a substance in kilograms) and that often are imprecise (such as the distance from earth to another solar system), The Double type complies with the IEC 60559:1989 (IEEE 754) standard for binary floating-point arithmetic.  
+  
+ This topic consists of the following sections:  
+  
+-   [Floating-point representation and precision](#Precision)  
+  
+-   [Testing for equality](#Equality)  
+  
+-   [Floating-point values and exceptions](#Exceptions)  
+  
+-   [Type conversions and the Double structure](#Conversions)  
+  
+-   [Floating-point functionality](#Functionality)  
+  
+<a name="Precision"></a>   
+## Floating-Point Representation and Precision  
+ The Double data type stores double-precision floating-point values in a 64-bit binary format, as shown in the following table:  
+  
+|Part|Bits|  
+|----------|----------|  
+|Significand or mantissa|0-51|  
+|Exponent|52-62|  
+|Sign (0 = Positive, 1 = Negative)|63|  
+  
+ Just as decimal fractions are unable to precisely represent some fractional values (such as 1/3 or <xref:System.Math.PI?displayProperty=fullName>), binary fractions are unable to represent some fractional values. For example, 1/10, which is represented precisely by .1 as a decimal fraction, is represented by .001100110011 as a binary fraction, with the pattern "0011" repeating to infinity. In this case, the floating-point value provides an imprecise representation of the number that it represents. Performing additional mathematical operations on the original floating-point value often tends to increase its lack of precision. For example, if we compare the result of multiplying .1 by 10 and adding .1 to .1 nine times, we see that addition, because it has involved eight more operations, has produced the less precise result. Note that this disparity is apparent only if we display the two Double values by using the "R" [standard numeric format string](../Topic/Standard%20Numeric%20Format%20Strings.md), which if necessary displays all 17 digits of precision supported by the Double type.  
+  
+ [!CODE [System.Double.Structure#3](../CodeSnippet/VS_Snippets_CLR_System/system.double.structure#3)]  
+  
+ Because some numbers cannot be represented exactly as fractional binary values, floating-point numbers can only approximate real numbers.  
+  
+ All floating-point numbers also have a limited number of significant digits, which also determines how accurately a floating-point value approximates a real number.   A Double value has up to 15 decimal digits of precision, although a maximum of 17 digits is maintained internally. This means that some floating-point operations may lack the precision to change a floating point value. The following example provides an illustration. It defines a very large floating-point value, and then adds the product of <xref:System.Double.Epsilon?displayProperty=fullName> and one quadrillion to it. The product, however, is too small to modify the original floating-point value. Its least significant digit is thousandths, whereas the most significant digit in the product is 1<sup>-312</sup>.  
+  
+ [!CODE [System.Double.Structure#4](../CodeSnippet/VS_Snippets_CLR_System/system.double.structure#4)]  
+  
+ The limited precision of a floating-point number has several consequences:  
+  
+-   Two floating-point numbers that appear equal for a particular precision might not compare equal because their least significant digits are different. In the following example, a series of numbers are added together, and their total is compared with their expected total. Although the two values appear to be the same, a call to the `Equals` method indicates that they are not.  
+  
+     [!CODE [System.Double.Structure#6](../CodeSnippet/VS_Snippets_CLR_System/system.double.structure#6)]  
+  
+     If you change the format items in the <xref:System.Console.WriteLine%28System.String%2CSystem.Object%2CSystem.Object%29?displayProperty=fullName> statement from `{0}` and `{1}` to `{0:R}` and `{1:R}` to display all significant digits of the two Double values, it is clear that the two values are unequal because of a loss of precision during the addition operations. In this case, the issue can be resolved by calling the <xref:System.Math.Round%28System.Double%2CSystem.Int32%29?displayProperty=fullName> method to round the Double values to the desired precision before performing the comparison.  
+  
+-   A mathematical or comparison operation that uses a floating-point number might not yield the same result if a decimal number is used, because the binary floating-point number might not equal the decimal number. A previous example illustrated this by displaying the result of multiplying .1 by 10 and adding .1 times.  
+  
+     When accuracy in numeric operations with fractional values is important, you can use the <xref:System.Decimal> rather than the Double type. When accuracy in numeric operations with integral values beyond the range of the <xref:System.Int64> or <xref:System.UInt64> types is important, use the <xref:System.Numerics.BigInteger> type.  
+  
+-   A value might not round-trip if a floating-point number is involved. A value is said to round-trip if an operation converts an original floating-point number to another form, an inverse operation transforms the converted form back to a floating-point number, and the final floating-point number is not equal to the original floating-point number. The roundtrip might fail because one or more least significant digits are lost or changed in a conversion. In the following example, three Double values are converted to strings and saved in a file. As the output shows, however, even though the values appear to be identical, the restored values are not equal to the original values.  
+  
+     [!CODE [System.Double.Structure#7](../CodeSnippet/VS_Snippets_CLR_System/system.double.structure#7)]  
+  
+     In this case, the values can be successfully round-tripped by using the "R" [standard numeric format string](../Topic/Standard%20Numeric%20Format%20Strings.md) to preserve the full precision of Double values, as the following example shows.  
+  
+     [!CODE [System.Double.Structure#8](../CodeSnippet/VS_Snippets_CLR_System/system.double.structure#8)]  
+  
+-   <xref:System.Single> values have less precision than Double values. A <xref:System.Single> value that is converted to a seemingly equivalent Double often does not equal the Double value because of differences in precision. In the following example, the result of identical division operations is assigned to a Double and a <xref:System.Single> value. After the <xref:System.Single> value is cast to a Double, a comparison of the two values shows that they are unequal.  
+  
+     [!CODE [System.Double.Structure#5](../CodeSnippet/VS_Snippets_CLR_System/system.double.structure#5)]  
+  
+     To avoid this problem, use either the Double in place of the <xref:System.Single> data type, or use the <xref:System.Math.Round%2A> method so that both values have the same precision.  
+  
+ In addition, the result of arithmetic and assignment operations with Double values may differ slightly by platform because of the loss of precision of the Double type. For example, the result of assigning a literal Double value may differ in the 32-bit and 64-bit versions of the .NET Framework. The following example illustrates this difference when the literal value -4.42330604244772E-305 and a variable whose value is -4.42330604244772E-305 are assigned to a Double variable. Note that the result of the <xref:System.Double.Parse%28System.String%29> method in this case does not suffer from a loss of precision.  
+  
+ [!CODE [System.Double.Class.Precision#1](../CodeSnippet/VS_Snippets_CLR_System/system.double.class.precision#1)]  
+  
+<a name="Equality"></a>   
+## Testing for Equality  
+ To be considered equal, two Double values must represent identical values. However, because of differences in precision between values, or because of a loss of precision by one or both values, floating-point values that are expected to be identical often turn out to be unequal because of differences in their least significant digits. As a result, calls to the <xref:System.Double.Equals%2A> method to determine whether two values are equal, or calls to the <xref:System.Double.CompareTo%2A> method to determine the relationship between two Double values, often yield unexpected results. This is evident in the following example, where two apparently equal Double values turn out to be unequal because the first has 15 digits of precision, while the second has 17.  
+  
+ [!CODE [System.Double.Structure#9](../CodeSnippet/VS_Snippets_CLR_System/system.double.structure#9)]  
+  
+ Calculated values that follow different code paths and that are manipulated in different ways often prove to be unequal. In the following example, one Double value is squared, and then the square root is calculated to restore the original value. A second Double is multiplied by 3.51 and squared before the square root of the result is divided by 3.51 to restore the original value. Although the two values appear to be identical, a call to the <xref:System.Double.Equals%28System.Double%29> method indicates that they are not equal. Using the "R" standard format string to return a result string that displays all the significant digits of each Double value shows that the second value is .0000000000001 less than the first.  
+  
+ [!CODE [System.Double.Structure#10](../CodeSnippet/VS_Snippets_CLR_System/system.double.structure#10)]  
+  
+ In cases where a loss of precision is likely to affect the result of a comparison, you can adopt any of the following alternatives to calling the <xref:System.Double.Equals%2A> or <xref:System.Double.CompareTo%2A> method:  
+  
+-   Call the <xref:System.Math.Round%2A?displayProperty=fullName> method to ensure that both values have the same precision. The following example modifies a previous example to use this approach so that two fractional values are equivalent.  
+  
+     [!CODE [System.Double.Structure#11](../CodeSnippet/VS_Snippets_CLR_System/system.double.structure#11)]  
+  
+     Note, though, that the problem of precision still applies to rounding of midpoint values. For more information, see the <xref:System.Math.Round%28System.Double%2CSystem.Int32%2CSystem.MidpointRounding%29?displayProperty=fullName> method.  
+  
+-   Test for approximate equality rather than equality. This requires that you define either an absolute amount by which the two values can differ but still be equal, or that you define a relative amount by which the smaller value can diverge from the larger value.  
+  
+    > [!WARNING]
+    >  <xref:System.Double.Epsilon?displayProperty=fullName> is sometimes used as an absolute measure of the distance between two Double values when testing for equality.  However, <xref:System.Double.Epsilon?displayProperty=fullName> measures the smallest possible value that can be added to, or subtracted from, a Double whose value is zero. For most positive and negative Double values, the value of <xref:System.Double.Epsilon?displayProperty=fullName> is too small to be detected. Therefore, except for values that are zero, we do not recommend its use in tests for equality.  
+  
+     The following example uses the latter approach to define an `IsApproximatelyEqual` method that tests the relative difference between two values. It also contrasts the result of calls to the `IsApproximatelyEqual` method and the <xref:System.Double.Equals%28System.Double%29> method.  
+  
+     [!CODE [System.Double.Structure#12](../CodeSnippet/VS_Snippets_CLR_System/system.double.structure#12)]  
+  
+<a name="Exceptions"></a>   
+## Floating-Point Values and Exceptions  
+ Unlike operations with integral types, which throw exceptions in cases of overflow or illegal operations such as division by zero, operations with floating-point values do not throw exceptions. Instead, in exceptional situations, the result of a floating-point operation is zero, positive infinity, negative infinity, or not a number (NaN):  
+  
+-   If the result of a floating-point operation is too small for the destination format, the result is zero. This can occur when two very small numbers are multiplied, as the following example shows.  
+  
+     [!CODE [System.Double.Structure#1](../CodeSnippet/VS_Snippets_CLR_System/system.double.structure#1)]  
+  
+-   If the magnitude of the result of a floating-point operation exceeds the range of the destination format, the result of the operation is <xref:System.Double.PositiveInfinity> or <xref:System.Double.NegativeInfinity>, as appropriate for the sign of the result. The result of an operation that overflows <xref:System.Double.MaxValue?displayProperty=fullName> is <xref:System.Double.PositiveInfinity>, and the result of an operation that overflows <xref:System.Double.MinValue?displayProperty=fullName> is <xref:System.Double.NegativeInfinity>, as the following example shows.  
+  
+     [!CODE [System.Double.Structure#2](../CodeSnippet/VS_Snippets_CLR_System/system.double.structure#2)]  
+  
+     <xref:System.Double.PositiveInfinity> also results from a division by zero with a positive dividend, and <xref:System.Double.NegativeInfinity> results from a division by zero with a negative dividend.  
+  
+-   If a floating-point operation is invalid, the result of the operation is <xref:System.Double.NaN>. For example, <xref:System.Double.NaN> results from the following operations:  
+  
+    -   Division by zero with a dividend of zero. Note that other cases of division by zero result in either <xref:System.Double.PositiveInfinity> or <xref:System.Double.NegativeInfinity>.  
+  
+-   Any floating-point operation with an invalid input. For example, calling the <xref:System.Math.Sqrt%2A?displayProperty=fullName> method with a negative value returns <xref:System.Double.NaN>, as does calling the <xref:System.Math.Acos%2A?displayProperty=fullName> method with a value that is greater than one or less than negative one.  
+  
+-   Any operation with an argument whose value is <xref:System.Double.NaN?displayProperty=fullName>.  
+  
+<a name="Conversions"></a>   
+## Type conversions and the Double structure  
+ The Double structure does not define any explicit or implicit conversion operators; instead, conversions are implemented by the compiler.  
+  
+ The conversion of the value of any primitive numeric type to a Double is a widening conversion and therefore does not require an explicit cast operator or call to a conversion method unless a compiler explicitly requires it. For example, the C# compiler requires a casting operator for conversions from <xref:System.Decimal> to Double, while the Visual Basic compiler does not. The following example converts the minimum or maximum value of other primitive numeric types to a Double.  
+  
+ [!CODE [System.Double.Structure#20](../CodeSnippet/VS_Snippets_CLR_System/system.double.structure#20)]  
+  
+ In addition, the <xref:System.Single> values <xref:System.Single.NaN?displayProperty=fullName>, <xref:System.Single.PositiveInfinity?displayProperty=fullName>, and <xref:System.Single.NegativeInfinity?displayProperty=fullName> covert to <xref:System.Double.NaN?displayProperty=fullName>, <xref:System.Double.PositiveInfinity?displayProperty=fullName>, and <xref:System.Double.NegativeInfinity?displayProperty=fullName>, respectively.  
+  
+ Note that the conversion of the value of some numeric types to a Double value can involve a loss of precision. As the example illustrates, a loss of precision is possible when converting <xref:System.Decimal>, <xref:System.Int64>, <xref:System.Single>, and <xref:System.UInt64> values to Double values.  
+  
+ The conversion of a Double value to a value of any other primitive numeric data type is a narrowing conversion and requires a cast operator (in C#), a conversion method (in Visual Basic), or a call to a <xref:System.Convert> method. Values that are outside the range of the target data type, which are defined by the target type's `MinValue` and `MaxValue` properties, behave as shown in the following table.  
+  
+|Target type|Result|  
+|-----------------|------------|  
+|Any integral type|An <xref:System.OverflowException> exception if the conversion occurs in a checked context.<br /><br /> If the conversion occurs in an unchecked context (the default in C#), the conversion operation succeeds but the value overflows.|  
+|<xref:System.Decimal>|An <xref:System.OverflowException> exception.|  
+|<xref:System.Single>|<xref:System.Single.NegativeInfinity?displayProperty=fullName> for negative values.<br /><br /> <xref:System.Single.PositiveInfinity?displayProperty=fullName> for positive values.|  
+  
+ In addition, <xref:System.Double.NaN?displayProperty=fullName>, <xref:System.Double.PositiveInfinity?displayProperty=fullName>, and <xref:System.Double.NegativeInfinity?displayProperty=fullName> throw an <xref:System.OverflowException> for conversions to integers in a checked context, but these values overflow when converted to integers in an unchecked context. For conversions to <xref:System.Decimal>, they always throw an <xref:System.OverflowException>. For conversions to <xref:System.Single>, they convert to <xref:System.Single.NaN?displayProperty=fullName>, <xref:System.Single.PositiveInfinity?displayProperty=fullName>, and <xref:System.Single.NegativeInfinity?displayProperty=fullName>, respectively.  
+  
+ Note that a loss of precision may result from converting a Double value to another numeric type. In the case of converting non-integral Double values, as the output from the example shows, the fractional component is lost when the Double value is either rounded (as in Visual Basic) or truncated (as in C#). For conversions to <xref:System.Decimal> and <xref:System.Single> values, the Double value may not have a precise representation in the target data type.  
+  
+ The following example converts a number of Double values to several other numeric types. The conversions occur in a checked context in Visual Basic (the default) and in C# (because of the [checked](../Topic/checked%20\(C%23%20Reference\).md) keyword). The output from the example shows the result for conversions in both a checked an unchecked context. You can perform conversions in an unchecked context in Visual Basic by compiling with the `/removeintchecks+` compiler switch and in C# by commenting out the `checked` statement.  
+  
+ [!CODE [System.Double.Structure#21](../CodeSnippet/VS_Snippets_CLR_System/system.double.structure#21)]  
+  
+ For more information on the conversion of numeric types, see [Type Conversion in the .NET Framework](../Topic/Type%20Conversion%20in%20the%20.NET%20Framework.md) and [Type Conversion Tables](../Topic/Type%20Conversion%20Tables%20in%20the%20.NET%20Framework.md).  
+  
+<a name="Functionality"></a>   
+## Floating-Point Functionality  
+ The Double structure and related types provide methods to perform operations in the following areas:  
+  
+-   **Comparison of values**. You can call the <xref:System.Double.Equals%2A> method to determine whether two Double values are equal, or the <xref:System.Double.CompareTo%2A> method to determine the relationship between two values.  
+  
+     The Double structure also supports a complete set of comparison operators. For example, you can test for equality or inequality, or determine whether one value is greater than or equal to another. If one of the operands is a numeric type other than a Double, it is converted to a Double before performing the comparison.  
+  
+    > [!WARNING]
+    >  Because of differences in precision, two Double values that you expect to be equal may turn out to be unequal, which affects the result of the comparison. See the [Testing for Equality](#Equality) section for more information about comparing two Double values.  
+  
+     You can also call the <xref:System.Double.IsNaN%2A>, <xref:System.Double.IsInfinity%2A>, <xref:System.Double.IsPositiveInfinity%2A>, and <xref:System.Double.IsNegativeInfinity%2A> methods to test for these special values.  
+  
+-   **Mathematical operations**. Common arithmetic operations, such as addition, subtraction, multiplication, and division, are implemented by language compilers and Common Intermediate Language (CIL) instructions, rather than by Double methods. If one of the operands in a mathematical operation is a numeric type other than a Double, it is converted to a Double before performing the operation. The result of the operation is also a Double value.  
+  
+     Other mathematical operations can be performed by calling `static` (`Shared` in Visual Basic) methods in the <xref:System.Math?displayProperty=fullName> class. It includes additional methods commonly used for arithmetic (such as <xref:System.Math.Abs%2A?displayProperty=fullName>, <xref:System.Math.Sign%2A?displayProperty=fullName>, and <xref:System.Math.Sqrt%2A?displayProperty=fullName>), geometry (such as <xref:System.Math.Cos%2A?displayProperty=fullName> and <xref:System.Math.Sin%2A?displayProperty=fullName>), and calculus (such as <xref:System.Math.Log%2A?displayProperty=fullName>).  
+  
+     You can also manipulate the individual bits in a Double value. The <xref:System.BitConverter.DoubleToInt64Bits%2A?displayProperty=fullName> method preserves a Double value's bit pattern in a 64-bit integer. The <xref:System.BitConverter.GetBytes%28System.Double%29?displayProperty=fullName> method returns its bit pattern in a byte array.  
+  
+-   **Rounding**. Rounding is often used as a technique for reducing the impact of differences between values caused by problems of floating-point representation and precision. You can round a Double value by calling the <xref:System.Math.Round%2A?displayProperty=fullName> method.  
+  
+-   **Formatting**. You can convert a Double value to its string representation by calling the <xref:System.Double.ToString%2A> method or by using the composite formatting feature. For information about how format strings control the string representation of floating-point values, see the [Standard Numeric Format Strings](../Topic/Standard%20Numeric%20Format%20Strings.md) and [Custom Numeric Format Strings](../Topic/Custom%20Numeric%20Format%20Strings.md) topics.  
+  
+-   **Parsing strings**. You can convert the string representation of a floating-point value to a Double value by calling either the <xref:System.Double.Parse%2A> or <xref:System.Double.TryParse%2A> method. If the parse operation fails, the <xref:System.Double.Parse%2A> method throws an exception, whereas the <xref:System.Double.TryParse%2A> method returns `false`.  
+  
+-   **Type conversion**. The Double structure provides an explicit interface implementation for the <xref:System.IConvertible> interface, which supports conversion between any two standard .NET Framework data types. Language compilers also support the implicit conversion of values of all other standard numeric types to Double values. Conversion of a value of any standard numeric type to a Double is a widening conversion and does not require the user of a casting operator or conversion method,  
+  
+     However, conversion of <xref:System.Int64> and <xref:System.Single> values can involve a loss of precision. The following table lists the differences in precision for each of these types:  
+  
+    |Type|Maximum precision|Internal precision|  
+    |----------|-----------------------|------------------------|  
+    |Double|15|17|  
+    |<xref:System.Int64>|19 decimal digits|19 decimal digits|  
+    |<xref:System.Single>|7 decimal digits|9 decimal digits|  
+  
+     The problem of precision most frequently affects <xref:System.Single> values that are converted to Double values. In the following example, two values produced by identical division operations are unequal because one of the values is a a single-precision floating point value converted to a Double.  
+  
+     [!CODE [System.Double.Structure#3](../CodeSnippet/VS_Snippets_CLR_System/system.double.structure#3)]  
+  
+   
+  
+## Examples  
+ The following code example illustrates the use of Double:  
+  
+ [!CODE [Double Example#1](../CodeSnippet/VS_Snippets_CLR/Double Example#1)]  
+  
+ ]]></format>
+    </remarks>
   </Docs>
   <Members>
     <Member MemberName="CompareTo">
@@ -49,10 +243,46 @@
         <Parameter Name="value" Type="System.Double" />
       </Parameters>
       <Docs>
-        <param name="value">To be added.</param>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
-        <remarks>To be added.</remarks>
+        <param name="value">A double-precision floating-point number to compare.</param>
+        <summary>Compares this instance to a specified double-precision floating-point number and returns an integer that indicates whether the value of this instance is less than, equal to, or greater than the value of the specified double-precision floating-point number.</summary>
+        <returns>A signed number indicating the relative values of this instance and .  
+  
+|Return Value|Description|  
+|------------------|-----------------|  
+|Less than zero|This instance is less than .&lt;br /&gt;&lt;br /&gt; -or-&lt;br /&gt;&lt;br /&gt; This instance is not a number (&lt;see cref="T:System.Double"&gt;) and  is a number.|  
+|Zero|This instance is equal to .&lt;br /&gt;&lt;br /&gt; -or-&lt;br /&gt;&lt;br /&gt; Both this instance and  are not a number (&lt;see cref="T:System.Double"&gt;), &lt;see cref="T:System.Double"&gt;, or &lt;see cref="T:System.Double"&gt;.|  
+|Greater than zero|This instance is greater than .&lt;br /&gt;&lt;br /&gt; -or-&lt;br /&gt;&lt;br /&gt; This instance is a number and  is not a number (&lt;xref:System.Double.NaN&gt;).|</returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ Values must be identical to be considered equal. Particularly when floating-point values depend on multiple mathematical operations, it is common for them to lose precision and for their values to be nearly identical except for their least significant digits. Because of this, the return value of the CompareTo method at times may seem surprising. For example, multiplication by a particular value followed by division by the same value should produce the original value. In the following example, however, the computed value turns out to be greater than the original value. Showing all significant digits of the two values by using the "R" [standard numeric format string](../Topic/Standard%20Numeric%20Format%20Strings.md) indicates that the computed value differs from the original value in its least significant digits. For information on handling such comparisons, see the Remarks section of the <xref:System.Double.Equals%28System.Double%29> method.  
+  
+ [!CODE [System.Double.CompareTo#1](../CodeSnippet/VS_Snippets_CLR_System/system.double.compareto#1)]  
+  
+ This method implements the <xref:System.IComparable%601?displayProperty=fullName> interface and performs slightly better than the <xref:System.Double.CompareTo%2A?displayProperty=fullName> method because it does not have to convert the  parameter to an object.  
+  
+ Note that, although an object whose value is <xref:System.Double.NaN> is not considered equal to another object whose value is <xref:System.Double.NaN> (even itself), the <xref:System.IComparable%601> interface requires that `A.CompareTo(A)` return zero.  
+  
+## Widening Conversions  
+ Depending on your programming language, it might be possible to code a CompareTo method where the parameter type has fewer bits (is narrower) than the instance type. This is possible because some programming languages perform an implicit widening conversion that represents the parameter as a type with as many bits as the instance.  
+  
+ For example, suppose the instance type is <xref:System.Double> and the parameter type is <xref:System.Int32>. The Microsoft C# compiler generates instructions to represent the value of the parameter as a <xref:System.Double> object, then generates a CompareTo method that compares the values of the instance and the widened representation of the parameter.  
+  
+ Consult your programming language's documentation to determine if its compiler performs implicit widening conversions of numeric types. For more information, see the [Type Conversion Tables](../Topic/Type%20Conversion%20Tables%20in%20the%20.NET%20Framework.md) topic.  
+  
+## Precision in Comparisons  
+ The precision of floating-point numbers beyond the documented precision is specific to the implementation and version of the .NET Framework. Consequently, a comparison of two particular numbers might change between versions of the .NET Framework because the precision of the numbers' internal representation might change.  
+  
+   
+  
+## Examples  
+ The following code example demonstrates generic and nongeneric versions of the <xref:System.Double.CompareTo%2A> method for several value and reference types.  
+  
+ [!CODE [T.CompareTo#1](../CodeSnippet/VS_Snippets_CLR/T.CompareTo#1)]  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="CompareTo">
@@ -69,10 +299,39 @@
         <Parameter Name="value" Type="System.Object" />
       </Parameters>
       <Docs>
-        <param name="value">To be added.</param>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
-        <remarks>To be added.</remarks>
+        <param name="value">An object to compare, or `null`.</param>
+        <summary>Compares this instance to a specified object and returns an integer that indicates whether the value of this instance is less than, equal to, or greater than the value of the specified object.</summary>
+        <returns>A signed number indicating the relative values of this instance and .  
+  
+|Value|Description|  
+|-----------|-----------------|  
+|A negative integer|This instance is less than .&lt;br /&gt;&lt;br /&gt; -or-&lt;br /&gt;&lt;br /&gt; This instance is not a number (&lt;see cref="F:System.Double.NaN"&gt;) and  is a number.|  
+|Zero|This instance is equal to .&lt;br /&gt;&lt;br /&gt; -or-&lt;br /&gt;&lt;br /&gt; This instance and  are both `Double.NaN`, &lt;xref:System.Double.PositiveInfinity&gt;, or &lt;xref:System.Double.NegativeInfinity&gt;|  
+|A positive integer|This instance is greater than .&lt;br /&gt;&lt;br /&gt; -or-&lt;br /&gt;&lt;br /&gt; This instance is a number and  is not a number (&lt;see cref="F:System.Double.NaN"&gt;).&lt;br /&gt;&lt;br /&gt; -or-&lt;br /&gt;&lt;br /&gt; is `null`.|</returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ The  parameter must be `null` or an instance of `Double`; otherwise, an exception is thrown. Any instance of <xref:System.Double>, regardless of its value, is considered greater than `null`.  
+  
+ Values must be identical to be considered equal. Particularly when floating-point values depend on multiple mathematical operations, it is common for them to lose precision and for their values to be nearly identical except for their least significant digits. Because of this, the return value of the CompareTo method at times may seem surprising. For example, multiplication by a particular value followed by division by the same value should produce the original value. In the following example, however, the computed value turns out to be greater than the original value. Showing all significant digits of the two values by using the "R" [standard numeric format string](../Topic/Standard%20Numeric%20Format%20Strings.md) indicates that the computed value differs from the original value in its least significant digits. For information on handling such comparisons, see the Remarks section of the <xref:System.Double.Equals%28System.Double%29> method.  
+  
+ [!CODE [System.Double.CompareTo#2](../CodeSnippet/VS_Snippets_CLR_System/system.double.compareto#2)]  
+  
+ This method is implemented to support the <xref:System.IComparable> interface. Note that, although a <xref:System.Double.NaN> is not considered to be equal to another <xref:System.Double.NaN> (even itself), the <xref:System.IComparable> interface requires that `A.CompareTo(A)` return zero.  
+  
+## Precision in Comparisons  
+ The precision of floating-point numbers beyond the documented precision is specific to the implementation and version of the .NET Framework. Consequently, a comparison of two particular numbers might change between versions of the .NET Framework because the precision of the numbers' internal representation might change.  
+  
+   
+  
+## Examples  
+ The following code example illustrates the use of `CompareTo` in the context of `Double`.  
+  
+ [!CODE [System.Double#16](../CodeSnippet/VS_Snippets_CLR_System/system.Double#16)]  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="Epsilon">
@@ -87,8 +346,33 @@
       </ReturnValue>
       <MemberValue>4.94065645841247E-324</MemberValue>
       <Docs>
-        <summary>To be added.</summary>
-        <remarks>To be added.</remarks>
+        <summary>Represents the smallest positive &lt;see cref="T:System.Double"&gt; value that is greater than zero. This field is constant.</summary>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ The value of the Epsilon property reflects the smallest positive <xref:System.Double> value that is significant in numeric operations or comparisons when the value of the <xref:System.Double> instance is zero. For example, the following code shows that zero and Epsilon are considered to be unequal values, whereas zero and half the value of Epsilon are considered to be equal.  
+  
+ [!CODE [System.Double.Epsilon#5](../../add/codesnippet/system.double.md)]  
+  
+ More precisely, the floating point format consists of a sign, a 52-bit mantissa or significand, and an 11-bit exponent. As the following example shows, zero has an exponent of -1022 and a mantissa of 0. Epsilon has an exponent of -1022 and a mantissa of 1. This means that Epsilon is the smallest positive <xref:System.Double> value greater than zero and represents the smallest possible value and the smallest possible increment for a <xref:System.Double> whose exponent is -1022.  
+  
+ [!CODE [System.Double.Epsilon#6](../../add/codesnippet/system.double.md)]  
+  
+ However, the Epsilon property is not a general measure of precision of the <xref:System.Double> type; it applies only to <xref:System.Double> instances that have a value of zero or an exponent of -1022.  
+  
+> [!NOTE]
+>  The value of the Epsilon property is not equivalent to machine epsilon, which represents the upper bound of the relative error due to rounding in floating-point arithmetic.  
+  
+ The value of this constant is 4.94065645841247e-324.  
+  
+ Two apparently equivalent floating-point numbers might not compare equal because of differences in their least significant digits. For example, the C# expression, `(double)1/3 == (double)0.33333`, does not compare equal because the division operation on the left side has maximum precision while the constant on the right side is precise only to the specified digits. If you create a custom algorithm that determines whether two floating-point numbers can be considered equal, we do not recommend that you base your algorithm on the value of the Epsilon constant to establish the acceptable absolute margin of difference for the two values to be considered equal.  (Typically, that margin of difference is many times greater than Epsilon.) For information about comparing two double-precision floating-point values, see <xref:System.Double> and <xref:System.Double.Equals%28System.Double%29>.  
+  
+## Platform Notes  
+ On ARM systems, the value of the Epsilon constant is too small to be detected, so it equates to zero. You can define an alternative epsilon value that equals 2.2250738585072014E-308 instead.  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="Equals">
@@ -105,10 +389,44 @@
         <Parameter Name="obj" Type="System.Double" />
       </Parameters>
       <Docs>
-        <param name="obj">To be added.</param>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
-        <remarks>To be added.</remarks>
+        <param name="obj">A &lt;see cref="T:System.Double"&gt; object to compare to this instance.</param>
+        <summary>Returns a value indicating whether this instance and a specified &lt;see cref="T:System.Double"&gt; object represent the same value.</summary>
+        <returns>`true` if  is equal to this instance; otherwise, `false`.</returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ This method implements the <xref:System.IEquatable%601?displayProperty=fullName> interface, and performs slightly better than <xref:System.Double.Equals%2A> because it does not have to convert the  parameter to an object.  
+  
+## Widening Conversions  
+ Depending on your programming language, it might be possible to code a Equals method where the parameter type has fewer bits (is narrower) than the instance type. This is possible because some programming languages perform an implicit widening conversion that represents the parameter as a type with as many bits as the instance.  
+  
+ For example, suppose the instance type is <xref:System.Double> and the parameter type is <xref:System.Int32>. The Microsoft C# compiler generates instructions to represent the value of the parameter as a <xref:System.Double> object, then generates a Equals method that compares the values of the instance and the widened representation of the parameter.  
+  
+ Consult your programming language's documentation to determine if its compiler performs implicit widening conversions of numeric types. For more information, see the [Type Conversion Tables](../Topic/Type%20Conversion%20Tables%20in%20the%20.NET%20Framework.md) topic.  
+  
+## Precision in Comparisons  
+ TheEquals method should be used with caution, because two apparently equivalent values can be unequal due to the differing precision of the two values. The following example reports that the <xref:System.Double> value .333333 and the <xref:System.Double> value returned by dividing 1 by 3 are unequal.  
+  
+ [!CODE [System.Double.Epsilon#1](../../add/codesnippet/system.double.md)]  
+  
+ Rather than comparing for equality, one technique involves defining an acceptable relative margin of difference between two values (such as .001% of one of the values). If the absolute value of the difference between the two values is less than or equal to that margin, the difference is likely to be due to differences in precision and, therefore, the values are likely to be equal. The following example uses this technique to compare .33333 and 1/3, the two <xref:System.Double> values that the previous code example found to be unequal. In this case, the values are equal.  
+  
+ [!CODE [System.Double.Epsilon#2](../../add/codesnippet/system.double.md)]  
+  
+> [!NOTE]
+>  Because <xref:System.Double.Epsilon> defines the minimum expression of a positive value whose range is near zero, the margin of difference between two similar values must be greater than <xref:System.Double.Epsilon>. Typically, it is many times greater than <xref:System.Double.Epsilon>. Because of this, we recommend that you do not use <xref:System.Double.Epsilon> when comparing <xref:System.Double> values for equality.  
+  
+ A second technique involves comparing the difference between two floating-point numbers with some absolute value. If the difference is less than or equal to that absolute value, the numbers are equal. If it is greater, the numbers are not equal. One alternative is to arbitrarily select an absolute value. This is problematic, however, because an acceptable margin of difference depends on the magnitude of the <xref:System.Double> values. A second alternative takes advantage of a design feature of the floating-point format: The difference between the integer representation of two floating-point values indicates the number of possible floating-point values that separates them. For example, the difference between 0.0 and <xref:System.Double.Epsilon> is 1, because <xref:System.Double.Epsilon> is the smallest representable value when working with a <xref:System.Double> whose value is zero. The following example uses this technique to compare .33333 and 1/3, which are the two <xref:System.Double> values that the previous code example with the Equals method found to be unequal. Note that the example uses the <xref:System.BitConverter.DoubleToInt64Bits%2A?displayProperty=fullName> method to convert a double-precision floating-point value to its integer representation.  
+  
+ [!CODE [System.Double.Equals#1](../CodeSnippet/VS_Snippets_CLR_System/system.double.equals#1)]  
+  
+ The precision of floating-point numbers beyond the documented precision is specific to the implementation and version of the .NET Framework. Consequently, a comparison of two particular numbers might change between versions of the .NET Framework because the precision of the numbers' internal representation might change.  
+  
+ If two <xref:System.Double.NaN?displayProperty=fullName> values are tested for equality by calling the Equals method, the method returns `true`. However, if two <xref:System.Double.NaN> values are tested for equality by using the equality operator, the operator returns `false`. When you want to determine whether the value of a <xref:System.Double> is not a number (NaN), an alternative is to call the <xref:System.Double.IsNaN%2A> method.  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="Equals">
@@ -125,10 +443,28 @@
         <Parameter Name="obj" Type="System.Object" />
       </Parameters>
       <Docs>
-        <param name="obj">To be added.</param>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
-        <remarks>To be added.</remarks>
+        <param name="obj">An object to compare with this instance.</param>
+        <summary>Returns a value indicating whether this instance is equal to a specified object.</summary>
+        <returns>`true` if  is an instance of &lt;see cref="T:System.Double"&gt; and equals the value of this instance; otherwise, `false`.</returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ The<xref:System.Double.Equals%2A> method should be used with caution, because two apparently equivalent values can be unequal due to the differing precision of the two values. The following example reports that the <xref:System.Double> value .3333 and the <xref:System.Double> returned by dividing 1 by 3 are unequal.  
+  
+ [!CODE [System.Double.Epsilon#3](../../add/codesnippet/system.double.md)]  
+  
+ For alternatives to calling the Equals method, see the documentation for the <xref:System.Double.Equals%28System.Double%29> overload.  
+  
+> [!NOTE]
+>  Because <xref:System.Double.Epsilon> defines the minimum expression of a positive value whose range is near zero, the margin of difference between two similar values must be greater than <xref:System.Double.Epsilon>. Typically, it is many times greater than <xref:System.Double.Epsilon>.  
+  
+ The precision of floating-point numbers beyond the documented precision is specific to the implementation and version of the .NET Framework. Consequently, a comparison of two particular numbers might change between versions of the .NET Framework because the precision of the numbers' internal representation might change.  
+  
+ If two <xref:System.Double.NaN?displayProperty=fullName> values are tested for equality by calling the <xref:System.Double.Equals%2A> method, the method returns `true`. However, if two <xref:System.Double.NaN> values are tested for equality by using the equality operator, the operator returns `false`. When you want to determine whether the value of a <xref:System.Double> is not a number (NaN), an alternative is to call the <xref:System.Double.IsNaN%2A> method.  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="GetHashCode">
@@ -148,8 +484,8 @@
       </ReturnValue>
       <Parameters />
       <Docs>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
+        <summary>Returns the hash code for this instance.</summary>
+        <returns>A 32-bit signed integer hash code.</returns>
         <remarks>To be added.</remarks>
       </Docs>
     </Member>
@@ -165,8 +501,8 @@
       </ReturnValue>
       <Parameters />
       <Docs>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
+        <summary>Returns the &lt;see cref="T:System.TypeCode"&gt; for value type &lt;xref:System.Double&gt;.</summary>
+        <returns>The enumerated constant, &lt;xref:System.TypeCode?displayProperty=fullName&gt;.</returns>
         <remarks>To be added.</remarks>
       </Docs>
     </Member>
@@ -189,10 +525,24 @@
         <Parameter Name="d" Type="System.Double" />
       </Parameters>
       <Docs>
-        <param name="d">To be added.</param>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
-        <remarks>To be added.</remarks>
+        <param name="d">A double-precision floating-point number.</param>
+        <summary>Returns a value indicating whether the specified number evaluates to negative or positive infinity</summary>
+        <returns>`true` if  evaluates to &lt;see cref="T:System.Double"&gt; or &lt;see cref="T:System.Double"&gt;; otherwise, `false`.</returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ Floating-point operations return <xref:System.Double> or <xref:System.Double> to signal an overflow condition.  
+  
+   
+  
+## Examples  
+ The following code example illustrates the use of IsInfinity:  
+  
+ [!CODE [System.Double#11](../CodeSnippet/VS_Snippets_CLR_System/system.Double#11)]  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="IsNaN">
@@ -217,10 +567,27 @@
         <Parameter Name="d" Type="System.Double" />
       </Parameters>
       <Docs>
-        <param name="d">To be added.</param>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
-        <remarks>To be added.</remarks>
+        <param name="d">A double-precision floating-point number.</param>
+        <summary>Returns a value that indicates whether the specified value is not a number (&lt;see cref="F:System.Double.NaN"&gt;).</summary>
+        <returns>`true` if  evaluates to &lt;see cref="T:System.Double"&gt;; otherwise, `false`.</returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ Floating-point operations return <xref:System.Double> to signal that that result of the operation is undefined. For example, dividing 0.0 by 0.0 results in <xref:System.Double>.  
+  
+> [!NOTE]
+>  IsNaN returns `false` if a <xref:System.Double> value is either <xref:System.Double> or <xref:System.Double.NegativeInfinity>. To test for these values, use the <xref:System.Double.IsInfinity%2A>, <xref:System.Double.IsPositiveInfinity%2A>, and <xref:System.Double.IsNegativeInfinity%2A> methods.  
+  
+   
+  
+## Examples  
+ The following code example illustrates the use of IsNaN:  
+  
+ [!CODE [System.Double#8](../CodeSnippet/VS_Snippets_CLR_System/system.Double#8)]  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="IsNegativeInfinity">
@@ -237,10 +604,26 @@
         <Parameter Name="d" Type="System.Double" />
       </Parameters>
       <Docs>
-        <param name="d">To be added.</param>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
-        <remarks>To be added.</remarks>
+        <param name="d">A double-precision floating-point number.</param>
+        <summary>Returns a value indicating whether the specified number evaluates to negative infinity.</summary>
+        <returns>`true` if  evaluates to &lt;see cref="T:System.Double"&gt;; otherwise, `false`.</returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ Floating-point operations return <xref:System.Double> to signal an overflow condition.  
+  
+   
+  
+## Examples  
+ The following code example illustrates the use of IsNegativeInfinity:  
+  
+ [!CODE [System.Double#13](../CodeSnippet/VS_Snippets_CLR_System/system.Double#13)]  
+[!CODE [System.Double#4](../CodeSnippet/VS_Snippets_CLR_System/system.Double#4)]  
+[!CODE [System.Double#9](../CodeSnippet/VS_Snippets_CLR_System/system.Double#9)]  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="IsPositiveInfinity">
@@ -257,10 +640,24 @@
         <Parameter Name="d" Type="System.Double" />
       </Parameters>
       <Docs>
-        <param name="d">To be added.</param>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
-        <remarks>To be added.</remarks>
+        <param name="d">A double-precision floating-point number.</param>
+        <summary>Returns a value indicating whether the specified number evaluates to positive infinity.</summary>
+        <returns>`true` if  evaluates to &lt;see cref="T:System.Double"&gt;; otherwise, `false`.</returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ Floating-point operations return <xref:System.Double> to signal an overflow condition.  
+  
+   
+  
+## Examples  
+ The following code example illustrates the use of IsPositiveInfinity:  
+  
+ [!CODE [System.Double#12](../CodeSnippet/VS_Snippets_CLR_System/system.Double#12)]  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="MaxValue">
@@ -275,8 +672,26 @@
       </ReturnValue>
       <MemberValue>1.79769313486232E+308</MemberValue>
       <Docs>
-        <summary>To be added.</summary>
-        <remarks>To be added.</remarks>
+        <summary>Represents the largest possible value of a &lt;see cref="T:System.Double"&gt;. This field is constant.</summary>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ The value of this constant is positive 1.7976931348623157E+308.  
+  
+ The result of an operation that exceeds MaxValue is <xref:System.Double?displayProperty=fullName>. In the following example, <xref:System.Double?displayProperty=fullName> results from addition, multiplication, and exponentiation operations when the result exceeds MaxValue.  
+  
+ [!CODE [System.Double.MaxValue#1](../CodeSnippet/VS_Snippets_CLR_System/system.double.maxvalue#1)]  
+  
+   
+  
+## Examples  
+ The following code example illustrates the use of MaxValue:  
+  
+ [!CODE [Double Example#2](../CodeSnippet/VS_Snippets_CLR/Double Example#2)]  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="MinValue">
@@ -291,8 +706,26 @@
       </ReturnValue>
       <MemberValue>-1.79769313486232E+308</MemberValue>
       <Docs>
-        <summary>To be added.</summary>
-        <remarks>To be added.</remarks>
+        <summary>Represents the smallest possible value of a &lt;see cref="T:System.Double"&gt;. This field is constant.</summary>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ The value of this constant is negative 1.7976931348623157E+308.  
+  
+ The result of an operation that is less than MinValue is <xref:System.Double?displayProperty=fullName>. In the following example, <xref:System.Double?displayProperty=fullName> results from subtraction and multiplication operations when the result is less than MinValue.  
+  
+ [!CODE [System.Double.MinValue#1](../CodeSnippet/VS_Snippets_CLR_System/system.double.minvalue#1)]  
+  
+   
+  
+## Examples  
+ The following code example illustrates the use of MinValue:  
+  
+ [!CODE [Double Example#2](../CodeSnippet/VS_Snippets_CLR/Double Example#2)]  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="NaN">
@@ -307,8 +740,32 @@
       </ReturnValue>
       <MemberValue>NaN</MemberValue>
       <Docs>
-        <summary>To be added.</summary>
-        <remarks>To be added.</remarks>
+        <summary>Represents a value that is not a number (`NaN`). This field is constant.</summary>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ A method or operator returns NaN when the result of an operation is undefined. For example, the result of dividing zero by zero is NaN, as the following example shows. (But note that dividing a non-zero number by zero returns either <xref:System.Double> or <xref:System.Double>, depending on the sign of the divisor.)  
+  
+ [!CODE [System.Double.NaN#1](../CodeSnippet/VS_Snippets_CLR_System/system.double.nan#1)]  
+  
+ In addition, a method call with a NaN value or an operation on a NaN value returns NaN, as the following example shows.  
+  
+ [!CODE [System.Double.NaN#2](../CodeSnippet/VS_Snippets_CLR_System/system.double.nan#2)]  
+  
+ Use the <xref:System.Double.IsNaN%2A> method to determine whether a value is not a number. The <xref:System.Double.op_Equality%2A> operator considers two NaN values to be unequal to one another. In general, <xref:System.Double> operators cannot be used to compare NaN with other <xref:System.Double> values, although comparison methods (such as <xref:System.Double.Equals%2A> and <xref:System.Double.CompareTo%2A>) can. The following example illustrates the difference in behavior between <xref:System.Double> comparison operators and methods.  
+  
+ [!CODE [System.Double.NaN#4](../CodeSnippet/VS_Snippets_CLR_System/system.double.nan#4)]  
+  
+   
+  
+## Examples  
+ The following example illustrates the use of NaN:  
+  
+ [!CODE [System.Double#7](../CodeSnippet/VS_Snippets_CLR_System/system.Double#7)]  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="NegativeInfinity">
@@ -323,8 +780,26 @@
       </ReturnValue>
       <MemberValue>-Infinity</MemberValue>
       <Docs>
-        <summary>To be added.</summary>
-        <remarks>To be added.</remarks>
+        <summary>Represents negative infinity. This field is constant.</summary>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ The value of this constant is the result of dividing a negative number by zero.  
+  
+ This constant is returned when the result of an operation is less than <xref:System.Double>.  
+  
+ Use <xref:System.Double.IsNegativeInfinity%2A> to determine whether a value evaluates to negative infinity.  
+  
+   
+  
+## Examples  
+ The following code example illustrates the use of NegativeInfinity:  
+  
+ [!CODE [System.Double#9](../CodeSnippet/VS_Snippets_CLR_System/system.Double#9)]  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="op_Equality">
@@ -342,11 +817,20 @@
         <Parameter Name="right" Type="System.Double" />
       </Parameters>
       <Docs>
-        <param name="left">To be added.</param>
-        <param name="right">To be added.</param>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
-        <remarks>To be added.</remarks>
+        <param name="left">The first value to compare.</param>
+        <param name="right">The second value to compare.</param>
+        <summary>Returns a value that indicates whether two specified &lt;see cref="T:System.Double"&gt; values are equal.</summary>
+        <returns>`true` if  and  are equal; otherwise, `false`.</returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ The Equality method defines the equality operator for <xref:System.Double> values.  
+  
+ If two <xref:System.Double?displayProperty=fullName> values are tested for equality by using the equality operator, the result is `false`; two <xref:System.Double?displayProperty=fullName> values are not considered equal. If they are tested for equality by calling the <xref:System.Double.Equals%2A> method, the result is `true`.  When you want to determine whether the value of a <xref:System.Double> is not a number (NaN), an alternative is to call the <xref:System.Double.IsNaN%2A> method.  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="op_GreaterThan">
@@ -364,11 +848,18 @@
         <Parameter Name="right" Type="System.Double" />
       </Parameters>
       <Docs>
-        <param name="left">To be added.</param>
-        <param name="right">To be added.</param>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
-        <remarks>To be added.</remarks>
+        <param name="left">The first value to compare.</param>
+        <param name="right">The second value to compare.</param>
+        <summary>Returns a value that indicates whether a specified &lt;see cref="T:System.Double"&gt; value is greater than another specified &lt;see cref="T:System.Double"&gt; value.</summary>
+        <returns>`true` if  is greater than ; otherwise, `false`.</returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ The GreaterThan method defines the operation of the greater-than operator for <xref:System.Double> values.  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="op_GreaterThanOrEqual">
@@ -386,11 +877,18 @@
         <Parameter Name="right" Type="System.Double" />
       </Parameters>
       <Docs>
-        <param name="left">To be added.</param>
-        <param name="right">To be added.</param>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
-        <remarks>To be added.</remarks>
+        <param name="left">The first value to compare.</param>
+        <param name="right">The second value to compare.</param>
+        <summary>Returns a value that indicates whether a specified &lt;see cref="T:System.Double"&gt; value is greater than or equal to another specified &lt;see cref="T:System.Double"&gt; value.</summary>
+        <returns>`true` if  is greater than or equal to ; otherwise, `false`.</returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ The GreaterThanOrEqual method defines the operation of the greater-than-or-equal operator for <xref:System.Double> values.  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="op_Inequality">
@@ -408,11 +906,18 @@
         <Parameter Name="right" Type="System.Double" />
       </Parameters>
       <Docs>
-        <param name="left">To be added.</param>
-        <param name="right">To be added.</param>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
-        <remarks>To be added.</remarks>
+        <param name="left">The first value to compare.</param>
+        <param name="right">The second value to compare.</param>
+        <summary>Returns a value that indicates whether two specified &lt;see cref="T:System.Double"&gt; values are not equal.</summary>
+        <returns>`true` if  and  are not equal; otherwise, `false`.</returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ The Inequality method defines the inequality operator for <xref:System.Double> values.  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="op_LessThan">
@@ -430,11 +935,18 @@
         <Parameter Name="right" Type="System.Double" />
       </Parameters>
       <Docs>
-        <param name="left">To be added.</param>
-        <param name="right">To be added.</param>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
-        <remarks>To be added.</remarks>
+        <param name="left">The first value to compare.</param>
+        <param name="right">The second value to compare.</param>
+        <summary>Returns a value that indicates whether a specified &lt;see cref="T:System.Double"&gt; value is less than another specified &lt;see cref="T:System.Double"&gt; value.</summary>
+        <returns>`true` if  is less than ; otherwise, `false`.</returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ The LessThan method defines the operation of the less-than operator for <xref:System.Double> values.  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="op_LessThanOrEqual">
@@ -452,11 +964,18 @@
         <Parameter Name="right" Type="System.Double" />
       </Parameters>
       <Docs>
-        <param name="left">To be added.</param>
-        <param name="right">To be added.</param>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
-        <remarks>To be added.</remarks>
+        <param name="left">The first value to compare.</param>
+        <param name="right">The second value to compare.</param>
+        <summary>Returns a value that indicates whether a specified &lt;see cref="T:System.Double"&gt; value is less than or equal to another specified &lt;see cref="T:System.Double"&gt; value.</summary>
+        <returns>`true` if  is less than or equal to ; otherwise, `false`.</returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ The LessThanOrEqual method defines the operation of the less-than-or-equal operator for <xref:System.Double> values.  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="Parse">
@@ -473,10 +992,49 @@
         <Parameter Name="s" Type="System.String" />
       </Parameters>
       <Docs>
-        <param name="s">To be added.</param>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
-        <remarks>To be added.</remarks>
+        <param name="s">A string that contains a number to convert.</param>
+        <summary>Converts the string representation of a number to its double-precision floating-point number equivalent.</summary>
+        <returns>A double-precision floating-point number that is equivalent to the numeric value or symbol specified in .</returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ The  parameter can contain the current culture's <xref:System.Globalization.NumberFormatInfo.PositiveInfinitySymbol%2A?displayProperty=fullName>, <xref:System.Globalization.NumberFormatInfo.NegativeInfinitySymbol%2A?displayProperty=fullName>, <xref:System.Globalization.NumberFormatInfo.NaNSymbol%2A?displayProperty=fullName>, or a string of the form:  
+  
+ [*ws*][*sign*][*integral-digits*[*,*]]*integral-digits*[*.*[*fractional-digits*]][E[*sign*]*exponential-digits*][*ws*]  
+  
+ Elements in square brackets ([ and ]) are optional. The following table describes each element.  
+  
+|Element|Description|  
+|-------------|-----------------|  
+|*ws*|A series of white-space characters.|  
+|*sign*|A negative sign symbol (-) or a positive sign symbol (+). Only a leading sign can be used.|  
+|*integral-digits*|A series of digits ranging from 0 to 9 that specify the integral part of the number. Runs of *integral-digits* can be partitioned by a group-separator symbol. For example, in some cultures a comma (,) separates groups of thousands. The *integral-digits* element can be absent if the string contains the *fractional-digits* element.|  
+|,|A culture-specific thousands separator symbol.|  
+|.|A culture-specific decimal point symbol.|  
+|*fractional-digits*|A series of digits ranging from 0 to 9 that specify the fractional part of the number.|  
+|E|The "e" or "E" character, which indicates that the value is represented in exponential (scientific) notation.|  
+|*exponential-digits*|A series of digits ranging from 0 to 9 that specify an exponent.|  
+  
+ The  parameter is interpreted using a combination of the <xref:System.Globalization.NumberStyles?displayProperty=fullName> and <xref:System.Globalization.NumberStyles?displayProperty=fullName> flags. This means that white space and thousands separators are allowed, for example, while currency symbols are not. For finer control over which style elements are permitted in  for the parse operation to succeed, call the <xref:System.Double.Parse%28System.String%2CSystem.Globalization.NumberStyles%29?displayProperty=fullName> or the <xref:System.Double.Parse%28System.String%2CSystem.Globalization.NumberStyles%2CSystem.IFormatProvider%29?displayProperty=fullName> method.  
+  
+ The  parameter is interpreted using the formatting information in a <xref:System.Globalization.NumberFormatInfo> object that is initialized for the current thread culture. For more information, see <xref:System.Globalization.NumberFormatInfo.CurrentInfo%2A>. To parse a string using the formatting information of some other culture, call the <xref:System.Double.Parse%28System.String%2CSystem.IFormatProvider%29?displayProperty=fullName> or <xref:System.Double.Parse%28System.String%2CSystem.Globalization.NumberStyles%2CSystem.IFormatProvider%29?displayProperty=fullName> method.  
+  
+ Ordinarily, if you pass the <xref:System.Double.Parse%2A?displayProperty=fullName> method a string that is created by calling the <xref:System.Double.ToString%2A?displayProperty=fullName> method, the original <xref:System.Double> value is returned. However, because of a loss of precision, the values may not be equal. In addition, attempting to parse the string representation of either <xref:System.Double.MinValue> or <xref:System.Double.MaxValue> throws an <xref:System.OverflowException>, as the following example illustrates.  
+  
+ [!CODE [System.Double.Parse#3](../../add/codesnippet/system.double.md)]  
+  
+ If a separator is encountered in the  parameter during a parse operation, and the applicable currency or number decimal and group separators are the same, the parse operation assumes that the separator is a decimal separator rather than a group separator. For more information about separators, see <xref:System.Globalization.NumberFormatInfo.CurrencyDecimalSeparator%2A>, <xref:System.Globalization.NumberFormatInfo.NumberDecimalSeparator%2A>, <xref:System.Globalization.NumberFormatInfo.CurrencyGroupSeparator%2A>, and <xref:System.Globalization.NumberFormatInfo.NumberGroupSeparator%2A>.  
+  
+   
+  
+## Examples  
+ The following example illustrates the use of the Parse method.  
+  
+ [!CODE [Double Example#5](../CodeSnippet/VS_Snippets_CLR/Double Example#5)]  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="Parse">
@@ -494,11 +1052,74 @@
         <Parameter Name="style" Type="System.Globalization.NumberStyles" />
       </Parameters>
       <Docs>
-        <param name="s">To be added.</param>
-        <param name="style">To be added.</param>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
-        <remarks>To be added.</remarks>
+        <param name="s">A string that contains a number to convert.</param>
+        <param name="style">A bitwise combination of enumeration values that indicate the style elements that can be present in . A typical value to specify is a combination of &lt;see cref="T:System.Globalization.NumberStyles"&gt; combined with &lt;see cref="T:System.Globalization.NumberStyles"&gt;.</param>
+        <summary>Converts the string representation of a number in a specified style to its double-precision floating-point number equivalent.</summary>
+        <returns>A double-precision floating-point number that is equivalent to the numeric value or symbol specified in .</returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ The  parameter defines the style elements (such as white space, thousands separators, and currency symbols) that are allowed in the  parameter for the parse operation to succeed. It must be a combination of bit flags from the <xref:System.Globalization.NumberStyles> enumeration. The following <xref:System.Globalization.NumberStyles> members are not supported:  
+  
+-   <xref:System.Globalization.NumberStyles>  
+  
+-   <xref:System.Globalization.NumberStyles>  
+  
+ The  parameter can contain the current culture's <xref:System.Globalization.NumberFormatInfo.PositiveInfinitySymbol%2A?displayProperty=fullName>, <xref:System.Globalization.NumberFormatInfo.NegativeInfinitySymbol%2A?displayProperty=fullName>, or <xref:System.Globalization.NumberFormatInfo.NaNSymbol%2A?displayProperty=fullName>. Depending on the value of , it can also take the form:  
+  
+ [*ws*][*$*][*sign*][*integral-digits*[*,*]]*integral-digits*[*.*[*fractional-digits*]][E[*sign*]*exponential-digits*][*ws*]  
+  
+ Elements in square brackets ([ and ]) are optional. The following table describes each element.  
+  
+|Element|Description|  
+|-------------|-----------------|  
+|*ws*|A series of white-space characters. White space can appear at the beginning of  if  includes the <xref:System.Globalization.NumberStyles?displayProperty=fullName> flag, and it can appear at the end of  if  includes the <xref:System.Globalization.NumberStyles?displayProperty=fullName> flag.|  
+|$|A culture-specific currency symbol. Its position in the string is defined by the <xref:System.Globalization.NumberFormatInfo.CurrencyNegativePattern%2A?displayProperty=fullName> and <xref:System.Globalization.NumberFormatInfo.CurrencyPositivePattern%2A?displayProperty=fullName> properties of the current culture. The current culture's currency symbol can appear in  if  includes the <xref:System.Globalization.NumberStyles?displayProperty=fullName> flag.|  
+|*sign*|A negative sign symbol (-) or a positive sign symbol (+). The sign can appear at the beginning of  if  includes the <xref:System.Globalization.NumberStyles?displayProperty=fullName> flag, and it can appear at the end of  if  includes the <xref:System.Globalization.NumberStyles?displayProperty=fullName> flag. Parentheses can be used in  to indicate a negative value if  includes the <xref:System.Globalization.NumberStyles?displayProperty=fullName> flag.|  
+|*integral-digits*|A series of digits ranging from 0 to 9 that specify the integral part of the number. The *integral-digits* element can be absent if the string contains the *fractional-digits* element.|  
+|,|A culture-specific group separator. The current culture's group separator symbol can appear in  if  includes the <xref:System.Globalization.NumberStyles?displayProperty=fullName> flag|  
+|.|A culture-specific decimal point symbol. The current culture's decimal point symbol can appear in  if  includes the <xref:System.Globalization.NumberStyles?displayProperty=fullName> flag.|  
+|*fractional-digits*|A series of digits ranging from 0 to 9 that specify the fractional part of the number. Fractional digits can appear in  if  includes the <xref:System.Globalization.NumberStyles?displayProperty=fullName> flag.|  
+|E|The "e" or "E" character, which indicates that the value is represented in exponential (scientific) notation. The  parameter can represent a number in exponential notation if  includes the <xref:System.Globalization.NumberStyles?displayProperty=fullName> flag.|  
+|*exponential-digits*|A series of digits ranging from 0 to 9 that specify an exponent.|  
+  
+ A string with digits only (which corresponds to the <xref:System.Globalization.NumberStyles?displayProperty=fullName> style) always parses successfully. The remaining <xref:System.Globalization.NumberStyles?displayProperty=fullName> members control elements that may be present, but are not required to be present, in the input string. The following table indicates how individual <xref:System.Globalization.NumberStyles> flags affect the elements that may be present in .  
+  
+|NumberStyles value|Elements permitted in  in addition to digits|  
+|------------------------|--------------------------------------------------|  
+|<xref:System.Globalization.NumberStyles>|The *integral-digits* element only.|  
+|<xref:System.Globalization.NumberStyles>|The decimal point (*.*) and *fractional-digits* elements.|  
+|<xref:System.Globalization.NumberStyles>|The "e" or "E" character, which indicates exponential notation. This flag by itself supports values in the form *digits*E*digits*; additional flags are needed to successfully parse strings with such elements as positive or negative signs and decimal point symbols.|  
+|<xref:System.Globalization.NumberStyles>|The *ws* element at the beginning of .|  
+|<xref:System.Globalization.NumberStyles>|The *ws* element at the end of .|  
+|<xref:System.Globalization.NumberStyles>|The *sign* element at the beginning of .|  
+|<xref:System.Globalization.NumberStyles>|The *sign* element at the end of .|  
+|<xref:System.Globalization.NumberStyles>|The *sign* element in the form of parentheses enclosing the numeric value.|  
+|<xref:System.Globalization.NumberStyles>|The thousands separator (,) element.|  
+|<xref:System.Globalization.NumberStyles>|The currency ($) element.|  
+|<xref:System.Globalization.NumberStyles>|All elements. However,  cannot represent a hexadecimal number or a number in exponential notation.|  
+|<xref:System.Globalization.NumberStyles>|The *ws* element at the beginning or end of , *sign* at the beginning of , and the decimal point (.) symbol. The  parameter can also use exponential notation.|  
+|<xref:System.Globalization.NumberStyles>|The , , thousands separator (,) and decimal point (.) elements.|  
+|<xref:System.Globalization.NumberStyles>|All elements. However,  cannot represent a hexadecimal number.|  
+  
+ The  parameter is parsed using the formatting information in a <xref:System.Globalization.NumberFormatInfo> object that is initialized for the current system culture. For more information, see <xref:System.Globalization.NumberFormatInfo.CurrentInfo%2A>.  
+  
+ Ordinarily, if you pass the <xref:System.Double.Parse%2A?displayProperty=fullName> method a string that is created by calling the <xref:System.Double.ToString%2A?displayProperty=fullName> method, the original <xref:System.Double> value is returned. However, because of a loss of precision, the values may not be equal. In addition, attempting to parse the string representation of either <xref:System.Double.MinValue> or <xref:System.Double.MaxValue> throws an <xref:System.OverflowException>, as the following example illustrates.  
+  
+ [!CODE [System.Double.Parse#3](../../add/codesnippet/system.double.md)]  
+  
+ If a separator is encountered in the  parameter during a parse operation, and the applicable currency or number decimal and group separators are the same, the parse operation assumes that the separator is a decimal separator rather than a group separator. For more information about separators, see <xref:System.Globalization.NumberFormatInfo.CurrencyDecimalSeparator%2A>, <xref:System.Globalization.NumberFormatInfo.NumberDecimalSeparator%2A>, <xref:System.Globalization.NumberFormatInfo.CurrencyGroupSeparator%2A>, and <xref:System.Globalization.NumberFormatInfo.NumberGroupSeparator%2A>.  
+  
+   
+  
+## Examples  
+ The following example uses the Parse method to parse the string representations of <xref:System.Double> values using the en-US culture.  
+  
+ [!CODE [System.Double.Parse#1](../../add/codesnippet/system.double.md)]  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="Parse">
@@ -516,11 +1137,52 @@
         <Parameter Name="provider" Type="System.IFormatProvider" />
       </Parameters>
       <Docs>
-        <param name="s">To be added.</param>
-        <param name="provider">To be added.</param>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
-        <remarks>To be added.</remarks>
+        <param name="s">A string that contains a number to convert.</param>
+        <param name="provider">An object that supplies culture-specific formatting information about .</param>
+        <summary>Converts the string representation of a number in a specified culture-specific format to its double-precision floating-point number equivalent.</summary>
+        <returns>A double-precision floating-point number that is equivalent to the numeric value or symbol specified in .</returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ This overload of the Parse method is typically used to convert text that can be formatted in a variety of ways to a <xref:System.Double> value. For example, it can be used to convert the text that is entered by a user into an HTML text box to a numeric value.  
+  
+ The  parameter is interpreted using a combination of the <xref:System.Globalization.NumberStyles?displayProperty=fullName> and <xref:System.Globalization.NumberStyles?displayProperty=fullName> flags. The  parameter can contain <xref:System.Globalization.NumberFormatInfo.PositiveInfinitySymbol%2A?displayProperty=fullName>, <xref:System.Globalization.NumberFormatInfo.NegativeInfinitySymbol%2A?displayProperty=fullName>, or <xref:System.Globalization.NumberFormatInfo.NaNSymbol%2A?displayProperty=fullName> for the culture specified by , or it can contain a string of the form:  
+  
+ [*ws*][*sign*]*integral-digits*[*.*[*fractional-digits*]][E[*sign*]*exponential-digits*][*ws*]  
+  
+ Optional elements are framed in square brackets ([ and ]). Elements that contain the term "digits" consist of a series of numeric characters ranging from 0 to 9.  
+  
+|Element|Description|  
+|-------------|-----------------|  
+|*ws*|A series of white-space characters.|  
+|*sign*|A negative sign symbol (-) or a positive sign symbol (+).|  
+|*integral-digits*|A series of digits ranging from 0 to 9 that specify the integral part of the number. Runs of *integral-digits* can be partitioned by a group-separator symbol. For example, in some cultures a comma (,) separates groups of thousands. The *integral-digits* element can be absent if the string contains the *fractional-digits* element.|  
+|.|A culture-specific decimal point symbol.|  
+|*fractional-digits*|A series of digits ranging from 0 to 9 that specify the fractional part of the number.|  
+|E|The "e" or "E" character, which indicates that the value is represented in exponential (scientific) notation.|  
+|*exponential-digits*|A series of digits ranging from 0 to 9 that specify an exponent.|  
+  
+ For more information about numeric formats, see the [Formatting Types](../Topic/Formatting%20Types%20in%20the%20.NET%20Framework.md) topic.  
+  
+ The  parameter is an <xref:System.IFormatProvider> implementation whose <xref:System.IFormatProvider.GetFormat%2A> method returns a <xref:System.Globalization.NumberFormatInfo> object that supplies culture-specific information used in interpreting the format of . Typically, it is a <xref:System.Globalization.NumberFormatInfo> or <xref:System.Globalization.CultureInfo> object. If  is `null` or a <xref:System.Globalization.NumberFormatInfo> cannot be obtained, the formatting information for the current system culture is used.  
+  
+ Ordinarily, if you pass the <xref:System.Double.Parse%2A?displayProperty=fullName> method a string that is created by calling the <xref:System.Double.ToString%2A?displayProperty=fullName> method, the original <xref:System.Double> value is returned. However, because of a loss of precision, the values may not be equal. In addition, attempting to parse the string representation of either <xref:System.Double.MinValue> or <xref:System.Double.MaxValue> throws an <xref:System.OverflowException>, as the following example illustrates.  
+  
+ [!CODE [System.Double.Parse#3](../../add/codesnippet/system.double.md)]  
+  
+ If a separator is encountered in the  parameter during a parse operation, and the applicable currency or number decimal and group separators are the same, the parse operation assumes that the separator is a decimal separator rather than a group separator. For more information about separators, see <xref:System.Globalization.NumberFormatInfo.CurrencyDecimalSeparator%2A>, <xref:System.Globalization.NumberFormatInfo.NumberDecimalSeparator%2A>, <xref:System.Globalization.NumberFormatInfo.CurrencyGroupSeparator%2A>, and <xref:System.Globalization.NumberFormatInfo.NumberGroupSeparator%2A>.  
+  
+   
+  
+## Examples  
+ The following example is the button click event handler of a Web form. It uses the array returned by the <xref:System.Web.HttpRequest.UserLanguages%2A?displayProperty=fullName> property to determine the user's locale. It then instantiates a <xref:System.Globalization.CultureInfo> object that corresponds to that locale. The <xref:System.Globalization.NumberFormatInfo> object that belongs to that <xref:System.Globalization.CultureInfo> object is then passed to the Parse method to convert the user's input to a <xref:System.Double> value.  
+  
+ [!code-cs[ParseMethod#2](../../add/codesnippet/CSharp/parsemethod/Default.aspx.cs#2)]
+ [!code-vb[ParseMethod#2](../../add/codesnippet/VisualBasic/parsemethod/Default.aspx.vb#2)]  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="Parse">
@@ -539,12 +1201,75 @@
         <Parameter Name="provider" Type="System.IFormatProvider" />
       </Parameters>
       <Docs>
-        <param name="s">To be added.</param>
-        <param name="style">To be added.</param>
-        <param name="provider">To be added.</param>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
-        <remarks>To be added.</remarks>
+        <param name="s">A string that contains a number to convert.</param>
+        <param name="style">A bitwise combination of enumeration values that indicate the style elements that can be present in . A typical value to specify is &lt;see cref="T:System.Globalization.NumberStyles"&gt; combined with &lt;see cref="T:System.Globalization.NumberStyles"&gt;.</param>
+        <param name="provider">An object that supplies culture-specific formatting information about .</param>
+        <summary>Converts the string representation of a number in a specified style and culture-specific format to its double-precision floating-point number equivalent.</summary>
+        <returns>A double-precision floating-point number that is equivalent to the numeric value or symbol specified in .</returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ The  parameter defines the style elements (such as white space, thousands separators, and currency symbols) that are allowed in the  parameter for the parse operation to succeed. It must be a combination of bit flags from the <xref:System.Globalization.NumberStyles> enumeration. The following <xref:System.Globalization.NumberStyles> members are not supported:  
+  
+-   <xref:System.Globalization.NumberStyles>  
+  
+-   <xref:System.Globalization.NumberStyles>  
+  
+ The  parameter can contain <xref:System.Globalization.NumberFormatInfo.PositiveInfinitySymbol%2A?displayProperty=fullName>, <xref:System.Globalization.NumberFormatInfo.NegativeInfinitySymbol%2A?displayProperty=fullName>, or <xref:System.Globalization.NumberFormatInfo.NaNSymbol%2A?displayProperty=fullName> for the culture specified by . Depending on the value of , it can also take the form:  
+  
+ [*ws*] [*$*] [*sign*][*integral-digits*,]*integral-digits*[.[*fractional-digits*]][E[*sign*]*exponential-digits*][*ws*]  
+  
+ Elements framed in square brackets ([ and ]) are optional. The following table describes each element.  
+  
+|Element|Description|  
+|-------------|-----------------|  
+|*ws*|A series of white-space characters. White space can appear at the beginning of  if  includes the <xref:System.Globalization.NumberStyles?displayProperty=fullName> flag, and it can appear at the end of  if  includes the <xref:System.Globalization.NumberStyles?displayProperty=fullName> flag.|  
+|$|A culture-specific currency symbol. Its position in the string is defined by the <xref:System.Globalization.NumberFormatInfo.CurrencyNegativePattern%2A?displayProperty=fullName> and <xref:System.Globalization.NumberFormatInfo.CurrencyPositivePattern%2A?displayProperty=fullName> properties of the current culture. The current culture's currency symbol can appear in  if  includes the <xref:System.Globalization.NumberStyles?displayProperty=fullName> flag.|  
+|*sign*|A negative sign symbol (-) or a positive sign symbol (+). The sign can appear at the beginning of  if  includes the <xref:System.Globalization.NumberStyles?displayProperty=fullName> flag, and it can appear at the end of  if  includes the <xref:System.Globalization.NumberStyles?displayProperty=fullName> flag. Parentheses can be used in  to indicate a negative value if  includes the <xref:System.Globalization.NumberStyles?displayProperty=fullName> flag.|  
+|*integral-digits*|A series of digits ranging from 0 to 9 that specify the integral part of the number. The *integral-digits* element can be absent if the string contains the *fractional-digits* element.|  
+|,|A culture-specific group separator. The current culture's group separator symbol can appear in  if  includes the <xref:System.Globalization.NumberStyles?displayProperty=fullName> flag|  
+|.|A culture-specific decimal point symbol. The current culture's decimal point symbol can appear in  if  includes the <xref:System.Globalization.NumberStyles?displayProperty=fullName> flag.|  
+|*fractional-digits*|A series of digits ranging from 0 to 9 that specify the fractional part of the number. Fractional digits can appear in  if  includes the <xref:System.Globalization.NumberStyles?displayProperty=fullName> flag.|  
+|E|The "e" or "E" character, which indicates that the value is represented in exponential (scientific) notation. The  parameter can represent a number in exponential notation if  includes the <xref:System.Globalization.NumberStyles?displayProperty=fullName> flag.|  
+|*exponential-digits*|A series of digits ranging from 0 to 9 that specify an exponent.|  
+  
+ A string with digits only (which corresponds to the <xref:System.Globalization.NumberStyles?displayProperty=fullName> style) always parses successfully. The remaining <xref:System.Globalization.NumberStyles?displayProperty=fullName> members control elements that may be present, but are not required to be present, in the input string. The following table indicates how individual <xref:System.Globalization.NumberStyles> flags affect the elements that may be present in .  
+  
+|NumberStyles value|Elements permitted in  in addition to digits|  
+|------------------------|--------------------------------------------------|  
+|<xref:System.Globalization.NumberStyles>|The *integral-digits* element only.|  
+|<xref:System.Globalization.NumberStyles>|The decimal point (*.*) and *fractional-digits* elements.|  
+|<xref:System.Globalization.NumberStyles>|The "e" or "E" character, which indicates exponential notation. This flag by itself supports values in the form *digits*E*digits*; additional flags are needed to successfully parse strings with such elements as positive or negative signs and decimal point symbols.|  
+|<xref:System.Globalization.NumberStyles>|The *ws* element at the beginning of .|  
+|<xref:System.Globalization.NumberStyles>|The *ws* element at the end of .|  
+|<xref:System.Globalization.NumberStyles>|The *sign* element at the beginning of .|  
+|<xref:System.Globalization.NumberStyles>|The *sign* element at the end of .|  
+|<xref:System.Globalization.NumberStyles>|The *sign* element in the form of parentheses enclosing the numeric value.|  
+|<xref:System.Globalization.NumberStyles>|The thousands separator (,) element.|  
+|<xref:System.Globalization.NumberStyles>|The currency ($) element.|  
+|<xref:System.Globalization.NumberStyles>|All elements. However,  cannot represent a hexadecimal number or a number in exponential notation.|  
+|<xref:System.Globalization.NumberStyles>|The *ws* element at the beginning or end of , *sign* at the beginning of , and the decimal point (.) symbol. The  parameter can also use exponential notation.|  
+|<xref:System.Globalization.NumberStyles>|The , , thousands separator (,) and decimal point (.) elements.|  
+|<xref:System.Globalization.NumberStyles>|All elements. However,  cannot represent a hexadecimal number.|  
+  
+ The  parameter is an <xref:System.IFormatProvider> implementation whose <xref:System.IFormatProvider.GetFormat%2A> method returns a <xref:System.Globalization.NumberFormatInfo> object that supplies culture-specific information used in interpreting the format of . Typically, it is a <xref:System.Globalization.NumberFormatInfo> or <xref:System.Globalization.CultureInfo> object. If  is `null` or a <xref:System.Globalization.NumberFormatInfo> cannot be obtained, the formatting information for the current system culture is used.  
+  
+ Ordinarily, if you pass the <xref:System.Double.Parse%2A?displayProperty=fullName> method a string that is created by calling the <xref:System.Double.ToString%2A?displayProperty=fullName> method, the original <xref:System.Double> value is returned. However, because of a loss of precision, the values may not be equal. In addition, attempting to parse the string representation of either <xref:System.Double.MinValue> or <xref:System.Double.MaxValue> throws an <xref:System.OverflowException>, as the following example illustrates.  
+  
+ [!CODE [System.Double.Parse#3](../../add/codesnippet/system.double.md)]  
+  
+ If a separator is encountered in the  parameter during a parse operation, and the applicable currency or number decimal and group separators are the same, the parse operation assumes that the separator is a decimal separator rather than a group separator. For more information about separators, see <xref:System.Globalization.NumberFormatInfo.CurrencyDecimalSeparator%2A>, <xref:System.Globalization.NumberFormatInfo.NumberDecimalSeparator%2A>, <xref:System.Globalization.NumberFormatInfo.CurrencyGroupSeparator%2A>, and <xref:System.Globalization.NumberFormatInfo.NumberGroupSeparator%2A>.  
+  
+   
+  
+## Examples  
+ The following example illustrates the use of the Parse method to assign several string representations of temperature values to a `Temperature` object.  
+  
+ [!CODE [System.Double.Parse#2](../../add/codesnippet/system.double.md)]  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="PositiveInfinity">
@@ -559,8 +1284,26 @@
       </ReturnValue>
       <MemberValue>Infinity</MemberValue>
       <Docs>
-        <summary>To be added.</summary>
-        <remarks>To be added.</remarks>
+        <summary>Represents positive infinity. This field is constant.</summary>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ The value of this constant is the result of dividing a positive number by zero.  
+  
+ This constant is returned when the result of an operation is greater than <xref:System.Double>.  
+  
+ Use <xref:System.Double.IsPositiveInfinity%2A> to determine whether a value evaluates to positive infinity.  
+  
+   
+  
+## Examples  
+ The following code example illustrates the use of PositiveInfinity:  
+  
+ [!CODE [System.Double#10](../CodeSnippet/VS_Snippets_CLR_System/system.Double#10)]  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="System.IConvertible.ToBoolean">
@@ -577,10 +1320,17 @@
         <Parameter Name="provider" Type="System.IFormatProvider" />
       </Parameters>
       <Docs>
-        <param name="provider">To be added.</param>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
-        <remarks>To be added.</remarks>
+        <param name="provider">This parameter is ignored.</param>
+        <summary>For a description of this member, see &lt;xref:System.IConvertible.ToBoolean%2A?displayProperty=fullName&gt;.</summary>
+        <returns>`true` if the value of the current instance is not zero; otherwise, `false`.</returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ This member is an explicit interface member implementation. It can be used only when the <xref:System.Double> instance is cast to an <xref:System.IConvertible> interface. The recommended alternative is to call the <xref:System.Convert.ToBoolean%28System.Double%29?displayProperty=fullName> method.  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="System.IConvertible.ToByte">
@@ -597,10 +1347,17 @@
         <Parameter Name="provider" Type="System.IFormatProvider" />
       </Parameters>
       <Docs>
-        <param name="provider">To be added.</param>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
-        <remarks>To be added.</remarks>
+        <param name="provider">This parameter is ignored.</param>
+        <summary>For a description of this member, see &lt;xref:System.IConvertible.ToByte%2A?displayProperty=fullName&gt;.</summary>
+        <returns>The value of the current instance, converted to a &lt;see cref="T:System.Byte"&gt;.</returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ This member is an explicit interface member implementation. It can be used only when the <xref:System.Double> instance is cast to an <xref:System.IConvertible> interface. The recommended alternative is to call the <xref:System.Convert.ToByte%28System.Double%29?displayProperty=fullName> method.  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="System.IConvertible.ToChar">
@@ -617,9 +1374,9 @@
         <Parameter Name="provider" Type="System.IFormatProvider" />
       </Parameters>
       <Docs>
-        <param name="provider">To be added.</param>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
+        <param name="provider">This parameter is ignored.</param>
+        <summary>This conversion is not supported. Attempting to use this method throws an &lt;see cref="T:System.InvalidCastException"&gt;.</summary>
+        <returns>This conversion is not supported. No value is returned.</returns>
         <remarks>To be added.</remarks>
       </Docs>
     </Member>
@@ -637,9 +1394,9 @@
         <Parameter Name="provider" Type="System.IFormatProvider" />
       </Parameters>
       <Docs>
-        <param name="provider">To be added.</param>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
+        <param name="provider">This parameter is ignored.</param>
+        <summary>This conversion is not supported. Attempting to use this method throws an &lt;see cref="T:System.InvalidCastException"&gt;</summary>
+        <returns>This conversion is not supported. No value is returned.</returns>
         <remarks>To be added.</remarks>
       </Docs>
     </Member>
@@ -657,10 +1414,17 @@
         <Parameter Name="provider" Type="System.IFormatProvider" />
       </Parameters>
       <Docs>
-        <param name="provider">To be added.</param>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
-        <remarks>To be added.</remarks>
+        <param name="provider">This parameter is ignored.</param>
+        <summary>For a description of this member, see &lt;xref:System.IConvertible.ToDecimal%2A?displayProperty=fullName&gt;.</summary>
+        <returns>The value of the current instance, converted to a &lt;see cref="T:System.Decimal"&gt;.</returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ This member is an explicit interface member implementation. It can be used only when the <xref:System.Double> instance is cast to an <xref:System.IConvertible> interface. The recommended alternative is to call the <xref:System.Convert.ToDecimal%28System.Double%29?displayProperty=fullName> method.  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="System.IConvertible.ToDouble">
@@ -677,10 +1441,17 @@
         <Parameter Name="provider" Type="System.IFormatProvider" />
       </Parameters>
       <Docs>
-        <param name="provider">To be added.</param>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
-        <remarks>To be added.</remarks>
+        <param name="provider">This parameter is ignored.</param>
+        <summary>For a description of this member, see &lt;xref:System.IConvertible.ToDouble%2A?displayProperty=fullName&gt;.</summary>
+        <returns>The value of the current instance, unchanged.</returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ This member is an explicit interface member implementation. It can be used only when the <xref:System.Double> instance is cast to an <xref:System.IConvertible> interface.  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="System.IConvertible.ToInt16">
@@ -697,10 +1468,17 @@
         <Parameter Name="provider" Type="System.IFormatProvider" />
       </Parameters>
       <Docs>
-        <param name="provider">To be added.</param>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
-        <remarks>To be added.</remarks>
+        <param name="provider">This parameter is ignored.</param>
+        <summary>For a description of this member, see &lt;xref:System.IConvertible.ToInt16%2A?displayProperty=fullName&gt;.</summary>
+        <returns>The value of the current instance, converted to an &lt;see cref="T:System.Int16"&gt;.</returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ This member is an explicit interface member implementation. It can be used only when the <xref:System.Double> instance is cast to an <xref:System.IConvertible> interface. The recommended alternative is to call the <xref:System.Convert.ToInt16%28System.Double%29?displayProperty=fullName> method.  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="System.IConvertible.ToInt32">
@@ -717,10 +1495,17 @@
         <Parameter Name="provider" Type="System.IFormatProvider" />
       </Parameters>
       <Docs>
-        <param name="provider">To be added.</param>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
-        <remarks>To be added.</remarks>
+        <param name="provider">This parameter is ignored.</param>
+        <summary>For a description of this member, see &lt;xref:System.IConvertible.ToInt32%2A?displayProperty=fullName&gt;.</summary>
+        <returns>The value of the current instance, converted to an &lt;see cref="T:System.Int32"&gt;.</returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ This member is an explicit interface member implementation. It can be used only when the <xref:System.Double> instance is cast to an <xref:System.IConvertible> interface. The recommended alternative is to call the <xref:System.Convert.ToInt32%28System.Double%29?displayProperty=fullName> method.  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="System.IConvertible.ToInt64">
@@ -737,10 +1522,17 @@
         <Parameter Name="provider" Type="System.IFormatProvider" />
       </Parameters>
       <Docs>
-        <param name="provider">To be added.</param>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
-        <remarks>To be added.</remarks>
+        <param name="provider">This parameter is ignored.</param>
+        <summary>For a description of this member, see &lt;xref:System.IConvertible.ToInt64%2A?displayProperty=fullName&gt;.</summary>
+        <returns>The value of the current instance, converted to an &lt;see cref="T:System.Int64"&gt;.</returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ This member is an explicit interface member implementation. It can be used only when the <xref:System.Double> instance is cast to an <xref:System.IConvertible> interface. The recommended alternative is to call the <xref:System.Convert.ToInt64%28System.Double%29?displayProperty=fullName> method.  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="System.IConvertible.ToSByte">
@@ -757,10 +1549,17 @@
         <Parameter Name="provider" Type="System.IFormatProvider" />
       </Parameters>
       <Docs>
-        <param name="provider">To be added.</param>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
-        <remarks>To be added.</remarks>
+        <param name="provider">This parameter is ignored.</param>
+        <summary>For a description of this member, see &lt;xref:System.IConvertible.ToSByte%2A?displayProperty=fullName&gt;.</summary>
+        <returns>The value of the current instance, converted to an &lt;see cref="T:System.SByte"&gt;.</returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ This member is an explicit interface member implementation. It can be used only when the <xref:System.Double> instance is cast to an <xref:System.IConvertible> interface. The recommended alternative is to call the <xref:System.Convert.ToSByte%28System.Double%29?displayProperty=fullName> method.  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="System.IConvertible.ToSingle">
@@ -777,10 +1576,17 @@
         <Parameter Name="provider" Type="System.IFormatProvider" />
       </Parameters>
       <Docs>
-        <param name="provider">To be added.</param>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
-        <remarks>To be added.</remarks>
+        <param name="provider">This parameter is ignored.</param>
+        <summary>For a description of this member, see &lt;xref:System.IConvertible.ToSingle%2A?displayProperty=fullName&gt;.</summary>
+        <returns>The value of the current instance, converted to a &lt;see cref="T:System.Single"&gt;.</returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ This member is an explicit interface member implementation. It can be used only when the <xref:System.Double> instance is cast to an <xref:System.IConvertible> interface. The recommended alternative is to call the <xref:System.Convert.ToSingle%28System.Double%29?displayProperty=fullName> method.  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="System.IConvertible.ToType">
@@ -798,11 +1604,18 @@
         <Parameter Name="provider" Type="System.IFormatProvider" />
       </Parameters>
       <Docs>
-        <param name="type">To be added.</param>
-        <param name="provider">To be added.</param>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
-        <remarks>To be added.</remarks>
+        <param name="type">The type to which to convert this &lt;see cref="T:System.Double"&gt; value.</param>
+        <param name="provider">An &lt;see cref="T:System.IFormatProvider"&gt; implementation that supplies culture-specific information about the format of the returned value.</param>
+        <summary>For a description of this member, see &lt;xref:System.IConvertible.ToType%2A?displayProperty=fullName&gt;.</summary>
+        <returns>The value of the current instance, converted to .</returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ This member is an explicit interface member implementation. It can be used only when the <xref:System.Double> instance is cast to an <xref:System.IConvertible> interface. The recommended alternative is to call the `static` (`Shared` in Visual Basic) <xref:System.Convert.ChangeType%2A?displayProperty=fullName> method.  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="System.IConvertible.ToUInt16">
@@ -819,10 +1632,17 @@
         <Parameter Name="provider" Type="System.IFormatProvider" />
       </Parameters>
       <Docs>
-        <param name="provider">To be added.</param>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
-        <remarks>To be added.</remarks>
+        <param name="provider">This parameter is ignored.</param>
+        <summary>For a description of this member, see &lt;xref:System.IConvertible.ToUInt16%2A?displayProperty=fullName&gt;.</summary>
+        <returns>The value of the current instance, converted to a &lt;see cref="T:System.UInt16"&gt;.</returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ This member is an explicit interface member implementation. It can be used only when the <xref:System.Double> instance is cast to an <xref:System.IConvertible> interface. The recommended alternative is to call the <xref:System.Convert.ToUInt16%28System.Double%29?displayProperty=fullName> method.  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="System.IConvertible.ToUInt32">
@@ -839,10 +1659,17 @@
         <Parameter Name="provider" Type="System.IFormatProvider" />
       </Parameters>
       <Docs>
-        <param name="provider">To be added.</param>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
-        <remarks>To be added.</remarks>
+        <param name="provider">This parameter is ignored.</param>
+        <summary>For a description of this member, see &lt;xref:System.IConvertible.ToUInt32%2A?displayProperty=fullName&gt;.</summary>
+        <returns>The value of the current instance, converted to a &lt;see cref="T:System.UInt32"&gt;.</returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ This member is an explicit interface member implementation. It can be used only when the <xref:System.Double> instance is cast to an <xref:System.IConvertible> interface. The recommended alternative is to call the <xref:System.Convert.ToUInt32%28System.Double%29?displayProperty=fullName> method.  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="System.IConvertible.ToUInt64">
@@ -859,10 +1686,17 @@
         <Parameter Name="provider" Type="System.IFormatProvider" />
       </Parameters>
       <Docs>
-        <param name="provider">To be added.</param>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
-        <remarks>To be added.</remarks>
+        <param name="provider">This parameter is ignored.</param>
+        <summary>For a description of this member, see &lt;xref:System.IConvertible.ToUInt64%2A?displayProperty=fullName&gt;.</summary>
+        <returns>The value of the current instance, converted to a &lt;see cref="T:System.UInt64"&gt;.</returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ This member is an explicit interface member implementation. It can be used only when the <xref:System.Double> instance is cast to an <xref:System.IConvertible> interface. The recommended alternative is to call the <xref:System.Convert.ToUInt64%28System.Double%29?displayProperty=fullName> method.  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="ToString">
@@ -882,9 +1716,56 @@
       </ReturnValue>
       <Parameters />
       <Docs>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
-        <remarks>To be added.</remarks>
+        <summary>Converts the numeric value of this instance to its equivalent string representation.</summary>
+        <returns>The string representation of the value of this instance.</returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ The ToString method formats a <xref:System.Double> value in the default ("G", or general) format of the current culture. If you want to specify a different format, precision, or culture, use the other overloads of the <xref:System.Double.ToString%2A> method, as follows:  
+  
+|To use format|For culture|Use the overload|  
+|-------------------|-----------------|----------------------|  
+|Default ("G") format|A specific culture|<xref:System.Double.ToString%28System.IFormatProvider%29>|  
+|A specific format or precision|Default (current) culture|<xref:System.Double.ToString%28System.String%29>|  
+|A specific format or precision|A specific culture|<xref:System.Double.ToString%28System.String%2CSystem.IFormatProvider%29>|  
+  
+ The return value can be <xref:System.Globalization.NumberFormatInfo.PositiveInfinitySymbol%2A>, <xref:System.Globalization.NumberFormatInfo.NegativeInfinitySymbol%2A>, <xref:System.Globalization.NumberFormatInfo.NaNSymbol%2A>, or a string of the form:  
+  
+ [sign]integral-digits[.[fractional-digits]][e[sign]exponential-digits]  
+  
+ Optional elements are framed in square brackets ([ and ]). Elements that contain the term "digits" consist of a series of numeric characters ranging from 0 to 9. The elements listed in the following table are supported.  
+  
+|Element|Description|  
+|-------------|-----------------|  
+|*sign*|A negative sign or positive sign symbol.|  
+|*integral-digits*|A series of digits specifying the integral part of the number. Integral-digits can be absent if there are fractional-digits.|  
+|'*.*'|A culture-specific decimal point symbol.|  
+|*fractional-digits*|A series of digits specifying the fractional part of the number.|  
+|'*e*'|A lowercase character 'e', indicating exponential (scientific) notation.|  
+|*exponential-digits*|A series of digits specifying an exponent.|  
+  
+ Some examples of the return value are "100", "-123,456,789", "123.45e+6", "500", "3.1416", "600", "-0.123", and "-Infinity".  
+  
+ The .NET Framework provides extensive formatting support, which is described in greater detail in the following formatting topics:  
+  
+-   For more information about numeric format specifiers, see [Standard Numeric Format Strings](../Topic/Standard%20Numeric%20Format%20Strings.md) and [Custom Numeric Format Strings](../Topic/Custom%20Numeric%20Format%20Strings.md).  
+  
+-   For more information about formatting, see [Formatting Types](../Topic/Formatting%20Types%20in%20the%20.NET%20Framework.md).  
+  
+   
+  
+## Examples  
+ The following example uses the default ToString method to display the string representations of a number of <xref:System.Double> values.  
+  
+ [!CODE [System.Double.ToString#1](../../add/codesnippet/system.double.md)]  
+  
+ The following example illustrates the use of ToString.  
+  
+ [!CODE [System.Double#3](../CodeSnippet/VS_Snippets_CLR_System/system.Double#3)]  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="ToString">
@@ -906,10 +1787,61 @@
         <Parameter Name="provider" Type="System.IFormatProvider" />
       </Parameters>
       <Docs>
-        <param name="provider">To be added.</param>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
-        <remarks>To be added.</remarks>
+        <param name="provider">An object that supplies culture-specific formatting information.</param>
+        <summary>Converts the numeric value of this instance to its equivalent string representation using the specified culture-specific format information.</summary>
+        <returns>The string representation of the value of this instance as specified by .</returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ The ToString method formats a <xref:System.Double> value in the default ("G", or general) format of a specified culture. If you want to specify a different format or culture, use the other overloads of the <xref:System.Double.ToString%2A> method, as follows:  
+  
+|To use format|For culture|Use the overload|  
+|-------------------|-----------------|----------------------|  
+|Default ("G") format|Default (current)|<xref:System.Double.ToString>|  
+|A specific format or precision|Default (current) culture|<xref:System.Double.ToString%28System.String%29>|  
+|A specific format or precision|A specific culture|<xref:System.Double.ToString%28System.String%2CSystem.IFormatProvider%29>|  
+  
+ The return value can be <xref:System.Globalization.NumberFormatInfo.PositiveInfinitySymbol%2A>, <xref:System.Globalization.NumberFormatInfo.NegativeInfinitySymbol%2A>, <xref:System.Globalization.NumberFormatInfo.NaNSymbol%2A>, or a string of the form:  
+  
+ [sign]integral-digits[.[fractional-digits]][e[sign]exponential-digits]  
+  
+ Optional elements are framed in square brackets ([ and ]). Elements that contain the term "digits" consist of a series of numeric characters ranging from 0 to 9. The elements listed in the following table are supported.  
+  
+|Element|Description|  
+|-------------|-----------------|  
+|*sign*|A negative sign or positive sign symbol.|  
+|*integral-digits*|A series of digits specifying the integral part of the number. Integral-digits can be absent if there are fractional-digits.|  
+|'*.*'|A culture-specific decimal point symbol.|  
+|*fractional-digits*|A series of digits specifying the fractional part of the number.|  
+|'*e*'|A lowercase character 'e', indicating exponential (scientific) notation.|  
+|*exponential-digits*|A series of digits specifying an exponent.|  
+  
+ Some examples of the return value are "100", "-123,456,789", "123.45e+6", "500", "3.1416", "600", "-0.123", and "-Infinity".  
+  
+ This instance is formatted with the general numeric format specifier ("G").  
+  
+ The .NET Framework provides extensive formatting support, which is described in greater detail in the following formatting topics:  
+  
+-   For more information about numeric format specifiers, see [Standard Numeric Format Strings](../Topic/Standard%20Numeric%20Format%20Strings.md) and [Custom Numeric Format Strings](../Topic/Custom%20Numeric%20Format%20Strings.md).  
+  
+-   For more information about formatting, see [Formatting Types](../Topic/Formatting%20Types%20in%20the%20.NET%20Framework.md).  
+  
+ The  parameter is an <xref:System.IFormatProvider> implementation whose <xref:System.IFormatProvider.GetFormat%2A> method returns a <xref:System.Globalization.NumberFormatInfo> object. Typically,  is a <xref:System.Globalization.CultureInfo> object or a <xref:System.Globalization.NumberFormatInfo> object. The  parameter supplies culture-specific information used in formatting. If  is `null`, the return value is formatted using the <xref:System.Globalization.NumberFormatInfo> object for the current culture.  
+  
+   
+  
+## Examples  
+ The following example displays the string representation of two <xref:System.Double> values using <xref:System.Globalization.CultureInfo> objects that represent several different cultures.  
+  
+ [!CODE [System.Double.ToString#2](../../add/codesnippet/system.double.md)]  
+  
+ The following example illustrates the use of <xref:System.Double.ToString%2A>, taking a <xref:System.String> and an <xref:System.IFormatProvider> as parameters.  
+  
+ [!CODE [Double Example#4](../CodeSnippet/VS_Snippets_CLR/Double Example#4)]  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="ToString">
@@ -931,10 +1863,46 @@
         <Parameter Name="format" Type="System.String" />
       </Parameters>
       <Docs>
-        <param name="format">To be added.</param>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
-        <remarks>To be added.</remarks>
+        <param name="format">A numeric format string.</param>
+        <summary>Converts the numeric value of this instance to its equivalent string representation, using the specified format.</summary>
+        <returns>The string representation of the value of this instance as specified by .</returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ The ToString method formats a <xref:System.Double> value in a specified format by using the conventions of the current culture. If you want to specify a different format or culture, use the other overloads of the ToString method, as follows:  
+  
+|To use format|For culture|Use the overload|  
+|-------------------|-----------------|----------------------|  
+|Default ("G") format|Default (current) culture|<xref:System.Double.ToString>|  
+|Default ("G") format|A specific culture|<xref:System.Double.ToString%28System.IFormatProvider%29>|  
+|A specific format or precision|A specific culture|<xref:System.Double.ToString%28System.String%2CSystem.IFormatProvider%29>|  
+  
+ The return value can be <xref:System.Globalization.NumberFormatInfo.PositiveInfinitySymbol%2A>, <xref:System.Globalization.NumberFormatInfo.NegativeInfinitySymbol%2A>, <xref:System.Globalization.NumberFormatInfo.NaNSymbol%2A>, or the string representation of a number, as specified by .  
+  
+ The  parameter can be any valid standard numeric format specifier except for D and X, as well as any combination of custom numeric format specifiers. If  is `null` or an empty string, the return value is formatted with the general numeric format specifier ("G").  
+  
+ The .NET Framework provides extensive formatting support, which is described in greater detail in the following formatting topics:  
+  
+-   For more information about numeric format specifiers, see [Standard Numeric Format Strings](../Topic/Standard%20Numeric%20Format%20Strings.md) and [Custom Numeric Format Strings](../Topic/Custom%20Numeric%20Format%20Strings.md).  
+  
+-   For more information about formatting, see [Formatting Types](../Topic/Formatting%20Types%20in%20the%20.NET%20Framework.md).  
+  
+ By default, the return value only contains 15 digits of precision although a maximum of 17 digits is maintained internally. If the value of this instance has greater than 15 digits, <xref:System.Double.ToString%2A> returns <xref:System.Globalization.NumberFormatInfo.PositiveInfinitySymbol%2A> or <xref:System.Globalization.NumberFormatInfo.NegativeInfinitySymbol%2A> instead of the expected number. If you require more precision, specify  with the "G17" format specification, which always returns 17 digits of precision, or "R", which returns 15 digits if the number can be represented with that precision or 17 digits if the number can only be represented with maximum precision.  
+  
+   
+  
+## Examples  
+ The following example defines a numeric value and formats it as a currency value by using the "C" standard numeric format string and as a numeric value to three decimal places by using the "N" standard numeric format string. The result strings are formatted by using the conventions of the en-US culture. For more information on numeric format strings, see [Standard Numeric Format Strings](../Topic/Standard%20Numeric%20Format%20Strings.md) and [Custom Numeric Format Strings](../Topic/Custom%20Numeric%20Format%20Strings.md).  
+  
+ [!CODE [System.Double.ToString#7](../../add/codesnippet/system.double.md)]  
+  
+ The following example displays several <xref:System.Double> values using the supported standard numeric format specifiers together with three custom numeric format strings. One of those custom format strings illustrates how to pad a <xref:System.Single> value with leading zeros. In addition, the example uses precision specifiers with each standard format specifier except for "R". The values of the precision specifiers range from 0 to 3. To convert the numeric values to strings, the example uses the formatting conventions of the en-US culture.  
+  
+ [!CODE [System.Double.ToString#3](../../add/codesnippet/system.double.md)]  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="ToString">
@@ -957,11 +1925,49 @@
         <Parameter Name="provider" Type="System.IFormatProvider" />
       </Parameters>
       <Docs>
-        <param name="format">To be added.</param>
-        <param name="provider">To be added.</param>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
-        <remarks>To be added.</remarks>
+        <param name="format">A numeric format string.</param>
+        <param name="provider">An object that supplies culture-specific formatting information.</param>
+        <summary>Converts the numeric value of this instance to its equivalent string representation using the specified format and culture-specific format information.</summary>
+        <returns>The string representation of the value of this instance as specified by  and .</returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ The ToString method formats a <xref:System.Double> value in a specified format of a specified culture. If you want to specify a different format or culture, use the other overloads of the <xref:System.Double.ToString%2A> method, as follows:  
+  
+|To use format|For culture|Use the overload|  
+|-------------------|-----------------|----------------------|  
+|Default ("G") format|Default (current) culture|<xref:System.Double.ToString>|  
+|Default ("G") format|A specific culture|<xref:System.Double.ToString%28System.IFormatProvider%29>|  
+|A specific format or precision|Default (current) culture|<xref:System.Double.ToString%28System.String%29>|  
+  
+ The return value can be <xref:System.Globalization.NumberFormatInfo.PositiveInfinitySymbol%2A>, <xref:System.Globalization.NumberFormatInfo.NegativeInfinitySymbol%2A>, <xref:System.Globalization.NumberFormatInfo.NaNSymbol%2A>, or the string representation of a number, as specified by .  
+  
+ The  parameter can be any valid standard numeric format specifier except for D and X, as well as any combination of custom numeric format specifiers. If  is `null` or an empty string, the return value for this instance is formatted with the general numeric format specifier ("G").  
+  
+ The .NET Framework provides extensive formatting support, which is described in greater detail in the following formatting topics:  
+  
+-   For more information about numeric format specifiers, see [Standard Numeric Format Strings](../Topic/Standard%20Numeric%20Format%20Strings.md) and [Custom Numeric Format Strings](../Topic/Custom%20Numeric%20Format%20Strings.md).  
+  
+-   For more information about formatting, see [Formatting Types](../Topic/Formatting%20Types%20in%20the%20.NET%20Framework.md).  
+  
+ The  parameter is an <xref:System.IFormatProvider> implementation whose <xref:System.IFormatProvider.GetFormat%2A> method returns a <xref:System.Globalization.NumberFormatInfo> object. Typically,  is a <xref:System.Globalization.CultureInfo> object or a <xref:System.Globalization.NumberFormatInfo> object. The  parameter supplies culture-specific information used in formatting. If  is `null`, the return value is formatted using the <xref:System.Globalization.NumberFormatInfo> object for the current culture.  
+  
+ By default, the return value only contains 15 digits of precision although a maximum of 17 digits is maintained internally. If the value of this instance has greater than 15 digits, <xref:System.Double.ToString%2A> returns <xref:System.Globalization.NumberFormatInfo.PositiveInfinitySymbol%2A> or <xref:System.Globalization.NumberFormatInfo.NegativeInfinitySymbol%2A> instead of the expected number. If you require more precision, specify  with the "G17" format specification, which always returns 17 digits of precision, or "R", which returns 15 digits if the number can be represented with that precision or 17 digits if the number can only be represented with maximum precision.  
+  
+   
+  
+## Examples  
+ The following example displays a <xref:System.Double> value using each of the supported standard numeric format specifiers for several different cultures.  
+  
+ [!CODE [System.Double.ToString#4](../../add/codesnippet/system.double.md)]  
+  
+ The following example illustrates the use of <xref:System.Double.ToString%2A>, taking a <xref:System.String> and an <xref:System.IFormatProvider> as parameters.  
+  
+ [!CODE [Double Example#4](../CodeSnippet/VS_Snippets_CLR/Double Example#4)]  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="TryParse">
@@ -979,11 +1985,54 @@
         <Parameter Name="result" Type="System.Double&amp;" RefType="out" />
       </Parameters>
       <Docs>
-        <param name="s">To be added.</param>
-        <param name="result">To be added.</param>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
-        <remarks>To be added.</remarks>
+        <param name="s">A string containing a number to convert.</param>
+        <param name="result">When this method returns, contains the double-precision floating-point number equivalent of the  parameter, if the conversion succeeded, or zero if the conversion failed. The conversion fails if the  parameter is `null` or &lt;xref:System.String?displayProperty=fullName&gt;, is not a number in a valid format, or represents a number less than &lt;xref:System.Double&gt; or greater than &lt;xref:System.Double&gt;. This parameter is passed uninitialized; any value originally supplied in  will be overwritten.</param>
+        <summary>Converts the string representation of a number to its double-precision floating-point number equivalent. A return value indicates whether the conversion succeeded or failed.</summary>
+        <returns>`true` if  was converted successfully; otherwise, `false`.</returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ This overload differs from the <xref:System.Double.Parse%28System.String%29?displayProperty=fullName> method by returning a Boolean value that indicates whether the parse operation succeeded instead of returning the parsed numeric value. It eliminates the need to use exception handling to test for a <xref:System.FormatException> in the event that  is invalid and cannot be successfully parsed.  
+  
+ The  parameter can contain the current culture's <xref:System.Globalization.NumberFormatInfo.PositiveInfinitySymbol%2A?displayProperty=fullName>, <xref:System.Globalization.NumberFormatInfo.NegativeInfinitySymbol%2A?displayProperty=fullName>, <xref:System.Globalization.NumberFormatInfo.NaNSymbol%2A?displayProperty=fullName> (the string comparison is case-sensitive), or a string of the form:  
+  
+ [ws][sign][integral-digits,]integral-digits[.[fractional-digits]][e[sign]exponential-digits][ws]  
+  
+ Elements in square brackets are optional. The following table describes each element.  
+  
+|Element|Description|  
+|-------------|-----------------|  
+|*ws*|A series of white-space characters.|  
+|*sign*|A negative sign or positive sign symbol.|  
+|*integral-digits*|A series of numeric characters ranging from 0 to 9 that specify the integral part of the number. Integral-digits can be absent if there are fractional-digits.|  
+|*,*|A culture-specific group separator symbol.|  
+|*.*|A culture-specific decimal point symbol.|  
+|*fractional-digits*|A series of numeric characters ranging from 0 to 9 that specify the fractional part of the number.|  
+|*E*|An uppercase or lowercase character 'e', that indicates exponential (scientific) notation.|  
+|*exponential-digits*|A series of numeric characters ranging from 0 to 9 that specify an exponent.|  
+  
+ For more information about numeric formats, see [Formatting Types](../Topic/Formatting%20Types%20in%20the%20.NET%20Framework.md).  
+  
+ The  parameter is interpreted by using a combination of the <xref:System.Globalization.NumberStyles?displayProperty=fullName> and <xref:System.Globalization.NumberStyles?displayProperty=fullName> flags. This means that white space and thousands separators are allowed but currency symbols are not. To explicitly define the elements (such as currency symbols, thousands separators, and white space) that can be present in , use the <xref:System.Double.TryParse%28System.String%2CSystem.Globalization.NumberStyles%2CSystem.IFormatProvider%2CSystem.Double%40%29?displayProperty=fullName> method overload.  
+  
+ The  parameter is parsed using the formatting information in a <xref:System.Globalization.NumberFormatInfo> object that is initialized for the current system culture. For more information, see <xref:System.Globalization.NumberFormatInfo.CurrentInfo%2A?displayProperty=fullName>. To parse a string using the formatting information of some other specified culture, use the <xref:System.Double.TryParse%28System.String%2CSystem.Globalization.NumberStyles%2CSystem.IFormatProvider%2CSystem.Double%40%29?displayProperty=fullName> method overload.  
+  
+ Ordinarily, if you pass the <xref:System.Double.TryParse%2A?displayProperty=fullName> method a string that is created by calling the <xref:System.Double.ToString%2A?displayProperty=fullName> method, the original <xref:System.Double> value is returned. However, because of a loss of precision, the values may not be equal. In addition, attempting to parse the string representation of either <xref:System.Double.MinValue> or <xref:System.Double.MaxValue> throws an <xref:System.OverflowException>, as the following example illustrates.  
+  
+ [!CODE [System.Double.TryParse#3](../../add/codesnippet/system.double.md)]  
+  
+ If a separator is encountered in the  parameter during a parse operation, and the decimal and group separators are the same, the parse operation assumes that the separator is a decimal separator rather than a group separator. For more information about separators, see <xref:System.Globalization.NumberFormatInfo.CurrencyDecimalSeparator%2A>, <xref:System.Globalization.NumberFormatInfo.NumberDecimalSeparator%2A>, <xref:System.Globalization.NumberFormatInfo.CurrencyGroupSeparator%2A>, and <xref:System.Globalization.NumberFormatInfo.NumberGroupSeparator%2A>.  
+  
+   
+  
+## Examples  
+ The following example uses the TryParse method to convert the string representations of numeric values to <xref:System.Double> values. It assumes that en-US is the current culture.  
+  
+ [!CODE [System.Double.TryParse#1](../../add/codesnippet/system.double.md)]  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="TryParse">
@@ -1003,13 +2052,80 @@
         <Parameter Name="result" Type="System.Double&amp;" RefType="out" />
       </Parameters>
       <Docs>
-        <param name="s">To be added.</param>
-        <param name="style">To be added.</param>
-        <param name="provider">To be added.</param>
-        <param name="result">To be added.</param>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
-        <remarks>To be added.</remarks>
+        <param name="s">A string containing a number to convert.</param>
+        <param name="style">A bitwise combination of &lt;see cref="T:System.Globalization.NumberStyles"&gt; values that indicates the permitted format of . A typical value to specify is &lt;xref:System.Globalization.NumberStyles?displayProperty=fullName&gt; combined with &lt;xref:System.Globalization.NumberStyles?displayProperty=fullName&gt;.</param>
+        <param name="provider">An &lt;see cref="T:System.IFormatProvider"&gt; that supplies culture-specific formatting information about .</param>
+        <param name="result">When this method returns, contains a double-precision floating-point number equivalent of the numeric value or symbol contained in , if the conversion succeeded, or zero if the conversion failed. The conversion fails if the  parameter is `null` or &lt;xref:System.String.Empty?displayProperty=fullName&gt;, is not in a format compliant with , represents a number less than &lt;xref:System.SByte.MinValue&gt; or greater than &lt;xref:System.SByte.MaxValue&gt;, or if  is not a valid combination of &lt;xref:System.Globalization.NumberStyles&gt; enumerated constants. This parameter is passed uninitialized; any value originally supplied in  will be overwritten.</param>
+        <summary>Converts the string representation of a number in a specified style and culture-specific format to its double-precision floating-point number equivalent. A return value indicates whether the conversion succeeded or failed.</summary>
+        <returns>`true` if  was converted successfully; otherwise, `false`.</returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ The TryParse method is like the <xref:System.Double.Parse%28System.String%2CSystem.Globalization.NumberStyles%2CSystem.IFormatProvider%29> method, except this method does not throw an exception if the conversion fails. If the conversion succeeds, the return value is `true` and the  parameter is set to the outcome of the conversion. If the conversion fails, the return value is `false` and the  parameter is set to zero. This eliminates the need to use exception handling to test for a <xref:System.FormatException> in the event that  is invalid and cannot be successfully parsed.  
+  
+ The  parameter defines the allowable format of the  parameter for the parse operation to succeed. It must be a combination of bit flags from the <xref:System.Globalization.NumberStyles> enumeration. The following <xref:System.Globalization.NumberStyles> members are not supported:  
+  
+-   <xref:System.Globalization.NumberStyles?displayProperty=fullName>  
+  
+-   <xref:System.Globalization.NumberStyles?displayProperty=fullName>  
+  
+ The  parameter can contain <xref:System.Globalization.NumberFormatInfo.PositiveInfinitySymbol%2A?displayProperty=fullName>, <xref:System.Globalization.NumberFormatInfo.NegativeInfinitySymbol%2A?displayProperty=fullName>, or <xref:System.Globalization.NumberFormatInfo.NaNSymbol%2A?displayProperty=fullName> for the culture indicated by . In addition, depending on the value of , the  parameter may include the following elements:  
+  
+ [ws] [$] [sign][integral-digits,]integral-digits[.fractional-digits][e[sign]exponential-digits][ws]  
+  
+ Elements in square brackets ([ and ]) are optional. The following table describes each element.  
+  
+|Element|Description|  
+|-------------|-----------------|  
+|*ws*|Optional white space. White space can appear at the beginning of  if  includes the <xref:System.Globalization.NumberStyles?displayProperty=fullName> flag. It can appear at the end of  if  includes the <xref:System.Globalization.NumberStyles?displayProperty=fullName> flag.|  
+|*$*|A culture-specific currency symbol. Its position in the string is defined by the <xref:System.Globalization.NumberFormatInfo.CurrencyNegativePattern%2A?displayProperty=fullName> or <xref:System.Globalization.NumberFormatInfo.CurrencyPositivePattern%2A?displayProperty=fullName> properties of the <xref:System.Globalization.NumberFormatInfo> object returned by the <xref:System.IFormatProvider.GetFormat%2A?displayProperty=fullName> method of the  parameter. The currency symbol can appear in  if  includes the <xref:System.Globalization.NumberStyles?displayProperty=fullName> flag.|  
+|*sign*|An optional sign. The sign can appear at the beginning of  if  includes the <xref:System.Globalization.NumberStyles?displayProperty=fullName> flag, and it can appear at the end of  if  includes the <xref:System.Globalization.NumberStyles?displayProperty=fullName> flag. Parentheses can be used in  to indicate a negative value if  includes the <xref:System.Globalization.NumberStyles?displayProperty=fullName> flag.|  
+|*integral-digits*|A series of digits ranging from 0 to 9 that specify the integral part of the number. Integral-digits can be absent if there are fractional-digits.|  
+|*,*|A culture-specific thousands separator symbol. The current culture's thousands separator symbol can appear in  if  includes the <xref:System.Globalization.NumberStyles?displayProperty=fullName> flag.|  
+|*.*|A culture-specific decimal point symbol. The current culture's decimal point symbol can appear in  if  includes the <xref:System.Globalization.NumberStyles?displayProperty=fullName> flag.|  
+|*fractional-digits*|A series of digits ranging from 0 to 9 that specify the fractional part of the number. Fractional digits can appear in  if  includes the <xref:System.Globalization.NumberStyles?displayProperty=fullName> flag.|  
+|*e*|The e or E character, which indicates that  can represent a number using exponential notation. The  parameter can represent a number in exponential notation if style includes the <xref:System.Globalization.NumberStyles?displayProperty=fullName> flag.|  
+|*exponential-digits*|A series of digits ranging from 0 to 9 that specify an exponent.|  
+  
+ A string with digits only (which corresponds to the <xref:System.Globalization.NumberStyles?displayProperty=fullName> style) always parses successfully. The remaining <xref:System.Globalization.NumberStyles?displayProperty=fullName> members control elements that may be but are not required to be present in the input string. The following table indicates how individual <xref:System.Globalization.NumberStyles> flags affect the elements that may be present in .  
+  
+|NumberStyles value|Elements permitted in s in addition to digits|  
+|------------------------|---------------------------------------------------|  
+|<xref:System.Globalization.NumberStyles>|The *integral-digits* element only.|  
+|<xref:System.Globalization.NumberStyles>|The *.* and *fractional-digits* elements.|  
+|<xref:System.Globalization.NumberStyles>|The  parameter can also use exponential notation. This flag by itself supports values in the form *integral-digits*E*exponential-digits*; additional flags are needed to successfully parse strings in exponential notation with such elements as positive or negative signs and decimal point symbols.|  
+|<xref:System.Globalization.NumberStyles>|The *ws* element at the beginning of .|  
+|<xref:System.Globalization.NumberStyles>|The *ws* element at the end of .|  
+|<xref:System.Globalization.NumberStyles>|The *sign* element at the beginning of .|  
+|<xref:System.Globalization.NumberStyles>|The *sign* element at the end of .|  
+|<xref:System.Globalization.NumberStyles>|The *sign* element in the form of parentheses enclosing the numeric value.|  
+|<xref:System.Globalization.NumberStyles>|The *,* element.|  
+|<xref:System.Globalization.NumberStyles>|The *$* element.|  
+|<xref:System.Globalization.NumberStyles>|All. The  parameter cannot represent a hexadecimal number or a number in exponential notation.|  
+|<xref:System.Globalization.NumberStyles>|The *ws* element at the beginning or end of , *sign* at the beginning of , and the *.* symbol. The  parameter can also use exponential notation.|  
+|<xref:System.Globalization.NumberStyles>|The , , thousands separator (*,),* and decimal point (*.*) elements.|  
+|<xref:System.Globalization.NumberStyles>|All styles, except  cannot represent a hexadecimal number.|  
+  
+ The  parameter is a <xref:System.IFormatProvider> implementation, such as a <xref:System.Globalization.NumberFormatInfo> or <xref:System.Globalization.CultureInfo> object. The  parameter supplies culture-specific information used in parsing. If  is `null` or a <xref:System.Globalization.NumberFormatInfo> object cannot be obtained, the format information for the current culture is used.  
+  
+ The conversion fails if the  parameter is `null` or not a numeric value, the  parameter does not yield a <xref:System.Globalization.NumberFormatInfo> object, or the  parameter is not a combination of bit flags from the <xref:System.Globalization.NumberStyles> enumeration.  
+  
+ Ordinarily, if you pass the <xref:System.Double.TryParse%2A?displayProperty=fullName> method a string that is created by calling the <xref:System.Double.ToString%2A?displayProperty=fullName> method, the original <xref:System.Double> value is returned. However, because of a loss of precision, the values may not be equal. In addition, attempting to parse the string representation of either <xref:System.Double.MinValue> or <xref:System.Double.MaxValue> throws an <xref:System.OverflowException>, as the following example illustrates.  
+  
+ [!CODE [System.Double.TryParse#3](../../add/codesnippet/system.double.md)]  
+  
+ If a separator is encountered in the  parameter during a parse operation, and the applicable currency or number decimal and group separators are the same, the parse operation assumes that the separator is a decimal separator rather than a group separator. For more information about separators, see <xref:System.Globalization.NumberFormatInfo.CurrencyDecimalSeparator%2A>, <xref:System.Globalization.NumberFormatInfo.NumberDecimalSeparator%2A>, <xref:System.Globalization.NumberFormatInfo.CurrencyGroupSeparator%2A>, and <xref:System.Globalization.NumberFormatInfo.NumberGroupSeparator%2A>.  
+  
+   
+  
+## Examples  
+ The following example demonstrates the use of the TryParse method to parse the string representation of numbers that have a particular style and are formatted using the conventions of a particular culture.  
+  
+ [!CODE [System.Double.TryParse#2](../../add/codesnippet/system.double.md)]  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
   </Members>

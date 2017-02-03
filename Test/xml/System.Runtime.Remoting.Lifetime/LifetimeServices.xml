@@ -18,8 +18,25 @@
     </Attribute>
   </Attributes>
   <Docs>
-    <summary>To be added.</summary>
-    <remarks>To be added.</remarks>
+    <summary>Controls the.NET remoting lifetime services.</summary>
+    <remarks>
+      <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ Distributed garbage collection is responsible for controlling the lifetimes of server applications, and for deleting them when their lifetimes have expired. Traditionally, distributed garbage collection uses reference counts and pinging for control. This works well when there are a few clients per object, but does not work well when there are thousands of clients per each object. The lifetime service can assume the function of a traditional distributed garbage collector, and scales well when the number of clients increases.  
+  
+ The lifetime service associates a lease with each remotely activated object. When the lease expires, the object is removed.  
+  
+> [!NOTE]
+>  This class makes a link demand. A SecurityException is thrown if the immediate caller does not have infrastructure permission. See [Link Demands](../Topic/Link%20Demands.md) for more information.  
+  
+   
+  
+## Examples  
+ [!CODE [System.Runtime.Remoting.Lifetime#2](../CodeSnippet/VS_Snippets_Remoting/System.Runtime.Remoting.Lifetime#2)]  
+  
+ ]]></format>
+    </remarks>
   </Docs>
   <Members>
     <Member MemberName=".ctor">
@@ -36,7 +53,7 @@
       </Attributes>
       <Parameters />
       <Docs>
-        <summary>To be added.</summary>
+        <summary>Creates an instance of &lt;see cref="T:System.Runtime.Remoting.Lifetime.LifetimeServices"&gt;.</summary>
         <remarks>To be added.</remarks>
       </Docs>
     </Member>
@@ -56,9 +73,18 @@
         <ReturnType>System.TimeSpan</ReturnType>
       </ReturnValue>
       <Docs>
-        <summary>To be added.</summary>
-        <value>To be added.</value>
-        <remarks>To be added.</remarks>
+        <summary>Gets or sets the time interval between each activation of the lease manager to clean up expired leases.</summary>
+        <value>The default amount of time the lease manager sleeps after checking for expired leases.</value>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ The current property defines the frequency at which the lease manager becomes active to clean up expired leases. For example, if LeaseManagerPollTime is set to 100 seconds, the lease list is inspected for cleanups and renewals every 100 seconds.  
+  
+ The default value of the LeaseManagerPollTime property is 10 seconds.  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="LeaseTime">
@@ -77,9 +103,16 @@
         <ReturnType>System.TimeSpan</ReturnType>
       </ReturnValue>
       <Docs>
-        <summary>To be added.</summary>
-        <value>To be added.</value>
-        <remarks>To be added.</remarks>
+        <summary>Gets or sets the initial lease time span for an &lt;see cref="T:System.AppDomain"&gt;.</summary>
+        <value>The initial lease &lt;see cref="T:System.TimeSpan"&gt; for objects that can have leases in the &lt;xref:System.AppDomain&gt;.</value>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ The default lease time span is 5 minutes.  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="RenewOnCallTime">
@@ -98,9 +131,21 @@
         <ReturnType>System.TimeSpan</ReturnType>
       </ReturnValue>
       <Docs>
-        <summary>To be added.</summary>
-        <value>To be added.</value>
-        <remarks>To be added.</remarks>
+        <summary>Gets or sets the amount of time by which the lease is extended every time a call comes in on the server object.</summary>
+        <value>The &lt;see cref="T:System.TimeSpan"&gt; by which a lifetime lease in the current &lt;xref:System.AppDomain&gt; is extended after each call.</value>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ The default renewal time by which a lifetime lease is extended is 2 minutes.  
+  
+   
+  
+## Examples  
+ [!CODE [ILease_ILease#3](../CodeSnippet/VS_Snippets_Remoting/ILease_ILease#3)]  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="SponsorshipTimeout">
@@ -119,9 +164,21 @@
         <ReturnType>System.TimeSpan</ReturnType>
       </ReturnValue>
       <Docs>
-        <summary>To be added.</summary>
-        <value>To be added.</value>
-        <remarks>To be added.</remarks>
+        <summary>Gets or sets the amount of time the lease manager waits for a sponsor to return with a lease renewal time.</summary>
+        <value>The initial sponsorship time-out.</value>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ The default time until a call to a sponsor is timed out is 2 minutes.  
+  
+   
+  
+## Examples  
+ [!CODE [ILease_ILease#3](../CodeSnippet/VS_Snippets_Remoting/ILease_ILease#3)]  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
   </Members>

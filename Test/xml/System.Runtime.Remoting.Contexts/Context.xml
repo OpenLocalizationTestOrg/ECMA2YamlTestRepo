@@ -15,8 +15,21 @@
     </Attribute>
   </Attributes>
   <Docs>
-    <summary>To be added.</summary>
-    <remarks>To be added.</remarks>
+    <summary>Defines an environment for the objects that are resident inside it and for which a policy can be enforced.</summary>
+    <remarks>
+      <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ A context is an ordered sequence of properties that define an environment for the objects resident inside it. Contexts get created during the activation process for objects that are configured to require certain automatic services, such as synchronization, transactions, just-in-time activation, security, and so on. Multiple objects can live inside a context.  
+  
+ Classes are marked with an instance of the <xref:System.Runtime.Remoting.Contexts.ContextAttribute> class, which provides the usage rules. Whenever a new object is instantiated, the .NET Framework finds a compatible or creates a new instance of the Context class for the object. Once an object is placed in a context, it stays in it for life. Classes that can be bound to a context are called context-bound classes. When accessed from another context, such classes are referenced directly by using a proxy. Any call from an object in one context to an object in another context will go through a context proxy and be affected by the policy that the combined context properties enforce.  
+  
+ A new object's context is generally chosen based on meta-data attributes on the class. This mechanism is extensible through custom attributes. These are known as static-context properties, which are compiled into the class meta-data. Dynamic-context properties (also known as configuration properties) can be applied and configured by administrators.  
+  
+ For more information on contexts, see [&#91;\<topic://cpconboundariesprocessesapplicationdomainscontexts>&#93;](http://msdn.microsoft.com/en-us/7574180d-70df-44b8-8b78-55a119f2c96d).  
+  
+ ]]></format>
+    </remarks>
   </Docs>
   <Members>
     <Member MemberName=".ctor">
@@ -33,7 +46,7 @@
       </Attributes>
       <Parameters />
       <Docs>
-        <summary>To be added.</summary>
+        <summary>Initializes a new instance of the &lt;see cref="T:System.Runtime.Remoting.Contexts.Context"&gt; class.</summary>
         <remarks>To be added.</remarks>
       </Docs>
     </Member>
@@ -54,9 +67,16 @@
       </ReturnValue>
       <Parameters />
       <Docs>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
-        <remarks>To be added.</remarks>
+        <summary>Allocates an unnamed data slot.</summary>
+        <returns>A local data slot.</returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ The slot is allocated on all the contexts.  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="AllocateNamedDataSlot">
@@ -78,10 +98,17 @@
         <Parameter Name="name" Type="System.String" />
       </Parameters>
       <Docs>
-        <param name="name">To be added.</param>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
-        <remarks>To be added.</remarks>
+        <param name="name">The required name for the data slot.</param>
+        <summary>Allocates a named data slot.</summary>
+        <returns>A local data slot object.</returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ The slot is allocated on all the contexts. Named data slots are public and can be manipulated by anyone.  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="ContextID">
@@ -100,8 +127,8 @@
         <ReturnType>System.Int32</ReturnType>
       </ReturnValue>
       <Docs>
-        <summary>To be added.</summary>
-        <value>To be added.</value>
+        <summary>Gets the context ID for the current context.</summary>
+        <value>The context ID for the current context.</value>
         <remarks>To be added.</remarks>
       </Docs>
     </Member>
@@ -121,8 +148,8 @@
         <ReturnType>System.Runtime.Remoting.Contexts.IContextProperty[]</ReturnType>
       </ReturnValue>
       <Docs>
-        <summary>To be added.</summary>
-        <value>To be added.</value>
+        <summary>Gets the array of the current context properties.</summary>
+        <value>The current context properties array; otherwise, `null` if the context does not have any properties attributed to it.</value>
         <remarks>To be added.</remarks>
       </Docs>
     </Member>
@@ -142,9 +169,16 @@
         <ReturnType>System.Runtime.Remoting.Contexts.Context</ReturnType>
       </ReturnValue>
       <Docs>
-        <summary>To be added.</summary>
-        <value>To be added.</value>
-        <remarks>To be added.</remarks>
+        <summary>Gets the default context for the current application domain.</summary>
+        <value>The default context for the &lt;see cref="T:System.AppDomain"&gt; namespace.</value>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ Every thread in an application domain for which a context is not explicitly set is considered to be running in the default context.  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="DoCallBack">
@@ -166,9 +200,16 @@
         <Parameter Name="deleg" Type="System.Runtime.Remoting.Contexts.CrossContextDelegate" />
       </Parameters>
       <Docs>
-        <param name="deleg">To be added.</param>
-        <summary>To be added.</summary>
-        <remarks>To be added.</remarks>
+        <param name="deleg">The delegate used to request the callback.</param>
+        <summary>Executes code in another context.</summary>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ A callback can be done by calling the DoCallBack method on it by passing in a delegate. The delegate is used to request a callback. The delegate must be a <xref:System.Runtime.Remoting.Contexts.CrossContextDelegate> class type.  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="Finalize">
@@ -188,8 +229,15 @@
       </ReturnValue>
       <Parameters />
       <Docs>
-        <summary>To be added.</summary>
-        <remarks>To be added.</remarks>
+        <summary>Cleans up the backing objects for the nondefault contexts.</summary>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ For default contexts, backing objects are cleaned up during shut down of the <xref:System.AppDomain> class.  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="FreeNamedDataSlot">
@@ -211,9 +259,16 @@
         <Parameter Name="name" Type="System.String" />
       </Parameters>
       <Docs>
-        <param name="name">To be added.</param>
-        <summary>To be added.</summary>
-        <remarks>To be added.</remarks>
+        <param name="name">The name of the data slot to free.</param>
+        <summary>Frees a named data slot on all the contexts.</summary>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ Named data slots are public and can be manipulated by anyone.  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="Freeze">
@@ -233,8 +288,15 @@
       </ReturnValue>
       <Parameters />
       <Docs>
-        <summary>To be added.</summary>
-        <remarks>To be added.</remarks>
+        <summary>Freezes the context, making it impossible to add or remove context properties from the current context.</summary>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ Context properties cannot be added after the context has been frozen.  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="GetData">
@@ -256,9 +318,9 @@
         <Parameter Name="slot" Type="System.LocalDataStoreSlot" />
       </Parameters>
       <Docs>
-        <param name="slot">To be added.</param>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
+        <param name="slot">The data slot that contains the data.</param>
+        <summary>Retrieves the value from the specified slot on the current context.</summary>
+        <returns>Returns the data associated with .</returns>
         <remarks>To be added.</remarks>
       </Docs>
     </Member>
@@ -281,10 +343,17 @@
         <Parameter Name="name" Type="System.String" />
       </Parameters>
       <Docs>
-        <param name="name">To be added.</param>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
-        <remarks>To be added.</remarks>
+        <param name="name">The data slot name.</param>
+        <summary>Looks up a named data slot.</summary>
+        <returns>Returns a local data slot.</returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ If the name has not been used, a new slot is allocated. Named data slots are public and can be manipulated by anyone.  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="GetProperty">
@@ -306,9 +375,9 @@
         <Parameter Name="name" Type="System.String" />
       </Parameters>
       <Docs>
-        <param name="name">To be added.</param>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
+        <param name="name">The name of the property.</param>
+        <summary>Returns a specific context property, specified by name.</summary>
+        <returns>The specified context property.</returns>
         <remarks>To be added.</remarks>
       </Docs>
     </Member>
@@ -333,12 +402,25 @@
         <Parameter Name="ctx" Type="System.Runtime.Remoting.Contexts.Context" />
       </Parameters>
       <Docs>
-        <param name="prop">To be added.</param>
-        <param name="obj">To be added.</param>
-        <param name="ctx">To be added.</param>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
-        <remarks>To be added.</remarks>
+        <param name="prop">The dynamic property to register.</param>
+        <param name="obj">The object/proxy for which the  is registered.</param>
+        <param name="ctx">The context for which the  is registered.</param>
+        <summary>Registers a dynamic property implementing the &lt;see cref="T:System.Runtime.Remoting.Contexts.IDynamicProperty"&gt; interface with the remoting service.</summary>
+        <returns>`true` if the property was successfully registered; otherwise, `false`.</returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ Based on  and ,  is asked to contribute a sink that is placed at some location in the path of remoting calls. If multiple properties are registered, their sinks will be called in an arbitrary order that can change between calls.  
+  
+ If  is not `null`, and then if it is a proxy, all calls made on the proxy are intercepted. Otherwise, if  is a real object, all calls on the object are intercepted. The  parameter must be `null`.  
+  
+ If  is not `null`,  must be `null` and all calls entering and leaving the context are intercepted.  
+  
+ If both  and  are `null`, all calls entering and leaving all contexts are intercepted.  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="SetData">
@@ -361,9 +443,9 @@
         <Parameter Name="data" Type="System.Object" />
       </Parameters>
       <Docs>
-        <param name="slot">To be added.</param>
-        <param name="data">To be added.</param>
-        <summary>To be added.</summary>
+        <param name="slot">The data slot where the data is to be added.</param>
+        <param name="data">The data that is to be added.</param>
+        <summary>Sets the data in the specified slot on the current context.</summary>
         <remarks>To be added.</remarks>
       </Docs>
     </Member>
@@ -386,9 +468,16 @@
         <Parameter Name="prop" Type="System.Runtime.Remoting.Contexts.IContextProperty" />
       </Parameters>
       <Docs>
-        <param name="prop">To be added.</param>
-        <summary>To be added.</summary>
-        <remarks>To be added.</remarks>
+        <param name="prop">The actual context property.</param>
+        <summary>Sets a specific context property by name.</summary>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ Adding properties to the default context is not allowed.  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="ToString">
@@ -403,8 +492,8 @@
       </ReturnValue>
       <Parameters />
       <Docs>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
+        <summary>Returns a &lt;see cref="T:System.String"&gt; class representation of the current context.</summary>
+        <returns>A &lt;see cref="T:System.String"&gt; class representation of the current context.</returns>
         <remarks>To be added.</remarks>
       </Docs>
     </Member>
@@ -429,11 +518,11 @@
         <Parameter Name="ctx" Type="System.Runtime.Remoting.Contexts.Context" />
       </Parameters>
       <Docs>
-        <param name="name">To be added.</param>
-        <param name="obj">To be added.</param>
-        <param name="ctx">To be added.</param>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
+        <param name="name">The name of the dynamic property to unregister.</param>
+        <param name="obj">The object/proxy for which the  is registered.</param>
+        <param name="ctx">The context for which the  is registered.</param>
+        <summary>Unregisters a dynamic property implementing the &lt;see cref="T:System.Runtime.Remoting.Contexts.IDynamicProperty"&gt; interface.</summary>
+        <returns>`true` if the object was successfully unregistered; otherwise, `false`.</returns>
         <remarks>To be added.</remarks>
       </Docs>
     </Member>

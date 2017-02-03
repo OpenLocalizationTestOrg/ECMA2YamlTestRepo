@@ -12,8 +12,15 @@
     </Attribute>
   </Attributes>
   <Docs>
-    <summary>To be added.</summary>
-    <remarks>To be added.</remarks>
+    <summary>Indicates that the current interface implementer is a reference to another object.</summary>
+    <remarks>
+      <format type="text/markdown"><![CDATA[  
+  
+## Examples  
+ [!CODE [IObjectReference Interface Example#1](../CodeSnippet/VS_Snippets_Remoting/IObjectReference Interface Example#1)]  
+  
+ ]]></format>
+    </remarks>
   </Docs>
   <Members>
     <Member MemberName="GetRealObject">
@@ -35,10 +42,26 @@
         <Parameter Name="context" Type="System.Runtime.Serialization.StreamingContext" />
       </Parameters>
       <Docs>
-        <param name="context">To be added.</param>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
-        <remarks>To be added.</remarks>
+        <param name="context">The &lt;see cref="T:System.Runtime.Serialization.StreamingContext"&gt; from which the current object is deserialized.</param>
+        <summary>Returns the real object that should be deserialized, rather than the object that the serialized stream specifies.</summary>
+        <returns>Returns the actual object that is put into the graph.</returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ This method is useful in a remoting situation where you serialize a proxy-creator object, not an actual object. When the proxy-creator object is deserialized, deserialization calls its GetRealObject method. At this point, the proxy-creator object creates a new instance of the proxy object that refers back to the original actual object, perhaps on a remote computer. Finally, the proxy-creator object is discarded and reclaimed later by garbage collection.  
+  
+ For example, consider how <xref:System.Type> objects are serialized. Instead of transmitting the data from the <xref:System.Type> object, the system transmits a holder object with the name of the type object and information on the assembly where it is found in an object implementing <xref:System.Runtime.Serialization.IObjectReference>. When both the type name and assembly name are available, the deserialization infrastructure calls GetRealObject on the holder object that has been transmitted. This holder returns the <xref:System.Type> object that is inserted into the graph.  
+  
+ This method is protected by a <xref:System.Security.Permissions.SecurityAction?displayProperty=fullName> for the <xref:System.Security.Permissions.SecurityPermission> with the <xref:System.Security.Permissions.SecurityPermissionFlag?displayProperty=fullName> specified.  
+  
+   
+  
+## Examples  
+ [!CODE [IObjectReference Interface Example#1](../CodeSnippet/VS_Snippets_Remoting/IObjectReference Interface Example#1)]  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
   </Members>

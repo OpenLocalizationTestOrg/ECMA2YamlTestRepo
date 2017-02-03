@@ -19,8 +19,43 @@
     </Attribute>
   </Attributes>
   <Docs>
-    <summary>To be added.</summary>
-    <remarks>To be added.</remarks>
+    <summary>Implements a set of methods for culture-sensitive string comparisons.</summary>
+    <remarks>
+      <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ Conventions for comparing and sorting data vary from culture to culture. For example, sort order may be based on phonetics or on the visual representation of characters. In East Asian languages, characters are sorted by the stroke and radical of ideographs. Sorting also depends on the order languages and cultures use for the alphabet. For example, the Danish language has an "Æ" character that it sorts after "Z" in the alphabet. In addition, comparisons may be case-sensitive or case-insensitive, and casing rules may also differ by culture. The CompareInfo class is responsible for maintaining this culture-sensitive string comparison data and for performing culture-sensitive string operations.  
+  
+ Typically, you do not have to instantiate a CompareInfo object directly, because one is used implicitly by all non-ordinal string comparison operations, including calls to the <xref:System.String.Compare%2A?displayProperty=fullName> method. However, if you do want to retrieve a CompareInfo object, you can do it in one of these ways:  
+  
+-   By retrieving the value of the <xref:System.Globalization.CultureInfo.CompareInfo%2A?displayProperty=fullName> property for a particular culture.  
+  
+-   By calling the static <xref:System.Globalization.CompareInfo.GetCompareInfo%2A> method with a culture name. This allows for late-bound access to a CompareInfo object.  
+  
+## Ignored search values  
+ Character sets include ignorable characters, which are characters that are not considered when performing a linguistic or culture-sensitive comparison. Comparison methods such as <xref:System.Globalization.CompareInfo.IndexOf%2A> and <xref:System.Globalization.CompareInfo.LastIndexOf%2A> do not consider such characters when they perform a culture-sensitive comparison. Ignorable characters include:  
+  
+-   <xref:System.String.Empty?displayProperty=fullName>. Culture-sensitive comparison methods will always find an empty string at the beginning (index zero) of the string being searched.  
+  
+-   A character or string consisting of characters with code points that are not considered in the operation because of comparison options, In particular, the  <xref:System.Globalization.CompareOptions?displayProperty=fullName> and <xref:System.Globalization.CompareOptions?displayProperty=fullName> options produce searches in which symbols and nonspacing combining characters are ignored.  
+  
+-   A string with code points that have no linguistic significance. For example, a soft hyphen (U+00AD) is always ignored in a culture-sensitive string comparison.  
+  
+## Security considerations  
+ If a security decision depends on a string comparison or a case change, you should use the <xref:System.Globalization.CultureInfo.InvariantCulture%2A> property to ensure that the behavior is consistent, regardless of the culture settings of the operating system.  
+  
+> [!NOTE]
+>  When possible, you should use string comparison methods that have a parameter of type <xref:System.Globalization.CompareOptions> to specify the kind of comparison expected. As a general rule, use linguistic options (using the current culture) for comparing strings displayed in the user interface and specify <xref:System.Globalization.CompareOptions> or <xref:System.Globalization.CompareOptions> for security comparisons.  
+  
+   
+  
+## Examples  
+ The following example shows how the CompareInfo object associated with a <xref:System.Globalization.CultureInfo> object affects string comparison.  
+  
+ [!CODE [CompareInfo#1](../CodeSnippet/VS_Snippets_CLR/CompareInfo#1)]  
+  
+ ]]></format>
+    </remarks>
   </Docs>
   <Members>
     <Member MemberName="Compare">
@@ -38,11 +73,44 @@
         <Parameter Name="string2" Type="System.String" />
       </Parameters>
       <Docs>
-        <param name="string1">To be added.</param>
-        <param name="string2">To be added.</param>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
-        <remarks>To be added.</remarks>
+        <param name="string1">The first string to compare.</param>
+        <param name="string2">The second string to compare.</param>
+        <summary>Compares two strings.</summary>
+        <returns>A 32-bit signed integer indicating the lexical relationship between the two comparands.  
+  
+|Value|Condition|  
+|-----------|---------------|  
+|zero|The two strings are equal.|  
+|less than zero|is less than .|  
+|greater than zero|is greater than .|</returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ By default, the comparison is performed by using <xref:System.Globalization.CompareOptions?displayProperty=fullName>. If a security decision depends on a string comparison or a case change, you should use the <xref:System.Globalization.CultureInfo.InvariantCulture%2A> property to ensure that the behavior is consistent regardless of the culture settings of the operating system.  
+  
+> [!NOTE]
+>  When possible, you should call string comparison methods that have a parameter of type <xref:System.Globalization.CompareOptions> to specify the kind of comparison expected. As a general rule, use linguistic options (using the current culture) for comparing strings displayed in the user interface and specify <xref:System.Globalization.CompareOptions> or <xref:System.Globalization.CompareOptions> for security comparisons.  
+  
+   
+  
+## Examples  
+ The following example compares portions of two strings using the different <xref:System.Globalization.CompareInfo> objects:  
+  
+-   <xref:System.Globalization.CompareInfo> object associated with the Spanish (Spain) culture with international sort  
+  
+-   <xref:System.Globalization.CompareInfo> object associated with the Spanish (Spain) culture with traditional sort  
+  
+-   <xref:System.Globalization.CompareInfo> object associated with the <xref:System.Globalization.CultureInfo.InvariantCulture%2A>  
+  
+ [!CODE [System.Globalization.CompareInfo.CompareStrStr#1](../CodeSnippet/VS_Snippets_CLR_System/system.Globalization.CompareInfo.CompareStrStr#1)]  
+  
+ The following example demonstrates calling the <xref:System.Globalization.CompareInfo.Compare%2A> method.  
+  
+ [!CODE [CompareInfo#1](../CodeSnippet/VS_Snippets_CLR/CompareInfo#1)]  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="Compare">
@@ -66,12 +134,39 @@
         <Parameter Name="options" Type="System.Globalization.CompareOptions" />
       </Parameters>
       <Docs>
-        <param name="string1">To be added.</param>
-        <param name="string2">To be added.</param>
-        <param name="options">To be added.</param>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
-        <remarks>To be added.</remarks>
+        <param name="string1">The first string to compare.</param>
+        <param name="string2">The second string to compare.</param>
+        <param name="options">A value that defines how  and  should be compared.  is either the enumeration value &lt;see cref="T:System.Globalization.CompareOptions"&gt;, or a bitwise combination of one or more of the following values: &lt;see cref="T:System.Globalization.CompareOptions"&gt;, &lt;see cref="T:System.Globalization.CompareOptions"&gt;, &lt;see cref="T:System.Globalization.CompareOptions"&gt;, &lt;see cref="T:System.Globalization.CompareOptions"&gt;, &lt;see cref="T:System.Globalization.CompareOptions"&gt;, and &lt;see cref="T:System.Globalization.CompareOptions"&gt;.</param>
+        <summary>Compares two strings using the specified &lt;see cref="T:System.Globalization.CompareOptions"&gt; value.</summary>
+        <returns>A 32-bit signed integer indicating the lexical relationship between the two comparands.  
+  
+|Value|Condition|  
+|-----------|---------------|  
+|zero|The two strings are equal.|  
+|less than zero|is less than .|  
+|greater than zero|is greater than .|</returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ If a security decision depends on a string comparison or a case change, you should use the <xref:System.Globalization.CultureInfo.InvariantCulture%2A> property to ensure that the behavior is consistent regardless of the culture settings of the operating system.  
+  
+> [!NOTE]
+>  When possible, you should call string comparison methods that have a parameter of type <xref:System.Globalization.CompareOptions> to specify the kind of comparison expected. As a general rule, use linguistic options (using the current culture) for comparing strings displayed in the user interface and specify <xref:System.Globalization.CompareOptions> or <xref:System.Globalization.CompareOptions> for security comparisons.  
+  
+   
+  
+## Examples  
+ The following example compares two strings using different <xref:System.Globalization.CompareOptions> settings.  
+  
+ [!CODE [System.Globalization.CompareInfo.CompareStrStrOpt#1](../CodeSnippet/VS_Snippets_CLR_System/system.Globalization.CompareInfo.CompareStrStrOpt#1)]  
+  
+ The following example demonstrates calling the <xref:System.Globalization.CompareInfo.Compare%2A> method.  
+  
+ [!CODE [CompareInfo#1](../CodeSnippet/VS_Snippets_CLR/CompareInfo#1)]  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="Compare">
@@ -91,13 +186,42 @@
         <Parameter Name="offset2" Type="System.Int32" />
       </Parameters>
       <Docs>
-        <param name="string1">To be added.</param>
-        <param name="offset1">To be added.</param>
-        <param name="string2">To be added.</param>
-        <param name="offset2">To be added.</param>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
-        <remarks>To be added.</remarks>
+        <param name="string1">The first string to compare.</param>
+        <param name="offset1">The zero-based index of the character in  at which to start comparing.</param>
+        <param name="string2">The second string to compare.</param>
+        <param name="offset2">The zero-based index of the character in  at which to start comparing.</param>
+        <summary>Compares the end section of a string with the end section of another string.</summary>
+        <returns>A 32-bit signed integer indicating the lexical relationship between the two comparands.  
+  
+|Value|Condition|  
+|-----------|---------------|  
+|zero|The two strings are equal.|  
+|less than zero|The specified section of  is less than the specified section of .|  
+|greater than zero|The specified section of  is greater than the specified section of .|</returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ If a security decision depends on a string comparison or a case change, you should use the <xref:System.Globalization.CultureInfo.InvariantCulture%2A> property to ensure that the behavior is consistent regardless of the culture settings of the operating system.  
+  
+> [!NOTE]
+>  When possible, you should call string comparison methods that have a parameter of type <xref:System.Globalization.CompareOptions> to specify the kind of comparison expected. As a general rule, use linguistic options (using the current culture) for comparing strings displayed in the user interface and specify <xref:System.Globalization.CompareOptions> or <xref:System.Globalization.CompareOptions> for security comparisons.  
+  
+   
+  
+## Examples  
+ The following example compares portions of two strings using the different <xref:System.Globalization.CompareInfo> objects:  
+  
+-   <xref:System.Globalization.CompareInfo> object associated with the Spanish (Spain) culture with international sort  
+  
+-   <xref:System.Globalization.CompareInfo> object associated with the Spanish (Spain) culture with traditional sort  
+  
+-   <xref:System.Globalization.CompareInfo> object associated with the <xref:System.Globalization.CultureInfo.InvariantCulture%2A>  
+  
+ [!CODE [System.Globalization.CompareInfo.CompareStrIntStrInt#1](../CodeSnippet/VS_Snippets_CLR_System/system.Globalization.CompareInfo.CompareStrIntStrInt#1)]  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="Compare">
@@ -118,14 +242,37 @@
         <Parameter Name="options" Type="System.Globalization.CompareOptions" />
       </Parameters>
       <Docs>
-        <param name="string1">To be added.</param>
-        <param name="offset1">To be added.</param>
-        <param name="string2">To be added.</param>
-        <param name="offset2">To be added.</param>
-        <param name="options">To be added.</param>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
-        <remarks>To be added.</remarks>
+        <param name="string1">The first string to compare.</param>
+        <param name="offset1">The zero-based index of the character in  at which to start comparing.</param>
+        <param name="string2">The second string to compare.</param>
+        <param name="offset2">The zero-based index of the character in  at which to start comparing.</param>
+        <param name="options">A value that defines how  and  should be compared.  is either the enumeration value &lt;see cref="T:System.Globalization.CompareOptions"&gt;, or a bitwise combination of one or more of the following values: &lt;see cref="T:System.Globalization.CompareOptions"&gt;, &lt;see cref="T:System.Globalization.CompareOptions"&gt;, &lt;see cref="T:System.Globalization.CompareOptions"&gt;, &lt;see cref="T:System.Globalization.CompareOptions"&gt;, &lt;see cref="T:System.Globalization.CompareOptions"&gt;, and &lt;see cref="T:System.Globalization.CompareOptions"&gt;.</param>
+        <summary>Compares the end section of a string with the end section of another string using the specified &lt;see cref="T:System.Globalization.CompareOptions"&gt; value.</summary>
+        <returns>A 32-bit signed integer indicating the lexical relationship between the two comparands.  
+  
+|Value|Condition|  
+|-----------|---------------|  
+|zero|The two strings are equal.|  
+|less than zero|The specified section of  is less than the specified section of .|  
+|greater than zero|The specified section of  is greater than the specified section of .|</returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ If a security decision depends on a string comparison or a case change, you should use the <xref:System.Globalization.CultureInfo.InvariantCulture%2A> property to ensure that the behavior is consistent regardless of the culture settings of the operating system.  
+  
+> [!NOTE]
+>  When possible, you should call string comparison methods that have a parameter of type <xref:System.Globalization.CompareOptions> to specify the kind of comparison expected. As a general rule, use linguistic options (using the current culture) for comparing strings displayed in the user interface and specify <xref:System.Globalization.CompareOptions> or <xref:System.Globalization.CompareOptions> for security comparisons.  
+  
+   
+  
+## Examples  
+ The following example compares portions of two strings using different <xref:System.Globalization.CompareOptions> settings.  
+  
+ [!CODE [System.Globalization.CompareInfo.CompareStrIntStrIntOpt#1](../CodeSnippet/VS_Snippets_CLR_System/system.Globalization.CompareInfo.CompareStrIntStrIntOpt#1)]  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="Compare">
@@ -147,15 +294,44 @@
         <Parameter Name="length2" Type="System.Int32" />
       </Parameters>
       <Docs>
-        <param name="string1">To be added.</param>
-        <param name="offset1">To be added.</param>
-        <param name="length1">To be added.</param>
-        <param name="string2">To be added.</param>
-        <param name="offset2">To be added.</param>
-        <param name="length2">To be added.</param>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
-        <remarks>To be added.</remarks>
+        <param name="string1">The first string to compare.</param>
+        <param name="offset1">The zero-based index of the character in  at which to start comparing.</param>
+        <param name="length1">The number of consecutive characters in  to compare.</param>
+        <param name="string2">The second string to compare.</param>
+        <param name="offset2">The zero-based index of the character in  at which to start comparing.</param>
+        <param name="length2">The number of consecutive characters in  to compare.</param>
+        <summary>Compares a section of one string with a section of another string.</summary>
+        <returns>A 32-bit signed integer indicating the lexical relationship between the two comparands.  
+  
+|Value|Condition|  
+|-----------|---------------|  
+|zero|The two strings are equal.|  
+|less than zero|The specified section of  is less than the specified section of .|  
+|greater than zero|The specified section of  is greater than the specified section of .|</returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ If a security decision depends on a string comparison or a case change, you should use the <xref:System.Globalization.CultureInfo.InvariantCulture%2A> property to ensure that the behavior is consistent regardless of the culture settings of the operating system.  
+  
+> [!NOTE]
+>  When possible, you should use string comparison methods that have a parameter of type <xref:System.Globalization.CompareOptions> to specify the kind of comparison expected. As a general rule, use linguistic options (using the current culture) for comparing strings displayed in the user interface and specify <xref:System.Globalization.CompareOptions> or <xref:System.Globalization.CompareOptions> for security comparisons.  
+  
+   
+  
+## Examples  
+ The following example compares portions of two strings using the different <xref:System.Globalization.CompareInfo> objects:  
+  
+-   <xref:System.Globalization.CompareInfo> object associated with the Spanish (Spain) culture with international sort  
+  
+-   <xref:System.Globalization.CompareInfo> object associated with the Spanish (Spain) culture with traditional sort  
+  
+-   <xref:System.Globalization.CompareInfo> object associated with the <xref:System.Globalization.CultureInfo.InvariantCulture%2A>  
+  
+ [!CODE [System.Globalization.CompareInfo.CompareStrIntIntStrIntInt#1](../CodeSnippet/VS_Snippets_CLR_System/system.Globalization.CompareInfo.CompareStrIntIntStrIntInt#1)]  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="Compare">
@@ -183,16 +359,39 @@
         <Parameter Name="options" Type="System.Globalization.CompareOptions" />
       </Parameters>
       <Docs>
-        <param name="string1">To be added.</param>
-        <param name="offset1">To be added.</param>
-        <param name="length1">To be added.</param>
-        <param name="string2">To be added.</param>
-        <param name="offset2">To be added.</param>
-        <param name="length2">To be added.</param>
-        <param name="options">To be added.</param>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
-        <remarks>To be added.</remarks>
+        <param name="string1">The first string to compare.</param>
+        <param name="offset1">The zero-based index of the character in  at which to start comparing.</param>
+        <param name="length1">The number of consecutive characters in  to compare.</param>
+        <param name="string2">The second string to compare.</param>
+        <param name="offset2">The zero-based index of the character in  at which to start comparing.</param>
+        <param name="length2">The number of consecutive characters in  to compare.</param>
+        <param name="options">A value that defines how  and  should be compared.  is either the enumeration value &lt;see cref="T:System.Globalization.CompareOptions"&gt;, or a bitwise combination of one or more of the following values: &lt;see cref="T:System.Globalization.CompareOptions"&gt;, &lt;see cref="T:System.Globalization.CompareOptions"&gt;, &lt;see cref="T:System.Globalization.CompareOptions"&gt;, &lt;see cref="T:System.Globalization.CompareOptions"&gt;, &lt;see cref="T:System.Globalization.CompareOptions"&gt;, and &lt;see cref="T:System.Globalization.CompareOptions"&gt;.</param>
+        <summary>Compares a section of one string with a section of another string using the specified &lt;see cref="T:System.Globalization.CompareOptions"&gt; value.</summary>
+        <returns>A 32-bit signed integer indicating the lexical relationship between the two comparands.  
+  
+|Value|Condition|  
+|-----------|---------------|  
+|zero|The two strings are equal.|  
+|less than zero|The specified section of  is less than the specified section of .|  
+|greater than zero|The specified section of  is greater than the specified section of .|</returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ If a security decision depends on a string comparison or a case change, you should use the <xref:System.Globalization.CultureInfo.InvariantCulture%2A> property to ensure that the behavior is consistent regardless of the culture settings of the operating system.  
+  
+> [!NOTE]
+>  When possible, you should call string comparison methods that have a parameter of type <xref:System.Globalization.CompareOptions> to specify the kind of comparison expected. As a general rule, use linguistic options (using the current culture) for comparing strings displayed in the user interface and specify <xref:System.Globalization.CompareOptions> or <xref:System.Globalization.CompareOptions> for security comparisons.  
+  
+   
+  
+## Examples  
+ The following example compares portions of two strings using different <xref:System.Globalization.CompareOptions> settings.  
+  
+ [!CODE [System.Globalization.CompareInfo.CompareStrIntIntStrIntIntOpt#1](../CodeSnippet/VS_Snippets_CLR_System/system.Globalization.CompareInfo.CompareStrIntIntStrIntIntOpt#1)]  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="Equals">
@@ -209,10 +408,21 @@
         <Parameter Name="value" Type="System.Object" />
       </Parameters>
       <Docs>
-        <param name="value">To be added.</param>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
-        <remarks>To be added.</remarks>
+        <param name="value">The object to compare with the current &lt;see cref="T:System.Globalization.CompareInfo"&gt;.</param>
+        <summary>Determines whether the specified object is equal to the current &lt;see cref="T:System.Globalization.CompareInfo"&gt; object.</summary>
+        <returns>`true` if the specified object is equal to the current &lt;see cref="T:System.Globalization.CompareInfo"&gt;; otherwise, `false`.</returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ Two <xref:System.Globalization.CompareInfo> objects are equal if their <xref:System.Globalization.CompareInfo.LCID%2A> and <xref:System.Globalization.CompareInfo.Name%2A> properties are equal.  
+  
+ This method overrides <xref:System.Object.Equals%2A?displayProperty=fullName>.  
+  
+ If a security decision depends on a string comparison or a case change, you should use the <xref:System.Globalization.CultureInfo.InvariantCulture%2A> property to ensure that the behavior is consistent regardless of the culture settings of the operating system.  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="GetCompareInfo">
@@ -229,10 +439,25 @@
         <Parameter Name="culture" Type="System.Int32" />
       </Parameters>
       <Docs>
-        <param name="culture">To be added.</param>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
-        <remarks>To be added.</remarks>
+        <param name="culture">An integer representing the culture identifier.</param>
+        <summary>Initializes a new &lt;see cref="T:System.Globalization.CompareInfo"&gt; object that is associated with the culture with the specified identifier.</summary>
+        <returns>A new &lt;see cref="T:System.Globalization.CompareInfo"&gt; object associated with the culture with the specified identifier and using string comparison methods in the current &lt;xref:System.Reflection.Assembly&gt;.</returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Examples  
+ The following example compares portions of two strings using the different <xref:System.Globalization.CompareInfo> objects:  
+  
+-   <xref:System.Globalization.CompareInfo> object associated with the Spanish (Spain) culture with international sort  
+  
+-   <xref:System.Globalization.CompareInfo> object associated with the Spanish (Spain) culture with traditional sort  
+  
+-   <xref:System.Globalization.CompareInfo> object associated with the <xref:System.Globalization.CultureInfo.InvariantCulture%2A>  
+  
+ [!CODE [System.Globalization.CompareInfo.CompareStrStr#1](../CodeSnippet/VS_Snippets_CLR_System/system.Globalization.CompareInfo.CompareStrStr#1)]  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="GetCompareInfo">
@@ -249,10 +474,25 @@
         <Parameter Name="name" Type="System.String" />
       </Parameters>
       <Docs>
-        <param name="name">To be added.</param>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
-        <remarks>To be added.</remarks>
+        <param name="name">A string representing the culture name.</param>
+        <summary>Initializes a new &lt;see cref="T:System.Globalization.CompareInfo"&gt; object that is associated with the culture with the specified name.</summary>
+        <returns>A new &lt;see cref="T:System.Globalization.CompareInfo"&gt; object associated with the culture with the specified identifier and using string comparison methods in the current &lt;xref:System.Reflection.Assembly&gt;.</returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Examples  
+ The following example compares portions of two strings using the different <xref:System.Globalization.CompareInfo> objects:  
+  
+-   <xref:System.Globalization.CompareInfo> object associated with the Spanish (Spain) culture with international sort  
+  
+-   <xref:System.Globalization.CompareInfo> object associated with the Spanish (Spain) culture with traditional sort  
+  
+-   <xref:System.Globalization.CompareInfo> object associated with the <xref:System.Globalization.CultureInfo.InvariantCulture%2A>  
+  
+ [!CODE [System.Globalization.CompareInfo.CompareStrStr#1](../CodeSnippet/VS_Snippets_CLR_System/system.Globalization.CompareInfo.CompareStrStr#1)]  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="GetCompareInfo">
@@ -270,11 +510,22 @@
         <Parameter Name="assembly" Type="System.Reflection.Assembly" />
       </Parameters>
       <Docs>
-        <param name="culture">To be added.</param>
-        <param name="assembly">To be added.</param>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
-        <remarks>To be added.</remarks>
+        <param name="culture">An integer representing the culture identifier.</param>
+        <param name="assembly">An &lt;see cref="T:System.Reflection.Assembly"&gt; that contains the string comparison methods to use.</param>
+        <summary>Initializes a new &lt;see cref="T:System.Globalization.CompareInfo"&gt; object that is associated with the specified culture and that uses string comparison methods in the specified &lt;xref:System.Reflection.Assembly&gt;.</summary>
+        <returns>A new &lt;see cref="T:System.Globalization.CompareInfo"&gt; object associated with the culture with the specified identifier and using string comparison methods in the current &lt;xref:System.Reflection.Assembly&gt;.</returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+  
+> [!NOTE]
+>  The behavior of this method is unpredictable. It is recommended for your application to use a version of this method that does not take an assembly input.  
+  
+ The  parameter must be of the same type as <xref:System.Reflection.Module.Assembly%2A?displayProperty=fullName>.  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="GetCompareInfo">
@@ -292,11 +543,22 @@
         <Parameter Name="assembly" Type="System.Reflection.Assembly" />
       </Parameters>
       <Docs>
-        <param name="name">To be added.</param>
-        <param name="assembly">To be added.</param>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
-        <remarks>To be added.</remarks>
+        <param name="name">A string representing the culture name.</param>
+        <param name="assembly">An &lt;see cref="T:System.Reflection.Assembly"&gt; that contains the string comparison methods to use.</param>
+        <summary>Initializes a new &lt;see cref="T:System.Globalization.CompareInfo"&gt; object that is associated with the specified culture and that uses string comparison methods in the specified &lt;xref:System.Reflection.Assembly&gt;.</summary>
+        <returns>A new &lt;see cref="T:System.Globalization.CompareInfo"&gt; object associated with the culture with the specified identifier and using string comparison methods in the current &lt;xref:System.Reflection.Assembly&gt;.</returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+  
+> [!NOTE]
+>  The behavior of this method is unpredictable. We recommend that you use a version of this method that does not take an assembly input.  
+  
+ The  parameter must be of the same type as <xref:System.Reflection.Module.Assembly%2A?displayProperty=fullName>.  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="GetHashCode">
@@ -311,9 +573,18 @@
       </ReturnValue>
       <Parameters />
       <Docs>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
-        <remarks>To be added.</remarks>
+        <summary>Serves as a hash function for the current &lt;see cref="T:System.Globalization.CompareInfo"&gt; for hashing algorithms and data structures, such as a hash table.</summary>
+        <returns>A hash code for the current &lt;see cref="T:System.Globalization.CompareInfo"&gt;.</returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ This method overrides <xref:System.Object.GetHashCode%2A?displayProperty=fullName>.  
+  
+ This method generates the same hash code for two objects that are equal according to the <xref:System.Globalization.CompareInfo.Equals%2A> method.  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="GetHashCode">
@@ -331,11 +602,25 @@
         <Parameter Name="options" Type="System.Globalization.CompareOptions" />
       </Parameters>
       <Docs>
-        <param name="source">To be added.</param>
-        <param name="options">To be added.</param>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
-        <remarks>To be added.</remarks>
+        <param name="source">The string whose hash code is to be returned.</param>
+        <param name="options">A value that determines how strings are compared.</param>
+        <summary>Gets the hash code for a string based on specified comparison options.</summary>
+        <returns>A 32-bit signed integer hash code.</returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ The behavior of GetHashCode is dependent on its implementation, which might change from one version of the common language runtime to another, or from one .NET Framework platform to another.  
+  
+> [!IMPORTANT]
+>  If two string objects are equal, the GetHashCode method returns identical values. However, there is not a unique hash code value for each unique string value. Different strings can return the same hash code.  
+>   
+>  The hash code itself is not guaranteed to be stable. Hash codes for identical strings can differ across versions of the .NET Framework and across platforms (such as 32-bit and 64-bit) for a single version of the .NET Framework. In some cases, they can even differ by application domain.  
+>   
+>  As a result, hash codes should never be used outside of the application domain in which they were created, they should never be used as key fields in a collection, and they should never be persisted.  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="GetSortKey">
@@ -352,10 +637,17 @@
         <Parameter Name="source" Type="System.String" />
       </Parameters>
       <Docs>
-        <param name="source">To be added.</param>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
-        <remarks>To be added.</remarks>
+        <param name="source">The string for which a &lt;see cref="T:System.Globalization.SortKey"&gt; object is obtained.</param>
+        <summary>Gets the sort key for the specified string.</summary>
+        <returns>The &lt;see cref="T:System.Globalization.SortKey"&gt; object that contains the sort key for the specified string.</returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ Each character in a string is given several categories of sort weights, including script, alphabetic, case, and diacritic weights. A sort key is the repository of these weights for a particular string. For example, a sort key might contain a string of alphabetic weights, followed by a string of case weights, and so on. The <xref:System.Globalization.CompareInfo.GetSortKey%2A> method is equivalent to the Windows API method `LCMapString` with the LCMAP_SORTKEY flag.  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="GetSortKey">
@@ -373,11 +665,18 @@
         <Parameter Name="options" Type="System.Globalization.CompareOptions" />
       </Parameters>
       <Docs>
-        <param name="source">To be added.</param>
-        <param name="options">To be added.</param>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
-        <remarks>To be added.</remarks>
+        <param name="source">The string for which a &lt;see cref="T:System.Globalization.SortKey"&gt; object is obtained.</param>
+        <param name="options">A bitwise combination of one or more of the following enumeration values that define how the sort key is calculated: &lt;see cref="T:System.Globalization.CompareOptions"&gt;, &lt;see cref="T:System.Globalization.CompareOptions"&gt;, &lt;see cref="T:System.Globalization.CompareOptions"&gt;, &lt;see cref="T:System.Globalization.CompareOptions"&gt;, &lt;see cref="T:System.Globalization.CompareOptions"&gt;, and &lt;see cref="T:System.Globalization.CompareOptions"&gt;.</param>
+        <summary>Gets a &lt;see cref="T:System.Globalization.SortKey"&gt; object for the specified string using the specified &lt;xref:System.Globalization.CompareOptions&gt; value.</summary>
+        <returns>The &lt;see cref="T:System.Globalization.SortKey"&gt; object that contains the sort key for the specified string.</returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ Each character in a string is given several categories of sort weights, including script, alphabetic, case, and diacritic weights. A sort key is the repository of these weights for a particular string. For example, a sort key might contain a string of alphabetic weights, followed by a string of case weights, and so on. The <xref:System.Globalization.CompareInfo.GetSortKey%2A> method is equivalent to the Windows API method `LCMapString` with the LCMAP_SORTKEY flag.  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="IndexOf">
@@ -395,11 +694,30 @@
         <Parameter Name="value" Type="System.Char" />
       </Parameters>
       <Docs>
-        <param name="source">To be added.</param>
-        <param name="value">To be added.</param>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
-        <remarks>To be added.</remarks>
+        <param name="source">The string to search.</param>
+        <param name="value">The character to locate within .</param>
+        <summary>Searches for the specified character and returns the zero-based index of the first occurrence within the entire source string.</summary>
+        <returns>The zero-based index of the first occurrence of , if found, within ; otherwise, -1. Returns 0 (zero) if  is an ignorable character.</returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ This method searches the source string from the beginning of the string to the end of the string.  
+  
+ This overload performs a culture-sensitive search. If  represents a precomposed Unicode character, such as the ligature "Æ" (U+00C6), it might be considered equivalent to any occurrence of its components in the correct sequence, such as "AE" (U+0041, U+0045), depending on the culture. To perform an ordinal (culture-insensitive) search, where a character is considered equivalent to another character only if their Unicode code points are the same, you should call an overload that has a parameter of type <xref:System.Globalization.CompareOptions> and use the <xref:System.Globalization.CompareOptions?displayProperty=fullName> value. Unlike IndexOf, which performs a culture-sensitive comparison, overloads of the <xref:System.String.IndexOf%2A?displayProperty=fullName> method that search for a character perform an ordinal comparison and overloads that search for a string perform a culture-sensitive comparison.  
+  
+> [!NOTE]
+>  When possible, you should use string comparison methods that have a parameter of type <xref:System.Globalization.CompareOptions> to specify the kind of comparison expected. As a general rule, use linguistic options (using the current culture) for comparing strings displayed in the user interface and specify <xref:System.Globalization.CompareOptions?displayProperty=fullName> or <xref:System.Globalization.CompareOptions?displayProperty=fullName> for security comparisons.  
+  
+   
+  
+## Examples  
+ The following example determines the indexes of the first and last occurrences of a character or a substring within a string.  
+  
+ [!CODE [System.Globalization.CompareInfo.IndexOf#1](../CodeSnippet/VS_Snippets_CLR_System/system.Globalization.CompareInfo.IndexOf#1)]  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="IndexOf">
@@ -417,11 +735,30 @@
         <Parameter Name="value" Type="System.String" />
       </Parameters>
       <Docs>
-        <param name="source">To be added.</param>
-        <param name="value">To be added.</param>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
-        <remarks>To be added.</remarks>
+        <param name="source">The string to search.</param>
+        <param name="value">The string to locate within .</param>
+        <summary>Searches for the specified substring and returns the zero-based index of the first occurrence within the entire source string.</summary>
+        <returns>The zero-based index of the first occurrence of , if found, within ; otherwise, -1. Returns 0 (zero) if  is an ignorable character.</returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ The source string is searched forward starting at the beginning of the string and ending at the end of the string.  
+  
+ This overload performs a culture-sensitive search. A Unicode value representing a precomposed character, such as the ligature "Æ" (U+00C6), might be considered equivalent to any occurrence of the character's components in the correct sequence, such as "AE" (U+0041, U+0045), depending on the culture. To perform an ordinal (culture-insensitive) search, where the Unicode values are compared, you should use one of the overloads that has a parameter of type <xref:System.Globalization.CompareOptions> and use the <xref:System.Globalization.CompareOptions> value.  
+  
+> [!NOTE]
+>  When possible, you should call string comparison methods that have a parameter of type <xref:System.Globalization.CompareOptions> to specify the kind of comparison expected. As a general rule, use linguistic options (using the current culture) for comparing strings displayed in the user interface and specify <xref:System.Globalization.CompareOptions?displayProperty=fullName> or <xref:System.Globalization.CompareOptions?displayProperty=fullName> for security comparisons.  
+  
+   
+  
+## Examples  
+ The following example determines the indexes of the first and last occurrences of a character or a substring within a string.  
+  
+ [!CODE [System.Globalization.CompareInfo.IndexOf#1](../CodeSnippet/VS_Snippets_CLR_System/system.Globalization.CompareInfo.IndexOf#1)]  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="IndexOf">
@@ -440,12 +777,33 @@
         <Parameter Name="options" Type="System.Globalization.CompareOptions" />
       </Parameters>
       <Docs>
-        <param name="source">To be added.</param>
-        <param name="value">To be added.</param>
-        <param name="options">To be added.</param>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
-        <remarks>To be added.</remarks>
+        <param name="source">The string to search.</param>
+        <param name="value">The character to locate within .</param>
+        <param name="options">A value that defines how the strings should be compared.  is either the enumeration value &lt;see cref="T:System.Globalization.CompareOptions"&gt;, or a bitwise combination of one or more of the following values: &lt;see cref="T:System.Globalization.CompareOptions"&gt;, &lt;see cref="T:System.Globalization.CompareOptions"&gt;, &lt;see cref="T:System.Globalization.CompareOptions"&gt;, &lt;see cref="T:System.Globalization.CompareOptions"&gt;, and &lt;see cref="T:System.Globalization.CompareOptions"&gt;.</param>
+        <summary>Searches for the specified character and returns the zero-based index of the first occurrence within the entire source string using the specified &lt;see cref="T:System.Globalization.CompareOptions"&gt; value.</summary>
+        <returns>The zero-based index of the first occurrence of , if found, within , using the specified comparison options; otherwise, -1. Returns 0 (zero) if  is an ignorable character.</returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ The source string is searched forward starting at the beginning of the string and ending at the end of the string.  
+  
+ The <xref:System.Globalization.CompareOptions?displayProperty=fullName> value is not valid for this method.  
+  
+ If  does not include the <xref:System.Globalization.CompareOptions> value, this overload performs a culture-sensitive search. If the character is a Unicode value representing a precomposed character, such as the ligature "Æ" (U+00C6), it might be considered equivalent to any occurrence of its components in the correct sequence, such as "AE" (U+0041, U+0045), depending on the culture. If  includes the <xref:System.Globalization.CompareOptions> value, this overload performs an ordinal (culture-insensitive) search. A character is considered equivalent to another character only if the Unicode values are the same. Overloads of <xref:System.String.IndexOf%2A?displayProperty=fullName> that search for a character perform an ordinal search, whereas those that search for a string perform a culture-sensitive search.  
+  
+> [!NOTE]
+>  When possible, you should use string comparison methods that have a parameter of type <xref:System.Globalization.CompareOptions> to specify the kind of comparison expected. As a general rule, use linguistic options (using the current culture) for comparing strings displayed in the user interface and specify <xref:System.Globalization.CompareOptions?displayProperty=fullName> or <xref:System.Globalization.CompareOptions?displayProperty=fullName> for security comparisons.  
+  
+   
+  
+## Examples  
+ The following example determines the indexes of the first and last occurrences of a character or a substring within a string.  
+  
+ [!CODE [System.Globalization.CompareInfo.IndexOf#1](../CodeSnippet/VS_Snippets_CLR_System/system.Globalization.CompareInfo.IndexOf#1)]  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="IndexOf">
@@ -464,12 +822,31 @@
         <Parameter Name="startIndex" Type="System.Int32" />
       </Parameters>
       <Docs>
-        <param name="source">To be added.</param>
-        <param name="value">To be added.</param>
-        <param name="startIndex">To be added.</param>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
-        <remarks>To be added.</remarks>
+        <param name="source">The string to search.</param>
+        <param name="value">The character to locate within .</param>
+        <param name="startIndex">The zero-based starting index of the search.</param>
+        <summary>Searches for the specified character and returns the zero-based index of the first occurrence within the section of the source string that extends from the specified index to the end of the string.</summary>
+        <returns>The zero-based index of the first occurrence of , if found, within the section of  that extends from  to the end of ; otherwise, -1. Returns  if  is an ignorable character.</returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ The source string is searched forward starting at  and ending at the end of the string.  
+  
+ This overload performs a culture-sensitive search. If the character is a Unicode value representing a precomposed character, such as the ligature "Æ" (U+00C6), it might be considered equivalent to any occurrence of its components in the correct sequence, such as "AE" (U+0041, U+0045), depending on the culture. To perform an ordinal (culture-insensitive) search, where a character is considered equivalent to another character only if the Unicode values are the same, you should call one of the overloads that has a parameter of type <xref:System.Globalization.CompareOptions> and use the <xref:System.Globalization.CompareOptions> value. Overloads of <xref:System.String.IndexOf%2A?displayProperty=fullName> that search for a character perform an ordinal search, whereas those that search for a string perform a culture-sensitive search.  
+  
+> [!NOTE]
+>  When possible, you should call string comparison methods that have a parameter of type <xref:System.Globalization.CompareOptions> to specify the kind of comparison expected. As a general rule, use linguistic options (using the current culture) for comparing strings displayed in the user interface and specify <xref:System.Globalization.CompareOptions?displayProperty=fullName> or <xref:System.Globalization.CompareOptions?displayProperty=fullName> for security comparisons.  
+  
+   
+  
+## Examples  
+ The following example determines the indexes of the first and last occurrences of a character or a substring within a portion of a string. Note that <xref:System.Globalization.CompareInfo.IndexOf%2A> and <xref:System.Globalization.CompareInfo.LastIndexOf%2A> are searching in different portions of the string, even with the same  parameter.  
+  
+ [!CODE [System.Globalization.CompareInfo.IndexOfInt#1](../CodeSnippet/VS_Snippets_CLR_System/system.Globalization.CompareInfo.IndexOfInt#1)]  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="IndexOf">
@@ -488,12 +865,33 @@
         <Parameter Name="options" Type="System.Globalization.CompareOptions" />
       </Parameters>
       <Docs>
-        <param name="source">To be added.</param>
-        <param name="value">To be added.</param>
-        <param name="options">To be added.</param>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
-        <remarks>To be added.</remarks>
+        <param name="source">The string to search.</param>
+        <param name="value">The string to locate within .</param>
+        <param name="options">A value that defines how  and  should be compared.  is either the enumeration value &lt;see cref="T:System.Globalization.CompareOptions"&gt;, or a bitwise combination of one or more of the following values: &lt;see cref="T:System.Globalization.CompareOptions"&gt;, &lt;see cref="T:System.Globalization.CompareOptions"&gt;, &lt;see cref="T:System.Globalization.CompareOptions"&gt;, &lt;see cref="T:System.Globalization.CompareOptions"&gt;, and &lt;see cref="T:System.Globalization.CompareOptions"&gt;.</param>
+        <summary>Searches for the specified substring and returns the zero-based index of the first occurrence within the entire source string using the specified &lt;see cref="T:System.Globalization.CompareOptions"&gt; value.</summary>
+        <returns>The zero-based index of the first occurrence of , if found, within , using the specified comparison options; otherwise, -1. Returns 0 (zero) if  is an ignorable character.</returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ The source string is searched forward starting at the beginning of the string and ending at the end of the string.  
+  
+ The <xref:System.Globalization.CompareOptions?displayProperty=fullName> value is not valid for this method.  
+  
+ If  does not include the <xref:System.Globalization.CompareOptions> value, this overload performs a culture-sensitive search. A Unicode value representing a precomposed character, such as the ligature "Æ" (U+00C6), might be considered equivalent to any occurrence of the character's components in the correct sequence, such as "AE" (U+0041, U+0045), depending on the culture. If  includes the <xref:System.Globalization.CompareOptions> value, this overload performs an ordinal (culture-insensitive) search, where the Unicode values are compared.  
+  
+> [!NOTE]
+>  When possible, you should call string comparison methods that have a parameter of type <xref:System.Globalization.CompareOptions> to specify the kind of comparison expected. As a general rule, use linguistic options (using the current culture) for comparing strings displayed in the user interface and specify <xref:System.Globalization.CompareOptions?displayProperty=fullName> or <xref:System.Globalization.CompareOptions?displayProperty=fullName> for security comparisons.  
+  
+   
+  
+## Examples  
+ The following example determines the indexes of the first and last occurrences of a character or a substring within a string.  
+  
+ [!CODE [System.Globalization.CompareInfo.IndexOf#1](../CodeSnippet/VS_Snippets_CLR_System/system.Globalization.CompareInfo.IndexOf#1)]  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="IndexOf">
@@ -512,12 +910,31 @@
         <Parameter Name="startIndex" Type="System.Int32" />
       </Parameters>
       <Docs>
-        <param name="source">To be added.</param>
-        <param name="value">To be added.</param>
-        <param name="startIndex">To be added.</param>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
-        <remarks>To be added.</remarks>
+        <param name="source">The string to search.</param>
+        <param name="value">The string to locate within .</param>
+        <param name="startIndex">The zero-based starting index of the search.</param>
+        <summary>Searches for the specified substring and returns the zero-based index of the first occurrence within the section of the source string that extends from the specified index to the end of the string.</summary>
+        <returns>The zero-based index of the first occurrence of , if found, within the section of  that extends from  to the end of ; otherwise, -1. Returns  if  is an ignorable character.</returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ The source string is searched forward starting at  and ending at the end of the string.  
+  
+ This overload performs a culture-sensitive search. A Unicode value representing a precomposed character, such as the ligature "Æ" (U+00C6), might be considered equivalent to any occurrence of the character's components in the correct sequence, such as "AE" (U+0041, U+0045), depending on the culture. To perform an ordinal (culture-insensitive) search, where the Unicode values are compared, you should call one of the overloads that has a parameter of type <xref:System.Globalization.CompareOptions> and use the <xref:System.Globalization.CompareOptions> value.  
+  
+> [!NOTE]
+>  When possible, you should call string comparison methods that have a parameter of type <xref:System.Globalization.CompareOptions> to specify the kind of comparison expected. As a general rule, use linguistic options (using the current culture) for comparing strings displayed in the user interface and specify <xref:System.Globalization.CompareOptions?displayProperty=fullName> or <xref:System.Globalization.CompareOptions?displayProperty=fullName> for security comparisons.  
+  
+   
+  
+## Examples  
+ The following example determines the indexes of the first and last occurrences of a character or a substring within a portion of a string. Note that <xref:System.Globalization.CompareInfo.IndexOf%2A> and <xref:System.Globalization.CompareInfo.LastIndexOf%2A> are searching in different portions of the string, even with the same  parameter.  
+  
+ [!CODE [System.Globalization.CompareInfo.IndexOfInt#1](../CodeSnippet/VS_Snippets_CLR_System/system.Globalization.CompareInfo.IndexOfInt#1)]  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="IndexOf">
@@ -537,13 +954,34 @@
         <Parameter Name="options" Type="System.Globalization.CompareOptions" />
       </Parameters>
       <Docs>
-        <param name="source">To be added.</param>
-        <param name="value">To be added.</param>
-        <param name="startIndex">To be added.</param>
-        <param name="options">To be added.</param>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
-        <remarks>To be added.</remarks>
+        <param name="source">The string to search.</param>
+        <param name="value">The character to locate within .</param>
+        <param name="startIndex">The zero-based starting index of the search.</param>
+        <param name="options">A value that defines how  and  should be compared.  is either the enumeration value &lt;see cref="T:System.Globalization.CompareOptions"&gt;, or a bitwise combination of one or more of the following values: &lt;see cref="T:System.Globalization.CompareOptions"&gt;, &lt;see cref="T:System.Globalization.CompareOptions"&gt;, &lt;see cref="T:System.Globalization.CompareOptions"&gt;, &lt;see cref="T:System.Globalization.CompareOptions"&gt;, and &lt;see cref="T:System.Globalization.CompareOptions"&gt;.</param>
+        <summary>Searches for the specified character and returns the zero-based index of the first occurrence within the section of the source string that extends from the specified index to the end of the string using the specified &lt;see cref="T:System.Globalization.CompareOptions"&gt; value.</summary>
+        <returns>The zero-based index of the first occurrence of , if found, within the section of  that extends from  to the end of , using the specified comparison options; otherwise, -1. Returns  if  is an ignorable character.</returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ The source string is searched forward starting at  and ending at the end of the string.  
+  
+ The <xref:System.Globalization.CompareOptions?displayProperty=fullName> value is not valid for this method.  
+  
+ If  does not include the <xref:System.Globalization.CompareOptions> value, this overload performs a culture-sensitive search. If the character is a Unicode value representing a precomposed character, such as the ligature "Æ" (U+00C6), it might be considered equivalent to any occurrence of its components in the correct sequence, such as "AE" (U+0041, U+0045), depending on the culture. If  includes the <xref:System.Globalization.CompareOptions> value, this overload performs an ordinal (culture-insensitive) search. A character is considered equivalent to another character only if the Unicode values are the same. Overloads of <xref:System.String.IndexOf%2A?displayProperty=fullName> that search for a character perform an ordinal search, whereas those that search for a string perform a culture-sensitive search.  
+  
+> [!NOTE]
+>  When possible, you should call string comparison methods that have a parameter of type <xref:System.Globalization.CompareOptions> to specify the kind of comparison expected. As a general rule, use linguistic options (using the current culture) for comparing strings displayed in the user interface and specify <xref:System.Globalization.CompareOptions?displayProperty=fullName> or <xref:System.Globalization.CompareOptions?displayProperty=fullName> for security comparisons.  
+  
+   
+  
+## Examples  
+ The following example determines the indexes of the first and last occurrences of a character or a substring within a portion of a string. Note that <xref:System.Globalization.CompareInfo.IndexOf%2A> and <xref:System.Globalization.CompareInfo.LastIndexOf%2A> are searching in different portions of the string, even with the same  parameter.  
+  
+ [!CODE [System.Globalization.CompareInfo.IndexOfInt#1](../CodeSnippet/VS_Snippets_CLR_System/system.Globalization.CompareInfo.IndexOfInt#1)]  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="IndexOf">
@@ -563,13 +1001,32 @@
         <Parameter Name="count" Type="System.Int32" />
       </Parameters>
       <Docs>
-        <param name="source">To be added.</param>
-        <param name="value">To be added.</param>
-        <param name="startIndex">To be added.</param>
-        <param name="count">To be added.</param>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
-        <remarks>To be added.</remarks>
+        <param name="source">The string to search.</param>
+        <param name="value">The character to locate within .</param>
+        <param name="startIndex">The zero-based starting index of the search.</param>
+        <param name="count">The number of elements in the section to search.</param>
+        <summary>Searches for the specified character and returns the zero-based index of the first occurrence within the section of the source string that starts at the specified index and contains the specified number of elements.</summary>
+        <returns>The zero-based index of the first occurrence of , if found, within the section of  that starts at  and contains the number of elements specified by ; otherwise, -1. Returns  if  is an ignorable character.</returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ The source string is searched forward starting at  and ending at  +  - 1.  
+  
+ This overload performs a culture-sensitive search. If the character is a Unicode value representing a precomposed character, such as the ligature "Æ" (U+00C6), it might be considered equivalent to any occurrence of its components in the correct sequence, such as "AE" (U+0041, U+0045), depending on the culture. To perform an ordinal (culture-insensitive) search, where a character is considered equivalent to another character only if the Unicode values are the same, you should call one of the overloads that has a parameter of type <xref:System.Globalization.CompareOptions> and use the <xref:System.Globalization.CompareOptions> value. Overloads of <xref:System.String.IndexOf%2A?displayProperty=fullName> that search for a character perform an ordinal search, whereas those that search for a string perform a culture-sensitive search.  
+  
+> [!NOTE]
+>  When possible, you should call string comparison methods that have a parameter of type <xref:System.Globalization.CompareOptions> to specify the kind of comparison expected. As a general rule, use linguistic options (using the current culture) for comparing strings displayed in the user interface and specify <xref:System.Globalization.CompareOptions?displayProperty=fullName> or <xref:System.Globalization.CompareOptions?displayProperty=fullName> for security comparisons.  
+  
+   
+  
+## Examples  
+ The following example determines the indexes of the first and last occurrences of a character or a substring within a portion of a string.  
+  
+ [!CODE [System.Globalization.CompareInfo.IndexOfIntInt#1](../CodeSnippet/VS_Snippets_CLR_System/system.Globalization.CompareInfo.IndexOfIntInt#1)]  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="IndexOf">
@@ -589,13 +1046,34 @@
         <Parameter Name="options" Type="System.Globalization.CompareOptions" />
       </Parameters>
       <Docs>
-        <param name="source">To be added.</param>
-        <param name="value">To be added.</param>
-        <param name="startIndex">To be added.</param>
-        <param name="options">To be added.</param>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
-        <remarks>To be added.</remarks>
+        <param name="source">The string to search.</param>
+        <param name="value">The string to locate within .</param>
+        <param name="startIndex">The zero-based starting index of the search.</param>
+        <param name="options">A value that defines how  and  should be compared.  is either the enumeration value &lt;see cref="T:System.Globalization.CompareOptions"&gt;, or a bitwise combination of one or more of the following values: &lt;see cref="T:System.Globalization.CompareOptions"&gt;, &lt;see cref="T:System.Globalization.CompareOptions"&gt;, &lt;see cref="T:System.Globalization.CompareOptions"&gt;, &lt;see cref="T:System.Globalization.CompareOptions"&gt;, and &lt;see cref="T:System.Globalization.CompareOptions"&gt;.</param>
+        <summary>Searches for the specified substring and returns the zero-based index of the first occurrence within the section of the source string that extends from the specified index to the end of the string using the specified &lt;see cref="T:System.Globalization.CompareOptions"&gt; value.</summary>
+        <returns>The zero-based index of the first occurrence of , if found, within the section of  that extends from  to the end of , using the specified comparison options; otherwise, -1. Returns  if  is an ignorable character.</returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ The source string is searched forward starting at  and ending at the end of the string.  
+  
+ The <xref:System.Globalization.CompareOptions?displayProperty=fullName> value is not valid for this method.  
+  
+ If  does not include the <xref:System.Globalization.CompareOptions> value, this overload performs a culture-sensitive search. A Unicode value representing a precomposed character, such as the ligature "Æ" (U+00C6), might be considered equivalent to any occurrence of the character's components in the correct sequence, such as "AE" (U+0041, U+0045), depending on the culture. If  includes the <xref:System.Globalization.CompareOptions> value, this overload performs an ordinal (culture-insensitive) search, where the Unicode values are compared.  
+  
+> [!NOTE]
+>  When possible, you should call string comparison methods that have a parameter of type <xref:System.Globalization.CompareOptions> to specify the kind of comparison expected. As a general rule, use linguistic options (using the current culture) for comparing strings displayed in the user interface and specify <xref:System.Globalization.CompareOptions?displayProperty=fullName> or <xref:System.Globalization.CompareOptions?displayProperty=fullName> for security comparisons.  
+  
+   
+  
+## Examples  
+ The following example determines the indexes of the first and last occurrences of a character or a substring within a portion of a string. Note that <xref:System.Globalization.CompareInfo.IndexOf%2A> and <xref:System.Globalization.CompareInfo.LastIndexOf%2A> are searching in different portions of the string, even with the same  parameter.  
+  
+ [!CODE [System.Globalization.CompareInfo.IndexOfInt#1](../CodeSnippet/VS_Snippets_CLR_System/system.Globalization.CompareInfo.IndexOfInt#1)]  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="IndexOf">
@@ -615,13 +1093,32 @@
         <Parameter Name="count" Type="System.Int32" />
       </Parameters>
       <Docs>
-        <param name="source">To be added.</param>
-        <param name="value">To be added.</param>
-        <param name="startIndex">To be added.</param>
-        <param name="count">To be added.</param>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
-        <remarks>To be added.</remarks>
+        <param name="source">The string to search.</param>
+        <param name="value">The string to locate within .</param>
+        <param name="startIndex">The zero-based starting index of the search.</param>
+        <param name="count">The number of elements in the section to search.</param>
+        <summary>Searches for the specified substring and returns the zero-based index of the first occurrence within the section of the source string that starts at the specified index and contains the specified number of elements.</summary>
+        <returns>The zero-based index of the first occurrence of , if found, within the section of  that starts at  and contains the number of elements specified by ; otherwise, -1. Returns  if  is an ignorable character.</returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ The source string is searched forward starting at  and ending at  +  - 1.  
+  
+ This overload performs a culture-sensitive search. A Unicode value representing a precomposed character, such as the ligature "Æ" (U+00C6), might be considered equivalent to any occurrence of the character's components in the correct sequence, such as "AE" (U+0041, U+0045), depending on the culture. To perform an ordinal (culture-insensitive) search, where the Unicode values are compared, you should call one of the overloads that has a parameter of type <xref:System.Globalization.CompareOptions> and use the <xref:System.Globalization.CompareOptions> value.  
+  
+> [!NOTE]
+>  When possible, you should call string comparison methods that have a parameter of type <xref:System.Globalization.CompareOptions> to specify the kind of comparison expected. As a general rule, use linguistic options (using the current culture) for comparing strings displayed in the user interface and specify <xref:System.Globalization.CompareOptions?displayProperty=fullName> or <xref:System.Globalization.CompareOptions?displayProperty=fullName> for security comparisons.  
+  
+   
+  
+## Examples  
+ The following example determines the indexes of the first and last occurrences of a character or a substring within a portion of a string.  
+  
+ [!CODE [System.Globalization.CompareInfo.IndexOfIntInt#1](../CodeSnippet/VS_Snippets_CLR_System/system.Globalization.CompareInfo.IndexOfIntInt#1)]  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="IndexOf">
@@ -647,14 +1144,35 @@
         <Parameter Name="options" Type="System.Globalization.CompareOptions" />
       </Parameters>
       <Docs>
-        <param name="source">To be added.</param>
-        <param name="value">To be added.</param>
-        <param name="startIndex">To be added.</param>
-        <param name="count">To be added.</param>
-        <param name="options">To be added.</param>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
-        <remarks>To be added.</remarks>
+        <param name="source">The string to search.</param>
+        <param name="value">The character to locate within .</param>
+        <param name="startIndex">The zero-based starting index of the search.</param>
+        <param name="count">The number of elements in the section to search.</param>
+        <param name="options">A value that defines how  and  should be compared.  is either the enumeration value &lt;see cref="T:System.Globalization.CompareOptions"&gt;, or a bitwise combination of one or more of the following values: &lt;see cref="T:System.Globalization.CompareOptions"&gt;, &lt;see cref="T:System.Globalization.CompareOptions"&gt;, &lt;see cref="T:System.Globalization.CompareOptions"&gt;, &lt;see cref="T:System.Globalization.CompareOptions"&gt;, and &lt;see cref="T:System.Globalization.CompareOptions"&gt;.</param>
+        <summary>Searches for the specified character and returns the zero-based index of the first occurrence within the section of the source string that starts at the specified index and contains the specified number of elements using the specified &lt;see cref="T:System.Globalization.CompareOptions"&gt; value.</summary>
+        <returns>The zero-based index of the first occurrence of , if found, within the section of  that starts at  and contains the number of elements specified by , using the specified comparison options; otherwise, -1. Returns  if  is an ignorable character.</returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ The source string is searched forward starting at  and ending at  +  - 1.  
+  
+ The <xref:System.Globalization.CompareOptions?displayProperty=fullName> value is not valid for this method.  
+  
+ If  does not include the <xref:System.Globalization.CompareOptions> value, this overload performs a culture-sensitive search. If the character is a Unicode value representing a precomposed character, such as the ligature "Æ" (U+00C6), it might be considered equivalent to any occurrence of its components in the correct sequence, such as "AE" (U+0041, U+0045), depending on the culture. If  includes the <xref:System.Globalization.CompareOptions> value, this overload performs an ordinal (culture-insensitive) search. A character is considered equivalent to another character only if the Unicode values are the same. Overloads of <xref:System.String.IndexOf%2A?displayProperty=fullName> that search for a character perform an ordinal search, whereas those that search for a string perform a culture-sensitive search.  
+  
+> [!NOTE]
+>  When possible, you should call string comparison methods that have a parameter of type <xref:System.Globalization.CompareOptions> to specify the kind of comparison expected. As a general rule, use linguistic options (using the current culture) for comparing strings displayed in the user interface and specify <xref:System.Globalization.CompareOptions?displayProperty=fullName> or <xref:System.Globalization.CompareOptions?displayProperty=fullName> for security comparisons.  
+  
+   
+  
+## Examples  
+ The following example determines the indexes of the first and last occurrences of a character or a substring within a portion of a string.  
+  
+ [!CODE [System.Globalization.CompareInfo.IndexOfIntInt#1](../CodeSnippet/VS_Snippets_CLR_System/system.Globalization.CompareInfo.IndexOfIntInt#1)]  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="IndexOf">
@@ -680,14 +1198,35 @@
         <Parameter Name="options" Type="System.Globalization.CompareOptions" />
       </Parameters>
       <Docs>
-        <param name="source">To be added.</param>
-        <param name="value">To be added.</param>
-        <param name="startIndex">To be added.</param>
-        <param name="count">To be added.</param>
-        <param name="options">To be added.</param>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
-        <remarks>To be added.</remarks>
+        <param name="source">The string to search.</param>
+        <param name="value">The string to locate within .</param>
+        <param name="startIndex">The zero-based starting index of the search.</param>
+        <param name="count">The number of elements in the section to search.</param>
+        <param name="options">A value that defines how  and  should be compared.  is either the enumeration value &lt;see cref="T:System.Globalization.CompareOptions"&gt;, or a bitwise combination of one or more of the following values: &lt;see cref="T:System.Globalization.CompareOptions"&gt;, &lt;see cref="T:System.Globalization.CompareOptions"&gt;, &lt;see cref="T:System.Globalization.CompareOptions"&gt;, &lt;see cref="T:System.Globalization.CompareOptions"&gt;, and &lt;see cref="T:System.Globalization.CompareOptions"&gt;.</param>
+        <summary>Searches for the specified substring and returns the zero-based index of the first occurrence within the section of the source string that starts at the specified index and contains the specified number of elements using the specified &lt;see cref="T:System.Globalization.CompareOptions"&gt; value.</summary>
+        <returns>The zero-based index of the first occurrence of , if found, within the section of  that starts at  and contains the number of elements specified by , using the specified comparison options; otherwise, -1. Returns  if  is an ignorable character.</returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ The source string is searched forward starting at  and ending at  +  - 1.  
+  
+ The <xref:System.Globalization.CompareOptions?displayProperty=fullName> value is not valid for this method.  
+  
+ If  does not include the <xref:System.Globalization.CompareOptions> value, this overload performs a culture-sensitive search. A Unicode value representing a precomposed character, such as the ligature "Æ" (U+00C6), might be considered equivalent to any occurrence of the character's components in the correct sequence, such as "AE" (U+0041, U+0045), depending on the culture. If  includes the <xref:System.Globalization.CompareOptions> value, this overload performs an ordinal (culture-insensitive) search, where the Unicode values are compared.  
+  
+> [!NOTE]
+>  When possible, you should call string comparison methods that have a parameter of type <xref:System.Globalization.CompareOptions> to specify the kind of comparison expected. As a general rule, use linguistic options (using the current culture) for comparing strings displayed in the user interface and specify <xref:System.Globalization.CompareOptions?displayProperty=fullName> or <xref:System.Globalization.CompareOptions?displayProperty=fullName> for security comparisons.  
+  
+   
+  
+## Examples  
+ The following example determines the indexes of the first and last occurrences of a character or a substring within a portion of a string.  
+  
+ [!CODE [System.Globalization.CompareInfo.IndexOfIntInt#1](../CodeSnippet/VS_Snippets_CLR_System/system.Globalization.CompareInfo.IndexOfIntInt#1)]  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="IsPrefix">
@@ -705,11 +1244,28 @@
         <Parameter Name="prefix" Type="System.String" />
       </Parameters>
       <Docs>
-        <param name="source">To be added.</param>
-        <param name="prefix">To be added.</param>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
-        <remarks>To be added.</remarks>
+        <param name="source">The string to search in.</param>
+        <param name="prefix">The string to compare with the beginning of .</param>
+        <summary>Determines whether the specified source string starts with the specified prefix.</summary>
+        <returns>`true` if the length of  is less than or equal to the length of  and  starts with ; otherwise, `false`.</returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ Every string starts and ends with an empty substring (""); therefore, if  is an empty string, this method returns `true`.  
+  
+> [!NOTE]
+>  When possible, you should call string comparison methods that have a parameter of type <xref:System.Globalization.CompareOptions> to specify the kind of comparison expected. As a general rule, use linguistic options (using the current culture) for comparing strings displayed in the user interface and specify <xref:System.Globalization.CompareOptions?displayProperty=fullName> or <xref:System.Globalization.CompareOptions?displayProperty=fullName> for security comparisons.  
+  
+   
+  
+## Examples  
+ The following example determines whether a string is the prefix or suffix of another string.  
+  
+ [!CODE [System.Globalization.CompareInfo.IsPrefixSuffix#1](../CodeSnippet/VS_Snippets_CLR_System/system.Globalization.CompareInfo.IsPrefixSuffix#1)]  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="IsPrefix">
@@ -733,12 +1289,31 @@
         <Parameter Name="options" Type="System.Globalization.CompareOptions" />
       </Parameters>
       <Docs>
-        <param name="source">To be added.</param>
-        <param name="prefix">To be added.</param>
-        <param name="options">To be added.</param>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
-        <remarks>To be added.</remarks>
+        <param name="source">The string to search in.</param>
+        <param name="prefix">The string to compare with the beginning of .</param>
+        <param name="options">A value that defines how  and  should be compared.  is either the enumeration value &lt;see cref="T:System.Globalization.CompareOptions"&gt;, or a bitwise combination of one or more of the following values: &lt;see cref="T:System.Globalization.CompareOptions"&gt;, &lt;see cref="T:System.Globalization.CompareOptions"&gt;, &lt;see cref="T:System.Globalization.CompareOptions"&gt;, &lt;see cref="T:System.Globalization.CompareOptions"&gt;, and &lt;see cref="T:System.Globalization.CompareOptions"&gt;.</param>
+        <summary>Determines whether the specified source string starts with the specified prefix using the specified &lt;see cref="T:System.Globalization.CompareOptions"&gt; value.</summary>
+        <returns>`true` if the length of  is less than or equal to the length of  and  starts with ; otherwise, `false`.</returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ Every string starts and ends with an empty substring (""); therefore, if  is an empty string, this method returns `true`.  
+  
+ The <xref:System.Globalization.CompareOptions?displayProperty=fullName> value is not valid for this method.  
+  
+> [!NOTE]
+>  When possible, you should call string comparison methods that have a parameter of type <xref:System.Globalization.CompareOptions> to specify the kind of comparison expected. As a general rule, use linguistic options (using the current culture) for comparing strings displayed in the user interface and specify <xref:System.Globalization.CompareOptions?displayProperty=fullName> or <xref:System.Globalization.CompareOptions?displayProperty=fullName> for security comparisons.  
+  
+   
+  
+## Examples  
+ The following example determines whether a string is the prefix or suffix of another string using <xref:System.Globalization.CompareOptions>.  
+  
+ [!CODE [System.Globalization.CompareInfo.IsPrefixSuffixOpt#1](../CodeSnippet/VS_Snippets_CLR_System/system.Globalization.CompareInfo.IsPrefixSuffixOpt#1)]  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="IsSortable">
@@ -760,10 +1335,17 @@
         <Parameter Name="ch" Type="System.Char" />
       </Parameters>
       <Docs>
-        <param name="ch">To be added.</param>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
-        <remarks>To be added.</remarks>
+        <param name="ch">A Unicode character.</param>
+        <summary>Indicates whether a specified Unicode character is sortable.</summary>
+        <returns>`true` if the  parameter is sortable; otherwise, `false`.</returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ The  parameter is sortable if it is a Unicode character that is defined in an internal <xref:System.Globalization.CompareInfo> class sort table, and is not a private use or unpaired high or low surrogate character.  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="IsSortable">
@@ -788,10 +1370,17 @@
         <Parameter Name="text" Type="System.String" />
       </Parameters>
       <Docs>
-        <param name="text">To be added.</param>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
-        <remarks>To be added.</remarks>
+        <param name="text">A string of zero or more Unicode characters.</param>
+        <summary>Indicates whether a specified Unicode string is sortable.</summary>
+        <returns>`true` if the  parameter is not an empty string ("") and all the Unicode characters in  are sortable; otherwise, `false`.</returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ Each Unicode character in the  parameter is represented by one or more UTF-16 encoded <xref:System.Char> objects. The  parameter is sortable if each Unicode character is defined in an internal <xref:System.Globalization.CompareInfo> class sort table, and is not a private use or unpaired high or low surrogate character.  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="IsSuffix">
@@ -809,11 +1398,28 @@
         <Parameter Name="suffix" Type="System.String" />
       </Parameters>
       <Docs>
-        <param name="source">To be added.</param>
-        <param name="suffix">To be added.</param>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
-        <remarks>To be added.</remarks>
+        <param name="source">The string to search in.</param>
+        <param name="suffix">The string to compare with the end of .</param>
+        <summary>Determines whether the specified source string ends with the specified suffix.</summary>
+        <returns>`true` if the length of  is less than or equal to the length of  and  ends with ; otherwise, `false`.</returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ Every string starts and ends with an empty substring (""); therefore, if  is an empty string, this method returns `true`.  
+  
+> [!NOTE]
+>  When possible, you should call string comparison methods that have a parameter of type <xref:System.Globalization.CompareOptions> to specify the kind of comparison expected. As a general rule, use linguistic options (using the current culture) for comparing strings displayed in the user interface and specify <xref:System.Globalization.CompareOptions?displayProperty=fullName> or <xref:System.Globalization.CompareOptions?displayProperty=fullName> for security comparisons.  
+  
+   
+  
+## Examples  
+ The following example determines whether a string is the prefix or suffix of another string.  
+  
+ [!CODE [System.Globalization.CompareInfo.IsPrefixSuffix#1](../CodeSnippet/VS_Snippets_CLR_System/system.Globalization.CompareInfo.IsPrefixSuffix#1)]  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="IsSuffix">
@@ -837,12 +1443,31 @@
         <Parameter Name="options" Type="System.Globalization.CompareOptions" />
       </Parameters>
       <Docs>
-        <param name="source">To be added.</param>
-        <param name="suffix">To be added.</param>
-        <param name="options">To be added.</param>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
-        <remarks>To be added.</remarks>
+        <param name="source">The string to search in.</param>
+        <param name="suffix">The string to compare with the end of .</param>
+        <param name="options">A value that defines how  and  should be compared.  is either the enumeration value &lt;see cref="T:System.Globalization.CompareOptions"&gt; used by itself, or the bitwise combination of one or more of the following values: &lt;see cref="T:System.Globalization.CompareOptions"&gt;, &lt;see cref="T:System.Globalization.CompareOptions"&gt;, &lt;see cref="T:System.Globalization.CompareOptions"&gt;, &lt;see cref="T:System.Globalization.CompareOptions"&gt;, and &lt;see cref="T:System.Globalization.CompareOptions"&gt;.</param>
+        <summary>Determines whether the specified source string ends with the specified suffix using the specified &lt;see cref="T:System.Globalization.CompareOptions"&gt; value.</summary>
+        <returns>`true` if the length of  is less than or equal to the length of  and  ends with ; otherwise, `false`.</returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ Every string starts and ends with an empty substring (""); therefore, if  is an empty string, this method returns `true`.  
+  
+ The <xref:System.Globalization.CompareOptions?displayProperty=fullName> value is not valid for this method.  
+  
+> [!NOTE]
+>  When possible, you should call string comparison methods that have a parameter of type <xref:System.Globalization.CompareOptions> to specify the kind of comparison expected. As a general rule, use linguistic options (using the current culture) for comparing strings displayed in the user interface and specify <xref:System.Globalization.CompareOptions?displayProperty=fullName> or <xref:System.Globalization.CompareOptions?displayProperty=fullName> for security comparisons.  
+  
+   
+  
+## Examples  
+ The following example determines whether a string is the prefix or suffix of another string using <xref:System.Globalization.CompareOptions>.  
+  
+ [!CODE [System.Globalization.CompareInfo.IsPrefixSuffixOpt#1](../CodeSnippet/VS_Snippets_CLR_System/system.Globalization.CompareInfo.IsPrefixSuffixOpt#1)]  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="LastIndexOf">
@@ -860,11 +1485,30 @@
         <Parameter Name="value" Type="System.Char" />
       </Parameters>
       <Docs>
-        <param name="source">To be added.</param>
-        <param name="value">To be added.</param>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
-        <remarks>To be added.</remarks>
+        <param name="source">The string to search.</param>
+        <param name="value">The character to locate within .</param>
+        <summary>Searches for the specified character and returns the zero-based index of the last occurrence within the entire source string.</summary>
+        <returns>The zero-based index of the last occurrence of , if found, within ; otherwise, -1.</returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ The source string is searched backward starting at the end of the string and ending at the beginning of the string.  
+  
+ This overload performs a culture-sensitive search. If the character is a Unicode value representing a precomposed character, such as the ligature "Æ" (U+00C6), it might be considered equivalent to any occurrence of its components in the correct sequence, such as "AE" (U+0041, U+0045), depending on the culture. To perform an ordinal (culture-insensitive) search, where a character is considered equivalent to another character only if the Unicode values are the same, you should call one of the overloads that has a parameter of type <xref:System.Globalization.CompareOptions> and use the <xref:System.Globalization.CompareOptions> value. Overloads of <xref:System.String.LastIndexOf%2A?displayProperty=fullName> that search for a character perform an ordinal search, whereas those that search for a string perform a culture-sensitive search.  
+  
+> [!NOTE]
+>  When possible, you should call string comparison methods that have a parameter of type <xref:System.Globalization.CompareOptions> to specify the kind of comparison expected. As a general rule, use linguistic options (using the current culture) for comparing strings displayed in the user interface and specify <xref:System.Globalization.CompareOptions?displayProperty=fullName> or <xref:System.Globalization.CompareOptions?displayProperty=fullName> for security comparisons.  
+  
+   
+  
+## Examples  
+ The following example determines the indexes of the first and last occurrences of a character or a substring within a string.  
+  
+ [!CODE [System.Globalization.CompareInfo.IndexOf#1](../CodeSnippet/VS_Snippets_CLR_System/system.Globalization.CompareInfo.IndexOf#1)]  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="LastIndexOf">
@@ -882,11 +1526,30 @@
         <Parameter Name="value" Type="System.String" />
       </Parameters>
       <Docs>
-        <param name="source">To be added.</param>
-        <param name="value">To be added.</param>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
-        <remarks>To be added.</remarks>
+        <param name="source">The string to search.</param>
+        <param name="value">The string to locate within .</param>
+        <summary>Searches for the specified substring and returns the zero-based index of the last occurrence within the entire source string.</summary>
+        <returns>The zero-based index of the last occurrence of , if found, within ; otherwise, -1.</returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ The source string is searched backward starting at the end of the string and ending at the beginning of the string.  
+  
+ This overload performs a culture-sensitive search. A Unicode value representing a precomposed character, such as the ligature "Æ" (U+00C6), might be considered equivalent to any occurrence of the character's components in the correct sequence, such as "AE" (U+0041, U+0045), depending on the culture. To perform an ordinal (culture-insensitive) search, where the Unicode values are compared, you should call one of the overloads that has a parameter of type <xref:System.Globalization.CompareOptions> and use the <xref:System.Globalization.CompareOptions?displayProperty=fullName> value.  
+  
+> [!NOTE]
+>  When possible, you should call string comparison methods that have a parameter of type <xref:System.Globalization.CompareOptions> to specify the kind of comparison expected. As a general rule, use linguistic options (using the current culture) for comparing strings displayed in the user interface and specify <xref:System.Globalization.CompareOptions?displayProperty=fullName> or <xref:System.Globalization.CompareOptions?displayProperty=fullName> for security comparisons.  
+  
+   
+  
+## Examples  
+ The following example determines the indexes of the first and last occurrences of a character or a substring within a string.  
+  
+ [!CODE [System.Globalization.CompareInfo.IndexOf#1](../CodeSnippet/VS_Snippets_CLR_System/system.Globalization.CompareInfo.IndexOf#1)]  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="LastIndexOf">
@@ -905,12 +1568,33 @@
         <Parameter Name="options" Type="System.Globalization.CompareOptions" />
       </Parameters>
       <Docs>
-        <param name="source">To be added.</param>
-        <param name="value">To be added.</param>
-        <param name="options">To be added.</param>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
-        <remarks>To be added.</remarks>
+        <param name="source">The string to search.</param>
+        <param name="value">The character to locate within .</param>
+        <param name="options">A value that defines how  and  should be compared.  is either the enumeration value &lt;see cref="T:System.Globalization.CompareOptions"&gt;, or a bitwise combination of one or more of the following values: &lt;see cref="T:System.Globalization.CompareOptions"&gt;, &lt;see cref="T:System.Globalization.CompareOptions"&gt;, &lt;see cref="T:System.Globalization.CompareOptions"&gt;, &lt;see cref="T:System.Globalization.CompareOptions"&gt;, and &lt;see cref="T:System.Globalization.CompareOptions"&gt;.</param>
+        <summary>Searches for the specified character and returns the zero-based index of the last occurrence within the entire source string using the specified &lt;see cref="T:System.Globalization.CompareOptions"&gt; value.</summary>
+        <returns>The zero-based index of the last occurrence of , if found, within , using the specified comparison options; otherwise, -1.</returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ The source string is searched backward starting at the end of the string and ending at the beginning of the string.  
+  
+ The <xref:System.Globalization.CompareOptions?displayProperty=fullName> value is not valid for this method.  
+  
+ If  does not include the <xref:System.Globalization.CompareOptions> value, this overload performs a culture-sensitive search. If the character is a Unicode value representing a precomposed character, such as the ligature "Æ" (U+00C6), it might be considered equivalent to any occurrence of its components in the correct sequence, such as "AE" (U+0041, U+0045), depending on the culture. If  includes the <xref:System.Globalization.CompareOptions> value, this overload performs an ordinal (culture-insensitive) search. A character is considered equivalent to another character only if the Unicode values are the same. Overloads of <xref:System.String.LastIndexOf%2A?displayProperty=fullName> that search for a character perform an ordinal search, whereas those that search for a string perform a culture-sensitive search.  
+  
+> [!NOTE]
+>  When possible, you should call string comparison methods that have a parameter of type <xref:System.Globalization.CompareOptions> to specify the kind of comparison expected. As a general rule, use linguistic options (using the current culture) for comparing strings displayed in the user interface and specify <xref:System.Globalization.CompareOptions?displayProperty=fullName> or <xref:System.Globalization.CompareOptions?displayProperty=fullName> for security comparisons.  
+  
+   
+  
+## Examples  
+ The following example determines the indexes of the first and last occurrences of a character or a substring within a string.  
+  
+ [!CODE [System.Globalization.CompareInfo.IndexOf#1](../CodeSnippet/VS_Snippets_CLR_System/system.Globalization.CompareInfo.IndexOf#1)]  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="LastIndexOf">
@@ -929,12 +1613,31 @@
         <Parameter Name="startIndex" Type="System.Int32" />
       </Parameters>
       <Docs>
-        <param name="source">To be added.</param>
-        <param name="value">To be added.</param>
-        <param name="startIndex">To be added.</param>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
-        <remarks>To be added.</remarks>
+        <param name="source">The string to search.</param>
+        <param name="value">The character to locate within .</param>
+        <param name="startIndex">The zero-based starting index of the backward search.</param>
+        <summary>Searches for the specified character and returns the zero-based index of the last occurrence within the section of the source string that extends from the beginning of the string to the specified index.</summary>
+        <returns>The zero-based index of the last occurrence of , if found, within the section of  that extends from the beginning of  to ; otherwise, -1. Returns  if  is an ignorable character.</returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ The source string is searched backward starting at  and ending at the beginning of the string.  
+  
+ This overload performs a culture-sensitive search. If the character is a Unicode value representing a precomposed character, such as the ligature "Æ" (U+00C6), it might be considered equivalent to any occurrence of its components in the correct sequence, such as "AE" (U+0041, U+0045), depending on the culture. To perform an ordinal (culture-insensitive) search, where a character is considered equivalent to another character only if the Unicode values are the same, you should call one of the overloads that has a parameter of type <xref:System.Globalization.CompareOptions> and use the <xref:System.Globalization.CompareOptions> value. Overloads of <xref:System.String.LastIndexOf%2A?displayProperty=fullName> that search for a character perform an ordinal search, whereas those that search for a string perform a culture-sensitive search.  
+  
+> [!NOTE]
+>  When possible, you should call string comparison methods that have a parameter of type <xref:System.Globalization.CompareOptions> to specify the kind of comparison expected. As a general rule, use linguistic options (using the current culture) for comparing strings displayed in the user interface and specify <xref:System.Globalization.CompareOptions?displayProperty=fullName> or <xref:System.Globalization.CompareOptions?displayProperty=fullName> for security comparisons.  
+  
+   
+  
+## Examples  
+ The following example determines the indexes of the first and last occurrences of a character or a substring within a portion of a string. Note that <xref:System.Globalization.CompareInfo.IndexOf%2A> and <xref:System.Globalization.CompareInfo.LastIndexOf%2A> are searching in different portions of the string, even with the same  parameter.  
+  
+ [!CODE [System.Globalization.CompareInfo.IndexOfInt#1](../CodeSnippet/VS_Snippets_CLR_System/system.Globalization.CompareInfo.IndexOfInt#1)]  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="LastIndexOf">
@@ -953,12 +1656,33 @@
         <Parameter Name="options" Type="System.Globalization.CompareOptions" />
       </Parameters>
       <Docs>
-        <param name="source">To be added.</param>
-        <param name="value">To be added.</param>
-        <param name="options">To be added.</param>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
-        <remarks>To be added.</remarks>
+        <param name="source">The string to search.</param>
+        <param name="value">The string to locate within .</param>
+        <param name="options">A value that defines how  and  should be compared.  is either the enumeration value &lt;see cref="T:System.Globalization.CompareOptions"&gt;, or a bitwise combination of one or more of the following values: &lt;see cref="T:System.Globalization.CompareOptions"&gt;, &lt;see cref="T:System.Globalization.CompareOptions"&gt;, &lt;see cref="T:System.Globalization.CompareOptions"&gt;, &lt;see cref="T:System.Globalization.CompareOptions"&gt;, and &lt;see cref="T:System.Globalization.CompareOptions"&gt;.</param>
+        <summary>Searches for the specified substring and returns the zero-based index of the last occurrence within the entire source string using the specified &lt;see cref="T:System.Globalization.CompareOptions"&gt; value.</summary>
+        <returns>The zero-based index of the last occurrence of , if found, within , using the specified comparison options; otherwise, -1.</returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ The source string is searched backward starting at the end of the string and ending at the beginning of the string.  
+  
+ The <xref:System.Globalization.CompareOptions?displayProperty=fullName> value is not valid for this method.  
+  
+ If  does not include the <xref:System.Globalization.CompareOptions> value, this overload performs a culture-sensitive search. A Unicode value representing a precomposed character, such as the ligature "Æ" (U+00C6), might be considered equivalent to any occurrence of the character's components in the correct sequence, such as "AE" (U+0041, U+0045), depending on the culture. If  includes the <xref:System.Globalization.CompareOptions> value, this overload performs an ordinal (culture-insensitive) search, where the Unicode values are compared.  
+  
+> [!NOTE]
+>  When possible, you should call string comparison methods that have a parameter of type <xref:System.Globalization.CompareOptions> to specify the kind of comparison expected. As a general rule, use linguistic options (using the current culture) for comparing strings displayed in the user interface and specify <xref:System.Globalization.CompareOptions?displayProperty=fullName> or <xref:System.Globalization.CompareOptions?displayProperty=fullName> for security comparisons.  
+  
+   
+  
+## Examples  
+ The following example determines the indexes of the first and last occurrences of a character or a substring within a string.  
+  
+ [!CODE [System.Globalization.CompareInfo.IndexOf#1](../CodeSnippet/VS_Snippets_CLR_System/system.Globalization.CompareInfo.IndexOf#1)]  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="LastIndexOf">
@@ -977,12 +1701,31 @@
         <Parameter Name="startIndex" Type="System.Int32" />
       </Parameters>
       <Docs>
-        <param name="source">To be added.</param>
-        <param name="value">To be added.</param>
-        <param name="startIndex">To be added.</param>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
-        <remarks>To be added.</remarks>
+        <param name="source">The string to search.</param>
+        <param name="value">The string to locate within .</param>
+        <param name="startIndex">The zero-based starting index of the backward search.</param>
+        <summary>Searches for the specified substring and returns the zero-based index of the last occurrence within the section of the source string that extends from the beginning of the string to the specified index.</summary>
+        <returns>The zero-based index of the last occurrence of , if found, within the section of  that extends from the beginning of  to ; otherwise, -1. Returns  if  is an ignorable character.</returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ The source string is searched backward starting at  and ending at the beginning of the string.  
+  
+ This overload performs a culture-sensitive search. A Unicode value representing a precomposed character, such as the ligature "Æ" (U+00C6), might be considered equivalent to any occurrence of the character's components in the correct sequence, such as "AE" (U+0041, U+0045), depending on the culture. To perform an ordinal (culture-insensitive) search, where the Unicode values are compared, you should call one of the overloads that has a parameter of type <xref:System.Globalization.CompareOptions> and use the <xref:System.Globalization.CompareOptions?displayProperty=fullName> value.  
+  
+> [!NOTE]
+>  When possible, you should call string comparison methods that have a parameter of type <xref:System.Globalization.CompareOptions> to specify the kind of comparison expected. As a general rule, use linguistic options (using the current culture) for comparing strings displayed in the user interface and specify <xref:System.Globalization.CompareOptions?displayProperty=fullName> or <xref:System.Globalization.CompareOptions?displayProperty=fullName> for security comparisons.  
+  
+   
+  
+## Examples  
+ The following example determines the indexes of the first and last occurrences of a character or a substring within a portion of a string. Note that <xref:System.Globalization.CompareInfo.IndexOf%2A> and <xref:System.Globalization.CompareInfo.LastIndexOf%2A> are searching in different portions of the string, even with the same  parameter.  
+  
+ [!CODE [System.Globalization.CompareInfo.IndexOfInt#1](../CodeSnippet/VS_Snippets_CLR_System/system.Globalization.CompareInfo.IndexOfInt#1)]  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="LastIndexOf">
@@ -1002,13 +1745,34 @@
         <Parameter Name="options" Type="System.Globalization.CompareOptions" />
       </Parameters>
       <Docs>
-        <param name="source">To be added.</param>
-        <param name="value">To be added.</param>
-        <param name="startIndex">To be added.</param>
-        <param name="options">To be added.</param>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
-        <remarks>To be added.</remarks>
+        <param name="source">The string to search.</param>
+        <param name="value">The character to locate within .</param>
+        <param name="startIndex">The zero-based starting index of the backward search.</param>
+        <param name="options">A value that defines how  and  should be compared.  is either the enumeration value &lt;see cref="T:System.Globalization.CompareOptions"&gt;, or a bitwise combination of one or more of the following values: &lt;see cref="T:System.Globalization.CompareOptions"&gt;, &lt;see cref="T:System.Globalization.CompareOptions"&gt;, &lt;see cref="T:System.Globalization.CompareOptions"&gt;, &lt;see cref="T:System.Globalization.CompareOptions"&gt;, and &lt;see cref="T:System.Globalization.CompareOptions"&gt;.</param>
+        <summary>Searches for the specified character and returns the zero-based index of the last occurrence within the section of the source string that extends from the beginning of the string to the specified index using the specified &lt;see cref="T:System.Globalization.CompareOptions"&gt; value.</summary>
+        <returns>The zero-based index of the last occurrence of , if found, within the section of  that extends from the beginning of  to , using the specified comparison options; otherwise, -1. Returns  if  is an ignorable character.</returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ The source string is searched backward starting at  and ending at the beginning of the string.  
+  
+ The <xref:System.Globalization.CompareOptions?displayProperty=fullName> value is not valid for this method.  
+  
+ If  does not include the <xref:System.Globalization.CompareOptions> value, this overload performs a culture-sensitive search. If the character is a Unicode value representing a precomposed character, such as the ligature "Æ" (U+00C6), it might be considered equivalent to any occurrence of its components in the correct sequence, such as "AE" (U+0041, U+0045), depending on the culture. If  includes the <xref:System.Globalization.CompareOptions> value, this overload performs an ordinal (culture-insensitive) search. A character is considered equivalent to another character only if the Unicode values are the same. Overloads of <xref:System.String.LastIndexOf%2A?displayProperty=fullName> that search for a character perform an ordinal search, whereas those that search for a string perform a culture-sensitive search.  
+  
+> [!NOTE]
+>  When possible, you should call string comparison methods that have a parameter of type <xref:System.Globalization.CompareOptions> to specify the kind of comparison expected. As a general rule, use linguistic options (using the current culture) for comparing strings displayed in the user interface and specify <xref:System.Globalization.CompareOptions?displayProperty=fullName> or <xref:System.Globalization.CompareOptions?displayProperty=fullName> for security comparisons.  
+  
+   
+  
+## Examples  
+ The following example determines the indexes of the first and last occurrences of a character or a substring within a portion of a string. Note that <xref:System.Globalization.CompareInfo.IndexOf%2A> and <xref:System.Globalization.CompareInfo.LastIndexOf%2A> are searching in different portions of the string, even with the same  parameter.  
+  
+ [!CODE [System.Globalization.CompareInfo.IndexOfInt#1](../CodeSnippet/VS_Snippets_CLR_System/system.Globalization.CompareInfo.IndexOfInt#1)]  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="LastIndexOf">
@@ -1028,13 +1792,32 @@
         <Parameter Name="count" Type="System.Int32" />
       </Parameters>
       <Docs>
-        <param name="source">To be added.</param>
-        <param name="value">To be added.</param>
-        <param name="startIndex">To be added.</param>
-        <param name="count">To be added.</param>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
-        <remarks>To be added.</remarks>
+        <param name="source">The string to search.</param>
+        <param name="value">The character to locate within .</param>
+        <param name="startIndex">The zero-based starting index of the backward search.</param>
+        <param name="count">The number of elements in the section to search.</param>
+        <summary>Searches for the specified character and returns the zero-based index of the last occurrence within the section of the source string that contains the specified number of elements and ends at the specified index.</summary>
+        <returns>The zero-based index of the last occurrence of , if found, within the section of  that contains the number of elements specified by  and that ends at ; otherwise, -1. Returns  if  is an ignorable character.</returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ The source string is searched backward starting at  and ending at  -  + 1.  
+  
+ This overload performs a culture-sensitive search. If the character is a Unicode value representing a precomposed character, such as the ligature "Æ" (U+00C6), it might be considered equivalent to any occurrence of its components in the correct sequence, such as "AE" (U+0041, U+0045), depending on the culture. To perform an ordinal (culture-insensitive) search, where a character is considered equivalent to another character only if the Unicode values are the same, you should call one of the overloads that has a parameter of type <xref:System.Globalization.CompareOptions> and use the <xref:System.Globalization.CompareOptions> value. Overloads of <xref:System.String.LastIndexOf%2A?displayProperty=fullName> that search for a character perform an ordinal search, whereas those that search for a string perform a culture-sensitive search.  
+  
+> [!NOTE]
+>  When possible, you should call string comparison methods that have a parameter of type <xref:System.Globalization.CompareOptions> to specify the kind of comparison expected. As a general rule, use linguistic options (using the current culture) for comparing strings displayed in the user interface and specify <xref:System.Globalization.CompareOptions?displayProperty=fullName> or <xref:System.Globalization.CompareOptions?displayProperty=fullName> for security comparisons.  
+  
+   
+  
+## Examples  
+ The following example determines the indexes of the first and last occurrences of a character or a substring within a portion of a string.  
+  
+ [!CODE [System.Globalization.CompareInfo.IndexOfIntInt#1](../CodeSnippet/VS_Snippets_CLR_System/system.Globalization.CompareInfo.IndexOfIntInt#1)]  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="LastIndexOf">
@@ -1054,13 +1837,34 @@
         <Parameter Name="options" Type="System.Globalization.CompareOptions" />
       </Parameters>
       <Docs>
-        <param name="source">To be added.</param>
-        <param name="value">To be added.</param>
-        <param name="startIndex">To be added.</param>
-        <param name="options">To be added.</param>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
-        <remarks>To be added.</remarks>
+        <param name="source">The string to search.</param>
+        <param name="value">The string to locate within .</param>
+        <param name="startIndex">The zero-based starting index of the backward search.</param>
+        <param name="options">A value that defines how  and  should be compared.  is either the enumeration value &lt;see cref="T:System.Globalization.CompareOptions"&gt;, or a bitwise combination of one or more of the following values: &lt;see cref="T:System.Globalization.CompareOptions"&gt;, &lt;see cref="T:System.Globalization.CompareOptions"&gt;, &lt;see cref="T:System.Globalization.CompareOptions"&gt;, &lt;see cref="T:System.Globalization.CompareOptions"&gt;, and &lt;see cref="T:System.Globalization.CompareOptions"&gt;.</param>
+        <summary>Searches for the specified substring and returns the zero-based index of the last occurrence within the section of the source string that extends from the beginning of the string to the specified index using the specified &lt;see cref="T:System.Globalization.CompareOptions"&gt; value.</summary>
+        <returns>The zero-based index of the last occurrence of , if found, within the section of  that extends from the beginning of  to , using the specified comparison options; otherwise, -1. Returns  if  is an ignorable character.</returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ The source string is searched backward starting at  and ending at the beginning of the string.  
+  
+ The <xref:System.Globalization.CompareOptions?displayProperty=fullName> value is not valid for this method.  
+  
+ If  does not include the <xref:System.Globalization.CompareOptions> value, this overload performs a culture-sensitive search. A Unicode value representing a precomposed character, such as the ligature "Æ" (U+00C6), might be considered equivalent to any occurrence of the character's components in the correct sequence, such as "AE" (U+0041, U+0045), depending on the culture. If  includes the <xref:System.Globalization.CompareOptions> value, this overload performs an ordinal (culture-insensitive) search, where the Unicode values are compared.  
+  
+> [!NOTE]
+>  When possible, you should call string comparison methods that have a parameter of type <xref:System.Globalization.CompareOptions> to specify the kind of comparison expected. As a general rule, use linguistic options (using the current culture) for comparing strings displayed in the user interface and specify <xref:System.Globalization.CompareOptions?displayProperty=fullName> or <xref:System.Globalization.CompareOptions?displayProperty=fullName> for security comparisons.  
+  
+   
+  
+## Examples  
+ The following example determines the indexes of the first and last occurrences of a character or a substring within a portion of a string. Note that <xref:System.Globalization.CompareInfo.IndexOf%2A> and <xref:System.Globalization.CompareInfo.LastIndexOf%2A> are searching in different portions of the string, even with the same  parameter.  
+  
+ [!CODE [System.Globalization.CompareInfo.IndexOfInt#1](../CodeSnippet/VS_Snippets_CLR_System/system.Globalization.CompareInfo.IndexOfInt#1)]  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="LastIndexOf">
@@ -1080,13 +1884,32 @@
         <Parameter Name="count" Type="System.Int32" />
       </Parameters>
       <Docs>
-        <param name="source">To be added.</param>
-        <param name="value">To be added.</param>
-        <param name="startIndex">To be added.</param>
-        <param name="count">To be added.</param>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
-        <remarks>To be added.</remarks>
+        <param name="source">The string to search.</param>
+        <param name="value">The string to locate within .</param>
+        <param name="startIndex">The zero-based starting index of the backward search.</param>
+        <param name="count">The number of elements in the section to search.</param>
+        <summary>Searches for the specified substring and returns the zero-based index of the last occurrence within the section of the source string that contains the specified number of elements and ends at the specified index.</summary>
+        <returns>The zero-based index of the last occurrence of , if found, within the section of  that contains the number of elements specified by  and that ends at ; otherwise, -1. Returns  if  is an ignorable character.</returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ The source string is searched backward starting at  and ending at  -  + 1.  
+  
+ This overload performs a culture-sensitive search. A Unicode value representing a precomposed character, such as the ligature "Æ" (U+00C6), might be considered equivalent to any occurrence of the character's components in the correct sequence, such as "AE" (U+0041, U+0045), depending on the culture. To perform an ordinal (culture-insensitive) search, where the Unicode values are compared, you should call one of the overloads that has a parameter of type <xref:System.Globalization.CompareOptions> and use the <xref:System.Globalization.CompareOptions> value.  
+  
+> [!NOTE]
+>  When possible, you should call string comparison methods that have a parameter of type <xref:System.Globalization.CompareOptions> to specify the kind of comparison expected. As a general rule, use linguistic options (using the current culture) for comparing strings displayed in the user interface and specify <xref:System.Globalization.CompareOptions?displayProperty=fullName> or <xref:System.Globalization.CompareOptions?displayProperty=fullName> for security comparisons .  
+  
+   
+  
+## Examples  
+ The following example determines the indexes of the first and last occurrences of a character or a substring within a portion of a string.  
+  
+ [!CODE [System.Globalization.CompareInfo.IndexOfIntInt#1](../CodeSnippet/VS_Snippets_CLR_System/system.Globalization.CompareInfo.IndexOfIntInt#1)]  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="LastIndexOf">
@@ -1112,14 +1935,35 @@
         <Parameter Name="options" Type="System.Globalization.CompareOptions" />
       </Parameters>
       <Docs>
-        <param name="source">To be added.</param>
-        <param name="value">To be added.</param>
-        <param name="startIndex">To be added.</param>
-        <param name="count">To be added.</param>
-        <param name="options">To be added.</param>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
-        <remarks>To be added.</remarks>
+        <param name="source">The string to search.</param>
+        <param name="value">The character to locate within .</param>
+        <param name="startIndex">The zero-based starting index of the backward search.</param>
+        <param name="count">The number of elements in the section to search.</param>
+        <param name="options">A value that defines how  and  should be compared.  is either the enumeration value &lt;see cref="T:System.Globalization.CompareOptions"&gt;, or a bitwise combination of one or more of the following values: &lt;see cref="T:System.Globalization.CompareOptions"&gt;, &lt;see cref="T:System.Globalization.CompareOptions"&gt;, &lt;see cref="T:System.Globalization.CompareOptions"&gt;, &lt;see cref="T:System.Globalization.CompareOptions"&gt;, and &lt;see cref="T:System.Globalization.CompareOptions"&gt;.</param>
+        <summary>Searches for the specified character and returns the zero-based index of the last occurrence within the section of the source string that contains the specified number of elements and ends at the specified index using the specified &lt;see cref="T:System.Globalization.CompareOptions"&gt; value.</summary>
+        <returns>The zero-based index of the last occurrence of , if found, within the section of  that contains the number of elements specified by  and that ends at , using the specified comparison options; otherwise, -1. Returns  if  is an ignorable character.</returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ The source string is searched backward starting at  and ending at  -  + 1.  
+  
+ The <xref:System.Globalization.CompareOptions?displayProperty=fullName> value is not valid for this method.  
+  
+ If  does not include the <xref:System.Globalization.CompareOptions> value, this overload performs a culture-sensitive search. If the character is a Unicode value representing a precomposed character, such as the ligature "Æ" (U+00C6), it might be considered equivalent to any occurrence of its components in the correct sequence, such as "AE" (U+0041, U+0045), depending on the culture. If  includes the <xref:System.Globalization.CompareOptions> value, this overload performs an ordinal (culture-insensitive) search. A character is considered equivalent to another character only if the Unicode values are the same. Overloads of <xref:System.String.LastIndexOf%2A?displayProperty=fullName> that search for a character perform an ordinal search, whereas those that search for a string perform a culture-sensitive search.  
+  
+> [!NOTE]
+>  When possible, you should call string comparison methods that have a parameter of type <xref:System.Globalization.CompareOptions> to specify the kind of comparison expected. As a general rule, use linguistic options (using the current culture) for comparing strings displayed in the user interface and specify <xref:System.Globalization.CompareOptions?displayProperty=fullName> or <xref:System.Globalization.CompareOptions?displayProperty=fullName> for security comparisons.  
+  
+   
+  
+## Examples  
+ The following example determines the indexes of the first and last occurrences of a character or a substring within a portion of a string.  
+  
+ [!CODE [System.Globalization.CompareInfo.IndexOfIntInt#1](../CodeSnippet/VS_Snippets_CLR_System/system.Globalization.CompareInfo.IndexOfIntInt#1)]  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="LastIndexOf">
@@ -1145,14 +1989,35 @@
         <Parameter Name="options" Type="System.Globalization.CompareOptions" />
       </Parameters>
       <Docs>
-        <param name="source">To be added.</param>
-        <param name="value">To be added.</param>
-        <param name="startIndex">To be added.</param>
-        <param name="count">To be added.</param>
-        <param name="options">To be added.</param>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
-        <remarks>To be added.</remarks>
+        <param name="source">The string to search.</param>
+        <param name="value">The string to locate within .</param>
+        <param name="startIndex">The zero-based starting index of the backward search.</param>
+        <param name="count">The number of elements in the section to search.</param>
+        <param name="options">A value that defines how  and  should be compared.  is either the enumeration value &lt;see cref="T:System.Globalization.CompareOptions"&gt;, or a bitwise combination of one or more of the following values: &lt;see cref="T:System.Globalization.CompareOptions"&gt;, &lt;see cref="T:System.Globalization.CompareOptions"&gt;, &lt;see cref="T:System.Globalization.CompareOptions"&gt;, &lt;see cref="T:System.Globalization.CompareOptions"&gt;, and &lt;see cref="T:System.Globalization.CompareOptions"&gt;.</param>
+        <summary>Searches for the specified substring and returns the zero-based index of the last occurrence within the section of the source string that contains the specified number of elements and ends at the specified index using the specified &lt;see cref="T:System.Globalization.CompareOptions"&gt; value.</summary>
+        <returns>The zero-based index of the last occurrence of , if found, within the section of  that contains the number of elements specified by  and that ends at , using the specified comparison options; otherwise, -1. Returns  if  is an ignorable character.</returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ The source string is searched backward starting at  and ending at  -  + 1.  
+  
+ The <xref:System.Globalization.CompareOptions?displayProperty=fullName> value is not valid for this method.  
+  
+ If  does not include the <xref:System.Globalization.CompareOptions> value, this overload performs a culture-sensitive search. A Unicode value representing a precomposed character, such as the ligature "Æ" (U+00C6), might be considered equivalent to any occurrence of the character's components in the correct sequence, such as "AE" (U+0041, U+0045), depending on the culture. If  includes the <xref:System.Globalization.CompareOptions> value, this overload performs an ordinal (culture-insensitive) search, where the Unicode values are compared.  
+  
+> [!NOTE]
+>  When possible, you should call string comparison methods that have a parameter of type <xref:System.Globalization.CompareOptions> to specify the kind of comparison expected. As a general rule, use linguistic options (using the current culture) for comparing strings displayed in the user interface and specify <xref:System.Globalization.CompareOptions?displayProperty=fullName> or <xref:System.Globalization.CompareOptions?displayProperty=fullName> for security comparisons.  
+  
+   
+  
+## Examples  
+ The following example determines the indexes of the first and last occurrences of a character or a substring within a portion of a string.  
+  
+ [!CODE [System.Globalization.CompareInfo.IndexOfIntInt#1](../CodeSnippet/VS_Snippets_CLR_System/system.Globalization.CompareInfo.IndexOfIntInt#1)]  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="LCID">
@@ -1166,9 +2031,18 @@
         <ReturnType>System.Int32</ReturnType>
       </ReturnValue>
       <Docs>
-        <summary>To be added.</summary>
-        <value>To be added.</value>
-        <remarks>To be added.</remarks>
+        <summary>Gets the properly formed culture identifier for the current &lt;see cref="T:System.Globalization.CompareInfo"&gt;.</summary>
+        <value>The properly formed culture identifier for the current &lt;see cref="T:System.Globalization.CompareInfo"&gt;.</value>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Examples  
+ The following example demonstrates the LCID property.  
+  
+ [!CODE [CompareInfo#1](../CodeSnippet/VS_Snippets_CLR/CompareInfo#1)]  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="Name">
@@ -1187,9 +2061,23 @@
         <ReturnType>System.String</ReturnType>
       </ReturnValue>
       <Docs>
-        <summary>To be added.</summary>
-        <value>To be added.</value>
-        <remarks>To be added.</remarks>
+        <summary>Gets the name of the culture used for sorting operations by this &lt;see cref="T:System.Globalization.CompareInfo"&gt; object.</summary>
+        <value>The name of a culture.</value>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ The Name and <xref:System.Globalization.CultureInfo.Name?displayProperty=fullName> properties can have different values. For example, an <xref:System.Globalization.CompareInfo.LCID%2A> property value of hexadecimal 0x10407 identifies an alternate sort culture that sorts names as they might appear in a German telephone book. The Name property has a value of "de-de_phoneb", whereas the <xref:System.Globalization.CultureInfo.Name?displayProperty=fullName> property of the associated German (Germany) culture has a value of "de-DE".  
+  
+   
+  
+## Examples  
+ The following example compares three strings using the fr-FR and ja-JP cultures. The <xref:System.Globalization.CultureInfo.Name%2A> property is used to display the name of each culture.  
+  
+ [!CODE [CompareInfo#1](../CodeSnippet/VS_Snippets_CLR/CompareInfo#1)]  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="System.Runtime.Serialization.IDeserializationCallback.OnDeserialization">
@@ -1206,9 +2094,16 @@
         <Parameter Name="sender" Type="System.Object" />
       </Parameters>
       <Docs>
-        <param name="sender">To be added.</param>
-        <summary>To be added.</summary>
-        <remarks>To be added.</remarks>
+        <param name="sender">The object that initiated the callback.</param>
+        <summary>Runs when the entire object graph has been deserialized.</summary>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ This member is an explicit interface member implementation that can be used only when the current <xref:System.Globalization.CompareInfo> object is cast to an <xref:System.Runtime.Serialization.IDeserializationCallback> interface. For more information, see the <xref:System.Runtime.Serialization.IDeserializationCallback.OnDeserialization%2A> method.  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="ToString">
@@ -1223,9 +2118,16 @@
       </ReturnValue>
       <Parameters />
       <Docs>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
-        <remarks>To be added.</remarks>
+        <summary>Returns a string that represents the current &lt;see cref="T:System.Globalization.CompareInfo"&gt; object.</summary>
+        <returns>A string that represents the current &lt;see cref="T:System.Globalization.CompareInfo"&gt; object.</returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ This method overrides the <xref:System.Object.ToString%2A?displayProperty=fullName> method. It returns a string that consists of the class name and the value of the instance <xref:System.Globalization.CompareInfo.Name%2A> property, separated by a hyphen.  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="Version">
@@ -1244,9 +2146,24 @@
         <ReturnType>System.Globalization.SortVersion</ReturnType>
       </ReturnValue>
       <Docs>
-        <summary>To be added.</summary>
-        <value>To be added.</value>
-        <remarks>To be added.</remarks>
+        <summary>Gets information about the version of Unicode used for comparing and sorting strings.</summary>
+        <value>An object that contains information about the Unicode version used for comparing and sorting strings.</value>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ The weight of individual characters, and therefore the way in which particular strings are compared or ordered, depends on the version of the Unicode specification that a particular version of the .NET Framework implements. In the [!INCLUDE[net_v45](../../add/includes/net-v45-md.md)], this also depends on the host operating system, as the following table shows. Note that this list of supported Unicode versions applies to character comparison and sorting only; it does not apply to classification of Unicode characters by category.  
+  
+|.NET Framework version|Operating system|Unicode version|  
+|----------------------------|----------------------|---------------------|  
+|[!INCLUDE[net_v40_short](../../add/includes/net-v40-short-md.md)]|All operating systems|Unicode 5.0|  
+|[!INCLUDE[net_v45](../../add/includes/net-v45-md.md)] and later versions|[!INCLUDE[win7](../../add/includes/win7-md.md)]|Unicode 5.0|  
+|[!INCLUDE[net_v45](../../add/includes/net-v45-md.md)] and later versions|[!INCLUDE[win8](../../add/includes/win8-md.md)] and later Windows operating system versions|Unicode 6.3|  
+  
+ The <xref:System.Globalization.SortVersion> object returned by the Version property doesn't identify the precise Unicode version used to compare strings. It is useful only when comparing two <xref:System.Globalization.SortVersion> objects to determine whether they use the same Unicode version and culture to compare strings. For more information and an example, see the <xref:System.Globalization.SortVersion> reference page.  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
   </Members>

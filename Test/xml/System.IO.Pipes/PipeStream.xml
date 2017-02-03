@@ -10,8 +10,17 @@
   </Base>
   <Interfaces />
   <Docs>
-    <summary>To be added.</summary>
-    <remarks>To be added.</remarks>
+    <summary>Exposes a &lt;see cref="T:System.IO.Stream"&gt; object around a pipe, which supports both anonymous and named pipes.</summary>
+    <remarks>
+      <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ The PipeStream class provides the base class for named and anonymous pipes operations in the .NET Framework. Use the <xref:System.IO.Pipes.NamedPipeServerStream> and <xref:System.IO.Pipes.NamedPipeClientStream> classes for named pipe operations. Use the <xref:System.IO.Pipes.AnonymousPipeServerStream> and <xref:System.IO.Pipes.AnonymousPipeClientStream> classes for anonymous pipe operations.  
+  
+ For more information about pipes, see [Pipes](../Topic/Pipe%20Operations%20in%20the%20.NET%20Framework.md). For an example of anonymous pipes, see [How to: Use Anonymous Pipes for Local Interprocess Communication](../Topic/How%20to:%20Use%20Anonymous%20Pipes%20for%20Local%20Interprocess%20Communication.md). For an example of named pipes, see [How to: Use Named Pipes for Network Interprocess Communication](../Topic/How%20to:%20Use%20Named%20Pipes%20for%20Network%20Interprocess%20Communication.md).  
+  
+ ]]></format>
+    </remarks>
   </Docs>
   <Members>
     <Member MemberName=".ctor">
@@ -26,10 +35,17 @@
         <Parameter Name="bufferSize" Type="System.Int32" />
       </Parameters>
       <Docs>
-        <param name="direction">To be added.</param>
-        <param name="bufferSize">To be added.</param>
-        <summary>To be added.</summary>
-        <remarks>To be added.</remarks>
+        <param name="direction">One of the &lt;see cref="T:System.IO.Pipes.PipeDirection"&gt; values that indicates the direction of the pipe object.</param>
+        <param name="bufferSize">A positive &lt;see cref="T:System.Int32"&gt; value greater than or equal to 0 that indicates the buffer size.</param>
+        <summary>Initializes a new instance of the &lt;see cref="T:System.IO.Pipes.PipeStream"&gt; class using the specified &lt;xref:System.IO.Pipes.PipeDirection&gt; value and buffer size.</summary>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ This constructor uses a pipe transmission mode of <xref:System.IO.Pipes.PipeTransmissionMode>.  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName=".ctor">
@@ -45,10 +61,10 @@
         <Parameter Name="outBufferSize" Type="System.Int32" />
       </Parameters>
       <Docs>
-        <param name="direction">To be added.</param>
-        <param name="transmissionMode">To be added.</param>
-        <param name="outBufferSize">To be added.</param>
-        <summary>To be added.</summary>
+        <param name="direction">One of the &lt;see cref="T:System.IO.Pipes.PipeDirection"&gt; values that indicates the direction of the pipe object.</param>
+        <param name="transmissionMode">One of the &lt;see cref="T:System.IO.Pipes.PipeTransmissionMode"&gt; values that indicates the transmission mode of the pipe object.</param>
+        <param name="outBufferSize">A positive &lt;see cref="T:System.Int32"&gt; value greater than or equal to 0 that indicates the buffer size.</param>
+        <summary>Initializes a new instance of the &lt;see cref="T:System.IO.Pipes.PipeStream"&gt; class using the specified &lt;xref:System.IO.Pipes.PipeDirection&gt;, &lt;xref:System.IO.Pipes.PipeTransmissionMode&gt;, and buffer size.</summary>
         <remarks>To be added.</remarks>
       </Docs>
     </Member>
@@ -75,14 +91,25 @@
         <Parameter Name="state" Type="System.Object" />
       </Parameters>
       <Docs>
-        <param name="buffer">To be added.</param>
-        <param name="offset">To be added.</param>
-        <param name="count">To be added.</param>
-        <param name="callback">To be added.</param>
-        <param name="state">To be added.</param>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
-        <remarks>To be added.</remarks>
+        <param name="buffer">The buffer to read data into.</param>
+        <param name="offset">The byte offset in  at which to begin reading.</param>
+        <param name="count">The maximum number of bytes to read.</param>
+        <param name="callback">The method to call when the asynchronous read operation is completed.</param>
+        <param name="state">A user-provided object that distinguishes this particular asynchronous read request from other requests.</param>
+        <summary>Begins an asynchronous read operation.</summary>
+        <returns>An &lt;see cref="T:System.IAsyncResult"&gt; object that references the asynchronous read.</returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ Pass the returned <xref:System.IAsyncResult> object to the <xref:System.IO.Pipes.PipeStream.EndRead%2A> method to determine how many bytes were read and to release operating system resources used for reading. <xref:System.IO.Pipes.PipeStream.EndRead%2A> must be called once for every call to BeginRead. This can be done either in the same code that called BeginRead or in a callback that is passed to BeginRead.  
+  
+ Use the <xref:System.IO.Pipes.PipeStream.CanRead%2A> property to determine whether the current <xref:System.IO.Pipes.PipeStream> object supports read operations.  
+  
+ If the pipe is closed or an invalid argument is passed to BeginRead, the appropriate exceptions are raised immediately. Errors that occur during an asynchronous read request occur on the thread pool thread that is performing the request. The exceptions are raised when the code calls the <xref:System.IO.Pipes.PipeStream.EndRead%2A> method.  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="BeginWrite">
@@ -108,14 +135,25 @@
         <Parameter Name="state" Type="System.Object" />
       </Parameters>
       <Docs>
-        <param name="buffer">To be added.</param>
-        <param name="offset">To be added.</param>
-        <param name="count">To be added.</param>
-        <param name="callback">To be added.</param>
-        <param name="state">To be added.</param>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
-        <remarks>To be added.</remarks>
+        <param name="buffer">The buffer that contains the data to write to the current stream.</param>
+        <param name="offset">The zero-based byte offset in  at which to begin copying bytes to the current stream.</param>
+        <param name="count">The maximum number of bytes to write.</param>
+        <param name="callback">The method to call when the asynchronous write operation is completed.</param>
+        <param name="state">A user-provided object that distinguishes this particular asynchronous write request from other requests.</param>
+        <summary>Begins an asynchronous write operation.</summary>
+        <returns>An &lt;see cref="T:System.IAsyncResult"&gt; object that references the asynchronous write operation.</returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <xref:System.IO.Pipes.PipeStream.EndWrite%2A> must be called once for every call to BeginWrite. This can be done either in the same code that called BeginWrite or in a callback that is passed to BeginWrite.  
+  
+ Use the <xref:System.IO.Pipes.PipeStream.CanWrite%2A> property to determine whether the current <xref:System.IO.Pipes.PipeStream> object supports write operations.  
+  
+ If the pipe is closed or an invalid argument is passed to BeginWrite, the appropriate exceptions are raised immediately. Errors that occur during an asynchronous write request occur on the thread pool thread that is performing the request. The exceptions are raised when the code calls the  <xref:System.IO.Pipes.PipeStream.EndWrite%2A> method.  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="CanRead">
@@ -129,9 +167,16 @@
         <ReturnType>System.Boolean</ReturnType>
       </ReturnValue>
       <Docs>
-        <summary>To be added.</summary>
-        <value>To be added.</value>
-        <remarks>To be added.</remarks>
+        <summary>Gets a value indicating whether the current stream supports read operations.</summary>
+        <value>`true` if the stream supports read operations; otherwise, `false`.</value>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ If the <xref:System.IO.Pipes.PipeStream> object is closed, this property returns `false`.  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="CanSeek">
@@ -145,9 +190,16 @@
         <ReturnType>System.Boolean</ReturnType>
       </ReturnValue>
       <Docs>
-        <summary>To be added.</summary>
-        <value>To be added.</value>
-        <remarks>To be added.</remarks>
+        <summary>Gets a value indicating whether the current stream supports seek operations.</summary>
+        <value>`false` in all cases.</value>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ If the <xref:System.IO.Pipes.PipeStream> object is closed, this property returns `false`.  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="CanWrite">
@@ -161,9 +213,16 @@
         <ReturnType>System.Boolean</ReturnType>
       </ReturnValue>
       <Docs>
-        <summary>To be added.</summary>
-        <value>To be added.</value>
-        <remarks>To be added.</remarks>
+        <summary>Gets a value indicating whether the current stream supports write operations.</summary>
+        <value>`true` if the stream supports write operations; otherwise, `false`.</value>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ If the <xref:System.IO.Pipes.PipeStream> object is closed, this property returns `false`.  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="CheckPipePropertyOperations">
@@ -183,7 +242,7 @@
       </ReturnValue>
       <Parameters />
       <Docs>
-        <summary>To be added.</summary>
+        <summary>Verifies that the pipe is in a proper state for getting or setting properties.</summary>
         <remarks>To be added.</remarks>
       </Docs>
     </Member>
@@ -204,7 +263,7 @@
       </ReturnValue>
       <Parameters />
       <Docs>
-        <summary>To be added.</summary>
+        <summary>Verifies that the pipe is in a connected state for read operations.</summary>
         <remarks>To be added.</remarks>
       </Docs>
     </Member>
@@ -225,7 +284,7 @@
       </ReturnValue>
       <Parameters />
       <Docs>
-        <summary>To be added.</summary>
+        <summary>Verifies that the pipe is in a connected state for write operations.</summary>
         <remarks>To be added.</remarks>
       </Docs>
     </Member>
@@ -248,9 +307,16 @@
         <Parameter Name="disposing" Type="System.Boolean" />
       </Parameters>
       <Docs>
-        <param name="disposing">To be added.</param>
-        <summary>To be added.</summary>
-        <remarks>To be added.</remarks>
+        <param name="disposing">`true` to release both managed and unmanaged resources; `false` to release only unmanaged resources.</param>
+        <summary>Releases the unmanaged resources used by the &lt;see cref="T:System.IO.Pipes.PipeStream"&gt; class and optionally releases the managed resources.</summary>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ This method is called by the public <xref:System.ComponentModel.Component.Dispose%2A> method and the <xref:System.Object.Finalize%2A> method. <xref:System.ComponentModel.Component.Dispose%2A> invokes the protected Dispose method with the  parameter set to `true`. <xref:System.Object.Finalize%2A> invokes Dispose with  set to `false`. When the disposing parameter is `true`, this method releases all resources held by any managed objects that this <xref:System.IO.Pipes.PipeStream> object references. This method invokes the Dispose method of each referenced object.  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="EndRead">
@@ -272,10 +338,23 @@
         <Parameter Name="asyncResult" Type="System.IAsyncResult" />
       </Parameters>
       <Docs>
-        <param name="asyncResult">To be added.</param>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
-        <remarks>To be added.</remarks>
+        <param name="asyncResult">The reference to the pending asynchronous request.</param>
+        <summary>Ends a pending asynchronous read request.</summary>
+        <returns>The number of bytes that were read. A return value of 0 indicates the end of the stream (the pipe has been closed).</returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ This method returns the number of bytes read into the byte array specified by the earlier call to <xref:System.IO.Pipes.PipeStream.BeginRead%2A>.  
+  
+ Pass the returned <xref:System.IAsyncResult> object to the EndRead method to determine how many bytes were read and to release operating system resources used for reading. EndRead must be called once for every call to <xref:System.IO.Pipes.PipeStream.BeginRead%2A>. This can be done either in the same code that called <xref:System.IO.Pipes.PipeStream.BeginRead%2A> or in a callback that is passed to <xref:System.IO.Pipes.PipeStream.BeginRead%2A>.  
+  
+ Use the <xref:System.IO.Pipes.PipeStream.CanRead%2A> property to determine whether the current <xref:System.IO.Pipes.PipeStream> object supports read operations.  
+  
+ If the pipe is closed or an invalid argument is passed to <xref:System.IO.Pipes.PipeStream.BeginRead%2A>, the appropriate exceptions are raised immediately. Errors that occur during an asynchronous read request occur on the thread pool thread that is performing the request. The exceptions are raised when the code calls the EndRead method.  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="EndWrite">
@@ -297,9 +376,20 @@
         <Parameter Name="asyncResult" Type="System.IAsyncResult" />
       </Parameters>
       <Docs>
-        <param name="asyncResult">To be added.</param>
-        <summary>To be added.</summary>
-        <remarks>To be added.</remarks>
+        <param name="asyncResult">The reference to the pending asynchronous request.</param>
+        <summary>Ends a pending asynchronous write request.</summary>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ EndWrite must be called once for every call to <xref:System.IO.Pipes.PipeStream.BeginWrite%2A>. This can be done either in the same code that called <xref:System.IO.Pipes.PipeStream.BeginWrite%2A> or in a callback that is passed to <xref:System.IO.Pipes.PipeStream.BeginWrite%2A>.  
+  
+ Use the <xref:System.IO.Pipes.PipeStream.CanWrite%2A> property to determine whether the current <xref:System.IO.Pipes.PipeStream> object supports write operations.  
+  
+ If the pipe is closed or an invalid argument is passed to <xref:System.IO.Pipes.PipeStream.BeginWrite%2A>, the appropriate exceptions are raised immediately. Errors that occur during an asynchronous write request occur on the thread pool thread that is performing the request. The exceptions are raised when the code the calls EndWrite method.  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="Flush">
@@ -319,8 +409,15 @@
       </ReturnValue>
       <Parameters />
       <Docs>
-        <summary>To be added.</summary>
-        <remarks>To be added.</remarks>
+        <summary>Clears the buffer for the current stream and causes any buffered data to be written to the underlying device.</summary>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ The Flush method is not supported in the <xref:System.IO.Pipes.PipeStream> class and does nothing when it is called.  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="GetAccessControl">
@@ -340,9 +437,16 @@
       </ReturnValue>
       <Parameters />
       <Docs>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
-        <remarks>To be added.</remarks>
+        <summary>Gets a &lt;see cref="T:System.IO.Pipes.PipeSecurity"&gt; object that encapsulates the access control list (ACL) entries for the pipe described by the current &lt;xref:System.IO.Pipes.PipeStream&gt; object.</summary>
+        <returns>A &lt;see cref="T:System.IO.Pipes.PipeSecurity"&gt; object that encapsulates the access control list (ACL) entries for the pipe described by the current &lt;xref:System.IO.Pipes.PipeStream&gt; object.</returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ An access control list (ACL) describes individuals and/or groups that have, or do not have, rights to perform specific actions on a specified file. For more information, see [How to: Add or Remove Access Control List Entries](../Topic/How%20to:%20Add%20or%20Remove%20Access%20Control%20List%20Entries.md).  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="InBufferSize">
@@ -361,9 +465,16 @@
         <ReturnType>System.Int32</ReturnType>
       </ReturnValue>
       <Docs>
-        <summary>To be added.</summary>
-        <value>To be added.</value>
-        <remarks>To be added.</remarks>
+        <summary>Gets the size, in bytes, of the inbound buffer for a pipe.</summary>
+        <value>An integer value that represents the inbound buffer size, in bytes.</value>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ If InBufferSize is 0, the buffer size is allocated as needed.  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="InitializeHandle">
@@ -387,11 +498,18 @@
         <Parameter Name="isAsync" Type="System.Boolean" />
       </Parameters>
       <Docs>
-        <param name="handle">To be added.</param>
-        <param name="isExposed">To be added.</param>
-        <param name="isAsync">To be added.</param>
-        <summary>To be added.</summary>
-        <remarks>To be added.</remarks>
+        <param name="handle">The &lt;see cref="T:Microsoft.Win32.SafeHandles.SafePipeHandle"&gt; object of the pipe to initialize.</param>
+        <param name="isExposed">`true` to expose the handle; otherwise, `false`.</param>
+        <param name="isAsync">`true` to indicate that the handle was opened asynchronously; otherwise, `false`.</param>
+        <summary>Initializes a &lt;see cref="T:System.IO.Pipes.PipeStream"&gt; object from the specified &lt;xref:Microsoft.Win32.SafeHandles.SafePipeHandle&gt; object.</summary>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ If the pipe is in a connected state, this method also sets the <xref:System.IO.Pipes.PipeStream.IsConnected%2A> property to `true`.  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="IsAsync">
@@ -405,9 +523,16 @@
         <ReturnType>System.Boolean</ReturnType>
       </ReturnValue>
       <Docs>
-        <summary>To be added.</summary>
-        <value>To be added.</value>
-        <remarks>To be added.</remarks>
+        <summary>Gets a value indicating whether a &lt;see cref="T:System.IO.Pipes.PipeStream"&gt; object was opened asynchronously or synchronously.</summary>
+        <value>`true` if the &lt;see cref="T:System.IO.Pipes.PipeStream"&gt; object was opened asynchronously; otherwise, `false`.</value>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ This property enables your code to use the <xref:System.IO.Pipes.PipeStream.SafePipeHandle%2A> property correctly.  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="IsConnected">
@@ -421,9 +546,16 @@
         <ReturnType>System.Boolean</ReturnType>
       </ReturnValue>
       <Docs>
-        <summary>To be added.</summary>
-        <value>To be added.</value>
-        <remarks>To be added.</remarks>
+        <summary>Gets or sets a value indicating whether a &lt;see cref="T:System.IO.Pipes.PipeStream"&gt; object is connected.</summary>
+        <value>`true` if the &lt;see cref="T:System.IO.Pipes.PipeStream"&gt; object is connected; otherwise, `false`.</value>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ The IsConnected property returns `true` only if the <xref:System.IO.Pipes.PipeStream> object is connected. If this property returns `false`, the pipe may be waiting to connect, or may be disconnected, closed, or broken.  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="IsHandleExposed">
@@ -437,9 +569,16 @@
         <ReturnType>System.Boolean</ReturnType>
       </ReturnValue>
       <Docs>
-        <summary>To be added.</summary>
-        <value>To be added.</value>
-        <remarks>To be added.</remarks>
+        <summary>Gets a value indicating whether a handle to a &lt;see cref="T:System.IO.Pipes.PipeStream"&gt; object is exposed.</summary>
+        <value>`true` if a handle to the &lt;see cref="T:System.IO.Pipes.PipeStream"&gt; object is exposed; otherwise, `false`.</value>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ The value of this property is set when obtaining a handle to the pipe that is encapsulated by the current <xref:System.IO.Pipes.PipeStream> object.  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="IsMessageComplete">
@@ -458,9 +597,16 @@
         <ReturnType>System.Boolean</ReturnType>
       </ReturnValue>
       <Docs>
-        <summary>To be added.</summary>
-        <value>To be added.</value>
-        <remarks>To be added.</remarks>
+        <summary>Gets a value indicating whether there is more data in the message returned from the most recent read operation.</summary>
+        <value>`true` if there are no more characters to read in the message; otherwise, `false`.</value>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ This property is relevant if the pipe's <xref:System.IO.Pipes.PipeStream.ReadMode%2A> property was set to <xref:System.IO.Pipes.PipeTransmissionMode> by the most recent call to <xref:System.IO.Pipes.PipeStream.Read%2A> or <xref:System.IO.Pipes.PipeStream.EndRead%2A>.  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="Length">
@@ -474,9 +620,16 @@
         <ReturnType>System.Int64</ReturnType>
       </ReturnValue>
       <Docs>
-        <summary>To be added.</summary>
-        <value>To be added.</value>
-        <remarks>To be added.</remarks>
+        <summary>Gets the length of a stream, in bytes.</summary>
+        <value>0 in all cases.</value>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ The <xref:System.IO.Pipes.PipeStream> class does not support the Length property.  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="OutBufferSize">
@@ -495,9 +648,16 @@
         <ReturnType>System.Int32</ReturnType>
       </ReturnValue>
       <Docs>
-        <summary>To be added.</summary>
-        <value>To be added.</value>
-        <remarks>To be added.</remarks>
+        <summary>Gets the size, in bytes, of the outbound buffer for a pipe.</summary>
+        <value>The outbound buffer size, in bytes.</value>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ If OutBufferSize is 0, the buffer size is allocated as needed.  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="Position">
@@ -511,9 +671,16 @@
         <ReturnType>System.Int64</ReturnType>
       </ReturnValue>
       <Docs>
-        <summary>To be added.</summary>
-        <value>To be added.</value>
-        <remarks>To be added.</remarks>
+        <summary>Gets or sets the current position of the current stream.</summary>
+        <value>0 in all cases.</value>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ The <xref:System.IO.Pipes.PipeStream> class does not support the Position property.  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="Read">
@@ -537,12 +704,28 @@
         <Parameter Name="count" Type="System.Int32" />
       </Parameters>
       <Docs>
-        <param name="buffer">To be added.</param>
-        <param name="offset">To be added.</param>
-        <param name="count">To be added.</param>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
-        <remarks>To be added.</remarks>
+        <param name="buffer">When this method returns, contains the specified byte array with the values between  and ( +  - 1) replaced by the bytes read from the current source.</param>
+        <param name="offset">The byte offset in the  array at which the bytes that are read will be placed.</param>
+        <param name="count">The maximum number of bytes to read.</param>
+        <summary>Reads a block of bytes from a stream and writes the data to a specified buffer.</summary>
+        <returns>The total number of bytes that are read into . This might be less than the number of bytes requested if that number of bytes is not currently available, or 0 if the end of the stream is reached.</returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ Use the <xref:System.IO.Pipes.PipeStream.CanRead%2A> property to determine whether the current <xref:System.IO.Pipes.PipeStream> object supports read operations.  
+  
+ Calling the Read method blocks until  bytes are read or the end of the stream is reached. For asynchronous read operations, see <xref:System.IO.Pipes.PipeStream.BeginRead%2A> and <xref:System.IO.Pipes.PipeStream.EndRead%2A>.  
+  
+   
+  
+## Examples  
+ The following example creates an anonymous pipe client and pipe server. The pipe server uses the Read method to read a series of bytes from the pipe client as a validation code. Both the pipe client and the pipe server are part of the same example. The server portion of the example creates a client process and passes it an anonymous pipe handle as an argument.  
+  
+ [!CODE [System.IO.Pipes.PipeStream#1](../CodeSnippet/VS_Snippets_CLR_System/system.io.pipes.pipestream#1)]  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="ReadByte">
@@ -562,9 +745,16 @@
       </ReturnValue>
       <Parameters />
       <Docs>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
-        <remarks>To be added.</remarks>
+        <summary>Reads a byte from a pipe.</summary>
+        <returns>The byte, cast to &lt;see cref="T:System.Int32"&gt;, or -1 indicates the end of the stream (the pipe has been closed).</returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ Use the <xref:System.IO.Pipes.PipeStream.CanRead%2A> property to determine whether the current <xref:System.IO.Pipes.PipeStream> object supports read operations.  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="ReadMode">
@@ -586,9 +776,16 @@
         <ReturnType>System.IO.Pipes.PipeTransmissionMode</ReturnType>
       </ReturnValue>
       <Docs>
-        <summary>To be added.</summary>
-        <value>To be added.</value>
-        <remarks>To be added.</remarks>
+        <summary>Gets or sets the reading mode for a &lt;see cref="T:System.IO.Pipes.PipeStream"&gt; object.</summary>
+        <value>One of the &lt;see cref="T:System.IO.Pipes.PipeTransmissionMode"&gt; values that indicates how the &lt;xref:System.IO.Pipes.PipeStream&gt; object reads from the pipe.</value>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ Anonymous pipes do not support <xref:System.IO.Pipes.PipeTransmissionMode> mode message transmission.  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="SafePipeHandle">
@@ -607,8 +804,8 @@
         <ReturnType>Microsoft.Win32.SafeHandles.SafePipeHandle</ReturnType>
       </ReturnValue>
       <Docs>
-        <summary>To be added.</summary>
-        <value>To be added.</value>
+        <summary>Gets the safe handle for the local end of the pipe that the current &lt;see cref="T:System.IO.Pipes.PipeStream"&gt; object encapsulates.</summary>
+        <value>A &lt;see cref="T:Microsoft.Win32.SafeHandles.SafePipeHandle"&gt; object for the pipe that is encapsulated by the current &lt;xref:System.IO.Pipes.PipeStream&gt; object.</value>
         <remarks>To be added.</remarks>
       </Docs>
     </Member>
@@ -627,11 +824,18 @@
         <Parameter Name="origin" Type="System.IO.SeekOrigin" />
       </Parameters>
       <Docs>
-        <param name="offset">To be added.</param>
-        <param name="origin">To be added.</param>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
-        <remarks>To be added.</remarks>
+        <param name="offset">The point, relative to , to begin seeking from.</param>
+        <param name="origin">Specifies the beginning, the end, or the current position as a reference point for , using a value of type &lt;see cref="T:System.IO.SeekOrigin"&gt;.</param>
+        <summary>Sets the current position of the current stream to the specified value.</summary>
+        <returns>The new position in the stream.</returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ The Seek method is not supported in pipes and raises a <xref:System.NotSupportedException> when it is called.  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="SetAccessControl">
@@ -653,9 +857,16 @@
         <Parameter Name="pipeSecurity" Type="System.IO.Pipes.PipeSecurity" />
       </Parameters>
       <Docs>
-        <param name="pipeSecurity">To be added.</param>
-        <summary>To be added.</summary>
-        <remarks>To be added.</remarks>
+        <param name="pipeSecurity">A &lt;see cref="T:System.IO.Pipes.PipeSecurity"&gt; object that specifies an access control list (ACL) entry to apply to the current pipe.</param>
+        <summary>Applies the access control list (ACL) entries specified by a &lt;see cref="T:System.IO.Pipes.PipeSecurity"&gt; object to the pipe specified by the current &lt;xref:System.IO.Pipes.PipeStream&gt; object.</summary>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ An access control list (ACL) describes individuals and/or groups that have, or do not have, rights to perform specific actions on a specified file. For more information, see [How to: Add or Remove Access Control List Entries](../Topic/How%20to:%20Add%20or%20Remove%20Access%20Control%20List%20Entries.md).  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="SetLength">
@@ -672,9 +883,16 @@
         <Parameter Name="value" Type="System.Int64" />
       </Parameters>
       <Docs>
-        <param name="value">To be added.</param>
-        <summary>To be added.</summary>
-        <remarks>To be added.</remarks>
+        <param name="value">The new length of the stream.</param>
+        <summary>Sets the length of the current stream to the specified value.</summary>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ The <xref:System.IO.Pipes.PipeStream> class does not support the SetLength method.  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="TransmissionMode">
@@ -693,9 +911,16 @@
         <ReturnType>System.IO.Pipes.PipeTransmissionMode</ReturnType>
       </ReturnValue>
       <Docs>
-        <summary>To be added.</summary>
-        <value>To be added.</value>
-        <remarks>To be added.</remarks>
+        <summary>Gets the pipe transmission mode supported by the current pipe.</summary>
+        <value>One of the &lt;see cref="T:System.IO.Pipes.PipeTransmissionMode"&gt; values that indicates the transmission mode supported by the current pipe.</value>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ Anonymous pipes do not support <xref:System.IO.Pipes.PipeTransmissionMode> mode message transmission.  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="WaitForPipeDrain">
@@ -715,8 +940,15 @@
       </ReturnValue>
       <Parameters />
       <Docs>
-        <summary>To be added.</summary>
-        <remarks>To be added.</remarks>
+        <summary>Waits for the other end of the pipe to read all sent bytes.</summary>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ The WaitForPipeDrain method blocks until the other end of the pipe has read all sent bytes.  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="Write">
@@ -740,11 +972,20 @@
         <Parameter Name="count" Type="System.Int32" />
       </Parameters>
       <Docs>
-        <param name="buffer">To be added.</param>
-        <param name="offset">To be added.</param>
-        <param name="count">To be added.</param>
-        <summary>To be added.</summary>
-        <remarks>To be added.</remarks>
+        <param name="buffer">The buffer that contains data to write to the pipe.</param>
+        <param name="offset">The zero-based byte offset in  at which to begin copying bytes to the current stream.</param>
+        <param name="count">The maximum number of bytes to write to the current stream.</param>
+        <summary>Writes a block of bytes to the current stream using data from a buffer.</summary>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ Use the <xref:System.IO.Pipes.PipeStream.CanWrite%2A> property to determine whether the current <xref:System.IO.Pipes.PipeStream> object supports write operations.  
+  
+ Calling the Write method blocks until  bytes are read or the end of the stream is reached. For asynchronous read operations, see <xref:System.IO.Pipes.PipeStream.BeginWrite%2A> and <xref:System.IO.Pipes.PipeStream.EndWrite%2A>.  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="WriteByte">
@@ -766,9 +1007,16 @@
         <Parameter Name="value" Type="System.Byte" />
       </Parameters>
       <Docs>
-        <param name="value">To be added.</param>
-        <summary>To be added.</summary>
-        <remarks>To be added.</remarks>
+        <param name="value">The byte to write to the stream.</param>
+        <summary>Writes a byte to the current stream.</summary>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ Use the <xref:System.IO.Pipes.PipeStream.CanWrite%2A> property to determine whether the current <xref:System.IO.Pipes.PipeStream> object supports write operations.  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
   </Members>

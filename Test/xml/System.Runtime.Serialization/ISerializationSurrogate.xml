@@ -12,7 +12,7 @@
     </Attribute>
   </Attributes>
   <Docs>
-    <summary>To be added.</summary>
+    <summary>Implements a serialization surrogate selector that allows one object to perform serialization and deserialization of another.</summary>
     <remarks>To be added.</remarks>
   </Docs>
   <Members>
@@ -37,11 +37,22 @@
         <Parameter Name="context" Type="System.Runtime.Serialization.StreamingContext" />
       </Parameters>
       <Docs>
-        <param name="obj">To be added.</param>
-        <param name="info">To be added.</param>
-        <param name="context">To be added.</param>
-        <summary>To be added.</summary>
-        <remarks>To be added.</remarks>
+        <param name="obj">The object to serialize.</param>
+        <param name="info">The &lt;see cref="T:System.Runtime.Serialization.SerializationInfo"&gt; to populate with data.</param>
+        <param name="context">The destination (see &lt;see cref="T:System.Runtime.Serialization.StreamingContext"&gt;) for this serialization.</param>
+        <summary>Populates the provided &lt;see cref="T:System.Runtime.Serialization.SerializationInfo"&gt; with the data needed to serialize the object.</summary>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ Extracts data from object  and stores it in the <xref:System.Runtime.Serialization.SerializationInfo> parameter.  
+  
+ Having located the surrogate, this method stores information on the object  in the <xref:System.Runtime.Serialization.SerializationInfo> parameter. This information describes its view of that object, including the object's fields, properties, and current values. The <xref:System.Runtime.Serialization.SerializationInfo> might correspond to the actual object, or it can be a synthesized view of the surrogate.  
+  
+ This method is protected by a <xref:System.Security.Permissions.SecurityAction?displayProperty=fullName> for the <xref:System.Security.Permissions.SecurityPermission> with the <xref:System.Security.Permissions.SecurityPermissionFlag?displayProperty=fullName> specified.  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="SetObjectData">
@@ -66,13 +77,22 @@
         <Parameter Name="selector" Type="System.Runtime.Serialization.ISurrogateSelector" />
       </Parameters>
       <Docs>
-        <param name="obj">To be added.</param>
-        <param name="info">To be added.</param>
-        <param name="context">To be added.</param>
-        <param name="selector">To be added.</param>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
-        <remarks>To be added.</remarks>
+        <param name="obj">The object to populate.</param>
+        <param name="info">The information to populate the object.</param>
+        <param name="context">The source from which the object is deserialized.</param>
+        <param name="selector">The surrogate selector where the search for a compatible surrogate begins.</param>
+        <summary>Populates the object using the information in the &lt;see cref="T:System.Runtime.Serialization.SerializationInfo"&gt;.</summary>
+        <returns>The populated deserialized object.</returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ The SetObjectData method is called during deserialization. With this method, you can take the empty <xref:System.Object> that has already been created, and enter <xref:System.Runtime.Serialization.SerializationInfo> data into that object. Constructors are not invoked during deserialization of information and reconstruction of the object.  
+  
+ This method is protected by a <xref:System.Security.Permissions.SecurityAction?displayProperty=fullName> for the <xref:System.Security.Permissions.SecurityPermission> with the <xref:System.Security.Permissions.SecurityPermissionFlag?displayProperty=fullName> specified.  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
   </Members>

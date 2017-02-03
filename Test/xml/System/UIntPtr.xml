@@ -22,8 +22,22 @@
     </Attribute>
   </Attributes>
   <Docs>
-    <summary>To be added.</summary>
-    <remarks>To be added.</remarks>
+    <summary>A platform-specific type that is used to represent a pointer or a handle.</summary>
+    <remarks>
+      <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ The UIntPtr type is designed to be an integer whose size is platform-specific. That is, an instance of this type is expected to be 32-bits on 32-bit hardware and operating systems, and 64-bits on 64-bit hardware and operating systems.  
+  
+> [!IMPORTANT]
+>  The <xref:System.IntPtr> type is CLS-compliant, while the UIntPtr type is not. Only the <xref:System.IntPtr> type is used in the common language runtime. The UIntPtr type is provided mostly to maintain architectural symmetry with the <xref:System.IntPtr> type.  
+  
+ The UIntPtr type can be used by languages that support pointers, and as a common means of referring to data between languages that do and do not support pointers. UIntPtr objects can also be used to hold handles.  
+  
+ This type implements the <xref:System.Runtime.Serialization.ISerializable> interface.  
+  
+ ]]></format>
+    </remarks>
   </Docs>
   <Members>
     <Member MemberName=".ctor">
@@ -42,8 +56,8 @@
         <Parameter Name="value" Type="System.UInt32" />
       </Parameters>
       <Docs>
-        <param name="value">To be added.</param>
-        <summary>To be added.</summary>
+        <param name="value">A pointer or handle contained in a 32-bit unsigned integer.</param>
+        <summary>Initializes a new instance of the &lt;see cref="T:System.UIntPtr"&gt; structure using the specified 32-bit pointer or handle.</summary>
         <remarks>To be added.</remarks>
       </Docs>
     </Member>
@@ -63,9 +77,16 @@
         <Parameter Name="value" Type="System.UInt64" />
       </Parameters>
       <Docs>
-        <param name="value">To be added.</param>
-        <summary>To be added.</summary>
-        <remarks>To be added.</remarks>
+        <param name="value">A pointer or handle contained in a 64-bit unsigned integer.</param>
+        <summary>Initializes a new instance of &lt;see cref="T:System.UIntPtr"&gt; using the specified 64-bit pointer or handle.</summary>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ An exception is only thrown if the value of  requires more bits than the current platform supports.  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName=".ctor">
@@ -87,8 +108,8 @@
         <Parameter Name="value" Type="System.Void*" />
       </Parameters>
       <Docs>
-        <param name="value">To be added.</param>
-        <summary>To be added.</summary>
+        <param name="value">A pointer to an unspecified type.</param>
+        <summary>Initializes a new instance of &lt;see cref="T:System.UIntPtr"&gt; using the specified pointer to an unspecified type.</summary>
         <remarks>To be added.</remarks>
       </Docs>
     </Member>
@@ -107,11 +128,27 @@
         <Parameter Name="offset" Type="System.Int32" />
       </Parameters>
       <Docs>
-        <param name="pointer">To be added.</param>
-        <param name="offset">To be added.</param>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
-        <remarks>To be added.</remarks>
+        <param name="pointer">The unsigned pointer to add the offset to.</param>
+        <param name="offset">The offset to add.</param>
+        <summary>Adds an offset to the value of an unsigned pointer.</summary>
+        <returns>A new unsigned pointer that reflects the addition of  to .</returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ The <xref:System.IntPtr.Add%2A> method does not throw an exception if the result is too large to represent as a pointer on the specified platform. Instead, the addition operation is performed in an unchecked context.  
+  
+ Languages that do not support operator overloading or custom operators can use this method to add an offset to the value of an unsigned pointer.  
+  
+   
+  
+## Examples  
+ The following example instantiates a <xref:System.UIntPtr> object that points to the beginning of a ten-element array, and then calls the Add method to iterate the elements in the array.  
+  
+ [!CODE [System.UIntPtr.Add#1](../CodeSnippet/VS_Snippets_CLR_System/system.uintptr.add#1)]  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="Equals">
@@ -133,9 +170,9 @@
         <Parameter Name="obj" Type="System.Object" />
       </Parameters>
       <Docs>
-        <param name="obj">To be added.</param>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
+        <param name="obj">An object to compare with this instance or `null`.</param>
+        <summary>Returns a value indicating whether this instance is equal to a specified object.</summary>
+        <returns>`true` if  is an instance of &lt;see cref="T:System.UIntPtr"&gt; and equals the value of this instance; otherwise, `false`.</returns>
         <remarks>To be added.</remarks>
       </Docs>
     </Member>
@@ -156,8 +193,8 @@
       </ReturnValue>
       <Parameters />
       <Docs>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
+        <summary>Returns the hash code for this instance.</summary>
+        <returns>A 32-bit signed integer hash code.</returns>
         <remarks>To be added.</remarks>
       </Docs>
     </Member>
@@ -176,11 +213,24 @@
         <Parameter Name="offset" Type="System.Int32" />
       </Parameters>
       <Docs>
-        <param name="pointer">To be added.</param>
-        <param name="offset">To be added.</param>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
-        <remarks>To be added.</remarks>
+        <param name="pointer">The unsigned pointer to add the offset to.</param>
+        <param name="offset">The offset to add.</param>
+        <summary>Adds an offset to the value of an unsigned pointer.</summary>
+        <returns>A new unsigned pointer that reflects the addition of  to .</returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ The Addition method defines the addition operation for <xref:System.UIntPtr> objects. It enables code such as the following.  
+  
+ [!CODE [System.UIntPtr.op_Addition#1](../CodeSnippet/VS_Snippets_CLR_System/system.uintptr.op_addition#1)]  
+  
+ Languages that do not support custom operators can call the <xref:System.UIntPtr.Add%2A> method instead.  
+  
+ The addition operation does not throw an exception if the result is too large to represent as a pointer on the specified platform. Instead, it is performed in an unchecked context.  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="op_Equality">
@@ -203,10 +253,10 @@
         <Parameter Name="value2" Type="System.UIntPtr" />
       </Parameters>
       <Docs>
-        <param name="value1">To be added.</param>
-        <param name="value2">To be added.</param>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
+        <param name="value1">The first pointer or handle to compare.</param>
+        <param name="value2">The second pointer or handle to compare.</param>
+        <summary>Determines whether two specified instances of &lt;see cref="T:System.UIntPtr"&gt; are equal.</summary>
+        <returns>`true` if  equals ; otherwise, `false`.</returns>
         <remarks>To be added.</remarks>
       </Docs>
     </Member>
@@ -376,10 +426,10 @@
         <Parameter Name="value2" Type="System.UIntPtr" />
       </Parameters>
       <Docs>
-        <param name="value1">To be added.</param>
-        <param name="value2">To be added.</param>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
+        <param name="value1">The first pointer or handle to compare.</param>
+        <param name="value2">The second pointer or handle to compare.</param>
+        <summary>Determines whether two specified instances of &lt;see cref="T:System.UIntPtr"&gt; are not equal.</summary>
+        <returns>`true` if  does not equal ; otherwise, `false`.</returns>
         <remarks>To be added.</remarks>
       </Docs>
     </Member>
@@ -398,11 +448,24 @@
         <Parameter Name="offset" Type="System.Int32" />
       </Parameters>
       <Docs>
-        <param name="pointer">To be added.</param>
-        <param name="offset">To be added.</param>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
-        <remarks>To be added.</remarks>
+        <param name="pointer">The unsigned pointer to subtract the offset from.</param>
+        <param name="offset">The offset to subtract.</param>
+        <summary>Subtracts an offset from the value of an unsigned pointer.</summary>
+        <returns>A new unsigned pointer that reflects the subtraction of  from .</returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ The Subtraction method defines the subtraction operation for <xref:System.UIntPtr> objects. It enables code such as the following.  
+  
+ [!CODE [System.UIntPtr.op_Addition#2](../CodeSnippet/VS_Snippets_CLR_System/system.uintptr.op_addition#2)]  
+  
+ Languages that do not support custom operators can call the <xref:System.UIntPtr.Subtract%2A> method instead.  
+  
+ The subtraction operation does not throw an exception if the result is too small to represent as a pointer on the specified platform. Instead, it is performed in an unchecked context.  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="Size">
@@ -416,8 +479,8 @@
         <ReturnType>System.Int32</ReturnType>
       </ReturnValue>
       <Docs>
-        <summary>To be added.</summary>
-        <value>To be added.</value>
+        <summary>Gets the size of this instance.</summary>
+        <value>The size of a pointer or handle on this platform, measured in bytes. The value of this property is 4 on a 32-bit platform, and 8 on a 64-bit platform.</value>
         <remarks>To be added.</remarks>
       </Docs>
     </Member>
@@ -436,11 +499,27 @@
         <Parameter Name="offset" Type="System.Int32" />
       </Parameters>
       <Docs>
-        <param name="pointer">To be added.</param>
-        <param name="offset">To be added.</param>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
-        <remarks>To be added.</remarks>
+        <param name="pointer">The unsigned pointer to subtract the offset from.</param>
+        <param name="offset">The offset to subtract.</param>
+        <summary>Subtracts an offset from the value of an unsigned pointer.</summary>
+        <returns>A new unsigned pointer that reflects the subtraction of  from .</returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ The <xref:System.IntPtr.Subtract%2A> method does not throw an exception if the result is too small to represent as a pointer on the specified platform. Instead, the subtraction operation is performed in an unchecked context.  
+  
+ Languages that do not support operator overloading or custom operators can use this method to subtract an offset from the value of an unsigned pointer.  
+  
+   
+  
+## Examples  
+ The following example instantiates an <xref:System.IntPtr> object that points to the end of a ten-element array, and then calls the <xref:System.IntPtr.Subtract%2A> method to iterate the elements in the array in reverse order.  
+  
+ [!CODE [System.UIntPtr.Subtract#1](../CodeSnippet/VS_Snippets_CLR_System/system.uintptr.subtract#1)]  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="System.Runtime.Serialization.ISerializable.GetObjectData">
@@ -463,10 +542,17 @@
         <Parameter Name="context" Type="System.Runtime.Serialization.StreamingContext" />
       </Parameters>
       <Docs>
-        <param name="info">To be added.</param>
-        <param name="context">To be added.</param>
-        <summary>To be added.</summary>
-        <remarks>To be added.</remarks>
+        <param name="info">The &lt;see cref="T:System.Runtime.Serialization.SerializationInfo"&gt; object to populate with data.</param>
+        <param name="context">The destination for this serialization. (This parameter is not used; specify `null`.)</param>
+        <summary>Populates a &lt;see cref="T:System.Runtime.Serialization.SerializationInfo"&gt; object with the data needed to serialize the current &lt;xref:System.UIntPtr&gt; object.</summary>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ This method populates the  parameter with the value of the current <xref:System.UIntPtr> object.  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="ToPointer">
@@ -489,8 +575,8 @@
       </ReturnValue>
       <Parameters />
       <Docs>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
+        <summary>Converts the value of this instance to a pointer to an unspecified type.</summary>
+        <returns>A pointer to &lt;see cref="T:System.Void"&gt;; that is, a pointer to memory containing data of an unspecified type.</returns>
         <remarks>To be added.</remarks>
       </Docs>
     </Member>
@@ -511,9 +597,16 @@
       </ReturnValue>
       <Parameters />
       <Docs>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
-        <remarks>To be added.</remarks>
+        <summary>Converts the numeric value of this instance to its equivalent string representation.</summary>
+        <returns>The string representation of the value of this instance.</returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ If the value of the <xref:System.IntPtr.Size%2A> property for this instance is 4, then this method is equivalent to <xref:System.UInt32.ToString%2A>; otherwise, this method is equivalent to <xref:System.UInt64.ToString%2A>.  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="ToUInt32">
@@ -533,9 +626,16 @@
       </ReturnValue>
       <Parameters />
       <Docs>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
-        <remarks>To be added.</remarks>
+        <summary>Converts the value of this instance to a 32-bit unsigned integer.</summary>
+        <returns>A 32-bit unsigned integer equal to the value of this instance.</returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ An exception is only thrown if the value of  requires more bits than the current platform supports.  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="ToUInt64">
@@ -555,8 +655,8 @@
       </ReturnValue>
       <Parameters />
       <Docs>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
+        <summary>Converts the value of this instance to a 64-bit unsigned integer.</summary>
+        <returns>A 64-bit unsigned integer equal to the value of this instance.</returns>
         <remarks>To be added.</remarks>
       </Docs>
     </Member>
@@ -571,8 +671,17 @@
         <ReturnType>System.UIntPtr</ReturnType>
       </ReturnValue>
       <Docs>
-        <summary>To be added.</summary>
-        <remarks>To be added.</remarks>
+        <summary>A read-only field that represents a pointer or handle that has been initialized to zero.</summary>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ The value of this field is not equivalent to `null`. Use this field to efficiently determine whether an instance of <xref:System.UIntPtr> has been set to a value other than zero.  
+  
+ For example, assume the variable, uip, is an instance of <xref:System.UIntPtr>. You can determine if it has been set by comparing it to the value returned by a constructor, for example: " `if uip != new UIntPtr(0)...` ". However, invoking a constructor to get an unintialized pointer is inefficient. It is better to code either " `if uip != UIntPtr.Zero...` ", or " `if !UIntPtr.Zero.Equals(uip)...` ".  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
   </Members>

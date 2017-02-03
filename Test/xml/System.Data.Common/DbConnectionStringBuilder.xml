@@ -17,8 +17,60 @@
     </Interface>
   </Interfaces>
   <Docs>
-    <summary>To be added.</summary>
-    <remarks>To be added.</remarks>
+    <summary>Provides a base class for strongly typed connection string builders.</summary>
+    <remarks>
+      <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ The DbConnectionStringBuilder class provides the base class from which the strongly typed connection string builders (<xref:System.Data.SqlClient.SqlConnectionStringBuilder>, <xref:System.Data.OleDb.OleDbConnectionStringBuilder>, and so on) derive. The connection string builders let developers programmatically create syntactically correct connection strings, and parse and rebuild existing connection strings.  
+  
+ The DbConnectionStringBuilder has been defined in a database-agnostic manner. Because of the addition of the <xref:System.Data.Common> namespace, developers require a base class against which they can program in order to build connection strings that can work against an arbitrary database. Therefore, the DbConnectionStringBuilder class lets users assign arbitrary key/value pairs and pass the resulting connection string to a strongly typed provider. All the data providers that are included as part of the .NET Framework provide a strongly typed class that inherits from DbConnectionStringBuilder: <xref:System.Data.SqlClient.SqlConnectionStringBuilder>, <xref:System.Data.OracleClient.OracleConnectionStringBuilder>, <xref:System.Data.Odbc.OdbcConnectionStringBuilder>, and <xref:System.Data.OleDb.OleDbConnectionStringBuilder>.  
+  
+ The developer can build, assign, and edit connection strings for any arbitrary provider. For providers that support specific key/value pairs, the connection string builder provides strongly typed properties corresponding to the known pairs. In order to support providers that require the ability to support unknown values, developers can also supply arbitrary key/value pairs.  
+  
+ The DbConnectionStringBuilder class implements the <xref:System.ComponentModel.ICustomTypeDescriptor> interface. This means that the class works with Visual Studio designers at design time. When developers use the designer to build strongly typed DataSets and strongly typed connections within Visual Studio, the strongly typed connection string builder class will display the properties associated with its type and will also have converters that can map common values for known keys.  
+  
+ Developers needing to create connection strings as part of applications can use the DbConnectionStringBuilder class or one of its strongly typed derivatives to build and modify connection strings. The DbConnectionStringBuilder class also makes it easy to manage connection strings stored in an application configuration file.  
+  
+ Developers can create connection strings using either a strongly typed connection string builder class, or they can use the DbConnectionStringBuilder class. The DbConnectionStringBuilder performs no checks for valid key/value pairs. Therefore, it is possible using this class to create invalid connection strings. The <xref:System.Data.SqlClient.SqlConnectionStringBuilder> supports only key/value pairs that are supported by SQL Server; trying to add invalid pairs will throw an exception.  
+  
+ Both the <xref:System.Data.Common.DbConnectionStringBuilder.Add%2A> method and <xref:System.Data.Common.DbConnectionStringBuilder.Item%2A> property handle tries to insert malicious entries. For example, the following code correctly escapes the nested key/value pair:  
+  
+ [Visual Basic]  
+  
+```  
+Dim builder As New System.Data.Common.DbConnectionStringBuilder  
+builder("Data Source") = "(local)"  
+builder("integrated sSecurity") = True  
+builder("Initial Catalog") = "AdventureWorks;NewValue=Bad"  
+```  
+  
+ [C#]  
+  
+```  
+System.Data.Common.DbConnectionStringBuilder builder =   
+    new System.Data.Common.DbConnectionStringBuilder();  
+builder["Data Source"] = "(local)";  
+builder["integrated Security"] = true;  
+builder["Initial Catalog"] = "AdventureWorks;NewValue=Bad";  
+```  
+  
+ The result is the following connection string that handles the invalid value in a safe manner:  
+  
+```  
+data source=(local);integrated security=True;  
+initial catalog="AdventureWorks;NewValue=Bad"  
+```  
+  
+   
+  
+## Examples  
+ The following console application builds two connection strings, one for a Microsoft Jet database, and one for a [!INCLUDE[ssNoVersion](../../add/includes/ssnoversion-md.md)] database. In each case, the code uses a generic DbConnectionStringBuilder class to create the connection string, and then passes the <xref:System.Data.Common.DbConnectionStringBuilder.ConnectionString%2A> property of the DbConnectionStringBuilder instance to the constructor of the strongly type connection class. This is not required; the code could also have created individual strongly typed connection string builder instances. The example also parses an existing connection string, and demonstrates various ways of manipulating the connection string's contents.  
+  
+ [!CODE [DataWorks DbConnectionStringBuilder#1](../CodeSnippet/VS_Snippets_ADO.NET/DataWorks DbConnectionStringBuilder#1)]  
+  
+ ]]></format>
+    </remarks>
   </Docs>
   <Members>
     <Member MemberName=".ctor">
@@ -30,7 +82,7 @@
       </AssemblyInfo>
       <Parameters />
       <Docs>
-        <summary>To be added.</summary>
+        <summary>Initializes a new instance of the &lt;see cref="T:System.Data.Common.DbConnectionStringBuilder"&gt; class.</summary>
         <remarks>To be added.</remarks>
       </Docs>
     </Member>
@@ -45,9 +97,16 @@
         <Parameter Name="useOdbcRules" Type="System.Boolean" />
       </Parameters>
       <Docs>
-        <param name="useOdbcRules">To be added.</param>
-        <summary>To be added.</summary>
-        <remarks>To be added.</remarks>
+        <param name="useOdbcRules">`true` to use {} to delimit fields; `false` to use quotation marks.</param>
+        <summary>Initializes a new instance of the &lt;see cref="T:System.Data.Common.DbConnectionStringBuilder"&gt; class, optionally using ODBC rules for quoting values.</summary>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ If  is `true`, this <xref:System.Data.Common.DbConnectionStringBuilder> uses ODBC rules for quoting values (surrounding values with curly braces ({})). If  is `false`, this <xref:System.Data.Common.DbConnectionStringBuilder> uses quotation mark character ("") to delimit values.  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="Add">
@@ -65,10 +124,29 @@
         <Parameter Name="value" Type="System.Object" />
       </Parameters>
       <Docs>
-        <param name="keyword">To be added.</param>
-        <param name="value">To be added.</param>
-        <summary>To be added.</summary>
-        <remarks>To be added.</remarks>
+        <param name="keyword">The key to add to the &lt;see cref="T:System.Data.Common.DbConnectionStringBuilder"&gt;.</param>
+        <param name="value">The value for the specified key.</param>
+        <summary>Adds an entry with the specified key and value into the &lt;see cref="T:System.Data.Common.DbConnectionStringBuilder"&gt;.</summary>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ The <xref:System.Data.Common.DbConnectionStringBuilder.Item%2A> property can also be used to add new elements by setting the value of a key that does not exist in the dictionary. For example: `myCollection["myNonexistentKey"] = myValue`.  
+  
+ Calling the Add method by passing a null (`Nothing` in Visual Basic) key throws an <xref:System.ArgumentNullException>. However, calling the Add method by passing a null value removes the key/value pair.  
+  
+   
+  
+## Examples  
+ The following example creates a new <xref:System.Data.Common.DbConnectionStringBuilder> and adds items. The code also demonstrates overwriting an existing item using the Add method, and includes a commented block that would throw an <xref:System.ArgumentNullException>.  
+  
+> [!NOTE]
+>  This example includes a password to demonstrate how <xref:System.Data.Common.DbConnectionStringBuilder> works with connection strings. In your applications, we recommend that you use Windows Authentication. If you must use a password, do not include a hard-coded password in your application.  
+  
+ [!CODE [DataWorks DbConnectionStringBuilder.Add#1](../CodeSnippet/VS_Snippets_ADO.NET/DataWorks DbConnectionStringBuilder.Add#1)]  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="AppendKeyValuePair">
@@ -87,11 +165,25 @@
         <Parameter Name="value" Type="System.String" />
       </Parameters>
       <Docs>
-        <param name="builder">To be added.</param>
-        <param name="keyword">To be added.</param>
-        <param name="value">To be added.</param>
-        <summary>To be added.</summary>
-        <remarks>To be added.</remarks>
+        <param name="builder">The &lt;see cref="T:System.Text.StringBuilder"&gt; to which to add the key/value pair.</param>
+        <param name="keyword">The key to be added.</param>
+        <param name="value">The value for the supplied key.</param>
+        <summary>Provides an efficient and safe way to append a key and value to an existing &lt;see cref="T:System.Text.StringBuilder"&gt; object.</summary>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ This method allows developers using a <xref:System.Text.StringBuilder> to create a collection of key/value pairs to be able to take advantage of the features included in the <xref:System.Data.Common.DbConnectionStringBuilder> class when you add key/value pairs, without having to incur the overhead of creating and maintaining a <xref:System.Data.Common.DbConnectionStringBuilder> instance. The `AppendKeyValuePair` method formats the key and value correctly and adds the new string to the supplied <xref:System.Text.StringBuilder>.  
+  
+   
+  
+## Examples  
+ If some process has created a connection string, but now an application must perform a simple modification to that connection string, it may be more efficient to just add the key/value pair using a <xref:System.Text.StringBuilder> object. Instead of creating a new <xref:System.Data.Common.DbConnectionStringBuilder>, developers can call the `AppendKeyValuePair` method, passing in a <xref:System.Text.StringBuilder> that contains the supplied connection string. The following procedure shows a simple example of this technique.  
+  
+ [!CODE [DataWorks DbConnectionStringBuilder.AppendKeyValuePair#1](../CodeSnippet/VS_Snippets_ADO.NET/DataWorks DbConnectionStringBuilder.AppendKeyValuePair#1)]  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="AppendKeyValuePair">
@@ -111,12 +203,28 @@
         <Parameter Name="useOdbcRules" Type="System.Boolean" />
       </Parameters>
       <Docs>
-        <param name="builder">To be added.</param>
-        <param name="keyword">To be added.</param>
-        <param name="value">To be added.</param>
-        <param name="useOdbcRules">To be added.</param>
-        <summary>To be added.</summary>
-        <remarks>To be added.</remarks>
+        <param name="builder">The &lt;see cref="T:System.Text.StringBuilder"&gt; to which to add the key/value pair.</param>
+        <param name="keyword">The key to be added.</param>
+        <param name="value">The value for the supplied key.</param>
+        <param name="useOdbcRules">`true` to use {} to delimit fields, `false` to use quotation marks.</param>
+        <summary>Provides an efficient and safe way to append a key and value to an existing &lt;see cref="T:System.Text.StringBuilder"&gt; object.</summary>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ This method allows developers using a <xref:System.Text.StringBuilder> to create a collection of key/value pairs to be able to take advantage of the features included in the <xref:System.Data.Common.DbConnectionStringBuilder> class when adding key/value pairs, without having to incur the overhead of creating and maintaining a <xref:System.Data.Common.DbConnectionStringBuilder> instance. The `AppendKeyValuePair` method formats the key and value correctly and adds the new string to the supplied <xref:System.Text.StringBuilder>.  
+  
+ Although most data sources let you delimit fields by using quotation marks, ODBC does not--for ODBC connection strings, you must use curly braces ({}). In order to have the <xref:System.Data.Common.DbConnectionStringBuilder> use ODBC rules for delimiting fields, set the  parameter to `true`.  
+  
+   
+  
+## Examples  
+ If some process has created a connection string, but now an application must perform a simple modification to that connection string, it might be more efficient to just add the key/value pair using a <xref:System.Text.StringBuilder> object. Instead of creating a new <xref:System.Data.Common.DbConnectionStringBuilder>, developers can call the `AppendKeyValuePair` method, passing in a <xref:System.Text.StringBuilder> that contains the supplied connection string. The following procedure shows a simple example of this technique, using ODBC rules for quoting values.  
+  
+ [!CODE [DataWorks DbConnectionStringBuilder.AppendKeyValuePair#1](../CodeSnippet/VS_Snippets_ADO.NET/DataWorks DbConnectionStringBuilder.AppendKeyValuePair#1)]  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="BrowsableConnectionString">
@@ -144,9 +252,16 @@
         <ReturnType>System.Boolean</ReturnType>
       </ReturnValue>
       <Docs>
-        <summary>To be added.</summary>
-        <value>To be added.</value>
-        <remarks>To be added.</remarks>
+        <summary>Gets or sets a value that indicates whether the &lt;xref:System.Data.Common.DbConnectionStringBuilder.ConnectionString%2A&gt; property is visible in Visual Studio designers.</summary>
+        <value>`true` if the connection string is visible within designers; `false` otherwise. The default is `true`.</value>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ Developers creating designers that take advantage of the <xref:System.Data.Common.DbConnectionStringBuilder> class must be able to make the connection string visible or invisible within the designer's property grid. The BrowsableConnectionString property lets developers indicate that the property should be invisible by setting the property to `false`.  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="Clear">
@@ -161,8 +276,15 @@
       </ReturnValue>
       <Parameters />
       <Docs>
-        <summary>To be added.</summary>
-        <remarks>To be added.</remarks>
+        <summary>Clears the contents of the &lt;see cref="T:System.Data.Common.DbConnectionStringBuilder"&gt; instance.</summary>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ The Clear method removes all key/value pairs from the <xref:System.Data.Common.DbConnectionStringBuilder> and resets all corresponding properties. This includes setting the <xref:System.Data.Common.DbConnectionStringBuilder.Count%2A> property to 0 and the <xref:System.Data.Common.DbConnectionStringBuilder.ConnectionString%2A> property to an empty string.  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="ClearPropertyDescriptors">
@@ -177,8 +299,15 @@
       </ReturnValue>
       <Parameters />
       <Docs>
-        <summary>To be added.</summary>
-        <remarks>To be added.</remarks>
+        <summary>Clears the collection of &lt;xref:System.ComponentModel.PropertyDescriptor&gt; objects on the associated &lt;xref:System.Data.Common.DbConnectionStringBuilder&gt;.</summary>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ This method is used by designers to clear all associated property descriptors on the <xref:System.Data.Common.DbConnectionStringBuilder>.  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="ConnectionString">
@@ -197,9 +326,42 @@
         <ReturnType>System.String</ReturnType>
       </ReturnValue>
       <Docs>
-        <summary>To be added.</summary>
-        <value>To be added.</value>
-        <remarks>To be added.</remarks>
+        <summary>Gets or sets the connection string associated with the &lt;see cref="T:System.Data.Common.DbConnectionStringBuilder"&gt;.</summary>
+        <value>The current connection string, created from the key/value pairs that are contained within the &lt;see cref="T:System.Data.Common.DbConnectionStringBuilder"&gt;. The default value is an empty string.</value>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ This property returns a semicolon-delimited list of key/value pairs stored within the collection maintained by the <xref:System.Data.Common.DbConnectionStringBuilder>. Each pair contains the key and value, separated by an equal sign. The following example illustrates a typical connection string.  
+  
+```  
+"Persist Security Info=False;Integrated Security=SSPI;Initial Catalog=AdventureWorks;Data Source=(local)"  
+```  
+  
+ Data providers may expect specific keys and values for each connection string property. , These values are documented individually. The <xref:System.Data.Common.DbConnectionStringBuilder> class does not validate the key/value pairs associated with its connection string, although classes that inherit from it can.  
+  
+ The ConnectionString property of the <xref:System.Data.Common.DbConnectionStringBuilder> class acts generally as a mechanism for creating and parsing semicolon-delimited lists of key/value pairs separated with equal signs. It provides no validation or other support specific to connection strings. If you add items to the <xref:System.Data.Common.DbConnectionStringBuilder> collection, the ConnectionString property will reflect the changes. If you assign a value to the ConnectionString property, the <xref:System.Data.Common.DbConnectionStringBuilder> will try to parse the value, using the semicolon and equal-sign delimiters.  
+  
+   
+  
+## Examples  
+ The following example demonstrates possible behaviors of the ConnectionString property. The example:  
+  
+-   Creates a connection string by adding key/value pairs, one at a time, to an empty <xref:System.Data.Common.DbConnectionStringBuilder>.  
+  
+-   Assigns a complete connection string to the ConnectionString property of the <xref:System.Data.Common.DbConnectionStringBuilder> instance, and modifies a single key/value pair within the string.  
+  
+-   Assigns an arbitrary set of key/value pairs to the ConnectionString property (that is, a string that is not anything remotely like a connection string), and modifies one of the values.  
+  
+-   Assigns an invalid connection string to the ConnectionString property, demonstrating the exception that is thrown.  
+  
+> [!NOTE]
+>  This example includes a password to demonstrate how <xref:System.Data.Common.DbConnectionStringBuilder> works with connection strings. In your applications, we recommend that you use Windows Authentication. If you must use a password, do not include a hard-coded password in your application.  
+  
+ [!CODE [DataWorks DbConnectionStringBuilder.ConnectionString#1](../CodeSnippet/VS_Snippets_ADO.NET/DataWorks DbConnectionStringBuilder.ConnectionString#1)]  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="ContainsKey">
@@ -216,10 +378,27 @@
         <Parameter Name="keyword" Type="System.String" />
       </Parameters>
       <Docs>
-        <param name="keyword">To be added.</param>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
-        <remarks>To be added.</remarks>
+        <param name="keyword">The key to locate in the &lt;see cref="T:System.Data.Common.DbConnectionStringBuilder"&gt;.</param>
+        <summary>Determines whether the &lt;see cref="T:System.Data.Common.DbConnectionStringBuilder"&gt; contains a specific key.</summary>
+        <returns>`true` if the &lt;see cref="T:System.Data.Common.DbConnectionStringBuilder"&gt; contains an entry with the specified key; otherwise `false`.</returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Examples  
+ [!CODE [DataWorks DbConnectionStringBuilder.ContainsKey#1](../CodeSnippet/VS_Snippets_ADO.NET/DataWorks DbConnectionStringBuilder.ContainsKey#1)]  
+  
+ This code produces the following output:  
+  
+```  
+Contents of the DbConnectionStringBuilder:  
+provider="Provider=Microsoft.Jet.OLEDB.4.0";data   
+source=C:\MyExcel.xls;extended  
+properties="Excel 8.0;HDR=Yes;IMEX=1"  
+The collection contains the key "Data Source".  
+```  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="Count">
@@ -238,9 +417,18 @@
         <ReturnType>System.Int32</ReturnType>
       </ReturnValue>
       <Docs>
-        <summary>To be added.</summary>
-        <value>To be added.</value>
-        <remarks>To be added.</remarks>
+        <summary>Gets the current number of keys that are contained within the &lt;xref:System.Data.Common.DbConnectionStringBuilder.ConnectionString%2A&gt; property.</summary>
+        <value>The number of keys that are contained within the connection string maintained by the &lt;see cref="T:System.Data.Common.DbConnectionStringBuilder"&gt; instance.</value>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Examples  
+ The following example demonstrates the Count property both before and after you modify the contents of the <xref:System.Data.Common.DbConnectionStringBuilder.ConnectionString%2A> property.  
+  
+ [!CODE [DataWorks DbConnectionStringBuilder.Count#1](../CodeSnippet/VS_Snippets_ADO.NET/DataWorks DbConnectionStringBuilder.Count#1)]  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="EquivalentTo">
@@ -257,10 +445,34 @@
         <Parameter Name="connectionStringBuilder" Type="System.Data.Common.DbConnectionStringBuilder" />
       </Parameters>
       <Docs>
-        <param name="connectionStringBuilder">To be added.</param>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
-        <remarks>To be added.</remarks>
+        <param name="connectionStringBuilder">The &lt;see cref="T:System.Data.Common.DbConnectionStringBuilder"&gt; to be compared with this &lt;see cref="T:System.Data.Common.DbConnectionStringBuilder"&gt; object.</param>
+        <summary>Compares the connection information in this &lt;see cref="T:System.Data.Common.DbConnectionStringBuilder"&gt; object with the connection information in the supplied object.</summary>
+        <returns>`true` if the connection information in both of the &lt;see cref="T:System.Data.Common.DbConnectionStringBuilder"&gt; objects causes an equivalent connection string; otherwise `false`.</returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ Comparisons on key names are case insensitive; value comparisons are case sensitive.  
+  
+ The EquivalentTo method returns `true` if the key/value pairs are equal, regardless of their order. The connection behavior of the two connection strings are equivalent, because order is never significant within connection strings. However, different order may affect connection pooling behavior of connections based on these connection strings.  
+  
+   
+  
+## Examples  
+ [!CODE [DataWorks DbConnectionStringBuilder.EquivalentTo#1](../CodeSnippet/VS_Snippets_ADO.NET/DataWorks DbConnectionStringBuilder.EquivalentTo#1)]  
+  
+ This sample displays the following output:  
+  
+```  
+builder1 = value1=SomeValue;value2=20;value3=30;value4=40  
+builder2 = value2=20;value3=30;value4=40;value1=SomeValue  
+builder3 = value2=20;value3=30;value4=40;value1=SOMEVALUE  
+builder1.EquivalentTo(builder2) = True  
+builder2.EquivalentTo(builder3) = False  
+```  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="GetProperties">
@@ -277,8 +489,8 @@
         <Parameter Name="propertyDescriptors" Type="System.Collections.Hashtable" />
       </Parameters>
       <Docs>
-        <param name="propertyDescriptors">To be added.</param>
-        <summary>To be added.</summary>
+        <param name="propertyDescriptors">The &lt;see cref="T:System.Collections.Hashtable"&gt; to be filled with information about this &lt;xref:System.Data.Common.DbConnectionStringBuilder&gt;.</param>
+        <summary>Fills a supplied &lt;see cref="T:System.Collections.Hashtable"&gt; with information about all the properties of this &lt;xref:System.Data.Common.DbConnectionStringBuilder&gt;.</summary>
         <remarks>To be added.</remarks>
       </Docs>
     </Member>
@@ -298,9 +510,18 @@
         <ReturnType>System.Boolean</ReturnType>
       </ReturnValue>
       <Docs>
-        <summary>To be added.</summary>
-        <value>To be added.</value>
-        <remarks>To be added.</remarks>
+        <summary>Gets a value that indicates whether the &lt;see cref="T:System.Data.Common.DbConnectionStringBuilder"&gt; has a fixed size.</summary>
+        <value>`true` if the &lt;see cref="T:System.Data.Common.DbConnectionStringBuilder"&gt; has a fixed size; otherwise `false`.</value>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ A fixed-size collection does not allow adding or removing elements after the collection is created, but it does allow modifying existing elements.  
+  
+ A fixed-size collection is just a collection with a wrapper that prevents adding and removing elements; therefore, if changes are made to the underlying collection, including adding or removing elements, the fixed-size collection reflects those changes.  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="IsReadOnly">
@@ -319,9 +540,18 @@
         <ReturnType>System.Boolean</ReturnType>
       </ReturnValue>
       <Docs>
-        <summary>To be added.</summary>
-        <value>To be added.</value>
-        <remarks>To be added.</remarks>
+        <summary>Gets a value that indicates whether the &lt;see cref="T:System.Data.Common.DbConnectionStringBuilder"&gt; is read-only.</summary>
+        <value>`true` if the &lt;see cref="T:System.Data.Common.DbConnectionStringBuilder"&gt; is read-only; otherwise `false`. The default is `false`.</value>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ A read-only collection does not allow adding, removing, or modifying elements after the collection is created.  
+  
+ A read-only collection is just a collection with a wrapper that prevents modifying the collection; therefore, if changes are made to the underlying collection, the read-only collection reflects those changes.  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="Item">
@@ -343,10 +573,26 @@
         <Parameter Name="keyword" Type="System.String" />
       </Parameters>
       <Docs>
-        <param name="keyword">To be added.</param>
-        <summary>To be added.</summary>
-        <value>To be added.</value>
-        <remarks>To be added.</remarks>
+        <param name="keyword">The key of the item to get or set.</param>
+        <summary>Gets or sets the value associated with the specified key.</summary>
+        <value>The value associated with the specified key. If the specified key is not found, trying to get it returns a null reference (`Nothing` in Visual Basic), and trying to set it creates a new element using the specified key.  
+  
+ Passing a null (`Nothing` in Visual Basic) key throws an &lt;see cref="T:System.ArgumentNullException"&gt;. Assigning a null value removes the key/value pair.</value>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ When you set this property, if the specified key already exists in the dictionary, the value is replaced; otherwise, a new element is created.  
+  
+   
+  
+## Examples  
+ The following console application creates a new <xref:System.Data.Common.DbConnectionStringBuilder> and adds key/value pairs to its connection string, using the Item property.  
+  
+ [!CODE [DataWorks DbConnectionStringBuilder.Item#1](../CodeSnippet/VS_Snippets_ADO.NET/DataWorks DbConnectionStringBuilder.Item#1)]  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="Keys">
@@ -365,9 +611,25 @@
         <ReturnType>System.Collections.ICollection</ReturnType>
       </ReturnValue>
       <Docs>
-        <summary>To be added.</summary>
-        <value>To be added.</value>
-        <remarks>To be added.</remarks>
+        <summary>Gets an &lt;see cref="T:System.Collections.ICollection"&gt; that contains the keys in the &lt;xref:System.Data.Common.DbConnectionStringBuilder&gt;.</summary>
+        <value>An &lt;see cref="T:System.Collections.ICollection"&gt; that contains the keys in the &lt;xref:System.Data.Common.DbConnectionStringBuilder&gt;.</value>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ The order of the values in the <xref:System.Collections.ICollection> is unspecified, but it is the same order as the associated values in the <xref:System.Collections.ICollection> returned by the <xref:System.Data.Common.DbConnectionStringBuilder.Values%2A> property.  
+  
+ The returned <xref:System.Collections.ICollection> is not a static copy; instead, the <xref:System.Collections.ICollection> refers back to the keys in the original <xref:System.Data.Common.DbConnectionStringBuilder>. Therefore, changes to the <xref:System.Data.Common.DbConnectionStringBuilder> are reflected in the <xref:System.Collections.ICollection>.  
+  
+   
+  
+## Examples  
+ The following console application example creates a new <xref:System.Data.Common.DbConnectionStringBuilder>, and adds some keys. The code loops through the <xref:System.Collections.ICollection> returned by the Keys property displaying the key/value pairs, and then adds a new key. Because the Keys property returns a dynamic <xref:System.Collections.ICollection>, the second loop displays all the key/value pairs, including the newest item.  
+  
+ [!CODE [DataWorks DbConnectionStringBuilder.Keys#1](../CodeSnippet/VS_Snippets_ADO.NET/DataWorks DbConnectionStringBuilder.Keys#1)]  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="Remove">
@@ -384,10 +646,33 @@
         <Parameter Name="keyword" Type="System.String" />
       </Parameters>
       <Docs>
-        <param name="keyword">To be added.</param>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
-        <remarks>To be added.</remarks>
+        <param name="keyword">The key of the key/value pair to be removed from the connection string in this &lt;see cref="T:System.Data.Common.DbConnectionStringBuilder"&gt;.</param>
+        <summary>Removes the entry with the specified key from the &lt;see cref="T:System.Data.Common.DbConnectionStringBuilder"&gt; instance.</summary>
+        <returns>`true` if the key existed within the connection string and was removed; `false` if the key did not exist.</returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ Because the Remove method returns a value that indicates its success, it is not required to look for the key before trying to remove the key/value pair from the <xref:System.Data.Common.DbConnectionStringBuilder> instance.  
+  
+   
+  
+## Examples  
+ [!CODE [DataWorks DbConnectionStringBuilder.Remove#1](../CodeSnippet/VS_Snippets_ADO.NET/DataWorks DbConnectionStringBuilder.Remove#1)]  
+  
+ This sample displays the following output:  
+  
+```  
+Removed 'Provider'  
+data source=C:\Demo.mdb;jet oledb:system database=system.mdw  
+Unable to remove 'User ID'  
+data source=C:\Demo.mdb;jet oledb:system database=system.mdw  
+Removed 'DATA SOURCE'  
+jet oledb:system database=system.mdw  
+```  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="ShouldSerialize">
@@ -404,10 +689,17 @@
         <Parameter Name="keyword" Type="System.String" />
       </Parameters>
       <Docs>
-        <param name="keyword">To be added.</param>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
-        <remarks>To be added.</remarks>
+        <param name="keyword">The key to locate in the &lt;see cref="T:System.Data.Common.DbConnectionStringBuilder"&gt;.</param>
+        <summary>Indicates whether the specified key exists in this &lt;see cref="T:System.Data.Common.DbConnectionStringBuilder"&gt; instance.</summary>
+        <returns>`true` if the &lt;see cref="T:System.Data.Common.DbConnectionStringBuilder"&gt; contains an entry with the specified key; otherwise `false`.</returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ This method behaves identically to the <xref:System.Data.Common.DbConnectionStringBuilder.ContainsKey%2A> method.  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="System.Collections.ICollection.CopyTo">
@@ -425,10 +717,19 @@
         <Parameter Name="index" Type="System.Int32" />
       </Parameters>
       <Docs>
-        <param name="array">To be added.</param>
-        <param name="index">To be added.</param>
-        <summary>To be added.</summary>
-        <remarks>To be added.</remarks>
+        <param name="array">The one-dimensional &lt;see cref="T:System.Array"&gt; that is the destination of the elements copied from &lt;xref:System.Collections.ICollection&gt;. The &lt;see cref="T:System.Array"&gt; must have zero-based indexing.</param>
+        <param name="index">The zero-based index in  at which copying begins.</param>
+        <summary>Copies the elements of the &lt;see cref="T:System.Collections.ICollection"&gt; to an &lt;xref:System.Array&gt;, starting at a particular &lt;xref:System.Array&gt; index.</summary>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ This member is an explicit interface member implementation. It can be used only when the <xref:System.Data.Common.DbConnectionStringBuilder> instance is cast to an <xref:System.Collections.ICollection> interface.  
+  
+ For a description of this member, see <xref:System.Collections.ICollection.CopyTo%2A>.  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="System.Collections.ICollection.IsSynchronized">
@@ -442,9 +743,18 @@
         <ReturnType>System.Boolean</ReturnType>
       </ReturnValue>
       <Docs>
-        <summary>To be added.</summary>
-        <value>To be added.</value>
-        <remarks>To be added.</remarks>
+        <summary>Gets a value indicating whether access to the &lt;see cref="T:System.Collections.ICollection"&gt; is synchronized (thread safe).</summary>
+        <value>`true` if access to the &lt;see cref="T:System.Collections.ICollection"&gt; is synchronized (thread safe); otherwise, `false`.</value>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ This member is an explicit interface member implementation. It can be used only when the <xref:System.Data.Common.DbConnectionStringBuilder> instance is cast to an <xref:System.Collections.ICollection> interface.  
+  
+ For more information, see <xref:System.Collections.ICollection.IsSynchronized%2A>.  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="System.Collections.ICollection.SyncRoot">
@@ -458,9 +768,18 @@
         <ReturnType>System.Object</ReturnType>
       </ReturnValue>
       <Docs>
-        <summary>To be added.</summary>
-        <value>To be added.</value>
-        <remarks>To be added.</remarks>
+        <summary>Gets an object that can be used to synchronize access to the &lt;see cref="T:System.Collections.ICollection"&gt;.</summary>
+        <value>An object that can be used to synchronize access to the &lt;see cref="T:System.Collections.ICollection"&gt;.</value>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ This member is an explicit interface member implementation. It can be used only when the <xref:System.Data.Common.DbConnectionStringBuilder> instance is cast to an <xref:System.Collections.ICollection> interface.  
+  
+ For more information, see <xref:System.Collections.ICollection.SyncRoot%2A>.  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="System.Collections.IDictionary.Add">
@@ -478,10 +797,19 @@
         <Parameter Name="value" Type="System.Object" />
       </Parameters>
       <Docs>
-        <param name="keyword">To be added.</param>
-        <param name="value">To be added.</param>
-        <summary>To be added.</summary>
-        <remarks>To be added.</remarks>
+        <param name="keyword">The &lt;see cref="T:System.Object"&gt; to use as the key of the element to add.</param>
+        <param name="value">The &lt;see cref="T:System.Object"&gt; to use as the value of the element to add.</param>
+        <summary>Adds an element with the provided key and value to the &lt;see cref="T:System.Collections.IDictionary"&gt; object.</summary>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ This member is an explicit interface member implementation. It can be used only when the <xref:System.Data.Common.DbConnectionStringBuilder> instance is cast to an <xref:System.Collections.IDictionary> interface.  
+  
+ For a description of this member, see <xref:System.Collections.IDictionary.Add%2A>.  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="System.Collections.IDictionary.Contains">
@@ -498,10 +826,19 @@
         <Parameter Name="keyword" Type="System.Object" />
       </Parameters>
       <Docs>
-        <param name="keyword">To be added.</param>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
-        <remarks>To be added.</remarks>
+        <param name="keyword">The key to locate in the &lt;see cref="T:System.Collections.IDictionary"&gt; object.</param>
+        <summary>Determines whether the &lt;see cref="T:System.Collections.IDictionary"&gt; object contains an element with the specified key.</summary>
+        <returns>`true` if the &lt;see cref="T:System.Collections.IDictionary"&gt; contains an element with the key; otherwise, `false`.</returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ This member is an explicit interface member implementation. It can be used only when the <xref:System.Data.Common.DbConnectionStringBuilder> instance is cast to an <xref:System.Collections.IDictionary> interface.  
+  
+ For more information, see <xref:System.Collections.IDictionary.Contains%2A>.  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="System.Collections.IDictionary.GetEnumerator">
@@ -516,9 +853,18 @@
       </ReturnValue>
       <Parameters />
       <Docs>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
-        <remarks>To be added.</remarks>
+        <summary>Returns an &lt;see cref="T:System.Collections.IDictionaryEnumerator"&gt; object for the &lt;xref:System.Collections.IDictionary&gt; object.</summary>
+        <returns>An &lt;see cref="T:System.Collections.IDictionaryEnumerator"&gt; object for the &lt;xref:System.Collections.IDictionary&gt; object.</returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ This member is an explicit interface member implementation. It can be used only when the <xref:System.Data.Common.DbConnectionStringBuilder> instance is cast to an <xref:System.Collections.IDictionary> interface.  
+  
+ For a description of this member, see <xref:System.Collections.IDictionary.GetEnumerator%2A>.  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="System.Collections.IDictionary.Item">
@@ -535,10 +881,19 @@
         <Parameter Name="keyword" Type="System.Object" />
       </Parameters>
       <Docs>
-        <param name="keyword">To be added.</param>
-        <summary>To be added.</summary>
-        <value>To be added.</value>
-        <remarks>To be added.</remarks>
+        <param name="keyword">The key of the element to get or set.</param>
+        <summary>Gets or sets the element with the specified key.</summary>
+        <value>The element with the specified key.</value>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ This member is an explicit interface member implementation. It can be used only when the <xref:System.Data.Common.DbConnectionStringBuilder> instance is cast to an <xref:System.Collections.IDictionary> interface.  
+  
+ For more information, see <xref:System.Collections.IDictionary.Item%2A>.  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="System.Collections.IDictionary.Remove">
@@ -555,9 +910,18 @@
         <Parameter Name="keyword" Type="System.Object" />
       </Parameters>
       <Docs>
-        <param name="keyword">To be added.</param>
-        <summary>To be added.</summary>
-        <remarks>To be added.</remarks>
+        <param name="keyword">The key of the element to remove.</param>
+        <summary>Removes the element with the specified key from the &lt;see cref="T:System.Collections.IDictionary"&gt; object.</summary>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ This member is an explicit interface member implementation. It can be used only when the <xref:System.Data.Common.DbConnectionStringBuilder> instance is cast to an <xref:System.Collections.IDictionary> interface.  
+  
+ For a description of this member, see <xref:System.Collections.IDictionary.Remove%2A>.  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="System.Collections.IEnumerable.GetEnumerator">
@@ -572,9 +936,18 @@
       </ReturnValue>
       <Parameters />
       <Docs>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
-        <remarks>To be added.</remarks>
+        <summary>Returns an enumerator that iterates through a collection.</summary>
+        <returns>An &lt;see cref="T:System.Collections.IEnumerator"&gt; object that can be used to iterate through the collection.</returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ This member is an explicit interface member implementation. It can be used only when the <xref:System.Data.Common.DbConnectionStringBuilder> instance is cast to an <xref:System.Collections.IEnumerable> interface.  
+  
+ For a description of this member, see <xref:System.Collections.IEnumerable.GetEnumerator%2A>.  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="System.ComponentModel.ICustomTypeDescriptor.GetAttributes">
@@ -589,9 +962,18 @@
       </ReturnValue>
       <Parameters />
       <Docs>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
-        <remarks>To be added.</remarks>
+        <summary>Returns a collection of custom attributes for this instance of a component.</summary>
+        <returns>An &lt;xref:System.ComponentModel.AttributeCollection&gt; containing the attributes for this object.</returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ This member is an explicit interface member implementation. It can be used only when the <xref:System.Data.Common.DbConnectionStringBuilder> instance is cast to an <xref:System.ComponentModel.ICustomTypeDescriptor> interface.  
+  
+ For a description of this member, see <xref:System.ComponentModel.ICustomTypeDescriptor.GetAttributes%2A>.  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="System.ComponentModel.ICustomTypeDescriptor.GetClassName">
@@ -606,9 +988,18 @@
       </ReturnValue>
       <Parameters />
       <Docs>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
-        <remarks>To be added.</remarks>
+        <summary>Returns the class name of this instance of a component.</summary>
+        <returns>The class name of the object, or `null` if the class does not have a name.</returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ This member is an explicit interface member implementation. It can be used only when the <xref:System.Data.Common.DbConnectionStringBuilder> instance is cast to an <xref:System.ComponentModel.ICustomTypeDescriptor> interface.  
+  
+ For a description of this member, see <xref:System.ComponentModel.ICustomTypeDescriptor.GetClassName%2A>.  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="System.ComponentModel.ICustomTypeDescriptor.GetComponentName">
@@ -623,9 +1014,18 @@
       </ReturnValue>
       <Parameters />
       <Docs>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
-        <remarks>To be added.</remarks>
+        <summary>Returns the name of this instance of a component.</summary>
+        <returns>The name of the object, or `null` if the object does not have a name.</returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ This member is an explicit interface member implementation. It can be used only when the <xref:System.Data.Common.DbConnectionStringBuilder> instance is cast to an <xref:System.ComponentModel.ICustomTypeDescriptor> interface.  
+  
+ For more information, see <xref:System.ComponentModel.ICustomTypeDescriptor.GetComponentName%2A>.  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="System.ComponentModel.ICustomTypeDescriptor.GetConverter">
@@ -640,9 +1040,18 @@
       </ReturnValue>
       <Parameters />
       <Docs>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
-        <remarks>To be added.</remarks>
+        <summary>Returns a type converter for this instance of a component.</summary>
+        <returns>A &lt;xref:System.ComponentModel.TypeConverter&gt; that is the converter for this object, or `null` if there is no &lt;xref:System.ComponentModel.TypeConverter&gt; for this object.</returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ This member is an explicit interface member implementation. It can be used only when the <xref:System.Data.Common.DbConnectionStringBuilder> instance is cast to an <xref:System.ComponentModel.ICustomTypeDescriptor> interface.  
+  
+ For a description of this member, see <xref:System.ComponentModel.ICustomTypeDescriptor.GetConverter%2A>.  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="System.ComponentModel.ICustomTypeDescriptor.GetDefaultEvent">
@@ -657,9 +1066,18 @@
       </ReturnValue>
       <Parameters />
       <Docs>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
-        <remarks>To be added.</remarks>
+        <summary>Returns the default event for this instance of a component.</summary>
+        <returns>An &lt;xref:System.ComponentModel.EventDescriptor&gt; that represents the default event for this object, or `null` if this object does not have events.</returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ This member is an explicit interface member implementation. It can be used only when the <xref:System.Data.Common.DbConnectionStringBuilder> instance is cast to an <xref:System.ComponentModel.ICustomTypeDescriptor> interface.  
+  
+ For a description of this member, see <xref:System.ComponentModel.ICustomTypeDescriptor.GetDefaultEvent%2A>.  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="System.ComponentModel.ICustomTypeDescriptor.GetDefaultProperty">
@@ -674,9 +1092,18 @@
       </ReturnValue>
       <Parameters />
       <Docs>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
-        <remarks>To be added.</remarks>
+        <summary>Returns the default property for this instance of a component.</summary>
+        <returns>A &lt;xref:System.ComponentModel.PropertyDescriptor&gt; that represents the default property for this object, or `null` if this object does not have properties.</returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ This member is an explicit interface member implementation. It can be used only when the <xref:System.Data.Common.DbConnectionStringBuilder> instance is cast to an <xref:System.ComponentModel.ICustomTypeDescriptor> interface.  
+  
+ For a description of this member, see <xref:System.ComponentModel.ICustomTypeDescriptor.GetDefaultProperty%2A>.  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="System.ComponentModel.ICustomTypeDescriptor.GetEditor">
@@ -693,10 +1120,19 @@
         <Parameter Name="editorBaseType" Type="System.Type" />
       </Parameters>
       <Docs>
-        <param name="editorBaseType">To be added.</param>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
-        <remarks>To be added.</remarks>
+        <param name="editorBaseType">A &lt;see cref="T:System.Type"&gt; that represents the editor for this object.</param>
+        <summary>Returns an editor of the specified type for this instance of a component.</summary>
+        <returns>An &lt;see cref="T:System.Object"&gt; of the specified type that is the editor for this object, or `null` if the editor cannot be found.</returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ This member is an explicit interface member implementation. It can be used only when the <xref:System.Data.Common.DbConnectionStringBuilder> instance is cast to an <xref:System.ComponentModel.ICustomTypeDescriptor> interface.  
+  
+ For more information, see <xref:System.ComponentModel.ICustomTypeDescriptor.GetEditor%2A>.  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="System.ComponentModel.ICustomTypeDescriptor.GetEvents">
@@ -711,9 +1147,18 @@
       </ReturnValue>
       <Parameters />
       <Docs>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
-        <remarks>To be added.</remarks>
+        <summary>Returns the events for this instance of a component.</summary>
+        <returns>An &lt;xref:System.ComponentModel.EventDescriptorCollection&gt; that represents the events for this component instance.</returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ This member is an explicit interface member implementation. It can be used only when the <xref:System.Data.Common.DbConnectionStringBuilder> instance is cast to an <xref:System.ComponentModel.ICustomTypeDescriptor> interface.  
+  
+ For more information, see <xref:System.ComponentModel.ICustomTypeDescriptor.GetEvents%2A>.  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="System.ComponentModel.ICustomTypeDescriptor.GetEvents">
@@ -730,10 +1175,19 @@
         <Parameter Name="attributes" Type="System.Attribute[]" />
       </Parameters>
       <Docs>
-        <param name="attributes">To be added.</param>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
-        <remarks>To be added.</remarks>
+        <param name="attributes">An array of type &lt;see cref="T:System.Attribute"&gt; that is used as a filter.</param>
+        <summary>Returns the events for this instance of a component using the specified attribute array as a filter.</summary>
+        <returns>An &lt;xref:System.ComponentModel.EventDescriptorCollection&gt; that represents the filtered events for this component instance.</returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ This member is an explicit interface member implementation. It can be used only when the <xref:System.Data.Common.DbConnectionStringBuilder> instance is cast to an <xref:System.ComponentModel.ICustomTypeDescriptor> interface.  
+  
+ For more information, see <xref:System.ComponentModel.ICustomTypeDescriptor.GetEvents%2A>.  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="System.ComponentModel.ICustomTypeDescriptor.GetProperties">
@@ -748,9 +1202,18 @@
       </ReturnValue>
       <Parameters />
       <Docs>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
-        <remarks>To be added.</remarks>
+        <summary>Returns the properties for this instance of a component.</summary>
+        <returns>A &lt;xref:System.ComponentModel.PropertyDescriptorCollection&gt; that represents the properties for this component instance.</returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ This member is an explicit interface member implementation. It can be used only when the <xref:System.Data.Common.DbConnectionStringBuilder> instance is cast to an <xref:System.ComponentModel.ICustomTypeDescriptor> interface.  
+  
+ For more information, see <xref:System.ComponentModel.ICustomTypeDescriptor.GetProperties%2A>.  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="System.ComponentModel.ICustomTypeDescriptor.GetProperties">
@@ -767,10 +1230,19 @@
         <Parameter Name="attributes" Type="System.Attribute[]" />
       </Parameters>
       <Docs>
-        <param name="attributes">To be added.</param>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
-        <remarks>To be added.</remarks>
+        <param name="attributes">An array of type &lt;see cref="T:System.Attribute"&gt; that is used as a filter.</param>
+        <summary>Returns the properties for this instance of a component using the attribute array as a filter.</summary>
+        <returns>A &lt;xref:System.ComponentModel.PropertyDescriptorCollection&gt; that represents the filtered properties for this component instance.</returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ This member is an explicit interface member implementation. It can be used only when the <xref:System.Data.Common.DbConnectionStringBuilder> instance is cast to an <xref:System.ComponentModel.ICustomTypeDescriptor> interface.  
+  
+ For more information, see <xref:System.ComponentModel.ICustomTypeDescriptor.GetProperties%2A>.  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="System.ComponentModel.ICustomTypeDescriptor.GetPropertyOwner">
@@ -787,10 +1259,19 @@
         <Parameter Name="pd" Type="System.ComponentModel.PropertyDescriptor" />
       </Parameters>
       <Docs>
-        <param name="pd">To be added.</param>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
-        <remarks>To be added.</remarks>
+        <param name="pd">A &lt;xref:System.ComponentModel.PropertyDescriptor&gt; that represents the property whose owner is to be found.</param>
+        <summary>Returns an object that contains the property described by the specified property descriptor.</summary>
+        <returns>An &lt;see cref="T:System.Object"&gt; that represents the owner of the specified property.</returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ This member is an explicit interface member implementation. It can be used only when the <xref:System.Data.Common.DbConnectionStringBuilder> instance is cast to an <xref:System.ComponentModel.ICustomTypeDescriptor> interface.  
+  
+ For more information, see <xref:System.ComponentModel.ICustomTypeDescriptor.GetPropertyOwner%2A>.  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="ToString">
@@ -805,8 +1286,8 @@
       </ReturnValue>
       <Parameters />
       <Docs>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
+        <summary>Returns the connection string associated with this &lt;see cref="T:System.Data.Common.DbConnectionStringBuilder"&gt;.</summary>
+        <returns>The current &lt;xref:System.Data.Common.DbConnectionStringBuilder.ConnectionString%2A&gt; property.</returns>
         <remarks>To be added.</remarks>
       </Docs>
     </Member>
@@ -825,11 +1306,34 @@
         <Parameter Name="value" Type="System.Object&amp;" RefType="out" />
       </Parameters>
       <Docs>
-        <param name="keyword">To be added.</param>
-        <param name="value">To be added.</param>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
-        <remarks>To be added.</remarks>
+        <param name="keyword">The key of the item to retrieve.</param>
+        <param name="value">The value corresponding to the .</param>
+        <summary>Retrieves a value corresponding to the supplied key from this &lt;see cref="T:System.Data.Common.DbConnectionStringBuilder"&gt;.</summary>
+        <returns>`true` if  was found within the connection string, `false` otherwise.</returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ The TryGetValue method lets developers safely retrieve a value from a <xref:System.Data.Common.DbConnectionStringBuilder> without needing to first call the <xref:System.Data.Common.DbConnectionStringBuilder.ContainsKey%2A> method. Because TryGetValue does not raise an exception when you call it, passing in a nonexistent key, you do not have to look for a key before retrieving its value. Calling TryGetValue with a nonexistent key will place the null value (`Nothing` in Visual Basic) in the  parameter.  
+  
+   
+  
+## Examples  
+ The following example calls the TryGetValue method, demonstrating several possible outcomes.  
+  
+ [!CODE [DataWorks DbConnectionStringBuilder.TryGetValue#1](../CodeSnippet/VS_Snippets_ADO.NET/DataWorks DbConnectionStringBuilder.TryGetValue#1)]  
+  
+ The sample displays the following results:  
+  
+```  
+Provider=sqloledb  
+DATA SOURCE=192.168.168.1,1433  
+Unable to retrieve value for //InvalidKey//  
+Unable to retrieve value for null key.  
+```  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="Values">
@@ -848,9 +1352,38 @@
         <ReturnType>System.Collections.ICollection</ReturnType>
       </ReturnValue>
       <Docs>
-        <summary>To be added.</summary>
-        <value>To be added.</value>
-        <remarks>To be added.</remarks>
+        <summary>Gets an &lt;see cref="T:System.Collections.ICollection"&gt; that contains the values in the &lt;xref:System.Data.Common.DbConnectionStringBuilder&gt;.</summary>
+        <value>An &lt;see cref="T:System.Collections.ICollection"&gt; that contains the values in the &lt;xref:System.Data.Common.DbConnectionStringBuilder&gt;.</value>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ The order of the values in the <xref:System.Collections.ICollection> is unspecified, but it is the same order as the associated keys in the <xref:System.Collections.ICollection> returned by the <xref:System.Data.Common.DbConnectionStringBuilder.Keys%2A> method.  
+  
+ The returned <xref:System.Collections.ICollection> is not a static copy; instead, the <xref:System.Collections.ICollection> refers back to the values in the original <xref:System.Data.Common.DbConnectionStringBuilder>. Therefore, changes to the <xref:System.Data.Common.DbConnectionStringBuilder> are reflected in the <xref:System.Collections.ICollection>.  
+  
+   
+  
+## Examples  
+  
+> [!NOTE]
+>  This example includes a password to demonstrate how <xref:System.Data.Common.DbConnectionStringBuilder> works with connection strings. In your applications, we recommend that you use Windows Authentication. If you must use a password, do not include a hard-coded password in your application.  
+  
+ [!CODE [DataWorks DbConnectionStringBuilder.Values#1](../CodeSnippet/VS_Snippets_ADO.NET/DataWorks DbConnectionStringBuilder.Values#1)]  
+  
+ Displays the following output:  
+  
+```  
+MSDataShape.1  
+false  
+MSDAORA  
+orac  
+username  
+*******  
+```  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
   </Members>

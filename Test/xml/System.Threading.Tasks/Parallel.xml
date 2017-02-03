@@ -10,8 +10,22 @@
   </Base>
   <Interfaces />
   <Docs>
-    <summary>To be added.</summary>
-    <remarks>To be added.</remarks>
+    <summary>Provides support for parallel loops and regions.</summary>
+    <remarks>
+      <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ The Parallel class provides library-based data parallel replacements for common operations such as for loops, for each loops, and execution of a set of statements.  
+  
+   
+  
+## Examples  
+ This example demonstrates several approaches to implementing a parallel loop using multiple language constructs.  
+  
+ [!CODE [System.Threading.Tasks.Parallel#07](../CodeSnippet/VS_Snippets_CLR_System/system.threading.tasks.parallel#07)]  
+  
+ ]]></format>
+    </remarks>
   </Docs>
   <Members>
     <Member MemberName="For">
@@ -30,12 +44,42 @@
         <Parameter Name="body" Type="System.Action&lt;System.Int32,System.Threading.Tasks.ParallelLoopState&gt;" />
       </Parameters>
       <Docs>
-        <param name="fromInclusive">To be added.</param>
-        <param name="toExclusive">To be added.</param>
-        <param name="body">To be added.</param>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
-        <remarks>To be added.</remarks>
+        <param name="fromInclusive">The start index, inclusive.</param>
+        <param name="toExclusive">The end index, exclusive.</param>
+        <param name="body">The delegate that is invoked once per iteration.</param>
+        <summary>Executes a `for` (`For` in Visual Basic) loop in which iterations may run in parallel and the state of the loop can be monitored and manipulated.</summary>
+        <returns>A  structure that contains information about which portion of the loop completed.</returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ The  delegate is invoked once for each value in the iteration range (, ). It is provided with two arguments:  
+  
+-   An <xref:System.Int32> value that represents the iteration count.  
+  
+-   A <xref:System.Threading.Tasks.ParallelLoopState> instance that can be used to break out of the loop prematurely. The <xref:System.Threading.Tasks.ParallelLoopState> object is created by the compiler; it cannot be instantiated in user code.  
+  
+ Calling the <xref:System.Threading.Tasks.ParallelLoopState.Break%2A> method informs the `for` operation that iterations after the current one don't have to execute. However, all iterations before the current one will still have to be executed if they haven't already.  
+  
+ Therefore, calling <xref:System.Threading.Tasks.ParallelLoopState.Break%2A> is similar to using a break operation within a conventional `for` loop in a language like C#, but it is not a perfect substitute: For example, there is no guarantee that iterations after the current one will definitely not execute.  
+  
+ If executing all iterations before the current one is not necessary, use the <xref:System.Threading.Tasks.ParallelLoopState.Stop%2A> method instead of using <xref:System.Threading.Tasks.ParallelLoopState.Break%2A>. Calling <xref:System.Threading.Tasks.ParallelLoopState.Stop%2A> informs the `for` loop that it may abandon all remaining iterations, regardless of whether they're before or after the current iteration, because all required work will have already been completed. However, as with <xref:System.Threading.Tasks.ParallelLoopState.Break%2A>, there are no guarantees regarding which other iterations will not execute.  
+  
+ If a loop is ended prematurely, the <xref:System.Threading.Tasks.ParallelLoopResult> structure that is returned will contain relevant information about the loop's completion.  
+  
+ If  is greater than or equal to , the method returns immediately without performing any iterations.  
+  
+   
+  
+## Examples  
+ The following example executes up to 100 iterations of a loop in parallel. Each iteration pauses for a random interval from 1 to 1,000 milliseconds. A randomly generated value determines on which iteration of the loop the <xref:System.Threading.Tasks.ParallelLoopState.Break%2A?displayProperty=fullName> method is called. As the output from the example shows, no iterations whose index is greater than the <xref:System.Threading.Tasks.ParallelLoopState.LowestBreakIteration%2A?displayProperty=fullName> property value start after the call to the <xref:System.Threading.Tasks.ParallelLoopState.Break%2A?displayProperty=fullName> method.  
+  
+ [!CODE [System.Threading.Tasks.ParallelLoopState#2](../CodeSnippet/VS_Snippets_CLR_System/system.threading.tasks.parallelloopstate#2)]  
+  
+ Because iterations of the loop are still likely to be executing when the <xref:System.Threading.Tasks.ParallelLoopState.Break%2A?displayProperty=fullName> method is called, each iteration calls the <xref:System.Threading.Tasks.ParallelLoopState.ShouldExitCurrentIteration%2A?displayProperty=fullName> property to check whether another iteration has called the <xref:System.Threading.Tasks.ParallelLoopState.Break%2A?displayProperty=fullName> method. If  the property value is `true`, the iteration checks the value of the <xref:System.Threading.Tasks.ParallelLoopState.LowestBreakIteration%2A?displayProperty=fullName> property and, if it is greater than the current iteration's index value, returns immediately.  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="For">
@@ -54,12 +98,28 @@
         <Parameter Name="body" Type="System.Action&lt;System.Int32&gt;" />
       </Parameters>
       <Docs>
-        <param name="fromInclusive">To be added.</param>
-        <param name="toExclusive">To be added.</param>
-        <param name="body">To be added.</param>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
-        <remarks>To be added.</remarks>
+        <param name="fromInclusive">The start index, inclusive.</param>
+        <param name="toExclusive">The end index, exclusive.</param>
+        <param name="body">The delegate that is invoked once per iteration.</param>
+        <summary>Executes a `for` (`For` in Visual Basic) loop in which iterations may run in parallel.</summary>
+        <returns>A structure that contains information about which portion of the loop completed.</returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ The  delegate is invoked once for each value in the iteration range (, ). It is provided with the iteration count (<xref:System.Int32>) as a parameter.  
+  
+ If  is greater than or equal to , the method returns immediately without performing any iterations.  
+  
+   
+  
+## Examples  
+ The following example uses the For method for 100 invocations of a delegate that generates random byte values and computes their sum.  
+  
+ [!CODE [System.Threading.Tasks.Parallel.For#1](../../add/codesnippet/system.threading.tasks.parallel.md)]  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="For">
@@ -78,12 +138,29 @@
         <Parameter Name="body" Type="System.Action&lt;System.Int64,System.Threading.Tasks.ParallelLoopState&gt;" />
       </Parameters>
       <Docs>
-        <param name="fromInclusive">To be added.</param>
-        <param name="toExclusive">To be added.</param>
-        <param name="body">To be added.</param>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
-        <remarks>To be added.</remarks>
+        <param name="fromInclusive">The start index, inclusive.</param>
+        <param name="toExclusive">The end index, exclusive.</param>
+        <param name="body">The delegate that is invoked once per iteration.</param>
+        <summary>Executes a `for` (`For` in Visual Basic) loop with 64-bit indexes in which iterations may run in parallel and the state of the loop can be monitored and manipulated.</summary>
+        <returns>A &lt;see cref="T:System.Threading.Tasks.ParallelLoopResult"&gt; structure that contains information on what portion of the loop completed.</returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ The  delegate is invoked once for each value in the iteration range (, ). It is provided with the following parameters: the iteration count (<xref:System.Int64>), and a <xref:System.Threading.Tasks.ParallelLoopState> instance that may be used to break out of the loop prematurely.  
+  
+ Calling the <xref:System.Threading.Tasks.ParallelLoopState.Break%2A> method informs the `for` operation that iterations after the current one don’t have to be executed, but all iterations before the current one do.  
+  
+ Therefore, calling Break is similar to using a break operation within a conventional `for` loop in a language like C#, but it is not a perfect substitute: For example, there is no guarantee that iterations after the current one will definitely not execute.  
+  
+ If executing all iterations before the current one is not necessary, use the <xref:System.Threading.Tasks.ParallelLoopState.Stop%2A> method instead of using <xref:System.Threading.Tasks.ParallelLoopState.Break%2A>. Calling <xref:System.Threading.Tasks.ParallelLoopState.Stop%2A> informs the `for` loop that it may abandon all remaining iterations, regardless of whether they're before or after the current iteration, because all required work will have already been completed. However, as with <xref:System.Threading.Tasks.ParallelLoopState.Break%2A>, there are no guarantees regarding which other iterations will not execute.  
+  
+ If a loop is ended prematurely, the <xref:System.Threading.Tasks.ParallelLoopResult> structure that is returned will contain relevant information about the loop's completion.  
+  
+ If  is greater than or equal to , then the method returns immediately without performing any iterations.  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="For">
@@ -102,12 +179,21 @@
         <Parameter Name="body" Type="System.Action&lt;System.Int64&gt;" />
       </Parameters>
       <Docs>
-        <param name="fromInclusive">To be added.</param>
-        <param name="toExclusive">To be added.</param>
-        <param name="body">To be added.</param>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
-        <remarks>To be added.</remarks>
+        <param name="fromInclusive">The start index, inclusive.</param>
+        <param name="toExclusive">The end index, exclusive.</param>
+        <param name="body">The delegate that is invoked once per iteration.</param>
+        <summary>Executes a `for` (`For` in Visual Basic) loop with 64-bit indexes in which iterations may run in parallel.</summary>
+        <returns>A structure that contains information about which portion of the loop completed.</returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ The  delegate is invoked once for each value in the iteration range (, ). It is provided with the iteration count (<xref:System.Int64>) as a parameter.  
+  
+ If  is greater than or equal to , the method returns immediately without performing any iterations.  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="For">
@@ -127,13 +213,22 @@
         <Parameter Name="body" Type="System.Action&lt;System.Int32,System.Threading.Tasks.ParallelLoopState&gt;" />
       </Parameters>
       <Docs>
-        <param name="fromInclusive">To be added.</param>
-        <param name="toExclusive">To be added.</param>
-        <param name="parallelOptions">To be added.</param>
-        <param name="body">To be added.</param>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
-        <remarks>To be added.</remarks>
+        <param name="fromInclusive">The start index, inclusive.</param>
+        <param name="toExclusive">The end index, exclusive.</param>
+        <param name="parallelOptions">An object that configures the behavior of this operation.</param>
+        <param name="body">The delegate that is invoked once per iteration.</param>
+        <summary>Executes a `for` (`For` in Visual Basic) loop in which iterations may run in parallel, loop options can be configured, and the state of the loop can be monitored and manipulated.</summary>
+        <returns>A structure that contains information about which portion of the loop completed.</returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ The  delegate is invoked once for each value in the iteration range (, ). It is provided with the following parameters: the iteration count (<xref:System.Int32>), and a <xref:System.Threading.Tasks.ParallelLoopState> instance that may be used to break out of the loop prematurely.  
+  
+ If  is greater than or equal to , the method returns immediately without performing any iterations.  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="For">
@@ -153,13 +248,29 @@
         <Parameter Name="body" Type="System.Action&lt;System.Int32&gt;" />
       </Parameters>
       <Docs>
-        <param name="fromInclusive">To be added.</param>
-        <param name="toExclusive">To be added.</param>
-        <param name="parallelOptions">To be added.</param>
-        <param name="body">To be added.</param>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
-        <remarks>To be added.</remarks>
+        <param name="fromInclusive">The start index, inclusive.</param>
+        <param name="toExclusive">The end index, exclusive.</param>
+        <param name="parallelOptions">An object that configures the behavior of this operation.</param>
+        <param name="body">The delegate that is invoked once per iteration.</param>
+        <summary>Executes a `for` (`For` in Visual Basic) loop in which iterations may run in parallel and loop options can be configured.</summary>
+        <returns>A  structure that contains information about which portion of the loop completed.</returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ The  delegate is invoked once for each value in the iteration range (, ). It is provided with the iteration count (<xref:System.Int32>) as a parameter.  
+  
+ If  is greater than or equal to , then the method returns immediately without performing any iterations.  
+  
+   
+  
+## Examples  
+ The following example shows how to cancel a parallel loop:  
+  
+ [!CODE [System.Threading.Tasks.Parallel#05](../CodeSnippet/VS_Snippets_CLR_System/system.threading.tasks.parallel#05)]  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="For">
@@ -179,13 +290,29 @@
         <Parameter Name="body" Type="System.Action&lt;System.Int64,System.Threading.Tasks.ParallelLoopState&gt;" />
       </Parameters>
       <Docs>
-        <param name="fromInclusive">To be added.</param>
-        <param name="toExclusive">To be added.</param>
-        <param name="parallelOptions">To be added.</param>
-        <param name="body">To be added.</param>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
-        <remarks>To be added.</remarks>
+        <param name="fromInclusive">The start index, inclusive.</param>
+        <param name="toExclusive">The end index, exclusive.</param>
+        <param name="parallelOptions">An object that configures the behavior of this operation.</param>
+        <param name="body">The delegate that is invoked once per iteration.</param>
+        <summary>Executes a `for` (`For` in Visual Basic)  loop with 64-bit indexes in which iterations may run in parallel, loop options can be configured, and the state of the loop can be monitored and manipulated.</summary>
+        <returns>A structure that contains information about which portion of the loop completed.</returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ The  delegate is invoked once for each value in the iteration range (, ). It is provided with the following parameters: the iteration count (<xref:System.Int64>), and a <xref:System.Threading.Tasks.ParallelLoopState> instance that may be used to break out of the loop prematurely.  
+  
+ If  is greater than or equal to , the method returns immediately without performing any iterations.  
+  
+   
+  
+## Examples  
+ The following example shows how to use the <xref:System.Threading.Tasks.Parallel.For%2A?displayProperty=fullName> method with a <xref:System.Threading.Tasks.ParallelOptions> object:  
+  
+ [!CODE [System.Threading.Tasks.Parallel#03](../CodeSnippet/VS_Snippets_CLR_System/system.threading.tasks.parallel#03)]  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="For">
@@ -205,13 +332,29 @@
         <Parameter Name="body" Type="System.Action&lt;System.Int64&gt;" />
       </Parameters>
       <Docs>
-        <param name="fromInclusive">To be added.</param>
-        <param name="toExclusive">To be added.</param>
-        <param name="parallelOptions">To be added.</param>
-        <param name="body">To be added.</param>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
-        <remarks>To be added.</remarks>
+        <param name="fromInclusive">The start index, inclusive.</param>
+        <param name="toExclusive">The end index, exclusive.</param>
+        <param name="parallelOptions">An object that configures the behavior of this operation.</param>
+        <param name="body">The delegate that is invoked once per iteration.</param>
+        <summary>Executes a `for` (`For` in Visual Basic) loop with 64-bit indexes in which iterations may run in parallel and loop options can be configured.</summary>
+        <returns>A structure that contains information about which portion of the loop completed.</returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ Supports 64-bit indexes. The  delegate is invoked once for each value in the iteration range (, ). It is provided with the iteration count (<xref:System.Int64>) as a parameter.  
+  
+ If  is greater than or equal to , then the method returns immediately without performing any iterations.  
+  
+   
+  
+## Examples  
+ The following example shows how to use <xref:System.Threading.Tasks.ParallelOptions> to specify a custom task scheduler:  
+  
+ [!CODE [System.Threading.Tasks.Parallel#06](../CodeSnippet/VS_Snippets_CLR_System/system.threading.tasks.parallel#06)]  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="For&lt;TLocal&gt;">
@@ -954,9 +1097,27 @@
         </Parameter>
       </Parameters>
       <Docs>
-        <param name="actions">To be added.</param>
-        <summary>To be added.</summary>
-        <remarks>To be added.</remarks>
+        <param name="actions">An array of &lt;xref:System.Action&gt; to execute.</param>
+        <summary>Executes each of the provided actions, possibly in parallel.</summary>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ This method can be used to execute a set of operations, potentially in parallel.  
+  
+ No guarantees are made about the order in which the operations execute or whether they execute in parallel. This method does not return until each of the provided operations has completed, regardless of whether completion occurs due to normal or exceptional termination.  
+  
+ For more information, see [How to: Use Parallel.Invoke to Execute Parallel Operations](../Topic/How%20to:%20Use%20Parallel.Invoke%20to%20Execute%20Parallel%20Operations.md).  
+  
+   
+  
+## Examples  
+ This example demonstrates how to use the Invokemethod with other methods, anonymous delegates, and lambda expressions.  
+  
+ [!CODE [System.Threading.Tasks.Parallel#01](../CodeSnippet/VS_Snippets_CLR_System/system.threading.tasks.parallel#01)]  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="Invoke">
@@ -980,10 +1141,21 @@
         </Parameter>
       </Parameters>
       <Docs>
-        <param name="parallelOptions">To be added.</param>
-        <param name="actions">To be added.</param>
-        <summary>To be added.</summary>
-        <remarks>To be added.</remarks>
+        <param name="parallelOptions">An object that configures the behavior of this operation.</param>
+        <param name="actions">An array of actions to execute.</param>
+        <summary>Executes each of the provided actions, possibly in parallel, unless the operation is cancelled by the user.</summary>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ This method can be used to execute a set of operations, potentially in parallel. The cancellation token passed in with the <xref:System.Threading.Tasks.ParallelOptions> structure enables the caller to cancel the entire operation. For more information, see [Cancellation in Managed Threads](../Topic/Cancellation%20in%20Managed%20Threads.md).  
+  
+ No guarantees are made about the order in which the operations execute or whether they execute in parallel. This method does not return until each of the provided operations has completed, regardless of whether completion occurs due to normal or exceptional termination.  
+  
+ For more information, see [How to: Use Parallel.Invoke to Execute Parallel Operations](../Topic/How%20to:%20Use%20Parallel.Invoke%20to%20Execute%20Parallel%20Operations.md).  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
   </Members>

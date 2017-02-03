@@ -28,8 +28,92 @@
     </Attribute>
   </Attributes>
   <Docs>
-    <summary>To be added.</summary>
-    <remarks>To be added.</remarks>
+    <summary>Represents a character as a UTF-16 code unit.</summary>
+    <remarks>
+      <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ The [!INCLUDE[dnprdnshort](../../add/includes/dnprdnshort-md.md)] uses the Char structure to represent a Unicode character. The Unicode Standard identifies each Unicode character with a unique 21-bit scalar number called a code point, and defines the UTF-16 encoding form that specifies how a code point is encoded into a sequence of one or more 16-bit values. Each 16-bit value ranges from hexadecimal 0x0000 through 0xFFFF and is stored in a Char structure.  The value of a Char object is its 16-bit numeric (ordinal) value.  
+  
+ The following sections examine the relationship between a Char object and a character and discuss some common tasks performed with Char instances.  
+  
+ [Char objects, Unicode characters, and strings](#Relationship)   
+ [Characters and character categories](#Categories)   
+ [Characters and text elements](#Elements)   
+ [Common operations](#Operations)   
+ [Char values and interop](#Interop)  
+  
+<a name="Relationship"></a>   
+## Char objects, Unicode characters, and strings  
+ A <xref:System.String> object is a sequential collection of Char structures that represents a string of text. Most Unicode characters can be represented by a single Char object, but a character that is encoded as a base character, surrogate pair, and/or combining character sequence is represented by multiple Char objects. For this reason, a Char structure in a <xref:System.String> object is not necessarily equivalent to a single Unicode character.  
+  
+ Multiple 16-bit code units are used to represent single Unicode characters in the following cases:  
+  
+-   Glyphs, which may consist of a single character or of a base character followed by one or more combining characters. For example, the character ä is represented by a Char object whose code unit is U+0061 followed by a Char object whose code unit is U+0308. (The character ä can also be defined by a single Char object that has a code unit of U+00E4.) The following example illustrates that the character ä consists of two Char objects.  
+  
+     [!CODE [System.Char.Class#1](../CodeSnippet/VS_Snippets_CLR_System/system.char.class#1)]  
+  
+-   Characters outside the Unicode Basic Multilingual Plane (BMP). Unicode supports sixteen planes in addition to the BMP, which represents plane 0. A Unicode code point is represented in UTF-32 by a 21-bit value that includes the plane. For example, U+1D160 represents the MUSICAL SYMBOL EIGHTH NOTE character. Because UTF-16 encoding has only 16 bits, characters outside the BMP are represented by surrogate pairs in UTF-16. The following example illustrates that the UTF-32 equivalent of U+1D160, the MUSICAL SYMBOL EIGHTH NOTE character, is U+D834 U+DD60. U+D834 is the high surrogate; high surrogates range from U+D800 through U+DBFF. U+DD60 is the low surrogate; low surrogates range from U+DC00 through U+DFFF.  
+  
+     [!CODE [System.Char.Class#2](../CodeSnippet/VS_Snippets_CLR_System/system.char.class#2)]  
+  
+<a name="Categories"></a>   
+## Characters and character categories  
+ Each Unicode character or valid surrogate pair belongs to a Unicode category. In the .NET Framework, Unicode categories are represented by members of the <xref:System.Globalization.UnicodeCategory> enumeration and include values such as <xref:System.Globalization.UnicodeCategory?displayProperty=fullName>, <xref:System.Globalization.UnicodeCategory?displayProperty=fullName>, and <xref:System.Globalization.UnicodeCategory?displayProperty=fullName>, for example.  
+  
+ To determine the Unicode category of a character, you call the <xref:System.Char.GetUnicodeCategory%2A> method. For example, the following example calls the <xref:System.Char.GetUnicodeCategory%2A> to display the Unicode category of each character in a string.  
+  
+ [!CODE [System.Char.Class#6](../CodeSnippet/VS_Snippets_CLR_System/system.char.class#6)]  
+  
+ Internally, for characters outside the ASCII range (U+0000 through U+00FF), the <xref:System.Char.GetUnicodeCategory%2A> method depends on Unicode categories reported by the <xref:System.Globalization.CharUnicodeInfo> class. Starting with the [!INCLUDE[net_v462](../../add/includes/net-v462-md.md)], Unicode characters are classified based on [The Unix Standard, Version 8.0.0](http://www.unicode.org/versions/Unicode8.0.0/). In versions of the .NET Framework from the [!INCLUDE[net_v40_long](../../add/includes/net-v40-long-md.md)] to  the [!INCLUDE[net_v461](../../add/includes/net-v461-md.md)], they are classified based on [The Unix Standard, Version 6.3.0](http://www.unicode.org/versions/Unicode6.3.0/).  
+  
+<a name="Elements"></a>   
+## Characters and text elements  
+ Because a single character can be represented by multiple Char objects, it is not always meaningful to work with individual Char objects. For instance, the following example converts the Unicode code points that represent the Aegean numbers zero through 9 to UTF-16 encoded code units. Because it erroneously equates Char objects with characters, it inaccurately reports that the resulting string has 20 characters.  
+  
+ [!CODE [System.Char.Class#3](../CodeSnippet/VS_Snippets_CLR_System/system.char.class#3)]  
+  
+ You can do the following to avoid the assumption that a Char object represents a single character.  
+  
+-   You can work with a <xref:System.String> object in its entirety instead of working with its individual characters to represent and analyze linguistic content.  
+  
+-   You can use the <xref:System.Globalization.StringInfo> class to work with text elements instead of individual Char objects. The following example uses the <xref:System.Globalization.StringInfo> object to count the number of text elements in a string that consists of the Aegean numbers zero through nine. Because it considers a surrogate pair a single character, it correctly reports that the string contains ten characters.  
+  
+     [!CODE [System.Char.Class#4](../CodeSnippet/VS_Snippets_CLR_System/system.char.class#4)]  
+  
+-   If a string contains a base character that has one or more combining characters, you can call the <xref:System.String.Normalize%2A?displayProperty=fullName> method to convert the substring to a single UTF-16 encoded code unit. The following example calls the <xref:System.String.Normalize%2A?displayProperty=fullName> method to convert the base character U+0061 (LATIN SMALL LETTER A) and combining character U+0308 (COMBINING DIAERESIS) to U+00E4 (LATIN SMALL LETTER A WITH DIAERESIS).  
+  
+     [!CODE [System.Char.Class#5](../CodeSnippet/VS_Snippets_CLR_System/system.char.class#5)]  
+  
+<a name="Operations"></a>   
+## Common operations  
+ The Char structure provides methods to compare Char objects, convert the value of the current Char object to an object of another type, and determine the Unicode category of a Char object:  
+  
+|To do this|Use these `System.Char` methods|  
+|----------------|-------------------------------------|  
+|Compare Char objects|<xref:System.Char.CompareTo%2A> and <xref:System.Char.Equals%2A>|  
+|Convert a code point to a string|<xref:System.Char.ConvertFromUtf32%2A>|  
+|Convert a Char object or a surrogate pair of Char objects to a code point|For a single character: <xref:System.Convert.ToInt32%28System.Char%29?displayProperty=fullName><br /><br /> For a surrogate pair or a character in a string: <xref:System.Char.ConvertToUtf32%2A?displayProperty=fullName>|  
+|Get the Unicode category of a character|<xref:System.Char.GetUnicodeCategory%2A>|  
+|Determine whether a character is in a particular Unicode category such as digit, letter, punctuation, control character, and so on|<xref:System.Char.IsControl%2A>, <xref:System.Char.IsDigit%2A>, <xref:System.Char.IsHighSurrogate%2A>, <xref:System.Char.IsLetter%2A>, <xref:System.Char.IsLetterOrDigit%2A>, <xref:System.Char.IsLower%2A>, <xref:System.Char.IsLowSurrogate%2A>, <xref:System.Char.IsNumber%2A>, <xref:System.Char.IsPunctuation%2A>, <xref:System.Char.IsSeparator%2A>, <xref:System.Char.IsSurrogate%2A>, <xref:System.Char.IsSurrogatePair%2A>, <xref:System.Char.IsSymbol%2A>, <xref:System.Char.IsUpper%2A>, and <xref:System.Char.IsWhiteSpace%2A>|  
+|Convert a Char object that represents a number to a numeric value type|<xref:System.Char.GetNumericValue%2A>|  
+|Convert a character in a string into a Char object|<xref:System.Char.Parse%2A> and <xref:System.Char.TryParse%2A>|  
+|Convert a Char object to a <xref:System.String> object|<xref:System.Char.ToString%2A>|  
+|Change the case of a Char object|<xref:System.Char.ToLower%2A>, <xref:System.Char.ToLowerInvariant%2A>, <xref:System.Char.ToUpper%2A>, and <xref:System.Char.ToUpperInvariant%2A>|  
+  
+<a name="Interop"></a>   
+## Char values and interop  
+ When a managed Char type, which is represented as a Unicode UTF-8 encoded code unit, is passed to unmanaged code, the interop marshaler converts the character set to ANSI. You can apply the <xref:System.Runtime.InteropServices.DllImportAttribute> attribute to platform invoke declarations and the <xref:System.Runtime.InteropServices.StructLayoutAttribute> attribute to a COM interop declaration to control which character set a marshaled Char type uses.  
+  
+   
+  
+## Examples  
+ The following code example demonstrates some of the methods in Char.  
+  
+ [!CODE [System.Char [Type Level]#23](../CodeSnippet/VS_Snippets_CLR_System/system.Char [Type Level]#23)]  
+  
+ ]]></format>
+    </remarks>
   </Docs>
   <Members>
     <Member MemberName="CompareTo">
@@ -46,10 +130,38 @@
         <Parameter Name="value" Type="System.Char" />
       </Parameters>
       <Docs>
-        <param name="value">To be added.</param>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
-        <remarks>To be added.</remarks>
+        <param name="value">A &lt;see cref="T:System.Char"&gt; object to compare.</param>
+        <summary>Compares this instance to a specified &lt;see cref="T:System.Char"&gt; object and indicates whether this instance precedes, follows, or appears in the same position in the sort order as the specified &lt;see cref="T:System.Char"&gt; object.</summary>
+        <returns>A signed number indicating the position of this instance in the sort order in relation to the  parameter.  
+  
+|Return Value|Description|  
+|------------------|-----------------|  
+|Less than zero|This instance precedes .|  
+|Zero|This instance has the same position in the sort order as .|  
+|Greater than zero|This instance follows .|</returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ This method implements the <xref:System.IComparable%601?displayProperty=fullName> interface and performs slightly better than the <xref:System.Char.CompareTo%2A?displayProperty=fullName> method because it does not have to convert the  parameter to an object.  
+  
+ The comparison performed by this method is based on the encoded values of this instance and , not their lexicographical characteristics.  
+  
+ If the <xref:System.Char.CompareTo%2A> method parameter type has fewer bits (is narrower) than the instance type, some programming languages perform an implicit widening conversion that transforms the value of the parameter into a value with more bits.  
+  
+ For example, suppose the instance type is <xref:System.Int32> and the parameter type is <xref:System.Byte>. The Microsoft C# compiler generates instructions to represent the value of the parameter as an <xref:System.Int32> object, then generates a <xref:System.Int32.CompareTo%2A?displayProperty=fullName> method that compares the values of the <xref:System.Int32> instance and the <xref:System.Int32> parameter representation.  
+  
+ Typically, implicit widening conversions are performed on numeric types. Consult your programming language's documentation to determine if its compiler performs widening conversions. If the instance and parameter types mismatch and a suitable conversion is not available, the compiler generates instructions to box the parameter and invoke the <xref:System.Char.CompareTo%2A> overload that takes an <xref:System.Object> parameter.  
+  
+   
+  
+## Examples  
+ The following code example demonstrates generic and non-generic versions of the `CompareTo` method for several value and reference types.  
+  
+ [!CODE [T.CompareTo#1](../CodeSnippet/VS_Snippets_CLR/T.CompareTo#1)]  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="CompareTo">
@@ -66,10 +178,34 @@
         <Parameter Name="value" Type="System.Object" />
       </Parameters>
       <Docs>
-        <param name="value">To be added.</param>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
-        <remarks>To be added.</remarks>
+        <param name="value">An object to compare this instance to, or `null`.</param>
+        <summary>Compares this instance to a specified object and indicates whether this instance precedes, follows, or appears in the same position in the sort order as the specified &lt;see cref="T:System.Object"&gt;.</summary>
+        <returns>A signed number indicating the position of this instance in the sort order in relation to the  parameter.  
+  
+|Return Value|Description|  
+|------------------|-----------------|  
+|Less than zero|This instance precedes .|  
+|Zero|This instance has the same position in the sort order as .|  
+|Greater than zero|This instance follows .&lt;br /&gt;&lt;br /&gt; -or-&lt;br /&gt;&lt;br /&gt; is `null`.|</returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ The CompareTo method implements the <xref:System.IComparable> interface.  
+  
+ The  parameter must be `null` or an instance of <xref:System.Char>; otherwise, an exception is thrown.  
+  
+ The comparison performed by this method is based on the encoded values of this instance and , not necessarily their lexicographical characteristics. Any instance of <xref:System.Char>, regardless of its value, is considered greater than `null`.  
+  
+   
+  
+## Examples  
+ The following code example demonstrates CompareTo.  
+  
+ [!CODE [System.Char.CompareTo#19](../CodeSnippet/VS_Snippets_CLR_System/system.Char.CompareTo#19)]  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="ConvertFromUtf32">
@@ -86,10 +222,26 @@
         <Parameter Name="utf32" Type="System.Int32" />
       </Parameters>
       <Docs>
-        <param name="utf32">To be added.</param>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
-        <remarks>To be added.</remarks>
+        <param name="utf32">A 21-bit Unicode code point.</param>
+        <summary>Converts the specified Unicode code point into a UTF-16 encoded string.</summary>
+        <returns>A string consisting of one &lt;see cref="T:System.Char"&gt; object or a surrogate pair of &lt;see cref="T:System.Char"&gt; objects equivalent to the code point specified by the  parameter.</returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ Use this method to convert a 21-bit Unicode code point to a UTF-16 encoded string before testing the string with methods such as <xref:System.Char.IsLowSurrogate%28System.Char%29> and <xref:System.Char.IsHighSurrogate%28System.Char%29>.  
+  
+ A valid code point outside the Basic Multilingual Plane (BMP) always yields a valid surrogate pair. However, a valid code point within the BMP might not yield a valid result according to the Unicode standard because no linguistic processing is used in the conversion. For that reason, use the <xref:System.Text.UTF32Encoding?displayProperty=fullName> class to convert bulk UTF-32 data into bulk UTF-16 data.  
+  
+   
+  
+## Examples  
+ The following code example demonstrates the <xref:System.Char.ConvertToUtf32%2A> and ConvertFromUtf32 methods.  
+  
+ [!CODE [char.cvtutf32#1](../CodeSnippet/VS_Snippets_CLR/char.cvtutf32#1)]  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="ConvertToUtf32">
@@ -107,11 +259,27 @@
         <Parameter Name="lowSurrogate" Type="System.Char" />
       </Parameters>
       <Docs>
-        <param name="highSurrogate">To be added.</param>
-        <param name="lowSurrogate">To be added.</param>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
-        <remarks>To be added.</remarks>
+        <param name="highSurrogate">A high surrogate code unit (that is, a code unit ranging from U+D800 through U+DBFF).</param>
+        <param name="lowSurrogate">A low surrogate code unit (that is, a code unit ranging from U+DC00 through U+DFFF).</param>
+        <summary>Converts the value of a UTF-16 encoded surrogate pair into a Unicode code point.</summary>
+        <returns>The 21-bit Unicode code point represented by the  and  parameters.</returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ Use this method to convert a surrogate pair into a 21-bit Unicode code point. To convert UTF-16 data into UTF-32 data, use the <xref:System.Text.UTF32Encoding?displayProperty=fullName> class.  
+  
+ Ordinarily, UTF-16 encoding represents a single Unicode character as a 16-bit code unit. However, it also supports surrogate pairs, which allow a single abstract character to be represented as two 16-bit code units. These two <xref:System.Char> objects must have code units that range from U+D800 to U+DBFF for the first (high) surrogate and from U+DC00 to U+DFFF for the second (low) surrogate. Surrogate pairs are supported only by UTF-16 encoding. This method allows a character represented by a UTF-16 surrogate pair to be converted to a character using UTF-32 encoding.  
+  
+   
+  
+## Examples  
+ The following code example demonstrates the ConvertToUtf32 and <xref:System.Char.ConvertFromUtf32%2A> methods.  
+  
+ [!CODE [char.cvtutf32#1](../CodeSnippet/VS_Snippets_CLR/char.cvtutf32#1)]  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="ConvertToUtf32">
@@ -129,11 +297,25 @@
         <Parameter Name="index" Type="System.Int32" />
       </Parameters>
       <Docs>
-        <param name="s">To be added.</param>
-        <param name="index">To be added.</param>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
-        <remarks>To be added.</remarks>
+        <param name="s">A string that contains a character or surrogate pair.</param>
+        <param name="index">The index position of the character or surrogate pair in .</param>
+        <summary>Converts the value of a UTF-16 encoded character or surrogate pair at a specified position in a string into a Unicode code point.</summary>
+        <returns>The 21-bit Unicode code point represented by the character or surrogate pair at the position in the  parameter specified by the  parameter.</returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ Use this method to convert a character or surrogate pair into a 21-bit Unicode code point. To convert UTF-16 data into UTF-32 data, use the <xref:System.Text.UTF32Encoding?displayProperty=fullName> class.  
+  
+   
+  
+## Examples  
+ The following code example demonstrates the <xref:System.Char.ConvertToUtf32%2A> and <xref:System.Char.ConvertFromUtf32%2A> methods.  
+  
+ [!CODE [char.cvtutf32#1](../CodeSnippet/VS_Snippets_CLR/char.cvtutf32#1)]  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="Equals">
@@ -150,10 +332,17 @@
         <Parameter Name="obj" Type="System.Char" />
       </Parameters>
       <Docs>
-        <param name="obj">To be added.</param>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
-        <remarks>To be added.</remarks>
+        <param name="obj">An object to compare to this instance.</param>
+        <summary>Returns a value that indicates whether this instance is equal to the specified &lt;see cref="T:System.Char"&gt; object.</summary>
+        <returns>`true` if the  parameter equals the value of this instance; otherwise, `false`.</returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ This method implements the <xref:System.IEquatable%601?displayProperty=fullName> interface, and performs slightly better than <xref:System.Char.Equals%28System.Object%29?displayProperty=fullName> because it does not need to unbox the  parameter.  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="Equals">
@@ -170,10 +359,24 @@
         <Parameter Name="obj" Type="System.Object" />
       </Parameters>
       <Docs>
-        <param name="obj">To be added.</param>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
-        <remarks>To be added.</remarks>
+        <param name="obj">An object to compare with this instance or `null`.</param>
+        <summary>Returns a value that indicates whether this instance is equal to a specified object.</summary>
+        <returns>`true` if  is an instance of &lt;see cref="T:System.Char"&gt; and equals the value of this instance; otherwise, `false`.</returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ The comparison performed by this method is based on the encoded values of this instance and , not necessarily their lexicographical characteristics.  
+  
+   
+  
+## Examples  
+ The following code example demonstrates Equals.  
+  
+ [!CODE [System.Char.Equals#20](../CodeSnippet/VS_Snippets_CLR_System/system.Char.Equals#20)]  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="GetHashCode">
@@ -188,8 +391,8 @@
       </ReturnValue>
       <Parameters />
       <Docs>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
+        <summary>Returns the hash code for this instance.</summary>
+        <returns>A 32-bit signed integer hash code.</returns>
         <remarks>To be added.</remarks>
       </Docs>
     </Member>
@@ -207,10 +410,30 @@
         <Parameter Name="c" Type="System.Char" />
       </Parameters>
       <Docs>
-        <param name="c">To be added.</param>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
-        <remarks>To be added.</remarks>
+        <param name="c">The Unicode character to convert.</param>
+        <summary>Converts the specified numeric Unicode character to a double-precision floating point number.</summary>
+        <returns>The numeric value of  if that character represents a number; otherwise, -1.0.</returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ The  parameter must be the <xref:System.Char> representation of a numeric value. For example, if  is "5", the return value is 5. However, if  is "z", the return value is -1.0.  
+  
+ A character has an associated numeric value if and only if it is a member of one of the following <xref:System.Globalization.UnicodeCategory> categories: `DecimalDigitNumber`, `LetterNumber`, or `OtherNumber`.  
+  
+ The GetNumericValue method assumes that  corresponds to a single linguistic character and checks whether that character can be converted to a decimal digit. However, some numbers in the Unicode standard are represented by two <xref:System.Char> objects that form a surrogate pair. For example, the Aegean numbering system consists of code points U+10107 through U+10133. The following example uses the <xref:System.Char.ConvertFromUtf32%2A> method to instantiate a string that represents AEGEAN NUMBER ONE. As the output from the example shows, the GetNumericValue method returns -1 if it is passed either a high surrogate or a low surrogate of this character.  
+  
+ [!CODE [System.Char.GetNumericValue#2](../CodeSnippet/VS_Snippets_CLR_System/system.Char.GetNumericValue#2)]  
+  
+   
+  
+## Examples  
+ The following example demonstrates GetNumericValue.  
+  
+ [!CODE [System.Char.GetNumericValue#1](../CodeSnippet/VS_Snippets_CLR_System/system.Char.GetNumericValue#1)]  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="GetNumericValue">
@@ -228,11 +451,33 @@
         <Parameter Name="index" Type="System.Int32" />
       </Parameters>
       <Docs>
-        <param name="s">To be added.</param>
-        <param name="index">To be added.</param>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
-        <remarks>To be added.</remarks>
+        <param name="s">A &lt;see cref="T:System.String"&gt;.</param>
+        <param name="index">The character position in .</param>
+        <summary>Converts the numeric Unicode character at the specified position in a specified string to a double-precision floating point number.</summary>
+        <returns>The numeric value of the character at position  in  if that character represents a number; otherwise, -1.</returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ The  parameter must be the string representation of a numeric value. For example, if the character at position  in  is "5", the return value is 5. However, if the character at position  in  is "z", the return value is -1.  
+  
+ Character positions in a string are indexed starting from zero.  
+  
+ A character has an associated numeric value if and only if it is a member of one of the following <xref:System.Globalization.UnicodeCategory> categories: `DecimalDigitNumber`, `LetterNumber`, or `OtherNumber`.  
+  
+ If the <xref:System.Char> object at position  is the first character of a valid surrogate pair, the GetNumericValue method determines whether the surrogate pair forms a numeric digit. For example, the Aegean numbering system consists of code points U+10107 through U+10133. The following example uses the <xref:System.Char.ConvertFromUtf32%2A> method to instantiate a string that represents each Aegean number. As the output from the example shows, the GetNumericValue method returns the correct numeric value if it is passed the high surrogate of an Aegean number. However, if it is passed the low surrogate, it considers only the low surrogate in isolation and returns -1.  
+  
+ [!CODE [System.Char.GetNumericValue#3](../CodeSnippet/VS_Snippets_CLR_System/system.Char.GetNumericValue#3)]  
+  
+   
+  
+## Examples  
+ The following code example demonstrates <xref:System.Char.GetNumericValue%2A>.  
+  
+ [!CODE [System.Char.GetNumericValue#1](../CodeSnippet/VS_Snippets_CLR_System/system.Char.GetNumericValue#1)]  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="GetTypeCode">
@@ -247,8 +492,8 @@
       </ReturnValue>
       <Parameters />
       <Docs>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
+        <summary>Returns the &lt;see cref="T:System.TypeCode"&gt; for value type &lt;xref:System.Char&gt;.</summary>
+        <returns>The enumerated constant, &lt;xref:System.TypeCode?displayProperty=fullName&gt;.</returns>
         <remarks>To be added.</remarks>
       </Docs>
     </Member>
@@ -266,10 +511,26 @@
         <Parameter Name="c" Type="System.Char" />
       </Parameters>
       <Docs>
-        <param name="c">To be added.</param>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
-        <remarks>To be added.</remarks>
+        <param name="c">The Unicode character to categorize.</param>
+        <summary>Categorizes a specified Unicode character into a group identified by one of the &lt;see cref="T:System.Globalization.UnicodeCategory"&gt; values.</summary>
+        <returns>A &lt;see cref="T:System.Globalization.UnicodeCategory"&gt; value that identifies the group that contains .</returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ The GetUnicodeCategorymethod does not always return the same <xref:System.Globalization.UnicodeCategory> value as the <xref:System.Globalization.CharUnicodeInfo.GetUnicodeCategory%28System.Char%29?displayProperty=fullName> method when it is passed a particular character as a parameter. The <xref:System.Globalization.CharUnicodeInfo.GetUnicodeCategory%28System.Char%29?displayProperty=fullName> method is designed to reflect the current version of the Unicode standard. In contrast, although the GetUnicodeCategory method usually reflects the current version of the Unicode standard, it may return a character's category based on a previous version of the standard or it may return a category that differs from the current standard in order to preserve backward compatibility. As a result, we recommend that you use the <xref:System.Globalization.CharUnicodeInfo.GetUnicodeCategory%28System.Char%29?displayProperty=fullName> method instead of GetUnicodeCategory.  
+  
+ Starting with the [!INCLUDE[net_v462](../../add/includes/net-v462-md.md)], Unicode characters are classified based on [The Unix Standard, Version 8.0.0](http://www.unicode.org/versions/Unicode8.0.0/). In versions of the .NET Framework from the [!INCLUDE[net_v40_long](../../add/includes/net-v40-long-md.md)] to  the [!INCLUDE[net_v461](../../add/includes/net-v461-md.md)], they are classified based on [The Unix Standard, Version 6.3.0](http://www.unicode.org/versions/Unicode6.3.0/).  
+  
+   
+  
+## Examples  
+ The following code example demonstrates GetUnicodeCategory.  
+  
+ [!CODE [System.Char.GetUnicodeCategory#1](../CodeSnippet/VS_Snippets_CLR_System/system.Char.GetUnicodeCategory#1)]  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="GetUnicodeCategory">
@@ -287,11 +548,29 @@
         <Parameter Name="index" Type="System.Int32" />
       </Parameters>
       <Docs>
-        <param name="s">To be added.</param>
-        <param name="index">To be added.</param>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
-        <remarks>To be added.</remarks>
+        <param name="s">A &lt;see cref="T:System.String"&gt;.</param>
+        <param name="index">The character position in .</param>
+        <summary>Categorizes the character at the specified position in a specified string into a group identified by one of the &lt;see cref="T:System.Globalization.UnicodeCategory"&gt; values.</summary>
+        <returns>A &lt;see cref="T:System.Globalization.UnicodeCategory"&gt; enumerated constant that identifies the group that contains the character at position  in .</returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ Character positions in a string are indexed starting from zero.  
+  
+ The GetUnicodeCategorymethod does not always return the same <xref:System.Globalization.UnicodeCategory> value as the <xref:System.Globalization.CharUnicodeInfo.GetUnicodeCategory%28System.String%2CSystem.Int32%29?displayProperty=fullName> method when it is passed a particular character as a parameter. The <xref:System.Globalization.CharUnicodeInfo.GetUnicodeCategory%28System.String%2CSystem.Int32%29?displayProperty=fullName> method is designed to reflect the current version of the Unicode standard. In contrast, although the GetUnicodeCategory method usually reflects the current version of the Unicode standard, it may return a character's category based on a previous version of the standard or it may return a category that differs from the current standard in order to preserve backward compatibility. As a result, we recommend that you use the <xref:System.Globalization.CharUnicodeInfo.GetUnicodeCategory%28System.Char%29?displayProperty=fullName> method instead of GetUnicodeCategory.  
+  
+ Starting with the [!INCLUDE[net_v462](../../add/includes/net-v462-md.md)], Unicode characters are classified based on [The Unix Standard, Version 8.0.0](http://www.unicode.org/versions/Unicode8.0.0/). In versions of the .NET Framework from the [!INCLUDE[net_v40_long](../../add/includes/net-v40-long-md.md)] to  the [!INCLUDE[net_v461](../../add/includes/net-v461-md.md)], they are classified based on [The Unix Standard, Version 6.3.0](http://www.unicode.org/versions/Unicode6.3.0/).  
+  
+   
+  
+## Examples  
+ The following example demonstrates <xref:System.Char.GetUnicodeCategory%2A>.  
+  
+ [!CODE [System.Char.GetUnicodeCategory#1](../CodeSnippet/VS_Snippets_CLR_System/system.Char.GetUnicodeCategory#1)]  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="IsControl">
@@ -308,10 +587,24 @@
         <Parameter Name="c" Type="System.Char" />
       </Parameters>
       <Docs>
-        <param name="c">To be added.</param>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
-        <remarks>To be added.</remarks>
+        <param name="c">The Unicode character to evaluate.</param>
+        <summary>Indicates whether the specified Unicode character is categorized as a control character.</summary>
+        <returns>`true` if  is a control character; otherwise, `false`.</returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ Control characters are formatting and other non-printing characters, such as ACK, BEL, CR, FF, LF, and VT. T The Unicode standard assigns code points from \U0000 to \U001F, \U007F, and from \U0080 to \U009F to control characters. According to the Unicode standard, these values are to be interpreted as control characters unless their use is otherwise defined by an application. Valid control characters are members of the <xref:System.Globalization.UnicodeCategory?displayProperty=fullName> category.  
+  
+   
+  
+## Examples  
+ The following example lists the Unicode code point of each of the control characters.  
+  
+ [!CODE [System.Char.IsControl#1](../CodeSnippet/VS_Snippets_CLR_System/system.Char.IsControl#1)]  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="IsControl">
@@ -329,11 +622,27 @@
         <Parameter Name="index" Type="System.Int32" />
       </Parameters>
       <Docs>
-        <param name="s">To be added.</param>
-        <param name="index">To be added.</param>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
-        <remarks>To be added.</remarks>
+        <param name="s">A string.</param>
+        <param name="index">The position of the character to evaluate in .</param>
+        <summary>Indicates whether the character at the specified position in a specified string is categorized as a control character.</summary>
+        <returns>`true` if the character at position  in  is a control character; otherwise, `false`.</returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ Character positions in a string are indexed starting from zero.  
+  
+ Control characters are formatting and other non-printing characters, such as ACK, BEL, CR, FF, LF, and VT. The Unicode standard assigns code points from \U0000 to \U001F, \U007F, and from \U0080 to \U009F to control characters. According to the Unicode standard, these values are to be interpreted as control characters unless their use is otherwise defined by an application. Valid control characters are members of the <xref:System.Globalization.UnicodeCategory?displayProperty=fullName> category.  
+  
+   
+  
+## Examples  
+ The following example enumerates the characters in a string and determines whether any are control characters.  
+  
+ [!CODE [System.Char.IsControl#2](../CodeSnippet/VS_Snippets_CLR_System/system.Char.IsControl#2)]  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="IsDigit">
@@ -350,10 +659,26 @@
         <Parameter Name="c" Type="System.Char" />
       </Parameters>
       <Docs>
-        <param name="c">To be added.</param>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
-        <remarks>To be added.</remarks>
+        <param name="c">The Unicode character to evaluate.</param>
+        <summary>Indicates whether the specified Unicode character is categorized as a decimal digit.</summary>
+        <returns>`true` if  is a decimal digit; otherwise, `false`.</returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ This method determines whether a <xref:System.Char> is a radix-10 digit. This contrasts with <xref:System.Char.IsNumber%2A>, which determines whether a `Char` is of any numeric Unicode category. Numbers include characters such as fractions, subscripts, superscripts, Roman numerals, currency numerators, encircled numbers, and script-specific digits.  
+  
+ Valid digits are members of the <xref:System.Globalization.UnicodeCategory?displayProperty=fullName> category.  
+  
+   
+  
+## Examples  
+ The following code example demonstrates IsDigit.  
+  
+ [!CODE [System.Char.IsDigit#4](../CodeSnippet/VS_Snippets_CLR_System/system.Char.IsDigit#4)]  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="IsDigit">
@@ -371,11 +696,29 @@
         <Parameter Name="index" Type="System.Int32" />
       </Parameters>
       <Docs>
-        <param name="s">To be added.</param>
-        <param name="index">To be added.</param>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
-        <remarks>To be added.</remarks>
+        <param name="s">A string.</param>
+        <param name="index">The position of the character to evaluate in .</param>
+        <summary>Indicates whether the character at the specified position in a specified string is categorized as a decimal digit.</summary>
+        <returns>`true` if the character at position  in  is a decimal digit; otherwise, `false`.</returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ This method determines whether a <xref:System.Char> is a radix-10 digit. This contrasts with <xref:System.Char.IsNumber%2A>, which determines whether a <xref:System.Char> is of any numeric Unicode category. Numbers include characters such as fractions, subscripts, superscripts, Roman numerals, currency numerators, encircled numbers, and script-specific digits.  
+  
+ Character positions in a string are indexed starting from zero.  
+  
+ Valid digits are members of the <xref:System.Globalization.UnicodeCategory?displayProperty=fullName> category.  
+  
+   
+  
+## Examples  
+ The following code example demonstrates <xref:System.Char.IsDigit%2A>.  
+  
+ [!CODE [System.Char.IsDigit#4](../CodeSnippet/VS_Snippets_CLR_System/system.Char.IsDigit#4)]  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="IsHighSurrogate">
@@ -392,10 +735,24 @@
         <Parameter Name="c" Type="System.Char" />
       </Parameters>
       <Docs>
-        <param name="c">To be added.</param>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
-        <remarks>To be added.</remarks>
+        <param name="c">The Unicode character to evaluate.</param>
+        <summary>Indicates whether the specified &lt;see cref="T:System.Char"&gt; object is a high surrogate.</summary>
+        <returns>`true` if the numeric value of the  parameter ranges from U+D800 through U+DBFF; otherwise, `false`.</returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ In addition to representing single characters using a 16-bit code point, UTF-16 encoding allows abstract characters to be represented using two 16-bit code points, which is known as a surrogate pair. The first element in this pair is the high surrogate. Its code point can range from U+D800 to U+DBFF. An individual surrogate has no interpretation of its own; it is meaningful only when used as part of a surrogate pair.  
+  
+   
+  
+## Examples  
+ The following code example demonstrates the IsHighSurrogate, <xref:System.Char.IsLowSurrogate%2A>, and <xref:System.Char.IsSurrogatePair%2A> methods.  
+  
+ [!CODE [char.surrogate#1](../CodeSnippet/VS_Snippets_CLR/char.surrogate#1)]  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="IsHighSurrogate">
@@ -413,11 +770,27 @@
         <Parameter Name="index" Type="System.Int32" />
       </Parameters>
       <Docs>
-        <param name="s">To be added.</param>
-        <param name="index">To be added.</param>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
-        <remarks>To be added.</remarks>
+        <param name="s">A string.</param>
+        <param name="index">The position of the character to evaluate in .</param>
+        <summary>Indicates whether the &lt;see cref="T:System.Char"&gt; object at the specified position in a string is a high surrogate.</summary>
+        <returns>`true` if the numeric value of the specified character in the  parameter ranges from U+D800 through U+DBFF; otherwise, `false`.</returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ The  parameter is zero-based.  
+  
+ In addition to representing single characters using a 16-bit code point, UTF-16 encoding allows abstract characters to be represented using two 16-bit code points, which is known as a surrogate pair. The first element in this pair is the high surrogate. Its code point can range from U+D800 to U+DBFF. An individual surrogate has no interpretation of its own; it is meaningful only when used as part of a surrogate pair.  
+  
+   
+  
+## Examples  
+ The following code example demonstrates the <xref:System.Char.IsHighSurrogate%2A>, <xref:System.Char.IsLowSurrogate%2A>, and <xref:System.Char.IsSurrogatePair%2A> methods.  
+  
+ [!CODE [char.surrogate#1](../CodeSnippet/VS_Snippets_CLR/char.surrogate#1)]  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="IsLetter">
@@ -434,10 +807,34 @@
         <Parameter Name="c" Type="System.Char" />
       </Parameters>
       <Docs>
-        <param name="c">To be added.</param>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
-        <remarks>To be added.</remarks>
+        <param name="c">The Unicode character to evaluate.</param>
+        <summary>Indicates whether the specified Unicode character is categorized as a Unicode letter.</summary>
+        <returns>`true` if  is a letter; otherwise, `false`.</returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ This method determines whether a <xref:System.Char> is a member of any category of Unicode letter. Unicode letters include the following:  
+  
+-   Uppercase letters, such as U+0041 (LATIN CAPITAL LETTER A) through U+005A (LATIN CAPITAL LETTER Z), or U+0400 (CYRILLIC CAPITAL LETTER IE WITH GRAVE) through U+042F (CYRILLIC CAPITAL LETTER YA). These characters are members of the <xref:System.Globalization.UnicodeCategory?displayProperty=fullName> category.  
+  
+-   Lowercase letters, such as U+0061 (LATIN SMALL LETTER A) through U+007A (LATIN SMALL LETTER Z), or U+03AC (GREEK SMALL LETTER ALPHA WITH TONOS) through U+03CE (GREEK SMALL LETTER OMEGA WITH TONOS). These characters are members of the <xref:System.Globalization.UnicodeCategory?displayProperty=fullName> category.  
+  
+-   Title case letters, such as U+01C5 (LATIN CAPITAL LETTER D WITH SMALL LETTER Z WITH CARON) or U+1FFC (GREEK CAPITAL LETTER OMEGA WITH PROSGEGRAMMENI). These characters are members of the <xref:System.Globalization.UnicodeCategory?displayProperty=fullName> category.  
+  
+-   Modifiers, such as U+02B0 (MODIFIER LETTER SMALL H) through U+02C1 (MODIFIER LETTER REVERSED GLOTTAL STOP), or U+1D2C (MODIFIER LETTER CAPITAL A) through U+1D61 (MODIFIER LETTER SMALL CHI). These characters are members of the <xref:System.Globalization.UnicodeCategory?displayProperty=fullName> category.  
+  
+-   Other letters, such as U+05D0 (HEBREW LETTER ALEF) through U+05EA (HEBREW LETTER TAV), U+0621 (ARABIC LETTER HAMZA) through U+063A (ARABIC LETTER GHAIN), or U+4E00 (\<CJK Ideograph, First>) through U+9FC3 (\<CJK Ideograph, Last>). These characters are members of the <xref:System.Globalization.UnicodeCategory?displayProperty=fullName> category.  
+  
+   
+  
+## Examples  
+ The following code example demonstrates IsLetter.  
+  
+ [!CODE [System.Char.IsLetter#5](../CodeSnippet/VS_Snippets_CLR_System/system.Char.IsLetter#5)]  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="IsLetter">
@@ -455,11 +852,37 @@
         <Parameter Name="index" Type="System.Int32" />
       </Parameters>
       <Docs>
-        <param name="s">To be added.</param>
-        <param name="index">To be added.</param>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
-        <remarks>To be added.</remarks>
+        <param name="s">A string.</param>
+        <param name="index">The position of the character to evaluate in .</param>
+        <summary>Indicates whether the character at the specified position in a specified string is categorized as a Unicode letter.</summary>
+        <returns>`true` if the character at position  in  is a letter; otherwise, `false`.</returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ Character positions in a string are indexed starting from zero.  
+  
+ This method determines whether the character at a specified index position in a string is a member of any category of Unicode letter. Unicode letters include the following:  
+  
+-   Uppercase letters, such as U+0041 (LATIN CAPITAL LETTER A) through U+005A (LATIN CAPITAL LETTER Z), or U+0400 (CYRILLIC CAPITAL LETTER IE WITH GRAVE) through U+042F (CYRILLIC CAPITAL LETTER YA). These characters are members of the <xref:System.Globalization.UnicodeCategory?displayProperty=fullName> category.  
+  
+-   Lowercase letters, such as U+0061 (LATIN SMALL LETTER A) through U+007A (LATIN SMALL LETTER Z), or U+03AC (GREEK SMALL LETTER ALPHA WITH TONOS) through U+03CE (GREEK SMALL LETTER OMEGA WITH TONOS). These characters are members of the <xref:System.Globalization.UnicodeCategory?displayProperty=fullName> category.  
+  
+-   Title case letters, such as U+01C5 (LATIN CAPITAL LETTER D WITH SMALL LETTER Z WITH CARON) or U+1FFC (GREEK CAPITAL LETTER OMEGA WITH PROSGEGRAMMENI). These characters are members of the <xref:System.Globalization.UnicodeCategory?displayProperty=fullName> category.  
+  
+-   Modifiers, such as U+02B0 (MODIFIER LETTER SMALL H) through U+02C1 (MODIFIER LETTER REVERSED GLOTTAL STOP), or U+1D2C (MODIFIER LETTER CAPITAL A) through U+1D61 (MODIFIER LETTER SMALL CHI). These characters are members of the <xref:System.Globalization.UnicodeCategory?displayProperty=fullName> category.  
+  
+-   Other letters, such as U+05D0 (HEBREW LETTER ALEF) through U+05EA (HEBREW LETTER TAV), U+0621 (ARABIC LETTER HAMZA) through U+063A (ARABIC LETTER GHAIN), or U+4E00 (\<CJK Ideograph, First>) through U+9FC3 (\<CJK Ideograph, Last>). These characters are members of the <xref:System.Globalization.UnicodeCategory?displayProperty=fullName> category.  
+  
+   
+  
+## Examples  
+ The following code example demonstrates <xref:System.Char.IsLetter%2A>.  
+  
+ [!CODE [System.Char.IsLetter#5](../CodeSnippet/VS_Snippets_CLR_System/system.Char.IsLetter#5)]  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="IsLetterOrDigit">
@@ -476,10 +899,24 @@
         <Parameter Name="c" Type="System.Char" />
       </Parameters>
       <Docs>
-        <param name="c">To be added.</param>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
-        <remarks>To be added.</remarks>
+        <param name="c">The Unicode character to evaluate.</param>
+        <summary>Indicates whether the specified Unicode character is categorized as a letter or a decimal digit.</summary>
+        <returns>`true` if  is a letter or a decimal digit; otherwise, `false`.</returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ Valid letters and decimal digits are members of the following categories in <xref:System.Globalization.UnicodeCategory>: `UppercaseLetter`, `LowercaseLetter`, `TitlecaseLetter`, `ModifierLetter`, `OtherLetter`, or `DecimalDigitNumber`.  
+  
+   
+  
+## Examples  
+ The following code example demonstrates IsLetterOrDigit.  
+  
+ [!CODE [System.Char.IsLetterOrDigit#6](../CodeSnippet/VS_Snippets_CLR_System/system.Char.IsLetterOrDigit#6)]  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="IsLetterOrDigit">
@@ -497,11 +934,27 @@
         <Parameter Name="index" Type="System.Int32" />
       </Parameters>
       <Docs>
-        <param name="s">To be added.</param>
-        <param name="index">To be added.</param>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
-        <remarks>To be added.</remarks>
+        <param name="s">A string.</param>
+        <param name="index">The position of the character to evaluate in .</param>
+        <summary>Indicates whether the character at the specified position in a specified string is categorized as a letter or a decimal digit.</summary>
+        <returns>`true` if the character at position  in  is a letter or a decimal digit; otherwise, `false`.</returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ Character positions in a string are indexed starting from zero.  
+  
+ Valid letters and decimal digits are members of the following categories in <xref:System.Globalization.UnicodeCategory>: `UppercaseLetter`, `LowercaseLetter`, `TitlecaseLetter`, `ModifierLetter`, `OtherLetter`, or `DecimalDigitNumber`.  
+  
+   
+  
+## Examples  
+ The following code example demonstrates <xref:System.Char.IsLetterOrDigit%2A>.  
+  
+ [!CODE [System.Char.IsLetterOrDigit#6](../CodeSnippet/VS_Snippets_CLR_System/system.Char.IsLetterOrDigit#6)]  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="IsLower">
@@ -518,10 +971,24 @@
         <Parameter Name="c" Type="System.Char" />
       </Parameters>
       <Docs>
-        <param name="c">To be added.</param>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
-        <remarks>To be added.</remarks>
+        <param name="c">The Unicode character to evaluate.</param>
+        <summary>Indicates whether the specified Unicode character is categorized as a lowercase letter.</summary>
+        <returns>`true` if  is a lowercase letter; otherwise, `false`.</returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ Valid lowercase letters are members of the following category in <xref:System.Globalization.UnicodeCategory>: `LowercaseLetter`.  
+  
+   
+  
+## Examples  
+ The following code example demonstrates IsLower.  
+  
+ [!CODE [System.Char.IsLower#7](../CodeSnippet/VS_Snippets_CLR_System/system.Char.IsLower#7)]  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="IsLower">
@@ -539,11 +1006,27 @@
         <Parameter Name="index" Type="System.Int32" />
       </Parameters>
       <Docs>
-        <param name="s">To be added.</param>
-        <param name="index">To be added.</param>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
-        <remarks>To be added.</remarks>
+        <param name="s">A string.</param>
+        <param name="index">The position of the character to evaluate in .</param>
+        <summary>Indicates whether the character at the specified position in a specified string is categorized as a lowercase letter.</summary>
+        <returns>`true` if the character at position  in  is a lowercase letter; otherwise, `false`.</returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ Character positions in a string are indexed starting from zero.  
+  
+ Valid lowercase letters are members of the following category in <xref:System.Globalization.UnicodeCategory>: `LowercaseLetter`.  
+  
+   
+  
+## Examples  
+ The following code example demonstrates <xref:System.Char.IsLower%2A>.  
+  
+ [!CODE [System.Char.IsLower#7](../CodeSnippet/VS_Snippets_CLR_System/system.Char.IsLower#7)]  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="IsLowSurrogate">
@@ -560,10 +1043,24 @@
         <Parameter Name="c" Type="System.Char" />
       </Parameters>
       <Docs>
-        <param name="c">To be added.</param>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
-        <remarks>To be added.</remarks>
+        <param name="c">The character to evaluate.</param>
+        <summary>Indicates whether the specified &lt;see cref="T:System.Char"&gt; object is a low surrogate.</summary>
+        <returns>`true` if the numeric value of the  parameter ranges from U+DC00 through U+DFFF; otherwise, `false`.</returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ In addition to representing single characters using a 16-bit code point, UTF-16 encoding allows abstract characters to be represented using two 16-bit code points, which is known as a surrogate pair. The second element in this pair is the low surrogate. Its code point can range from U+DC00 to U+DFFF. An individual surrogate has no interpretation of its own; it is meaningful only when used as part of a surrogate pair.  
+  
+   
+  
+## Examples  
+ The following code example demonstrates the <xref:System.Char.IsHighSurrogate%2A>, IsLowSurrogate, and <xref:System.Char.IsSurrogatePair%2A> methods.  
+  
+ [!CODE [char.surrogate#1](../CodeSnippet/VS_Snippets_CLR/char.surrogate#1)]  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="IsLowSurrogate">
@@ -581,11 +1078,27 @@
         <Parameter Name="index" Type="System.Int32" />
       </Parameters>
       <Docs>
-        <param name="s">To be added.</param>
-        <param name="index">To be added.</param>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
-        <remarks>To be added.</remarks>
+        <param name="s">A string.</param>
+        <param name="index">The position of the character to evaluate in .</param>
+        <summary>Indicates whether the &lt;see cref="T:System.Char"&gt; object at the specified position in a string is a low surrogate.</summary>
+        <returns>`true` if the numeric value of the specified character in the  parameter ranges from U+DC00 through U+DFFF; otherwise, `false`.</returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ The  parameter is zero-based.  
+  
+ In addition to representing single characters using a 16-bit code point, UTF-16 encoding allows abstract characters to be represented using two 16-bit code points, which is known as a surrogate pair. The second element in this pair is the low surrogate. Its code point can range from U+DC00 to U+DFFF. An individual surrogate has no interpretation of its own; it is meaningful only when used as part of a surrogate pair.  
+  
+   
+  
+## Examples  
+ The following code example demonstrates the <xref:System.Char.IsHighSurrogate%2A>, <xref:System.Char.IsLowSurrogate%2A>, and <xref:System.Char.IsSurrogatePair%2A> methods.  
+  
+ [!CODE [char.surrogate#1](../CodeSnippet/VS_Snippets_CLR/char.surrogate#1)]  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="IsNumber">
@@ -602,10 +1115,33 @@
         <Parameter Name="c" Type="System.Char" />
       </Parameters>
       <Docs>
-        <param name="c">To be added.</param>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
-        <remarks>To be added.</remarks>
+        <param name="c">The Unicode character to evaluate.</param>
+        <summary>Indicates whether the specified Unicode character is categorized as a number.</summary>
+        <returns>`true` if  is a number; otherwise, `false`.</returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ This method determines whether a <xref:System.Char> is of any numeric Unicode category. In addition to including digits, numbers include characters, fractions, subscripts, superscripts, Roman numerals, currency numerators, and encircled numbers. This method contrasts with the <xref:System.Char.IsDigit%2A> method, which determines whether a <xref:System.Char> is a radix-10 digit.  
+  
+> [!IMPORTANT]
+>  The IsNumber method is not intended to determine whether a string consists of numeric characters (for example, by calling the method for each character in a string). To determine whether a string consists of numeric characters, call one of the overloads of the `TryParse` method (such as <xref:System.Int32.TryParse%2A?displayProperty=fullName> or <xref:System.Double.TryParse%2A?displayProperty=fullName> of an integral or floating point type.  
+  
+ Valid numbers are members of the <xref:System.Globalization.UnicodeCategory?displayProperty=fullName>, <xref:System.Globalization.UnicodeCategory?displayProperty=fullName>, or <xref:System.Globalization.UnicodeCategory?displayProperty=fullName> category.  
+  
+ The IsNumber method assumes that  corresponds to a single linguistic character and checks whether that character represents a number. However, some numbers in the Unicode standard are represented by two <xref:System.Char> objects that form a surrogate pair. For example, the Aegean numbering system consists of code points U+10107 through U+10133. The following example uses the <xref:System.Char.ConvertFromUtf32%2A> method to instantiate a string that represents AEGEAN NUMBER ONE. As the output from the example shows, the IsNumber method returns `false` if it is passed either a high surrogate or a low surrogate of this character.  
+  
+ [!CODE [System.Char.IsNumber#1](../CodeSnippet/VS_Snippets_CLR_System/system.Char.IsNumber#1)]  
+  
+   
+  
+## Examples  
+ The following example demonstrates IsNumber.  
+  
+ [!CODE [System.Char.IsNumber#8](../CodeSnippet/VS_Snippets_CLR_System/system.Char.IsNumber#8)]  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="IsNumber">
@@ -623,11 +1159,36 @@
         <Parameter Name="index" Type="System.Int32" />
       </Parameters>
       <Docs>
-        <param name="s">To be added.</param>
-        <param name="index">To be added.</param>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
-        <remarks>To be added.</remarks>
+        <param name="s">A string.</param>
+        <param name="index">The position of the character to evaluate in .</param>
+        <summary>Indicates whether the character at the specified position in a specified string is categorized as a number.</summary>
+        <returns>`true` if the character at position  in  is a number; otherwise, `false`.</returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ This method determines whether a <xref:System.Char> is of any numeric Unicode category. In addition to including digits, numbers include characters, fractions, subscripts, superscripts, Roman numerals, currency numerators, and encircled numbers. This method contrasts with the <xref:System.Char.IsDigit%2A> method, which determines whether a <xref:System.Char> is a radix-10 digit.  
+  
+ Character positions in a string are indexed starting from zero.  
+  
+> [!IMPORTANT]
+>  The IsNumber method is not intended to determine whether a string consists of numeric characters (for example, by calling the method for each character in a string). To determine whether a string consists of numeric characters, call one of the overloads of the `TryParse` method (such as <xref:System.Int32.TryParse%2A?displayProperty=fullName> or <xref:System.Double.TryParse%2A?displayProperty=fullName> of an integral or floating point type.  
+  
+ Valid numbers are members of the <xref:System.Globalization.UnicodeCategory?displayProperty=fullName>, <xref:System.Globalization.UnicodeCategory?displayProperty=fullName>, or <xref:System.Globalization.UnicodeCategory?displayProperty=fullName> category.  
+  
+ If the <xref:System.Char> object at position  is the first character of a valid surrogate pair, the IsNumber method determines whether the surrogate pair forms a numeric digit. For example, the Aegean numbering system consists of code points U+10107 through U+10133. The following example uses the <xref:System.Char.ConvertFromUtf32%2A> method to instantiate a string that represents AEGEAN NUMBER ONE. As the output from the example shows, the IsNumber method returns `true` if it is passed the high surrogate of AEGEAN NUMBER ONE. However, if it is passed the low surrogate, it considers only the category of the low surrogate and returns `false`.  
+  
+ [!CODE [System.Char.IsNumber#2](../CodeSnippet/VS_Snippets_CLR_System/system.Char.IsNumber#2)]  
+  
+   
+  
+## Examples  
+ The following example demonstrates <xref:System.Char.IsNumber%2A>.  
+  
+ [!CODE [System.Char.IsNumber#8](../CodeSnippet/VS_Snippets_CLR_System/system.Char.IsNumber#8)]  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="IsPunctuation">
@@ -644,10 +1205,51 @@
         <Parameter Name="c" Type="System.Char" />
       </Parameters>
       <Docs>
-        <param name="c">To be added.</param>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
-        <remarks>To be added.</remarks>
+        <param name="c">The Unicode character to evaluate.</param>
+        <summary>Indicates whether the specified Unicode character is categorized as a punctuation mark.</summary>
+        <returns>`true` if  is a punctuation mark; otherwise, `false`.</returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ Valid punctuation marks are members of the following categories in <xref:System.Globalization.UnicodeCategory>: `ConnectorPunctuation`, `DashPunctuation`, `OpenPunctuation`, `ClosePunctuation`, `InititalQuotePunctuation`, `FinalQuotePunctuation`, or `OtherPunctuation`. They include characters with the Unicode code points listed in the following table.  
+  
+|||||  
+|-|-|-|-|  
+|U+0021 to U+0023|U+060C and U+060D|U+1800 to U+180A|U+3014 to U+301F|  
+|U+0025 to U+002A|U+061B|U+1944 and U+1945|U+3030|  
+|U+002C to U+002F|U+061E and U+061F|U+19DE and U+19DF|U+303D|  
+|U+003A and U+003B|U+066A to U+066D|U+1A1E and U+1A1F|U+30A0|  
+|U+003F and U+0040|U+06D4|U+1B5A to U+1B60|U+30FB|  
+|U+005B to U+005D|U+0700 to U+070D|U+2010 to U+2027|U+A874 to U+A877|  
+|U+005F|U+07F7 to U+07F9|U+2030 to U+2043|U+FD3E and U+FD3F|  
+|U+007B|U+0964 and U+0965|U+2045 to U+2051|U+FE10 to U+FE19|  
+|U+007D|U+0970|U+2053 to U+205E|U+FE30 to U+FE52|  
+|U+00A1|U+0DF4|U+207D and  U+207E|U+FE54 to U+FE61|  
+|U+00AB|U+0E4F to U+0E5B|U+208D and U+208E|U+FE63|  
+|U+00AD|U+0F04 to U+0F12|U+2329 and U+232A|U+FE68|  
+|U+00B7|U+0F3A to U+0F3D|U+2768 to U+2775|U+FE6A and U+FE6B|  
+|U+00BB|U+0F85|U+27C5 to U+27C6|U+FF01 to U+FF03|  
+|U+00BF|U+0FD0 and U+0FD1|U+27E6 to U+27EB|U+FF05 to U+FF0A|  
+|U+037E|U+104A to U+104F|U+2983 to U+2998|U+FF0C to U+FF0F|  
+|U+0387|U+10FB|U+29D8 to U+29DB|U+FF1A and U+FF1B|  
+|U+055A to U+055F|U+1361 to U+1368|U+29FC and U+29FD|U+FF1F and U+FF20|  
+|U+0589 and U+058A|U+166D and U+166E|U+2CF9 to U+2CFC|U+FF3B to U+FF3D|  
+|U+05BE|U+169B and U+169C|U+2CFE and U+2CFF|U+FF3F|  
+|U+05C0|U+16EB to U+16ED|U+2E00 to U+2E17|U+FF5B|  
+|U+05C3|U+1735 and U+1736|U+2E1C and U+2E1D|U+FF5D|  
+|U+05C6|U+17D4 to U+17D6|U+3001 to U+3003|U+FF5F to U+FF65|  
+|U+05F3 and U+05F4|U+17D8 to U+17DA|U+3008 to U+3011||  
+  
+   
+  
+## Examples  
+ The following code example demonstrates IsPunctuation.  
+  
+ [!CODE [System.Char.IsPunctuation#9](../CodeSnippet/VS_Snippets_CLR_System/system.Char.IsPunctuation#9)]  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="IsPunctuation">
@@ -665,11 +1267,54 @@
         <Parameter Name="index" Type="System.Int32" />
       </Parameters>
       <Docs>
-        <param name="s">To be added.</param>
-        <param name="index">To be added.</param>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
-        <remarks>To be added.</remarks>
+        <param name="s">A string.</param>
+        <param name="index">The position of the character to evaluate in .</param>
+        <summary>Indicates whether the character at the specified position in a specified string is categorized as a punctuation mark.</summary>
+        <returns>`true` if the character at position  in  is a punctuation mark; otherwise, `false`.</returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ Character positions in a string are indexed starting from zero.  
+  
+ Valid punctuation marks are members of the following categories in <xref:System.Globalization.UnicodeCategory>: `ConnectorPunctuation`, `DashPunctuation`, `OpenPunctuation`, `ClosePunctuation`, `InititalQuotePunctuation`, `FinalQuotePunctuation`, or `OtherPunctuation`. They include characters with the Unicode code points listed in the following table.  
+  
+|||||  
+|-|-|-|-|  
+|U+0021 to U+0023|U+060C and U+060D|U+1800 to U+180A|U+3014 to U+301F|  
+|U+0025 to U+002A|U+061B|U+1944 and U+1945|U+3030|  
+|U+002C to U+002F|U+061E and U+061F|U+19DE and U+19DF|U+303D|  
+|U+003A and U+003B|U+066A to U+066D|U+1A1E and U+1A1F|U+30A0|  
+|U+003F and U+0040|U+06D4|U+1B5A to U+1B60|U+30FB|  
+|U+005B to U+005D|U+0700 to U+070D|U+2010 to U+2027|U+A874 to U+A877|  
+|U+005F|U+07F7 to U+07F9|U+2030 to U+2043|U+FD3E and U+FD3F|  
+|U+007B|U+0964 and U+0965|U+2045 to U+2051|U+FE10 to U+FE19|  
+|U+007D|U+0970|U+2053 to U+205E|U+FE30 to U+FE52|  
+|U+00A1|U+0DF4|U+207D and  U+207E|U+FE54 to U+FE61|  
+|U+00AB|U+0E4F to U+0E5B|U+208D and U+208E|U+FE63|  
+|U+00AD|U+0F04 to U+0F12|U+2329 and U+232A|U+FE68|  
+|U+00B7|U+0F3A to U+0F3D|U+2768 to U+2775|U+FE6A and U+FE6B|  
+|U+00BB|U+0F85|U+27C5 to U+27C6|U+FF01 to U+FF03|  
+|U+00BF|U+0FD0 and U+0FD1|U+27E6 to U+27EB|U+FF05 to U+FF0A|  
+|U+037E|U+104A to U+104F|U+2983 to U+2998|U+FF0C to U+FF0F|  
+|U+0387|U+10FB|U+29D8 to U+29DB|U+FF1A and U+FF1B|  
+|U+055A to U+055F|U+1361 to U+1368|U+29FC and U+29FD|U+FF1F and U+FF20|  
+|U+0589 and U+058A|U+166D and U+166E|U+2CF9 to U+2CFC|U+FF3B to U+FF3D|  
+|U+05BE|U+169B and U+169C|U+2CFE and U+2CFF|U+FF3F|  
+|U+05C0|U+16EB to U+16ED|U+2E00 to U+2E17|U+FF5B|  
+|U+05C3|U+1735 and U+1736|U+2E1C and U+2E1D|U+FF5D|  
+|U+05C6|U+17D4 to U+17D6|U+3001 to U+3003|U+FF5F to U+FF65|  
+|U+05F3 and U+05F4|U+17D8 to U+17DA|U+3008 to U+3011||  
+  
+   
+  
+## Examples  
+ The following code example demonstrates <xref:System.Char.IsPunctuation%2A>.  
+  
+ [!CODE [System.Char.IsPunctuation#9](../CodeSnippet/VS_Snippets_CLR_System/system.Char.IsPunctuation#9)]  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="IsSeparator">
@@ -686,10 +1331,33 @@
         <Parameter Name="c" Type="System.Char" />
       </Parameters>
       <Docs>
-        <param name="c">To be added.</param>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
-        <remarks>To be added.</remarks>
+        <param name="c">The Unicode character to evaluate.</param>
+        <summary>Indicates whether the specified Unicode character is categorized as a separator character.</summary>
+        <returns>`true` if  is a separator character; otherwise, `false`.</returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ The Unicode standard recognizes three subcategories of separators:  
+  
+-   Space separators (the <xref:System.Globalization.UnicodeCategory?displayProperty=fullName> category), which includes characters such as \u0020.  
+  
+-   Line separators (the <xref:System.Globalization.UnicodeCategory?displayProperty=fullName> category), which includes \u2028.  
+  
+-   Paragraph separators (the <xref:System.Globalization.UnicodeCategory?displayProperty=fullName> category), which includes \u2029.  
+  
+> [!NOTE]
+>  The Unicode standard classifies the characters \u000A (LF), \u000C (FF), and \u000D (CR) as control characters (members of the <xref:System.Globalization.UnicodeCategory?displayProperty=fullName> category), not as separator characters.  
+  
+   
+  
+## Examples  
+ The following example lists the <xref:System.Char> objects that are classified as separator characters.  
+  
+ [!CODE [System.Char.IsSeparator#1](../CodeSnippet/VS_Snippets_CLR_System/system.Char.IsSeparator#1)]  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="IsSeparator">
@@ -707,11 +1375,36 @@
         <Parameter Name="index" Type="System.Int32" />
       </Parameters>
       <Docs>
-        <param name="s">To be added.</param>
-        <param name="index">To be added.</param>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
-        <remarks>To be added.</remarks>
+        <param name="s">A string.</param>
+        <param name="index">The position of the character to evaluate in .</param>
+        <summary>Indicates whether the character at the specified position in a specified string is categorized as a separator character.</summary>
+        <returns>`true` if the character at position  in  is a separator character; otherwise, `false`.</returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ Character positions in a string are indexed starting from zero.  
+  
+ The Unicode standard recognizes three subcategories of separators:  
+  
+-   Space separators (the <xref:System.Globalization.UnicodeCategory?displayProperty=fullName> category), which includes characters such as \u0020.  
+  
+-   Line separators (the <xref:System.Globalization.UnicodeCategory?displayProperty=fullName> category), which includes \u2028.  
+  
+-   Paragraph separators (the <xref:System.Globalization.UnicodeCategory?displayProperty=fullName> category), which includes \u2029.  
+  
+> [!NOTE]
+>  The Unicode standard classifies the characters \u000A (LF), \u000C (FF), and \u000D (CR) as control characters (members of the <xref:System.Globalization.UnicodeCategory?displayProperty=fullName> category), not as separator characters.  
+  
+   
+  
+## Examples  
+ The following example demonstrates <xref:System.Char.IsSeparator%2A>.  
+  
+ [!CODE [System.Char.IsSeparator#10](../CodeSnippet/VS_Snippets_CLR_System/system.Char.IsSeparator#10)]  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="IsSurrogate">
@@ -728,10 +1421,24 @@
         <Parameter Name="c" Type="System.Char" />
       </Parameters>
       <Docs>
-        <param name="c">To be added.</param>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
-        <remarks>To be added.</remarks>
+        <param name="c">The Unicode character to evaluate.</param>
+        <summary>Indicates whether the specified character has a surrogate code unit.</summary>
+        <returns>`true` if  is either a high surrogate or a low surrogate; otherwise, `false`.</returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ A surrogate is a <xref:System.Char> object with a UTF-16 code unit in the range from U+D800 to U+DFFF. Each character with a code unit in this range belongs to the <xref:System.Globalization.UnicodeCategory?displayProperty=fullName> category. The individual surrogate code unit has no interpretation of its own, but has meaning only when used as part of a surrogate pair. For more information about surrogate pairs, see the Unicode Standard at the [Unicode home page](http://go.microsoft.com/fwlink/?linkid=37123).  
+  
+   
+  
+## Examples  
+ The following example demonstrates the IsSurrogate method.  
+  
+ [!CODE [System.Char.IsSurrogate#11](../CodeSnippet/VS_Snippets_CLR_System/system.Char.IsSurrogate#11)]  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="IsSurrogate">
@@ -749,11 +1456,27 @@
         <Parameter Name="index" Type="System.Int32" />
       </Parameters>
       <Docs>
-        <param name="s">To be added.</param>
-        <param name="index">To be added.</param>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
-        <remarks>To be added.</remarks>
+        <param name="s">A string.</param>
+        <param name="index">The position of the character to evaluate in .</param>
+        <summary>Indicates whether the character at the specified position in a specified string has a surrogate code unit.</summary>
+        <returns>`true` if the character at position  in  is a either a high surrogate or a low surrogate; otherwise, `false`.</returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ Character positions in a string are indexed starting from zero.  
+  
+ A surrogate is a <xref:System.Char> object with a UTF-16 code unit in the range from U+D800 to U+DFFF. Each character with a code unit in this range belongs to the <xref:System.Globalization.UnicodeCategory?displayProperty=fullName> category. The individual surrogate code unit has no interpretation of its own, but has meaning only when used as part of a surrogate pair. For more information about surrogate pairs, see the Unicode Standard at the [Unicode home page](http://go.microsoft.com/fwlink/?linkid=37123).  
+  
+   
+  
+## Examples  
+ The following code example demonstrates <xref:System.Char.IsSurrogate%2A>.  
+  
+ [!CODE [System.Char.IsSurrogate#11](../CodeSnippet/VS_Snippets_CLR_System/system.Char.IsSurrogate#11)]  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="IsSurrogatePair">
@@ -771,11 +1494,25 @@
         <Parameter Name="lowSurrogate" Type="System.Char" />
       </Parameters>
       <Docs>
-        <param name="highSurrogate">To be added.</param>
-        <param name="lowSurrogate">To be added.</param>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
-        <remarks>To be added.</remarks>
+        <param name="highSurrogate">The character to evaluate as the high surrogate of a surrogate pair.</param>
+        <param name="lowSurrogate">The character to evaluate as the low surrogate of a surrogate pair.</param>
+        <summary>Indicates whether the two specified &lt;see cref="T:System.Char"&gt; objects form a surrogate pair.</summary>
+        <returns>`true` if the numeric value of the  parameter ranges from U+D800 through U+DBFF, and the numeric value of the  parameter ranges from U+DC00 through U+DFFF; otherwise, `false`.</returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ Ordinarily, a single character is represented by a single 16-bit Unicode code unit. UTF-16 encoding also supports surrogate pairs, which allow a single abstract character to be represented by two 16-bit code units. The first code unit, whose value can range from U+D800 to U+DBFF, is the high surrogate. The second code unit, whose value can range from U+DC00 to U+DFFF, is the low surrogate. Individual surrogate code points have no interpretation of their own. For more information about surrogates and the Unicode Standard, see the [Unicode home page](http://go.microsoft.com/fwlink/?LinkId=37123).  
+  
+   
+  
+## Examples  
+ The following code example demonstrates the <xref:System.Char.IsHighSurrogate%2A>, <xref:System.Char.IsLowSurrogate%2A>, and <xref:System.Char.IsSurrogatePair%2A> methods.  
+  
+ [!CODE [char.surrogate#1](../CodeSnippet/VS_Snippets_CLR/char.surrogate#1)]  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="IsSurrogatePair">
@@ -793,11 +1530,25 @@
         <Parameter Name="index" Type="System.Int32" />
       </Parameters>
       <Docs>
-        <param name="s">To be added.</param>
-        <param name="index">To be added.</param>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
-        <remarks>To be added.</remarks>
+        <param name="s">A string.</param>
+        <param name="index">The starting position of the pair of characters to evaluate within .</param>
+        <summary>Indicates whether two adjacent &lt;see cref="T:System.Char"&gt; objects at a specified position in a string form a surrogate pair.</summary>
+        <returns>`true` if the  parameter includes adjacent characters at positions  and  + 1, and the numeric value of the character at position  ranges from U+D800 through U+DBFF, and the numeric value of the character at position +1 ranges from U+DC00 through U+DFFF; otherwise, `false`.</returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ Ordinarily, a single character is represented by a single 16-bit Unicode code unit. UTF-16 encoding also supports surrogate pairs, which allow a single abstract character to be represented by two 16-bit code units. The first code unit, whose value can range from U+D800 to U+DBFF, is the high surrogate. The second code unit, whose value can range from U+DC00 to U+DFFF, is the low surrogate. Individual surrogate code points have no interpretation of their own. For more information about surrogates and the Unicode Standard, see the [Unicode home page](http://go.microsoft.com/fwlink/?LinkId=37123).  
+  
+   
+  
+## Examples  
+ The following code example demonstrates the <xref:System.Char.IsHighSurrogate%2A>, <xref:System.Char.IsLowSurrogate%2A>, and IsSurrogatePair methods.  
+  
+ [!CODE [char.surrogate#1](../CodeSnippet/VS_Snippets_CLR/char.surrogate#1)]  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="IsSymbol">
@@ -814,10 +1565,42 @@
         <Parameter Name="c" Type="System.Char" />
       </Parameters>
       <Docs>
-        <param name="c">To be added.</param>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
-        <remarks>To be added.</remarks>
+        <param name="c">The Unicode character to evaluate.</param>
+        <summary>Indicates whether the specified Unicode character is categorized as a symbol character.</summary>
+        <returns>`true` if  is a symbol character; otherwise, `false`.</returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ Valid symbols are members of the following categories in <xref:System.Globalization.UnicodeCategory>: `MathSymbol`, `CurrencySymbol`, `ModifierSymbol`, and `OtherSymbol`.  
+  
+ Symbols in the Unicode standard are a loosely defined set of characters that include the following:  
+  
+-   Currency symbols.  
+  
+-   Letterlike symbols, which include a set of mathematical alphanumeric symbols as well as symbols such as ℅, №, and ™.  
+  
+-   Number forms, such as subscripts and superscripts.  
+  
+-   Mathematical operators and arrows.  
+  
+-   Geometric symbols.  
+  
+-   Technical symbols.  
+  
+-   Braille patterns.  
+  
+-   Dingbats.  
+  
+   
+  
+## Examples  
+ The following code example demonstrates IsSymbol.  
+  
+ [!CODE [System.Char.IsSymbol#12](../CodeSnippet/VS_Snippets_CLR_System/system.Char.IsSymbol#12)]  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="IsSymbol">
@@ -835,11 +1618,45 @@
         <Parameter Name="index" Type="System.Int32" />
       </Parameters>
       <Docs>
-        <param name="s">To be added.</param>
-        <param name="index">To be added.</param>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
-        <remarks>To be added.</remarks>
+        <param name="s">A string.</param>
+        <param name="index">The position of the character to evaluate in .</param>
+        <summary>Indicates whether the character at the specified position in a specified string is categorized as a symbol character.</summary>
+        <returns>`true` if the character at position  in  is a symbol character; otherwise, `false`.</returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ Character positions in a string are indexed starting from zero.  
+  
+ Valid symbols are members of the following categories in <xref:System.Globalization.UnicodeCategory?displayProperty=fullName>: `MathSymbol`, `CurrencySymbol`, `ModifierSymbol`, and `OtherSymbol`.  
+  
+ Symbols in the Unicode standard are a loosely defined set of characters that include the following:  
+  
+-   Currency symbols.  
+  
+-   Letterlike symbols, which include a set of mathematical alphanumeric symbols as well as symbols such as ℅, №, and ™.  
+  
+-   Number forms, such as subscripts and superscripts.  
+  
+-   Mathematical operators and arrows.  
+  
+-   Geometric symbols.  
+  
+-   Technical symbols.  
+  
+-   Braille patterns.  
+  
+-   Dingbats.  
+  
+   
+  
+## Examples  
+ The following code example demonstrates <xref:System.Char.IsSymbol%2A>.  
+  
+ [!CODE [System.Char.IsSymbol#12](../CodeSnippet/VS_Snippets_CLR_System/system.Char.IsSymbol#12)]  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="IsUpper">
@@ -856,10 +1673,17 @@
         <Parameter Name="c" Type="System.Char" />
       </Parameters>
       <Docs>
-        <param name="c">To be added.</param>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
-        <remarks>To be added.</remarks>
+        <param name="c">The Unicode character to evaluate.</param>
+        <summary>Indicates whether the specified Unicode character is categorized as an uppercase letter.</summary>
+        <returns>`true` if  is an uppercase letter; otherwise, `false`.</returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ Valid uppercase letters are members of the following category in <xref:System.Globalization.UnicodeCategory>: `UppercaseLetter`.  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="IsUpper">
@@ -877,11 +1701,20 @@
         <Parameter Name="index" Type="System.Int32" />
       </Parameters>
       <Docs>
-        <param name="s">To be added.</param>
-        <param name="index">To be added.</param>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
-        <remarks>To be added.</remarks>
+        <param name="s">A string.</param>
+        <param name="index">The position of the character to evaluate in .</param>
+        <summary>Indicates whether the character at the specified position in a specified string is categorized as an uppercase letter.</summary>
+        <returns>`true` if the character at position  in  is an uppercase letter; otherwise, `false`.</returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ Character positions in a string are indexed starting from zero.  
+  
+ Valid uppercase letters are members of the following category in <xref:System.Globalization.UnicodeCategory>: `UppercaseLetter`.  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="IsWhiteSpace">
@@ -898,10 +1731,32 @@
         <Parameter Name="c" Type="System.Char" />
       </Parameters>
       <Docs>
-        <param name="c">To be added.</param>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
-        <remarks>To be added.</remarks>
+        <param name="c">The Unicode character to evaluate.</param>
+        <summary>Indicates whether the specified Unicode character is categorized as white space.</summary>
+        <returns>`true` if  is white space; otherwise, `false`.</returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ White space characters are the following Unicode characters:  
+  
+-   Members of the <xref:System.Globalization.UnicodeCategory> category, which includes the characters SPACE (U+0020), NO-BREAK SPACE (U+00A0), OGHAM SPACE MARK (U+1680), EN QUAD (U+2000), EM QUAD (U+2001), EN SPACE (U+2002), EM SPACE (U+2003), THREE-PER-EM SPACE (U+2004), FOUR-PER-EM SPACE (U+2005), SIX-PER-EM SPACE (U+2006), FIGURE SPACE (U+2007), PUNCTUATION SPACE (U+2008), THIN SPACE (U+2009), HAIR SPACE (U+200A), NARROW NO-BREAK SPACE (U+202F), MEDIUM MATHEMATICAL SPACE (U+205F), and IDEOGRAPHIC SPACE (U+3000).  
+  
+-   Members of the <xref:System.Globalization.UnicodeCategory> category, which consists solely of the LINE SEPARATOR character (U+2028).  
+  
+-   Members of the <xref:System.Globalization.UnicodeCategory> category, which consists solely of the PARAGRAPH SEPARATOR character (U+2029).  
+  
+-   The characters CHARACTER TABULATION (U+0009), LINE FEED (U+000A), LINE TABULATION (U+000B), FORM FEED (U+000C), CARRIAGE RETURN (U+000D), and NEXT LINE (U+0085).  
+  
+   
+  
+## Examples  
+ The following example demonstrates the IsWhiteSpace method.  
+  
+ [!CODE [System.Char.IsWhiteSpace#14](../CodeSnippet/VS_Snippets_CLR_System/system.Char.IsWhiteSpace#14)]  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="IsWhiteSpace">
@@ -919,11 +1774,35 @@
         <Parameter Name="index" Type="System.Int32" />
       </Parameters>
       <Docs>
-        <param name="s">To be added.</param>
-        <param name="index">To be added.</param>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
-        <remarks>To be added.</remarks>
+        <param name="s">A string.</param>
+        <param name="index">The position of the character to evaluate in .</param>
+        <summary>Indicates whether the character at the specified position in a specified string is categorized as white space.</summary>
+        <returns>`true` if the character at position  in  is white space; otherwise, `false`.</returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ Character positions in a string are indexed starting from zero.  
+  
+ White space characters are the following Unicode characters:  
+  
+-   Members of the <xref:System.Globalization.UnicodeCategory> category, which includes the characters SPACE (U+0020), NO-BREAK SPACE (U+00A0), OGHAM SPACE MARK (U+1680), EN QUAD (U+2000), EM QUAD (U+2001), EN SPACE (U+2002), EM SPACE (U+2003), THREE-PER-EM SPACE (U+2004), FOUR-PER-EM SPACE (U+2005), SIX-PER-EM SPACE (U+2006), FIGURE SPACE (U+2007), PUNCTUATION SPACE (U+2008), THIN SPACE (U+2009), HAIR SPACE (U+200A), NARROW NO-BREAK SPACE (U+202F), MEDIUM MATHEMATICAL SPACE (U+205F), and IDEOGRAPHIC SPACE (U+3000).  
+  
+-   Members of the <xref:System.Globalization.UnicodeCategory> category, which consists solely of the LINE SEPARATOR character (U+2028).  
+  
+-   Members of the <xref:System.Globalization.UnicodeCategory> category, which consists solely of the PARAGRAPH SEPARATOR character (U+2029).  
+  
+-   The characters CHARACTER TABULATION (U+0009), LINE FEED (U+000A), LINE TABULATION (U+000B), FORM FEED (U+000C), CARRIAGE RETURN (U+000D), and NEXT LINE (U+0085).  
+  
+   
+  
+## Examples  
+ The following code example demonstrates <xref:System.Char.IsWhiteSpace%2A>.  
+  
+ [!CODE [System.Char.IsWhiteSpace#14](../CodeSnippet/VS_Snippets_CLR_System/system.Char.IsWhiteSpace#14)]  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="MaxValue">
@@ -937,8 +1816,15 @@
         <ReturnType>System.Char</ReturnType>
       </ReturnValue>
       <Docs>
-        <summary>To be added.</summary>
-        <remarks>To be added.</remarks>
+        <summary>Represents the largest possible value of a &lt;see cref="T:System.Char"&gt;. This field is constant.</summary>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ The value of this constant is hexadecimal 0xFFFF.  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="MinValue">
@@ -952,8 +1838,15 @@
         <ReturnType>System.Char</ReturnType>
       </ReturnValue>
       <Docs>
-        <summary>To be added.</summary>
-        <remarks>To be added.</remarks>
+        <summary>Represents the smallest possible value of a &lt;see cref="T:System.Char"&gt;. This field is constant.</summary>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ The value of this constant is hexadecimal 0x00.  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="Parse">
@@ -970,10 +1863,19 @@
         <Parameter Name="s" Type="System.String" />
       </Parameters>
       <Docs>
-        <param name="s">To be added.</param>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
-        <remarks>To be added.</remarks>
+        <param name="s">A string that contains a single character, or `null`.</param>
+        <summary>Converts the value of the specified string to its equivalent Unicode character.</summary>
+        <returns>A Unicode character equivalent to the sole character in .</returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Examples  
+ The following code example demonstrates Parse.  
+  
+ [!CODE [System.Char.Parse#15](../CodeSnippet/VS_Snippets_CLR_System/system.Char.Parse#15)]  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="System.IConvertible.ToBoolean">
@@ -990,9 +1892,9 @@
         <Parameter Name="provider" Type="System.IFormatProvider" />
       </Parameters>
       <Docs>
-        <param name="provider">To be added.</param>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
+        <param name="provider">This parameter is ignored.</param>
+        <summary>**Note** This conversion is not supported. Attempting to do so throws an &lt;see cref="T:System.InvalidCastException"&gt;.</summary>
+        <returns>This conversion is not supported. No value is returned.</returns>
         <remarks>To be added.</remarks>
       </Docs>
     </Member>
@@ -1010,10 +1912,17 @@
         <Parameter Name="provider" Type="System.IFormatProvider" />
       </Parameters>
       <Docs>
-        <param name="provider">To be added.</param>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
-        <remarks>To be added.</remarks>
+        <param name="provider">This parameter is ignored.</param>
+        <summary>For a description of this member, see &lt;xref:System.IConvertible.ToByte%2A?displayProperty=fullName&gt;.</summary>
+        <returns>The converted value of the current &lt;see cref="T:System.Char"&gt; object.</returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ This member is an explicit interface member implementation. It can be used only when the <xref:System.Char> instance is cast to an <xref:System.IConvertible> interface. The recommended alternative is to call the <xref:System.Convert.ToByte%28System.Char%29?displayProperty=fullName> method instead.  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="System.IConvertible.ToChar">
@@ -1030,10 +1939,17 @@
         <Parameter Name="provider" Type="System.IFormatProvider" />
       </Parameters>
       <Docs>
-        <param name="provider">To be added.</param>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
-        <remarks>To be added.</remarks>
+        <param name="provider">This parameter is ignored.</param>
+        <summary>For a description of this member, see &lt;xref:System.IConvertible.ToChar%2A?displayProperty=fullName&gt;.</summary>
+        <returns>The value of the current &lt;see cref="T:System.Char"&gt; object unchanged.</returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ This member is an explicit interface member implementation. It can be used only when the <xref:System.Char> instance is cast to an <xref:System.IConvertible> interface.  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="System.IConvertible.ToDateTime">
@@ -1050,9 +1966,9 @@
         <Parameter Name="provider" Type="System.IFormatProvider" />
       </Parameters>
       <Docs>
-        <param name="provider">To be added.</param>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
+        <param name="provider">This parameter is ignored.</param>
+        <summary>**Note** This conversion is not supported. Attempting to do so throws an &lt;see cref="T:System.InvalidCastException"&gt;.</summary>
+        <returns>No value is returned.</returns>
         <remarks>To be added.</remarks>
       </Docs>
     </Member>
@@ -1070,9 +1986,9 @@
         <Parameter Name="provider" Type="System.IFormatProvider" />
       </Parameters>
       <Docs>
-        <param name="provider">To be added.</param>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
+        <param name="provider">This parameter is ignored.</param>
+        <summary>**Note** This conversion is not supported. Attempting to do so throws an &lt;see cref="T:System.InvalidCastException"&gt;.</summary>
+        <returns>No value is returned.</returns>
         <remarks>To be added.</remarks>
       </Docs>
     </Member>
@@ -1090,9 +2006,9 @@
         <Parameter Name="provider" Type="System.IFormatProvider" />
       </Parameters>
       <Docs>
-        <param name="provider">To be added.</param>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
+        <param name="provider">This parameter is ignored.</param>
+        <summary>**Note** This conversion is not supported. Attempting to do so throws an &lt;see cref="T:System.InvalidCastException"&gt;.</summary>
+        <returns>No value is returned.</returns>
         <remarks>To be added.</remarks>
       </Docs>
     </Member>
@@ -1110,10 +2026,17 @@
         <Parameter Name="provider" Type="System.IFormatProvider" />
       </Parameters>
       <Docs>
-        <param name="provider">To be added.</param>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
-        <remarks>To be added.</remarks>
+        <param name="provider">This parameter is ignored.</param>
+        <summary>For a description of this member, see &lt;xref:System.IConvertible.ToInt16%2A?displayProperty=fullName&gt;.</summary>
+        <returns>The converted value of the current &lt;see cref="T:System.Char"&gt; object.</returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ This member is an explicit interface member implementation. It can be used only when the <xref:System.Char> instance is cast to an <xref:System.IConvertible> interface. The recommended alternative is to call the <xref:System.Convert.ToInt16%28System.Char%29?displayProperty=fullName> method instead.  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="System.IConvertible.ToInt32">
@@ -1130,10 +2053,17 @@
         <Parameter Name="provider" Type="System.IFormatProvider" />
       </Parameters>
       <Docs>
-        <param name="provider">To be added.</param>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
-        <remarks>To be added.</remarks>
+        <param name="provider">This parameter is ignored.</param>
+        <summary>For a description of this member, see &lt;xref:System.IConvertible.ToInt32%2A?displayProperty=fullName&gt;.</summary>
+        <returns>The converted value of the current &lt;see cref="T:System.Char"&gt; object.</returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ This member is an explicit interface member implementation. It can be used only when the <xref:System.Char> instance is cast to an <xref:System.IConvertible> interface. The recommended alternative is to call the <xref:System.Convert.ToInt32%28System.Char%29?displayProperty=fullName> method instead.  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="System.IConvertible.ToInt64">
@@ -1150,10 +2080,17 @@
         <Parameter Name="provider" Type="System.IFormatProvider" />
       </Parameters>
       <Docs>
-        <param name="provider">To be added.</param>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
-        <remarks>To be added.</remarks>
+        <param name="provider">This parameter is ignored.</param>
+        <summary>For a description of this member, see &lt;xref:System.IConvertible.ToInt64%2A?displayProperty=fullName&gt;.</summary>
+        <returns>The converted value of the current &lt;see cref="T:System.Char"&gt; object.</returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ This member is an explicit interface member implementation. It can be used only when the <xref:System.Char> instance is cast to an <xref:System.IConvertible> interface. The recommended alternative is to call the <xref:System.Convert.ToInt64%28System.Char%29?displayProperty=fullName> method instead.  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="System.IConvertible.ToSByte">
@@ -1170,10 +2107,17 @@
         <Parameter Name="provider" Type="System.IFormatProvider" />
       </Parameters>
       <Docs>
-        <param name="provider">To be added.</param>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
-        <remarks>To be added.</remarks>
+        <param name="provider">This parameter is ignored.</param>
+        <summary>For a description of this member, see &lt;xref:System.IConvertible.ToSByte%2A?displayProperty=fullName&gt;.</summary>
+        <returns>The converted value of the current &lt;see cref="T:System.Char"&gt; object.</returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ This member is an explicit interface member implementation. It can be used only when the <xref:System.Char> instance is cast to an <xref:System.IConvertible> interface. The recommended alternative is to call the <xref:System.Convert.ToSByte%28System.Char%29?displayProperty=fullName> method instead.  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="System.IConvertible.ToSingle">
@@ -1190,9 +2134,9 @@
         <Parameter Name="provider" Type="System.IFormatProvider" />
       </Parameters>
       <Docs>
-        <param name="provider">To be added.</param>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
+        <param name="provider">This parameter is ignored.</param>
+        <summary>**Note** This conversion is not supported. Attempting to do so throws an &lt;see cref="T:System.InvalidCastException"&gt;.</summary>
+        <returns>No value is returned.</returns>
         <remarks>To be added.</remarks>
       </Docs>
     </Member>
@@ -1211,11 +2155,18 @@
         <Parameter Name="provider" Type="System.IFormatProvider" />
       </Parameters>
       <Docs>
-        <param name="type">To be added.</param>
-        <param name="provider">To be added.</param>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
-        <remarks>To be added.</remarks>
+        <param name="type">A &lt;see cref="T:System.Type"&gt; object.</param>
+        <param name="provider">An &lt;see cref="T:System.IFormatProvider"&gt; object.</param>
+        <summary>For a description of this member, see &lt;xref:System.IConvertible.ToType%2A?displayProperty=fullName&gt;.</summary>
+        <returns>An object of the specified type.</returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ This member is an explicit interface member implementation. It can be used only when the <xref:System.Char> instance is cast to an <xref:System.IConvertible> interface. The recommended alternative is to call the <xref:System.Convert.ChangeType%28System.Object%2CSystem.Type%2CSystem.IFormatProvider%29> method instead.  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="System.IConvertible.ToUInt16">
@@ -1232,10 +2183,17 @@
         <Parameter Name="provider" Type="System.IFormatProvider" />
       </Parameters>
       <Docs>
-        <param name="provider">To be added.</param>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
-        <remarks>To be added.</remarks>
+        <param name="provider">An &lt;see cref="T:System.IFormatProvider"&gt; object. (Specify `null` because the  parameter is ignored.)</param>
+        <summary>For a description of this member, see &lt;xref:System.IConvertible.ToUInt16%2A?displayProperty=fullName&gt;.</summary>
+        <returns>The converted value of the current &lt;see cref="T:System.Char"&gt; object.</returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ This member is an explicit interface member implementation. It can be used only when the <xref:System.Char> instance is cast to an <xref:System.IConvertible> interface. The recommended alternative is to call the <xref:System.Convert.ToUInt16%28System.Char%29?displayProperty=fullName> method instead.  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="System.IConvertible.ToUInt32">
@@ -1252,10 +2210,17 @@
         <Parameter Name="provider" Type="System.IFormatProvider" />
       </Parameters>
       <Docs>
-        <param name="provider">To be added.</param>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
-        <remarks>To be added.</remarks>
+        <param name="provider">An &lt;see cref="T:System.IFormatProvider"&gt; object. (Specify `null` because the  parameter is ignored.)</param>
+        <summary>For a description of this member, see &lt;xref:System.IConvertible.ToUInt32%2A?displayProperty=fullName&gt;.</summary>
+        <returns>The converted value of the current &lt;see cref="T:System.Char"&gt; object.</returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ This member is an explicit interface member implementation. It can be used only when the <xref:System.Char> instance is cast to an <xref:System.IConvertible> interface. The recommended alternative is to call the <xref:System.Convert.ToUInt32%28System.Char%29?displayProperty=fullName> method instead.  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="System.IConvertible.ToUInt64">
@@ -1272,10 +2237,17 @@
         <Parameter Name="provider" Type="System.IFormatProvider" />
       </Parameters>
       <Docs>
-        <param name="provider">To be added.</param>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
-        <remarks>To be added.</remarks>
+        <param name="provider">An &lt;see cref="T:System.IFormatProvider"&gt; object. (Specify `null` because the  parameter is ignored.)</param>
+        <summary>For a description of this member, see &lt;xref:System.IConvertible.ToUInt64%2A?displayProperty=fullName&gt;.</summary>
+        <returns>The converted value of the current &lt;see cref="T:System.Char"&gt; object.</returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ This member is an explicit interface member implementation. It can be used only when the <xref:System.Char> instance is cast to an <xref:System.IConvertible> interface. The recommended alternative is to call the <xref:System.Convert.ToUInt64%28System.Char%29?displayProperty=fullName> method instead.  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="ToLower">
@@ -1292,10 +2264,26 @@
         <Parameter Name="c" Type="System.Char" />
       </Parameters>
       <Docs>
-        <param name="c">To be added.</param>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
-        <remarks>To be added.</remarks>
+        <param name="c">The Unicode character to convert.</param>
+        <summary>Converts the value of a Unicode character to its lowercase equivalent.</summary>
+        <returns>The lowercase equivalent of , or the unchanged value of , if  is already lowercase or not alphabetic.</returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ Casing rules are obtained from the current culture.  
+  
+ Use <xref:System.String.ToLower%2A?displayProperty=fullName> to convert a string to lowercase.  
+  
+   
+  
+## Examples  
+ The following example demonstrates <xref:System.Char.ToLower%2A>.  
+  
+ [!CODE [System.Char.ToLower#16](../CodeSnippet/VS_Snippets_CLR_System/system.Char.ToLower#16)]  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="ToLower">
@@ -1313,11 +2301,25 @@
         <Parameter Name="culture" Type="System.Globalization.CultureInfo" />
       </Parameters>
       <Docs>
-        <param name="c">To be added.</param>
-        <param name="culture">To be added.</param>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
-        <remarks>To be added.</remarks>
+        <param name="c">The Unicode character to convert.</param>
+        <param name="culture">An object that supplies culture-specific casing rules.</param>
+        <summary>Converts the value of a specified Unicode character to its lowercase equivalent using specified culture-specific formatting information.</summary>
+        <returns>The lowercase equivalent of , modified according to , or the unchanged value of , if  is already lowercase or not alphabetic.</returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ Use <xref:System.String.ToLower%2A?displayProperty=fullName> to convert a string to lowercase.  
+  
+   
+  
+## Examples  
+ The following code example demonstrates ToLower.  
+  
+ [!CODE [System.Char.ToLower#16](../CodeSnippet/VS_Snippets_CLR_System/system.Char.ToLower#16)]  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="ToLowerInvariant">
@@ -1334,10 +2336,19 @@
         <Parameter Name="c" Type="System.Char" />
       </Parameters>
       <Docs>
-        <param name="c">To be added.</param>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
-        <remarks>To be added.</remarks>
+        <param name="c">The Unicode character to convert.</param>
+        <summary>Converts the value of a Unicode character to its lowercase equivalent using the casing rules of the invariant culture.</summary>
+        <returns>The lowercase equivalent of the  parameter, or the unchanged value of , if  is already lowercase or not alphabetic.</returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ If your application is unaffected by the current culture and depends on the case of a character changing in a predictable way, then use the ToLowerInvariant method. The ToLowerInvariant method is equivalent to `ToLower(Char, CultureInfo.InvariantCulture)`.  
+  
+ Use <xref:System.String.ToLowerInvariant%2A?displayProperty=fullName> to convert a string to lowercase.  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="ToString">
@@ -1352,9 +2363,18 @@
       </ReturnValue>
       <Parameters />
       <Docs>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
-        <remarks>To be added.</remarks>
+        <summary>Converts the value of this instance to its equivalent string representation.</summary>
+        <returns>The string representation of the value of this instance.</returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Examples  
+ The following code example demonstrates ToString.  
+  
+ [!CODE [System.Char.ToString#17](../CodeSnippet/VS_Snippets_CLR_System/system.Char.ToString#17)]  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="ToString">
@@ -1371,10 +2391,19 @@
         <Parameter Name="c" Type="System.Char" />
       </Parameters>
       <Docs>
-        <param name="c">To be added.</param>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
-        <remarks>To be added.</remarks>
+        <param name="c">The Unicode character to convert.</param>
+        <summary>Converts the specified Unicode character to its equivalent string representation.</summary>
+        <returns>The string representation of the value of .</returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Examples  
+ The following code example demonstrates <xref:System.Char.ToString%2A>.  
+  
+ [!CODE [System.Char.ToString#17](../CodeSnippet/VS_Snippets_CLR_System/system.Char.ToString#17)]  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="ToString">
@@ -1391,10 +2420,24 @@
         <Parameter Name="provider" Type="System.IFormatProvider" />
       </Parameters>
       <Docs>
-        <param name="provider">To be added.</param>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
-        <remarks>To be added.</remarks>
+        <param name="provider">(Reserved) An object that supplies culture-specific formatting information.</param>
+        <summary>Converts the value of this instance to its equivalent string representation using the specified culture-specific format information.</summary>
+        <returns>The string representation of the value of this instance as specified by .</returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ The  parameter is ignored; it does not participate in this operation.  
+  
+   
+  
+## Examples  
+ The following code example demonstrates an overload of <xref:System.Char.ToString%2A>.  
+  
+ [!CODE [System.Char.ToString#17](../CodeSnippet/VS_Snippets_CLR_System/system.Char.ToString#17)]  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="ToUpper">
@@ -1411,10 +2454,26 @@
         <Parameter Name="c" Type="System.Char" />
       </Parameters>
       <Docs>
-        <param name="c">To be added.</param>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
-        <remarks>To be added.</remarks>
+        <param name="c">The Unicode character to convert.</param>
+        <summary>Converts the value of a Unicode character to its uppercase equivalent.</summary>
+        <returns>The uppercase equivalent of , or the unchanged value of  if  is already uppercase, has no uppercase equivalent, or is not alphabetic.</returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ Casing rules are obtained from the current culture.  
+  
+ Use <xref:System.String.ToUpper%2A?displayProperty=fullName> to convert a string to uppercase.  
+  
+   
+  
+## Examples  
+ The following example converts each character in an array to its uppercase equivalent.  
+  
+ [!CODE [System.Char.ToUpper#1](../CodeSnippet/VS_Snippets_CLR_System/system.char.toupper#1)]  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="ToUpper">
@@ -1432,11 +2491,25 @@
         <Parameter Name="culture" Type="System.Globalization.CultureInfo" />
       </Parameters>
       <Docs>
-        <param name="c">To be added.</param>
-        <param name="culture">To be added.</param>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
-        <remarks>To be added.</remarks>
+        <param name="c">The Unicode character to convert.</param>
+        <param name="culture">An object that supplies culture-specific casing rules.</param>
+        <summary>Converts the value of a specified Unicode character to its uppercase equivalent using specified culture-specific formatting information.</summary>
+        <returns>The uppercase equivalent of , modified according to , or the unchanged value of  if  is already uppercase, has no uppercase equivalent, or is not alphabetic.</returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ Use <xref:System.String.ToUpper%2A?displayProperty=fullName> to convert a string to uppercase.  
+  
+   
+  
+## Examples  
+ The following example converts each character in an array to its uppercase equivalent for the en-US culture, the invariant culture, and the tr-TR culture. In this example, the uppercase equivalent of each lowercase letter is identical for all cultures except for one case. The lowercase "i" character (U+0069) converts to "I" (U+0049) in the en-US and invariant cultures, but to "İ" (U+0130) in the tr-TR culture.  
+  
+ [!CODE [System.Char.ToUpper#2](../CodeSnippet/VS_Snippets_CLR_System/system.char.toupper#2)]  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="ToUpperInvariant">
@@ -1453,10 +2526,19 @@
         <Parameter Name="c" Type="System.Char" />
       </Parameters>
       <Docs>
-        <param name="c">To be added.</param>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
-        <remarks>To be added.</remarks>
+        <param name="c">The Unicode character to convert.</param>
+        <summary>Converts the value of a Unicode character to its uppercase equivalent using the casing rules of the invariant culture.</summary>
+        <returns>The uppercase equivalent of the  parameter, or the unchanged value of , if  is already uppercase or not alphabetic.</returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ If your application is unaffected by the current culture and depends on the case of a character changing in a predictable way, use the ToUpperInvariant method.  The ToUpperInvariant method is equivalent to `ToUpper(Char, CultureInfo.InvariantCulture)`.  
+  
+ Use <xref:System.String.ToUpperInvariant%2A?displayProperty=fullName> to convert a string to uppercase.  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="TryParse">
@@ -1474,11 +2556,25 @@
         <Parameter Name="result" Type="System.Char&amp;" RefType="out" />
       </Parameters>
       <Docs>
-        <param name="s">To be added.</param>
-        <param name="result">To be added.</param>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
-        <remarks>To be added.</remarks>
+        <param name="s">A string that contains a single character, or `null`.</param>
+        <param name="result">When this method returns, contains a Unicode character equivalent to the sole character in , if the conversion succeeded, or an undefined value if the conversion failed. The conversion fails if the  parameter is `null` or the length of  is not 1. This parameter is passed uninitialized.</param>
+        <summary>Converts the value of the specified string to its equivalent Unicode character. A return code indicates whether the conversion succeeded or failed.</summary>
+        <returns>`true` if the  parameter was converted successfully; otherwise, `false`.</returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ The TryParse method is like the <xref:System.Char.Parse%2A> method, except the TryParse method does not throw an exception if the conversion fails.  
+  
+   
+  
+## Examples  
+ The following code example demonstrates overloads of the TryParse method for several base types, and the <xref:System.DateTime.TryParseExact%2A> method for the <xref:System.DateTime> base type.  
+  
+ [!CODE [T.TryParse#1](../CodeSnippet/VS_Snippets_CLR/T.TryParse#1)]  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
   </Members>

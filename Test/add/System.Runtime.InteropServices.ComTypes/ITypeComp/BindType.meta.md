@@ -1,0 +1,4 @@
+---
+uid: System.Runtime.InteropServices.ComTypes.ITypeComp.BindType(System.String,System.Int32,System.Runtime.InteropServices.ComTypes.ITypeInfo@,System.Runtime.InteropServices.ComTypes.ITypeComp@)
+internalonly: False
+---

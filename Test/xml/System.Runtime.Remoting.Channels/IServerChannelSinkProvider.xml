@@ -12,8 +12,30 @@
     </Attribute>
   </Attributes>
   <Docs>
-    <summary>To be added.</summary>
-    <remarks>To be added.</remarks>
+    <summary>Creates server channel sinks for the server channel through which remoting messages flow.</summary>
+    <remarks>
+      <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ Channel sinks are connected to a server channel through implementations of the IServerChannelSinkProvider interface. All the remoting server channels provide constructors that take a IServerChannelSinkProvider as a parameter.  
+  
+ Channel sink providers are stored in a chain, and the user is responsible for chaining all channel sink providers together before passing the outer one to the channel constructor. IServerChannelSinkProvider provides a property called <xref:System.Runtime.Remoting.Channels.IServerChannelSinkProvider.Next%2A> for this purpose.  
+  
+ When multiple channel sink providers are specified in a configuration file, the remoting infrastructure will chain them together in the order they are found in the configuration file. The channel sink providers are created at the same time as the channel, during a <xref:System.Runtime.Remoting.RemotingConfiguration.Configure%2A?displayProperty=fullName> call.  
+  
+ After the <xref:System.Runtime.Remoting.Messaging.IMethodCallMessage> is generated, .NET Framework searches through the list of registered channels to find one that can process the call. Once an appropriate channel has been found, the channel sink is retrieved from the channel, and the <xref:System.Runtime.Remoting.Messaging.IMethodCallMessage> is forwarded to the sink for processing.  
+  
+   
+  
+## Examples  
+ The following code example illustrates an implementation of this interface.  
+  
+ [!CODE [Remoting_Sinks#70](../CodeSnippet/VS_Snippets_Remoting/Remoting_Sinks#70)]  
+  
+ See the <xref:System.Runtime.Remoting.Channels.IServerChannelSink> interface documentation for an example of the corresponding server sink implementation.  
+  
+ ]]></format>
+    </remarks>
   </Docs>
   <Members>
     <Member MemberName="CreateSink">
@@ -35,10 +57,17 @@
         <Parameter Name="channel" Type="System.Runtime.Remoting.Channels.IChannelReceiver" />
       </Parameters>
       <Docs>
-        <param name="channel">To be added.</param>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
-        <remarks>To be added.</remarks>
+        <param name="channel">The channel for which to create the channel sink chain.</param>
+        <summary>Creates a sink chain.</summary>
+        <returns>The first sink of the newly formed channel sink chain, or `null`, which indicates that this provider will not or cannot provide a connection for this endpoint.</returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Examples  
+ [!CODE [SoapClientFormatterSinkProvider_Next_Create#3](../CodeSnippet/VS_Snippets_Remoting/SoapClientFormatterSinkProvider_Next_Create#3)]  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="GetChannelData">
@@ -60,9 +89,16 @@
         <Parameter Name="channelData" Type="System.Runtime.Remoting.Channels.IChannelDataStore" />
       </Parameters>
       <Docs>
-        <param name="channelData">To be added.</param>
-        <summary>To be added.</summary>
-        <remarks>To be added.</remarks>
+        <param name="channelData">A &lt;see cref="T:System.Runtime.Remoting.Channels.IChannelDataStore"&gt; object in which the channel data is to be returned.</param>
+        <summary>Returns the channel data for the channel that the current sink is associated with.</summary>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Examples  
+ [!CODE [IServerChannelSinkProvider_CreateSink#2](../CodeSnippet/VS_Snippets_Remoting/IServerChannelSinkProvider_CreateSink#2)]  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="Next">
@@ -84,9 +120,16 @@
         <ReturnType>System.Runtime.Remoting.Channels.IServerChannelSinkProvider</ReturnType>
       </ReturnValue>
       <Docs>
-        <summary>To be added.</summary>
-        <value>To be added.</value>
-        <remarks>To be added.</remarks>
+        <summary>Gets or sets the next sink provider in the channel sink provider chain.</summary>
+        <value>The next sink provider in the channel sink provider chain.</value>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Examples  
+ [!CODE [SinkProviders#1](../CodeSnippet/VS_Snippets_Remoting/SinkProviders#1)]  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
   </Members>

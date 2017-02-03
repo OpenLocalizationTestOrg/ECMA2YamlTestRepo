@@ -22,8 +22,44 @@
     </Attribute>
   </Attributes>
   <Docs>
-    <summary>To be added.</summary>
-    <remarks>To be added.</remarks>
+    <summary>Represents a lightweight alternative to &lt;xref:System.Threading.Semaphore&gt; that limits the number of threads that can access a resource or pool of resources concurrently.</summary>
+    <remarks>
+      <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ Semaphores are of two types: local semaphores and named system semaphores. The former is local to an app. The latter is visible throughout the operating system and is suitable for inter-process synchronization. The SemaphoreSlim is a lightweight alternative to the <xref:System.Threading.Semaphore> class that doesn't use Windows kernel semaphores. Unlike the <xref:System.Threading.Semaphore> class, the SemaphoreSlim class doesn’t support named system semaphores. You can use it as a local semaphore only. The SemaphoreSlim class is the recommended semaphore for synchronization within a single app.  
+  
+ A lightweight semaphore controls access to a pool of resources that is local to your application. When you instantiate a semaphore, you can specify the maximum number of threads that can enter the semaphore concurrently. You also specify the initial number of threads that can enter the semaphore concurrently. This defines the semaphore's count.  
+  
+ The count is decremented each time a thread enters the semaphore, and incremented each time a thread releases the semaphore. To enter the semaphore, a thread calls one of the <xref:System.Threading.SemaphoreSlim.Wait%2A> or <xref:System.Threading.SemaphoreSlim.WaitAsync%2A> overloads. To release the semaphore, it calls one of the <xref:System.Threading.SemaphoreSlim.Release%2A> overloads. When the count reaches zero, subsequent calls to one of the `Wait` methods block until other threads release the semaphore. If multiple threads are blocked, there is no guaranteed order, such as FIFO or LIFO, that controls when threads enter the semaphore.  
+  
+ The basic structure for code that uses a semaphore to protect resources is:  
+  
+```  
+  
+' Enter semaphore by calling one of the Wait or WaitAsync methods.  
+SemaphoreSlim.Wait()  
+'   
+' Execute code protected by the semaphore.   
+'  
+SemaphoreSlim.Release()  
+  
+```  
+  
+ When all threads have released the semaphore, the count is at the maximum value specified when the semaphore was created. The semaphore's count is available from the <xref:System.Threading.SemaphoreSlim.CurrentCount%2A> property.  
+  
+> [!IMPORTANT]
+>  The SemaphoreSlim class doesn’t enforce thread or task identity on calls to the <xref:System.Threading.SemaphoreSlim.Wait%2A>, <xref:System.Threading.SemaphoreSlim.WaitAsync%2A>, and <xref:System.Threading.SemaphoreSlim.Release%2A> methods. In addition, if the <xref:System.Threading.SemaphoreSlim.%23ctor%28System.Int32%29> constructor is used to instantiate the SemaphoreSlim object, the <xref:System.Threading.SemaphoreSlim.CurrentCount%2A> property can increase beyond the value set by the constructor. It is the programmer's responsibility to ensure that calls to <xref:System.Threading.SemaphoreSlim.Wait%2A> or <xref:System.Threading.SemaphoreSlim.WaitAsync%2A> methods are appropriately paired with calls to <xref:System.Threading.SemaphoreSlim.Release%2A> methods.  
+  
+   
+  
+## Examples  
+ The following example creates a semaphore with a maximum count of three threads and an initial count of zero threads. The example starts five tasks, all of which block waiting for the semaphore. The main thread calls the <xref:System.Threading.SemaphoreSlim.Release%28System.Int32%29> overload to increase the semaphore count to its maximum, which allows three tasks to enter the semaphore. Each time the semaphore is released, the previous semaphore count is displayed. Console messages track semaphore use. The simulated work interval is increased slightly for each thread to make the output easier to read.  
+  
+ [!CODE [System.Threading.SemaphoreSlim#1](../CodeSnippet/VS_Snippets_CLR_System/system.threading.semaphoreslim#1)]  
+  
+ ]]></format>
+    </remarks>
   </Docs>
   <Members>
     <Member MemberName=".ctor">
@@ -37,9 +73,16 @@
         <Parameter Name="initialCount" Type="System.Int32" />
       </Parameters>
       <Docs>
-        <param name="initialCount">To be added.</param>
-        <summary>To be added.</summary>
-        <remarks>To be added.</remarks>
+        <param name="initialCount">The initial number of requests for the semaphore that can be granted concurrently.</param>
+        <summary>Initializes a new instance of the &lt;see cref="T:System.Threading.SemaphoreSlim"&gt; class, specifying the initial number of requests that can be granted concurrently.</summary>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ The  parameter defines the number of concurrent requests to enter the semaphore that can be granted. However, it doesn’t define the maximum number of requests that can be granted concurrently. A   <xref:System.Threading.SemaphoreSlim> object instantiated by calling this constructor doesn’t throw a <xref:System.Threading.SemaphoreFullException> exception if a call to the <xref:System.Threading.SemaphoreSlim.Release%2A> method increases the value of the <xref:System.Threading.SemaphoreSlim.CurrentCount%2A> property beyond . This occurs if there are more calls to <xref:System.Threading.SemaphoreSlim.Release%2A> methods than there are to <xref:System.Threading.SemaphoreSlim.Wait%2A> or <xref:System.Threading.SemaphoreSlim.WaitAsync%2A> methods. To set the maximum number of concurrent requests to enter the semaphore that can be granted, call the <xref:System.Threading.SemaphoreSlim.%23ctor%28System.Int32%2CSystem.Int32%29> constructor.  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName=".ctor">
@@ -54,9 +97,9 @@
         <Parameter Name="maxCount" Type="System.Int32" />
       </Parameters>
       <Docs>
-        <param name="initialCount">To be added.</param>
-        <param name="maxCount">To be added.</param>
-        <summary>To be added.</summary>
+        <param name="initialCount">The initial number of requests for the semaphore that can be granted concurrently.</param>
+        <param name="maxCount">The maximum number of requests for the semaphore that can be granted concurrently.</param>
+        <summary>Initializes a new instance of the &lt;see cref="T:System.Threading.SemaphoreSlim"&gt; class, specifying the initial and maximum number of requests that can be granted concurrently.</summary>
         <remarks>To be added.</remarks>
       </Docs>
     </Member>
@@ -71,9 +114,16 @@
         <ReturnType>System.Threading.WaitHandle</ReturnType>
       </ReturnValue>
       <Docs>
-        <summary>To be added.</summary>
-        <value>To be added.</value>
-        <remarks>To be added.</remarks>
+        <summary>Returns a &lt;see cref="T:System.Threading.WaitHandle"&gt; that can be used to wait on the semaphore.</summary>
+        <value>A &lt;see cref="T:System.Threading.WaitHandle"&gt; that can be used to wait on the semaphore.</value>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ Use this property only when you must wait on a SemaphoreSlim together with other kernel-based synchronization objects with the same wait handle. A successful wait on the AvailableWaitHandle does not imply a successful wait on the <xref:System.Threading.SemaphoreSlim> itself, nor does it decrement the semaphore's count. After the available wait handle is signaled, you should wait on the <xref:System.Threading.SemaphoreSlim> specifically.  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="CurrentCount">
@@ -87,9 +137,16 @@
         <ReturnType>System.Int32</ReturnType>
       </ReturnValue>
       <Docs>
-        <summary>To be added.</summary>
-        <value>To be added.</value>
-        <remarks>To be added.</remarks>
+        <summary>Gets the number of remaining threads that can enter the &lt;see cref="T:System.Threading.SemaphoreSlim"&gt; object.</summary>
+        <value>The number of remaining threads that can enter the semaphore.</value>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ The initial value of the CurrentCount property is set by the call to the <xref:System.Threading.SemaphoreSlim.%23ctor%2A> class constructor. It is decremented by each call to the <xref:System.Threading.SemaphoreSlim.Wait%2A> or <xref:System.Threading.SemaphoreSlim.WaitAsync%2A> method, and incremented by each call to the <xref:System.Threading.SemaphoreSlim.Release%2A> method.  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="Dispose">
@@ -104,8 +161,20 @@
       </ReturnValue>
       <Parameters />
       <Docs>
-        <summary>To be added.</summary>
-        <remarks>To be added.</remarks>
+        <summary>Releases all resources used by the current instance of the &lt;see cref="T:System.Threading.SemaphoreSlim"&gt; class.</summary>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ Call `Dispose` when you are finished using the <xref:System.Threading.SemaphoreSlim>. The `Dispose` method leaves the <xref:System.Threading.SemaphoreSlim> in an unusable state. After calling `Dispose`, you must release all references to the <xref:System.Threading.SemaphoreSlim> so the garbage collector can reclaim the memory that the <xref:System.Threading.SemaphoreSlim> was occupying.  
+  
+ For more information, see [Cleaning Up Unmanaged Resources](../Topic/Cleaning%20Up%20Unmanaged%20Resources.md) and [Implementing a Dispose Method](../Topic/Implementing%20a%20Dispose%20Method.md).  
+  
+> [!NOTE]
+>  Always call `Dispose` before you release your last reference to the <xref:System.Threading.SemaphoreSlim>. Otherwise, the resources it is using will not be freed until the garbage collector calls the <xref:System.Threading.SemaphoreSlim> object's `Finalize` method.  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="Dispose">
@@ -122,9 +191,16 @@
         <Parameter Name="disposing" Type="System.Boolean" />
       </Parameters>
       <Docs>
-        <param name="disposing">To be added.</param>
-        <summary>To be added.</summary>
-        <remarks>To be added.</remarks>
+        <param name="disposing">`true` to release both managed and unmanaged resources; `false` to release only unmanaged resources.</param>
+        <summary>Releases the unmanaged resources used by the &lt;see cref="T:System.Threading.SemaphoreSlim"&gt;, and optionally releases the managed resources.</summary>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ Unlike most of the members of <xref:System.Threading.SemaphoreSlim>, Dispose is not thread-safe and may not be used concurrently with other members of this instance.  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="Release">
@@ -139,9 +215,16 @@
       </ReturnValue>
       <Parameters />
       <Docs>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
-        <remarks>To be added.</remarks>
+        <summary>Releases the &lt;see cref="T:System.Threading.SemaphoreSlim"&gt; object once.</summary>
+        <returns>The previous count of the &lt;see cref="T:System.Threading.SemaphoreSlim"&gt;.</returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ A call to the Release method increments the <xref:System.Threading.SemaphoreSlim.CurrentCount%2A> property by one. If the value of the <xref:System.Threading.SemaphoreSlim.CurrentCount%2A> property is zero before this method is called, the method also allows one thread or task blocked by a call to the <xref:System.Threading.SemaphoreSlim.Wait%2A> or <xref:System.Threading.SemaphoreSlim.WaitAsync%2A> method to enter the semaphore.  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="Release">
@@ -158,10 +241,17 @@
         <Parameter Name="releaseCount" Type="System.Int32" />
       </Parameters>
       <Docs>
-        <param name="releaseCount">To be added.</param>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
-        <remarks>To be added.</remarks>
+        <param name="releaseCount">The number of times to exit the semaphore.</param>
+        <summary>Releases the &lt;see cref="T:System.Threading.SemaphoreSlim"&gt; object a specified number of times.</summary>
+        <returns>The previous count of the &lt;see cref="T:System.Threading.SemaphoreSlim"&gt;.</returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ A call to the Release method increments the <xref:System.Threading.SemaphoreSlim.CurrentCount%2A> property by . If the value of the <xref:System.Threading.SemaphoreSlim.CurrentCount%2A> property is zero before this method is called, the method also allows  threads or tasks blocked by a call to the <xref:System.Threading.SemaphoreSlim.Wait%2A> or <xref:System.Threading.SemaphoreSlim.WaitAsync%2A> method to enter the semaphore.  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="Wait">
@@ -176,8 +266,15 @@
       </ReturnValue>
       <Parameters />
       <Docs>
-        <summary>To be added.</summary>
-        <remarks>To be added.</remarks>
+        <summary>Blocks the current thread until it can enter the &lt;see cref="T:System.Threading.SemaphoreSlim"&gt;.</summary>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ If a thread or task is able to enter the semaphore, it decrements the <xref:System.Threading.SemaphoreSlim.CurrentCount%2A> property by one.  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="Wait">
@@ -194,10 +291,19 @@
         <Parameter Name="millisecondsTimeout" Type="System.Int32" />
       </Parameters>
       <Docs>
-        <param name="millisecondsTimeout">To be added.</param>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
-        <remarks>To be added.</remarks>
+        <param name="millisecondsTimeout">The number of milliseconds to wait, or &lt;see cref="F:System.Threading.Timeout.Infinite"&gt;(-1) to wait indefinitely.</param>
+        <summary>Blocks the current thread until it can enter the &lt;see cref="T:System.Threading.SemaphoreSlim"&gt;, using a 32-bit signed integer that specifies the timeout.</summary>
+        <returns>`true` if the current thread successfully entered the &lt;see cref="T:System.Threading.SemaphoreSlim"&gt;; otherwise, `false`.</returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ If a thread or task is able to enter the semaphore, it decrements the <xref:System.Threading.SemaphoreSlim.CurrentCount%2A> property by one.  
+  
+ If a thread or task is blocked when calling Wait, and the time-out interval specified by  expires, the thread or task doesn’t enter the semaphore, and the <xref:System.Threading.SemaphoreSlim.CurrentCount%2A> property isn’t decremented.  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="Wait">
@@ -214,9 +320,18 @@
         <Parameter Name="cancellationToken" Type="System.Threading.CancellationToken" />
       </Parameters>
       <Docs>
-        <param name="cancellationToken">To be added.</param>
-        <summary>To be added.</summary>
-        <remarks>To be added.</remarks>
+        <param name="cancellationToken">The &lt;see cref="T:System.Threading.CancellationToken"&gt; token to observe.</param>
+        <summary>Blocks the current thread until it can enter the &lt;see cref="T:System.Threading.SemaphoreSlim"&gt;, while observing a &lt;xref:System.Threading.CancellationToken&gt;.</summary>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ If a thread or task is able to enter the semaphore, it decrements the <xref:System.Threading.SemaphoreSlim.CurrentCount%2A> property by one.  
+  
+ If  is cancelled, the thread or task doesn’t enter the semaphore, and the <xref:System.Threading.SemaphoreSlim.CurrentCount%2A> property isn’t decremented. Instead, the method throws an <xref:System.OperationCanceledException> exception.  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="Wait">
@@ -233,10 +348,19 @@
         <Parameter Name="timeout" Type="System.TimeSpan" />
       </Parameters>
       <Docs>
-        <param name="timeout">To be added.</param>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
-        <remarks>To be added.</remarks>
+        <param name="timeout">A &lt;see cref="T:System.TimeSpan"&gt; that represents the number of milliseconds to wait, or a &lt;see cref="T:System.TimeSpan"&gt; that represents -1 milliseconds to wait indefinitely.</param>
+        <summary>Blocks the current thread until it can enter the &lt;see cref="T:System.Threading.SemaphoreSlim"&gt;, using a &lt;xref:System.TimeSpan&gt; to specify the timeout.</summary>
+        <returns>`true` if the current thread successfully entered the &lt;see cref="T:System.Threading.SemaphoreSlim"&gt;; otherwise, `false`.</returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ If a thread or task is able to enter the semaphore, it decrements the <xref:System.Threading.SemaphoreSlim.CurrentCount%2A> property by one.  
+  
+ If a thread or task is blocked when calling Wait and the time-out interval specified by  expires, the thread or task doesn’t enter the semaphore, and the <xref:System.Threading.SemaphoreSlim.CurrentCount%2A> property isn’t decremented.  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="Wait">
@@ -254,11 +378,20 @@
         <Parameter Name="cancellationToken" Type="System.Threading.CancellationToken" />
       </Parameters>
       <Docs>
-        <param name="millisecondsTimeout">To be added.</param>
-        <param name="cancellationToken">To be added.</param>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
-        <remarks>To be added.</remarks>
+        <param name="millisecondsTimeout">The number of milliseconds to wait, or &lt;see cref="F:System.Threading.Timeout.Infinite"&gt;(-1) to wait indefinitely.</param>
+        <param name="cancellationToken">The &lt;see cref="T:System.Threading.CancellationToken"&gt; to observe.</param>
+        <summary>Blocks the current thread until it can enter the &lt;see cref="T:System.Threading.SemaphoreSlim"&gt;, using a 32-bit signed integer that specifies the timeout, while observing a &lt;xref:System.Threading.CancellationToken&gt;.</summary>
+        <returns>`true` if the current thread successfully entered the &lt;see cref="T:System.Threading.SemaphoreSlim"&gt;; otherwise, `false`.</returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ If a thread or task is able to enter the semaphore, it decrements the <xref:System.Threading.SemaphoreSlim.CurrentCount%2A> property by one.  
+  
+ If  is cancelled, or if a thread or task is blocked when calling Wait and the time-out interval specified by  expires, the thread or task doesn’t enter the semaphore, and the <xref:System.Threading.SemaphoreSlim.CurrentCount%2A> property isn’t decremented. If  is cancelled, the method throws an   <xref:System.OperationCanceledException> exception.  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="Wait">
@@ -276,11 +409,20 @@
         <Parameter Name="cancellationToken" Type="System.Threading.CancellationToken" />
       </Parameters>
       <Docs>
-        <param name="timeout">To be added.</param>
-        <param name="cancellationToken">To be added.</param>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
-        <remarks>To be added.</remarks>
+        <param name="timeout">A &lt;see cref="T:System.TimeSpan"&gt; that represents the number of milliseconds to wait, or a &lt;see cref="T:System.TimeSpan"&gt; that represents -1 milliseconds to wait indefinitely.</param>
+        <param name="cancellationToken">The &lt;see cref="T:System.Threading.CancellationToken"&gt; to observe.</param>
+        <summary>Blocks the current thread until it can enter the &lt;see cref="T:System.Threading.SemaphoreSlim"&gt;, using a &lt;xref:System.TimeSpan&gt; that specifies the timeout, while observing a &lt;xref:System.Threading.CancellationToken&gt;.</summary>
+        <returns>`true` if the current thread successfully entered the &lt;see cref="T:System.Threading.SemaphoreSlim"&gt;; otherwise, `false`.</returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ If a thread or task is able to enter the semaphore, it decrements the <xref:System.Threading.SemaphoreSlim.CurrentCount%2A> property by one.  
+  
+ If  is cancelled, or if a thread or task is blocked when calling Wait and the timeout interval specified by  expires, the thread or task doesn’t enter the semaphore, and the <xref:System.Threading.SemaphoreSlim.CurrentCount%2A> property isn’t decremented. If  is cancelled, the method throws an <xref:System.OperationCanceledException> exception.  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="WaitAsync">
@@ -295,8 +437,8 @@
       </ReturnValue>
       <Parameters />
       <Docs>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
+        <summary>Asynchronously waits to enter the &lt;see cref="T:System.Threading.SemaphoreSlim"&gt;.</summary>
+        <returns>A task that will complete when the semaphore has been entered.</returns>
         <remarks>To be added.</remarks>
       </Docs>
     </Member>
@@ -314,9 +456,9 @@
         <Parameter Name="millisecondsTimeout" Type="System.Int32" />
       </Parameters>
       <Docs>
-        <param name="millisecondsTimeout">To be added.</param>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
+        <param name="millisecondsTimeout">The number of milliseconds to wait, or &lt;see cref="F:System.Threading.Timeout.Infinite"&gt; (-1) to wait indefinitely.</param>
+        <summary>Asynchronously waits to enter the &lt;see cref="T:System.Threading.SemaphoreSlim"&gt;, using a 32-bit signed integer to measure the time interval.</summary>
+        <returns>A task that will complete with a result of `true` if the current thread successfully entered the &lt;see cref="T:System.Threading.SemaphoreSlim"&gt;, otherwise with a result of `false`.</returns>
         <remarks>To be added.</remarks>
       </Docs>
     </Member>
@@ -334,9 +476,9 @@
         <Parameter Name="cancellationToken" Type="System.Threading.CancellationToken" />
       </Parameters>
       <Docs>
-        <param name="cancellationToken">To be added.</param>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
+        <param name="cancellationToken">The &lt;see cref="T:System.Threading.CancellationToken"&gt; token to observe.</param>
+        <summary>Asynchronously waits to enter the &lt;see cref="T:System.Threading.SemaphoreSlim"&gt;, while observing a &lt;xref:System.Threading.CancellationToken&gt;.</summary>
+        <returns>A task that will complete when the semaphore has been entered.</returns>
         <remarks>To be added.</remarks>
       </Docs>
     </Member>
@@ -354,9 +496,9 @@
         <Parameter Name="timeout" Type="System.TimeSpan" />
       </Parameters>
       <Docs>
-        <param name="timeout">To be added.</param>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
+        <param name="timeout">A &lt;see cref="T:System.TimeSpan"&gt; that represents the number of milliseconds to wait, or a &lt;see cref="T:System.TimeSpan"&gt; that represents -1 milliseconds to wait indefinitely.</param>
+        <summary>Asynchronously waits to enter the &lt;see cref="T:System.Threading.SemaphoreSlim"&gt;, using a &lt;xref:System.TimeSpan&gt; to measure the time interval.</summary>
+        <returns>A task that will complete with a result of `true` if the current thread successfully entered the &lt;see cref="T:System.Threading.SemaphoreSlim"&gt;, otherwise with a result of `false`.</returns>
         <remarks>To be added.</remarks>
       </Docs>
     </Member>
@@ -375,10 +517,10 @@
         <Parameter Name="cancellationToken" Type="System.Threading.CancellationToken" />
       </Parameters>
       <Docs>
-        <param name="millisecondsTimeout">To be added.</param>
-        <param name="cancellationToken">To be added.</param>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
+        <param name="millisecondsTimeout">The number of milliseconds to wait, or &lt;see cref="F:System.Threading.Timeout.Infinite"&gt; (-1) to wait indefinitely.</param>
+        <param name="cancellationToken">The &lt;see cref="T:System.Threading.CancellationToken"&gt; to observe.</param>
+        <summary>Asynchronously waits to enter the &lt;see cref="T:System.Threading.SemaphoreSlim"&gt;, using a 32-bit signed integer to measure the time interval, while observing a &lt;xref:System.Threading.CancellationToken&gt;.</summary>
+        <returns>A task that will complete with a result of `true` if the current thread successfully entered the &lt;see cref="T:System.Threading.SemaphoreSlim"&gt;, otherwise with a result of `false`.</returns>
         <remarks>To be added.</remarks>
       </Docs>
     </Member>
@@ -397,10 +539,10 @@
         <Parameter Name="cancellationToken" Type="System.Threading.CancellationToken" />
       </Parameters>
       <Docs>
-        <param name="timeout">To be added.</param>
-        <param name="cancellationToken">To be added.</param>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
+        <param name="timeout">A &lt;see cref="T:System.TimeSpan"&gt; that represents the number of milliseconds to wait, or a &lt;see cref="T:System.TimeSpan"&gt; that represents -1 milliseconds to wait indefinitely.</param>
+        <param name="cancellationToken">The &lt;see cref="T:System.Threading.CancellationToken"&gt; token to observe.</param>
+        <summary>Asynchronously waits to enter the &lt;see cref="T:System.Threading.SemaphoreSlim"&gt;, using a &lt;xref:System.TimeSpan&gt; to measure the time interval, while observing a &lt;xref:System.Threading.CancellationToken&gt;.</summary>
+        <returns>A task that will complete with a result of `true` if the current thread successfully entered the &lt;see cref="T:System.Threading.SemaphoreSlim"&gt;, otherwise with a result of `false`.</returns>
         <remarks>To be added.</remarks>
       </Docs>
     </Member>

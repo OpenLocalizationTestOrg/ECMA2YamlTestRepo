@@ -28,8 +28,24 @@
     </Attribute>
   </Attributes>
   <Docs>
-    <summary>To be added.</summary>
-    <remarks>To be added.</remarks>
+    <summary>Obtains information about the attributes of a member and provides access to member metadata.</summary>
+    <remarks>
+      <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ The MemberInfo class is the abstract base class for classes used to obtain information about all members of a class (constructors, events, fields, methods, and properties).  
+  
+ This class introduces the basic functionality that all members provide.  
+  
+   
+  
+## Examples  
+ This example shows how to use various reflection classes to analyze the metadata contained in an assembly.  
+  
+ [!CODE [Reflection#1](../CodeSnippet/VS_Snippets_CLR/Reflection#1)]  
+  
+ ]]></format>
+    </remarks>
   </Docs>
   <Members>
     <Member MemberName=".ctor">
@@ -41,8 +57,15 @@
       </AssemblyInfo>
       <Parameters />
       <Docs>
-        <summary>To be added.</summary>
-        <remarks>To be added.</remarks>
+        <summary>Initializes a new instance of the &lt;see cref="T:System.Reflection.MemberInfo"&gt; class.</summary>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ Only a derived class can create this `MemberInfo` class.  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="CustomAttributes">
@@ -56,8 +79,8 @@
         <ReturnType>System.Collections.Generic.IEnumerable&lt;System.Reflection.CustomAttributeData&gt;</ReturnType>
       </ReturnValue>
       <Docs>
-        <summary>To be added.</summary>
-        <value>To be added.</value>
+        <summary>Gets a collection that contains this member's custom attributes.</summary>
+        <value>A collection that contains this member's custom attributes.</value>
         <remarks>To be added.</remarks>
       </Docs>
     </Member>
@@ -72,9 +95,32 @@
         <ReturnType>System.Type</ReturnType>
       </ReturnValue>
       <Docs>
-        <summary>To be added.</summary>
-        <value>To be added.</value>
-        <remarks>To be added.</remarks>
+        <summary>Gets the class that declares this member.</summary>
+        <value>The `Type` object for the class that declares this member.</value>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ The DeclaringType property retrieves a reference to the <xref:System.Type> object for the type that declares this member. A member of a type is either declared by the type or inherited from a base type, so the `Type` object returned by the DeclaringType property might not be the same as the `Type` object used to obtain the current <xref:System.Reflection.MemberInfo> object.  
+  
+-   If the `Type` object from which this `MemberInfo` object was obtained did not declare this member, the DeclaringType property will represent one of its base types.  
+  
+-   If the `MemberInfo` object is a global member (that is, if it was obtained from the <xref:System.Reflection.Module.GetMethods%2A?displayProperty=fullName> method, which returns global methods on a module), the returned DeclaringType will be `null`.  
+  
+   
+  
+## Examples  
+ The following example defines an interface, `IValue`, with a single member, `GetValue`. It also defines four classes: `A`, a base class that implements the `IValue` interface; `B`, which inherits from `A` and hides its implementation of `GetValue` from the base class implementation; `C`, which simply inherits from `A`; and `D`, which inherits from `A` and overrides its `GetValue` method.  The example then retrieves a <xref:System.Reflection.MemberInfo> object for each member of the type (including members inherited from <xref:System.Object>) and displays the value of its DeclaringType property.  
+  
+ [!CODE [Classic MemberInfo.DeclaringType Example#2](../CodeSnippet/VS_Snippets_CLR_Classic/classic MemberInfo.DeclaringType Example#2)]  
+  
+ Note that the declaring type of `A.GetValue` is `A`, that `B` includes two `GetValue` methods, one declared by `A` and one by `B`, and that the declaring type of `D.GetValue` is `D`.  
+  
+> [!NOTE]
+>  `DeclaringType` returns only the member names and the names of their declaring types. To return the member names with their prototypes, call `MemberInfo.ToString`.  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="Equals">
@@ -91,9 +137,9 @@
         <Parameter Name="obj" Type="System.Object" />
       </Parameters>
       <Docs>
-        <param name="obj">To be added.</param>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
+        <param name="obj">An object to compare with this instance, or `null`.</param>
+        <summary>Returns a value that indicates whether this instance is equal to a specified object.</summary>
+        <returns>`true` if  equals the type and value of this instance; otherwise, `false`.</returns>
         <remarks>To be added.</remarks>
       </Docs>
     </Member>
@@ -111,10 +157,27 @@
         <Parameter Name="inherit" Type="System.Boolean" />
       </Parameters>
       <Docs>
-        <param name="inherit">To be added.</param>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
-        <remarks>To be added.</remarks>
+        <param name="inherit">`true` to search this member's inheritance chain to find the attributes; otherwise, `false`. This parameter is ignored for properties and events; see Remarks.</param>
+        <summary>When overridden in a derived class, returns an array of all custom attributes applied to this member.</summary>
+        <returns>An array that contains all the custom attributes applied to this member, or an array with zero elements if no attributes are defined.</returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ This method ignores the  parameter for properties and events. To search the inheritance chain for attributes on properties and events, use the appropriate overloads of the <xref:System.Attribute.GetCustomAttributes%2A?displayProperty=fullName> method.  
+  
+> [!NOTE]
+>  In the .NET Framework version 2.0, this method returns security attributes on methods, constructors, and types if they are stored in the new metadata format. Assemblies compiled with version 2.0 use this format. Dynamic assemblies and assemblies compiled with earlier versions of the .NET Framework use the old XML format. See [Emitting Declarative Security Attributes](http://msdn.microsoft.com/en-us/9eeddee8-ca89-4440-b84b-fd613f590cd5).  
+  
+   
+  
+## Examples  
+ The following example defines a custom attribute and associates the attribute with `MyClass.MyMethod`, retrieves the attribute at run time, and displays the result.  
+  
+ [!CODE [MemberInfo_GetCustomAttributes1#1](../CodeSnippet/VS_Snippets_CLR/MemberInfo_GetCustomAttributes1#1)]  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="GetCustomAttributes">
@@ -132,11 +195,28 @@
         <Parameter Name="inherit" Type="System.Boolean" />
       </Parameters>
       <Docs>
-        <param name="attributeType">To be added.</param>
-        <param name="inherit">To be added.</param>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
-        <remarks>To be added.</remarks>
+        <param name="attributeType">The type of attribute to search for. Only attributes that are assignable to this type are returned.</param>
+        <param name="inherit">`true` to search this member's inheritance chain to find the attributes; otherwise, `false`. This parameter is ignored for properties and events; see Remarks.</param>
+        <summary>When overridden in a derived class, returns an array of custom attributes applied to this member and identified by &lt;see cref="T:System.Type"&gt;.</summary>
+        <returns>An array of custom attributes applied to this member, or an array with zero elements if no attributes assignable to  have been applied.</returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ This method ignores the  parameter for properties and events. To search the inheritance chain for attributes on properties and events, use the appropriate overloads of the <xref:System.Attribute.GetCustomAttributes%2A?displayProperty=fullName> method.  
+  
+> [!NOTE]
+>  In the .NET Framework version 2.0, this method returns security attributes on methods, constructors, and types if the attributes are stored in the new metadata format. Assemblies compiled with version 2.0 use this format. Dynamic assemblies and assemblies compiled with earlier versions of the .NET Framework use the old XML format. See [Emitting Declarative Security Attributes](http://msdn.microsoft.com/en-us/9eeddee8-ca89-4440-b84b-fd613f590cd5).  
+  
+   
+  
+## Examples  
+ The following example defines a class named `BaseClass` that has two non-inherited members: a thread static field named `total` and a non-CLS-compliant method named `MethodA`.  A class named `DerivedClass` inherits from `BaseClass` and overrides its `MethodA` method. Note that no attributes are applied to the members of `DerivedClass`. The example iterates the members of `DerivedClass` to determine whether the <xref:System.CLSCompliantAttribute> or <xref:System.ThreadStaticAttribute> attribute as been applied to them. Because  is `true`, the method searches the inheritance hierarchy of `DerivedClass` for the specified attribute. As the output from the example shows, the `total` field is decorated with the <xref:System.ThreadStaticAttribute> attribute, and the `MethodA` method is decorated with the <xref:System.CLSCompliantAttribute> attribute.  
+  
+ [!CODE [System.Reflection.MemberInfo.GetCustomAttributes#1](../CodeSnippet/VS_Snippets_CLR_System/System.Reflection.MemberInfo.GetCustomAttributes#1)]  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="GetCustomAttributesData">
@@ -151,9 +231,18 @@
       </ReturnValue>
       <Parameters />
       <Docs>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
-        <remarks>To be added.</remarks>
+        <summary>Returns a list of &lt;see cref="T:System.Reflection.CustomAttributeData"&gt; objects representing data about the attributes that have been applied to the target member.</summary>
+        <returns>A generic list of &lt;see cref="T:System.Reflection.CustomAttributeData"&gt; objects representing data about the attributes that have been applied to the target member.</returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ Use this method to examine the custom attributes of code in the reflection-only context, in cases where the custom attributes themselves are defined in code that is loaded into the reflection-only context. Methods like <xref:System.Attribute.GetCustomAttributes%2A?displayProperty=fullName> and <xref:System.Reflection.MemberInfo.GetCustomAttributes%2A?displayProperty=fullName> cannot be used in such cases, because they create instances of the attributes. Code in the reflection-only context cannot be executed. For more information and for example code, see the <xref:System.Reflection.CustomAttributeData> class.  
+  
+ This method gets custom attribute data for types, nested types, and type members, because the <xref:System.Type> class and the classes in the <xref:System.Reflection> namespace that represent type members all derive from <xref:System.Reflection.MemberInfo>.  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="GetHashCode">
@@ -168,8 +257,8 @@
       </ReturnValue>
       <Parameters />
       <Docs>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
+        <summary>Returns the hash code for this instance.</summary>
+        <returns>A 32-bit signed integer hash code.</returns>
         <remarks>To be added.</remarks>
       </Docs>
     </Member>
@@ -188,11 +277,28 @@
         <Parameter Name="inherit" Type="System.Boolean" />
       </Parameters>
       <Docs>
-        <param name="attributeType">To be added.</param>
-        <param name="inherit">To be added.</param>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
-        <remarks>To be added.</remarks>
+        <param name="attributeType">The type of custom attribute to search for. The search includes derived types.</param>
+        <param name="inherit">`true` to search this member's inheritance chain to find the attributes; otherwise, `false`. This parameter is ignored for properties and events; see Remarks.</param>
+        <summary>When overridden in a derived class, indicates whether one or more attributes of the specified type or of its derived types is applied to this member.</summary>
+        <returns>`true` if one or more instances of  or any of its derived types is applied to this member; otherwise, `false`.</returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ This method ignores the  parameter for properties and events. To search the inheritance chain for attributes on properties and events, use the appropriate overloads of the <xref:System.Attribute.IsDefined%2A?displayProperty=fullName> method.  
+  
+> [!NOTE]
+>  In the .NET Framework version 2.0, this method returns `true` if a type, method, or constructor has security attributes stored in the new metadata format. Assemblies compiled with version 2.0 use this format. Dynamic assemblies and assemblies compiled with earlier versions of the .NET Framework use the old XML format. See [Emitting Declarative Security Attributes](http://msdn.microsoft.com/en-us/9eeddee8-ca89-4440-b84b-fd613f590cd5).  
+  
+   
+  
+## Examples  
+ The following example determines whether the specified attribute is applied to the specified member.  
+  
+ [!CODE [MemberInfo_GetCustomAttribute_IsDefined#1](../CodeSnippet/VS_Snippets_CLR/MemberInfo_GetCustomAttribute_IsDefined#1)]  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="MemberType">
@@ -206,9 +312,25 @@
         <ReturnType>System.Reflection.MemberTypes</ReturnType>
       </ReturnValue>
       <Docs>
-        <summary>To be added.</summary>
-        <value>To be added.</value>
-        <remarks>To be added.</remarks>
+        <summary>When overridden in a derived class, gets a &lt;see cref="T:System.Reflection.MemberTypes"&gt; value indicating the type of the member — method, constructor, event, and so on.</summary>
+        <value>A &lt;see cref="T:System.Reflection.MemberTypes"&gt; value indicating the type of member.</value>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ This property is overridden in derived classes, and the override returns the appropriate member type. Therefore, when you examine a set of <xref:System.Reflection.MemberInfo> objects — for example, the array returned by <xref:System.Type.GetMembers%2A> — the MemberType property can be used to determine the member type of any given member.  
+  
+ To get the `MemberType` property, get the class <xref:System.Type>. From the `Type`, get the <xref:System.Reflection.MethodInfo> array. From the `MethodInfo` array, get the `MemberTypes`.  
+  
+   
+  
+## Examples  
+ The following example displays the member name and type of a specified class.  
+  
+ [!CODE [Classic MemberInfo.MemberType Example#1](../CodeSnippet/VS_Snippets_CLR_Classic/classic MemberInfo.MemberType Example#1)]  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="MetadataToken">
@@ -222,9 +344,19 @@
         <ReturnType>System.Int32</ReturnType>
       </ReturnValue>
       <Docs>
-        <summary>To be added.</summary>
-        <value>To be added.</value>
-        <remarks>To be added.</remarks>
+        <summary>Gets a value that identifies a metadata element.</summary>
+        <value>A value which, in combination with &lt;xref:System.Reflection.MemberInfo.Module%2A&gt;, uniquely identifies a metadata element.</value>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ The tokens obtained using this property can be passed to the unmanaged reflection API. For more information, please see [Unmanaged Reflection API](http://msdn.microsoft.com/en-us/0c5bb9de-0cf6-438d-ba47-134e6c775fb8).  
+  
+> [!NOTE]
+>  Using the unmanaged reflection API requires familiarity with the Common Language Infrastructure (CLI) documentation, especially "Partition II: Metadata Definition and Semantics" and "Partition III: CIL Instruction Set". The documentation is available online; see [ECMA C# and Common Language Infrastructure Standards](http://go.microsoft.com/fwlink/?LinkID=99212) on MSDN and [Standard ECMA-335 - Common Language Infrastructure (CLI)](http://go.microsoft.com/fwlink/?LinkID=65552) on the Ecma International Web site.  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="Module">
@@ -238,9 +370,23 @@
         <ReturnType>System.Reflection.Module</ReturnType>
       </ReturnValue>
       <Docs>
-        <summary>To be added.</summary>
-        <value>To be added.</value>
-        <remarks>To be added.</remarks>
+        <summary>Gets the module in which the type that declares the member represented by the current &lt;see cref="T:System.Reflection.MemberInfo"&gt; is defined.</summary>
+        <value>The &lt;see cref="T:System.Reflection.Module"&gt; in which the type that declares the member represented by the current &lt;xref:System.Reflection.MemberInfo&gt; is defined.</value>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ This property is provided as a convenience. It is equivalent to using the <xref:System.Reflection.MemberInfo.DeclaringType%2A> property to get the type in which the method is declared, and then calling the <xref:System.Type.Module%2A> property of the resulting <xref:System.Type> object.  
+  
+   
+  
+## Examples  
+ The following code example declares a class that inherits <xref:System.Object> and overrides <xref:System.Object.ToString%2A?displayProperty=fullName>. The example obtains <xref:System.Reflection.MethodInfo> objects for the class's `ToString` method and for the inherited <xref:System.Object.GetHashCode%2A> method, and displays the names of the modules in which the two methods are declared.  
+  
+ [!CODE [System.Reflection.MemberInfo.Module#1](../CodeSnippet/VS_Snippets_CLR_System/system.Reflection.MemberInfo.Module#1)]  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="Name">
@@ -254,9 +400,25 @@
         <ReturnType>System.String</ReturnType>
       </ReturnValue>
       <Docs>
-        <summary>To be added.</summary>
-        <value>To be added.</value>
-        <remarks>To be added.</remarks>
+        <summary>Gets the name of the current member.</summary>
+        <value>A &lt;see cref="T:System.String"&gt; containing the name of this member.</value>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ Only the simple name of the member is returned, not the fully qualified name.  
+  
+ To get the Name property, get the class <xref:System.Type>. From the `Type`, get the <xref:System.Reflection.MemberInfo> array. From a `MemberInfo` element of the array, obtain the `Name` property.  
+  
+   
+  
+## Examples  
+ This example lists the `Name` and `DeclaringType` property of each member of the specified class.  
+  
+ [!CODE [Classic MemberInfo.Name Example#1](../CodeSnippet/VS_Snippets_CLR_Classic/classic MemberInfo.Name Example#1)]  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="op_Equality">
@@ -274,10 +436,10 @@
         <Parameter Name="right" Type="System.Reflection.MemberInfo" />
       </Parameters>
       <Docs>
-        <param name="left">To be added.</param>
-        <param name="right">To be added.</param>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
+        <param name="left">The &lt;see cref="T:System.Reflection.MemberInfo"&gt; to compare to .</param>
+        <param name="right">The &lt;see cref="T:System.Reflection.MemberInfo"&gt; to compare to .</param>
+        <summary>Indicates whether two &lt;see cref="T:System.Reflection.MemberInfo"&gt; objects are equal.</summary>
+        <returns>`true` if  is equal to ; otherwise `false`.</returns>
         <remarks>To be added.</remarks>
       </Docs>
     </Member>
@@ -296,10 +458,10 @@
         <Parameter Name="right" Type="System.Reflection.MemberInfo" />
       </Parameters>
       <Docs>
-        <param name="left">To be added.</param>
-        <param name="right">To be added.</param>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
+        <param name="left">The &lt;see cref="T:System.Reflection.MemberInfo"&gt; to compare to .</param>
+        <param name="right">The &lt;see cref="T:System.Reflection.MemberInfo"&gt; to compare to .</param>
+        <summary>Indicates whether two &lt;see cref="T:System.Reflection.MemberInfo"&gt; objects are not equal.</summary>
+        <returns>`true` if  is not equal to ; otherwise `false`.</returns>
         <remarks>To be added.</remarks>
       </Docs>
     </Member>
@@ -314,9 +476,25 @@
         <ReturnType>System.Type</ReturnType>
       </ReturnValue>
       <Docs>
-        <summary>To be added.</summary>
-        <value>To be added.</value>
-        <remarks>To be added.</remarks>
+        <summary>Gets the class object that was used to obtain this instance of `MemberInfo`.</summary>
+        <value>The `Type` object through which this `MemberInfo` object was obtained.</value>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ The `ReflectedType` property retrieves the <xref:System.Type> object that was used to obtain this instance of `MemberInfo`. This may differ from the value of the <xref:System.Reflection.MemberInfo.DeclaringType%2A> property if this <xref:System.Reflection.MemberInfo> object represents a member that is inherited from a base class.  
+  
+ If the `MemberInfo` object is a global member (that is, if it was obtained from the <xref:System.Reflection.Module.GetMethods%2A?displayProperty=fullName> method, which returns global methods on a module), the returned <xref:System.Reflection.MemberInfo.DeclaringType%2A> will be `null`.  
+  
+   
+  
+## Examples  
+ The following code example shows how the ReflectedType changes when the member <xref:System.Object.ToString%2A?displayProperty=fullName> is viewed from a <xref:System.Reflection.MemberInfo> obtained from type <xref:System.Object> and from a <xref:System.Reflection.MemberInfo> obtained from the <xref:System.Reflection.MemberInfo> class itself, which inherits <xref:System.Object> but does not override <xref:System.Object.ToString%2A?displayProperty=fullName>.  
+  
+ [!CODE [Classic MemberInfo.ReflectedType Example#1](../CodeSnippet/VS_Snippets_CLR_Classic/classic MemberInfo.ReflectedType Example#1)]  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="System.Runtime.InteropServices._MemberInfo.GetIDsOfNames">
@@ -337,13 +515,20 @@
         <Parameter Name="rgDispId" Type="System.IntPtr" />
       </Parameters>
       <Docs>
-        <param name="riid">To be added.</param>
-        <param name="rgszNames">To be added.</param>
-        <param name="cNames">To be added.</param>
-        <param name="lcid">To be added.</param>
-        <param name="rgDispId">To be added.</param>
-        <summary>To be added.</summary>
-        <remarks>To be added.</remarks>
+        <param name="riid">Reserved for future use. Must be IID_NULL.</param>
+        <param name="rgszNames">Passed-in array of names to be mapped.</param>
+        <param name="cNames">Count of the names to be mapped.</param>
+        <param name="lcid">The locale context in which to interpret the names.</param>
+        <param name="rgDispId">Caller-allocated array which receives the IDs corresponding to the names.</param>
+        <summary>Maps a set of names to a corresponding set of dispatch identifiers.</summary>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ This method is for access to managed classes from unmanaged code, and should not be called from managed code. For more information about `IDispatch::GetIDsOfNames`, see the MSDN Library.  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="System.Runtime.InteropServices._MemberInfo.GetType">
@@ -358,8 +543,8 @@
       </ReturnValue>
       <Parameters />
       <Docs>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
+        <summary>Gets a &lt;see cref="T:System.Type"&gt; object representing the &lt;xref:System.Reflection.MemberInfo&gt; class.</summary>
+        <returns>A &lt;see cref="T:System.Type"&gt; object representing the &lt;xref:System.Reflection.MemberInfo&gt; class.</returns>
         <remarks>To be added.</remarks>
       </Docs>
     </Member>
@@ -379,11 +564,18 @@
         <Parameter Name="ppTInfo" Type="System.IntPtr" />
       </Parameters>
       <Docs>
-        <param name="iTInfo">To be added.</param>
-        <param name="lcid">To be added.</param>
-        <param name="ppTInfo">To be added.</param>
-        <summary>To be added.</summary>
-        <remarks>To be added.</remarks>
+        <param name="iTInfo">The type information to return.</param>
+        <param name="lcid">The locale identifier for the type information.</param>
+        <param name="ppTInfo">Receives a pointer to the requested type information object.</param>
+        <summary>Retrieves the type information for an object, which can then be used to get the type information for an interface.</summary>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ This method is for access to managed classes from unmanaged code, and should not be called from managed code. For more information about `IDispatch::GetTypeInfo`, see the MSDN Library.  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="System.Runtime.InteropServices._MemberInfo.GetTypeInfoCount">
@@ -400,9 +592,16 @@
         <Parameter Name="pcTInfo" Type="System.UInt32&amp;" RefType="out" />
       </Parameters>
       <Docs>
-        <param name="pcTInfo">To be added.</param>
-        <summary>To be added.</summary>
-        <remarks>To be added.</remarks>
+        <param name="pcTInfo">Points to a location that receives the number of type information interfaces provided by the object.</param>
+        <summary>Retrieves the number of type information interfaces that an object provides (either 0 or 1).</summary>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ This method is for access to managed classes from unmanaged code, and should not be called from managed code. For more information about `IDispatch::GetTypeInfoCount`, see the MSDN Library.  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="System.Runtime.InteropServices._MemberInfo.Invoke">
@@ -426,16 +625,23 @@
         <Parameter Name="puArgErr" Type="System.IntPtr" />
       </Parameters>
       <Docs>
-        <param name="dispIdMember">To be added.</param>
-        <param name="riid">To be added.</param>
-        <param name="lcid">To be added.</param>
-        <param name="wFlags">To be added.</param>
-        <param name="pDispParams">To be added.</param>
-        <param name="pVarResult">To be added.</param>
-        <param name="pExcepInfo">To be added.</param>
-        <param name="puArgErr">To be added.</param>
-        <summary>To be added.</summary>
-        <remarks>To be added.</remarks>
+        <param name="dispIdMember">Identifies the member.</param>
+        <param name="riid">Reserved for future use. Must be IID_NULL.</param>
+        <param name="lcid">The locale context in which to interpret arguments.</param>
+        <param name="wFlags">Flags describing the context of the call.</param>
+        <param name="pDispParams">Pointer to a structure containing an array of arguments, an array of argument DISPIDs for named arguments, and counts for the number of elements in the arrays.</param>
+        <param name="pVarResult">Pointer to the location where the result is to be stored.</param>
+        <param name="pExcepInfo">Pointer to a structure that contains exception information.</param>
+        <param name="puArgErr">The index of the first argument that has an error.</param>
+        <summary>Provides access to properties and methods exposed by an object.</summary>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ This method is for access to managed classes from unmanaged code, and should not be called from managed code. For more information about `IDispatch::Invoke`, see the MSDN Library.  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
   </Members>

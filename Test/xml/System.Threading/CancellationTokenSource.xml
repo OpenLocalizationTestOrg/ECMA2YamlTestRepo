@@ -19,8 +19,45 @@
     </Attribute>
   </Attributes>
   <Docs>
-    <summary>To be added.</summary>
-    <remarks>To be added.</remarks>
+    <summary>Signals to a &lt;see cref="T:System.Threading.CancellationToken"&gt; that it should be canceled.</summary>
+    <remarks>
+      <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ Starting with the [!INCLUDE[net_v40_long](../../add/includes/net-v40-long-md.md)], the .NET Framework uses a unified model for cooperative cancellation of asynchronous or long-running synchronous operations that involves two objects:  
+  
+-   A CancellationTokenSource object, which provides a cancellation token through its <xref:System.Threading.CancellationTokenSource.Token%2A> property and sends a cancellation message by calling its <xref:System.Threading.CancellationTokenSource.Cancel%2A> or <xref:System.Threading.CancellationTokenSource.CancelAfter%2A> method.  
+  
+-   A <xref:System.Threading.CancellationToken> object, which indicates whether cancellation is requested.  
+  
+ The general pattern for implementing the cooperative cancellation model is:  
+  
+-   Instantiate a CancellationTokenSource object, which manages and sends cancellation notification to the individual cancellation tokens.  
+  
+-   Pass the token returned by the <xref:System.Threading.CancellationTokenSource.Token%2A?displayProperty=fullName> property to each task or thread that listens for cancellation.  
+  
+-   Call the <xref:System.Threading.CancellationToken.IsCancellationRequested%2A?displayProperty=fullName> method from operations that receive the cancellation token. Provide a mechanism for each task or thread to respond to a cancellation request. Whether you choose to cancel an operation, and exactly how you do it, depends on your application logic.  
+  
+-   Call the <xref:System.Threading.CancellationTokenSource.Cancel%2A?displayProperty=fullName> method to provide notification of cancellation. This sets the <xref:System.Threading.CancellationToken.IsCancellationRequested%2A?displayProperty=fullName> property on every copy of the cancellation token to `true`.  
+  
+-   Call the <xref:System.Threading.CancellationTokenSource.Dispose%2A> method when you are finished with the CancellationTokenSource object.  
+  
+ For more information, see [Cancellation in Managed Threads](../Topic/Cancellation%20in%20Managed%20Threads.md).  
+  
+> [!IMPORTANT]
+>  This type implements the <xref:System.IDisposable> interface. When you have finished using an instance of the type, you should dispose of it either directly or indirectly. To dispose of the type directly, call its <xref:System.IDisposable.Dispose%2A> method in a `try`/`catch` block. To dispose of it indirectly, use a language construct such as `using` (in C#) or `Using` (in Visual Basic). For more information, see the “Using an Object that Implements IDisposable” section in the <xref:System.IDisposable> interface topic.  
+  
+   
+  
+## Examples  
+ The following example uses a random number generator to emulate a data collection application that reads 10 integral values from eleven different instruments. A value of zero indicates that the measurement has failed for one instrument, in which case the operation should be cancelled and no overall mean should be computed.  
+  
+ To handle the possible cancellation of the operation, the example instantiates a CancellationTokenSource object that generates a cancellation token which is passed to a <xref:System.Threading.Tasks.TaskFactory> object. The <xref:System.Threading.Tasks.TaskFactory> object in turn passes the cancellation token to each of the tasks responsible for collecting readings for a particular instrument. The [TaskFactory.ContinueWhenAll\<TAntecedentResult, TResult>(Task\<TAntecedentResult>\[\], Func<Task\<TAntecedentResult>\[\], TResult>, CancellationToken)](assetId:///M:System.Threading.Tasks.TaskFactory.ContinueWhenAll``2(System.Threading.Tasks.Task{``0}[],System.Func{System.Threading.Tasks.Task{``0}[],``1},System.Threading.CancellationToken)?qualifyHint=True&autoUpgrade=False) method is called to ensure that the mean is computed only after all readings have been gathered successfully. If a task has not because it has been cancelled, the call to the <xref:System.Threading.Tasks.TaskFactory.ContinueWhenAll%2A?displayProperty=fullName> method throws an exception.  
+  
+ [!CODE [System.Threading.CancellationTokenSource.Class#1](../CodeSnippet/VS_Snippets_CLR_System/system.threading.cancellationtokensource.class#1)]  
+  
+ ]]></format>
+    </remarks>
   </Docs>
   <Members>
     <Member MemberName=".ctor">
@@ -32,7 +69,7 @@
       </AssemblyInfo>
       <Parameters />
       <Docs>
-        <summary>To be added.</summary>
+        <summary>Initializes a new instance of the &lt;see cref="T:System.Threading.CancellationTokenSource"&gt; class.</summary>
         <remarks>To be added.</remarks>
       </Docs>
     </Member>
@@ -47,9 +84,18 @@
         <Parameter Name="millisecondsDelay" Type="System.Int32" />
       </Parameters>
       <Docs>
-        <param name="millisecondsDelay">To be added.</param>
-        <summary>To be added.</summary>
-        <remarks>To be added.</remarks>
+        <param name="millisecondsDelay">The time interval in milliseconds to wait before canceling this &lt;see cref="T:System.Threading.CancellationTokenSource"&gt;.</param>
+        <summary>Initializes a new instance of the &lt;see cref="T:System.Threading.CancellationTokenSource"&gt; class that will be canceled after the specified delay in milliseconds.</summary>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ The countdown for the  starts during the call to the constructor.  When the  expires, the constructed <xref:System.Threading.CancellationTokenSource> is canceled (if it has not been canceled already).  
+  
+ Subsequent calls to <xref:System.Threading.CancellationTokenSource.CancelAfter%2A> will reset the  for the constructed <xref:System.Threading.CancellationTokenSource>, if it has not been canceled already.  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName=".ctor">
@@ -63,9 +109,18 @@
         <Parameter Name="delay" Type="System.TimeSpan" />
       </Parameters>
       <Docs>
-        <param name="delay">To be added.</param>
-        <summary>To be added.</summary>
-        <remarks>To be added.</remarks>
+        <param name="delay">The time interval to wait before canceling this &lt;see cref="T:System.Threading.CancellationTokenSource"&gt;.</param>
+        <summary>Initializes a new instance of the &lt;see cref="T:System.Threading.CancellationTokenSource"&gt; class that will be canceled after the specified time span.</summary>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ The countdown for the delay starts during the call to the constructor. When the delay expires, the constructed <xref:System.Threading.CancellationTokenSource> is canceled, if it has not been canceled already.  
+  
+ Subsequent calls to <xref:System.Threading.CancellationTokenSource.CancelAfter%2A> will reset the delay for the constructed <xref:System.Threading.CancellationTokenSource>, if it has not been canceled already.  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="Cancel">
@@ -80,8 +135,32 @@
       </ReturnValue>
       <Parameters />
       <Docs>
-        <summary>To be added.</summary>
-        <remarks>To be added.</remarks>
+        <summary>Communicates a request for cancellation.</summary>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ The associated <xref:System.Threading.CancellationToken> will be notified of the cancellation and will transition to a state where <xref:System.Threading.CancellationToken.IsCancellationRequested%2A> returns true.  
+  
+ Any callbacks or cancelable operations registered with the <xref:System.Threading.CancellationToken> will be executed.  
+  
+ Cancelable operations and callbacks registered with the token should not throw exceptions.  
+  
+ However, this overload of Cancel will aggregate any exceptions thrown into an <xref:System.AggregateException>, such that one callback throwing an exception will not prevent other registered callbacks from being executed.  
+  
+ The <xref:System.Threading.ExecutionContext> that was captured when each callback was registered will be reestablished when the callback is invoked.  
+  
+   
+  
+## Examples  
+ The following example uses a random number generator to emulate a data collection application that reads 10 integral values from eleven different instruments. A value of zero indicates that the measurement has failed for one instrument, in which case the operation should be cancelled and no overall mean should be computed.  
+  
+ To handle the possible cancellation of the operation, the example instantiates a <xref:System.Threading.CancellationTokenSource> object that generates a cancellation token which is passed to a <xref:System.Threading.Tasks.TaskFactory> object. The <xref:System.Threading.Tasks.TaskFactory> object in turn passes the cancellation token to each of the tasks responsible for collecting readings for a particular instrument. The [TaskFactory.ContinueWhenAll\<TAntecedentResult, TResult>(Task\<TAntecedentResult>\[\], Func<Task\<TAntecedentResult>\[\], TResult>, CancellationToken)](assetId:///M:System.Threading.Tasks.TaskFactory.ContinueWhenAll``2(System.Threading.Tasks.Task{``0}[],System.Func{System.Threading.Tasks.Task{``0}[],``1},System.Threading.CancellationToken)?qualifyHint=True&autoUpgrade=False) method is called to ensure that the mean is computed only after all readings have been gathered successfully. If a task has not because it has been cancelled, the call to the <xref:System.Threading.Tasks.TaskFactory.ContinueWhenAll%2A?displayProperty=fullName> method throws an exception.  
+  
+ [!CODE [System.Threading.CancellationTokenSource.Class#1](../CodeSnippet/VS_Snippets_CLR_System/system.threading.cancellationtokensource.class#1)]  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="Cancel">
@@ -98,9 +177,26 @@
         <Parameter Name="throwOnFirstException" Type="System.Boolean" />
       </Parameters>
       <Docs>
-        <param name="throwOnFirstException">To be added.</param>
-        <summary>To be added.</summary>
-        <remarks>To be added.</remarks>
+        <param name="throwOnFirstException">`true` if exceptions should immediately propagate; otherwise, `false`.</param>
+        <summary>Communicates a request for cancellation, and specifies whether remaining callbacks and cancelable operations should be processed.</summary>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ The associated <xref:System.Threading.CancellationToken> will be notified of the cancellation and will transition to a state where <xref:System.Threading.CancellationToken.IsCancellationRequested%2A> returns `true`.  
+  
+ Any callbacks or cancelable operations registered with the <xref:System.Threading.CancellationToken> will be executed.  
+  
+ Cancelable operations and callbacks registered with the token should not throw exceptions.  
+  
+ If  is `true`, an exception will immediately propagate out of the call to Cancel, preventing the remaining callbacks and cancelable operations from being processed.  
+  
+ If  is `false`, this overload will aggregate any exceptions thrown into an <xref:System.AggregateException>, such that one callback throwing an exception will not prevent other registered callbacks from being executed.  
+  
+ The <xref:System.Threading.ExecutionContext> that was captured when each callback was registered will be reestablished when the callback is invoked.  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="CancelAfter">
@@ -117,9 +213,18 @@
         <Parameter Name="millisecondsDelay" Type="System.Int32" />
       </Parameters>
       <Docs>
-        <param name="millisecondsDelay">To be added.</param>
-        <summary>To be added.</summary>
-        <remarks>To be added.</remarks>
+        <param name="millisecondsDelay">The time span to wait before canceling this &lt;see cref="T:System.Threading.CancellationTokenSource"&gt;.</param>
+        <summary>Schedules a cancel operation on this &lt;see cref="T:System.Threading.CancellationTokenSource"&gt; after the specified number of milliseconds.</summary>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ The countdown for the  starts during this call. When the  expires, this <xref:System.Threading.CancellationTokenSource> is canceled, if it has not been canceled already.  
+  
+ Subsequent calls to CancelAfter will reset the  for this <xref:System.Threading.CancellationTokenSource>, if it has not been canceled already.  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="CancelAfter">
@@ -136,8 +241,8 @@
         <Parameter Name="delay" Type="System.TimeSpan" />
       </Parameters>
       <Docs>
-        <param name="delay">To be added.</param>
-        <summary>To be added.</summary>
+        <param name="delay">The time span to wait before canceling this &lt;see cref="T:System.Threading.CancellationTokenSource"&gt;.</param>
+        <summary>Schedules a cancel operation on this &lt;see cref="T:System.Threading.CancellationTokenSource"&gt; after the specified time span.</summary>
         <remarks>To be added.</remarks>
       </Docs>
     </Member>
@@ -161,9 +266,9 @@
         </Parameter>
       </Parameters>
       <Docs>
-        <param name="tokens">To be added.</param>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
+        <param name="tokens">An array that contains the cancellation token instances to observe.</param>
+        <summary>Creates a &lt;see cref="T:System.Threading.CancellationTokenSource"&gt; that will be in the canceled state when any of the source tokens in the specified array are in the canceled state.</summary>
+        <returns>A &lt;see cref="T:System.Threading.CancellationTokenSource"&gt; that is linked to the source tokens.</returns>
         <remarks>To be added.</remarks>
       </Docs>
     </Member>
@@ -182,10 +287,10 @@
         <Parameter Name="token2" Type="System.Threading.CancellationToken" />
       </Parameters>
       <Docs>
-        <param name="token1">To be added.</param>
-        <param name="token2">To be added.</param>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
+        <param name="token1">The first cancellation token to observe.</param>
+        <param name="token2">The second cancellation token to observe.</param>
+        <summary>Creates a &lt;see cref="T:System.Threading.CancellationTokenSource"&gt; that will be in the canceled state when any of the source tokens are in the canceled state.</summary>
+        <returns>A &lt;see cref="T:System.Threading.CancellationTokenSource"&gt; that is linked to the source tokens.</returns>
         <remarks>To be added.</remarks>
       </Docs>
     </Member>
@@ -201,8 +306,20 @@
       </ReturnValue>
       <Parameters />
       <Docs>
-        <summary>To be added.</summary>
-        <remarks>To be added.</remarks>
+        <summary>Releases all resources used by the current instance of the &lt;see cref="T:System.Threading.CancellationTokenSource"&gt; class.</summary>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ Call `Dispose` when you are finished using the <xref:System.Threading.CancellationTokenSource>. The `Dispose` method leaves the <xref:System.Threading.CancellationTokenSource> in an unusable state. After calling `Dispose`, you must release all references to the <xref:System.Threading.CancellationTokenSource> so the garbage collector can reclaim the memory that the <xref:System.Threading.CancellationTokenSource> was occupying.  
+  
+ For more information, see [Cleaning Up Unmanaged Resources](../Topic/Cleaning%20Up%20Unmanaged%20Resources.md) and [Implementing a Dispose Method](../Topic/Implementing%20a%20Dispose%20Method.md).  
+  
+> [!NOTE]
+>  Always call `Dispose` before you release your last reference to the <xref:System.Threading.CancellationTokenSource>. Otherwise, the resources it is using will not be freed until the garbage collector calls the <xref:System.Threading.CancellationTokenSource> object's `Finalize` method.  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="Dispose">
@@ -219,8 +336,8 @@
         <Parameter Name="disposing" Type="System.Boolean" />
       </Parameters>
       <Docs>
-        <param name="disposing">To be added.</param>
-        <summary>To be added.</summary>
+        <param name="disposing">`true` to release both managed and unmanaged resources; `false` to release only unmanaged resources.</param>
+        <summary>Releases the unmanaged resources used by the &lt;see cref="T:System.Threading.CancellationTokenSource"&gt; class and optionally releases the managed resources.</summary>
         <remarks>To be added.</remarks>
       </Docs>
     </Member>
@@ -235,9 +352,18 @@
         <ReturnType>System.Boolean</ReturnType>
       </ReturnValue>
       <Docs>
-        <summary>To be added.</summary>
-        <value>To be added.</value>
-        <remarks>To be added.</remarks>
+        <summary>Gets whether cancellation has been requested for this &lt;see cref="T:System.Threading.CancellationTokenSource"&gt;.</summary>
+        <value>`true` if cancellation has been requested for this &lt;see cref="T:System.Threading.CancellationTokenSource"&gt;; otherwise, `false`.</value>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ This property indicates whether cancellation has been requested for this token source, such as due to a call to its <xref:System.Threading.CancellationTokenSource.Cancel%2A> method.  
+  
+ If this property returns `true`, it only guarantees that cancellation has been requested. It does not guarantee that every handler registered with the corresponding token has finished executing, nor that cancellation requests have finished propagating to all registered handlers. Additional synchronization may be required, particularly in situations where related objects are being canceled concurrently.  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="Token">
@@ -251,8 +377,8 @@
         <ReturnType>System.Threading.CancellationToken</ReturnType>
       </ReturnValue>
       <Docs>
-        <summary>To be added.</summary>
-        <value>To be added.</value>
+        <summary>Gets the &lt;see cref="T:System.Threading.CancellationToken"&gt; associated with this &lt;xref:System.Threading.CancellationTokenSource&gt;.</summary>
+        <value>The &lt;see cref="T:System.Threading.CancellationToken"&gt; associated with this &lt;xref:System.Threading.CancellationTokenSource&gt;.</value>
         <remarks>To be added.</remarks>
       </Docs>
     </Member>

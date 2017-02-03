@@ -15,8 +15,26 @@
     </Attribute>
   </Attributes>
   <Docs>
-    <summary>To be added.</summary>
-    <remarks>To be added.</remarks>
+    <summary>Provides a way to access a managed object from unmanaged memory.</summary>
+    <remarks>
+      <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ The GCHandle structure is used with the <xref:System.Runtime.InteropServices.GCHandleType> enumeration to create a handle corresponding to any managed object. This handle can be one of four types: `Weak`, `WeakTrackResurrection`, `Normal`, or `Pinned`. When the handle has been allocated, you can use it to prevent the managed object from being collected by the garbage collector when an unmanaged client holds the only reference. Without such a handle, the object can be collected by the garbage collector before completing its work on behalf of the unmanaged client.  
+  
+ You can also use GCHandle to create a pinned object that returns a memory address to prevent the garbage collector from moving the object in memory.  
+  
+ When the handle goes out of scope you must explicitly release it by calling the <xref:System.Runtime.InteropServices.GCHandle.Free%2A> method; otherwise, memory leaks may occur. When you free a pinned handle, the associated object will be unpinned and will become eligible for garbage collection, if there are no other references to it.  
+  
+   
+  
+## Examples  
+ The following example shows an `App` class that creates a handle to a managed object using the `GCHandle.Alloc` method, which prevents the managed object from being collected. A call to the `EnumWindows` method passes a delegate and a managed object (both declared as managed types, but not shown), and casts the handle to an <xref:System.IntPtr>. The unmanaged function passes the type back to the caller as a parameter of the callback function.  
+  
+ [!CODE [System.Runtime.InteropServices.GCHandle#1](../CodeSnippet/VS_Snippets_CLR_System/system.Runtime.InteropServices.GCHandle#1)]  
+  
+ ]]></format>
+    </remarks>
   </Docs>
   <Members>
     <Member MemberName="AddrOfPinnedObject">
@@ -36,9 +54,16 @@
       </ReturnValue>
       <Parameters />
       <Docs>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
-        <remarks>To be added.</remarks>
+        <summary>Retrieves the address of an object in a &lt;xref:System.Runtime.InteropServices.GCHandleType?displayProperty=fullName&gt; handle.</summary>
+        <returns>The address of the pinned object as an &lt;see cref="T:System.IntPtr"&gt;.</returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ This method is used to get a stable pointer to the object. Pinning an object prevents the garbage collector from moving it around in memory, thereby reducing the efficiency of the garbage collector.  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="Alloc">
@@ -60,10 +85,24 @@
         <Parameter Name="value" Type="System.Object" />
       </Parameters>
       <Docs>
-        <param name="value">To be added.</param>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
-        <remarks>To be added.</remarks>
+        <param name="value">The object that uses the &lt;see cref="T:System.Runtime.InteropServices.GCHandle"&gt;.</param>
+        <summary>Allocates a &lt;see cref="T:System.Runtime.InteropServices.GCHandleType"&gt; handle for the specified object.</summary>
+        <returns>A new &lt;see cref="T:System.Runtime.InteropServices.GCHandle"&gt; that protects the object from garbage collection. This &lt;see cref="T:System.Runtime.InteropServices.GCHandle"&gt; must be released with &lt;xref:System.Runtime.InteropServices.GCHandle.Free%2A&gt; when it is no longer needed.</returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <xref:System.Runtime.InteropServices.GCHandleType> handles are opaque, which means that you cannot resolve the address of the object it contains through the handle.  
+  
+   
+  
+## Examples  
+ The following example shows an `App` class that creates a handle to a managed object using the `GCHandle.Alloc` method, which prevents the managed object from being collected. A call to the `EnumWindows` method passes a delegate and a managed object (both declared as managed types, but not shown), and casts the handle to an <xref:System.IntPtr>. The unmanaged function passes the type back to the caller as a parameter of the callback function.  
+  
+ [!CODE [System.Runtime.InteropServices.GCHandle#1](../CodeSnippet/VS_Snippets_CLR_System/system.Runtime.InteropServices.GCHandle#1)]  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="Alloc">
@@ -86,10 +125,10 @@
         <Parameter Name="type" Type="System.Runtime.InteropServices.GCHandleType" />
       </Parameters>
       <Docs>
-        <param name="value">To be added.</param>
-        <param name="type">To be added.</param>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
+        <param name="value">The object that uses the &lt;see cref="T:System.Runtime.InteropServices.GCHandle"&gt;.</param>
+        <param name="type">One of the &lt;see cref="T:System.Runtime.InteropServices.GCHandleType"&gt; values, indicating the type of &lt;xref:System.Runtime.InteropServices.GCHandle&gt; to create.</param>
+        <summary>Allocates a handle of the specified type for the specified object.</summary>
+        <returns>A new &lt;see cref="T:System.Runtime.InteropServices.GCHandle"&gt; of the specified type. This &lt;see cref="T:System.Runtime.InteropServices.GCHandle"&gt; must be released with &lt;xref:System.Runtime.InteropServices.GCHandle.Free%2A&gt; when it is no longer needed.</returns>
         <remarks>To be added.</remarks>
       </Docs>
     </Member>
@@ -107,10 +146,17 @@
         <Parameter Name="o" Type="System.Object" />
       </Parameters>
       <Docs>
-        <param name="o">To be added.</param>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
-        <remarks>To be added.</remarks>
+        <param name="o">The &lt;see cref="T:System.Runtime.InteropServices.GCHandle"&gt; object to compare with the current &lt;see cref="T:System.Runtime.InteropServices.GCHandle"&gt; object.</param>
+        <summary>Determines whether the specified &lt;see cref="T:System.Runtime.InteropServices.GCHandle"&gt; object is equal to the current &lt;see cref="T:System.Runtime.InteropServices.GCHandle"&gt; object.</summary>
+        <returns>`true` if the specified &lt;see cref="T:System.Runtime.InteropServices.GCHandle"&gt; object is equal to the current &lt;see cref="T:System.Runtime.InteropServices.GCHandle"&gt; object; otherwise, `false`.</returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ Two <xref:System.Runtime.InteropServices.GCHandle> objects are equal if they point to the same memory handle.  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="Free">
@@ -130,8 +176,22 @@
       </ReturnValue>
       <Parameters />
       <Docs>
-        <summary>To be added.</summary>
-        <remarks>To be added.</remarks>
+        <summary>Releases a &lt;see cref="T:System.Runtime.InteropServices.GCHandle"&gt;.</summary>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ The caller must ensure that for a given handle, Free is called only once.  
+  
+   
+  
+## Examples  
+ The following example shows an `App` class that creates a handle to a managed object using the `GCHandle.Alloc` method, which prevents the managed object from being collected. A call to the `EnumWindows` method passes a delegate and a managed object (both declared as managed types, but not shown), and casts the handle to an <xref:System.IntPtr>. The unmanaged function passes the type back to the caller as a parameter of the callback function.  
+  
+ [!CODE [System.Runtime.InteropServices.GCHandle#1](../CodeSnippet/VS_Snippets_CLR_System/system.Runtime.InteropServices.GCHandle#1)]  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="FromIntPtr">
@@ -153,10 +213,19 @@
         <Parameter Name="value" Type="System.IntPtr" />
       </Parameters>
       <Docs>
-        <param name="value">To be added.</param>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
-        <remarks>To be added.</remarks>
+        <param name="value">An &lt;see cref="T:System.IntPtr"&gt; handle to a managed object to create a &lt;xref:System.Runtime.InteropServices.GCHandle&gt; object from.</param>
+        <summary>Returns a new &lt;see cref="T:System.Runtime.InteropServices.GCHandle"&gt; object created from a handle to a managed object.</summary>
+        <returns>A new &lt;see cref="T:System.Runtime.InteropServices.GCHandle"&gt; object that corresponds to the value parameter.</returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Examples  
+ The following code example shows an `App` class that creates a handle to a managed object using the `GCHandle.Alloc` method, which prevents the managed object from being collected. A call to the `EnumWindows` method passes a delegate and a managed object (both declared as managed types, but not shown), and casts the handle to an <xref:System.IntPtr> object. The unmanaged function passes the type back to the caller as a parameter of the callback function.  
+  
+ [!CODE [System.Runtime.InteropServices.GCHandle#1](../CodeSnippet/VS_Snippets_CLR_System/system.Runtime.InteropServices.GCHandle#1)]  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="GetHashCode">
@@ -171,9 +240,16 @@
       </ReturnValue>
       <Parameters />
       <Docs>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
-        <remarks>To be added.</remarks>
+        <summary>Returns an identifier for the current &lt;see cref="T:System.Runtime.InteropServices.GCHandle"&gt; object.</summary>
+        <returns>An identifier for the current &lt;see cref="T:System.Runtime.InteropServices.GCHandle"&gt; object.</returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ The GetHashCode method returns an integer representation of the internal memory handle encapsulated by the <xref:System.Runtime.InteropServices.GCHandle> structure.  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="IsAllocated">
@@ -187,9 +263,16 @@
         <ReturnType>System.Boolean</ReturnType>
       </ReturnValue>
       <Docs>
-        <summary>To be added.</summary>
-        <value>To be added.</value>
-        <remarks>To be added.</remarks>
+        <summary>Gets a value indicating whether the handle is allocated.</summary>
+        <value>`true` if the handle is allocated; otherwise, `false`.</value>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ Use this property when using <xref:System.Runtime.InteropServices.GCHandleType> handles to determine if the <xref:System.Runtime.InteropServices.GCHandle> is still available. When the garbage collector collects the object, the <xref:System.Runtime.InteropServices.GCHandleType> handle can still be resurrected in the finalizer. In that case, the handle is not allocated (it is lost when the garbage collector attempts to collect the object), even though the target object is valid.  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="op_Equality">
@@ -207,10 +290,10 @@
         <Parameter Name="b" Type="System.Runtime.InteropServices.GCHandle" />
       </Parameters>
       <Docs>
-        <param name="a">To be added.</param>
-        <param name="b">To be added.</param>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
+        <param name="a">A &lt;see cref="T:System.Runtime.InteropServices.GCHandle"&gt; object to compare with the  parameter.</param>
+        <param name="b">A &lt;see cref="T:System.Runtime.InteropServices.GCHandle"&gt; object to compare with the  parameter.</param>
+        <summary>Returns a value indicating whether two &lt;see cref="T:System.Runtime.InteropServices.GCHandle"&gt; objects are equal.</summary>
+        <returns>`true` if the  and  parameters are equal; otherwise, `false`.</returns>
         <remarks>To be added.</remarks>
       </Docs>
     </Member>
@@ -274,10 +357,10 @@
         <Parameter Name="b" Type="System.Runtime.InteropServices.GCHandle" />
       </Parameters>
       <Docs>
-        <param name="a">To be added.</param>
-        <param name="b">To be added.</param>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
+        <param name="a">A &lt;see cref="T:System.Runtime.InteropServices.GCHandle"&gt; object to compare with the  parameter.</param>
+        <param name="b">A &lt;see cref="T:System.Runtime.InteropServices.GCHandle"&gt; object to compare with the  parameter.</param>
+        <summary>Returns a value indicating whether two &lt;see cref="T:System.Runtime.InteropServices.GCHandle"&gt; objects are not equal.</summary>
+        <returns>`true` if the  and  parameters are not equal; otherwise, `false`.</returns>
         <remarks>To be added.</remarks>
       </Docs>
     </Member>
@@ -300,9 +383,18 @@
         <ReturnType>System.Object</ReturnType>
       </ReturnValue>
       <Docs>
-        <summary>To be added.</summary>
-        <value>To be added.</value>
-        <remarks>To be added.</remarks>
+        <summary>Gets or sets the object this handle represents.</summary>
+        <value>The object this handle represents.</value>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Examples  
+ The following example shows an `App` class that creates a handle to a managed object using the `GCHandle.Alloc` method, which prevents the managed object from being collected. A call to the `EnumWindows` method passes a delegate and a managed object (both declared as managed types, but not shown), and casts the handle to an <xref:System.IntPtr>. The unmanaged function passes the type back to the caller as a parameter of the callback function.  
+  
+ [!CODE [System.Runtime.InteropServices.GCHandle#1](../CodeSnippet/VS_Snippets_CLR_System/system.Runtime.InteropServices.GCHandle#1)]  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="ToIntPtr">
@@ -319,10 +411,19 @@
         <Parameter Name="value" Type="System.Runtime.InteropServices.GCHandle" />
       </Parameters>
       <Docs>
-        <param name="value">To be added.</param>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
-        <remarks>To be added.</remarks>
+        <param name="value">A &lt;see cref="T:System.Runtime.InteropServices.GCHandle"&gt; object to retrieve an internal integer representation from.</param>
+        <summary>Returns the internal integer representation of a &lt;see cref="T:System.Runtime.InteropServices.GCHandle"&gt; object.</summary>
+        <returns>An &lt;see cref="T:System.IntPtr"&gt; object that represents a &lt;xref:System.Runtime.InteropServices.GCHandle&gt; object.</returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Examples  
+ The following code example shows an `App` class that creates a handle to a managed object using the `GCHandle.Alloc` method, which prevents the managed object from being collected. A call to the `EnumWindows` method passes a delegate and a managed object (both declared as managed types, but not shown), and casts the handle to an <xref:System.IntPtr> object. The unmanaged function passes the type back to the caller as a parameter of the callback function.  
+  
+ [!CODE [System.Runtime.InteropServices.GCHandle#1](../CodeSnippet/VS_Snippets_CLR_System/system.Runtime.InteropServices.GCHandle#1)]  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
   </Members>

@@ -10,8 +10,40 @@
   </Base>
   <Interfaces />
   <Docs>
-    <summary>To be added.</summary>
-    <remarks>To be added.</remarks>
+    <summary>Provides a Cryptography Next Generation (CNG) implementation of the Elliptic Curve Diffie-Hellman (ECDH) algorithm. This class is used to perform cryptographic operations.</summary>
+    <remarks>
+      <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ The ECDiffieHellmanCng class enables two parties to exchange private key material even if they are communicating through a public channel.  Both parties can calculate the same secret value, which is referred to as the *secret agreement* in the managed Diffie-Hellman classes. The secret agreement can then be used for a variety of purposes, including as a symmetric key. However, instead of exposing the secret agreement directly, the ECDiffieHellmanCng class does some post-processing on the agreement before providing the value. This post processing is referred to as the *key derivation function (KDF)*; you can select which KDF you want to use and set its parameters through a set of properties on the instance of the Diffie-Hellman object.  
+  
+|Key derivation function|Properties|  
+|-----------------------------|----------------|  
+|<xref:System.Security.Cryptography.ECDiffieHellmanKeyDerivationFunction>|<xref:System.Security.Cryptography.ECDiffieHellmanCng.HashAlgorithm%2A> - The hash algorithm that is used to process the secret agreement.<br /><br /> <xref:System.Security.Cryptography.ECDiffieHellmanCng.SecretPrepend%2A> - An optional byte array to prepend to the secret agreement before hashing it.<br /><br /> <xref:System.Security.Cryptography.ECDiffieHellmanCng.SecretAppend%2A> - An optional byte array to append to the secret agreement before hashing it.|  
+|<xref:System.Security.Cryptography.ECDiffieHellmanKeyDerivationFunction>|<xref:System.Security.Cryptography.ECDiffieHellmanCng.HashAlgorithm%2A> - The hash algorithm that is used to process the secret agreement.<br /><br /> <xref:System.Security.Cryptography.ECDiffieHellmanCng.SecretPrepend%2A>- An optional byte array to prepend to the secret agreement before hashing it.<br /><br /> <xref:System.Security.Cryptography.ECDiffieHellmanCng.SecretAppend%2A> - An optional byte array to append to the secret agreement before hashing it.|  
+|<xref:System.Security.Cryptography.ECDiffieHellmanKeyDerivationFunction>|<xref:System.Security.Cryptography.ECDiffieHellmanCng.Label%2A> - The label for key derivation.<br /><br /> <xref:System.Security.Cryptography.ECDiffieHellmanCng.Seed%2A> - The seed for key derivation.|  
+  
+ The result of passing the secret agreement through the key derivation function is a byte array that may be used as key material for your application. The number of bytes of key material generated is dependent on the key derivation function; for example, SHA-256 will generate 256 bits of key material, whereas SHA-512 will generate 512 bits of key material.The basic flow of an ECDH key exchange is as follows:  
+  
+1.  Alice and Bob create a key pair to use for the Diffie-Hellman key exchange operation  
+  
+2.  Alice and Bob configure the KDF using parameters the agree on.  
+  
+3.  Alice sends Bob her public key.  
+  
+4.  Bob sends Alice his public key.  
+  
+5.  Alice and Bob use each other's public keys to generate the secret agreement, and apply the KDF to the secret agreement to generate key material.  
+  
+   
+  
+## Examples  
+ The following example shows how to use the ECDiffieHellmanCng class to establish a key exchange and how to use that key to encrypt a message that can be sent over a public channel and decrypted by the receiver.  
+  
+ [!CODE [ECDiffieHellmanCng#1](../CodeSnippet/VS_Snippets_CLR/ecdiffiehellmancng#1)]  
+  
+ ]]></format>
+    </remarks>
   </Docs>
   <Members>
     <Member MemberName=".ctor">
@@ -23,8 +55,15 @@
       </AssemblyInfo>
       <Parameters />
       <Docs>
-        <summary>To be added.</summary>
-        <remarks>To be added.</remarks>
+        <summary>Initializes a new instance of the &lt;see cref="T:System.Security.Cryptography.ECDiffieHellmanCng"&gt; class with a random key pair.</summary>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ The random key pair has a default public key length of 521 bits.  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName=".ctor">
@@ -38,9 +77,16 @@
         <Parameter Name="keySize" Type="System.Int32" />
       </Parameters>
       <Docs>
-        <param name="keySize">To be added.</param>
-        <summary>To be added.</summary>
-        <remarks>To be added.</remarks>
+        <param name="keySize">The size of the key. Valid key sizes are 256, 384, and 521 bits.</param>
+        <summary>Initializes a new instance of the &lt;see cref="T:System.Security.Cryptography.ECDiffieHellmanCng"&gt; class with a random key pair, using the specified key size.</summary>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ The random key pair will have the public key length defined by the  parameter.  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName=".ctor">
@@ -59,8 +105,8 @@
         <Parameter Name="key" Type="System.Security.Cryptography.CngKey" />
       </Parameters>
       <Docs>
-        <param name="key">To be added.</param>
-        <summary>To be added.</summary>
+        <param name="key">The key that will be used as input to the cryptographic operations performed by the current object.</param>
+        <summary>Initializes a new instance of the &lt;see cref="T:System.Security.Cryptography.ECDiffieHellmanCng"&gt; class by using the specified &lt;xref:System.Security.Cryptography.CngKey&gt; object.</summary>
         <remarks>To be added.</remarks>
       </Docs>
     </Member>
@@ -75,9 +121,16 @@
         <Parameter Name="curve" Type="System.Security.Cryptography.ECCurve" />
       </Parameters>
       <Docs>
-        <param name="curve">To be added.</param>
-        <summary>To be added.</summary>
-        <remarks>To be added.</remarks>
+        <param name="curve">The curve used to generate the public/private key pair.</param>
+        <summary>Creates a new instance of the &lt;see cref="T:System.Security.Cryptography.ECDiffieHellmanCng"&gt; class whose public/private key pair is generated over the specified curve.</summary>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ must validate (that is, it must return `true`) when passed to the <xref:System.Security.Cryptography.ECCurve.Validate%2A?displayProperty=fullName> method and must be either a named or explicit prime.  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="DeriveKeyFromHash">
@@ -102,13 +155,20 @@
         <Parameter Name="secretAppend" Type="System.Byte[]" />
       </Parameters>
       <Docs>
-        <param name="otherPartyPublicKey">To be added.</param>
-        <param name="hashAlgorithm">To be added.</param>
-        <param name="secretPrepend">To be added.</param>
-        <param name="secretAppend">To be added.</param>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
-        <remarks>To be added.</remarks>
+        <param name="otherPartyPublicKey">The other party's public key.</param>
+        <param name="hashAlgorithm">The hash algorithm  to use to derive the key material.</param>
+        <param name="secretPrepend">A value to prepend to the derived secret before hashing.</param>
+        <param name="secretAppend">A value to append to the derived secret before hashing.</param>
+        <summary>Derives bytes that can be used as a key using a hash function, given another party's public key, hash algorithm's name, a prepend value and an append value.</summary>
+        <returns>The key material from the key exchange with the other party’s public key.</returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ If the value of  or  is `null`, they are treated as empty arrays.  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="DeriveKeyFromHmac">
@@ -134,14 +194,21 @@
         <Parameter Name="secretAppend" Type="System.Byte[]" />
       </Parameters>
       <Docs>
-        <param name="otherPartyPublicKey">To be added.</param>
-        <param name="hashAlgorithm">To be added.</param>
-        <param name="hmacKey">To be added.</param>
-        <param name="secretPrepend">To be added.</param>
-        <param name="secretAppend">To be added.</param>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
-        <remarks>To be added.</remarks>
+        <param name="otherPartyPublicKey">The other party's public key.</param>
+        <param name="hashAlgorithm">The hash algorithm to use to derive the key material.</param>
+        <param name="hmacKey">The key for the HMAC.</param>
+        <param name="secretPrepend">A value to prepend to the derived secret before hashing.</param>
+        <param name="secretAppend">A value to append to the derived secret before hashing.</param>
+        <summary>Derives bytes that can be used as a key using a Hash-based Message Authentication Code (HMAC).</summary>
+        <returns>The key material from the key exchange with the other party’s public key.</returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ If the value of  or  is `null`, they are treated as empty arrays. If the value of  is `null`, the result of the Elliptic Curve Diffie-Hellman (ECDH) algorithm will be used as the HMAC key.  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="DeriveKeyMaterial">
@@ -163,9 +230,9 @@
         <Parameter Name="otherPartyPublicKey" Type="System.Security.Cryptography.CngKey" />
       </Parameters>
       <Docs>
-        <param name="otherPartyPublicKey">To be added.</param>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
+        <param name="otherPartyPublicKey">An object that contains the public part of the Elliptic Curve Diffie-Hellman (ECDH) key from the other party in the key exchange.</param>
+        <summary>Derives the key material that is generated from the secret agreement between two parties, given a &lt;see cref="T:System.Security.Cryptography.CngKey"&gt; object that contains the second party's public key.</summary>
+        <returns>A byte array that contains the key material. This information is generated from the secret agreement that is calculated from the current object's private key and the specified public key.</returns>
         <remarks>To be added.</remarks>
       </Docs>
     </Member>
@@ -183,9 +250,9 @@
         <Parameter Name="otherPartyPublicKey" Type="System.Security.Cryptography.ECDiffieHellmanPublicKey" />
       </Parameters>
       <Docs>
-        <param name="otherPartyPublicKey">To be added.</param>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
+        <param name="otherPartyPublicKey">The public key from the other party in the key exchange.</param>
+        <summary>Derives the key material that is generated from the secret agreement between two parties, given an &lt;see cref="T:System.Security.Cryptography.ECDiffieHellmanPublicKey"&gt; object that contains the second party's public key.</summary>
+        <returns>A byte array that contains the key material. This information is generated from the secret agreement that is calculated from the current object's private key and the specified public key.</returns>
         <remarks>To be added.</remarks>
       </Docs>
     </Member>
@@ -210,11 +277,11 @@
         <Parameter Name="prfSeed" Type="System.Byte[]" />
       </Parameters>
       <Docs>
-        <param name="otherPartyPublicKey">To be added.</param>
-        <param name="prfLabel">To be added.</param>
-        <param name="prfSeed">To be added.</param>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
+        <param name="otherPartyPublicKey">The other party's public key.</param>
+        <param name="prfLabel">The ASCII-encoded PRF label.</param>
+        <param name="prfSeed">The 64-byte PRF seed.</param>
+        <summary>Derives bytes that can be used as a key using a Transport Layer Security (TLS) Pseudo-Random Function (PRF) derivation algorithm.</summary>
+        <returns>The key material from the key exchange with the other party’s public key.</returns>
         <remarks>To be added.</remarks>
       </Docs>
     </Member>
@@ -237,9 +304,9 @@
         <Parameter Name="otherPartyPublicKey" Type="System.Security.Cryptography.CngKey" />
       </Parameters>
       <Docs>
-        <param name="otherPartyPublicKey">To be added.</param>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
+        <param name="otherPartyPublicKey">An object that contains the public part of the Elliptic Curve Diffie-Hellman (ECDH) key from the other party in the key exchange.</param>
+        <summary>Gets a handle to the secret agreement generated between two parties, given a &lt;see cref="T:System.Security.Cryptography.CngKey"&gt; object that contains the second party's public key.</summary>
+        <returns>A handle to the secret agreement. This information is calculated from the current object's private key and the specified public key.</returns>
         <remarks>To be added.</remarks>
       </Docs>
     </Member>
@@ -257,9 +324,9 @@
         <Parameter Name="otherPartyPublicKey" Type="System.Security.Cryptography.ECDiffieHellmanPublicKey" />
       </Parameters>
       <Docs>
-        <param name="otherPartyPublicKey">To be added.</param>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
+        <param name="otherPartyPublicKey">The public key from the other party in the key exchange.</param>
+        <summary>Gets a handle to the secret agreement generated between two parties, given an &lt;see cref="T:System.Security.Cryptography.ECDiffieHellmanPublicKey"&gt; object that contains the second party's public key.</summary>
+        <returns>A handle to the secret agreement. This information is calculated from the current object's private key and the specified public key.</returns>
         <remarks>To be added.</remarks>
       </Docs>
     </Member>
@@ -296,9 +363,9 @@
         <Parameter Name="includePrivateParameters" Type="System.Boolean" />
       </Parameters>
       <Docs>
-        <param name="includePrivateParameters">To be added.</param>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
+        <param name="includePrivateParameters">`true` to include private parameters; otherwise, `false`.</param>
+        <summary>Exports the key and explicit curve parameters used by the &lt;see cref="T:System.Security.Cryptography.ECCurve"&gt; object into an &lt;xref:System.Security.Cryptography.ECParameters&gt; object.</summary>
+        <returns>The key and explicit curve parameters used by the &lt;see cref="T:System.Security.Cryptography.ECCurve"&gt; object.</returns>
         <remarks>To be added.</remarks>
       </Docs>
     </Member>
@@ -316,10 +383,17 @@
         <Parameter Name="includePrivateParameters" Type="System.Boolean" />
       </Parameters>
       <Docs>
-        <param name="includePrivateParameters">To be added.</param>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
-        <remarks>To be added.</remarks>
+        <param name="includePrivateParameters">`true` to include private parameters; otherwise, `false`.</param>
+        <summary>Exports the key used by the &lt;see cref="T:System.Security.Cryptography.ECCurve"&gt; object into an &lt;xref:System.Security.Cryptography.ECParameters&gt; object.</summary>
+        <returns>The key and named curve parameters used by the &lt;see cref="T:System.Security.Cryptography.ECCurve"&gt; object.</returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ If the key was created as a named curve, the <xref:System.Security.Cryptography.ECParameters.Curve?displayProperty=fullName> field contains named curve parameters;          otherwise,  it contains explicit parameters.  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="FromXmlString">
@@ -336,9 +410,16 @@
         <Parameter Name="xmlString" Type="System.String" />
       </Parameters>
       <Docs>
-        <param name="xmlString">To be added.</param>
-        <summary>To be added.</summary>
-        <remarks>To be added.</remarks>
+        <param name="xmlString">The XML-based key information to be deserialized.</param>
+        <summary>This method is not implemented.</summary>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ To deserialize an XML key, use the <xref:System.Security.Cryptography.ECDiffieHellmanCng.FromXmlString%28System.String%2CSystem.Security.Cryptography.ECKeyXmlFormat%29> overload instead.  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="FromXmlString">
@@ -356,9 +437,9 @@
         <Parameter Name="format" Type="System.Security.Cryptography.ECKeyXmlFormat" />
       </Parameters>
       <Docs>
-        <param name="xml">To be added.</param>
-        <param name="format">To be added.</param>
-        <summary>To be added.</summary>
+        <param name="xml">The XML-based key information to be deserialized.</param>
+        <param name="format">One of the enumeration values that specifies the format of the XML string. The only currently accepted format is &lt;see cref="T:System.Security.Cryptography.ECKeyXmlFormat"&gt;.</param>
+        <summary>Deserializes the key information from an XML string by using the specified format.</summary>
         <remarks>To be added.</remarks>
       </Docs>
     </Member>
@@ -376,9 +457,18 @@
         <Parameter Name="curve" Type="System.Security.Cryptography.ECCurve" />
       </Parameters>
       <Docs>
-        <param name="curve">To be added.</param>
-        <summary>To be added.</summary>
-        <remarks>To be added.</remarks>
+        <param name="curve">The curve used to generate an ephemeral public/private key pair.</param>
+        <summary>Generates a new ephemeral public/private key pair for the specified curve.</summary>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ must validate (that is, it must return true when passed to the <xref:System.Security.Cryptography.ECCurve.Validate%2A?displayProperty=fullName> method) and must not be implicit.  
+  
+ Characteristic-2 curves are not supported on Windows.  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="HashAlgorithm">
@@ -392,9 +482,22 @@
         <ReturnType>System.Security.Cryptography.CngAlgorithm</ReturnType>
       </ReturnValue>
       <Docs>
-        <summary>To be added.</summary>
-        <value>To be added.</value>
-        <remarks>To be added.</remarks>
+        <summary>Gets or sets the hash algorithm to use when generating key material.</summary>
+        <value>An object that specifies the hash algorithm.</value>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ This property is used by Cryptography Next Generation (CNG) objects only if the <xref:System.Security.Cryptography.ECDiffieHellmanKeyDerivationFunction> or <xref:System.Security.Cryptography.ECDiffieHellmanKeyDerivationFunction> value is set in the <xref:System.Security.Cryptography.ECDiffieHellmanCng.KeyDerivationFunction%2A> property.  
+  
+ This property accepts the following algorithms: <xref:System.Security.Cryptography.CngAlgorithm.MD5%2A>, <xref:System.Security.Cryptography.CngAlgorithm.Sha1%2A>, <xref:System.Security.Cryptography.CngAlgorithm.Sha256%2A>, <xref:System.Security.Cryptography.CngAlgorithm.Sha384%2A>, and <xref:System.Security.Cryptography.CngAlgorithm.Sha512%2A>.  
+  
+ Other custom hash algorithms may also be used.  
+  
+ The default algorithm is <xref:System.Security.Cryptography.CngAlgorithm.Sha256%2A>.  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="HmacKey">
@@ -408,9 +511,16 @@
         <ReturnType>System.Byte[]</ReturnType>
       </ReturnValue>
       <Docs>
-        <summary>To be added.</summary>
-        <value>To be added.</value>
-        <remarks>To be added.</remarks>
+        <summary>Gets or sets the Hash-based Message Authentication Code (HMAC) key to use when deriving key material.</summary>
+        <value>The Hash-based Message Authentication Code (HMAC) key to use when deriving key material.</value>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ This property applies only when the <xref:System.Security.Cryptography.ECDiffieHellmanKeyDerivationFunction> value is set in the <xref:System.Security.Cryptography.ECDiffieHellmanCng.KeyDerivationFunction%2A> property, and the <xref:System.Security.Cryptography.ECDiffieHellmanCng.UseSecretAgreementAsHmacKey%2A> property is `false`. By default, the value is `null`.  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="ImportParameters">
@@ -427,9 +537,16 @@
         <Parameter Name="parameters" Type="System.Security.Cryptography.ECParameters" />
       </Parameters>
       <Docs>
-        <param name="parameters">To be added.</param>
-        <summary>To be added.</summary>
-        <remarks>To be added.</remarks>
+        <param name="parameters">The curve's parameters to import.</param>
+        <summary>Imports the specified parameters for an &lt;see cref="T:System.Security.Cryptography.ECCurve"&gt; object as a key into the current instance.</summary>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ The ImportParameters method replaces the existing key that this object is working with by creating a         new <xref:System.Security.Cryptography.CngKey> object. If  contains only the <xref:System.Security.Cryptography.ECParameters.Q> field, then only a public key is imported.         If  also contains <xref:System.Security.Cryptography.ECParameters.D>, then a full key pair is be imported.          The <xref:System.Security.Cryptography.ECParameters.Curve>value specifies the type of the curve to import.  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="Key">
@@ -443,8 +560,8 @@
         <ReturnType>System.Security.Cryptography.CngKey</ReturnType>
       </ReturnValue>
       <Docs>
-        <summary>To be added.</summary>
-        <value>To be added.</value>
+        <summary>Specifies the &lt;see cref="T:System.Security.Cryptography.CngKey"&gt; that is used by the current object for cryptographic operations.</summary>
+        <value>The key pair used by this object to perform cryptographic operations.</value>
         <remarks>To be added.</remarks>
       </Docs>
     </Member>
@@ -459,9 +576,16 @@
         <ReturnType>System.Security.Cryptography.ECDiffieHellmanKeyDerivationFunction</ReturnType>
       </ReturnValue>
       <Docs>
-        <summary>To be added.</summary>
-        <value>To be added.</value>
-        <remarks>To be added.</remarks>
+        <summary>Gets or sets the key derivation function for the &lt;see cref="T:System.Security.Cryptography.ECDiffieHellmanCng"&gt; class.</summary>
+        <value>One of the &lt;see cref="T:System.Security.Cryptography.ECDiffieHellmanKeyDerivationFunction"&gt; enumeration values: &lt;see cref="T:System.Security.Cryptography.ECDiffieHellmanKeyDerivationFunction"&gt;, &lt;see cref="T:System.Security.Cryptography.ECDiffieHellmanKeyDerivationFunction"&gt;, or &lt;see cref="T:System.Security.Cryptography.ECDiffieHellmanKeyDerivationFunction"&gt;. The default value is &lt;see cref="T:System.Security.Cryptography.ECDiffieHellmanKeyDerivationFunction"&gt;.</value>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ This property specifies the key derivation function that is used to transform the secret agreement into key material.  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="Label">
@@ -475,9 +599,16 @@
         <ReturnType>System.Byte[]</ReturnType>
       </ReturnValue>
       <Docs>
-        <summary>To be added.</summary>
-        <value>To be added.</value>
-        <remarks>To be added.</remarks>
+        <summary>Gets or sets the label value that is used for key derivation.</summary>
+        <value>The label value.</value>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ This value is used for key derivation if the <xref:System.Security.Cryptography.ECDiffieHellmanKeyDerivationFunction> value is set in the <xref:System.Security.Cryptography.ECDiffieHellmanCng.KeyDerivationFunction%2A> property. By default, it is `null`.  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="PublicKey">
@@ -491,8 +622,8 @@
         <ReturnType>System.Security.Cryptography.ECDiffieHellmanPublicKey</ReturnType>
       </ReturnValue>
       <Docs>
-        <summary>To be added.</summary>
-        <value>To be added.</value>
+        <summary>Gets the public key that can be used by another &lt;see cref="T:System.Security.Cryptography.ECDiffieHellmanCng"&gt; object to generate a shared secret agreement.</summary>
+        <value>The public key that is associated with this instance of the &lt;see cref="T:System.Security.Cryptography.ECDiffieHellmanCng"&gt; object.</value>
         <remarks>To be added.</remarks>
       </Docs>
     </Member>
@@ -507,9 +638,16 @@
         <ReturnType>System.Byte[]</ReturnType>
       </ReturnValue>
       <Docs>
-        <summary>To be added.</summary>
-        <value>To be added.</value>
-        <remarks>To be added.</remarks>
+        <summary>Gets or sets a value that will be appended to the secret agreement when generating key material.</summary>
+        <value>The value that is appended to the secret agreement.</value>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ This value is used for key derivation if the <xref:System.Security.Cryptography.ECDiffieHellmanKeyDerivationFunction> or <xref:System.Security.Cryptography.ECDiffieHellmanKeyDerivationFunction> key derivation function (KDF) is used. The value is appended to the secret agreement, and the combined value is passed to the KDF to generate the key material. By default, the value is `null`.  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="SecretPrepend">
@@ -523,9 +661,22 @@
         <ReturnType>System.Byte[]</ReturnType>
       </ReturnValue>
       <Docs>
-        <summary>To be added.</summary>
-        <value>To be added.</value>
-        <remarks>To be added.</remarks>
+        <summary>Gets or sets a value that will be added to the beginning of the secret agreement when deriving key material.</summary>
+        <value>The value that is appended to the beginning of the secret agreement during key derivation.</value>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ This value is used for key derivation if the <xref:System.Security.Cryptography.ECDiffieHellmanCng.KeyDerivationFunction%2A> property is set to one of the following values:  
+  
+-   <xref:System.Security.Cryptography.ECDiffieHellmanKeyDerivationFunction>  
+  
+-   <xref:System.Security.Cryptography.ECDiffieHellmanKeyDerivationFunction>  
+  
+ The value is prepended to the secret agreement, and the combined value is passed to the key derivation function (KDF) to generate the key material. By default, the value is `null`.  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="Seed">
@@ -539,9 +690,16 @@
         <ReturnType>System.Byte[]</ReturnType>
       </ReturnValue>
       <Docs>
-        <summary>To be added.</summary>
-        <value>To be added.</value>
-        <remarks>To be added.</remarks>
+        <summary>Gets or sets the seed value that will be used when deriving key material.</summary>
+        <value>The seed value.</value>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ This value is used for key derivation if the <xref:System.Security.Cryptography.ECDiffieHellmanCng.KeyDerivationFunction%2A> property is set to <xref:System.Security.Cryptography.ECDiffieHellmanKeyDerivationFunction>. By default, the value is `null`.  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="ToXmlString">
@@ -558,10 +716,17 @@
         <Parameter Name="includePrivateParameters" Type="System.Boolean" />
       </Parameters>
       <Docs>
-        <param name="includePrivateParameters">To be added.</param>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
-        <remarks>To be added.</remarks>
+        <param name="includePrivateParameters">`true` to include private parameters; otherwise, `false`.</param>
+        <summary>This method is not implemented.</summary>
+        <returns>Not applicable.</returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ To convert the current key to an XML representation, use the <xref:System.Security.Cryptography.ECDiffieHellmanCng.ToXmlString%28System.Security.Cryptography.ECKeyXmlFormat%29> overload instead.  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="ToXmlString">
@@ -578,9 +743,9 @@
         <Parameter Name="format" Type="System.Security.Cryptography.ECKeyXmlFormat" />
       </Parameters>
       <Docs>
-        <param name="format">To be added.</param>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
+        <param name="format">One of the enumeration values that specifies the format of the XML string. The only currently accepted format is &lt;see cref="T:System.Security.Cryptography.ECKeyXmlFormat"&gt;.</param>
+        <summary>Serializes the key information to an XML string by using the specified format.</summary>
+        <returns>A string object that contains the key information, serialized to an XML string, according to the requested format.</returns>
         <remarks>To be added.</remarks>
       </Docs>
     </Member>
@@ -595,9 +760,17 @@
         <ReturnType>System.Boolean</ReturnType>
       </ReturnValue>
       <Docs>
-        <summary>To be added.</summary>
-        <value>To be added.</value>
-        <remarks>To be added.</remarks>
+        <summary>Gets a value that indicates whether the secret agreement is used as a Hash-based Message Authentication Code (HMAC) key to derive key material.</summary>
+        <value>`true` if the secret agreement is used as an HMAC key to derive key material; otherwise, `false`.</value>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+  
+-   This value is used for key derivation if the <xref:System.Security.Cryptography.ECDiffieHellmanCng.KeyDerivationFunction%2A> property is set to <xref:System.Security.Cryptography.ECDiffieHellmanKeyDerivationFunction>. By default, the value is `false`.  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
   </Members>

@@ -10,8 +10,56 @@
   </Base>
   <Interfaces />
   <Docs>
-    <summary>To be added.</summary>
-    <remarks>To be added.</remarks>
+    <summary>Converts base data types to an array of bytes, and an array of bytes to base data types.</summary>
+    <remarks>
+      <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ The BitConverter class helps manipulate value types in their fundamental form, as a series of bytes. A byte is defined as an 8-bit unsigned integer. The BitConverter class includes static methods to convert each of the primitive types to and from an array of bytes, as the following table illustrates.  
+  
+|Type|To byte conversion|From byte conversion|  
+|----------|------------------------|--------------------------|  
+|<xref:System.Boolean>|<xref:System.BitConverter.GetBytes%28System.Boolean%29>|<xref:System.BitConverter.ToBoolean%2A>|  
+|<xref:System.Char>|<xref:System.BitConverter.GetBytes%28System.Char%29>|<xref:System.BitConverter.ToChar%2A>|  
+|<xref:System.Double>|<xref:System.BitConverter.GetBytes%28System.Double%29><br /><br /> -or-<br /><br /> <xref:System.BitConverter.DoubleToInt64Bits%28System.Double%29>|<xref:System.BitConverter.ToDouble%2A><br /><br /> -or-<br /><br /> <xref:System.BitConverter.Int64BitsToDouble%2A>|  
+|<xref:System.Int16>|<xref:System.BitConverter.GetBytes%28System.Int16%29>|<xref:System.BitConverter.ToInt16%2A>|  
+|<xref:System.Int32>|<xref:System.BitConverter.GetBytes%28System.Int32%29>|<xref:System.BitConverter.ToInt32%2A>|  
+|<xref:System.Int64>|<xref:System.BitConverter.GetBytes%28System.Int64%29>|<xref:System.BitConverter.ToInt64%2A>|  
+|<xref:System.Single>|<xref:System.BitConverter.GetBytes%28System.Single%29>|<xref:System.BitConverter.ToSingle%2A>|  
+|<xref:System.UInt16>|<xref:System.BitConverter.GetBytes%28System.UInt16%29>|<xref:System.BitConverter.ToUInt16%2A>|  
+|<xref:System.UInt32>|<xref:System.BitConverter.GetBytes%28System.UInt32%29>|<xref:System.BitConverter.ToUInt32%2A>|  
+|<xref:System.UInt64>|<xref:System.BitConverter.GetBytes%28System.UInt64%29>|<xref:System.BitConverter.ToUInt64%2A>|  
+  
+ If you use BitConverter methods to round-trip data, make sure that the <xref:System.BitConverter.GetBytes%2A> overload and the `To`*Type* method specify the same type. As the following example illustrates, restoring an array that represents a signed integer by calling the <xref:System.BitConverter.ToUInt32%2A> method can result in a value that is different from the original. For more information, see the entry [Working with Signed Non-Decimal and Bitwise Values](http://go.microsoft.com/fwlink/?LinkId=186999) in the BCL Team Blog.  
+  
+ [!CODE [System.BitConverter.Class#3](../CodeSnippet/VS_Snippets_CLR_System/system.BitConverter.Class#3)]  
+  
+ The order of bytes in the array returned by the <xref:System.BitConverter.GetBytes%2A> method overloads (as well as the order of bits in the integer returned by the <xref:System.BitConverter.DoubleToInt64Bits%2A> method and the order of hexadecimal strings returned by the [ToString(Byte\[\])](assetId:///M:System.BitConverter.ToString(System.Byte[])?qualifyHint=False&autoUpgrade=False) method) depends on whether the computer architecture is little-endian or big-endian. Similarly, the order of bytes in the array and returned by the `To`*IntegerValue* methods and the <xref:System.BitConverter.ToChar%2A> method depends on whether the computer architecture is little-endian or big-endian. The endianness of an architecture is indicated by the <xref:System.BitConverter.IsLittleEndian> property, which returns `true` on little-endian systems and `false` on big-endian systems. On little-endian systems, lower-order bytes precede higher-order bytes. On big-endian system, higher-order bytes precede lower-order bytes. The following table illustrates the difference in the byte arrays that result from passing the integer 1,234,567,890 (0x499602D2) to the <xref:System.BitConverter.GetBytes%28System.Int32%29> method. The bytes are listed in order from the byte at index 0 to the byte at index 3.  
+  
+|||  
+|-|-|  
+|Little-endian|D2-02-96-49|  
+|Big-endian|49-96-02-D2|  
+  
+ Because the return value of some methods depends on system architecture, be careful when transmitting byte data beyond machine boundaries:  
+  
+-   If all systems sending and receiving data are guaranteed to have the same endianness, nothing has be done to the data.  
+  
+-   If systems sending and receiving data can have different endianness, always transmit data in a particular order. This means that the order of bytes in the array may have to be reversed either before sending them or after receiving them. A common convention is to transmit data in network byte order (big-endian order). The following example provides an implementation for sending an integer value in network byte order.  
+  
+     [!CODE [System.BitConverter.Class#4](../CodeSnippet/VS_Snippets_CLR_System/system.BitConverter.Class#4)]  
+  
+-   If systems sending and receiving data can have different endianness and the data to be transmitted consists of signed integers, call the <xref:System.Net.IPAddress.HostToNetworkOrder%2A?displayProperty=fullName> method to convert the data to network byte order and the <xref:System.Net.IPAddress.NetworkToHostOrder%2A?displayProperty=fullName> method to convert it to the order required by the recipient.  
+  
+   
+  
+## Examples  
+ The following code example illustrates the use of several BitConverter class methods.  
+  
+ [!CODE [System.BitConverter.Class#1](../CodeSnippet/VS_Snippets_CLR_System/system.BitConverter.Class#1)]  
+  
+ ]]></format>
+    </remarks>
   </Docs>
   <Members>
     <Member MemberName="DoubleToInt64Bits">
@@ -33,10 +81,24 @@
         <Parameter Name="value" Type="System.Double" />
       </Parameters>
       <Docs>
-        <param name="value">To be added.</param>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
-        <remarks>To be added.</remarks>
+        <param name="value">The number to convert.</param>
+        <summary>Converts the specified double-precision floating point number to a 64-bit signed integer.</summary>
+        <returns>A 64-bit signed integer whose value is equivalent to .</returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ The order of bits in the integer returned by the DoubleToInt64Bits method depends on whether the computer architecture is little-endian or big-endian.  
+  
+   
+  
+## Examples  
+ The following code example converts the bit patterns of several <xref:System.Double> values to <xref:System.Int64> values with the `DoubleToInt64Bits` method.  
+  
+ [!CODE [System.BitConverter.DoubleInt64#2](../CodeSnippet/VS_Snippets_CLR_System/system.BitConverter.DoubleInt64#2)]  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="GetBytes">
@@ -53,10 +115,24 @@
         <Parameter Name="value" Type="System.Boolean" />
       </Parameters>
       <Docs>
-        <param name="value">To be added.</param>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
-        <remarks>To be added.</remarks>
+        <param name="value">A Boolean value.</param>
+        <summary>Returns the specified Boolean value as a byte array.</summary>
+        <returns>A byte array with length 1.</returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ You can convert a byte array back to a <xref:System.Boolean> value by calling the <xref:System.BitConverter.ToBoolean%2A> method.  
+  
+   
+  
+## Examples  
+ The following example converts the bit patterns of <xref:System.Boolean> values to <xref:System.Byte> arrays with the `GetBytes` method.  
+  
+ [!CODE [System.BitConverter.GetBytes.Others#1](../CodeSnippet/VS_Snippets_CLR_System/system.BitConverter.GetBytes.Others#1)]  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="GetBytes">
@@ -73,10 +149,24 @@
         <Parameter Name="value" Type="System.Char" />
       </Parameters>
       <Docs>
-        <param name="value">To be added.</param>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
-        <remarks>To be added.</remarks>
+        <param name="value">A character to convert.</param>
+        <summary>Returns the specified Unicode character value as an array of bytes.</summary>
+        <returns>An array of bytes with length 2.</returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ The order of bytes in the array returned by the <xref:System.BitConverter.GetBytes%2A> method depends on whether the computer architecture is little-endian or big-endian.  
+  
+   
+  
+## Examples  
+ The following code example converts the bit patterns of <xref:System.Char> values (Unicode characters) to <xref:System.Byte> arrays with the `GetBytes` method.  
+  
+ [!CODE [System.BitConverter.GetBytes.Others#2](../CodeSnippet/VS_Snippets_CLR_System/system.BitConverter.GetBytes.Others#2)]  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="GetBytes">
@@ -98,10 +188,24 @@
         <Parameter Name="value" Type="System.Double" />
       </Parameters>
       <Docs>
-        <param name="value">To be added.</param>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
-        <remarks>To be added.</remarks>
+        <param name="value">The number to convert.</param>
+        <summary>Returns the specified double-precision floating point value as an array of bytes.</summary>
+        <returns>An array of bytes with length 8.</returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ The order of bytes in the array returned by the <xref:System.BitConverter.GetBytes%2A> method depends on whether the computer architecture is little-endian or big-endian.  
+  
+   
+  
+## Examples  
+ The following code example converts the bit patterns of <xref:System.Double> values to <xref:System.Byte> arrays with the `GetBytes` method.  
+  
+ [!CODE [System.BitConverter.GetBytes.Others#4](../CodeSnippet/VS_Snippets_CLR_System/system.BitConverter.GetBytes.Others#4)]  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="GetBytes">
@@ -123,10 +227,24 @@
         <Parameter Name="value" Type="System.Int16" />
       </Parameters>
       <Docs>
-        <param name="value">To be added.</param>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
-        <remarks>To be added.</remarks>
+        <param name="value">The number to convert.</param>
+        <summary>Returns the specified 16-bit signed integer value as an array of bytes.</summary>
+        <returns>An array of bytes with length 2.</returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ The order of bytes in the array returned by the <xref:System.BitConverter.GetBytes%2A> method depends on whether the computer architecture is little-endian or big-endian.  
+  
+   
+  
+## Examples  
+ The following code example converts the bit patterns of <xref:System.Int16> values to <xref:System.Byte> arrays with the `GetBytes` method.  
+  
+ [!CODE [System.BitConverter.GetBytes.SInts#3](../CodeSnippet/VS_Snippets_CLR_System/system.BitConverter.GetBytes.SInts#3)]  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="GetBytes">
@@ -148,10 +266,24 @@
         <Parameter Name="value" Type="System.Int32" />
       </Parameters>
       <Docs>
-        <param name="value">To be added.</param>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
-        <remarks>To be added.</remarks>
+        <param name="value">The number to convert.</param>
+        <summary>Returns the specified 32-bit signed integer value as an array of bytes.</summary>
+        <returns>An array of bytes with length 4.</returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ The order of bytes in the array returned by the <xref:System.BitConverter.GetBytes%2A> method depends on whether the computer architecture is little-endian or big-endian.  
+  
+   
+  
+## Examples  
+ The following code example converts the bit patterns of <xref:System.Int32> values to <xref:System.Byte> arrays with the `GetBytes` method.  
+  
+ [!CODE [System.BitConverter.GetBytes.SInts#2](../CodeSnippet/VS_Snippets_CLR_System/system.BitConverter.GetBytes.SInts#2)]  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="GetBytes">
@@ -173,10 +305,24 @@
         <Parameter Name="value" Type="System.Int64" />
       </Parameters>
       <Docs>
-        <param name="value">To be added.</param>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
-        <remarks>To be added.</remarks>
+        <param name="value">The number to convert.</param>
+        <summary>Returns the specified 64-bit signed integer value as an array of bytes.</summary>
+        <returns>An array of bytes with length 8.</returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ The order of bytes in the array returned by the <xref:System.BitConverter.GetBytes%2A> method depends on whether the computer architecture is little-endian or big-endian.  
+  
+   
+  
+## Examples  
+ The following example calls the GetBytes method to convert each element in an <xref:System.Int64> array to a<xref:System.Byte> arrays.  
+  
+ [!CODE [System.BitConverter.GetBytes.SInts#1](../CodeSnippet/VS_Snippets_CLR_System/system.BitConverter.GetBytes.SInts#1)]  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="GetBytes">
@@ -198,10 +344,24 @@
         <Parameter Name="value" Type="System.Single" />
       </Parameters>
       <Docs>
-        <param name="value">To be added.</param>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
-        <remarks>To be added.</remarks>
+        <param name="value">The number to convert.</param>
+        <summary>Returns the specified single-precision floating point value as an array of bytes.</summary>
+        <returns>An array of bytes with length 4.</returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ The order of bytes in the array returned by the <xref:System.BitConverter.GetBytes%2A> method depends on whether the computer architecture is little-endian or big-endian.  
+  
+   
+  
+## Examples  
+ The following code example converts the bit patterns of <xref:System.Single> values to <xref:System.Byte> arrays with the `GetBytes` method.  
+  
+ [!CODE [System.BitConverter.GetBytes.Others#3](../CodeSnippet/VS_Snippets_CLR_System/system.BitConverter.GetBytes.Others#3)]  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="GetBytes">
@@ -223,10 +383,24 @@
         <Parameter Name="value" Type="System.UInt16" />
       </Parameters>
       <Docs>
-        <param name="value">To be added.</param>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
-        <remarks>To be added.</remarks>
+        <param name="value">The number to convert.</param>
+        <summary>Returns the specified 16-bit unsigned integer value as an array of bytes.</summary>
+        <returns>An array of bytes with length 2.</returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ The order of bytes in the array returned by the <xref:System.BitConverter.GetBytes%2A> method depends on whether the computer architecture is little-endian or big-endian.  
+  
+   
+  
+## Examples  
+ The following code example converts the bit patterns of <xref:System.UInt16> values to <xref:System.Byte> arrays with the `GetBytes` method.  
+  
+ [!CODE [System.BitConverter.GetBytes.UInts#3](../CodeSnippet/VS_Snippets_CLR_System/system.BitConverter.GetBytes.UInts#3)]  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="GetBytes">
@@ -248,10 +422,24 @@
         <Parameter Name="value" Type="System.UInt32" />
       </Parameters>
       <Docs>
-        <param name="value">To be added.</param>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
-        <remarks>To be added.</remarks>
+        <param name="value">The number to convert.</param>
+        <summary>Returns the specified 32-bit unsigned integer value as an array of bytes.</summary>
+        <returns>An array of bytes with length 4.</returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ The order of bytes in the array returned by the <xref:System.BitConverter.GetBytes%2A> method depends on whether the computer architecture is little-endian or big-endian.  
+  
+   
+  
+## Examples  
+ The following code example converts the bit patterns of <xref:System.UInt32> values to <xref:System.Byte> arrays with the `GetBytes` method.  
+  
+ [!CODE [System.BitConverter.GetBytes.UInts#2](../CodeSnippet/VS_Snippets_CLR_System/system.BitConverter.GetBytes.UInts#2)]  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="GetBytes">
@@ -273,10 +461,24 @@
         <Parameter Name="value" Type="System.UInt64" />
       </Parameters>
       <Docs>
-        <param name="value">To be added.</param>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
-        <remarks>To be added.</remarks>
+        <param name="value">The number to convert.</param>
+        <summary>Returns the specified 64-bit unsigned integer value as an array of bytes.</summary>
+        <returns>An array of bytes with length 8.</returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ The order of bytes in the array returned by the <xref:System.BitConverter.GetBytes%2A> method depends on whether the computer architecture is little-endian or big-endian.  
+  
+   
+  
+## Examples  
+ The following code example converts the bit patterns of <xref:System.UInt64> values to <xref:System.Byte> arrays with the `GetBytes` method.  
+  
+ [!CODE [System.BitConverter.GetBytes.UInts#1](../CodeSnippet/VS_Snippets_CLR_System/system.BitConverter.GetBytes.UInts#1)]  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="Int64BitsToDouble">
@@ -298,10 +500,24 @@
         <Parameter Name="value" Type="System.Int64" />
       </Parameters>
       <Docs>
-        <param name="value">To be added.</param>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
-        <remarks>To be added.</remarks>
+        <param name="value">The number to convert.</param>
+        <summary>Converts the specified 64-bit signed integer to a double-precision floating point number.</summary>
+        <returns>A double-precision floating point number whose value is equivalent to .</returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ Typically,  is an integer that is returned by the <xref:System.BitConverter.DoubleToInt64Bits%2A> method.  
+  
+   
+  
+## Examples  
+ The following code example converts the bit patterns of several <xref:System.Int64> values to <xref:System.Double> values with the `Int64BitsToDouble` method.  
+  
+ [!CODE [System.BitConverter.DoubleInt64#1](../CodeSnippet/VS_Snippets_CLR_System/system.BitConverter.DoubleInt64#1)]  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="IsLittleEndian">
@@ -315,8 +531,25 @@
         <ReturnType>System.Boolean</ReturnType>
       </ReturnValue>
       <Docs>
-        <summary>To be added.</summary>
-        <remarks>To be added.</remarks>
+        <summary>Indicates the byte order ("endianness") in which data is stored in this computer architecture.</summary>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ Different computer architectures store data using different byte orders. "Big-endian" means the most significant byte is on the left end of a word. "Little-endian" means the most significant byte is on the right end of a word.  
+  
+> [!NOTE]
+>  You can convert from network byte order to the byte order of the host computer without retrieving  the value of the IsLittleEndian field by passing a 16-bit, 32-bit, or 64 bit integer to the <xref:System.Net.IPAddress.HostToNetworkOrder%2A?displayProperty=fullName> method.  
+  
+   
+  
+## Examples  
+ The following code example illustrates the use of the `IsLittleEndian` field.  
+  
+ [!CODE [System.BitConverter.Class#2](../CodeSnippet/VS_Snippets_CLR_System/system.BitConverter.Class#2)]  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="ToBoolean">
@@ -334,11 +567,25 @@
         <Parameter Name="startIndex" Type="System.Int32" />
       </Parameters>
       <Docs>
-        <param name="value">To be added.</param>
-        <param name="startIndex">To be added.</param>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
-        <remarks>To be added.</remarks>
+        <param name="value">A byte array.</param>
+        <param name="startIndex">The index of the byte within .</param>
+        <summary>Returns a Boolean value converted from the byte at a specified position in a byte array.</summary>
+        <returns>`true` if the byte at  in  is nonzero; otherwise, `false`.</returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ To convert a <xref:System.Boolean> value to its byte representation, call the ToBoolean method.  
+  
+   
+  
+## Examples  
+ The following code example converts elements of <xref:System.Byte> arrays to <xref:System.Boolean> values with the `ToBoolean` method.  
+  
+ [!CODE [System.BitConverter.ToXXX.Others#1](../CodeSnippet/VS_Snippets_CLR_System/system.BitConverter.ToXXX.Others#1)]  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="ToChar">
@@ -356,11 +603,25 @@
         <Parameter Name="startIndex" Type="System.Int32" />
       </Parameters>
       <Docs>
-        <param name="value">To be added.</param>
-        <param name="startIndex">To be added.</param>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
-        <remarks>To be added.</remarks>
+        <param name="value">An array.</param>
+        <param name="startIndex">The starting position within .</param>
+        <summary>Returns a Unicode character converted from two bytes at a specified position in a byte array.</summary>
+        <returns>A character formed by two bytes beginning at .</returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ The ToChar method converts the bytes from index  to  + 1 to a <xref:System.Char> value. The order of bytes in the array must reflect the endianness of the computer system's architecture; for more information, see the Remarks section of the <xref:System.BitConverter> class topic.  
+  
+   
+  
+## Examples  
+ The following code example converts elements of <xref:System.Byte> arrays to <xref:System.Char> values (Unicode characters) with the `ToChar` method.  
+  
+ [!CODE [System.BitConverter.ToXXX.Others#2](../CodeSnippet/VS_Snippets_CLR_System/system.BitConverter.ToXXX.Others#2)]  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="ToDouble">
@@ -383,11 +644,25 @@
         <Parameter Name="startIndex" Type="System.Int32" />
       </Parameters>
       <Docs>
-        <param name="value">To be added.</param>
-        <param name="startIndex">To be added.</param>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
-        <remarks>To be added.</remarks>
+        <param name="value">An array of bytes.</param>
+        <param name="startIndex">The starting position within .</param>
+        <summary>Returns a double-precision floating point number converted from eight bytes at a specified position in a byte array.</summary>
+        <returns>A double precision floating point number formed by eight bytes beginning at .</returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ The ToDouble method converts the bytes from index  to  + 7 to a <xref:System.Double> value. The order of bytes in the array must reflect the endianness of the computer system's architecture; for more information, see the Remarks section of the <xref:System.BitConverter> class topic.  
+  
+   
+  
+## Examples  
+ The following code example converts elements of <xref:System.Byte> arrays to <xref:System.Double> values with the `ToDouble` method.  
+  
+ [!CODE [System.BitConverter.ToXXX.Others#3](../CodeSnippet/VS_Snippets_CLR_System/system.BitConverter.ToXXX.Others#3)]  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="ToInt16">
@@ -410,11 +685,25 @@
         <Parameter Name="startIndex" Type="System.Int32" />
       </Parameters>
       <Docs>
-        <param name="value">To be added.</param>
-        <param name="startIndex">To be added.</param>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
-        <remarks>To be added.</remarks>
+        <param name="value">An array of bytes.</param>
+        <param name="startIndex">The starting position within .</param>
+        <summary>Returns a 16-bit signed integer converted from two bytes at a specified position in a byte array.</summary>
+        <returns>A 16-bit signed integer formed by two bytes beginning at .</returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ The ToInt16 method converts the bytes from index  to  + 1 to an <xref:System.Int16> value. The order of bytes in the array must reflect the endianness of the computer system's architecture; for more information, see the Remarks section of the <xref:System.BitConverter> class topic.  
+  
+   
+  
+## Examples  
+ The following code example converts elements of <xref:System.Byte> arrays to <xref:System.Int16> values with the `ToInt16` method.  
+  
+ [!CODE [System.BitConverter.ToXXX.SInts#1](../CodeSnippet/VS_Snippets_CLR_System/system.BitConverter.ToXXX.SInts#1)]  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="ToInt32">
@@ -437,11 +726,25 @@
         <Parameter Name="startIndex" Type="System.Int32" />
       </Parameters>
       <Docs>
-        <param name="value">To be added.</param>
-        <param name="startIndex">To be added.</param>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
-        <remarks>To be added.</remarks>
+        <param name="value">An array of bytes.</param>
+        <param name="startIndex">The starting position within .</param>
+        <summary>Returns a 32-bit signed integer converted from four bytes at a specified position in a byte array.</summary>
+        <returns>A 32-bit signed integer formed by four bytes beginning at .</returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ The ToInt32 method converts the bytes from index  to  + 3 to an <xref:System.Int32> value. The order of bytes in the array must reflect the endianness of the computer system's architecture; for more information, see the Remarks section of <xref:System.BitConverter>.  
+  
+   
+  
+## Examples  
+ The following example uses the ToInt32 method to create <xref:System.Int32> values from a four-byte array and from the upper four bytes of an eight-byte array. It also uses the <xref:System.BitConverter.GetBytes%28System.Int32%29> and ToInt32 methods to round-trip an <xref:System.Int32> value.  
+  
+ [!CODE [System.BitConverter.ToInt32#1](../CodeSnippet/VS_Snippets_CLR_System/system.bitconverter.toint32#1)]  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="ToInt64">
@@ -464,11 +767,25 @@
         <Parameter Name="startIndex" Type="System.Int32" />
       </Parameters>
       <Docs>
-        <param name="value">To be added.</param>
-        <param name="startIndex">To be added.</param>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
-        <remarks>To be added.</remarks>
+        <param name="value">An array of bytes.</param>
+        <param name="startIndex">The starting position within .</param>
+        <summary>Returns a 64-bit signed integer converted from eight bytes at a specified position in a byte array.</summary>
+        <returns>A 64-bit signed integer formed by eight bytes beginning at .</returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ The ToInt64 method converts the bytes from index  to  + 7 to a <xref:System.Int64> value. The order of bytes in the array must reflect the endianness of the computer system's architecture; for more information, see the Remarks section of the <xref:System.BitConverter> class topic.  
+  
+   
+  
+## Examples  
+ The following code example converts elements of <xref:System.Byte> arrays to <xref:System.Int64> values with the `ToInt64` method.  
+  
+ [!CODE [System.BitConverter.ToXXX.SInts#3](../CodeSnippet/VS_Snippets_CLR_System/system.BitConverter.ToXXX.SInts#3)]  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="ToSingle">
@@ -491,11 +808,25 @@
         <Parameter Name="startIndex" Type="System.Int32" />
       </Parameters>
       <Docs>
-        <param name="value">To be added.</param>
-        <param name="startIndex">To be added.</param>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
-        <remarks>To be added.</remarks>
+        <param name="value">An array of bytes.</param>
+        <param name="startIndex">The starting position within .</param>
+        <summary>Returns a single-precision floating point number converted from four bytes at a specified position in a byte array.</summary>
+        <returns>A single-precision floating point number formed by four bytes beginning at .</returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ The ToSingle method converts the bytes from index  to  + 3 to a <xref:System.Single> value. The order of bytes in the array must reflect the endianness of the computer system's architecture; for more information, see the Remarks section of <xref:System.BitConverter>.  
+  
+   
+  
+## Examples  
+ The following code example converts elements of <xref:System.Byte> arrays to <xref:System.Single> values with the `ToSingle` method.  
+  
+ [!CODE [System.BitConverter.ToXXX.Others#4](../CodeSnippet/VS_Snippets_CLR_System/system.BitConverter.ToXXX.Others#4)]  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="ToString">
@@ -512,10 +843,24 @@
         <Parameter Name="value" Type="System.Byte[]" />
       </Parameters>
       <Docs>
-        <param name="value">To be added.</param>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
-        <remarks>To be added.</remarks>
+        <param name="value">An array of bytes.</param>
+        <summary>Converts the numeric value of each element of a specified array of bytes to its equivalent hexadecimal string representation.</summary>
+        <returns>A string of hexadecimal pairs separated by hyphens, where each pair represents the corresponding element in ; for example, "7F-2C-4A-00".</returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ All the elements of  are converted. The order of hexadecimal strings returned by the ToString method depends on whether the computer architecture is little-endian or big-endian.  
+  
+   
+  
+## Examples  
+ The following code example converts <xref:System.Byte> arrays to <xref:System.String> objects with the `ToString` method.  
+  
+ [!CODE [System.BitConverter.ToString#1](../CodeSnippet/VS_Snippets_CLR_System/system.BitConverter.ToString#1)]  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="ToString">
@@ -533,11 +878,25 @@
         <Parameter Name="startIndex" Type="System.Int32" />
       </Parameters>
       <Docs>
-        <param name="value">To be added.</param>
-        <param name="startIndex">To be added.</param>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
-        <remarks>To be added.</remarks>
+        <param name="value">An array of bytes.</param>
+        <param name="startIndex">The starting position within .</param>
+        <summary>Converts the numeric value of each element of a specified subarray of bytes to its equivalent hexadecimal string representation.</summary>
+        <returns>A string of hexadecimal pairs separated by hyphens, where each pair represents the corresponding element in a subarray of ; for example, "7F-2C-4A-00".</returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ The elements from array position  to the end of the array are converted. The order of hexadecimal strings returned by the <xref:System.BitConverter.ToString%2A> method depends on whether the computer architecture is little-endian or big-endian.  
+  
+   
+  
+## Examples  
+ The following code example converts the part of a <xref:System.Byte> array starting at the specified  to a <xref:System.String> with the `ToString` method.  
+  
+ [!CODE [System.BitConverter.ToString#2](../CodeSnippet/VS_Snippets_CLR_System/system.BitConverter.ToString#2)]  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="ToString">
@@ -556,12 +915,28 @@
         <Parameter Name="length" Type="System.Int32" />
       </Parameters>
       <Docs>
-        <param name="value">To be added.</param>
-        <param name="startIndex">To be added.</param>
-        <param name="length">To be added.</param>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
-        <remarks>To be added.</remarks>
+        <param name="value">An array of bytes.</param>
+        <param name="startIndex">The starting position within .</param>
+        <param name="length">The number of array elements in  to convert.</param>
+        <summary>Converts the numeric value of each element of a specified subarray of bytes to its equivalent hexadecimal string representation.</summary>
+        <returns>A string of hexadecimal pairs separated by hyphens, where each pair represents the corresponding element in a subarray of ; for example, "7F-2C-4A-00".</returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ The  elements from array position  are converted. If  equals zero, the method returns <xref:System.String?displayProperty=fullName>.  
+  
+ The order of hexadecimal strings returned by the <xref:System.BitConverter.ToString%2A> method depends on whether the computer architecture is little-endian or big-endian.  
+  
+   
+  
+## Examples  
+ The following example uses the ToString method to convert part of a byte array, starting at the specified  and with the specified , to a string.  
+  
+ [!CODE [System.BitConverter.ToString#2](../CodeSnippet/VS_Snippets_CLR_System/system.BitConverter.ToString#2)]  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="ToUInt16">
@@ -584,11 +959,25 @@
         <Parameter Name="startIndex" Type="System.Int32" />
       </Parameters>
       <Docs>
-        <param name="value">To be added.</param>
-        <param name="startIndex">To be added.</param>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
-        <remarks>To be added.</remarks>
+        <param name="value">The array of bytes.</param>
+        <param name="startIndex">The starting position within .</param>
+        <summary>Returns a 16-bit unsigned integer converted from two bytes at a specified position in a byte array.</summary>
+        <returns>A 16-bit unsigned integer formed by two bytes beginning at .</returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ The ToUInt16 method converts the bytes from index  to  + 1 to a <xref:System.UInt16> value. The order of bytes in the array must reflect the endianness of the computer system's architecture; for more information, see the Remarks section of the <xref:System.BitConverter> class topic.  
+  
+   
+  
+## Examples  
+ The following code example converts elements of <xref:System.Byte> arrays to <xref:System.UInt16> values with the `ToUInt16` method.  
+  
+ [!CODE [System.BitConverter.ToXXX.UInts#1](../CodeSnippet/VS_Snippets_CLR_System/system.BitConverter.ToXXX.UInts#1)]  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="ToUInt32">
@@ -611,11 +1000,25 @@
         <Parameter Name="startIndex" Type="System.Int32" />
       </Parameters>
       <Docs>
-        <param name="value">To be added.</param>
-        <param name="startIndex">To be added.</param>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
-        <remarks>To be added.</remarks>
+        <param name="value">An array of bytes.</param>
+        <param name="startIndex">The starting position within .</param>
+        <summary>Returns a 32-bit unsigned integer converted from four bytes at a specified position in a byte array.</summary>
+        <returns>A 32-bit unsigned integer formed by four bytes beginning at .</returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ The ToUInt32 method converts the bytes from index  to  + 3 to a <xref:System.UInt32> value. The order of bytes in the array must reflect the endianness of the computer system's architecture; for more information, see the Remarks section of the <xref:System.BitConverter> class topic.  
+  
+   
+  
+## Examples  
+ The following code example converts elements of <xref:System.Byte> arrays to <xref:System.UInt32> values with the `ToUInt32` method.  
+  
+ [!CODE [System.BitConverter.ToXXX.UInts#2](../CodeSnippet/VS_Snippets_CLR_System/system.BitConverter.ToXXX.UInts#2)]  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="ToUInt64">
@@ -638,11 +1041,25 @@
         <Parameter Name="startIndex" Type="System.Int32" />
       </Parameters>
       <Docs>
-        <param name="value">To be added.</param>
-        <param name="startIndex">To be added.</param>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
-        <remarks>To be added.</remarks>
+        <param name="value">An array of bytes.</param>
+        <param name="startIndex">The starting position within .</param>
+        <summary>Returns a 64-bit unsigned integer converted from eight bytes at a specified position in a byte array.</summary>
+        <returns>A 64-bit unsigned integer formed by the eight bytes beginning at .</returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ The ToUInt64 method converts the bytes from index  to  + 7 to a <xref:System.UInt64> value. The order of bytes in the array must reflect the endianness of the computer system's architecture; for more information, see the Remarks section of the <xref:System.BitConverter> class topic.  
+  
+   
+  
+## Examples  
+ The following code example converts elements of <xref:System.Byte> arrays to <xref:System.UInt64> values with the `ToUInt64` method.  
+  
+ [!CODE [System.BitConverter.ToXXX.UInts#3](../CodeSnippet/VS_Snippets_CLR_System/system.BitConverter.ToXXX.UInts#3)]  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
   </Members>

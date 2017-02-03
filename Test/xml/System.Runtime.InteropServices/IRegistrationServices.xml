@@ -15,8 +15,15 @@
     </Attribute>
   </Attributes>
   <Docs>
-    <summary>To be added.</summary>
-    <remarks>To be added.</remarks>
+    <summary>Provides a set of services for registering and unregistering managed assemblies for use from COM.</summary>
+    <remarks>
+      <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ Registration is needed when the objects within an assembly are being used by COM clients.  
+  
+ ]]></format>
+    </remarks>
   </Docs>
   <Members>
     <Member MemberName="GetManagedCategoryGuid">
@@ -31,8 +38,8 @@
       </ReturnValue>
       <Parameters />
       <Docs>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
+        <summary>Returns the GUID of the COM category that contains the managed classes.</summary>
+        <returns>The GUID of the COM category that contains the managed classes.</returns>
         <remarks>To be added.</remarks>
       </Docs>
     </Member>
@@ -55,9 +62,9 @@
         <Parameter Name="type" Type="System.Type" />
       </Parameters>
       <Docs>
-        <param name="type">To be added.</param>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
+        <param name="type">The type whose ProgID is being requested.</param>
+        <summary>Retrieves the COM ProgID for a specified type.</summary>
+        <returns>The ProgID for the specified type.</returns>
         <remarks>To be added.</remarks>
       </Docs>
     </Member>
@@ -80,9 +87,9 @@
         <Parameter Name="assembly" Type="System.Reflection.Assembly" />
       </Parameters>
       <Docs>
-        <param name="assembly">To be added.</param>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
+        <param name="assembly">The assembly to search for classes.</param>
+        <summary>Retrieves a list of classes in an assembly that would be registered by a call to &lt;xref:System.Runtime.InteropServices.IRegistrationServices.RegisterAssembly%2A&gt;.</summary>
+        <returns>A &lt;see cref="T:System.Type"&gt; array containing a list of classes in .</returns>
         <remarks>To be added.</remarks>
       </Docs>
     </Member>
@@ -106,11 +113,20 @@
         <Parameter Name="flags" Type="System.Runtime.InteropServices.AssemblyRegistrationFlags" />
       </Parameters>
       <Docs>
-        <param name="assembly">To be added.</param>
-        <param name="flags">To be added.</param>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
-        <remarks>To be added.</remarks>
+        <param name="assembly">The assembly to be registered.</param>
+        <param name="flags">An &lt;see cref="T:System.Runtime.InteropServices.AssemblyRegistrationFlags"&gt; value indicating any special settings needed when registering .</param>
+        <summary>Registers the classes in a managed assembly to enable creation from COM.</summary>
+        <returns>`true` if  contains types that were successfully registered; otherwise `false` if the assembly contains no eligible types.</returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ `RegisterAssembly` adds the appropriate registry entries for the types in the specified assembly. This method also calls any registration functions found in the assembly.  
+  
+ Use <xref:System.Reflection.Assembly.Load%2A?displayProperty=fullName> to get an assembly.  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="RegisterTypeForComClients">
@@ -133,10 +149,17 @@
         <Parameter Name="g" Type="System.Guid&amp;" RefType="ref" />
       </Parameters>
       <Docs>
-        <param name="type">To be added.</param>
-        <param name="g">To be added.</param>
-        <summary>To be added.</summary>
-        <remarks>To be added.</remarks>
+        <param name="type">The type to be registered for use from COM.</param>
+        <param name="g">GUID used to register the specified type.</param>
+        <summary>Registers the specified type with COM using the specified GUID.</summary>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ This method is equivalent to calling `CoRegisterClassObject` in COM.  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="TypeRepresentsComType">
@@ -153,9 +176,9 @@
         <Parameter Name="type" Type="System.Type" />
       </Parameters>
       <Docs>
-        <param name="type">To be added.</param>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
+        <param name="type">The type to determine if it is a COM type.</param>
+        <summary>Determines whether the specified type is a COM type.</summary>
+        <returns>`true` if the specified type is a COM type; otherwise `false`.</returns>
         <remarks>To be added.</remarks>
       </Docs>
     </Member>
@@ -178,9 +201,9 @@
         <Parameter Name="type" Type="System.Type" />
       </Parameters>
       <Docs>
-        <param name="type">To be added.</param>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
+        <param name="type">The type to check for COM registration requirements.</param>
+        <summary>Determines whether the specified type requires registration.</summary>
+        <returns>`true` if the type must be registered for use from COM; otherwise `false`.</returns>
         <remarks>To be added.</remarks>
       </Docs>
     </Member>
@@ -203,10 +226,17 @@
         <Parameter Name="assembly" Type="System.Reflection.Assembly" />
       </Parameters>
       <Docs>
-        <param name="assembly">To be added.</param>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
-        <remarks>To be added.</remarks>
+        <param name="assembly">The assembly to be unregistered.</param>
+        <summary>Unregisters the classes in a managed assembly.</summary>
+        <returns>`true` if  contains types that were successfully unregistered; otherwise `false` if the assembly contains no eligible types.</returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ `UnregisterAssembly` removes the registry entries for the types in the specified assembly previously added by <xref:System.Runtime.InteropServices.IRegistrationServices.RegisterAssembly%2A>. This method also calls any unregistration functions found in the assembly.  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
   </Members>

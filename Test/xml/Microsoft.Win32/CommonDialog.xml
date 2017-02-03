@@ -10,7 +10,7 @@
   </Base>
   <Interfaces />
   <Docs>
-    <summary>To be added.</summary>
+    <summary>An abstract base class for displaying common [!INCLUDE[TLA#tla_win32](../../add/includes/tlasharptla-win32-md.md)] dialogs.</summary>
     <remarks>To be added.</remarks>
   </Docs>
   <Members>
@@ -23,7 +23,7 @@
       </AssemblyInfo>
       <Parameters />
       <Docs>
-        <summary>To be added.</summary>
+        <summary>Provides initialization for base class values when called by the constructor of a derived class.</summary>
         <remarks>To be added.</remarks>
       </Docs>
     </Member>
@@ -47,7 +47,7 @@
       </ReturnValue>
       <Parameters />
       <Docs>
-        <summary>To be added.</summary>
+        <summary>Determines whether sufficient permissions for displaying a dialog exist.</summary>
         <remarks>To be added.</remarks>
       </Docs>
     </Member>
@@ -73,13 +73,20 @@
         <Parameter Name="lParam" Type="System.IntPtr" />
       </Parameters>
       <Docs>
-        <param name="hwnd">To be added.</param>
-        <param name="msg">To be added.</param>
-        <param name="wParam">To be added.</param>
-        <param name="lParam">To be added.</param>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
-        <remarks>To be added.</remarks>
+        <param name="hwnd">Window handle for the [!INCLUDE[TLA2#tla_win32](../../add/includes/tla2sharptla-win32-md.md)] dialog.</param>
+        <param name="msg">Windows message to be processed by the [!INCLUDE[TLA2#tla_win32](../../add/includes/tla2sharptla-win32-md.md)] dialog.</param>
+        <param name="wParam">Parameters for dialog actions.</param>
+        <param name="lParam">Parameters for dialog actions.</param>
+        <summary>Defines the common dialog box hook procedure that is overridden to add specific functionality to a common dialog box.</summary>
+        <returns>Always returns &lt;see cref="T:System.IntPtr"&gt;.</returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ HookProc handles dialog initialization by centering the dialog window, relative to the screen, and to set focus to the default control.  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="Reset">
@@ -99,7 +106,7 @@
       </ReturnValue>
       <Parameters />
       <Docs>
-        <summary>To be added.</summary>
+        <summary>When overridden in a derived class, resets the properties of a common dialog to their default values.</summary>
         <remarks>To be added.</remarks>
       </Docs>
     </Member>
@@ -117,10 +124,17 @@
         <Parameter Name="hwndOwner" Type="System.IntPtr" />
       </Parameters>
       <Docs>
-        <param name="hwndOwner">To be added.</param>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
-        <remarks>To be added.</remarks>
+        <param name="hwndOwner">Handle to the window that owns the dialog box.</param>
+        <summary>When overridden in a derived class, is called to display a particular type of [!INCLUDE[TLA#tla_win32](../../add/includes/tlasharptla-win32-md.md)] common dialog.</summary>
+        <returns>If the user clicks the **OK** button of the dialog that is displayed (e.g. &lt;see cref="T:Microsoft.Win32.OpenFileDialog"&gt;, &lt;xref:Microsoft.Win32.SaveFileDialog&gt;), `true` is returned; otherwise, `false`.</returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ The dialog that is eventually shown is assigned an owner window, which is specified by the  parameter.  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="ShowDialog">
@@ -140,9 +154,18 @@
       </ReturnValue>
       <Parameters />
       <Docs>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
-        <remarks>To be added.</remarks>
+        <summary>Displays a common dialog.</summary>
+        <returns>If the user clicks the OK button of the dialog that is displayed (e.g. &lt;see cref="T:Microsoft.Win32.OpenFileDialog"&gt;, &lt;xref:Microsoft.Win32.SaveFileDialog&gt;), `true` is returned; otherwise, `false`.</returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ ShowDialog performs initialization tasks for all common dialogs before calling <xref:Microsoft.Win32.CommonDialog.RunDialog%2A>.  
+  
+ In the current implementation, the derived classes (<xref:Microsoft.Win32.OpenFileDialog> and <xref:Microsoft.Win32.SaveFileDialog>) will only return `true` or `false`.  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="ShowDialog">
@@ -164,10 +187,19 @@
         <Parameter Name="owner" Type="System.Windows.Window" />
       </Parameters>
       <Docs>
-        <param name="owner">To be added.</param>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
-        <remarks>To be added.</remarks>
+        <param name="owner">Handle to the window that owns the dialog.</param>
+        <summary>Displays a common dialog.</summary>
+        <returns>If the user clicks the OK button of the dialog that is displayed (e.g. &lt;see cref="T:Microsoft.Win32.OpenFileDialog"&gt;, &lt;xref:Microsoft.Win32.SaveFileDialog&gt;), `true` is returned; otherwise, `false`.</returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ ShowDialog performs initialization tasks for all common dialogs before calling <xref:Microsoft.Win32.CommonDialog.RunDialog%2A>. Additionally, the dialog that is eventually shown is assigned an owner window, which is specified by the  parameter.  
+  
+ In the current implementation, the derived classes (<xref:Microsoft.Win32.OpenFileDialog> and <xref:Microsoft.Win32.SaveFileDialog>) will only return `true` or `false`.  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="Tag">
@@ -181,9 +213,16 @@
         <ReturnType>System.Object</ReturnType>
       </ReturnValue>
       <Docs>
-        <summary>To be added.</summary>
-        <value>To be added.</value>
-        <remarks>To be added.</remarks>
+        <summary>Gets or sets an object associated with the dialog. This provides the ability to attach an arbitrary object to the dialog.</summary>
+        <value>A &lt;see cref="T:System.Object"&gt; that is attached or associated with a dialog.</value>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Examples  
+ See Also  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
   </Members>

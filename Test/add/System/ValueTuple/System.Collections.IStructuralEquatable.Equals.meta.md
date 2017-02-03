@@ -1,0 +1,4 @@
+---
+uid: System.ValueTuple.System#Collections#IStructuralEquatable#Equals(System.Object,System.Collections.IEqualityComparer)
+internalonly: False
+---

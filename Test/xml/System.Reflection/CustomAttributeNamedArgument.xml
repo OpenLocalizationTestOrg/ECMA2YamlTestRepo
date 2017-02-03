@@ -15,8 +15,33 @@
     </Attribute>
   </Attributes>
   <Docs>
-    <summary>To be added.</summary>
-    <remarks>To be added.</remarks>
+    <summary>Represents a named argument of a custom attribute in the reflection-only context.</summary>
+    <remarks>
+      <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ Code that is being examined in the reflection-only context cannot be executed, so it is not always possible to examine custom attributes by creating instances of them and then examining their properties, using methods like <xref:System.Attribute.GetCustomAttributes%2A?displayProperty=fullName>, <xref:System.Reflection.MemberInfo.GetCustomAttributes%2A?displayProperty=fullName>, and so on. If the code for the attribute type itself is loaded into the reflection-only context, it cannot be executed.  
+  
+ The CustomAttributeNamedArgument structure is used by the <xref:System.Reflection.CustomAttributeData> class to provide access to a named argument specified for a custom attribute instance, without executing the code of the corresponding property of the custom attribute type. The <xref:System.Reflection.CustomAttributeNamedArgument.TypedValue%2A> property returns a <xref:System.Reflection.CustomAttributeTypedArgument> structure that contains the type and value of the named argument.  
+  
+> [!IMPORTANT]
+>  Whether an argument is named or positional, you must access its type and value by using the <xref:System.Reflection.CustomAttributeTypedArgument> structure.  
+  
+ To create instances of the <xref:System.Reflection.CustomAttributeData> class, use the `static`<xref:System.Reflection.CustomAttributeData.GetCustomAttributes%2A> factory method.  
+  
+   
+  
+## Examples  
+ The following example defines a custom attribute with four constructors and four properties. Two of the properties are read-only, and are set by using the positional parameters of the constructors. The other two properties are read/write, and can be set only by using named arguments. One positional property is an array of strings, and one named property is an array of integers.  
+  
+ The attribute is applied to the assembly, to a type declared in the assembly, to a method of the type, and to a parameter of the method. Different constructors are used for these cases. When executed, the assembly loads itself into the reflection-only context and displays information about the custom attributes that were applied to it and to the type and members it contains.  
+  
+ The attribute that is applied to the type demonstrates array properties, with both positional and named arguments.  
+  
+ [!CODE [CustomAttributeData#1](../CodeSnippet/VS_Snippets_CLR/CustomAttributeData#1)]  
+  
+ ]]></format>
+    </remarks>
   </Docs>
   <Members>
     <Member MemberName=".ctor">
@@ -31,10 +56,17 @@
         <Parameter Name="value" Type="System.Object" />
       </Parameters>
       <Docs>
-        <param name="memberInfo">To be added.</param>
-        <param name="value">To be added.</param>
-        <summary>To be added.</summary>
-        <remarks>To be added.</remarks>
+        <param name="memberInfo">A field or property of the custom attribute. The new &lt;see cref="T:System.Reflection.CustomAttributeNamedArgument"&gt; object represents this member and its value.</param>
+        <param name="value">The value of the field or property of the custom attribute.</param>
+        <summary>Initializes a new instance of the &lt;see cref="T:System.Reflection.CustomAttributeNamedArgument"&gt; class, which represents the specified field or property of the custom attribute, and specifies the value of the field or property.</summary>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ This constructor is for use by inheritors of the <xref:System.Reflection.CustomAttributeNamedArgument> class. It is not intended for use in application code.  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName=".ctor">
@@ -49,10 +81,17 @@
         <Parameter Name="typedArgument" Type="System.Reflection.CustomAttributeTypedArgument" />
       </Parameters>
       <Docs>
-        <param name="memberInfo">To be added.</param>
-        <param name="typedArgument">To be added.</param>
-        <summary>To be added.</summary>
-        <remarks>To be added.</remarks>
+        <param name="memberInfo">A field or property of the custom attribute. The new &lt;see cref="T:System.Reflection.CustomAttributeNamedArgument"&gt; object represents this member and its value.</param>
+        <param name="typedArgument">An object that describes the type and value of the field or property.</param>
+        <summary>Initializes a new instance of the &lt;see cref="T:System.Reflection.CustomAttributeNamedArgument"&gt; class, which represents the specified field or property of the custom attribute, and specifies a &lt;xref:System.Reflection.CustomAttributeTypedArgument&gt; object that describes the type and value of the field or property.</summary>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ This constructor is for use by inheritors of the <xref:System.Reflection.CustomAttributeNamedArgument> class. It is not intended for use in application code.  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="Equals">
@@ -69,9 +108,9 @@
         <Parameter Name="obj" Type="System.Object" />
       </Parameters>
       <Docs>
-        <param name="obj">To be added.</param>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
+        <param name="obj">An object to compare with this instance, or `null`.</param>
+        <summary>Returns a value that indicates whether this instance is equal to a specified object.</summary>
+        <returns>`true` if  equals the type and value of this instance; otherwise, `false`.</returns>
         <remarks>To be added.</remarks>
       </Docs>
     </Member>
@@ -87,8 +126,8 @@
       </ReturnValue>
       <Parameters />
       <Docs>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
+        <summary>Returns the hash code for this instance.</summary>
+        <returns>A 32-bit signed integer hash code.</returns>
         <remarks>To be added.</remarks>
       </Docs>
     </Member>
@@ -103,8 +142,8 @@
         <ReturnType>System.Boolean</ReturnType>
       </ReturnValue>
       <Docs>
-        <summary>To be added.</summary>
-        <value>To be added.</value>
+        <summary>Gets a value that indicates whether the named argument is a field.</summary>
+        <value>`true` if the named argument is a field; otherwise, `false`.</value>
         <remarks>To be added.</remarks>
       </Docs>
     </Member>
@@ -119,9 +158,16 @@
         <ReturnType>System.Reflection.MemberInfo</ReturnType>
       </ReturnValue>
       <Docs>
-        <summary>To be added.</summary>
-        <value>To be added.</value>
-        <remarks>To be added.</remarks>
+        <summary>Gets the attribute member that would be used to set the named argument.</summary>
+        <value>The attribute member that would be used to set the named argument.</value>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ In most cases, the member is a property.  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="MemberName">
@@ -135,8 +181,8 @@
         <ReturnType>System.String</ReturnType>
       </ReturnValue>
       <Docs>
-        <summary>To be added.</summary>
-        <value>To be added.</value>
+        <summary>Gets the name of the attribute member that would be used to set the named argument.</summary>
+        <value>The name of the attribute member that would be used to set the named argument.</value>
         <remarks>To be added.</remarks>
       </Docs>
     </Member>
@@ -155,10 +201,10 @@
         <Parameter Name="right" Type="System.Reflection.CustomAttributeNamedArgument" />
       </Parameters>
       <Docs>
-        <param name="left">To be added.</param>
-        <param name="right">To be added.</param>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
+        <param name="left">The structure to the left of the equality operator.</param>
+        <param name="right">The structure to the right of the equality operator.</param>
+        <summary>Tests whether two &lt;see cref="T:System.Reflection.CustomAttributeNamedArgument"&gt; structures are equivalent.</summary>
+        <returns>`true` if the two &lt;see cref="T:System.Reflection.CustomAttributeNamedArgument"&gt; structures are equal; otherwise, `false`.</returns>
         <remarks>To be added.</remarks>
       </Docs>
     </Member>
@@ -177,10 +223,10 @@
         <Parameter Name="right" Type="System.Reflection.CustomAttributeNamedArgument" />
       </Parameters>
       <Docs>
-        <param name="left">To be added.</param>
-        <param name="right">To be added.</param>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
+        <param name="left">The structure to the left of the inequality operator.</param>
+        <param name="right">The structure to the right of the inequality operator.</param>
+        <summary>Tests whether two &lt;see cref="T:System.Reflection.CustomAttributeNamedArgument"&gt; structures are different.</summary>
+        <returns>`true` if the two &lt;see cref="T:System.Reflection.CustomAttributeNamedArgument"&gt; structures are different; otherwise, `false`.</returns>
         <remarks>To be added.</remarks>
       </Docs>
     </Member>
@@ -196,8 +242,8 @@
       </ReturnValue>
       <Parameters />
       <Docs>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
+        <summary>Returns a string that consists of the argument name, the equal sign, and a string representation of the argument value.</summary>
+        <returns>A string that consists of the argument name, the equal sign, and a string representation of the argument value.</returns>
         <remarks>To be added.</remarks>
       </Docs>
     </Member>
@@ -212,9 +258,29 @@
         <ReturnType>System.Reflection.CustomAttributeTypedArgument</ReturnType>
       </ReturnValue>
       <Docs>
-        <summary>To be added.</summary>
-        <value>To be added.</value>
-        <remarks>To be added.</remarks>
+        <summary>Gets a &lt;see cref="T:System.Reflection.CustomAttributeTypedArgument"&gt; structure that can be used to obtain the type and value of the current named argument.</summary>
+        <value>A structure that can be used to obtain the type and value of the current named argument.</value>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ The <xref:System.Reflection.CustomAttributeNamedArgument> structure only contains information about how the argument value was set. Use this property to obtain a <xref:System.Reflection.CustomAttributeTypedArgument> structure that contains the type and value.  
+  
+   
+  
+## Examples  
+ The following code example defines a custom attribute with four constructors and four properties. Two of the properties are read-only, and are set by using the positional parameters of the constructors. The other two properties are read/write, and can be set only by using named arguments. One positional property is an array of strings, and one named property is an array of integers.  
+  
+ The attribute is applied to the assembly, to a type declared in the assembly, to a method of the type, and to a parameter of the method. Different constructors are used for these cases. When executed, the assembly loads itself into the reflection-only context and displays the custom attributes.  
+  
+ The attribute that is applied to the type demonstrates array properties, with both positional and named arguments.  
+  
+ The TypedValue property is used in the `ShowAttributeData` method that displays custom attribute data, to obtain the types and values of named attributes.  
+  
+ [!CODE [CustomAttributeData#1](../CodeSnippet/VS_Snippets_CLR/CustomAttributeData#1)]  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
   </Members>

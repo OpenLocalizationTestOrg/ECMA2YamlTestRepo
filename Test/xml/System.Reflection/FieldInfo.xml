@@ -25,8 +25,24 @@
     </Attribute>
   </Attributes>
   <Docs>
-    <summary>To be added.</summary>
-    <remarks>To be added.</remarks>
+    <summary>Discovers the attributes of a field and provides access to field metadata.</summary>
+    <remarks>
+      <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ The field information is obtained from metadata. The FieldInfo class does not have a public constructor. FieldInfo objects are obtained by calling either the <xref:System.Type.GetFields%2A> or <xref:System.Type.GetField%2A> method of a `Type` object.  
+  
+ Fields are variables defined in the class. FieldInfo provides access to the metadata for a field within a class and provides dynamic set and get functionality for the field. The class is not loaded into memory until invoke or get is called on the object.  
+  
+   
+  
+## Examples  
+ The following example uses the <xref:System.Type.GetFields%2A?displayProperty=fullName> method to get the field-related information from the FieldInfo class, and then displays field attributes.  
+  
+ [!CODE [FieldInfo#1](../CodeSnippet/VS_Snippets_CLR/FieldInfo#1)]  
+  
+ ]]></format>
+    </remarks>
   </Docs>
   <Members>
     <Member MemberName=".ctor">
@@ -38,7 +54,7 @@
       </AssemblyInfo>
       <Parameters />
       <Docs>
-        <summary>To be added.</summary>
+        <summary>Initializes a new instance of the `FieldInfo` class.</summary>
         <remarks>To be added.</remarks>
       </Docs>
     </Member>
@@ -53,9 +69,25 @@
         <ReturnType>System.Reflection.FieldAttributes</ReturnType>
       </ReturnValue>
       <Docs>
-        <summary>To be added.</summary>
-        <value>To be added.</value>
-        <remarks>To be added.</remarks>
+        <summary>Gets the attributes associated with this field.</summary>
+        <value>The `FieldAttributes` for this field.</value>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ All members have a set of attributes, which are defined in relation to the specific type of member. `FieldAttributes` informs the user whether this field is the private field, a static field, and so on.  
+  
+ To get the `Attributes` property, first get the class `Type`. From the `Type`, get the `FieldInfo`. From the `FieldInfo`, get the `Attributes`.  
+  
+   
+  
+## Examples  
+ The following code example builds three fields and displays their field attributes. A `FieldAttributes` value can contain more than one attribute, such as both `Public` and `Literal`, as shown in the third field.  
+  
+ [!CODE [Classic FieldAttributes Example#1](../CodeSnippet/VS_Snippets_CLR_Classic/classic FieldAttributes Example#1)]  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="Equals">
@@ -72,9 +104,9 @@
         <Parameter Name="obj" Type="System.Object" />
       </Parameters>
       <Docs>
-        <param name="obj">To be added.</param>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
+        <param name="obj">An object to compare with this instance, or `null`.</param>
+        <summary>Returns a value that indicates whether this instance is equal to a specified object.</summary>
+        <returns>`true` if  equals the type and value of this instance; otherwise, `false`.</returns>
         <remarks>To be added.</remarks>
       </Docs>
     </Member>
@@ -89,9 +121,23 @@
         <ReturnType>System.RuntimeFieldHandle</ReturnType>
       </ReturnValue>
       <Docs>
-        <summary>To be added.</summary>
-        <value>To be added.</value>
-        <remarks>To be added.</remarks>
+        <summary>Gets a `RuntimeFieldHandle`, which is a handle to the internal metadata representation of a field.</summary>
+        <value>A handle to the internal metadata representation of a field.</value>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ The handles are valid only in the appdomain in which they were obtained.  
+  
+   
+  
+## Examples  
+ The following example retrieves MyClass.MyField field information and displays the field associated with the field handle.  
+  
+ [!CODE [FieldInfo_FieldHandle#1](../CodeSnippet/VS_Snippets_CLR/FieldInfo_FieldHandle#1)]  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="FieldType">
@@ -105,9 +151,25 @@
         <ReturnType>System.Type</ReturnType>
       </ReturnValue>
       <Docs>
-        <summary>To be added.</summary>
-        <value>To be added.</value>
-        <remarks>To be added.</remarks>
+        <summary>Gets the type of this field object.</summary>
+        <value>The type of this field object.</value>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ The type is some primitive data type, such as `String`, `Boolean`, or `GUID`.  
+  
+ To get the `FieldType` property, first get the class `Type`. From the `Type`, get the `FieldInfo`. From the `FieldInfo`, get the `FieldType` value.  
+  
+   
+  
+## Examples  
+ The following example creates a field, gets its type and <xref:System.Reflection.FieldInfo>, and displays its FieldType.  
+  
+ [!CODE [Classic FieldInfo.FieldType Example#1](../CodeSnippet/VS_Snippets_CLR_Classic/classic FieldInfo.FieldType Example#1)]  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="GetFieldFromHandle">
@@ -124,10 +186,24 @@
         <Parameter Name="handle" Type="System.RuntimeFieldHandle" />
       </Parameters>
       <Docs>
-        <param name="handle">To be added.</param>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
-        <remarks>To be added.</remarks>
+        <param name="handle">A &lt;see cref="T:System.RuntimeFieldHandle"&gt; structure that contains the handle to the internal metadata representation of a field.</param>
+        <summary>Gets a &lt;see cref="T:System.Reflection.FieldInfo"&gt; for the field represented by the specified handle.</summary>
+        <returns>A &lt;see cref="T:System.Reflection.FieldInfo"&gt; object representing the field specified by .</returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ Handles are valid only in the application domain in which they were obtained.  
+  
+   
+  
+## Examples  
+ The following code example uses the <xref:System.Type.GetFields%2A?displayProperty=fullName> method to get <xref:System.Reflection.FieldInfo> objects for the fields of a type, gets a <xref:System.RuntimeFieldHandle> structure for each field, and then retrieves the <xref:System.Reflection.FieldInfo> objects from the handles using this overload of the <xref:System.Reflection.FieldInfo.GetFieldFromHandle%2A> method.  
+  
+ [!CODE [FieldInfo_GetFieldFromHandle#1](../CodeSnippet/VS_Snippets_CLR/FieldInfo_GetFieldFromHandle#1)]  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="GetFieldFromHandle">
@@ -150,11 +226,39 @@
         <Parameter Name="declaringType" Type="System.RuntimeTypeHandle" />
       </Parameters>
       <Docs>
-        <param name="handle">To be added.</param>
-        <param name="declaringType">To be added.</param>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
-        <remarks>To be added.</remarks>
+        <param name="handle">A &lt;see cref="T:System.RuntimeFieldHandle"&gt; structure that contains the handle to the internal metadata representation of a field.</param>
+        <param name="declaringType">A &lt;see cref="T:System.RuntimeTypeHandle"&gt; structure that contains the handle to the generic type that defines the field.</param>
+        <summary>Gets a &lt;see cref="T:System.Reflection.FieldInfo"&gt; for the field represented by the specified handle, for the specified generic type.</summary>
+        <returns>A &lt;see cref="T:System.Reflection.FieldInfo"&gt; object representing the field specified by , in the generic type specified by .</returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ Handles are valid only in the application domain in which they were obtained.  
+  
+ The recommended practice is that  should always be the runtime type handle of the constructed type that  belongs to. That is, if  is a runtime field handle for a field that belongs to `MyType<int>` (`MyType(Of Integer)` in Visual Basic),  is the runtime type handle for `MyType<int>`. Do not use the runtime type handle of the generic type definition, unless the runtime field handle represents a field on the generic type definition.  
+  
+ Implementations are compatible in some cases. For example, a single implementation is shared by all types that are constructed from a particular generic type definition by using reference types for the generic type arguments. For example, `MyType<string>`, `MyType<object>`, and `MyType<ArrayList>` all share the same implementation. In this situation, the <xref:System.Reflection.FieldInfo> object that is returned represents a field on the type that  specifies, regardless of the original source of . This practice is not recommended, because it works only if the generic type arguments of the constructed type are reference types.  
+  
+ If a generic argument is a value type, the runtime type handle of the constructed type is not compatible with runtime field handles from constructions that have a reference type in the same generic parameter position, or that have a different value type in that position. In that case, the only way to use the GetFieldFromHandle overload is to ensure that  is the runtime type handle for the constructed type that  belongs to.  
+  
+   
+  
+## Examples  
+ The following example shows how to retrieve <xref:System.Reflection.FieldInfo> objects for fields on constructed generic classes. The example defines the generic type `Test<T>` (`Test(Of T)` in Visual Basic) with a single field named `TestField`, of type `T`. The example gets the <xref:System.RuntimeFieldHandle> and <xref:System.RuntimeTypeHandle> for the case where `T` is <xref:System.String>, and demonstrates the following:  
+  
+-   An exception is thrown if the <xref:System.Reflection.FieldInfo.GetFieldFromHandle%28System.RuntimeFieldHandle%29> method overload is used. This is true even if the field is not of type `T`.  
+  
+-   A <xref:System.Reflection.FieldInfo> is retrieved successfully if the runtime type handle is from the same construction as the runtime field handle, in this case `Test<string>`.  
+  
+-   If the runtime type handle is from a compatible construction, in this case `Test<object>`, a <xref:System.Reflection.FieldInfo> for the field on the compatible construction is retrieved.  
+  
+-   If the runtime type handle is not from a compatible construction, an exception is thrown. In this case, a value type is specified for `T`.  
+  
+ [!CODE [FieldInfo_GetFieldFromHandle2#1](../CodeSnippet/VS_Snippets_CLR/FieldInfo_GetFieldFromHandle2#1)]  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="GetHashCode">
@@ -169,8 +273,8 @@
       </ReturnValue>
       <Parameters />
       <Docs>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
+        <summary>Returns the hash code for this instance.</summary>
+        <returns>A 32-bit signed integer hash code.</returns>
         <remarks>To be added.</remarks>
       </Docs>
     </Member>
@@ -186,9 +290,16 @@
       </ReturnValue>
       <Parameters />
       <Docs>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
-        <remarks>To be added.</remarks>
+        <summary>Gets an array of types that identify the optional custom modifiers of the field.</summary>
+        <returns>An array of &lt;see cref="T:System.Type"&gt; objects that identify the optional custom modifiers of the current field, such as &lt;xref:System.Runtime.CompilerServices.IsConst?displayProperty=fullName&gt;.</returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ The GetOptionalCustomModifiers and <xref:System.Reflection.FieldInfo.GetRequiredCustomModifiers%2A> methods are provided for designers of managed compilers. For more information on custom modifiers, see <xref:System.Runtime.CompilerServices.IsBoxed> and related classes in the <xref:System.Runtime.CompilerServices> namespace and the metadata specification in the ECMA Partition II documentation. The documentation is available online; see [ECMA C# and Common Language Infrastructure Standards](http://go.microsoft.com/fwlink/?LinkID=99212) on MSDN and [Standard ECMA-335 - Common Language Infrastructure (CLI)](http://go.microsoft.com/fwlink/?LinkID=65552) on the Ecma International Web site.  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="GetRawConstantValue">
@@ -203,9 +314,23 @@
       </ReturnValue>
       <Parameters />
       <Docs>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
-        <remarks>To be added.</remarks>
+        <summary>Returns a literal value associated with the field by a compiler.</summary>
+        <returns>An &lt;see cref="T:System.Object"&gt; that contains the literal value associated with the field. If the literal value is a class type with an element value of zero, the return value is `null`.</returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ This method is provided for designers of managed compilers and code analyzers.  
+  
+ This method can be used in both the execution context and the reflection-only context.  
+  
+ In unmanaged metadata, the Constant table is used to store constant values for fields, parameters, and properties. Constant information does not directly influence runtime behavior. Compilers inspect this information, at compile time, when importing metadata. If used, the value of a constant is embedded in the Microsoft intermediate language (MSIL) stream the compiler emits. There are no MSIL instructions that can be used to access the Constant table at run time.  
+  
+> [!NOTE]
+>  For more information on constant values and the Constant table, see the ECMA Partition II documentation. The documentation is available online; see [ECMA C# and Common Language Infrastructure Standards](http://go.microsoft.com/fwlink/?LinkID=99212) on MSDN and [Standard ECMA-335 - Common Language Infrastructure (CLI)](http://go.microsoft.com/fwlink/?LinkID=65552) on the Ecma International Web site.  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="GetRequiredCustomModifiers">
@@ -220,9 +345,16 @@
       </ReturnValue>
       <Parameters />
       <Docs>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
-        <remarks>To be added.</remarks>
+        <summary>Gets an array of types that identify the required custom modifiers of the property.</summary>
+        <returns>An array of &lt;see cref="T:System.Type"&gt; objects that identify the required custom modifiers of the current property, such as &lt;xref:System.Runtime.CompilerServices.IsConst&gt; or &lt;xref:System.Runtime.CompilerServices.IsImplicitlyDereferenced&gt;.</returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ The <xref:System.Reflection.FieldInfo.GetOptionalCustomModifiers%2A> and GetRequiredCustomModifiers methods are provided for designers of managed compilers. For more information on custom modifiers, see <xref:System.Runtime.CompilerServices.IsBoxed> and related classes in the <xref:System.Runtime.CompilerServices> namespace and the metadata specification in the ECMA Partition II documentation. The documentation is available online; see [ECMA C# and Common Language Infrastructure Standards](http://go.microsoft.com/fwlink/?LinkID=99212) on MSDN and [Standard ECMA-335 - Common Language Infrastructure (CLI)](http://go.microsoft.com/fwlink/?LinkID=65552) on the Ecma International Web site.  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="GetValue">
@@ -239,10 +371,36 @@
         <Parameter Name="obj" Type="System.Object" />
       </Parameters>
       <Docs>
-        <param name="obj">To be added.</param>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
-        <remarks>To be added.</remarks>
+        <param name="obj">The object whose field value will be returned.</param>
+        <summary>When overridden in a derived class, returns the value of a field supported by a given object.</summary>
+        <returns>An object containing the value of the field reflected by this instance.</returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ If the field is static,  is ignored. For non-static fields,  should be an instance of a class that inherits or declares the field. Note that the return type of `GetValue` is `Object`. For example, if the field holds a Boolean primitive value, an instance of `Object` with the appropriate Boolean value is returned. Before returning the value, `GetValue` checks to see if the user has access permission.  
+  
+> [!NOTE]
+>  Access restrictions are ignored for fully trusted code. That is, private constructors, methods, fields, and properties can be accessed and invoked through reflection whenever the code is fully trusted.  
+  
+> [!NOTE]
+>  Starting with the [!INCLUDE[net_v20sp1_long](../../add/includes/net-v20sp1-long-md.md)], this method can be used to access non-public members if the caller has been granted <xref:System.Security.Permissions.ReflectionPermission> with the <xref:System.Security.Permissions.ReflectionPermissionFlag?displayProperty=fullName> flag and if the grant set of the non-public members is restricted to the caller’s grant set, or a subset thereof. (See [Security Considerations for Reflection](../Topic/Security%20Considerations%20for%20Reflection.md).)  
+>   
+>  To use this functionality, your application should target the [!INCLUDE[net_v35_long](../../add/includes/net-v35-long-md.md)] or later.  
+  
+   
+  
+## Examples  
+ The following example uses the GetValue method to retrieve the value of a static field. Note that the value of the  argument is `null`.  
+  
+ [!CODE [getfldval#1](../CodeSnippet/VS_Snippets_CLR/GetFldVal#1)]  
+  
+ The following example retrieves an array of <xref:System.Reflection.FieldInfo> objects that represents the fields of the `FieldsClass` type, and then calls the GetValue to display the value of each field for the `fieldsInst` object.  
+  
+ [!CODE [FieldInfo_GetValue#1](../CodeSnippet/VS_Snippets_CLR/FieldInfo_GetValue#1)]  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="GetValueDirect">
@@ -264,9 +422,9 @@
         <Parameter Name="obj" Type="System.TypedReference" />
       </Parameters>
       <Docs>
-        <param name="obj">To be added.</param>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
+        <param name="obj">A &lt;see cref="T:System.TypedReference"&gt; structure that encapsulates a managed pointer to a location and a runtime representation of the type that might be stored at that location.</param>
+        <summary>Returns the value of a field supported by a given object.</summary>
+        <returns>An `Object` containing a field value.</returns>
         <remarks>To be added.</remarks>
       </Docs>
     </Member>
@@ -281,9 +439,28 @@
         <ReturnType>System.Boolean</ReturnType>
       </ReturnValue>
       <Docs>
-        <summary>To be added.</summary>
-        <value>To be added.</value>
-        <remarks>To be added.</remarks>
+        <summary>Gets a value indicating whether the potential visibility of this field is described by &lt;xref:System.Reflection.FieldAttributes?displayProperty=fullName&gt;; that is, the field is visible at most to other types in the same assembly, and is not visible to derived types outside the assembly.</summary>
+        <value>`true` if the visibility of this field is exactly described by &lt;xref:System.Reflection.FieldAttributes?displayProperty=fullName&gt;; otherwise, `false`.</value>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ The actual visibility of a field is limited by the visibility of its type. The IsAssembly property might be `true` for a field, but if it is a field of a private nested type then the field is not visible outside the containing type.  
+  
+ The visibility of a field is exactly described by <xref:System.Reflection.FieldAttributes?displayProperty=fullName> if the only visibility modifier is `internal` (`Friend` in Visual Basic). This property is `false` for fields that are `protected internal` in C# (`Protected Friend` in Visual Basic, `protected public` in C++); use the <xref:System.Reflection.FieldInfo.IsFamilyOrAssembly%2A> property to identify such fields.  
+  
+   
+  
+## Examples  
+ The following code example defines fields with varying levels of visibility, and displays the values of their IsAssembly, <xref:System.Reflection.FieldInfo.IsFamily%2A>, <xref:System.Reflection.FieldInfo.IsFamilyOrAssembly%2A>, and <xref:System.Reflection.FieldInfo.IsFamilyAndAssembly%2A> properties.  
+  
+> [!NOTE]
+>  The Visual Basic and C# languages cannot define fields with <xref:System.Reflection.FieldAttributes?displayProperty=fullName> visibility; that access level appears only in the C++ example.  
+  
+ [!CODE [Classic FieldInfo.IsAssembly Example#1](../CodeSnippet/VS_Snippets_CLR_Classic/classic FieldInfo.IsAssembly Example#1)]  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="IsFamily">
@@ -297,9 +474,26 @@
         <ReturnType>System.Boolean</ReturnType>
       </ReturnValue>
       <Docs>
-        <summary>To be added.</summary>
-        <value>To be added.</value>
-        <remarks>To be added.</remarks>
+        <summary>Gets a value indicating whether the visibility of this field is described by &lt;xref:System.Reflection.FieldAttributes?displayProperty=fullName&gt;; that is, the field is visible only within its class and derived classes.</summary>
+        <value>`true` if access to this field is exactly described by &lt;xref:System.Reflection.FieldAttributes?displayProperty=fullName&gt;; otherwise, `false`.</value>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ The visibility of a field is exactly described by <xref:System.Reflection.FieldAttributes?displayProperty=fullName> if the only visibility modifier is `protected`. This property is `false` for fields that are `protected internal` in C# (`Protected Friend` in Visual Basic, `protected public` in C++); use the <xref:System.Reflection.FieldInfo.IsFamilyOrAssembly%2A> property to identify such fields.  
+  
+   
+  
+## Examples  
+ The following code example defines fields with varying levels of visibility, and displays the values of their <xref:System.Reflection.FieldInfo.IsAssembly%2A>, IsFamily, <xref:System.Reflection.FieldInfo.IsFamilyOrAssembly%2A>, and <xref:System.Reflection.FieldInfo.IsFamilyAndAssembly%2A> properties.  
+  
+> [!NOTE]
+>  The Visual Basic and C# languages cannot define fields with <xref:System.Reflection.FieldAttributes?displayProperty=fullName> visibility; that access level appears only in the C++ example.  
+  
+ [!CODE [Classic FieldInfo.IsAssembly Example#1](../CodeSnippet/VS_Snippets_CLR_Classic/classic FieldInfo.IsAssembly Example#1)]  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="IsFamilyAndAssembly">
@@ -313,9 +507,28 @@
         <ReturnType>System.Boolean</ReturnType>
       </ReturnValue>
       <Docs>
-        <summary>To be added.</summary>
-        <value>To be added.</value>
-        <remarks>To be added.</remarks>
+        <summary>Gets a value indicating whether the visibility of this field is described by &lt;xref:System.Reflection.FieldAttributes?displayProperty=fullName&gt;; that is, the field can be accessed from derived classes, but only if they are in the same assembly.</summary>
+        <value>`true` if access to this field is exactly described by &lt;xref:System.Reflection.FieldAttributes?displayProperty=fullName&gt;; otherwise, `false`.</value>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ If a field has <xref:System.Reflection.FieldAttributes> level visibility, it can be called from any member in a derived class that is also in the same assembly, but not from any other type.  
+  
+ The visibility of a field is exactly described by <xref:System.Reflection.FieldAttributes?displayProperty=fullName> if the visibility modifier is `protected private` in C++. Fields with this visibility cannot be defined in Visual Basic or C#.  
+  
+   
+  
+## Examples  
+ The following code example defines fields with varying levels of visibility, and displays the values of their <xref:System.Reflection.FieldInfo.IsAssembly%2A>, <xref:System.Reflection.FieldInfo.IsFamily%2A>, <xref:System.Reflection.FieldInfo.IsFamilyOrAssembly%2A>, and IsFamilyAndAssembly properties.  
+  
+> [!NOTE]
+>  The Visual Basic and C# languages cannot define fields with <xref:System.Reflection.FieldAttributes?displayProperty=fullName> visibility; that access level appears only in the C++ example.  
+  
+ [!CODE [Classic FieldInfo.IsAssembly Example#1](../CodeSnippet/VS_Snippets_CLR_Classic/classic FieldInfo.IsAssembly Example#1)]  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="IsFamilyOrAssembly">
@@ -329,9 +542,30 @@
         <ReturnType>System.Boolean</ReturnType>
       </ReturnValue>
       <Docs>
-        <summary>To be added.</summary>
-        <value>To be added.</value>
-        <remarks>To be added.</remarks>
+        <summary>Gets a value indicating whether the potential visibility of this field is described by &lt;xref:System.Reflection.FieldAttributes?displayProperty=fullName&gt;; that is, the field can be accessed by derived classes wherever they are, and by classes in the same assembly.</summary>
+        <value>`true` if access to this field is exactly described by &lt;xref:System.Reflection.FieldAttributes?displayProperty=fullName&gt;; otherwise, `false`.</value>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ If a field has <xref:System.Reflection.FieldAttributes> level visibility, it can be called from any member in a derived class or any member in the same assembly, but not from any other type.  
+  
+ The actual visibility of a field is limited by the visibility of its type. The IsFamilyOrAssembly property might be `true` for a field, but if it is a field of a private nested type then the field is not visible outside the containing type.  
+  
+ The visibility of a field is exactly described by <xref:System.Reflection.FieldAttributes?displayProperty=fullName> if the visibility modifier is `protected internal` in C# (`Protected Friend` in Visual Basic, `protected public` in C++).  
+  
+   
+  
+## Examples  
+ The following code example defines fields with varying levels of visibility, and displays the values of their <xref:System.Reflection.FieldInfo.IsAssembly%2A>, <xref:System.Reflection.FieldInfo.IsFamily%2A>, IsFamilyOrAssembly, and <xref:System.Reflection.FieldInfo.IsFamilyAndAssembly%2A> properties.  
+  
+> [!NOTE]
+>  The Visual Basic and C# languages cannot define fields with <xref:System.Reflection.FieldAttributes?displayProperty=fullName> visibility; that access level appears only in the C++ example.  
+  
+ [!CODE [Classic FieldInfo.IsAssembly Example#1](../CodeSnippet/VS_Snippets_CLR_Classic/classic FieldInfo.IsAssembly Example#1)]  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="IsInitOnly">
@@ -345,9 +579,35 @@
         <ReturnType>System.Boolean</ReturnType>
       </ReturnValue>
       <Docs>
-        <summary>To be added.</summary>
-        <value>To be added.</value>
-        <remarks>To be added.</remarks>
+        <summary>Gets a value indicating whether the field can only be set in the body of the constructor.</summary>
+        <value>`true` if the field has the `InitOnly` attribute set; otherwise, `false`.</value>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ If the returned value is `true`, the field can only be initialized, and is read-only thereafter.  
+  
+ To get the `IsInitOnly` property, first get the class `Type`. From the `Type`, get the `FieldInfo`. From the `FieldInfo`, get the `IsInitOnly` property. To access a non-public field, combine <xref:System.Reflection.BindingFlags?displayProperty=fullName> with either or both of <xref:System.Reflection.BindingFlags?displayProperty=fullName> and <xref:System.Reflection.BindingFlags?displayProperty=fullName> in the `GetField` method.  
+  
+ The `IsInitOnly` property is set when the <xref:System.Reflection.FieldAttributes?displayProperty=fullName> attribute is set.  
+  
+   
+  
+## Examples  
+ In the following example, two fields are created. The second field is read-only, having no set accessor, and `IsInitOnly` is set to `true`.  
+  
+ [!CODE [Classic FieldInfo.IsInitOnly Example#1](../CodeSnippet/VS_Snippets_CLR_Classic/classic FieldInfo.IsInitOnly Example#1)]  
+  
+ This code produces the following output:  
+  
+ Reflection.FieldInfo  
+  
+ Myfielda - A- modified, IsInitOnly = False  
+  
+ Myfieldb - B readonly field, IsInitOnly = True  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="IsLiteral">
@@ -361,9 +621,16 @@
         <ReturnType>System.Boolean</ReturnType>
       </ReturnValue>
       <Docs>
-        <summary>To be added.</summary>
-        <value>To be added.</value>
-        <remarks>To be added.</remarks>
+        <summary>Gets a value indicating whether the value is written at compile time and cannot be changed.</summary>
+        <value>`true` if the field has the `Literal` attribute set; otherwise, `false`.</value>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ The `IsLiteral` property is set when the `FieldAttributes.Literal` attribute is set. If this attribute is set, the field cannot be changed and is constant.  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="IsNotSerialized">
@@ -377,9 +644,23 @@
         <ReturnType>System.Boolean</ReturnType>
       </ReturnValue>
       <Docs>
-        <summary>To be added.</summary>
-        <value>To be added.</value>
-        <remarks>To be added.</remarks>
+        <summary>Gets a value indicating whether this field has the `NotSerialized` attribute.</summary>
+        <value>`true` if the field has the `NotSerialized` attribute set; otherwise, `false`.</value>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ The `IsNotSerialized` property returns `true` when the field is marked with the `FieldAttributes.NotSerialized` flag. When this flag is set on a field, it indicates that the field does not have to be serialized when the type is remoted.  
+  
+   
+  
+## Examples  
+ The following example gets the field information of the fields of MyClass, determines if the fields can be serialized, and displays the results.  
+  
+ [!CODE [FieldInfo_IsNotSerialized#1](../CodeSnippet/VS_Snippets_CLR/FieldInfo_IsNotSerialized#1)]  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="IsPinvokeImpl">
@@ -393,9 +674,18 @@
         <ReturnType>System.Boolean</ReturnType>
       </ReturnValue>
       <Docs>
-        <summary>To be added.</summary>
-        <value>To be added.</value>
-        <remarks>To be added.</remarks>
+        <summary>Gets a value indicating whether the corresponding `PinvokeImpl` attribute is set in &lt;see cref="T:System.Reflection.FieldAttributes"&gt;.</summary>
+        <value>`true` if the `PinvokeImpl` attribute is set in &lt;see cref="T:System.Reflection.FieldAttributes"&gt;; otherwise, `false`.</value>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Examples  
+ The following example creates a class and displays the name, field and IsPinvokeImpl property value of the field.  
+  
+ [!CODE [FieldInfo_IsPInvokeImpl#1](../CodeSnippet/VS_Snippets_CLR/FieldInfo_IsPInvokeImpl#1)]  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="IsPrivate">
@@ -409,9 +699,27 @@
         <ReturnType>System.Boolean</ReturnType>
       </ReturnValue>
       <Docs>
-        <summary>To be added.</summary>
-        <value>To be added.</value>
-        <remarks>To be added.</remarks>
+        <summary>Gets a value indicating whether the field is private.</summary>
+        <value>`true` if the field is private; otherwise; `false`.</value>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ Private fields are accessible only from member functions.  
+  
+ The `IsPrivate` property is set when the `FieldAttributes.Private` attribute is set.  
+  
+ To get the `IsPrivate` property, first get the class `Type`. From the `Type`, get the `FieldInfo`. From the `FieldInfo`, get the `IsPrivate` property. To access a non-public field, set the `BindingFlags` to `NonPublic`, and either `Static` or `Instance` in the `GetField` method.  
+  
+   
+  
+## Examples  
+ The following example returns a value indicating whether or not the field of the class is private.  
+  
+ [!CODE [FieldInfo_IsPrivate#1](../CodeSnippet/VS_Snippets_CLR/FieldInfo_IsPrivate#1)]  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="IsPublic">
@@ -425,9 +733,27 @@
         <ReturnType>System.Boolean</ReturnType>
       </ReturnValue>
       <Docs>
-        <summary>To be added.</summary>
-        <value>To be added.</value>
-        <remarks>To be added.</remarks>
+        <summary>Gets a value indicating whether the field is public.</summary>
+        <value>`true` if this field is public; otherwise, `false`.</value>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ Public fields are accessible everywhere their corresponding classes are visible.  
+  
+ The `IsPublic` property is set when the `FieldAttributes.Public` attribute is set.  
+  
+ To get the `IsPublic` property, first get the class `Type`. From the `Type`, get the `FieldInfo`. From the `FieldInfo`, get the `IsPublic` property. If the field is other than public, it is protected and cannot be readily accessed. To access a nonpublic field, set the `BindingFlags` to `NonPublic`, specify either `BindingFlags.Instance` or `BindingFlags.Static`, and use this for the `GetField` method.  
+  
+   
+  
+## Examples  
+ The following example returns a value indicating whether or not the field of the class is public or private.  
+  
+ [!CODE [Classic FieldInfo.IsPublic Example#1](../CodeSnippet/VS_Snippets_CLR_Classic/classic FieldInfo.IsPublic Example#1)]  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="IsSecurityCritical">
@@ -441,9 +767,29 @@
         <ReturnType>System.Boolean</ReturnType>
       </ReturnValue>
       <Docs>
-        <summary>To be added.</summary>
-        <value>To be added.</value>
-        <remarks>To be added.</remarks>
+        <summary>Gets a value that indicates whether the current field is security-critical or security-safe-critical at the current trust level.</summary>
+        <value>`true` if the current field is security-critical or security-safe-critical at the current trust level; `false` if it is transparent.</value>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ The IsSecurityCritical, <xref:System.Reflection.FieldInfo.IsSecuritySafeCritical%2A>, and <xref:System.Reflection.FieldInfo.IsSecurityTransparent%2A> properties report the transparency level of the field at its current trust level, as determined by the common language runtime (CLR). The combinations of these properties are shown in the following table:  
+  
+|Security level|IsSecurityCritical|IsSecuritySafeCritical|IsSecurityTransparent|  
+|--------------------|------------------------|----------------------------|---------------------------|  
+|Critical|`true`|`false`|`false`|  
+|Safe critical|`true`|`true`|`false`|  
+|Transparent|`false`|`false`|`true`|  
+  
+ Using these properties is much simpler than examining the security annotations of an assembly and its types and members, checking the current trust level, and attempting to duplicate the runtime's rules.  
+  
+> [!IMPORTANT]
+>  For partial-trust assemblies, the value of this property depends on the current trust level of the assembly. If the assembly is loaded into a partially trusted application domain (for example, into a sandboxed application domain), then the runtime ignores the security annotations of the assembly. The assembly and all its types are treated as transparent. The runtime pays attention to the security annotations of a partial-trust assembly only when that assembly is loaded into a fully trusted application domain (for example, into the default application domain of a desktop application). By contrast, a trusted assembly (that is, a strong-named assembly that is installed in the global assembly cache) is always loaded with full trust regardless of the trust level of the application domain, so its current trust level is always fully trusted. You can determine the current trust levels of assemblies and application domains by using the <xref:System.Reflection.Assembly.IsFullyTrusted%2A?displayProperty=fullName> and <xref:System.AppDomain.IsFullyTrusted%2A?displayProperty=fullName> properties.  
+  
+ For more information about reflection and transparency, see [Security Considerations for Reflection](../Topic/Security%20Considerations%20for%20Reflection.md). For information about transparency, see [Security Changes](../Topic/Security%20Changes%20in%20the%20.NET%20Framework.md).  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="IsSecuritySafeCritical">
@@ -457,9 +803,29 @@
         <ReturnType>System.Boolean</ReturnType>
       </ReturnValue>
       <Docs>
-        <summary>To be added.</summary>
-        <value>To be added.</value>
-        <remarks>To be added.</remarks>
+        <summary>Gets a value that indicates whether the current field is security-safe-critical at the current trust level.</summary>
+        <value>`true` if the current field is security-safe-critical at the current trust level; `false` if it is security-critical or transparent.</value>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ The <xref:System.Reflection.FieldInfo.IsSecurityCritical%2A>, IsSecuritySafeCritical, and <xref:System.Reflection.FieldInfo.IsSecurityTransparent%2A> properties report the transparency level of the field at its current trust level, as determined by the common language runtime (CLR). The combinations of these properties are shown in the following table:  
+  
+|Security level|IsSecurityCritical|IsSecuritySafeCritical|IsSecurityTransparent|  
+|--------------------|------------------------|----------------------------|---------------------------|  
+|Critical|`true`|`false`|`false`|  
+|Safe critical|`true`|`true`|`false`|  
+|Transparent|`false`|`false`|`true`|  
+  
+ Using these properties is much simpler than examining the security annotations of an assembly and its types and members, checking the current trust level, and attempting to duplicate the runtime's rules.  
+  
+> [!IMPORTANT]
+>  For partial-trust assemblies, the value of this property depends on the current trust level of the assembly. If the assembly is loaded into a partially trusted application domain (for example, into a sandboxed application domain), then the runtime ignores the security annotations of the assembly. The assembly and all its types are treated as transparent. The runtime pays attention to the security annotations of a partial-trust assembly only when that assembly is loaded into a fully trusted application domain (for example, into the default application domain of a desktop application). By contrast, a trusted assembly (that is, a strong-named assembly that is installed in the global assembly cache) is always loaded with full trust regardless of the trust level of the application domain, so its current trust level is always fully trusted. You can determine the current trust levels of assemblies and application domains by using the <xref:System.Reflection.Assembly.IsFullyTrusted%2A?displayProperty=fullName> and <xref:System.AppDomain.IsFullyTrusted%2A?displayProperty=fullName> properties.  
+  
+ For more information about reflection and transparency, see [Security Considerations for Reflection](../Topic/Security%20Considerations%20for%20Reflection.md). For information about transparency, see [Security Changes](../Topic/Security%20Changes%20in%20the%20.NET%20Framework.md).  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="IsSecurityTransparent">
@@ -473,9 +839,29 @@
         <ReturnType>System.Boolean</ReturnType>
       </ReturnValue>
       <Docs>
-        <summary>To be added.</summary>
-        <value>To be added.</value>
-        <remarks>To be added.</remarks>
+        <summary>Gets a value that indicates whether the current field is transparent at the current trust level.</summary>
+        <value>`true` if the field is security-transparent at the current trust level; otherwise, `false`.</value>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ The <xref:System.Reflection.FieldInfo.IsSecurityCritical%2A>, <xref:System.Reflection.FieldInfo.IsSecuritySafeCritical%2A>, and IsSecurityTransparent properties report the transparency level of the field at its current trust level, as determined by the common language runtime (CLR). The combinations of these properties are shown in the following table:  
+  
+|Security level|IsSecurityCritical|IsSecuritySafeCritical|IsSecurityTransparent|  
+|--------------------|------------------------|----------------------------|---------------------------|  
+|Critical|`true`|`false`|`false`|  
+|Safe critical|`true`|`true`|`false`|  
+|Transparent|`false`|`false`|`true`|  
+  
+ Using these properties is much simpler than examining the security annotations of an assembly and its types and members, checking the current trust level, and attempting to duplicate the runtime's rules.  
+  
+> [!IMPORTANT]
+>  For partial-trust assemblies, the value of this property depends on the current trust level of the assembly. If the assembly is loaded into a partially trusted application domain (for example, into a sandboxed application domain), then the runtime ignores the security annotations of the assembly. The assembly and all its types are treated as transparent. The runtime pays attention to the security annotations of a partial-trust assembly only when that assembly is loaded into a fully trusted application domain (for example, into the default application domain of a desktop application). By contrast, a trusted assembly (that is, a strong-named assembly that is installed in the global assembly cache) is always loaded with full trust regardless of the trust level of the application domain, so its current trust level is always fully trusted. You can determine the current trust levels of assemblies and application domains by using the <xref:System.Reflection.Assembly.IsFullyTrusted%2A?displayProperty=fullName> and <xref:System.AppDomain.IsFullyTrusted%2A?displayProperty=fullName> properties.  
+  
+ For more information about reflection and transparency, see [Security Considerations for Reflection](../Topic/Security%20Considerations%20for%20Reflection.md). For information about transparency, see [Security Changes](../Topic/Security%20Changes%20in%20the%20.NET%20Framework.md).  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="IsSpecialName">
@@ -489,9 +875,23 @@
         <ReturnType>System.Boolean</ReturnType>
       </ReturnValue>
       <Docs>
-        <summary>To be added.</summary>
-        <value>To be added.</value>
-        <remarks>To be added.</remarks>
+        <summary>Gets a value indicating whether the corresponding `SpecialName` attribute is set in the &lt;see cref="T:System.Reflection.FieldAttributes"&gt; enumerator.</summary>
+        <value>`true` if the `SpecialName` attribute is set in &lt;see cref="T:System.Reflection.FieldAttributes"&gt;; otherwise, `false`.</value>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ Names that begin with or contain an underscore character (_), property accessors, and operator overloading methods are examples of names that might require special treatment by some compilers.  
+  
+   
+  
+## Examples  
+ The following example returns a value indicating whether or not the fields in the class contain a SpecialName attribute.  
+  
+ [!CODE [FieldInfo_IsSpecialName#1](../CodeSnippet/VS_Snippets_CLR/FieldInfo_IsSpecialName#1)]  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="IsStatic">
@@ -505,9 +905,35 @@
         <ReturnType>System.Boolean</ReturnType>
       </ReturnValue>
       <Docs>
-        <summary>To be added.</summary>
-        <value>To be added.</value>
-        <remarks>To be added.</remarks>
+        <summary>Gets a value indicating whether the field is static.</summary>
+        <value>`true` if this field is static; otherwise, `false`.</value>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ When a field is static, one copy of the field is shared by all instances of the type.  
+  
+ The `IsStatic` property is set when the `FieldAttributes.Static` attribute is set.  
+  
+ To get the `IsStatic` property, first get the class `Type`. From the `Type`, get the `FieldInfo`. From the `FieldInfo`, get the `IsStatic` property. To access a non-public field, set the `BindingFlags` to `NonPublic` in the `GetField` method and set the accessibility to `Instance` or `Static`.  
+  
+   
+  
+## Examples  
+ The following example determines whether the specified field is static and displays the result.  
+  
+ [!CODE [Classic FieldInfo.IsStatic Example#1](../CodeSnippet/VS_Snippets_CLR_Classic/classic FieldInfo.IsStatic Example#1)]  
+  
+ This code produces the following output:  
+  
+ Reflection.FieldInfo  
+  
+ Myfielda - A private field; IsStatic - False  
+  
+ Myfieldb - B static field; IsStatic - True  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="MemberType">
@@ -521,9 +947,29 @@
         <ReturnType>System.Reflection.MemberTypes</ReturnType>
       </ReturnValue>
       <Docs>
-        <summary>To be added.</summary>
-        <value>To be added.</value>
-        <remarks>To be added.</remarks>
+        <summary>Gets a &lt;see cref="T:System.Reflection.MemberTypes"&gt; value indicating that this member is a field.</summary>
+        <value>A &lt;see cref="T:System.Reflection.MemberTypes"&gt; value indicating that this member is a field.</value>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ This property overrides <xref:System.Reflection.MemberInfo.MemberType%2A>. Therefore, when you examine a set of <xref:System.Reflection.MemberInfo> objects — for example, the array returned by <xref:System.Type.GetMembers%2A> — the <xref:System.Reflection.MemberInfo.MemberType%2A> property returns <xref:System.Reflection.MemberTypes?displayProperty=fullName> only when a given member is a field.  
+  
+   
+  
+## Examples  
+ The following example determines whether the specified member is a field and displays the result.  
+  
+ [!CODE [Classic FieldInfo.MemberType Example#1](../CodeSnippet/VS_Snippets_CLR_Classic/classic FieldInfo.MemberType Example#1)]  
+  
+ This code produces the following output:  
+  
+ Reflection.FieldInfo  
+  
+ Myfield.field - a private field; MemberType is a Field  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="op_Equality">
@@ -541,10 +987,10 @@
         <Parameter Name="right" Type="System.Reflection.FieldInfo" />
       </Parameters>
       <Docs>
-        <param name="left">To be added.</param>
-        <param name="right">To be added.</param>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
+        <param name="left">The first object to compare.</param>
+        <param name="right">The second object to compare.</param>
+        <summary>Indicates whether two &lt;see cref="T:System.Reflection.FieldInfo"&gt; objects are equal.</summary>
+        <returns>`true` if  is equal to ; otherwise, `false`.</returns>
         <remarks>To be added.</remarks>
       </Docs>
     </Member>
@@ -563,10 +1009,10 @@
         <Parameter Name="right" Type="System.Reflection.FieldInfo" />
       </Parameters>
       <Docs>
-        <param name="left">To be added.</param>
-        <param name="right">To be added.</param>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
+        <param name="left">The first object to compare.</param>
+        <param name="right">The second object to compare.</param>
+        <summary>Indicates whether two &lt;see cref="T:System.Reflection.FieldInfo"&gt; objects are not equal.</summary>
+        <returns>`true` if  is not equal to ; otherwise, `false`.</returns>
         <remarks>To be added.</remarks>
       </Docs>
     </Member>
@@ -590,10 +1036,32 @@
         <Parameter Name="value" Type="System.Object" />
       </Parameters>
       <Docs>
-        <param name="obj">To be added.</param>
-        <param name="value">To be added.</param>
-        <summary>To be added.</summary>
-        <remarks>To be added.</remarks>
+        <param name="obj">The object whose field value will be set.</param>
+        <param name="value">The value to assign to the field.</param>
+        <summary>Sets the value of the field supported by the given object.</summary>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ This method will assign  to the field reflected by this instance on object . If the field is static,  will be ignored. For non-static fields,  should be an instance of a class that inherits or declares the field. The new value is passed as an `Object`. For example, if the field's type is Boolean, an instance of `Object` with the appropriate Boolean value is passed. Before setting the value, `SetValue` checks to see if the user has access permission. This final method is a convenience method for calling the following `SetValue` method.  
+  
+> [!NOTE]
+>  Fully trusted code has the permissions that are needed to access and invoke private constructors, methods, fields, and properties using reflection.  
+  
+> [!NOTE]
+>  Starting with the [!INCLUDE[net_v20sp1_long](../../add/includes/net-v20sp1-long-md.md)], this method can be used to access non-public members if the caller has been granted <xref:System.Security.Permissions.ReflectionPermission> with the <xref:System.Security.Permissions.ReflectionPermissionFlag?displayProperty=fullName> flag and if the grant set of the non-public members is restricted to the caller’s grant set, or a subset thereof. (See [Security Considerations for Reflection](../Topic/Security%20Considerations%20for%20Reflection.md).)  
+>   
+>  To use this functionality, your application should target the [!INCLUDE[net_v35_long](../../add/includes/net-v35-long-md.md)] or later.  
+  
+   
+  
+## Examples  
+ The following example sets the value of a field, gets and displays the value, modifies the field, and displays the result.  
+  
+ [!CODE [FieldInfo_SetValue#1](../CodeSnippet/VS_Snippets_CLR/FieldInfo_SetValue#1)]  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="SetValue">
@@ -614,13 +1082,28 @@
         <Parameter Name="culture" Type="System.Globalization.CultureInfo" />
       </Parameters>
       <Docs>
-        <param name="obj">To be added.</param>
-        <param name="value">To be added.</param>
-        <param name="invokeAttr">To be added.</param>
-        <param name="binder">To be added.</param>
-        <param name="culture">To be added.</param>
-        <summary>To be added.</summary>
-        <remarks>To be added.</remarks>
+        <param name="obj">The object whose field value will be set.</param>
+        <param name="value">The value to assign to the field.</param>
+        <param name="invokeAttr">A field of `Binder` that specifies the type of binding that is desired (for example, `Binder.CreateInstance` or `Binder.ExactBinding`).</param>
+        <param name="binder">A set of properties that enables the binding, coercion of argument types, and invocation of members through reflection. If  is `null`, then `Binder.DefaultBinding` is used.</param>
+        <param name="culture">The software preferences of a particular culture.</param>
+        <summary>When overridden in a derived class, sets the value of the field supported by the given object.</summary>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ This method will assign  to the field reflected by this instance on . If the field is static,  will be ignored. For non-static fields,  should be an instance of a class that inherits or declares the field. The new value is passed as an `Object`. For example, if the field's type is `Boolean`, an instance of `Object` with the appropriate Boolean value is passed. Before setting the value, `SetValue` checks to see if the user has access permission.  
+  
+> [!NOTE]
+>  Fully trusted code has the permissions that are needed to access and invoke private constructors, methods, fields, and properties using reflection.  
+  
+> [!NOTE]
+>  Starting with the [!INCLUDE[net_v20sp1_long](../../add/includes/net-v20sp1-long-md.md)], this method can be used to access non-public members if the caller has been granted <xref:System.Security.Permissions.ReflectionPermission> with the <xref:System.Security.Permissions.ReflectionPermissionFlag?displayProperty=fullName> flag and if the grant set of the non-public members is restricted to the caller’s grant set, or a subset thereof. (See [Security Considerations for Reflection](../Topic/Security%20Considerations%20for%20Reflection.md).)  
+>   
+>  To use this functionality, your application should target the [!INCLUDE[net_v35_long](../../add/includes/net-v35-long-md.md)] or later.  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="SetValueDirect">
@@ -643,10 +1126,21 @@
         <Parameter Name="value" Type="System.Object" />
       </Parameters>
       <Docs>
-        <param name="obj">To be added.</param>
-        <param name="value">To be added.</param>
-        <summary>To be added.</summary>
-        <remarks>To be added.</remarks>
+        <param name="obj">A &lt;see cref="T:System.TypedReference"&gt; structure that encapsulates a managed pointer to a location and a runtime representation of the type that can be stored at that location.</param>
+        <param name="value">The value to assign to the field.</param>
+        <summary>Sets the value of the field supported by the given object.</summary>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+  
+> [!NOTE]
+>  Starting with the [!INCLUDE[net_v20sp1_long](../../add/includes/net-v20sp1-long-md.md)], this method can be used to access non-public members if the caller has been granted <xref:System.Security.Permissions.ReflectionPermission> with the <xref:System.Security.Permissions.ReflectionPermissionFlag?displayProperty=fullName> flag and if the grant set of the non-public members is restricted to the caller’s grant set, or a subset thereof. (See [Security Considerations for Reflection](../Topic/Security%20Considerations%20for%20Reflection.md).)  
+>   
+>  To use this functionality, your application should target the [!INCLUDE[net_v35_long](../../add/includes/net-v35-long-md.md)] or later.  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="System.Runtime.InteropServices._FieldInfo.GetIDsOfNames">
@@ -667,13 +1161,20 @@
         <Parameter Name="rgDispId" Type="System.IntPtr" />
       </Parameters>
       <Docs>
-        <param name="riid">To be added.</param>
-        <param name="rgszNames">To be added.</param>
-        <param name="cNames">To be added.</param>
-        <param name="lcid">To be added.</param>
-        <param name="rgDispId">To be added.</param>
-        <summary>To be added.</summary>
-        <remarks>To be added.</remarks>
+        <param name="riid">Reserved for future use. Must be IID_NULL.</param>
+        <param name="rgszNames">Passed-in array of names to be mapped.</param>
+        <param name="cNames">Count of the names to be mapped.</param>
+        <param name="lcid">The locale context in which to interpret the names.</param>
+        <param name="rgDispId">Caller-allocated array which receives the IDs corresponding to the names.</param>
+        <summary>Maps a set of names to a corresponding set of dispatch identifiers.</summary>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ This method is for access to managed classes from unmanaged code, and should not be called from managed code. For more information about `IDispatch::GetIDsOfNames`, see the MSDN Library.  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="System.Runtime.InteropServices._FieldInfo.GetType">
@@ -688,8 +1189,8 @@
       </ReturnValue>
       <Parameters />
       <Docs>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
+        <summary>Gets a &lt;see cref="T:System.Type"&gt; object representing the &lt;xref:System.Reflection.FieldInfo&gt; type.</summary>
+        <returns>A &lt;see cref="T:System.Type"&gt; object representing the &lt;xref:System.Reflection.FieldInfo&gt; type.</returns>
         <remarks>To be added.</remarks>
       </Docs>
     </Member>
@@ -709,11 +1210,18 @@
         <Parameter Name="ppTInfo" Type="System.IntPtr" />
       </Parameters>
       <Docs>
-        <param name="iTInfo">To be added.</param>
-        <param name="lcid">To be added.</param>
-        <param name="ppTInfo">To be added.</param>
-        <summary>To be added.</summary>
-        <remarks>To be added.</remarks>
+        <param name="iTInfo">The type information to return.</param>
+        <param name="lcid">The locale identifier for the type information.</param>
+        <param name="ppTInfo">Receives a pointer to the requested type information object.</param>
+        <summary>Retrieves the type information for an object, which can then be used to get the type information for an interface.</summary>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ This method is for access to managed classes from unmanaged code, and should not be called from managed code. For more information about `IDispatch::GetTypeInfo`, see the MSDN Library.  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="System.Runtime.InteropServices._FieldInfo.GetTypeInfoCount">
@@ -730,9 +1238,16 @@
         <Parameter Name="pcTInfo" Type="System.UInt32&amp;" RefType="out" />
       </Parameters>
       <Docs>
-        <param name="pcTInfo">To be added.</param>
-        <summary>To be added.</summary>
-        <remarks>To be added.</remarks>
+        <param name="pcTInfo">Points to a location that receives the number of type information interfaces provided by the object.</param>
+        <summary>Retrieves the number of type information interfaces that an object provides (either 0 or 1).</summary>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ This method is for access to managed classes from unmanaged code, and should not be called from managed code. For more information about `IDispatch::GetTypeInfoCount`, see the MSDN Library.  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="System.Runtime.InteropServices._FieldInfo.Invoke">
@@ -756,16 +1271,23 @@
         <Parameter Name="puArgErr" Type="System.IntPtr" />
       </Parameters>
       <Docs>
-        <param name="dispIdMember">To be added.</param>
-        <param name="riid">To be added.</param>
-        <param name="lcid">To be added.</param>
-        <param name="wFlags">To be added.</param>
-        <param name="pDispParams">To be added.</param>
-        <param name="pVarResult">To be added.</param>
-        <param name="pExcepInfo">To be added.</param>
-        <param name="puArgErr">To be added.</param>
-        <summary>To be added.</summary>
-        <remarks>To be added.</remarks>
+        <param name="dispIdMember">Identifies the member.</param>
+        <param name="riid">Reserved for future use. Must be IID_NULL.</param>
+        <param name="lcid">The locale context in which to interpret arguments.</param>
+        <param name="wFlags">Flags describing the context of the call.</param>
+        <param name="pDispParams">Pointer to a structure containing an array of arguments, an array of argument DISPIDs for named arguments, and counts for the number of elements in the arrays.</param>
+        <param name="pVarResult">Pointer to the location where the result is to be stored.</param>
+        <param name="pExcepInfo">Pointer to a structure that contains exception information.</param>
+        <param name="puArgErr">The index of the first argument that has an error.</param>
+        <summary>Provides access to properties and methods exposed by an object.</summary>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ This method is for access to managed classes from unmanaged code, and should not be called from managed code. For more information about `IDispatch::Invoke`, see the MSDN Library.  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
   </Members>

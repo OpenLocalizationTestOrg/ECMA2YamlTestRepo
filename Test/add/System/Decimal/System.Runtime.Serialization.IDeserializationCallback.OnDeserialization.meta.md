@@ -1,0 +1,4 @@
+---
+uid: System.Decimal.System#Runtime#Serialization#IDeserializationCallback#OnDeserialization(System.Object)
+internalonly: False
+---

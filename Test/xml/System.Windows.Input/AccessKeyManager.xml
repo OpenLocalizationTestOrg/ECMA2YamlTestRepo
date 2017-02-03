@@ -10,8 +10,21 @@
   </Base>
   <Interfaces />
   <Docs>
-    <summary>To be added.</summary>
-    <remarks>To be added.</remarks>
+    <summary>Maintains the registration of all access keys and the handling of interop keyboard commands between [!INCLUDE[TLA#tla_winforms](../../add/includes/tlasharptla-winforms-md.md)], [!INCLUDE[TLA#tla_win32](../../add/includes/tlasharptla-win32-md.md)], and [!INCLUDE[TLA#tla_winclient](../../add/includes/tlasharptla-winclient-md.md)].</summary>
+    <remarks>
+      <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ An AccessKeyManager object is created on demand with one per <xref:System.Windows.Threading.Dispatcher>.  
+  
+ The AccessKeyManager is attached as an event handler for <xref:System.Windows.Input.InputManager.PostProcessInput> and exposes methods to <xref:System.Windows.Input.AccessKeyManager.Register%2A> and <xref:System.Windows.Input.AccessKeyManager.Unregister%2A> access keys.  
+  
+ When the registered access key is pressed, the AccessKeyManager calls the <xref:System.Windows.UIElement.OnAccessKey%2A> method on the target element.  
+  
+ An element can be associated with any number of access keys.  
+  
+ ]]></format>
+    </remarks>
   </Docs>
   <Members>
     <Member MemberName="AccessKeyPressedEvent">
@@ -25,7 +38,7 @@
         <ReturnType>System.Windows.RoutedEvent</ReturnType>
       </ReturnValue>
       <Docs>
-        <summary>To be added.</summary>
+        <summary>Identifies the &lt;xref:System.Windows.Input.AccessKeyManager.AccessKeyPressed&gt; routed event.</summary>
         <remarks>To be added.</remarks>
       </Docs>
     </Member>
@@ -44,9 +57,9 @@
         <Parameter Name="handler" Type="System.Windows.Input.AccessKeyPressedEventHandler" />
       </Parameters>
       <Docs>
-        <param name="element">To be added.</param>
-        <param name="handler">To be added.</param>
-        <summary>To be added.</summary>
+        <param name="element">The &lt;see cref="T:System.Windows.UIElement"&gt; or &lt;xref:System.Windows.ContentElement&gt; that listens to this event.</param>
+        <param name="handler">The event handler to be added.</param>
+        <summary>Adds a handler for the &lt;xref:System.Windows.Input.AccessKeyManager.AccessKeyPressed&gt; attached event.</summary>
         <remarks>To be added.</remarks>
       </Docs>
     </Member>
@@ -65,10 +78,10 @@
         <Parameter Name="key" Type="System.String" />
       </Parameters>
       <Docs>
-        <param name="scope">To be added.</param>
-        <param name="key">To be added.</param>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
+        <param name="scope">The presentation source to query for .</param>
+        <param name="key">The key to query.</param>
+        <summary>Indicates whether the specified key is registered as an access keys in the specified scope.</summary>
+        <returns>`true` if the key is registered; otherwise, `false`.</returns>
         <remarks>To be added.</remarks>
       </Docs>
     </Member>
@@ -93,11 +106,11 @@
         <Parameter Name="isMultiple" Type="System.Boolean" />
       </Parameters>
       <Docs>
-        <param name="scope">To be added.</param>
-        <param name="key">To be added.</param>
-        <param name="isMultiple">To be added.</param>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
+        <param name="scope">The scope for the access key.</param>
+        <param name="key">The access key.</param>
+        <param name="isMultiple">Indicates if  has multiple matches.</param>
+        <summary>Processes the specified access keys as if a &lt;see cref="E:System.Windows.UIElement.KeyDown"&gt; event for the key was passed to the &lt;xref:System.Windows.Input.AccessKeyManager&gt;.</summary>
+        <returns>`true` if there are more keys that match; otherwise, `false`.</returns>
         <remarks>To be added.</remarks>
       </Docs>
     </Member>
@@ -116,10 +129,19 @@
         <Parameter Name="element" Type="System.Windows.IInputElement" />
       </Parameters>
       <Docs>
-        <param name="key">To be added.</param>
-        <param name="element">To be added.</param>
-        <summary>To be added.</summary>
-        <remarks>To be added.</remarks>
+        <param name="key">The access key.</param>
+        <param name="element">The element to associate  with.</param>
+        <summary>Associates the specified access keys with the specified element.</summary>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ When the access keys is pressed, the  <xref:System.Windows.UIElement.OnAccessKey%2A> method of  is called.  
+  
+ An element can be associated with any number of access keys.  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="RemoveAccessKeyPressedHandler">
@@ -137,9 +159,9 @@
         <Parameter Name="handler" Type="System.Windows.Input.AccessKeyPressedEventHandler" />
       </Parameters>
       <Docs>
-        <param name="element">To be added.</param>
-        <param name="handler">To be added.</param>
-        <summary>To be added.</summary>
+        <param name="element">The &lt;see cref="T:System.Windows.UIElement"&gt; or &lt;xref:System.Windows.ContentElement&gt; that listens to this event.</param>
+        <param name="handler">The event handler to be removed.</param>
+        <summary>Removes the specified &lt;xref:System.Windows.Input.AccessKeyManager.AccessKeyPressed&gt; event handler from the specified object.</summary>
         <remarks>To be added.</remarks>
       </Docs>
     </Member>
@@ -158,9 +180,9 @@
         <Parameter Name="element" Type="System.Windows.IInputElement" />
       </Parameters>
       <Docs>
-        <param name="key">To be added.</param>
-        <param name="element">To be added.</param>
-        <summary>To be added.</summary>
+        <param name="key">The access key.</param>
+        <param name="element">The element from which to disassociate .</param>
+        <summary>Disassociates the specified access keys from the specified element.</summary>
         <remarks>To be added.</remarks>
       </Docs>
     </Member>

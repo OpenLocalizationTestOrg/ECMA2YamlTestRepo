@@ -9,8 +9,25 @@
     <BaseTypeName>System.Enum</BaseTypeName>
   </Base>
   <Docs>
-    <summary>To be added.</summary>
-    <remarks>To be added.</remarks>
+    <summary>Specifies how new animations interact with any existing ones that are already applied to a property.</summary>
+    <remarks>
+      <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ When you apply a <xref:System.Windows.Media.Animation.Storyboard>, <xref:System.Windows.Media.Animation.AnimationTimeline>, or <xref:System.Windows.Media.Animation.AnimationClock> to a property by using F:System.Windows.Media.Animation.HandoffBehavior.Compose?qualifyHint=True&autoUpgrade=True, any T:System.Windows.Media.Animation.Clock?qualifyHint=False&autoUpgrade=True objects previously associated with that property continue to consume system resources; the timing system will not remove the clocks automatically.  
+  
+ To avoid performance issues when you apply a large number of clocks using F:System.Windows.Media.Animation.HandoffBehavior.Compose?qualifyHint=True&autoUpgrade=True, you should remove composing clocks from the animated property after they complete. There are several ways to remove a clock:  
+  
+-   To remove all clocks from a property, use the M:System.Windows.Media.Animation.Animatable.ApplyAnimationClock(System.Windows.DependencyProperty,System.Windows.Media.Animation.AnimationClock)?qualifyHint=False&autoUpgrade=False or M:System.Windows.Media.Animation.Animatable.BeginAnimation(System.Windows.DependencyProperty,System.Windows.Media.Animation.AnimationTimeline)?qualifyHint=False&autoUpgrade=False method of the animated object. Specify the property being animated as the first parameter, and `null` as the second. This will remove all animation clocks from the property.  
+  
+-   To remove a specific T:System.Windows.Media.Animation.AnimationClock?qualifyHint=False&autoUpgrade=True from a list of clocks, use the P:System.Windows.Media.Animation.Clock.Controller?qualifyHint=False&autoUpgrade=True property of the T:System.Windows.Media.Animation.AnimationClock?qualifyHint=False&autoUpgrade=True to retrieve a T:System.Windows.Media.Animation.ClockController?qualifyHint=False&autoUpgrade=True, then call the M:System.Windows.Media.Animation.ClockController.Remove?qualifyHint=False&autoUpgrade=True method of the T:System.Windows.Media.Animation.ClockController?qualifyHint=False&autoUpgrade=True. This is typically done in the E:System.Windows.Media.Animation.Clock.Completed?qualifyHint=False&autoUpgrade=True event handler for a clock. Note that only root clocks can be controlled by a T:System.Windows.Media.Animation.ClockController?qualifyHint=False&autoUpgrade=True; the P:System.Windows.Media.Animation.Clock.Controller?qualifyHint=False&autoUpgrade=True property of a child clock returns `null`. Note also that the E:System.Windows.Media.Animation.Clock.Completed?qualifyHint=False&autoUpgrade=True event will not be raised if the effective duration of the clock is forever.  In that case, the user must determine when to call M:System.Windows.Media.Animation.ClockController.Remove?qualifyHint=False&autoUpgrade=True.  
+  
+ This is primarily an issue for animations on objects that have a long lifetime.  When an object is garbage collected, its clocks will also be disconnected and garbage collected.  
+  
+ For more information about clock objects, see [Animation and Timing System Overview](../Topic/Animation%20and%20Timing%20System%20Overview.md).  
+  
+ ]]></format>
+    </remarks>
   </Docs>
   <Members>
     <Member MemberName="Compose">
@@ -24,7 +41,7 @@
         <ReturnType>System.Windows.Media.Animation.HandoffBehavior</ReturnType>
       </ReturnValue>
       <Docs>
-        <summary>To be added.</summary>
+        <summary>New animations are combined with existing animations by appending the new animations to the end of the composition chain.</summary>
       </Docs>
     </Member>
     <Member MemberName="SnapshotAndReplace">
@@ -38,7 +55,7 @@
         <ReturnType>System.Windows.Media.Animation.HandoffBehavior</ReturnType>
       </ReturnValue>
       <Docs>
-        <summary>To be added.</summary>
+        <summary>New animations replace any existing animations on the properties to which they are applied.</summary>
       </Docs>
     </Member>
   </Members>

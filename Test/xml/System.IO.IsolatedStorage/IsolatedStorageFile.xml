@@ -19,8 +19,29 @@
     </Attribute>
   </Attributes>
   <Docs>
-    <summary>To be added.</summary>
-    <remarks>To be added.</remarks>
+    <summary>Represents an isolated storage area containing files and directories.</summary>
+    <remarks>
+      <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ This object corresponds to a specific isolated storage scope, where files represented by <xref:System.IO.IsolatedStorage.IsolatedStorageFileStream> objects exist. Applications can use isolated storage to save data in their own isolated portion of the file system, without having to specify a particular path within the file system. Since isolated stores are scoped to particular assemblies, most other managed code will not be able to access your code's data (highly trusted managed code and administration tools can access stores from other assemblies). Unmanaged code can access any isolated stores.  
+  
+ For more information, see [Isolated Storage](../Topic/Isolated%20Storage.md).  
+  
+ This type implements the <xref:System.IDisposable> interface. When you have finished using the type, you should dispose of it either directly or indirectly. To dispose of the type directly, call its <xref:System.IDisposable.Dispose%2A> method in a `try`/`catch` block. To dispose of it indirectly, use a language construct such as `using` (in C#) or `Using` (in Visual Basic). For more information, see the “Using an Object that Implements IDisposable” section in the <xref:System.IDisposable> interface topic.  
+  
+> [!IMPORTANT]
+>  Isolated storage is not available for [!INCLUDE[win8_appname_long](../../add/includes/win8-appname-long-md.md)] apps. Instead, use the application data classes in the `Windows.Storage` namespaces included in the [!INCLUDE[wrt](../../add/includes/wrt-md.md)] API to store local data and files. For more information, see [Application data](http://go.microsoft.com/fwlink/?LinkId=229175) in the Windows Dev Center.  
+  
+   
+  
+## Examples  
+ The following code example illustrates how to create files and directories in an isolated store. First, a store that is isolated by user, domain, and assembly is retrieved and placed in the `isoStore` variable. The <xref:System.IO.IsolatedStorage.IsolatedStorageFile.CreateDirectory%2A> method is then called to create directories, and two instances of the <xref:System.IO.IsolatedStorage.IsolatedStorageFileStream> class create files in these directories.  
+  
+ [!CODE [Conceptual.IsolatedStorage#1](../CodeSnippet/VS_Snippets_CLR/conceptual.isolatedstorage#1)]  
+  
+ ]]></format>
+    </remarks>
   </Docs>
   <Members>
     <Member MemberName="AvailableFreeSpace">
@@ -42,8 +63,8 @@
         <ReturnType>System.Int64</ReturnType>
       </ReturnValue>
       <Docs>
-        <summary>To be added.</summary>
-        <value>To be added.</value>
+        <summary>Gets a value that represents the amount of free space available for isolated storage.</summary>
+        <value>The available free space for isolated storage, in bytes.</value>
         <remarks>To be added.</remarks>
       </Docs>
     </Member>
@@ -64,8 +85,17 @@
       </ReturnValue>
       <Parameters />
       <Docs>
-        <summary>To be added.</summary>
-        <remarks>To be added.</remarks>
+        <summary>Closes a store previously opened with &lt;xref:System.IO.IsolatedStorage.IsolatedStorageFile.GetStore%2A&gt;, &lt;xref:System.IO.IsolatedStorage.IsolatedStorageFile.GetUserStoreForAssembly%2A&gt;, or &lt;xref:System.IO.IsolatedStorage.IsolatedStorageFile.GetUserStoreForDomain%2A&gt;.</summary>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Examples  
+ The following code example demonstrates how to use the Close method. For the complete context of this example, see the <xref:System.IO.IsolatedStorage.IsolatedStorageFile> overview.  
+  
+ [!CODE [System.IO.IsolatedStorage.IsolatedStorage#10](../CodeSnippet/VS_Snippets_CLR_System/system.IO.IsolatedStorage.IsolatedStorage#10)]  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="CopyFile">
@@ -88,10 +118,17 @@
         <Parameter Name="destinationFileName" Type="System.String" />
       </Parameters>
       <Docs>
-        <param name="sourceFileName">To be added.</param>
-        <param name="destinationFileName">To be added.</param>
-        <summary>To be added.</summary>
-        <remarks>To be added.</remarks>
+        <param name="sourceFileName">The name of the file to copy.</param>
+        <param name="destinationFileName">The name of the destination file. This cannot be a directory or an existing file.</param>
+        <summary>Copies an existing file to a new file.</summary>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ and  must specify different file names. Use the <xref:System.IO.IsolatedStorage.IsolatedStorageFile.CopyFile%28System.String%2CSystem.String%2CSystem.Boolean%29?displayProperty=fullName> method overload to overwrite an existing file.  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="CopyFile">
@@ -118,11 +155,18 @@
         <Parameter Name="overwrite" Type="System.Boolean" />
       </Parameters>
       <Docs>
-        <param name="sourceFileName">To be added.</param>
-        <param name="destinationFileName">To be added.</param>
-        <param name="overwrite">To be added.</param>
-        <summary>To be added.</summary>
-        <remarks>To be added.</remarks>
+        <param name="sourceFileName">The name of the file to copy.</param>
+        <param name="destinationFileName">The name of the destination file. This cannot be a directory.</param>
+        <param name="overwrite">`true` if the destination file can be overwritten; otherwise, `false`.</param>
+        <summary>Copies an existing file to a new file, and optionally overwrites an existing file.</summary>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ and  can have the same file name if  is `true`.  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="CreateDirectory">
@@ -144,9 +188,23 @@
         <Parameter Name="dir" Type="System.String" />
       </Parameters>
       <Docs>
-        <param name="dir">To be added.</param>
-        <summary>To be added.</summary>
-        <remarks>To be added.</remarks>
+        <param name="dir">The relative path of the directory to create within the isolated storage scope.</param>
+        <summary>Creates a directory in the isolated storage scope.</summary>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ The created directory initially contains no files. If the directory already exists, the CreateDirectory method returns without creating a new directory. The [How to: Create Files and Directories in Isolated Storage](../Topic/How%20to:%20Create%20Files%20and%20Directories%20in%20Isolated%20Storage.md) example demonstrates the use of the CreateDirectory method  
+  
+   
+  
+## Examples  
+ The following code example demonstrates the CreateDirectory method. For the complete context of this example, see the <xref:System.IO.IsolatedStorage.IsolatedStorageFile> overview.  
+  
+ [!CODE [System.IO.IsolatedStorage.IsolatedStorage#7](../CodeSnippet/VS_Snippets_CLR_System/system.IO.IsolatedStorage.IsolatedStorage#7)]  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="CreateFile">
@@ -168,10 +226,17 @@
         <Parameter Name="path" Type="System.String" />
       </Parameters>
       <Docs>
-        <param name="path">To be added.</param>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
-        <remarks>To be added.</remarks>
+        <param name="path">The relative path of the file to create.</param>
+        <summary>Creates a file in the isolated store.</summary>
+        <returns>A new isolated storage file.</returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ This method is equivalent to using the <xref:System.IO.IsolatedStorage.IsolatedStorageFileStream.%23ctor%28System.String%2CSystem.IO.FileMode%2CSystem.IO.FileAccess%2CSystem.IO.FileShare%2CSystem.IO.IsolatedStorage.IsolatedStorageFile%29?displayProperty=fullName> constructor.  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="CurrentSize">
@@ -196,9 +261,27 @@
         <ReturnType>System.UInt64</ReturnType>
       </ReturnValue>
       <Docs>
-        <summary>To be added.</summary>
-        <value>To be added.</value>
-        <remarks>To be added.</remarks>
+        <summary>Gets the current size of the isolated storage.</summary>
+        <value>The total number of bytes of storage currently in use within the isolated storage scope.</value>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ Represents the total usage of all files and directories within the isolated storage scope.  
+  
+ The current size cannot be accurately determined for stores that are participating in a roaming user profile. Because roaming profiles are often cached on multiple client machines and later synchronized with a server, quotas cannot be enforced for such stores and the current size is not reported.  
+  
+ The [How to: Anticipate Out-of-Space Conditions with Isolated Storage](../Topic/How%20to:%20Anticipate%20Out-of-Space%20Conditions%20with%20Isolated%20Storage.md) example demonstrates the use of the CurrentSize property.  
+  
+   
+  
+## Examples  
+ The following code example demonstrates the CurrentSize property. For the complete context of this example, see the <xref:System.IO.IsolatedStorage.IsolatedStorageFile> overview.  
+  
+ [!CODE [System.IO.IsolatedStorage.IsolatedStorage#5](../CodeSnippet/VS_Snippets_CLR_System/system.IO.IsolatedStorage.IsolatedStorage#5)]  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="DeleteDirectory">
@@ -220,9 +303,23 @@
         <Parameter Name="dir" Type="System.String" />
       </Parameters>
       <Docs>
-        <param name="dir">To be added.</param>
-        <summary>To be added.</summary>
-        <remarks>To be added.</remarks>
+        <param name="dir">The relative path of the directory to delete within the isolated storage scope.</param>
+        <summary>Deletes a directory in the isolated storage scope.</summary>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ A directory must be empty before it is deleted. The deleted directory cannot be recovered once deleted.  
+  
+ The [How to: Delete Files and Directories in Isolated Storage](../Topic/How%20to:%20Delete%20Files%20and%20Directories%20in%20Isolated%20Storage.md) example demonstrates the use of the DeleteDirectory method.  
+  
+   
+  
+## Examples  
+ [!CODE [System.IO.IsolatedStorage.IsolatedStorage#8](../CodeSnippet/VS_Snippets_CLR_System/system.IO.IsolatedStorage.IsolatedStorage#8)]  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="DeleteFile">
@@ -244,9 +341,25 @@
         <Parameter Name="file" Type="System.String" />
       </Parameters>
       <Docs>
-        <param name="file">To be added.</param>
-        <summary>To be added.</summary>
-        <remarks>To be added.</remarks>
+        <param name="file">The relative path of the file to delete within the isolated storage scope.</param>
+        <summary>Deletes a file in the isolated storage scope.</summary>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ The deleted file cannot be recovered once deleted.  
+  
+ The [How to: Delete Files and Directories in Isolated Storage](../Topic/How%20to:%20Delete%20Files%20and%20Directories%20in%20Isolated%20Storage.md) example demonstrates the use of the DeleteFile method.  
+  
+   
+  
+## Examples  
+ The following code example uses the DeleteFile method to delete a number of files in isolated storage.  
+  
+ [!CODE [System.IO.IsolatedStorage.IsolatedStorage#6](../CodeSnippet/VS_Snippets_CLR_System/system.IO.IsolatedStorage.IsolatedStorage#6)]  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="DirectoryExists">
@@ -271,9 +384,9 @@
         <Parameter Name="path" Type="System.String" />
       </Parameters>
       <Docs>
-        <param name="path">To be added.</param>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
+        <param name="path">The path to test.</param>
+        <summary>Determines whether the specified path refers to an existing directory in the isolated store.</summary>
+        <returns>`true` if  refers to an existing directory in the isolated store and is not `null`; otherwise, `false`.</returns>
         <remarks>To be added.</remarks>
       </Docs>
     </Member>
@@ -289,8 +402,25 @@
       </ReturnValue>
       <Parameters />
       <Docs>
-        <summary>To be added.</summary>
-        <remarks>To be added.</remarks>
+        <summary>Releases all resources used by the &lt;see cref="T:System.IO.IsolatedStorage.IsolatedStorageFile"&gt;.</summary>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ Call `Dispose` when you are finished using the <xref:System.IO.IsolatedStorage.IsolatedStorageFile>. The `Dispose` method leaves the <xref:System.IO.IsolatedStorage.IsolatedStorageFile> in an unusable state. After calling `Dispose`, you must release all references to the <xref:System.IO.IsolatedStorage.IsolatedStorageFile> so the garbage collector can reclaim the memory that <xref:System.IO.IsolatedStorage.IsolatedStorageFile> was occupying.  
+  
+> [!NOTE]
+>  Always call Dispose before you release your last reference to the <xref:System.IO.IsolatedStorage.IsolatedStorageFile>. Otherwise, the resources the <xref:System.IO.IsolatedStorage.IsolatedStorageFileStream> is using will not be freed until garbage collection calls the <xref:System.IO.IsolatedStorage.IsolatedStorageFileStream> object's <xref:System.Object.Finalize%2A> method.  
+  
+   
+  
+## Examples  
+ The following code example opens an isolated storage file, uses it to write information to a stream, closes the file, and then uses the Dispose method to release all resources.  
+  
+ [!CODE [System.IO.IsolatedStorage.IsolatedStorage#10](../CodeSnippet/VS_Snippets_CLR_System/system.IO.IsolatedStorage.IsolatedStorage#10)]  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="FileExists">
@@ -315,9 +445,9 @@
         <Parameter Name="path" Type="System.String" />
       </Parameters>
       <Docs>
-        <param name="path">To be added.</param>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
+        <param name="path">The path and file name to test.</param>
+        <summary>Determines whether the specified path refers to an existing file in the isolated store.</summary>
+        <returns>`true` if  refers to an existing file in the isolated store and is not `null`; otherwise, `false`.</returns>
         <remarks>To be added.</remarks>
       </Docs>
     </Member>
@@ -333,7 +463,7 @@
       </ReturnValue>
       <Parameters />
       <Docs>
-        <summary>To be added.</summary>
+        <summary>Allows an object to try to free resources and perform other cleanup operations before it is reclaimed by garbage collection.</summary>
         <remarks>To be added.</remarks>
       </Docs>
     </Member>
@@ -359,10 +489,17 @@
         <Parameter Name="path" Type="System.String" />
       </Parameters>
       <Docs>
-        <param name="path">To be added.</param>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
-        <remarks>To be added.</remarks>
+        <param name="path">The path to the file or directory for which to obtain creation date and time information.</param>
+        <summary>Returns the creation date and time of a specified file or directory.</summary>
+        <returns>The creation date and time for the specified file or directory. This value is expressed in local time.</returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ If the file described by path does not exist, this method returns 12:00 midnight, January 1, 1601 A.D. (C.E.) Coordinated Universal Time (UTC), adjusted to local time.  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="GetDirectoryNames">
@@ -382,9 +519,16 @@
       </ReturnValue>
       <Parameters />
       <Docs>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
-        <remarks>To be added.</remarks>
+        <summary>Enumerates the directories at the root of an isolated store.</summary>
+        <returns>An array of relative paths of directories at the root of the isolated store. A zero-length array specifies that there are no directories at the root.</returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ This method is equivalent to using the <xref:System.IO.IsolatedStorage.IsolatedStorageFile.GetDirectoryNames%28System.String%29?displayProperty=fullName> method with "*" specified for the search pattern.  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="GetDirectoryNames">
@@ -406,10 +550,30 @@
         <Parameter Name="searchPattern" Type="System.String" />
       </Parameters>
       <Docs>
-        <param name="searchPattern">To be added.</param>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
-        <remarks>To be added.</remarks>
+        <param name="searchPattern">A search pattern. Both single-character ("?") and multi-character ("*") wildcards are supported.</param>
+        <summary>Enumerates the directories in an isolated storage scope that match a given search pattern.</summary>
+        <returns>An array of the relative paths of directories in the isolated storage scope that match . A zero-length array specifies that there are no directories that match.</returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ Wildcard characters must only be in the final element of a . For instance, "directory1/*etc\*" is a valid search string, but "\*etc\*/directory" is not.  
+  
+ The  "Project\Data*" will give all subdirectories of Project beginning with Data in the isolated storage scope. The  "\*" will return all directories located in the root. For complete description of search string criteria, see the <xref:System.IO.Directory> class.  
+  
+ For information on getting file names, see the <xref:System.IO.IsolatedStorage.IsolatedStorageFile.GetFileNames%2A> method.  
+  
+ The [How to: Find Existing Files and Directories in Isolated Storage](../Topic/How%20to:%20Find%20Existing%20Files%20and%20Directories%20in%20Isolated%20Storage.md) example demonstrates the use of the GetDirectoryNames method.  
+  
+   
+  
+## Examples  
+ The following code example demonstrates the GetDirectoryNames method. For the complete context of this example, see the <xref:System.IO.IsolatedStorage.IsolatedStorageFile> overview.  
+  
+ [!CODE [System.IO.IsolatedStorage.IsolatedStorage#16](../CodeSnippet/VS_Snippets_CLR_System/system.IO.IsolatedStorage.IsolatedStorage#16)]  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="GetEnumerator">
@@ -431,10 +595,17 @@
         <Parameter Name="scope" Type="System.IO.IsolatedStorage.IsolatedStorageScope" />
       </Parameters>
       <Docs>
-        <param name="scope">To be added.</param>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
-        <remarks>To be added.</remarks>
+        <param name="scope">Represents the &lt;see cref="T:System.IO.IsolatedStorage.IsolatedStorageScope"&gt; for which to return isolated stores. `User` and `User|Roaming` are the only `IsolatedStorageScope` combinations supported.</param>
+        <summary>Gets the enumerator for the &lt;see cref="T:System.IO.IsolatedStorage.IsolatedStorageFile"&gt; stores within an isolated storage scope.</summary>
+        <returns>Enumerator for the &lt;see cref="T:System.IO.IsolatedStorage.IsolatedStorageFile"&gt; stores within the specified isolated storage scope.</returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ The [How to: Enumerate Stores for Isolated Storage](../Topic/How%20to:%20Enumerate%20Stores%20for%20Isolated%20Storage.md) example demonstrates the use of the GetEnumerator method.  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="GetFileNames">
@@ -454,9 +625,16 @@
       </ReturnValue>
       <Parameters />
       <Docs>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
-        <remarks>To be added.</remarks>
+        <summary>Enumerates the file names at the root of an isolated store.</summary>
+        <returns>An array of relative paths of files at the root of the isolated store.  A zero-length array specifies that there are no files at the root.</returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ This method is equivalent to using the <xref:System.IO.IsolatedStorage.IsolatedStorageFile.GetFileNames%28System.String%29?displayProperty=fullName> method with "*" specified for the search pattern.  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="GetFileNames">
@@ -478,10 +656,28 @@
         <Parameter Name="searchPattern" Type="System.String" />
       </Parameters>
       <Docs>
-        <param name="searchPattern">To be added.</param>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
-        <remarks>To be added.</remarks>
+        <param name="searchPattern">A search pattern. Both single-character ("?") and multi-character ("*") wildcards are supported.</param>
+        <summary>Gets the file names that match a search pattern.</summary>
+        <returns>An array of relative paths of files in the isolated storage scope that match . A zero-length array specifies that there are no files that match.</returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ The  "Project\Data*.txt" will give all ".txt" files beginning with Data in the Project directory of the isolated storage scope. For complete description of search pattern strings, see <xref:System.IO.Directory?displayProperty=fullName>.  
+  
+ For information about how to find directory names, see the <xref:System.IO.IsolatedStorage.IsolatedStorageFile.GetDirectoryNames%2A> method.  
+  
+ The [How to: Find Existing Files and Directories in Isolated Storage](../Topic/How%20to:%20Find%20Existing%20Files%20and%20Directories%20in%20Isolated%20Storage.md) example demonstrates the use of the GetFileNames method.  
+  
+   
+  
+## Examples  
+ The following code example demonstrates the GetFileNames method. For the complete context of this example, see the <xref:System.IO.IsolatedStorage.IsolatedStorageFile> overview.  
+  
+ [!CODE [System.IO.IsolatedStorage.IsolatedStorage#16](../CodeSnippet/VS_Snippets_CLR_System/system.IO.IsolatedStorage.IsolatedStorage#16)]  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="GetLastAccessTime">
@@ -506,10 +702,17 @@
         <Parameter Name="path" Type="System.String" />
       </Parameters>
       <Docs>
-        <param name="path">To be added.</param>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
-        <remarks>To be added.</remarks>
+        <param name="path">The path to the file or directory for which to obtain last access date and time information.</param>
+        <summary>Returns the date and time a specified file or directory was last accessed.</summary>
+        <returns>The date and time that the specified file or directory was last accessed. This value is expressed in local time.</returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ If the file described by  does not exist, this method returns 12:00 midnight, January 1, 1601 A.D. (C.E.) Coordinated Universal Time (UTC), adjusted to local time.  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="GetLastWriteTime">
@@ -534,10 +737,17 @@
         <Parameter Name="path" Type="System.String" />
       </Parameters>
       <Docs>
-        <param name="path">To be added.</param>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
-        <remarks>To be added.</remarks>
+        <param name="path">The path to the file or directory for which to obtain last write date and time information.</param>
+        <summary>Returns the date and time a specified file or directory was last written to.</summary>
+        <returns>The date and time that the specified file or directory was last written to. This value is expressed in local time.</returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ If the file described by  does not exist, this method returns 12:00 midnight, January 1, 1601 A.D. (C.E.) Coordinated Universal Time (UTC), adjusted to local time.  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="GetMachineStoreForApplication">
@@ -552,9 +762,20 @@
       </ReturnValue>
       <Parameters />
       <Docs>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
-        <remarks>To be added.</remarks>
+        <summary>Obtains machine-scoped isolated storage corresponding to the calling code's application identity.</summary>
+        <returns>An object corresponding to the isolated storage scope based on the calling code's application identity.</returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ All assemblies associated with an application use the same isolated store when using this method.  
+  
+ GetMachineStoreForApplication is functionally equivalent to the following code:  
+  
+ [!CODE [System.IO.IsolatedStorage.IsolatedStorage#18](../CodeSnippet/VS_Snippets_CLR_System/system.IO.IsolatedStorage.IsolatedStorage#18)]  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="GetMachineStoreForAssembly">
@@ -569,9 +790,23 @@
       </ReturnValue>
       <Parameters />
       <Docs>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
-        <remarks>To be added.</remarks>
+        <summary>Obtains machine-scoped isolated storage corresponding to the calling code's assembly identity.</summary>
+        <returns>An object corresponding to the isolated storage scope based on the calling code's assembly identity.</returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ The same assembly within different applications always uses the same isolated store when using this method.  
+  
+ GetMachineStoreForAssembly is functionally equivalent to the following code:  
+  
+ [!CODE [System.IO.IsolatedStorage.IsolatedStorage#19](../CodeSnippet/VS_Snippets_CLR_System/system.IO.IsolatedStorage.IsolatedStorage#19)]  
+  
+> [!NOTE]
+>  Different assemblies running within the same application domain always have distinct isolated stores.  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="GetMachineStoreForDomain">
@@ -586,9 +821,32 @@
       </ReturnValue>
       <Parameters />
       <Docs>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
-        <remarks>To be added.</remarks>
+        <summary>Obtains machine-scoped isolated storage corresponding to the application domain identity and the assembly identity.</summary>
+        <returns>An object corresponding to the &lt;see cref="T:System.IO.IsolatedStorage.IsolatedStorageScope"&gt;, based on a combination of the application domain identity and the assembly identity.</returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ The same assembly code will use different isolated stores when used in the context of different applications.  
+  
+ GetMachineStoreForDomain is functionally equivalent to the following code:  
+  
+ [!CODE [System.IO.IsolatedStorage.IsolatedStorage#20](../CodeSnippet/VS_Snippets_CLR_System/system.IO.IsolatedStorage.IsolatedStorage#20)]  
+  
+ Different assemblies running within the same application domain always have distinct isolated stores.  
+  
+> [!NOTE]
+>  <xref:System.IO.IsolatedStorage.IsolatedStorageFile.GetUserStoreForDomain%2A> will return an <xref:System.IO.IsolatedStorage.IsolatedStorageFile> object without a quota if the application domain into which the assembly is installed does not have <xref:System.Security.Permissions.IsolatedStorageFilePermission>. Later attempts to create an <xref:System.IO.IsolatedStorage.IsolatedStorageFile> object using the <xref:System.IO.IsolatedStorage.IsolatedStorageFile> object that does not have a quota will fail with an <xref:System.IO.IsolatedStorage.IsolatedStorageException>.  
+  
+   
+  
+## Examples  
+ The following code example demonstrates the <xref:System.IO.IsolatedStorage.IsolatedStorageFile.GetUserStoreForDomain%2A> method. For the complete context of this example, see the <xref:System.IO.IsolatedStorage.IsolatedStorageFile> overview.  
+  
+ [!CODE [System.IO.IsolatedStorage.IsolatedStorage#10](../CodeSnippet/VS_Snippets_CLR_System/system.IO.IsolatedStorage.IsolatedStorage#10)]  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="GetPermission">
@@ -631,11 +889,20 @@
         <Parameter Name="applicationIdentity" Type="System.Object" />
       </Parameters>
       <Docs>
-        <param name="scope">To be added.</param>
-        <param name="applicationIdentity">To be added.</param>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
-        <remarks>To be added.</remarks>
+        <param name="scope">A bitwise combination of the enumeration values.</param>
+        <param name="applicationIdentity">An object that contains evidence for the application identity.</param>
+        <summary>Obtains isolated storage corresponding to the given application identity.</summary>
+        <returns>An object that represents the parameters.</returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+  
+> [!NOTE]
+>  If the  parameter is <xref:System.IO.IsolatedStorage.IsolatedStorageScope?displayProperty=fullName> and the application domain in which the assembly is installed does not have <xref:System.Security.Permissions.IsolatedStorageFilePermission>, the <xref:System.IO.IsolatedStorage.IsolatedStorageFile.GetStore%2A> method will return an <xref:System.IO.IsolatedStorage.IsolatedStorageFile> object without a quota. Later attempts to create an <xref:System.IO.IsolatedStorage.IsolatedStorageFile> object using the <xref:System.IO.IsolatedStorage.IsolatedStorageFile> object that does not have a quota will fail with an <xref:System.IO.IsolatedStorage.IsolatedStorageException>.  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="GetStore">
@@ -658,11 +925,20 @@
         <Parameter Name="applicationEvidenceType" Type="System.Type" />
       </Parameters>
       <Docs>
-        <param name="scope">To be added.</param>
-        <param name="applicationEvidenceType">To be added.</param>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
-        <remarks>To be added.</remarks>
+        <param name="scope">A bitwise combination of the enumeration values.</param>
+        <param name="applicationEvidenceType">An object that contains the application identity.</param>
+        <summary>Obtains isolated storage corresponding to the isolation scope and the application identity object.</summary>
+        <returns>An object that represents the parameters.</returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+  
+> [!NOTE]
+>  If the  parameter is <xref:System.IO.IsolatedStorage.IsolatedStorageScope> and the application domain in which the assembly is installed does not have <xref:System.Security.Permissions.IsolatedStorageFilePermission>, the <xref:System.IO.IsolatedStorage.IsolatedStorageFile.GetStore%2A> method will return an <xref:System.IO.IsolatedStorage.IsolatedStorageFile> object without a quota. Later attempts to create an <xref:System.IO.IsolatedStorage.IsolatedStorageFile> object using the <xref:System.IO.IsolatedStorage.IsolatedStorageFile> object that does not have a quota will fail with an <xref:System.IO.IsolatedStorage.IsolatedStorageException>.  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="GetStore">
@@ -686,12 +962,22 @@
         <Parameter Name="assemblyIdentity" Type="System.Object" />
       </Parameters>
       <Docs>
-        <param name="scope">To be added.</param>
-        <param name="domainIdentity">To be added.</param>
-        <param name="assemblyIdentity">To be added.</param>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
-        <remarks>To be added.</remarks>
+        <param name="scope">A bitwise combination of the enumeration values.</param>
+        <param name="domainIdentity">An object that contains evidence for the application domain identity.</param>
+        <param name="assemblyIdentity">An object that contains evidence for the code assembly identity.</param>
+        <summary>Obtains the isolated storage corresponding to the given application domain and assembly evidence objects.</summary>
+        <returns>An object that represents the parameters.</returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ This form of `GetStore` is most useful for administrative code that needs to open a store as if it were another assembly. The store is opened for the evidence provided and not for the currently executing assembly.  
+  
+> [!NOTE]
+>  If the  parameter is <xref:System.IO.IsolatedStorage.IsolatedStorageScope> and the application domain in which the assembly is installed does not have <xref:System.Security.Permissions.IsolatedStorageFilePermission>, the <xref:System.IO.IsolatedStorage.IsolatedStorageFile.GetStore%2A> method will return an <xref:System.IO.IsolatedStorage.IsolatedStorageFile> object without a quota. Later attempts to create an <xref:System.IO.IsolatedStorage.IsolatedStorageFile> object using the <xref:System.IO.IsolatedStorage.IsolatedStorageFile> object that does not have a quota will fail with an <xref:System.IO.IsolatedStorage.IsolatedStorageException>.  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="GetStore">
@@ -715,12 +1001,31 @@
         <Parameter Name="assemblyEvidenceType" Type="System.Type" />
       </Parameters>
       <Docs>
-        <param name="scope">To be added.</param>
-        <param name="domainEvidenceType">To be added.</param>
-        <param name="assemblyEvidenceType">To be added.</param>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
-        <remarks>To be added.</remarks>
+        <param name="scope">A bitwise combination of the enumeration values.</param>
+        <param name="domainEvidenceType">The type of the &lt;see cref="T:System.Security.Policy.Evidence"&gt; that you can chose from the list of &lt;see cref="T:System.Security.Policy.Evidence"&gt; present in the domain of the calling application. `null` lets the &lt;xref:System.IO.IsolatedStorage.IsolatedStorage&gt; object choose the evidence.</param>
+        <param name="assemblyEvidenceType">The type of the &lt;see cref="T:System.Security.Policy.Evidence"&gt; that you can chose from the list of &lt;see cref="T:System.Security.Policy.Evidence"&gt; present in the domain of the calling application. `null` lets the &lt;xref:System.IO.IsolatedStorage.IsolatedStorage&gt; object choose the evidence.</param>
+        <summary>Obtains isolated storage corresponding to the isolated storage scope given the application domain and assembly evidence types.</summary>
+        <returns>An object that represents the parameters.</returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ This is the overload of GetStore most likely to be called from application code.  
+  
+ This overload of GetStore opens an isolated store for the evidence types that are passed in.  
+  
+> [!NOTE]
+>  If the  parameter is <xref:System.IO.IsolatedStorage.IsolatedStorageScope> and the application domain in which the assembly is installed does not have <xref:System.Security.Permissions.IsolatedStorageFilePermission>, the GetStore method will return an <xref:System.IO.IsolatedStorage.IsolatedStorageFile> object without a quota. Later attempts to create an <xref:System.IO.IsolatedStorage.IsolatedStorageFile> object using the <xref:System.IO.IsolatedStorage.IsolatedStorageFile> object that does not have a quota will fail with an <xref:System.IO.IsolatedStorage.IsolatedStorageException>.  
+  
+   
+  
+## Examples  
+ The following code example demonstrates the GetStore method. For the complete context of this example, see the <xref:System.IO.IsolatedStorage.IsolatedStorageFile> overview.  
+  
+ [!CODE [System.IO.IsolatedStorage.IsolatedStorage#15](../CodeSnippet/VS_Snippets_CLR_System/system.IO.IsolatedStorage.IsolatedStorage#15)]  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="GetStore">
@@ -746,14 +1051,30 @@
         <Parameter Name="assemblyEvidenceType" Type="System.Type" />
       </Parameters>
       <Docs>
-        <param name="scope">To be added.</param>
-        <param name="domainEvidence">To be added.</param>
-        <param name="domainEvidenceType">To be added.</param>
-        <param name="assemblyEvidence">To be added.</param>
-        <param name="assemblyEvidenceType">To be added.</param>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
-        <remarks>To be added.</remarks>
+        <param name="scope">A bitwise combination of the enumeration values.</param>
+        <param name="domainEvidence">An object that contains the application domain identity.</param>
+        <param name="domainEvidenceType">The identity type to choose from the application domain evidence.</param>
+        <param name="assemblyEvidence">An object that contains the code assembly identity.</param>
+        <param name="assemblyEvidenceType">The identity type to choose from the application code assembly evidence.</param>
+        <summary>Obtains isolated storage corresponding to the given application domain and the assembly evidence objects and types.</summary>
+        <returns>An object that represents the parameters.</returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+  
+> [!NOTE]
+>  If the  parameter is <xref:System.IO.IsolatedStorage.IsolatedStorageScope> and the application domain in which the assembly is installed does not have <xref:System.Security.Permissions.IsolatedStorageFilePermission>, the <xref:System.IO.IsolatedStorage.IsolatedStorageFile.GetStore%2A> method will return an <xref:System.IO.IsolatedStorage.IsolatedStorageFile> object without a quota. Later attempts to create an <xref:System.IO.IsolatedStorage.IsolatedStorageFile> object using the <xref:System.IO.IsolatedStorage.IsolatedStorageFile> object that does not have a quota will fail with an <xref:System.IO.IsolatedStorage.IsolatedStorageException>.  
+  
+   
+  
+## Examples  
+ The following code example obtains storage based on publisher evidence.  
+  
+ [!CODE [System.IO.IsolatedStorage.GetStore#1](../CodeSnippet/VS_Snippets_CLR_System/system.IO.IsolatedStorage.GetStore#1)]  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="GetUserStoreForApplication">
@@ -768,9 +1089,22 @@
       </ReturnValue>
       <Parameters />
       <Docs>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
-        <remarks>To be added.</remarks>
+        <summary>Obtains user-scoped isolated storage corresponding to the calling code's application identity.</summary>
+        <returns>An object corresponding to the isolated storage scope based on the calling code's assembly identity.</returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ All assemblies associated with an application use the same isolated store when using this method. This method can be used only when the application identity can be determined - for example, when the application is published through ClickOnce deployment or is a Silverlight-based application. If you attempt to use this method outside a ClickOnce or Silverlight-based application, you will receive an <xref:System.IO.IsolatedStorage.IsolatedStorageException> exception, because the application identity of the caller cannot be determined.  
+  
+ GetUserStoreForApplication is functionally equivalent to the following code:  
+  
+ [!CODE [System.IO.IsolatedStorage.IsolatedStorage#21](../CodeSnippet/VS_Snippets_CLR_System/system.IO.IsolatedStorage.IsolatedStorage#21)]  
+  
+ In this code, the  parameter for `GetStore(IsolatedStorageScope scope, Object applicationIdentity)` is `null`.  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="GetUserStoreForAssembly">
@@ -785,9 +1119,23 @@
       </ReturnValue>
       <Parameters />
       <Docs>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
-        <remarks>To be added.</remarks>
+        <summary>Obtains user-scoped isolated storage corresponding to the calling code's assembly identity.</summary>
+        <returns>An object corresponding to the isolated storage scope based on the calling code's assembly identity.</returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ The same assembly within different applications always uses the same isolated store when using this method.  
+  
+ GetUserStoreForAssembly is functionally equivalent to the following code:  
+  
+ [!CODE [System.IO.IsolatedStorage.IsolatedStorage#22](../CodeSnippet/VS_Snippets_CLR_System/system.IO.IsolatedStorage.IsolatedStorage#22)]  
+  
+> [!NOTE]
+>  Different assemblies running within the same application domain always have distinct isolated stores.  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="GetUserStoreForDomain">
@@ -802,9 +1150,32 @@
       </ReturnValue>
       <Parameters />
       <Docs>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
-        <remarks>To be added.</remarks>
+        <summary>Obtains user-scoped isolated storage corresponding to the application domain identity and assembly identity.</summary>
+        <returns>An object corresponding to the &lt;see cref="T:System.IO.IsolatedStorage.IsolatedStorageScope"&gt;, based on a combination of the application domain identity and the assembly identity.</returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ The same assembly code will use different isolated stores when used in the context of different applications.  
+  
+ GetUserStoreForDomain is functionally equivalent to the following code:  
+  
+ [!CODE [System.IO.IsolatedStorage.IsolatedStorage#23](../CodeSnippet/VS_Snippets_CLR_System/system.IO.IsolatedStorage.IsolatedStorage#23)]  
+  
+ Different assemblies running within the same application domain always have distinct isolated stores.  
+  
+> [!NOTE]
+>  GetUserStoreForDomain will return an <xref:System.IO.IsolatedStorage.IsolatedStorageFile> object without a quota if the application domain in which the assembly is installed does not have <xref:System.Security.Permissions.IsolatedStorageFilePermission>. Later attempts to create an <xref:System.IO.IsolatedStorage.IsolatedStorageFile> object using the <xref:System.IO.IsolatedStorage.IsolatedStorageFile> object that does not have a quota will fail with an <xref:System.IO.IsolatedStorage.IsolatedStorageException>.  
+  
+   
+  
+## Examples  
+ The following code example demonstrates the GetUserStoreForDomain method. For the complete context of this example, see the <xref:System.IO.IsolatedStorage.IsolatedStorageFile> overview.  
+  
+ [!CODE [System.IO.IsolatedStorage.IsolatedStorage#10](../CodeSnippet/VS_Snippets_CLR_System/system.IO.IsolatedStorage.IsolatedStorage#10)]  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="GetUserStoreForSite">
@@ -824,9 +1195,16 @@
       </ReturnValue>
       <Parameters />
       <Docs>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
-        <remarks>To be added.</remarks>
+        <summary>Obtains a user-scoped isolated store for use by applications in a virtual host domain.</summary>
+        <returns>The isolated storage file that corresponds to the isolated storage scope based on the calling code's application identity.</returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ This method is supported only in Silverlight-based applications.  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="IncreaseQuotaTo">
@@ -851,10 +1229,25 @@
         <Parameter Name="newQuotaSize" Type="System.Int64" />
       </Parameters>
       <Docs>
-        <param name="newQuotaSize">To be added.</param>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
-        <remarks>To be added.</remarks>
+        <param name="newQuotaSize">The requested size, in bytes.</param>
+        <summary>Enables an application to explicitly request a larger quota size, in bytes.</summary>
+        <returns>`true` if the new quota is accepted; otherwise, `false`.</returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ The IncreaseQuotaTo method enables an application to explicitly request a larger quota size in bytes. The new quota size must not be smaller than the current quota size, because only quota increases are allowed.  
+  
+ Whenever the IncreaseQuotaTo method is called, isolated storage calls the <xref:System.AppDomainManager.CheckSecuritySettings%2A> method.  
+  
+ You can implement policy decisions by creating a custom <xref:System.AppDomainManager> object that overrides the <xref:System.AppDomainManager.CheckSecuritySettings%2A> method so that the object can perform policy decisions based on a <xref:System.IO.IsolatedStorage.IsolatedStorageSecurityState> object.  
+  
+ If there is no custom <xref:System.AppDomainManager> object, the quota increase request is denied, because the default implementation for <xref:System.AppDomainManager.CheckSecuritySettings%2A> returns `false`.  
+  
+ Currently, none of the hosts in the .NET Framework provide this customization, so IncreaseQuotaTo always returns `false`.  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="IsEnabled">
@@ -873,9 +1266,16 @@
         <ReturnType>System.Boolean</ReturnType>
       </ReturnValue>
       <Docs>
-        <summary>To be added.</summary>
-        <value>To be added.</value>
-        <remarks>To be added.</remarks>
+        <summary>Gets a value that indicates whether isolated storage is enabled.</summary>
+        <value>`true` in all cases.</value>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ Isolated storage for full .NET Framework applications is always enabled.  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="MaximumSize">
@@ -897,9 +1297,25 @@
         <ReturnType>System.UInt64</ReturnType>
       </ReturnValue>
       <Docs>
-        <summary>To be added.</summary>
-        <value>To be added.</value>
-        <remarks>To be added.</remarks>
+        <summary>Gets a value representing the maximum amount of space available for isolated storage within the limits established by the quota.</summary>
+        <value>The limit of isolated storage space in bytes.</value>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ The number of bytes available is constrained by the isolated storage quota set by the administrator. Quota is configured in security policy on the basis of evidence, so the same code can receive a different quota if it is run with different evidence. For example, an application that is run locally and also from a share on an intranet would likely receive different quotas.  
+  
+ The [How to: Anticipate Out-of-Space Conditions with Isolated Storage](../Topic/How%20to:%20Anticipate%20Out-of-Space%20Conditions%20with%20Isolated%20Storage.md) example demonstrates the use of the MaximumSize property.  
+  
+   
+  
+## Examples  
+ The following code example demonstrates the MaximumSize property. For the complete context of this example, see the <xref:System.IO.IsolatedStorage.IsolatedStorageFile> overview.  
+  
+ [!CODE [System.IO.IsolatedStorage.IsolatedStorage#5](../CodeSnippet/VS_Snippets_CLR_System/system.IO.IsolatedStorage.IsolatedStorage#5)]  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="MoveDirectory">
@@ -925,10 +1341,17 @@
         <Parameter Name="destinationDirectoryName" Type="System.String" />
       </Parameters>
       <Docs>
-        <param name="sourceDirectoryName">To be added.</param>
-        <param name="destinationDirectoryName">To be added.</param>
-        <summary>To be added.</summary>
-        <remarks>To be added.</remarks>
+        <param name="sourceDirectoryName">The name of the directory to move.</param>
+        <param name="destinationDirectoryName">The path to the new location for . This cannot be the path to an existing directory.</param>
+        <summary>Moves a specified directory and its contents to a new location.</summary>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ and  must specify different directory names.  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="MoveFile">
@@ -954,10 +1377,17 @@
         <Parameter Name="destinationFileName" Type="System.String" />
       </Parameters>
       <Docs>
-        <param name="sourceFileName">To be added.</param>
-        <param name="destinationFileName">To be added.</param>
-        <summary>To be added.</summary>
-        <remarks>To be added.</remarks>
+        <param name="sourceFileName">The name of the file to move.</param>
+        <param name="destinationFileName">The path to the new location for the file. If a file name is included, the moved file will have that name.</param>
+        <summary>Moves a specified file to a new location, and optionally lets you specify a new file name.</summary>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ This method does not throw an exception if  and  are the same.  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="OpenFile">
@@ -980,11 +1410,18 @@
         <Parameter Name="mode" Type="System.IO.FileMode" />
       </Parameters>
       <Docs>
-        <param name="path">To be added.</param>
-        <param name="mode">To be added.</param>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
-        <remarks>To be added.</remarks>
+        <param name="path">The relative path of the file within the isolated store.</param>
+        <param name="mode">One of the enumeration values that specifies how to open the file.</param>
+        <summary>Opens a file in the specified mode.</summary>
+        <returns>A file that is opened in the specified mode, with read/write access, and is unshared.</returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ This method is equivalent to using the <xref:System.IO.IsolatedStorage.IsolatedStorageFileStream.%23ctor%28System.String%2CSystem.IO.FileMode%2CSystem.IO.IsolatedStorage.IsolatedStorageFile%29?displayProperty=fullName> constructor.  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="OpenFile">
@@ -1008,12 +1445,19 @@
         <Parameter Name="access" Type="System.IO.FileAccess" />
       </Parameters>
       <Docs>
-        <param name="path">To be added.</param>
-        <param name="mode">To be added.</param>
-        <param name="access">To be added.</param>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
-        <remarks>To be added.</remarks>
+        <param name="path">The relative path of the file within the isolated store.</param>
+        <param name="mode">One of the enumeration values that specifies how to open the file.</param>
+        <param name="access">One of the enumeration values that specifies whether the file will be opened with read, write, or read/write access.</param>
+        <summary>Opens a file in the specified mode with the specified read/write access.</summary>
+        <returns>A file that is opened in the specified mode and access, and is unshared.</returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ This method is equivalent to using the <xref:System.IO.IsolatedStorage.IsolatedStorageFileStream.%23ctor%28System.String%2CSystem.IO.FileMode%2CSystem.IO.FileAccess%2CSystem.IO.IsolatedStorage.IsolatedStorageFile%29?displayProperty=fullName> constructor.  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="OpenFile">
@@ -1038,13 +1482,20 @@
         <Parameter Name="share" Type="System.IO.FileShare" />
       </Parameters>
       <Docs>
-        <param name="path">To be added.</param>
-        <param name="mode">To be added.</param>
-        <param name="access">To be added.</param>
-        <param name="share">To be added.</param>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
-        <remarks>To be added.</remarks>
+        <param name="path">The relative path of the file within the isolated store.</param>
+        <param name="mode">One of the enumeration values that specifies how to open or create the file.</param>
+        <param name="access">One of the enumeration values that specifies whether the file will be opened with read, write, or read/write access</param>
+        <param name="share">A bitwise combination of enumeration values that specify the type of access other &lt;see cref="T:System.IO.IsolatedStorage.IsolatedStorageFileStream"&gt; objects have to this file.</param>
+        <summary>Opens a file in the specified mode, with the specified read/write access and sharing permission.</summary>
+        <returns>A file that is opened in the specified mode and access, and with the specified sharing options.</returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ This method is equivalent to using the <xref:System.IO.IsolatedStorage.IsolatedStorageFileStream.%23ctor%28System.String%2CSystem.IO.FileMode%2CSystem.IO.FileAccess%2CSystem.IO.FileShare%2CSystem.IO.IsolatedStorage.IsolatedStorageFile%29?displayProperty=fullName> constructor.  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="Quota">
@@ -1066,8 +1517,8 @@
         <ReturnType>System.Int64</ReturnType>
       </ReturnValue>
       <Docs>
-        <summary>To be added.</summary>
-        <value>To be added.</value>
+        <summary>Gets a value that represents the maximum amount of space available for isolated storage.</summary>
+        <value>The limit of isolated storage space, in bytes.</value>
         <remarks>To be added.</remarks>
       </Docs>
     </Member>
@@ -1088,8 +1539,26 @@
       </ReturnValue>
       <Parameters />
       <Docs>
-        <summary>To be added.</summary>
-        <remarks>To be added.</remarks>
+        <summary>Removes the isolated storage scope and all its contents.</summary>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+  
+> [!CAUTION]
+>  This method irrevocably removes the entire scope and all contained directories and files.  
+  
+ If any of the directories or files in the store are in use, the removal attempt for the store fails and the store is marked for removal. Any subsequent attempts to modify the store throw an <xref:System.IO.IsolatedStorage.IsolatedStorageException>.  
+  
+   
+  
+## Examples  
+ The following code example uses the Remove method to delete the isolated storage file after its contents have been emptied. The [How to: Delete Stores in Isolated Storage](../Topic/How%20to:%20Delete%20Stores%20in%20Isolated%20Storage.md) example also demonstrates the use of the <xref:System.IO.IsolatedStorage.IsolatedStorageFile.Remove%2A> method.  
+  
+ [!CODE [System.IO.IsolatedStorage.IsolatedStorage#16](../CodeSnippet/VS_Snippets_CLR_System/system.IO.IsolatedStorage.IsolatedStorage#16)]  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="Remove">
@@ -1111,9 +1580,20 @@
         <Parameter Name="scope" Type="System.IO.IsolatedStorage.IsolatedStorageScope" />
       </Parameters>
       <Docs>
-        <param name="scope">To be added.</param>
-        <summary>To be added.</summary>
-        <remarks>To be added.</remarks>
+        <param name="scope">A bitwise combination of the &lt;see cref="T:System.IO.IsolatedStorage.IsolatedStorageScope"&gt; values.</param>
+        <summary>Removes the specified isolated storage scope for all identities.</summary>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+  
+> [!CAUTION]
+>  This method irrevocably removes the entire scope and all contained directories and files.  
+  
+ If any of the directories or files in the store are in use, the removal attempt for the store fails and the store is marked for removal. Any subsequent attempts to modify the store throw an <xref:System.IO.IsolatedStorage.IsolatedStorageException>.  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="UsedSize">
@@ -1132,8 +1612,8 @@
         <ReturnType>System.Int64</ReturnType>
       </ReturnValue>
       <Docs>
-        <summary>To be added.</summary>
-        <value>To be added.</value>
+        <summary>Gets a value that represents the amount of the space used for isolated storage.</summary>
+        <value>The used isolated storage space, in bytes.</value>
         <remarks>To be added.</remarks>
       </Docs>
     </Member>

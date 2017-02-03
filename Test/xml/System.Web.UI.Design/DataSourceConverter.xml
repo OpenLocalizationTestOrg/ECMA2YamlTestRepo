@@ -10,8 +10,27 @@
   </Base>
   <Interfaces />
   <Docs>
-    <summary>To be added.</summary>
-    <remarks>To be added.</remarks>
+    <summary>Provides a type converter that can retrieve a list of data sources accessible to the current component.</summary>
+    <remarks>
+      <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ DataSourceConverter provides methods that can be used to retrieve a list of data sources accessible to the current design-time component.  
+  
+ This type converter is used by [!INCLUDE[vsprvslong](../../add/includes/vsprvslong-md.md)] to provide the values that appear in the list of data sources in the **Properties** window.  
+  
+> [!CAUTION]
+>  You should never access a type converter directly. Instead, call the appropriate converter by using <xref:System.ComponentModel.TypeDescriptor>. For more information, see the examples in the <xref:System.ComponentModel.TypeConverter> base class.  
+  
+ For more information about type converters, see the <xref:System.ComponentModel.TypeConverter> base class and [How to: Implement a Type Converter](../Topic/How%20to:%20Implement%20a%20Type%20Converter.md).  
+  
+   
+  
+## Examples  
+ [!CODE [DataSourceTypeConverterExamples#4](../CodeSnippet/VS_Snippets_WebNet/DataSourceTypeConverterExamples#4)]  
+  
+ ]]></format>
+    </remarks>
   </Docs>
   <Members>
     <Member MemberName=".ctor">
@@ -23,7 +42,7 @@
       </AssemblyInfo>
       <Parameters />
       <Docs>
-        <summary>To be added.</summary>
+        <summary>Initializes a new instance of the &lt;see cref="T:System.Web.UI.Design.DataSourceConverter"&gt; class.</summary>
         <remarks>To be added.</remarks>
       </Docs>
     </Member>
@@ -42,10 +61,12 @@
         <Parameter Name="sourceType" Type="System.Type" />
       </Parameters>
       <Docs>
-        <param name="context">To be added.</param>
-        <param name="sourceType">To be added.</param>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
+        <param name="context">An &lt;xref:System.ComponentModel.ITypeDescriptorContext&gt; that can be used to gain additional context information.</param>
+        <param name="sourceType">A &lt;see cref="T:System.Type"&gt; that represents the type you want to convert from.</param>
+        <summary>Gets a value indicating whether the converter can convert an object of the specified source type to the native type of the converter.</summary>
+        <returns>`true` if the converter can perform the conversion; otherwise, `false`.  
+  
+ As implemented in this class, this method always returns `false`.</returns>
         <remarks>To be added.</remarks>
       </Docs>
     </Member>
@@ -65,11 +86,11 @@
         <Parameter Name="value" Type="System.Object" />
       </Parameters>
       <Docs>
-        <param name="context">To be added.</param>
-        <param name="culture">To be added.</param>
-        <param name="value">To be added.</param>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
+        <param name="context">An &lt;xref:System.ComponentModel.ITypeDescriptorContext&gt; that can be used to gain additional context information.</param>
+        <param name="culture">The &lt;see cref="T:System.Globalization.CultureInfo"&gt; that can be used to support localization features.</param>
+        <param name="value">The &lt;see cref="T:System.Object"&gt; to convert.</param>
+        <summary>Converts the specified object to the native type of the converter.</summary>
+        <returns>An &lt;see cref="T:System.Object"&gt; that represents the specified object after conversion.</returns>
         <remarks>To be added.</remarks>
       </Docs>
     </Member>
@@ -87,10 +108,17 @@
         <Parameter Name="context" Type="System.ComponentModel.ITypeDescriptorContext" />
       </Parameters>
       <Docs>
-        <param name="context">To be added.</param>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
-        <remarks>To be added.</remarks>
+        <param name="context">An &lt;xref:System.ComponentModel.ITypeDescriptorContext&gt; indicating the component or control to get values for.</param>
+        <summary>Gets the standard data sources accessible to the control.</summary>
+        <returns>A &lt;xref:System.ComponentModel.TypeConverter.StandardValuesCollection&gt; listing the standard accessible data sources.</returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ The data sources that are accessible to the component are determined by retrieving a list of components from the designer, testing each component with the <xref:System.Web.UI.Design.DataSourceConverter.IsValidDataSource%2A> method, and then returning the components that are valid data sources.  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="GetStandardValuesExclusive">
@@ -107,10 +135,19 @@
         <Parameter Name="context" Type="System.ComponentModel.ITypeDescriptorContext" />
       </Parameters>
       <Docs>
-        <param name="context">To be added.</param>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
-        <remarks>To be added.</remarks>
+        <param name="context">An &lt;xref:System.ComponentModel.ITypeDescriptorContext&gt; that can be used to gain additional context information.</param>
+        <summary>Gets a value indicating whether the collection of standard values returned from &lt;xref:System.ComponentModel.TypeConverter.GetStandardValues%2A&gt; is a list of all possible values.</summary>
+        <returns>`true` if the &lt;xref:System.ComponentModel.TypeConverter.StandardValuesCollection&gt; returned from &lt;xref:System.ComponentModel.TypeConverter.GetStandardValues%2A&gt; is an exclusive list of all possible values; `false` if other values are possible.  
+  
+ As implemented in this class, this method always returns `false`.</returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ If the list is exclusive, such as in an enumeration data type, then no other values are valid. If the list is not exclusive, then there are other valid values besides the list of standard values that <xref:System.ComponentModel.TypeConverter.GetStandardValues%2A> provides.  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="GetStandardValuesSupported">
@@ -127,9 +164,9 @@
         <Parameter Name="context" Type="System.ComponentModel.ITypeDescriptorContext" />
       </Parameters>
       <Docs>
-        <param name="context">To be added.</param>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
+        <param name="context">An &lt;xref:System.ComponentModel.ITypeDescriptorContext&gt; that can be used to gain additional context information.</param>
+        <summary>Gets a value indicating whether the converter supports a standard set of values that can be picked from a list.</summary>
+        <returns>`true` if &lt;xref:System.ComponentModel.TypeConverter.GetStandardValues%2A&gt; should be called to find a common set of values the object supports; otherwise, `false`. This implementation always returns `true`.</returns>
         <remarks>To be added.</remarks>
       </Docs>
     </Member>
@@ -147,10 +184,17 @@
         <Parameter Name="component" Type="System.ComponentModel.IComponent" />
       </Parameters>
       <Docs>
-        <param name="component">To be added.</param>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
-        <remarks>To be added.</remarks>
+        <param name="component">The component to check as a valid data source.</param>
+        <summary>Indicates whether the specified component is a valid data source for this converter.</summary>
+        <returns>`true` if  implements &lt;see cref="T:System.Collections.IEnumerable"&gt; or &lt;xref:System.ComponentModel.IListSource&gt;; otherwise, `false`.</returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ The <xref:System.Web.UI.Design.DataSourceConverter.GetStandardValues%2A> method uses the IsValidDataSource method to determine the components that are available as standard accessible data sources. For the <xref:System.Web.UI.Design.DataSourceConverter> class, a valid data source is a component that implements the <xref:System.Collections.IEnumerable> or <xref:System.ComponentModel.IListSource> interface.  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
   </Members>

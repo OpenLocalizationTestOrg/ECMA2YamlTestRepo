@@ -22,8 +22,33 @@
     </Attribute>
   </Attributes>
   <Docs>
-    <summary>To be added.</summary>
-    <remarks>To be added.</remarks>
+    <summary>Discovers attributed parts in the assemblies in a specified directory.</summary>
+    <remarks>
+      <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ You can use a DirectoryCatalog object to parse the contents of a designated directory. Any attributed parts contained in dynamic link library (DLL) files are extracted and made available through the catalog.To restrict parsing to specific DLLs, you can specify a search pattern by using the same syntax as the <xref:System.IO.Directory.GetFiles%2A?displayProperty=fullName> method.  
+  
+> [!WARNING]
+>  The designated directory should not allow access to non-administrators. For example, using a folder that contains temporary Internet files could create vulnerabilities in your application.  
+  
+ This type implements the <xref:System.IDisposable> interface. When you have finished using the type, you should dispose of it either directly or indirectly. To dispose of the type directly, call its <xref:System.IDisposable.Dispose%2A> method in a `try`/`catch` block. To dispose of it indirectly, use a language construct such as `using` (in C#) or `Using` (in Visual Basic). For more information, see the “Using an Object that Implements IDisposable” section in the <xref:System.IDisposable> interface topic.  
+  
+   
+  
+## Examples  
+ The following example creates a DirectoryCatalog object that searches the directory the application runs from for parts. It uses a simple import to test the catalog. To fulfill this import, a DLL in the directory must have a matching export, as illustrated in the second code block.  
+  
+ [!code-cs[Composition.DirectoryCatalog#1](../../add/codesnippet/CSharp/consoleapplication7/program.cs#1)]
+ [!code-vb[Composition.DirectoryCatalog#1](../../add/codesnippet/VisualBasic/consoleapplication8/module1.vb#1)]  
+  
+ To create the matching export, the following code must be in a DLL file. To create a DLL file in Visual Studio, add a new project of the type "Class Library" to your solution, and place this code in it.  
+  
+ [!code-cs[Composition.DirectoryCatalog#2](../../add/codesnippet/CSharp/classlibrary1/class1.cs#2)]
+ [!code-vb[Composition.DirectoryCatalog#2](../../add/codesnippet/VisualBasic/classlibrary1/class1.vb#2)]  
+  
+ ]]></format>
+    </remarks>
   </Docs>
   <Members>
     <Member MemberName=".ctor">
@@ -37,8 +62,10 @@
         <Parameter Name="path" Type="System.String" />
       </Parameters>
       <Docs>
-        <param name="path">To be added.</param>
-        <summary>To be added.</summary>
+        <param name="path">The path to the directory to scan for assemblies to add to the catalog.  
+  
+ The path must be absolute or relative to &lt;xref:System.AppDomain.BaseDirectory%2A&gt;.</param>
+        <summary>Initializes a new instance of the &lt;see cref="T:System.ComponentModel.Composition.Hosting.DirectoryCatalog"&gt; class by using &lt;xref:System.ComponentModel.Composition.Primitives.ComposablePartDefinition&gt; objects based on all the DLL files in the specified directory path.</summary>
         <remarks>To be added.</remarks>
       </Docs>
     </Member>
@@ -54,9 +81,11 @@
         <Parameter Name="definitionOrigin" Type="System.ComponentModel.Composition.Primitives.ICompositionElement" />
       </Parameters>
       <Docs>
-        <param name="path">To be added.</param>
-        <param name="definitionOrigin">To be added.</param>
-        <summary>To be added.</summary>
+        <param name="path">The path to the directory to scan for assemblies to add to the catalog.  
+  
+ The path must be absolute or relative to &lt;xref:System.AppDomain.BaseDirectory%2A&gt;.</param>
+        <param name="definitionOrigin">The element used by diagnostics to identify the source for parts.</param>
+        <summary>Initializes a new instance of the &lt;see cref="T:System.ComponentModel.Composition.Hosting.DirectoryCatalog"&gt; class by using &lt;xref:System.ComponentModel.Composition.Primitives.ComposablePartDefinition&gt; objects based on all the DLL files in the specified directory path with the specified source for parts.</summary>
         <remarks>To be added.</remarks>
       </Docs>
     </Member>
@@ -72,9 +101,11 @@
         <Parameter Name="reflectionContext" Type="System.Reflection.ReflectionContext" />
       </Parameters>
       <Docs>
-        <param name="path">To be added.</param>
-        <param name="reflectionContext">To be added.</param>
-        <summary>To be added.</summary>
+        <param name="path">The path to the directory to scan for assemblies to add to the catalog.  
+  
+ The path must be absolute or relative to &lt;xref:System.AppDomain.BaseDirectory%2A&gt;.</param>
+        <param name="reflectionContext">The context used to create parts.</param>
+        <summary>Initializes a new instance of the &lt;see cref="T:System.ComponentModel.Composition.Hosting.DirectoryCatalog"&gt; class by using &lt;xref:System.ComponentModel.Composition.Primitives.ComposablePartDefinition&gt; objects based on all the DLL files in the specified directory path, in the specified reflection context.</summary>
         <remarks>To be added.</remarks>
       </Docs>
     </Member>
@@ -90,9 +121,11 @@
         <Parameter Name="searchPattern" Type="System.String" />
       </Parameters>
       <Docs>
-        <param name="path">To be added.</param>
-        <param name="searchPattern">To be added.</param>
-        <summary>To be added.</summary>
+        <param name="path">The path to the directory to scan for assemblies to add to the catalog.  
+  
+ The path must be absolute or relative to &lt;xref:System.AppDomain.BaseDirectory%2A&gt;.</param>
+        <param name="searchPattern">The search string. The format of the string should be the same as specified for the &lt;xref:System.IO.Directory.GetFiles%2A&gt; method.</param>
+        <summary>Initializes a new instance of the &lt;see cref="T:System.ComponentModel.Composition.Hosting.DirectoryCatalog"&gt; class by using &lt;xref:System.ComponentModel.Composition.Primitives.ComposablePartDefinition&gt; objects that match a specified search pattern in the specified directory path.</summary>
         <remarks>To be added.</remarks>
       </Docs>
     </Member>
@@ -109,10 +142,12 @@
         <Parameter Name="definitionOrigin" Type="System.ComponentModel.Composition.Primitives.ICompositionElement" />
       </Parameters>
       <Docs>
-        <param name="path">To be added.</param>
-        <param name="reflectionContext">To be added.</param>
-        <param name="definitionOrigin">To be added.</param>
-        <summary>To be added.</summary>
+        <param name="path">The path to the directory to scan for assemblies to add to the catalog.  
+  
+ The path must be absolute or relative to &lt;xref:System.AppDomain.BaseDirectory%2A&gt;.</param>
+        <param name="reflectionContext">The context used to create parts.</param>
+        <param name="definitionOrigin">The element used by diagnostics to identify the source for parts.</param>
+        <summary>Initializes a new instance of the &lt;see cref="T:System.ComponentModel.Composition.Hosting.DirectoryCatalog"&gt; class by  using &lt;xref:System.ComponentModel.Composition.Primitives.ComposablePartDefinition&gt; objects based on all the DLL files in the specified directory path, in the specified reflection context.</summary>
         <remarks>To be added.</remarks>
       </Docs>
     </Member>
@@ -129,10 +164,12 @@
         <Parameter Name="definitionOrigin" Type="System.ComponentModel.Composition.Primitives.ICompositionElement" />
       </Parameters>
       <Docs>
-        <param name="path">To be added.</param>
-        <param name="searchPattern">To be added.</param>
-        <param name="definitionOrigin">To be added.</param>
-        <summary>To be added.</summary>
+        <param name="path">The path to the directory to scan for assemblies to add to the catalog.  
+  
+ The path must be absolute or relative to &lt;xref:System.AppDomain.BaseDirectory%2A&gt;.</param>
+        <param name="searchPattern">The search string. The format of the string should be the same as specified for the &lt;xref:System.IO.Directory.GetFiles%2A&gt; method.</param>
+        <param name="definitionOrigin">The element used by diagnostics to identify the source for parts.</param>
+        <summary>Initializes a new instance of the &lt;see cref="T:System.ComponentModel.Composition.Hosting.DirectoryCatalog"&gt; class by using &lt;xref:System.ComponentModel.Composition.Primitives.ComposablePartDefinition&gt; objects based on the specified search pattern in the specified directory path with the specified source for parts.</summary>
         <remarks>To be added.</remarks>
       </Docs>
     </Member>
@@ -149,10 +186,12 @@
         <Parameter Name="reflectionContext" Type="System.Reflection.ReflectionContext" />
       </Parameters>
       <Docs>
-        <param name="path">To be added.</param>
-        <param name="searchPattern">To be added.</param>
-        <param name="reflectionContext">To be added.</param>
-        <summary>To be added.</summary>
+        <param name="path">The path to the directory to scan for assemblies to add to the catalog.  
+  
+ The path must be absolute or relative to &lt;xref:System.AppDomain.BaseDirectory%2A&gt;.</param>
+        <param name="searchPattern">The search string. The format of the string should be the same as specified for the &lt;xref:System.IO.Directory.GetFiles%2A&gt; method.</param>
+        <param name="reflectionContext">The context used to create parts.</param>
+        <summary>Initializes a new instance of the &lt;see cref="T:System.ComponentModel.Composition.Hosting.DirectoryCatalog"&gt; class by using &lt;xref:System.ComponentModel.Composition.Primitives.ComposablePartDefinition&gt; objects based on the specified search pattern in the specified directory path, using the specified reflection context.</summary>
         <remarks>To be added.</remarks>
       </Docs>
     </Member>
@@ -170,11 +209,13 @@
         <Parameter Name="definitionOrigin" Type="System.ComponentModel.Composition.Primitives.ICompositionElement" />
       </Parameters>
       <Docs>
-        <param name="path">To be added.</param>
-        <param name="searchPattern">To be added.</param>
-        <param name="reflectionContext">To be added.</param>
-        <param name="definitionOrigin">To be added.</param>
-        <summary>To be added.</summary>
+        <param name="path">The path to the directory to scan for assemblies to add to the catalog.  
+  
+ The path must be absolute or relative to &lt;xref:System.AppDomain.BaseDirectory%2A&gt;.</param>
+        <param name="searchPattern">The search string. The format of the string should be the same as specified for the &lt;xref:System.IO.Directory.GetFiles%2A&gt; method.</param>
+        <param name="reflectionContext">The context used to create parts.</param>
+        <param name="definitionOrigin">The element used by diagnostics to identify the source for parts.</param>
+        <summary>Initializes a new instance of the &lt;see cref="T:System.ComponentModel.Composition.Hosting.DirectoryCatalog"&gt; class by using &lt;xref:System.ComponentModel.Composition.Primitives.ComposablePartDefinition&gt; objects based on the specified search pattern in the specified directory path, using the specified reflection context.</summary>
         <remarks>To be added.</remarks>
       </Docs>
     </Member>
@@ -189,7 +230,7 @@
         <ReturnType>System.EventHandler&lt;System.ComponentModel.Composition.Hosting.ComposablePartCatalogChangeEventArgs&gt;</ReturnType>
       </ReturnValue>
       <Docs>
-        <summary>To be added.</summary>
+        <summary>Occurs when the contents of the catalog has changed.</summary>
         <remarks>To be added.</remarks>
       </Docs>
     </Member>
@@ -204,7 +245,7 @@
         <ReturnType>System.EventHandler&lt;System.ComponentModel.Composition.Hosting.ComposablePartCatalogChangeEventArgs&gt;</ReturnType>
       </ReturnValue>
       <Docs>
-        <summary>To be added.</summary>
+        <summary>Occurs when the catalog is changing.</summary>
         <remarks>To be added.</remarks>
       </Docs>
     </Member>
@@ -222,8 +263,8 @@
         <Parameter Name="disposing" Type="System.Boolean" />
       </Parameters>
       <Docs>
-        <param name="disposing">To be added.</param>
-        <summary>To be added.</summary>
+        <param name="disposing">`true` to release both managed and unmanaged resources; `false` to release only unmanaged resources.</param>
+        <summary>Releases the unmanaged resources used by the &lt;see cref="T:System.ComponentModel.Composition.Hosting.DirectoryCatalog"&gt; and optionally releases the managed resources.</summary>
         <remarks>To be added.</remarks>
       </Docs>
     </Member>
@@ -238,8 +279,8 @@
         <ReturnType>System.String</ReturnType>
       </ReturnValue>
       <Docs>
-        <summary>To be added.</summary>
-        <value>To be added.</value>
+        <summary>Gets the translated absolute path observed by the &lt;see cref="T:System.ComponentModel.Composition.Hosting.DirectoryCatalog"&gt; object.</summary>
+        <value>The translated absolute path observed by the catalog.</value>
         <remarks>To be added.</remarks>
       </Docs>
     </Member>
@@ -255,8 +296,8 @@
       </ReturnValue>
       <Parameters />
       <Docs>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
+        <summary>Returns an enumerator that iterates through the catalog.</summary>
+        <returns>An enumerator that can be used to iterate through the catalog.</returns>
         <remarks>To be added.</remarks>
       </Docs>
     </Member>
@@ -274,9 +315,9 @@
         <Parameter Name="definition" Type="System.ComponentModel.Composition.Primitives.ImportDefinition" />
       </Parameters>
       <Docs>
-        <param name="definition">To be added.</param>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
+        <param name="definition">The conditions of the &lt;see cref="T:System.ComponentModel.Composition.Primitives.ExportDefinition"&gt; objects to be returned.</param>
+        <summary>Gets the export definitions that match the constraint expressed by the specified import definition.</summary>
+        <returns>A collection of objects that contain the &lt;see cref="T:System.ComponentModel.Composition.Primitives.ExportDefinition"&gt; objects and their associated &lt;xref:System.ComponentModel.Composition.Primitives.ComposablePartDefinition&gt; objects that match the constraint specified by .</returns>
         <remarks>To be added.</remarks>
       </Docs>
     </Member>
@@ -291,8 +332,8 @@
         <ReturnType>System.Collections.ObjectModel.ReadOnlyCollection&lt;System.String&gt;</ReturnType>
       </ReturnValue>
       <Docs>
-        <summary>To be added.</summary>
-        <value>To be added.</value>
+        <summary>Gets the collection of files currently loaded in the catalog.</summary>
+        <value>A collection of files currently loaded in the catalog.</value>
         <remarks>To be added.</remarks>
       </Docs>
     </Member>
@@ -310,8 +351,8 @@
         <Parameter Name="e" Type="System.ComponentModel.Composition.Hosting.ComposablePartCatalogChangeEventArgs" />
       </Parameters>
       <Docs>
-        <param name="e">To be added.</param>
-        <summary>To be added.</summary>
+        <param name="e">An object  that contains the event data.</param>
+        <summary>Raises the &lt;see cref="E:System.ComponentModel.Composition.Hosting.DirectoryCatalog.Changed"&gt; event.</summary>
         <remarks>To be added.</remarks>
       </Docs>
     </Member>
@@ -329,8 +370,8 @@
         <Parameter Name="e" Type="System.ComponentModel.Composition.Hosting.ComposablePartCatalogChangeEventArgs" />
       </Parameters>
       <Docs>
-        <param name="e">To be added.</param>
-        <summary>To be added.</summary>
+        <param name="e">An object  that contains the event data.</param>
+        <summary>Raises the &lt;see cref="E:System.ComponentModel.Composition.Hosting.DirectoryCatalog.Changing"&gt; event.</summary>
         <remarks>To be added.</remarks>
       </Docs>
     </Member>
@@ -345,8 +386,8 @@
         <ReturnType>System.String</ReturnType>
       </ReturnValue>
       <Docs>
-        <summary>To be added.</summary>
-        <value>To be added.</value>
+        <summary>Gets the path observed by the &lt;see cref="T:System.ComponentModel.Composition.Hosting.DirectoryCatalog"&gt; object.</summary>
+        <value>The path observed by the catalog.</value>
         <remarks>To be added.</remarks>
       </Docs>
     </Member>
@@ -362,8 +403,15 @@
       </ReturnValue>
       <Parameters />
       <Docs>
-        <summary>To be added.</summary>
-        <remarks>To be added.</remarks>
+        <summary>Refreshes the &lt;see cref="T:System.ComponentModel.Composition.Primitives.ComposablePartDefinition"&gt; objects with the latest files in the directory that match the search pattern.</summary>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ If files were added to the directory, they are also added to the catalog. If files were removed from the directory, they are also removed from the catalog. For files that have been removed, the assembly cannot be unloaded from the process, so <xref:System.ComponentModel.Composition.Primitives.ComposablePartDefinition> objects for those files will be removed only from the catalog.  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="SearchPattern">
@@ -377,8 +425,8 @@
         <ReturnType>System.String</ReturnType>
       </ReturnValue>
       <Docs>
-        <summary>To be added.</summary>
-        <value>To be added.</value>
+        <summary>Gets the search pattern that is passed into the constructor of the &lt;see cref="T:System.ComponentModel.Composition.Hosting.DirectoryCatalog"&gt; object.</summary>
+        <value>The search pattern the catalog uses to find files. The default is *.dll, which returns all DLL files.</value>
         <remarks>To be added.</remarks>
       </Docs>
     </Member>
@@ -393,9 +441,16 @@
         <ReturnType>System.String</ReturnType>
       </ReturnValue>
       <Docs>
-        <summary>To be added.</summary>
-        <value>To be added.</value>
-        <remarks>To be added.</remarks>
+        <summary>Gets the display name of the directory catalog.</summary>
+        <value>A string that contains a human-readable display name of the directory catalog.</value>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ This member is an explicit interface member implementation. It can be used only when the <xref:System.ComponentModel.Composition.Hosting.DirectoryCatalog> instance is cast to an <xref:System.ComponentModel.Composition.Primitives.ICompositionElement> interface.  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="System.ComponentModel.Composition.Primitives.ICompositionElement.Origin">
@@ -409,9 +464,16 @@
         <ReturnType>System.ComponentModel.Composition.Primitives.ICompositionElement</ReturnType>
       </ReturnValue>
       <Docs>
-        <summary>To be added.</summary>
-        <value>To be added.</value>
-        <remarks>To be added.</remarks>
+        <summary>Gets the composition element from which the directory catalog originated.</summary>
+        <value>Always `null`.</value>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ This member is an explicit interface member implementation. It can be used only when the <xref:System.ComponentModel.Composition.Hosting.DirectoryCatalog> instance is cast to an <xref:System.ComponentModel.Composition.Primitives.ICompositionElement> interface.  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="ToString">
@@ -426,8 +488,8 @@
       </ReturnValue>
       <Parameters />
       <Docs>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
+        <summary>Gets a string representation of the directory catalog.</summary>
+        <returns>A string representation of the catalog.</returns>
         <remarks>To be added.</remarks>
       </Docs>
     </Member>

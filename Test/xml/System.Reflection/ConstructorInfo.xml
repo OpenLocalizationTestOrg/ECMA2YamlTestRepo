@@ -25,8 +25,25 @@
     </Attribute>
   </Attributes>
   <Docs>
-    <summary>To be added.</summary>
-    <remarks>To be added.</remarks>
+    <summary>Discovers the attributes of a class constructor and provides access to constructor metadata.</summary>
+    <remarks>
+      <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ `ConstructorInfo` is used to discover the attributes of a constructor as well as to invoke a constructor. Objects are created by calling [Invoke(BindingFlags, Binder, Object\[\], CultureInfo)](assetId:///M:System.Reflection.ConstructorInfo.Invoke(System.Reflection.BindingFlags,System.Reflection.Binder,System.Object[],System.Globalization.CultureInfo)?qualifyHint=False&autoUpgrade=True) on a `ConstructorInfo` returned by either the <xref:System.Type.GetConstructors%2A> or <xref:System.Type.GetConstructor%2A> method of a <xref:System.Type> object.  
+  
+> [!NOTE]
+>  ConstructorInfo inherits from <xref:System.Reflection.MethodBase> several members, such as <xref:System.Reflection.MethodBase.IsGenericMethod%2A>, that can be used to examine generic methods. In the .NET Framework version 2.0 constructors cannot be generic, so these members return `false` or `null`.  
+  
+   
+  
+## Examples  
+ The following example uses `ConstructorInfo` with <xref:System.Type.GetConstructor%2A> and <xref:System.Reflection.BindingFlags> to find the constructors that match the specified search criteria.  
+  
+ [!CODE [type_getconstructor3#1](../CodeSnippet/VS_Snippets_CLR/Type_GetConstructor3#1)]  
+  
+ ]]></format>
+    </remarks>
   </Docs>
   <Members>
     <Member MemberName=".ctor">
@@ -38,7 +55,7 @@
       </AssemblyInfo>
       <Parameters />
       <Docs>
-        <summary>To be added.</summary>
+        <summary>Initializes a new instance of the &lt;see cref="T:System.Reflection.ConstructorInfo"&gt; class.</summary>
         <remarks>To be added.</remarks>
       </Docs>
     </Member>
@@ -58,7 +75,7 @@
         <ReturnType>System.String</ReturnType>
       </ReturnValue>
       <Docs>
-        <summary>To be added.</summary>
+        <summary>Represents the name of the class constructor method as it is stored in metadata. This name is always ".ctor". This field is read-only.</summary>
         <remarks>To be added.</remarks>
       </Docs>
     </Member>
@@ -76,9 +93,9 @@
         <Parameter Name="obj" Type="System.Object" />
       </Parameters>
       <Docs>
-        <param name="obj">To be added.</param>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
+        <param name="obj">An object to compare with this instance, or `null`.</param>
+        <summary>Returns a value that indicates whether this instance is equal to a specified object.</summary>
+        <returns>`true` if  equals the type and value of this instance; otherwise, `false`.</returns>
         <remarks>To be added.</remarks>
       </Docs>
     </Member>
@@ -94,8 +111,8 @@
       </ReturnValue>
       <Parameters />
       <Docs>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
+        <summary>Returns the hash code for this instance.</summary>
+        <returns>A 32-bit signed integer hash code.</returns>
         <remarks>To be added.</remarks>
       </Docs>
     </Member>
@@ -118,10 +135,29 @@
         <Parameter Name="parameters" Type="System.Object[]" />
       </Parameters>
       <Docs>
-        <param name="parameters">To be added.</param>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
-        <remarks>To be added.</remarks>
+        <param name="parameters">An array of values that matches the number, order and type (under the constraints of the default binder) of the parameters for this constructor. If this constructor takes no parameters, then use either an array with zero elements or `null`, as in Object[] parameters = new Object[0]. Any object in this array that is not explicitly initialized with a value will contain the default value for that object type. For reference-type elements, this value is `null`. For value-type elements, this value is 0, 0.0, or `false`, depending on the specific element type.</param>
+        <summary>Invokes the constructor reflected by the instance that has the specified parameters, providing default values for the parameters not commonly used.</summary>
+        <returns>An instance of the class associated with the constructor.</returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ The number, type, and order of elements in the  array should be identical to the number, type, and order of parameters for the constructor reflected by this instance. Before calling the constructor, `Invoke` ensures that the caller has access permission and verifies that the parameters are valid.  
+  
+ Access restrictions are ignored for fully trusted code. That is, private constructors, methods, fields, and properties can be accessed and invoked using reflection whenever the code is fully trusted.  
+  
+> [!NOTE]
+>  To create an instance of a value type that has no instance constructors, use the <xref:System.Activator.CreateInstance%2A> method.  
+  
+ This method is a convenience method for the following overloaded version, using default values. This method cannot be overridden.  
+  
+> [!NOTE]
+>  Starting with the [!INCLUDE[net_v20sp1_long](../../add/includes/net-v20sp1-long-md.md)], this method can be used to access non-public members if the caller has been granted <xref:System.Security.Permissions.ReflectionPermission> with the <xref:System.Security.Permissions.ReflectionPermissionFlag?displayProperty=fullName> flag and if the grant set of the non-public members is restricted to the caller’s grant set, or a subset thereof. (See [Security Considerations for Reflection](../Topic/Security%20Considerations%20for%20Reflection.md).)  
+>   
+>  To use this functionality, your application should target the [!INCLUDE[net_v35_long](../../add/includes/net-v35-long-md.md)] or later.  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="Invoke">
@@ -141,13 +177,32 @@
         <Parameter Name="culture" Type="System.Globalization.CultureInfo" />
       </Parameters>
       <Docs>
-        <param name="invokeAttr">To be added.</param>
-        <param name="binder">To be added.</param>
-        <param name="parameters">To be added.</param>
-        <param name="culture">To be added.</param>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
-        <remarks>To be added.</remarks>
+        <param name="invokeAttr">One of the `BindingFlags` values that specifies the type of binding.</param>
+        <param name="binder">A `Binder` that defines a set of properties and enables the binding, coercion of argument types, and invocation of members using reflection. If  is `null`, then `Binder.DefaultBinding` is used.</param>
+        <param name="parameters">An array of type `Object` used to match the number, order and type of the parameters for this constructor, under the constraints of . If this constructor does not require parameters, pass an array with zero elements, as in Object[] parameters = new Object[0]. Any object in this array that is not explicitly initialized with a value will contain the default value for that object type. For reference-type elements, this value is `null`. For value-type elements, this value is 0, 0.0, or `false`, depending on the specific element type.</param>
+        <param name="culture">A &lt;see cref="T:System.Globalization.CultureInfo"&gt; used to govern the coercion of types. If this is `null`, the &lt;see cref="T:System.Globalization.CultureInfo"&gt; for the current thread is used.</param>
+        <summary>When implemented in a derived class, invokes the constructor reflected by this `ConstructorInfo` with the specified arguments, under the constraints of the specified `Binder`.</summary>
+        <returns>An instance of the class associated with the constructor.</returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ The number, type, and order of elements in the  array should be identical to the number, type, and order of parameters for the constructor reflected by this instance.  
+  
+ Before calling the constructor, `Invoke` ensures that the caller has access permission and that the parameters are of the correct number, order and type.  
+  
+ Access restrictions are ignored for fully trusted code. That is, private constructors, methods, fields, and properties can be accessed and invoked using reflection whenever the code is fully trusted.  
+  
+> [!NOTE]
+>  To create an instance of a value type that has no instance constructors, use the <xref:System.Activator.CreateInstance%2A> method.  
+  
+> [!NOTE]
+>  Starting with the [!INCLUDE[net_v20sp1_long](../../add/includes/net-v20sp1-long-md.md)], this method can be used to access non-public members if the caller has been granted <xref:System.Security.Permissions.ReflectionPermission> with the <xref:System.Security.Permissions.ReflectionPermissionFlag?displayProperty=fullName> flag and if the grant set of the non-public members is restricted to the caller’s grant set, or a subset thereof. (See [Security Considerations for Reflection](../Topic/Security%20Considerations%20for%20Reflection.md).)  
+>   
+>  To use this functionality, your application should target the [!INCLUDE[net_v35_long](../../add/includes/net-v35-long-md.md)] or later.  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="MemberType">
@@ -166,9 +221,23 @@
         <ReturnType>System.Reflection.MemberTypes</ReturnType>
       </ReturnValue>
       <Docs>
-        <summary>To be added.</summary>
-        <value>To be added.</value>
-        <remarks>To be added.</remarks>
+        <summary>Gets a &lt;see cref="T:System.Reflection.MemberTypes"&gt; value indicating that this member is a constructor.</summary>
+        <value>A &lt;see cref="T:System.Reflection.MemberTypes"&gt; value indicating that this member is a constructor.</value>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ This property overrides <xref:System.Reflection.MemberInfo.MemberType%2A>. Therefore, when you examine a set of <xref:System.Reflection.MemberInfo> objects — for example, the array returned by <xref:System.Type.GetMembers%2A> — the <xref:System.Reflection.MemberInfo.MemberType%2A> property returns <xref:System.Reflection.MemberTypes> only when a given member is a constructor.  
+  
+   
+  
+## Examples  
+ The following example uses the MemberType property to identify a <xref:System.Reflection.MemberInfo> object as a constructor.  
+  
+ [!CODE [Classic MemberInfo.MemberType Example#1](../CodeSnippet/VS_Snippets_CLR_Classic/classic MemberInfo.MemberType Example#1)]  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="op_Equality">
@@ -186,10 +255,10 @@
         <Parameter Name="right" Type="System.Reflection.ConstructorInfo" />
       </Parameters>
       <Docs>
-        <param name="left">To be added.</param>
-        <param name="right">To be added.</param>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
+        <param name="left">The first &lt;see cref="T:System.Reflection.ConstructorInfo"&gt; to compare.</param>
+        <param name="right">The second &lt;see cref="T:System.Reflection.ConstructorInfo"&gt; to compare.</param>
+        <summary>Indicates whether two &lt;see cref="T:System.Reflection.ConstructorInfo"&gt; objects are equal.</summary>
+        <returns>`true` if  is equal to ; otherwise `false`.</returns>
         <remarks>To be added.</remarks>
       </Docs>
     </Member>
@@ -208,10 +277,10 @@
         <Parameter Name="right" Type="System.Reflection.ConstructorInfo" />
       </Parameters>
       <Docs>
-        <param name="left">To be added.</param>
-        <param name="right">To be added.</param>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
+        <param name="left">The first &lt;see cref="T:System.Reflection.ConstructorInfo"&gt; to compare.</param>
+        <param name="right">The second &lt;see cref="T:System.Reflection.ConstructorInfo"&gt; to compare.</param>
+        <summary>Indicates whether two &lt;see cref="T:System.Reflection.ConstructorInfo"&gt; objects are not equal.</summary>
+        <returns>`true` if  is not equal to ; otherwise `false`.</returns>
         <remarks>To be added.</remarks>
       </Docs>
     </Member>
@@ -233,13 +302,20 @@
         <Parameter Name="rgDispId" Type="System.IntPtr" />
       </Parameters>
       <Docs>
-        <param name="riid">To be added.</param>
-        <param name="rgszNames">To be added.</param>
-        <param name="cNames">To be added.</param>
-        <param name="lcid">To be added.</param>
-        <param name="rgDispId">To be added.</param>
-        <summary>To be added.</summary>
-        <remarks>To be added.</remarks>
+        <param name="riid">Reserved for future use. Must be IID_NULL.</param>
+        <param name="rgszNames">Passed-in array of names to be mapped.</param>
+        <param name="cNames">Count of the names to be mapped.</param>
+        <param name="lcid">The locale context in which to interpret the names.</param>
+        <param name="rgDispId">Caller-allocated array which receives the IDs corresponding to the names.</param>
+        <summary>Maps a set of names to a corresponding set of dispatch identifiers.</summary>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ This method is for access to managed classes from unmanaged code, and should not be called from managed code. For more information about `IDispatch::GetIDsOfNames`, see the MSDN Library.  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="System.Runtime.InteropServices._ConstructorInfo.GetType">
@@ -254,8 +330,8 @@
       </ReturnValue>
       <Parameters />
       <Docs>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
+        <summary>Gets a &lt;see cref="T:System.Type"&gt; object representing the &lt;xref:System.Reflection.ConstructorInfo&gt; type.</summary>
+        <returns>A &lt;see cref="T:System.Type"&gt; object representing the &lt;xref:System.Reflection.ConstructorInfo&gt; type.</returns>
         <remarks>To be added.</remarks>
       </Docs>
     </Member>
@@ -275,11 +351,18 @@
         <Parameter Name="ppTInfo" Type="System.IntPtr" />
       </Parameters>
       <Docs>
-        <param name="iTInfo">To be added.</param>
-        <param name="lcid">To be added.</param>
-        <param name="ppTInfo">To be added.</param>
-        <summary>To be added.</summary>
-        <remarks>To be added.</remarks>
+        <param name="iTInfo">The type information to return.</param>
+        <param name="lcid">The locale identifier for the type information.</param>
+        <param name="ppTInfo">Receives a pointer to the requested type information object.</param>
+        <summary>Retrieves the type information for an object, which can then be used to get the type information for an interface.</summary>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ This method is for access to managed classes from unmanaged code, and should not be called from managed code. For more information about `IDispatch::GetTypeInfo`, see the MSDN Library.  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="System.Runtime.InteropServices._ConstructorInfo.GetTypeInfoCount">
@@ -296,9 +379,16 @@
         <Parameter Name="pcTInfo" Type="System.UInt32&amp;" RefType="out" />
       </Parameters>
       <Docs>
-        <param name="pcTInfo">To be added.</param>
-        <summary>To be added.</summary>
-        <remarks>To be added.</remarks>
+        <param name="pcTInfo">Points to a location that receives the number of type information interfaces provided by the object.</param>
+        <summary>Retrieves the number of type information interfaces that an object provides (either 0 or 1).</summary>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ This method is for access to managed classes from unmanaged code, and should not be called from managed code. For more information about `IDispatch::GetTypeInfoCount`, see the MSDN Library.  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="System.Runtime.InteropServices._ConstructorInfo.Invoke">
@@ -322,16 +412,23 @@
         <Parameter Name="puArgErr" Type="System.IntPtr" />
       </Parameters>
       <Docs>
-        <param name="dispIdMember">To be added.</param>
-        <param name="riid">To be added.</param>
-        <param name="lcid">To be added.</param>
-        <param name="wFlags">To be added.</param>
-        <param name="pDispParams">To be added.</param>
-        <param name="pVarResult">To be added.</param>
-        <param name="pExcepInfo">To be added.</param>
-        <param name="puArgErr">To be added.</param>
-        <summary>To be added.</summary>
-        <remarks>To be added.</remarks>
+        <param name="dispIdMember">Identifies the member.</param>
+        <param name="riid">Reserved for future use. Must be IID_NULL.</param>
+        <param name="lcid">The locale context in which to interpret arguments.</param>
+        <param name="wFlags">Flags describing the context of the call.</param>
+        <param name="pDispParams">Pointer to a structure containing an array of arguments, an array of argument DISPIDs for named arguments, and counts for the number of elements in the arrays.</param>
+        <param name="pVarResult">Pointer to the location where the result is to be stored.</param>
+        <param name="pExcepInfo">Pointer to a structure that contains exception information.</param>
+        <param name="puArgErr">The index of the first argument that has an error.</param>
+        <summary>Provides access to properties and methods exposed by an object.</summary>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ This method is for access to managed classes from unmanaged code, and should not be called from managed code. For more information about `IDispatch::Invoke`, see the MSDN Library.  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="System.Runtime.InteropServices._ConstructorInfo.Invoke_2">
@@ -352,14 +449,21 @@
         <Parameter Name="culture" Type="System.Globalization.CultureInfo" />
       </Parameters>
       <Docs>
-        <param name="obj">To be added.</param>
-        <param name="invokeAttr">To be added.</param>
-        <param name="binder">To be added.</param>
-        <param name="parameters">To be added.</param>
-        <param name="culture">To be added.</param>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
-        <remarks>To be added.</remarks>
+        <param name="obj">The instance that created this method.</param>
+        <param name="invokeAttr">One of the &lt;see cref="T:System.Reflection.BindingFlags"&gt; values that specifies the type of binding.</param>
+        <param name="binder">A &lt;see cref="T:System.Reflection.Binder"&gt; that defines a set of properties and enables the binding, coercion of argument types, and invocation of members using reflection. If  is `null`, then &lt;xref:System.Type.DefaultBinder%2A?displayProperty=fullName&gt; is used.</param>
+        <param name="parameters">An array of objects used to match the number, order, and type of the parameters for this constructor, under the constraints of . If this constructor does not require parameters, pass an array with zero elements. Any object in this array that is not explicitly initialized with a value will contain the default value for that object type. For reference-type elements, this value is `null`. For value-type elements, this value is 0, 0.0, or `false`, depending on the specific element type.</param>
+        <param name="culture">A &lt;see cref="T:System.Globalization.CultureInfo"&gt; used to govern the coercion of types. If this is `null`, the &lt;see cref="T:System.Globalization.CultureInfo"&gt; for the current thread is used.</param>
+        <summary>Provides COM objects with version-independent access to the [MethodBase.Invoke(Object, BindingFlags, Binder, Object\[\], CultureInfo)](assetId:///M:System.Reflection.MethodBase.Invoke(System.Object,System.Reflection.BindingFlags,System.Reflection.Binder,System.Object[],System.Globalization.CultureInfo)?qualifyHint=True&amp;autoUpgrade=False) method.</summary>
+        <returns>An instance of the type.</returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ This member is an explicit interface member implementation. It can be used only when the <xref:System.Reflection.ConstructorInfo> instance is cast to an <xref:System.Runtime.InteropServices._ConstructorInfo> interface.  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="System.Runtime.InteropServices._ConstructorInfo.Invoke_3">
@@ -377,11 +481,18 @@
         <Parameter Name="parameters" Type="System.Object[]" />
       </Parameters>
       <Docs>
-        <param name="obj">To be added.</param>
-        <param name="parameters">To be added.</param>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
-        <remarks>To be added.</remarks>
+        <param name="obj">The instance that created this method.</param>
+        <param name="parameters">An array of objects used to match the number, order, and type of the parameters for this constructor, under the constraints of . If this constructor does not require parameters, pass an array with zero elements. Any object in this array that is not explicitly initialized with a value will contain the default value for that object type. For reference-type elements, this value is `null`. For value-type elements, this value is 0, 0.0, or `false`, depending on the specific element type.</param>
+        <summary>Provides COM objects with version-independent access to the [MethodBase.Invoke(Object, Object\[\])](assetId:///M:System.Reflection.MethodBase.Invoke(System.Object,System.Object[])?qualifyHint=True&amp;autoUpgrade=False) method.</summary>
+        <returns>An instance of the type.</returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ This member is an explicit interface member implementation. It can be used only when the <xref:System.Reflection.ConstructorInfo> instance is cast to an <xref:System.Runtime.InteropServices._ConstructorInfo> interface.  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="System.Runtime.InteropServices._ConstructorInfo.Invoke_4">
@@ -401,13 +512,20 @@
         <Parameter Name="culture" Type="System.Globalization.CultureInfo" />
       </Parameters>
       <Docs>
-        <param name="invokeAttr">To be added.</param>
-        <param name="binder">To be added.</param>
-        <param name="parameters">To be added.</param>
-        <param name="culture">To be added.</param>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
-        <remarks>To be added.</remarks>
+        <param name="invokeAttr">One of the &lt;see cref="T:System.Reflection.BindingFlags"&gt; values that specifies the type of binding.</param>
+        <param name="binder">A &lt;see cref="T:System.Reflection.Binder"&gt; that defines a set of properties and enables the binding, coercion of argument types, and invocation of members using reflection. If  is `null`, then &lt;xref:System.Type.DefaultBinder%2A?displayProperty=fullName&gt; is used.</param>
+        <param name="parameters">An array of objects used to match the number, order, and type of the parameters for this constructor, under the constraints of . If this constructor does not require parameters, pass an array with zero elements. Any object in this array that is not explicitly initialized with a value will contain the default value for that object type. For reference-type elements, this value is `null`. For value-type elements, this value is 0, 0.0, or `false`, depending on the specific element type.</param>
+        <param name="culture">A &lt;see cref="T:System.Globalization.CultureInfo"&gt; used to govern the coercion of types. If this is `null`, the &lt;see cref="T:System.Globalization.CultureInfo"&gt; for the current thread is used.</param>
+        <summary>Provides COM objects with version-independent access to the [ConstructorInfo.Invoke(BindingFlags, Binder, Object\[\], CultureInfo)](assetId:///M:System.Reflection.ConstructorInfo.Invoke(System.Reflection.BindingFlags,System.Reflection.Binder,System.Object[],System.Globalization.CultureInfo)?qualifyHint=True&amp;autoUpgrade=False) method.</summary>
+        <returns>An instance of the type.</returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ This member is an explicit interface member implementation. It can be used only when the <xref:System.Reflection.ConstructorInfo> instance is cast to an <xref:System.Runtime.InteropServices._ConstructorInfo> interface.  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="System.Runtime.InteropServices._ConstructorInfo.Invoke_5">
@@ -424,10 +542,17 @@
         <Parameter Name="parameters" Type="System.Object[]" />
       </Parameters>
       <Docs>
-        <param name="parameters">To be added.</param>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
-        <remarks>To be added.</remarks>
+        <param name="parameters">An array of objects used to match the number, order, and type of the parameters for this constructor, under the constraints of . If this constructor does not require parameters, pass an array with zero elements. Any object in this array that is not explicitly initialized with a value will contain the default value for that object type. For reference-type elements, this value is `null`. For value-type elements, this value is 0, 0.0, or `false`, depending on the specific element type.</param>
+        <summary>Provides COM objects with version-independent access to the [ConstructorInfo.Invoke(Object\[\])](assetId:///M:System.Reflection.ConstructorInfo.Invoke(System.Object[])?qualifyHint=True&amp;autoUpgrade=False) method.</summary>
+        <returns>An instance of the type.</returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ This member is an explicit interface member implementation. It can be used only when the <xref:System.Reflection.ConstructorInfo> instance is cast to an <xref:System.Runtime.InteropServices._ConstructorInfo> interface.  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="TypeConstructorName">
@@ -446,7 +571,7 @@
         <ReturnType>System.String</ReturnType>
       </ReturnValue>
       <Docs>
-        <summary>To be added.</summary>
+        <summary>Represents the name of the type constructor method as it is stored in metadata. This name is always ".cctor". This property is read-only.</summary>
         <remarks>To be added.</remarks>
       </Docs>
     </Member>

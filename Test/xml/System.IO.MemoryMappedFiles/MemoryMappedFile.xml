@@ -14,8 +14,30 @@
     </Interface>
   </Interfaces>
   <Docs>
-    <summary>To be added.</summary>
-    <remarks>To be added.</remarks>
+    <summary>Represents a memory-mapped file.</summary>
+    <remarks>
+      <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ A memory-mapped file maps the contents of a file to an application’s logical address space. Memory-mapped files enable programmers to work with extremely large files because memory can be managed concurrently, and they allow complete, random access to a file without the need for seeking. Memory-mapped files can also be shared across multiple processes.  
+  
+ The <xref:System.IO.MemoryMappedFiles.MemoryMappedFile.CreateFromFile%2A> methods create a memory-mapped file from a specified path or a <xref:System.IO.FileStream> of an existing file on disk. Changes are automatically propagated to disk when the file is unmapped.  
+  
+ The <xref:System.IO.MemoryMappedFiles.MemoryMappedFile.CreateNew%2A> methods create a memory-mapped file that is not mapped to an existing file on disk; and are suitable for creating shared memory for interprocess communication (IPC).  
+  
+ A memory-mapped file is associated with a name.  
+  
+ You can create multiple views of the memory-mapped file, including views of parts of the file. You can map the same part of a file to more than one address to create concurrent memory. For two views to remain concurrent, they have to be created from the same memory-mapped file. Creating two file mappings of the same file with two views does not provide concurrency.  
+  
+   
+  
+## Examples  
+ The following example creates a memory-mapped view of a part of an extremely large file and manipulates a portion of it.  
+  
+ [!CODE [MemoryMappedFiles.MemoryMappedFile.CreateFromFile#1](../CodeSnippet/VS_Snippets_CLR/memorymappedfiles.memorymappedfile.createfromfile#1)]  
+  
+ ]]></format>
+    </remarks>
   </Docs>
   <Members>
     <Member MemberName="CreateFromFile">
@@ -32,10 +54,19 @@
         <Parameter Name="path" Type="System.String" />
       </Parameters>
       <Docs>
-        <param name="path">To be added.</param>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
-        <remarks>To be added.</remarks>
+        <param name="path">The path to file to map.</param>
+        <summary>Creates a memory-mapped file from a file on disk.</summary>
+        <returns>A memory-mapped file.</returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Examples  
+ The following example uses the CreateFromFile method to create a memory-mapped file, and then creates a memory-mapped view to a portion of an extremely large file.  
+  
+ [!CODE [MemoryMappedFiles.MemoryMappedFile.CreateFromFile#1](../CodeSnippet/VS_Snippets_CLR/memorymappedfiles.memorymappedfile.createfromfile#1)]  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="CreateFromFile">
@@ -53,11 +84,18 @@
         <Parameter Name="mode" Type="System.IO.FileMode" />
       </Parameters>
       <Docs>
-        <param name="path">To be added.</param>
-        <param name="mode">To be added.</param>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
-        <remarks>To be added.</remarks>
+        <param name="path">The path to file to map.</param>
+        <param name="mode">Access mode; must be &lt;see cref="T:System.IO.FileMode"&gt;.</param>
+        <summary>Creates a memory-mapped file that has the specified access mode from a file on disk.</summary>
+        <returns>A memory-mapped file that has the specified access mode.</returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ The  parameter pertains to the source file on disk. You can use only the <xref:System.IO.FileMode> enumeration value to create the memory-mapped file from the source file on disk.  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="CreateFromFile">
@@ -76,12 +114,19 @@
         <Parameter Name="mapName" Type="System.String" />
       </Parameters>
       <Docs>
-        <param name="path">To be added.</param>
-        <param name="mode">To be added.</param>
-        <param name="mapName">To be added.</param>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
-        <remarks>To be added.</remarks>
+        <param name="path">The path to the file to map.</param>
+        <param name="mode">Access mode; must be &lt;see cref="T:System.IO.FileMode"&gt;.</param>
+        <param name="mapName">A name to assign to the memory-mapped file.</param>
+        <summary>Creates a memory-mapped file that has the specified access mode and name from a file on disk.</summary>
+        <returns>A memory-mapped file that has the specified name and access mode.</returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ The  parameter pertains to the source file on disk. You can use only the <xref:System.IO.FileMode> enumeration value to create the memory-mapped file from the source file on disk.  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="CreateFromFile">
@@ -101,13 +146,22 @@
         <Parameter Name="capacity" Type="System.Int64" />
       </Parameters>
       <Docs>
-        <param name="path">To be added.</param>
-        <param name="mode">To be added.</param>
-        <param name="mapName">To be added.</param>
-        <param name="capacity">To be added.</param>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
-        <remarks>To be added.</remarks>
+        <param name="path">The path to the file to map.</param>
+        <param name="mode">Access mode; can be any of the &lt;see cref="T:System.IO.FileMode"&gt; enumeration values except &lt;see cref="T:System.IO.FileMode"&gt;.</param>
+        <param name="mapName">A name to assign to the memory-mapped file.</param>
+        <param name="capacity">The maximum size, in bytes, to allocate to the memory-mapped file. Specify 0 to set the capacity to the size of the file on disk.</param>
+        <summary>Creates a memory-mapped file that has the specified access mode, name, and capacity from a file on disk.</summary>
+        <returns>A memory-mapped file that has the specified characteristics.</returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ The  parameter pertains to the source file on disk.  
+  
+ If  is larger than the size of the file on disk, the file on disk is increased to match the specified capacity even if no data is written to the memory-mapped file. To prevent this from occurring, specify 0 (zero) for the default capacity, which will internally set  to the size of the file on disk.  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="CreateFromFile">
@@ -133,14 +187,23 @@
         <Parameter Name="access" Type="System.IO.MemoryMappedFiles.MemoryMappedFileAccess" />
       </Parameters>
       <Docs>
-        <param name="path">To be added.</param>
-        <param name="mode">To be added.</param>
-        <param name="mapName">To be added.</param>
-        <param name="capacity">To be added.</param>
-        <param name="access">To be added.</param>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
-        <remarks>To be added.</remarks>
+        <param name="path">The path to the file to map.</param>
+        <param name="mode">Access mode; can be any of the &lt;see cref="T:System.IO.FileMode"&gt; enumeration values except &lt;see cref="T:System.IO.FileMode"&gt;.</param>
+        <param name="mapName">A name to assign to the memory-mapped file.</param>
+        <param name="capacity">The maximum size, in bytes, to allocate to the memory-mapped file. Specify 0 to set the capacity to the size of the file on disk.</param>
+        <param name="access">One of the enumeration values that specifies the type of access allowed to the memory-mapped file.</param>
+        <summary>Creates a memory-mapped file that has the specified access mode, name, capacity, and access type from a file on disk.</summary>
+        <returns>A memory-mapped file that has the specified characteristics.</returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ The  parameter pertains to the source file on disk.  
+  
+ If  is larger than the size of the file on disk, the file on disk is increased to match the specified capacity even if no data is written to the memory-mapped file. To prevent this from occurring, specify 0 (zero) for the default capacity, which will internally set  to the size of the file on disk.  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="CreateFromFile">
@@ -162,14 +225,16 @@
         <Parameter Name="leaveOpen" Type="System.Boolean" />
       </Parameters>
       <Docs>
-        <param name="fileStream">To be added.</param>
-        <param name="mapName">To be added.</param>
-        <param name="capacity">To be added.</param>
-        <param name="access">To be added.</param>
-        <param name="inheritability">To be added.</param>
-        <param name="leaveOpen">To be added.</param>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
+        <param name="fileStream">The file stream of the existing file.</param>
+        <param name="mapName">A name to assign to the memory-mapped file.</param>
+        <param name="capacity">The maximum size, in bytes, to allocate to the memory-mapped file. Specify 0 to set the capacity to the size of .</param>
+        <param name="access">One of the enumeration values that specifies the type of access allowed to the memory-mapped file.  
+  
+ This parameter can’t be set to &lt;see cref="T:System.IO.MemoryMappedFiles.MemoryMappedFileAccess"&gt;.</param>
+        <param name="inheritability">One of the enumeration values that specifies whether a handle to the memory-mapped file can be inherited by a child process. The default is &lt;see cref="T:System.IO.HandleInheritability"&gt;.</param>
+        <param name="leaveOpen">A value that indicates whether to close the source file stream when the &lt;see cref="T:System.IO.MemoryMappedFiles.MemoryMappedFile"&gt; is disposed.</param>
+        <summary>Creates a memory-mapped file from an existing file with the specified access mode, name, inheritability, and capacity.</summary>
+        <returns>A memory-mapped file that has the specified characteristics.</returns>
         <remarks>To be added.</remarks>
       </Docs>
     </Member>
@@ -198,16 +263,27 @@
         <Parameter Name="leaveOpen" Type="System.Boolean" />
       </Parameters>
       <Docs>
-        <param name="fileStream">To be added.</param>
-        <param name="mapName">To be added.</param>
-        <param name="capacity">To be added.</param>
-        <param name="access">To be added.</param>
-        <param name="memoryMappedFileSecurity">To be added.</param>
-        <param name="inheritability">To be added.</param>
-        <param name="leaveOpen">To be added.</param>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
-        <remarks>To be added.</remarks>
+        <param name="fileStream">The  to the file to map.</param>
+        <param name="mapName">A name to assign to the memory-mapped file.</param>
+        <param name="capacity">The maximum size, in bytes, to allocate to the memory-mapped file. Specify 0 to set the capacity to the size of the file on disk.</param>
+        <param name="access">One of the enumeration values that specifies the type of access allowed to the memory-mapped file.  
+  
+ This parameter can’t be set to &lt;see cref="T:System.IO.MemoryMappedFiles.MemoryMappedFileAccess"&gt;.</param>
+        <param name="memoryMappedFileSecurity">The permissions that can be granted for file access and operations on memory-mapped files.  
+  
+ This parameter can be `null`.</param>
+        <param name="inheritability">One of the enumeration values that specifies whether a handle to the memory-mapped file can be inherited by a child process. The default is &lt;see cref="T:System.IO.HandleInheritability"&gt;.</param>
+        <param name="leaveOpen">`true` to not dispose  after the &lt;see cref="T:System.IO.MemoryMappedFiles.MemoryMappedFile"&gt; is closed; `false` to dispose .</param>
+        <summary>Creates a memory-mapped file that has the specified name, capacity, access type, security permissions, inheritability, and disposal requirement from a file on disk.</summary>
+        <returns>A memory-mapped file that has the specified characteristics.</returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ If  is larger than the size of the file on disk, the file on disk is increased to match the specified capacity even if no data is written to the memory-mapped file. To prevent this from occurring, specify 0 (zero) for the default capacity, which will internally set  to the size of the file on disk.  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="CreateNew">
@@ -225,11 +301,69 @@
         <Parameter Name="capacity" Type="System.Int64" />
       </Parameters>
       <Docs>
-        <param name="mapName">To be added.</param>
-        <param name="capacity">To be added.</param>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
-        <remarks>To be added.</remarks>
+        <param name="mapName">A name to assign to the memory-mapped file.</param>
+        <param name="capacity">The maximum size, in bytes, to allocate to the memory-mapped file.</param>
+        <summary>Creates a memory-mapped file that has the specified capacity in system memory.</summary>
+        <returns>A memory-mapped file that has the specified name and capacity.</returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ Use this method to create a memory-mapped file that is not persisted (that is, not associated with a file on disk), which you can use to share data between processes.  
+  
+   
+  
+## Examples  
+ The following example is composed of three separate processes (console applications) that write `Boolean` values to a memory-mapped file. The following sequence of actions occur:  
+  
+1.  Process A creates the memory-mapped file and writes a value to it.  
+  
+2.  Process B opens the memory-mapped file and writes a value to it.  
+  
+3.  Process C opens the memory-mapped file and writes a value to it.  
+  
+4.  Process A reads and displays the values from the memory-mapped file.  
+  
+5.  After Process A is finished with the memory-mapped file, the file is immediately reclaimed by garbage collection.  
+  
+ To run this example, do the following:  
+  
+1.  Compile the applications and open three Command windows.  
+  
+2.  In the first Command window, run Process A.  
+  
+3.  In the second Command window, run Process B.  
+  
+4.  Return to Process A and press ENTER.  
+  
+5.  In the third Command window, run Process C.  
+  
+6.  Return to Process A and press ENTER.  
+  
+ The output of Process A is as follows:  
+  
+```  
+Start Process B and press ENTER to continue.  
+Start Process C and press ENTER to continue.  
+Process A says: True  
+Process B says: False  
+Process C says: True  
+```  
+  
+ **Process A**  
+  
+ [!CODE [System.IO.MemoryMappedFiles_IPC_X#1](../CodeSnippet/VS_Snippets_CLR_System/system.io.memorymappedfiles_ipc_x#1)]  
+  
+ **Process B**  
+  
+ [!CODE [System.IO.MemoryMappedFiles_IPC_A#1](../CodeSnippet/VS_Snippets_CLR_System/system.io.memorymappedfiles_ipc_a#1)]  
+  
+ **Process C**  
+  
+ [!CODE [System.IO.MemoryMappedFiles_IPC_B#1](../CodeSnippet/VS_Snippets_CLR_System/system.io.memorymappedfiles_ipc_b#1)]  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="CreateNew">
@@ -248,12 +382,19 @@
         <Parameter Name="access" Type="System.IO.MemoryMappedFiles.MemoryMappedFileAccess" />
       </Parameters>
       <Docs>
-        <param name="mapName">To be added.</param>
-        <param name="capacity">To be added.</param>
-        <param name="access">To be added.</param>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
-        <remarks>To be added.</remarks>
+        <param name="mapName">A name to assign to the memory-mapped file.</param>
+        <param name="capacity">The maximum size, in bytes, to allocate to the memory-mapped file.</param>
+        <param name="access">One of the enumeration values that specifies the type of access allowed to the memory-mapped file. The default is &lt;see cref="T:System.IO.MemoryMappedFiles.MemoryMappedFileAccess"&gt;.</param>
+        <summary>Creates a memory-mapped file that has the specified capacity and access type in system memory.</summary>
+        <returns>A memory-mapped file that has the specified characteristics.</returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ Use this method to create a memory-mapped file that is not persisted (that is, not associated with a file on disk), which you can use to share data between processes.  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="CreateNew">
@@ -274,13 +415,13 @@
         <Parameter Name="inheritability" Type="System.IO.HandleInheritability" />
       </Parameters>
       <Docs>
-        <param name="mapName">To be added.</param>
-        <param name="capacity">To be added.</param>
-        <param name="access">To be added.</param>
-        <param name="options">To be added.</param>
-        <param name="inheritability">To be added.</param>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
+        <param name="mapName">A name to assign to the memory-mapped file.</param>
+        <param name="capacity">The maximum size, in bytes, to allocate to the memory-mapped file.</param>
+        <param name="access">One of the enumeration values that specifies the type of access allowed to the memory-mapped file. The default is &lt;see cref="T:System.IO.MemoryMappedFiles.MemoryMappedFileAccess"&gt;.</param>
+        <param name="options">A bitwise combination of enumeration values that specifies memory allocation options for the memory-mapped file.</param>
+        <param name="inheritability">A value that specifies whether a handle to the memory-mapped file can be inherited by a child process. The default is &lt;see cref="T:System.IO.HandleInheritability"&gt;.</param>
+        <summary>Creates a memory-mapped file that has the specified name, capacity, access type, memory allocation options and inheritability.</summary>
+        <returns>A memory-mapped file that has the specified characteristics.</returns>
         <remarks>To be added.</remarks>
       </Docs>
     </Member>
@@ -308,15 +449,24 @@
         <Parameter Name="inheritability" Type="System.IO.HandleInheritability" />
       </Parameters>
       <Docs>
-        <param name="mapName">To be added.</param>
-        <param name="capacity">To be added.</param>
-        <param name="access">To be added.</param>
-        <param name="options">To be added.</param>
-        <param name="memoryMappedFileSecurity">To be added.</param>
-        <param name="inheritability">To be added.</param>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
-        <remarks>To be added.</remarks>
+        <param name="mapName">A name to assign to the memory-mapped file.</param>
+        <param name="capacity">The maximum size, in bytes, to allocate to the memory-mapped file.</param>
+        <param name="access">One of the enumeration values that specifies the type of access allowed to the memory-mapped file. The default is &lt;see cref="T:System.IO.MemoryMappedFiles.MemoryMappedFileAccess"&gt;.</param>
+        <param name="options">A bitwise combination of enumeration values that specifies memory allocation options for the memory-mapped file.</param>
+        <param name="memoryMappedFileSecurity">The permissions that can be granted for file access and operations on memory-mapped files.  
+  
+ This parameter can be `null`.</param>
+        <param name="inheritability">One of the enumeration values that specifies whether a handle to the memory-mapped file can be inherited by a child process. The default is &lt;see cref="T:System.IO.HandleInheritability"&gt;.</param>
+        <summary>Creates a memory-mapped file that has the specified capacity, access type, memory allocation, security permissions, and inheritability in system memory.</summary>
+        <returns>A memory-mapped file that has the specified characteristics.</returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ Use this method to create a memory-mapped file that is not persisted (that is, not associated with a file on disk), which you can use to share data between processes.  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="CreateOrOpen">
@@ -334,11 +484,18 @@
         <Parameter Name="capacity" Type="System.Int64" />
       </Parameters>
       <Docs>
-        <param name="mapName">To be added.</param>
-        <param name="capacity">To be added.</param>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
-        <remarks>To be added.</remarks>
+        <param name="mapName">A name to assign to the memory-mapped file.</param>
+        <param name="capacity">The maximum size, in bytes, to allocate to the memory-mapped file.</param>
+        <summary>Creates or opens a memory-mapped file that has the specified capacity in system memory.</summary>
+        <returns>A memory-mapped file that has the specified name and size.</returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ Use this method to create or open a memory-mapped file that is not persisted (that is, not associated with a file on disk), which you can use to share data between processes.  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="CreateOrOpen">
@@ -357,12 +514,19 @@
         <Parameter Name="access" Type="System.IO.MemoryMappedFiles.MemoryMappedFileAccess" />
       </Parameters>
       <Docs>
-        <param name="mapName">To be added.</param>
-        <param name="capacity">To be added.</param>
-        <param name="access">To be added.</param>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
-        <remarks>To be added.</remarks>
+        <param name="mapName">A name to assign to the memory-mapped file.</param>
+        <param name="capacity">The maximum size, in bytes, to allocate to the memory-mapped file.</param>
+        <param name="access">One of the enumeration values that specifies the type of access allowed to the memory-mapped file. The default is &lt;see cref="T:System.IO.MemoryMappedFiles.MemoryMappedFileAccess"&gt;.</param>
+        <summary>Creates or opens a memory-mapped file that has the specified capacity and access type in system memory.</summary>
+        <returns>A memory-mapped file that has the specified characteristics.</returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ Use this method to create or open a memory-mapped file that is not persisted (that is, not associated with a file on disk), which you can use to share data between processes.  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="CreateOrOpen">
@@ -383,13 +547,13 @@
         <Parameter Name="inheritability" Type="System.IO.HandleInheritability" />
       </Parameters>
       <Docs>
-        <param name="mapName">To be added.</param>
-        <param name="capacity">To be added.</param>
-        <param name="access">To be added.</param>
-        <param name="options">To be added.</param>
-        <param name="inheritability">To be added.</param>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
+        <param name="mapName">A name to assign to the memory-mapped file.</param>
+        <param name="capacity">The maximum size, in bytes, to allocate to the memory-mapped file.</param>
+        <param name="access">One of the enumeration values that specifies the type of access allowed to the memory-mapped file. The default is &lt;see cref="T:System.IO.MemoryMappedFiles.MemoryMappedFileAccess"&gt;.</param>
+        <param name="options">A bitwise combination of values that indicate the memory allocation options to apply to the file.</param>
+        <param name="inheritability">A value that specifies whether a handle to the memory-mapped file can be inherited by a child process. The default is &lt;see cref="T:System.IO.HandleInheritability"&gt;.</param>
+        <summary>Creates a new empty memory mapped file or opens an existing memory mapped file if one exists with the same name. If opening an existing file, the capacity, options, and memory arguments will be ignored.</summary>
+        <returns>A memory-mapped file that has the specified characteristics.</returns>
         <remarks>To be added.</remarks>
       </Docs>
     </Member>
@@ -417,15 +581,24 @@
         <Parameter Name="inheritability" Type="System.IO.HandleInheritability" />
       </Parameters>
       <Docs>
-        <param name="mapName">To be added.</param>
-        <param name="capacity">To be added.</param>
-        <param name="access">To be added.</param>
-        <param name="options">To be added.</param>
-        <param name="memoryMappedFileSecurity">To be added.</param>
-        <param name="inheritability">To be added.</param>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
-        <remarks>To be added.</remarks>
+        <param name="mapName">A name to assign to the memory-mapped file.</param>
+        <param name="capacity">The maximum size, in bytes, to allocate to the memory-mapped file.</param>
+        <param name="access">One of the enumeration values that specifies the type of access allowed to the memory-mapped file. The default is &lt;see cref="T:System.IO.MemoryMappedFiles.MemoryMappedFileAccess"&gt;.</param>
+        <param name="options">A bitwise combination of enumeration values that specifies memory allocation options for the memory-mapped file.</param>
+        <param name="memoryMappedFileSecurity">The permissions that can be granted for file access and operations on memory-mapped files.  
+  
+ This parameter can be `null`.</param>
+        <param name="inheritability">One of the enumeration values that specifies whether a handle to the memory-mapped file can be inherited by a child process. The default is &lt;see cref="T:System.IO.HandleInheritability"&gt;.</param>
+        <summary>Creates or opens a memory-mapped file that has the specified capacity, access type, memory allocation, security permissions, and inheritability in system memory.</summary>
+        <returns>A memory-mapped file that has the specified characteristics.</returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ Use this method to create or open a memory-mapped file that is not persisted (that is, not associated with a file on disk), which you can use to share data between processes.  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="CreateViewAccessor">
@@ -440,9 +613,16 @@
       </ReturnValue>
       <Parameters />
       <Docs>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
-        <remarks>To be added.</remarks>
+        <summary>Creates a &lt;see cref="T:System.IO.MemoryMappedFiles.MemoryMappedViewAccessor"&gt; that maps to a view of the memory-mapped file.</summary>
+        <returns>A randomly accessible block of memory.</returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ You can use the view returned by this method for random access to a memory-mapped file.  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="CreateViewAccessor">
@@ -460,11 +640,27 @@
         <Parameter Name="size" Type="System.Int64" />
       </Parameters>
       <Docs>
-        <param name="offset">To be added.</param>
-        <param name="size">To be added.</param>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
-        <remarks>To be added.</remarks>
+        <param name="offset">The byte at which to start the view.</param>
+        <param name="size">The size of the view. Specify 0 (zero) to create a view that starts at  and ends approximately at the end of the memory-mapped file.</param>
+        <summary>Creates a &lt;see cref="T:System.IO.MemoryMappedFiles.MemoryMappedViewAccessor"&gt; that maps to a view of the memory-mapped file, and that has the specified offset and size.</summary>
+        <returns>A randomly accessible block of memory.</returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ You can use the view returned by this method for random access to a memory-mapped file.  
+  
+ To create a complete view of the memory-mapped file, specify 0 (zero) for the  parameter. If you do this, the size of the view might be smaller or larger than the size of the source file on disk. This is because views are provided in units of system pages, and the size of the view is rounded up to the next system page size.  
+  
+   
+  
+## Examples  
+ The following example creates a view of a memory-mapped file and edits it. This code example is part of a larger example provided for the <xref:System.IO.MemoryMappedFiles.MemoryMappedFile> class.  
+  
+ [!CODE [MemoryMappedFiles.MemoryMappedFile.CreateFromFile#2](../CodeSnippet/VS_Snippets_CLR/memorymappedfiles.memorymappedfile.createfromfile#2)]  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="CreateViewAccessor">
@@ -488,12 +684,21 @@
         <Parameter Name="access" Type="System.IO.MemoryMappedFiles.MemoryMappedFileAccess" />
       </Parameters>
       <Docs>
-        <param name="offset">To be added.</param>
-        <param name="size">To be added.</param>
-        <param name="access">To be added.</param>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
-        <remarks>To be added.</remarks>
+        <param name="offset">The byte at which to start the view.</param>
+        <param name="size">The size of the view. Specify 0 (zero) to create a view that starts at  and ends approximately at the end of the memory-mapped file.</param>
+        <param name="access">One of the enumeration values that specifies the type of access allowed to the memory-mapped file. The default is &lt;see cref="T:System.IO.MemoryMappedFiles.MemoryMappedFileAccess"&gt;.</param>
+        <summary>Creates a &lt;see cref="T:System.IO.MemoryMappedFiles.MemoryMappedViewAccessor"&gt; that maps to a view of the memory-mapped file, and that has the specified offset, size, and access restrictions.</summary>
+        <returns>A randomly accessible block of memory.</returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ You can use the view returned by this method for random access to a memory-mapped file.  
+  
+ To create a complete view of the memory-mapped file, specify 0 (zero) for the  parameter. If you do this, the size of the view might be smaller or larger than the size of the source file on disk. This is because views are provided in units of system pages, and the size of the view is rounded up to the next system page size.  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="CreateViewStream">
@@ -508,9 +713,23 @@
       </ReturnValue>
       <Parameters />
       <Docs>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
-        <remarks>To be added.</remarks>
+        <summary>Creates a stream that maps to a view of the memory-mapped file.</summary>
+        <returns>A stream of memory.</returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ You can use the stream returned by this method for sequential access to a memory-mapped file, such as for inter-process communications.  
+  
+   
+  
+## Examples  
+ The following example creates a stream and writes a value to it. This code example is part of a larger example provided for the <xref:System.IO.MemoryMappedFiles.MemoryMappedFile.CreateNew%2A> method.  
+  
+ [!CODE [System.IO.MemoryMappedFiles_IPC_X#2](../CodeSnippet/VS_Snippets_CLR_System/system.io.memorymappedfiles_ipc_x#2)]  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="CreateViewStream">
@@ -528,11 +747,20 @@
         <Parameter Name="size" Type="System.Int64" />
       </Parameters>
       <Docs>
-        <param name="offset">To be added.</param>
-        <param name="size">To be added.</param>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
-        <remarks>To be added.</remarks>
+        <param name="offset">The byte at which to start the view.</param>
+        <param name="size">The size of the view. Specify 0 (zero) to create a view that starts at  and ends approximately at the end of the memory-mapped file.</param>
+        <summary>Creates a stream that maps to a view of the memory-mapped file, and that has the specified offset and size.</summary>
+        <returns>A stream of memory that has the specified offset and size.</returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ You can use the stream returned by this method for sequential access to a memory-mapped file, such as for inter-process communications.  
+  
+ To create a complete view of the memory-mapped file, specify 0 (zero) for the  parameter. If you do this, the size of the view might be smaller or larger than the size of the source file on disk. This is because views are provided in units of system pages, and the size of the view is rounded up to the next system page size.  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="CreateViewStream">
@@ -556,12 +784,21 @@
         <Parameter Name="access" Type="System.IO.MemoryMappedFiles.MemoryMappedFileAccess" />
       </Parameters>
       <Docs>
-        <param name="offset">To be added.</param>
-        <param name="size">To be added.</param>
-        <param name="access">To be added.</param>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
-        <remarks>To be added.</remarks>
+        <param name="offset">The byte at which to start the view.</param>
+        <param name="size">The size of the view. Specify 0 (zero) to create a view that starts at  and ends approximately at the end of the memory-mapped file.</param>
+        <param name="access">One of the enumeration values that specifies the type of access allowed to the memory-mapped file. The default is &lt;see cref="T:System.IO.MemoryMappedFiles.MemoryMappedFileAccess"&gt;.</param>
+        <summary>Creates a stream that maps to a view of the memory-mapped file, and that has the specified offset, size, and access type.</summary>
+        <returns>A stream of memory that has the specified characteristics.</returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ You can use the stream returned by this method for sequential access to a memory-mapped file, such as for inter-process communications.  
+  
+ To create a complete view of the memory-mapped file, specify 0 (zero) for the  parameter. If you do this, the size of the view might be smaller or larger than the size of the source file on disk. This is because views are provided in units of system pages, and the size of the view is rounded up to the next system page size.  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="Dispose">
@@ -576,7 +813,7 @@
       </ReturnValue>
       <Parameters />
       <Docs>
-        <summary>To be added.</summary>
+        <summary>Releases all resources used by the &lt;see cref="T:System.IO.MemoryMappedFiles.MemoryMappedFile"&gt;.</summary>
         <remarks>To be added.</remarks>
       </Docs>
     </Member>
@@ -599,8 +836,8 @@
         <Parameter Name="disposing" Type="System.Boolean" />
       </Parameters>
       <Docs>
-        <param name="disposing">To be added.</param>
-        <summary>To be added.</summary>
+        <param name="disposing">`true` to release both managed and unmanaged resources; `false` to release only unmanaged resources.</param>
+        <summary>Releases the unmanaged resources used by the &lt;see cref="T:System.IO.MemoryMappedFiles.MemoryMappedFile"&gt; and optionally releases the managed resources.</summary>
         <remarks>To be added.</remarks>
       </Docs>
     </Member>
@@ -621,8 +858,8 @@
       </ReturnValue>
       <Parameters />
       <Docs>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
+        <summary>Gets the access control to the memory-mapped file resource.</summary>
+        <returns>The permissions that can be granted for file access and operations on memory-mapped files.</returns>
         <remarks>To be added.</remarks>
       </Docs>
     </Member>
@@ -640,10 +877,30 @@
         <Parameter Name="mapName" Type="System.String" />
       </Parameters>
       <Docs>
-        <param name="mapName">To be added.</param>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
-        <remarks>To be added.</remarks>
+        <param name="mapName">The name of the memory-mapped file to open.</param>
+        <summary>Opens an existing memory-mapped file that has the specified name in system memory.</summary>
+        <returns>A memory-mapped file that has the specified name.</returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ The memory-mapped file can be either a persisted memory-mapped file (associated with a file on disk) or non persisted.  
+  
+   
+  
+## Examples  
+ **Opening a Persisted Memory-Mapped File**  
+  
+ The following example opens a memory-mapped file named `ImgA` that has already been created from a file on disk (as shown in the example for the <xref:System.IO.MemoryMappedFiles.MemoryMappedFile.CreateFromFile%28System.String%29> method).  
+  
+ [!CODE [memorymappedfiles.memorymappedfile.openexisting#1](../CodeSnippet/VS_Snippets_CLR/memorymappedfiles.memorymappedfile.openexisting#1)]  
+  
+ **Opening a Non-Persisted Memory-Mapped File**  
+  
+ The following example opens a memory-mapped file used for inter-process communication. This code example is part of a larger example provided for the <xref:System.IO.MemoryMappedFiles.MemoryMappedFile.CreateNew%28System.String%2CSystem.Int64%29> method.  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="OpenExisting">
@@ -661,10 +918,10 @@
         <Parameter Name="desiredAccessRights" Type="System.IO.MemoryMappedFiles.MemoryMappedFileRights" />
       </Parameters>
       <Docs>
-        <param name="mapName">To be added.</param>
-        <param name="desiredAccessRights">To be added.</param>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
+        <param name="mapName">The name of the memory-mapped file to open.</param>
+        <param name="desiredAccessRights">One of the enumeration values that specifies the access rights to apply to the memory-mapped file.</param>
+        <summary>Opens an existing memory-mapped file that has the specified name and access rights in system memory.</summary>
+        <returns>A memory-mapped file that has the specified characteristics.</returns>
         <remarks>To be added.</remarks>
       </Docs>
     </Member>
@@ -689,11 +946,11 @@
         <Parameter Name="inheritability" Type="System.IO.HandleInheritability" />
       </Parameters>
       <Docs>
-        <param name="mapName">To be added.</param>
-        <param name="desiredAccessRights">To be added.</param>
-        <param name="inheritability">To be added.</param>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
+        <param name="mapName">The name of the memory-mapped file to open.</param>
+        <param name="desiredAccessRights">One of the enumeration values that specifies the access rights to apply to the memory-mapped file.</param>
+        <param name="inheritability">One of the enumeration values that specifies whether a handle to the memory-mapped file can be inherited by a child process. The default is &lt;see cref="T:System.IO.HandleInheritability"&gt;.</param>
+        <summary>Opens an existing memory-mapped file that has the specified name, access rights, and inheritability in system memory.</summary>
+        <returns>A memory-mapped file that has the specified characteristics.</returns>
         <remarks>To be added.</remarks>
       </Docs>
     </Member>
@@ -713,8 +970,8 @@
         <ReturnType>Microsoft.Win32.SafeHandles.SafeMemoryMappedFileHandle</ReturnType>
       </ReturnValue>
       <Docs>
-        <summary>To be added.</summary>
-        <value>To be added.</value>
+        <summary>Gets the file handle of a memory-mapped file.</summary>
+        <value>The handle to the memory-mapped file.</value>
         <remarks>To be added.</remarks>
       </Docs>
     </Member>
@@ -737,8 +994,8 @@
         <Parameter Name="memoryMappedFileSecurity" Type="System.IO.MemoryMappedFiles.MemoryMappedFileSecurity" />
       </Parameters>
       <Docs>
-        <param name="memoryMappedFileSecurity">To be added.</param>
-        <summary>To be added.</summary>
+        <param name="memoryMappedFileSecurity">The permissions that can be granted for file access and operations on memory-mapped files.</param>
+        <summary>Sets the access control to the memory-mapped file resource.</summary>
         <remarks>To be added.</remarks>
       </Docs>
     </Member>

@@ -16,8 +16,22 @@
     </Attribute>
   </Attributes>
   <Docs>
-    <summary>To be added.</summary>
-    <remarks>To be added.</remarks>
+    <summary>Defines the method call return message interface.</summary>
+    <remarks>
+      <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ A method call return message represents the response to a method call on an object at the end of the message sink. An IMethodReturnMessage is generated as a result of a method called on a remote object, and is used to return the results of the method call back to the caller.  
+  
+   
+  
+## Examples  
+ The following example code shows a custom proxy that overrides `RealProxy.Invoke` in order to write the return message information to the console.  
+  
+ [!CODE [IMethodReturnMessage_ReturnValue#1](../CodeSnippet/VS_Snippets_Remoting/IMethodReturnMessage_ReturnValue#1)]  
+  
+ ]]></format>
+    </remarks>
   </Docs>
   <Members>
     <Member MemberName="Exception">
@@ -36,9 +50,18 @@
         <ReturnType>System.Exception</ReturnType>
       </ReturnValue>
       <Docs>
-        <summary>To be added.</summary>
-        <value>To be added.</value>
-        <remarks>To be added.</remarks>
+        <summary>Gets the exception thrown during the method call.</summary>
+        <value>The exception object for the method call, or `null` if the method did not throw an exception.</value>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Examples  
+ The following example code shows a custom proxy that overrides RealProxy.Invoke in order to write the return message information, including whether the method threw an exception.  
+  
+ [!CODE [IMethodReturnMessage_Exception#1](../CodeSnippet/VS_Snippets_Remoting/IMethodReturnMessage_Exception#1)]  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="GetOutArg">
@@ -60,9 +83,9 @@
         <Parameter Name="argNum" Type="System.Int32" />
       </Parameters>
       <Docs>
-        <param name="argNum">To be added.</param>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
+        <param name="argNum">The number of the requested argument.</param>
+        <summary>Returns the specified argument marked as a `ref` or an `out` parameter.</summary>
+        <returns>The specified argument marked as a `ref` or an `out` parameter.</returns>
         <remarks>To be added.</remarks>
       </Docs>
     </Member>
@@ -85,9 +108,9 @@
         <Parameter Name="index" Type="System.Int32" />
       </Parameters>
       <Docs>
-        <param name="index">To be added.</param>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
+        <param name="index">The number of the requested argument name.</param>
+        <summary>Returns the name of the specified argument marked as a `ref` or an `out` parameter.</summary>
+        <returns>The argument name, or `null` if the current method is not implemented.</returns>
         <remarks>To be added.</remarks>
       </Docs>
     </Member>
@@ -107,9 +130,18 @@
         <ReturnType>System.Int32</ReturnType>
       </ReturnValue>
       <Docs>
-        <summary>To be added.</summary>
-        <value>To be added.</value>
-        <remarks>To be added.</remarks>
+        <summary>Gets the number of arguments in the method call marked as `ref` or `out` parameters.</summary>
+        <value>The number of arguments in the method call marked as `ref` or `out` parameters.</value>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Examples  
+ The following example code shows a custom proxy that overrides `RealProxy.Invoke` in order to write the return message information to the console.  
+  
+ [!CODE [IMethodReturnMessage_ReturnValue#2](../CodeSnippet/VS_Snippets_Remoting/IMethodReturnMessage_ReturnValue#2)]  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="OutArgs">
@@ -128,9 +160,24 @@
         <ReturnType>System.Object[]</ReturnType>
       </ReturnValue>
       <Docs>
-        <summary>To be added.</summary>
-        <value>To be added.</value>
-        <remarks>To be added.</remarks>
+        <summary>Returns the specified argument marked as a `ref` or an `out` parameter.</summary>
+        <value>The specified argument marked as a `ref` or an `out` parameter.</value>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ Although the OutArgs property is redundant since the same functionality can be achieved through the <xref:System.Runtime.Remoting.Messaging.IMethodReturnMessage.OutArgCount%2A> field and <xref:System.Runtime.Remoting.Messaging.IMethodReturnMessage.GetOutArg%2A> method, there might be performance optimization available if the implementer understands when all the arguments will be retrieved.  
+  
+> [!WARNING]
+>  If <xref:System.Runtime.Remoting.Messaging.IMethodReturnMessage.Exception%2A> is not `null`, a <xref:System.IndexOutOfRangeException?displayProperty=fullName> exception is thrown when OutArgs is accessed.  
+  
+   
+  
+## Examples  
+ [!CODE [IMethodReturnMessage_ReturnValue#2](../CodeSnippet/VS_Snippets_Remoting/IMethodReturnMessage_ReturnValue#2)]  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="ReturnValue">
@@ -149,8 +196,8 @@
         <ReturnType>System.Object</ReturnType>
       </ReturnValue>
       <Docs>
-        <summary>To be added.</summary>
-        <value>To be added.</value>
+        <summary>Gets the return value of the method call.</summary>
+        <value>The return value of the method call.</value>
         <remarks>To be added.</remarks>
       </Docs>
     </Member>

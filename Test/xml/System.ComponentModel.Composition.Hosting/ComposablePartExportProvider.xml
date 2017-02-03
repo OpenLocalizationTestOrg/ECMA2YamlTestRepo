@@ -14,8 +14,17 @@
     </Interface>
   </Interfaces>
   <Docs>
-    <summary>To be added.</summary>
-    <remarks>To be added.</remarks>
+    <summary>Retrieves exports from a part.</summary>
+    <remarks>
+      <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+  
+> [!IMPORTANT]
+>  This type implements the <xref:System.IDisposable> interface. When you have finished using the type, you should dispose of it either directly or indirectly. To dispose of the type directly, call its <xref:System.IDisposable.Dispose%2A> method in a `try`/`catch` block. To dispose of it indirectly, use a language construct such as `using` (in C#) or `Using` (in Visual Basic). For more information, see the “Using an Object that Implements IDisposable” section in the <xref:System.IDisposable> interface topic.  
+  
+ ]]></format>
+    </remarks>
   </Docs>
   <Members>
     <Member MemberName=".ctor">
@@ -27,7 +36,7 @@
       </AssemblyInfo>
       <Parameters />
       <Docs>
-        <summary>To be added.</summary>
+        <summary>Initializes a new instance of the &lt;see cref="T:System.ComponentModel.Composition.Hosting.ComposablePartExportProvider"&gt; class.</summary>
         <remarks>To be added.</remarks>
       </Docs>
     </Member>
@@ -42,8 +51,8 @@
         <Parameter Name="isThreadSafe" Type="System.Boolean" />
       </Parameters>
       <Docs>
-        <param name="isThreadSafe">To be added.</param>
-        <summary>To be added.</summary>
+        <param name="isThreadSafe">`true` if the &lt;see cref="T:System.ComponentModel.Composition.Hosting.ComposablePartExportProvider"&gt; object must be thread-safe; otherwise, `false`.</param>
+        <summary>Initializes a new instance of the &lt;see cref="T:System.ComponentModel.Composition.Hosting.ComposablePartExportProvider"&gt; class, optionally in thread-safe mode.</summary>
         <remarks>To be added.</remarks>
       </Docs>
     </Member>
@@ -58,8 +67,8 @@
         <Parameter Name="compositionOptions" Type="System.ComponentModel.Composition.Hosting.CompositionOptions" />
       </Parameters>
       <Docs>
-        <param name="compositionOptions">To be added.</param>
-        <summary>To be added.</summary>
+        <param name="compositionOptions">Options that specify the behavior of this provider.</param>
+        <summary>Initializes a new instance of the &lt;see cref="T:System.ComponentModel.Composition.Hosting.ComposablePartExportProvider"&gt; class with the specified composition options.</summary>
         <remarks>To be added.</remarks>
       </Docs>
     </Member>
@@ -77,8 +86,8 @@
         <Parameter Name="batch" Type="System.ComponentModel.Composition.Hosting.CompositionBatch" />
       </Parameters>
       <Docs>
-        <param name="batch">To be added.</param>
-        <summary>To be added.</summary>
+        <param name="batch">The batch to execute composition on.</param>
+        <summary>Executes composition on the specified batch.</summary>
         <remarks>To be added.</remarks>
       </Docs>
     </Member>
@@ -94,8 +103,20 @@
       </ReturnValue>
       <Parameters />
       <Docs>
-        <summary>To be added.</summary>
-        <remarks>To be added.</remarks>
+        <summary>Releases all resources used by the current instance of the &lt;see cref="T:System.ComponentModel.Composition.Hosting.ComposablePartExportProvider"&gt; class.</summary>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ Call `Dispose` when you are finished using the <xref:System.ComponentModel.Composition.Hosting.ComposablePartExportProvider>. The `Dispose` method leaves the <xref:System.ComponentModel.Composition.Hosting.ComposablePartExportProvider> in an unusable state. After calling `Dispose`, you must release all references to the <xref:System.ComponentModel.Composition.Hosting.ComposablePartExportProvider> so the garbage collector can reclaim the memory that the <xref:System.ComponentModel.Composition.Hosting.ComposablePartExportProvider> was occupying.  
+  
+ For more information, see [Cleaning Up Unmanaged Resources](../Topic/Cleaning%20Up%20Unmanaged%20Resources.md) and [Implementing a Dispose Method](../Topic/Implementing%20a%20Dispose%20Method.md).  
+  
+> [!NOTE]
+>  Always call `Dispose` before you release your last reference to the <xref:System.ComponentModel.Composition.Hosting.ComposablePartExportProvider>. Otherwise, the resources it is using will not be freed until the garbage collector calls the <xref:System.ComponentModel.Composition.Hosting.ComposablePartExportProvider> object's `Finalize` method.  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="Dispose">
@@ -112,8 +133,8 @@
         <Parameter Name="disposing" Type="System.Boolean" />
       </Parameters>
       <Docs>
-        <param name="disposing">To be added.</param>
-        <summary>To be added.</summary>
+        <param name="disposing">`true` to release both managed and unmanaged resources; `false` to release only unmanaged resources.</param>
+        <summary>Releases the unmanaged resources used by the &lt;see cref="T:System.ComponentModel.Composition.Hosting.ComposablePartExportProvider"&gt; and optionally releases the managed resources.</summary>
         <remarks>To be added.</remarks>
       </Docs>
     </Member>
@@ -132,11 +153,18 @@
         <Parameter Name="atomicComposition" Type="System.ComponentModel.Composition.Hosting.AtomicComposition" />
       </Parameters>
       <Docs>
-        <param name="definition">To be added.</param>
-        <param name="atomicComposition">To be added.</param>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
-        <remarks>To be added.</remarks>
+        <param name="definition">The &lt;see cref="T:System.ComponentModel.Composition.Primitives.ImportDefinition"&gt; that defines the conditions of the &lt;xref:System.ComponentModel.Composition.Primitives.Export&gt; to get.</param>
+        <param name="atomicComposition">The composition transaction to use, or `null` to disable transactional composition.</param>
+        <summary>Gets a collection of all exports in this provider that match the conditions of the specified import.</summary>
+        <returns>A collection of all exports in this provider that match the specified conditions.</returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ Implementers should not treat cardinality-related mismatches as errors and should not throw exceptions for cardinality-related mismatches. For example, if the import requests exactly one export and the provider has no matching exports or more than one, the GetExportsCore method should return an empty <xref:System.Collections.Generic.IEnumerable%601> collection of <xref:System.ComponentModel.Composition.Primitives.Export> objects.  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="SourceProvider">
@@ -150,9 +178,18 @@
         <ReturnType>System.ComponentModel.Composition.Hosting.ExportProvider</ReturnType>
       </ReturnValue>
       <Docs>
-        <summary>To be added.</summary>
-        <value>To be added.</value>
-        <remarks>To be added.</remarks>
+        <summary>Gets or sets the export provider that provides access to additional &lt;see cref="T:System.ComponentModel.Composition.Primitives.Export"&gt; objects.</summary>
+        <value>A provider that provides the &lt;see cref="T:System.ComponentModel.Composition.Hosting.ComposablePartExportProvider"&gt; access to &lt;xref:System.ComponentModel.Composition.Primitives.Export&gt; objects.  
+  
+ The default is `null`.</value>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ This property must be set before accessing any methods on the <xref:System.ComponentModel.Composition.Hosting.ComposablePartExportProvider>.  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
   </Members>

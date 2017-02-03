@@ -18,7 +18,7 @@
     </Attribute>
   </Attributes>
   <Docs>
-    <summary>To be added.</summary>
+    <summary>Encapsulates principals that are user accounts.</summary>
     <remarks>To be added.</remarks>
   </Docs>
   <Members>
@@ -33,9 +33,44 @@
         <Parameter Name="context" Type="System.DirectoryServices.AccountManagement.PrincipalContext" />
       </Parameters>
       <Docs>
-        <param name="context">To be added.</param>
-        <summary>To be added.</summary>
-        <remarks>To be added.</remarks>
+        <param name="context">The &lt;see cref="T:System.DirectoryServices.AccountManagement.PrincipalContext"&gt; that specifies the server or domain against which operations are performed.</param>
+        <summary>Initializes a new instance of the &lt;see cref="T:System.DirectoryServices.AccountManagement.UserPrincipal"&gt; class by using the specified context.</summary>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ The user principal account is not persisted when it is created. To save the account, call the <xref:System.DirectoryServices.AccountManagement.Principal.Save%2A> method.  
+  
+   
+  
+## Examples  
+ The following code example connects to the LDAP domain "fabrikam.com" with the username and password initialized in the <xref:System.DirectoryServices.AccountManagement.PrincipalContext> constructor to "administrator" and "securelyStoredPassword."  
+  
+ The properties set in the example, such as user name and e-mail address, are created under the container specified in the <xref:System.DirectoryServices.AccountManagement.PrincipalContext> constructor: "CN=Users,DC=fabrikam,DC=com."  
+  
+```  
+  
+PrincipalContext ctx = new PrincipalContext(  
+                                         ContextType.Domain,  
+                                         "fabrikam.com",   
+                                         "CN=Users,DC=fabrikam,DC=com",  
+                                         "administrator",   
+                                         "securelyStoredPassword");   
+  
+UserPrincipal usr = new UserPrincipal(ctx);  
+  
+usr.Name = "Jim Daly";  
+usr.Description = "This is the user account for Jim Daly";  
+usr.EmailAddress = "jimdaly@fabrikam.com";  
+usr.SetPassword("securelyStoredPassword");  
+usr.Save();  
+  
+usr.Dispose();  
+ctx.Dispose();   
+```  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName=".ctor">
@@ -52,12 +87,19 @@
         <Parameter Name="enabled" Type="System.Boolean" />
       </Parameters>
       <Docs>
-        <param name="context">To be added.</param>
-        <param name="samAccountName">To be added.</param>
-        <param name="password">To be added.</param>
-        <param name="enabled">To be added.</param>
-        <summary>To be added.</summary>
-        <remarks>To be added.</remarks>
+        <param name="context">The &lt;see cref="T:System.DirectoryServices.AccountManagement.PrincipalContext"&gt; that specifies the server or domain against which operations are performed.</param>
+        <param name="samAccountName">The SAM account name for this user principal.</param>
+        <param name="password">The password for this account.</param>
+        <param name="enabled">A Boolean value that specifies whether the account is enabled.</param>
+        <summary>Initializes a new instance of the &lt;see cref="T:System.DirectoryServices.AccountManagement.UserPrincipal"&gt; class by using the specified context, SAM account name, password, and enabled value.</summary>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ The user principal account is not persisted when it is created. To save the account, call the <xref:System.DirectoryServices.AccountManagement.Principal.Save%2A> method.  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="AdvancedSearchFilter">
@@ -71,8 +113,8 @@
         <ReturnType>System.DirectoryServices.AccountManagement.AdvancedFilters</ReturnType>
       </ReturnValue>
       <Docs>
-        <summary>To be added.</summary>
-        <value>To be added.</value>
+        <summary>Returns an &lt;see cref="T:System.DirectoryServices.AccountManagement.AdvancedFilters"&gt; object to set read-only properties before passing the object to the &lt;xref:System.DirectoryServices.AccountManagement.PrincipalSearcher&gt;.</summary>
+        <value>An &lt;see cref="T:System.DirectoryServices.AccountManagement.AdvancedFilters"&gt; object.</value>
         <remarks>To be added.</remarks>
       </Docs>
     </Member>
@@ -87,8 +129,8 @@
         <ReturnType>System.DirectoryServices.AccountManagement.UserPrincipal</ReturnType>
       </ReturnValue>
       <Docs>
-        <summary>To be added.</summary>
-        <value>To be added.</value>
+        <summary>Gets a user principal object that represents the current user under which the thread is running.</summary>
+        <value>A &lt;see cref="T:System.DirectoryServices.AccountManagement.UserPrincipal"&gt; representing the current user.</value>
         <remarks>To be added.</remarks>
       </Docs>
     </Member>
@@ -103,8 +145,8 @@
         <ReturnType>System.String</ReturnType>
       </ReturnValue>
       <Docs>
-        <summary>To be added.</summary>
-        <value>To be added.</value>
+        <summary>Gets or sets the e-mail address for this account.</summary>
+        <value>The e-mail address of the user principal.</value>
         <remarks>To be added.</remarks>
       </Docs>
     </Member>
@@ -119,8 +161,8 @@
         <ReturnType>System.String</ReturnType>
       </ReturnValue>
       <Docs>
-        <summary>To be added.</summary>
-        <value>To be added.</value>
+        <summary>Gets or sets the employee ID for this user principal.</summary>
+        <value>The employee ID of the user principal.</value>
         <remarks>To be added.</remarks>
       </Docs>
     </Member>
@@ -140,12 +182,19 @@
         <Parameter Name="type" Type="System.DirectoryServices.AccountManagement.MatchType" />
       </Parameters>
       <Docs>
-        <param name="context">To be added.</param>
-        <param name="time">To be added.</param>
-        <param name="type">To be added.</param>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
-        <remarks>To be added.</remarks>
+        <param name="context">The &lt;see cref="T:System.DirectoryServices.AccountManagement.PrincipalContext"&gt; object that specifies the server or domain against which operations are performed.</param>
+        <param name="time">A &lt;see cref="T:System.DateTime"&gt; object that identifies the date and time of the incorrect password try. This parameter is used with the type parameter to determine the range of time in which the returned objects have an incorrect logon try recorded.</param>
+        <param name="type">A &lt;see cref="T:System.DirectoryServices.AccountManagement.MatchType"&gt; enumeration value that specifies the type of match that is applied to the  parameter.</param>
+        <summary>Returns a collection of &lt;xref:System.DirectoryServices.AccountManagement.PrincipalSearchResult%601&gt; objects for users that have an incorrect password attempt recorded in the specified date and time range.</summary>
+        <returns>A &lt;xref:System.DirectoryServices.AccountManagement.PrincipalSearchResult%601&gt; that contains one or more &lt;xref:System.DirectoryServices.AccountManagement.UserPrincipal&gt; objects, or an empty collection if no results are found.</returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ The time will default to UTC. If you want to specify the time in local time, then specify the <xref:System.DateTime.Kind%2A> property of the  object as <xref:System.DateTimeKind?displayProperty=fullName>.  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="FindByExpirationTime">
@@ -164,12 +213,19 @@
         <Parameter Name="type" Type="System.DirectoryServices.AccountManagement.MatchType" />
       </Parameters>
       <Docs>
-        <param name="context">To be added.</param>
-        <param name="time">To be added.</param>
-        <param name="type">To be added.</param>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
-        <remarks>To be added.</remarks>
+        <param name="context">The &lt;see cref="T:System.DirectoryServices.AccountManagement.PrincipalContext"&gt; object that specifies the server or domain against which operations are performed.</param>
+        <param name="time">A &lt;see cref="T:System.DateTime"&gt; object that identifies the date and time of the incorrect password try. This parameter is used with the type parameter to determine the range of time in which the returned objects have an incorrect logon try recorded.</param>
+        <param name="type">A &lt;see cref="T:System.DirectoryServices.AccountManagement.MatchType"&gt; enumeration value that specifies the type of match that is applied to the  parameter.</param>
+        <summary>Returns a collection of &lt;xref:System.DirectoryServices.AccountManagement.PrincipalSearchResult%601&gt; objects for users that have an account expiration time in the specified date and time range.</summary>
+        <returns>A &lt;xref:System.DirectoryServices.AccountManagement.PrincipalSearchResult%601&gt; that contains one or more &lt;xref:System.DirectoryServices.AccountManagement.UserPrincipal&gt; objects, or an empty collection if no results are found.</returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ The time will default to UTC. If you want to specify the time in local time, then specify the <xref:System.DateTime.Kind%2A> property of the  object as <xref:System.DateTimeKind?displayProperty=fullName>.  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="FindByIdentity">
@@ -187,10 +243,10 @@
         <Parameter Name="identityValue" Type="System.String" />
       </Parameters>
       <Docs>
-        <param name="context">To be added.</param>
-        <param name="identityValue">To be added.</param>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
+        <param name="context">The &lt;see cref="T:System.DirectoryServices.AccountManagement.PrincipalContext"&gt; that specifies the server or domain against which operations are performed.</param>
+        <param name="identityValue">The identity of the user principal. This parameter can be any format that is contained in the &lt;see cref="T:System.DirectoryServices.AccountManagement.IdentityType"&gt; enumeration.</param>
+        <summary>Returns a user principal object that matches the specified identity value.</summary>
+        <returns>A &lt;see cref="T:System.DirectoryServices.AccountManagement.UserPrincipal"&gt; object that matches the specified identity value, or null if no matches are found.</returns>
         <remarks>To be added.</remarks>
       </Docs>
     </Member>
@@ -210,12 +266,41 @@
         <Parameter Name="identityValue" Type="System.String" />
       </Parameters>
       <Docs>
-        <param name="context">To be added.</param>
-        <param name="identityType">To be added.</param>
-        <param name="identityValue">To be added.</param>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
-        <remarks>To be added.</remarks>
+        <param name="context">The &lt;see cref="T:System.DirectoryServices.AccountManagement.PrincipalContext"&gt; that specifies the server or domain against which operations are performed.</param>
+        <param name="identityType">A &lt;see cref="T:System.DirectoryServices.AccountManagement.IdentityType"&gt; enumeration value that specifies the format of the  parameter.</param>
+        <param name="identityValue">The identity of the user principal. This parameter can be any format that is contained in the &lt;see cref="T:System.DirectoryServices.AccountManagement.IdentityType"&gt; enumeration.</param>
+        <summary>Returns a user principal object that matches the specified identity type, and value. This version of the &lt;xref:System.DirectoryServices.AccountManagement.UserPrincipal.FindByIdentity%2A&gt; method determines the format of the identity value.</summary>
+        <returns>A &lt;see cref="T:System.DirectoryServices.AccountManagement.UserPrincipal"&gt; object that matches the specified identity value and type, or null if no matches are found.</returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Examples  
+ The following code connects to the local computer store. Since the credentials are not specified in the <xref:System.DirectoryServices.AccountManagement.PrincipalContext> constructor, the credentials of the user running the current thread are used.  
+  
+ A search is performed to find the user who has SamAccountName "Guest".  
+  
+ If the user is found, a check is performed to determine whether this user's account is enabled. If the account is not enabled, the example code enables it.  
+  
+```  
+PrincipalContext ctx = new PrincipalContext(ContextType.Machine);  
+  
+UserPrincipal usr = UserPrincipal.FindByIdentity(ctx,   
+                                           IdentityType.SamAccountName,   
+                                           "Guest");  
+  
+if(usr != null)  
+{  
+    if (usr.Enabled == false)  
+        usr.Enabled = true;  
+  
+    usr.Save();  
+    usr.Dispose();  
+}  
+ctx.Dispose();   
+```  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="FindByLockoutTime">
@@ -234,12 +319,19 @@
         <Parameter Name="type" Type="System.DirectoryServices.AccountManagement.MatchType" />
       </Parameters>
       <Docs>
-        <param name="context">To be added.</param>
-        <param name="time">To be added.</param>
-        <param name="type">To be added.</param>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
-        <remarks>To be added.</remarks>
+        <param name="context">The &lt;see cref="T:System.DirectoryServices.AccountManagement.PrincipalContext"&gt; object that specifies the server or domain against which operations are performed.</param>
+        <param name="time">A &lt;see cref="T:System.DateTime"&gt; object that identifies the date and time of the incorrect password try. This parameter is used with the type parameter to determine the range of time in which the returned objects have an incorrect logon try recorded.</param>
+        <param name="type">A &lt;see cref="T:System.DirectoryServices.AccountManagement.MatchType"&gt; enumeration value that specifies the type of match that is applied to the  parameter.</param>
+        <summary>Returns a collection of &lt;xref:System.DirectoryServices.AccountManagement.PrincipalSearchResult%601&gt; objects for users that have an account lockout time in the specified date and time range.</summary>
+        <returns>A &lt;xref:System.DirectoryServices.AccountManagement.PrincipalSearchResult%601&gt; that contains one or more &lt;xref:System.DirectoryServices.AccountManagement.UserPrincipal&gt; objects, or an empty collection if no results are found.</returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ The time will default to UTC. If you want to specify the time in local time, then specify the <xref:System.DateTime.Kind%2A> property of the  object as <xref:System.DateTimeKind?displayProperty=fullName>.  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="FindByLogonTime">
@@ -258,12 +350,19 @@
         <Parameter Name="type" Type="System.DirectoryServices.AccountManagement.MatchType" />
       </Parameters>
       <Docs>
-        <param name="context">To be added.</param>
-        <param name="time">To be added.</param>
-        <param name="type">To be added.</param>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
-        <remarks>To be added.</remarks>
+        <param name="context">The &lt;see cref="T:System.DirectoryServices.AccountManagement.PrincipalContext"&gt; object that specifies the server or domain against which operations are performed.</param>
+        <param name="time">A &lt;see cref="T:System.DateTime"&gt; object that identifies the date and time of the incorrect password try. This parameter is used with the type parameter to determine the range of time in which the returned objects have an incorrect logon try recorded.</param>
+        <param name="type">A &lt;see cref="T:System.DirectoryServices.AccountManagement.MatchType"&gt; enumeration value that specifies the type of match that is applied to the  parameter.</param>
+        <summary>Returns a collection of &lt;xref:System.DirectoryServices.AccountManagement.PrincipalSearchResult%601&gt; objects for users that have account logon recorded in the specified date and time range.</summary>
+        <returns>A &lt;xref:System.DirectoryServices.AccountManagement.PrincipalSearchResult%601&gt; that contains one or more &lt;xref:System.DirectoryServices.AccountManagement.UserPrincipal&gt; objects, or an empty collection if no results are found.</returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ The time will default to UTC. If you want to specify the time in local time, then specify the <xref:System.DateTime.Kind%2A> property of the  object as <xref:System.DateTimeKind?displayProperty=fullName>.  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="FindByPasswordSetTime">
@@ -282,12 +381,19 @@
         <Parameter Name="type" Type="System.DirectoryServices.AccountManagement.MatchType" />
       </Parameters>
       <Docs>
-        <param name="context">To be added.</param>
-        <param name="time">To be added.</param>
-        <param name="type">To be added.</param>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
-        <remarks>To be added.</remarks>
+        <param name="context">The &lt;see cref="T:System.DirectoryServices.AccountManagement.PrincipalContext"&gt; object that specifies the server or domain against which operations are performed.</param>
+        <param name="time">A &lt;see cref="T:System.DateTime"&gt; object that identifies the date and time of the incorrect password try. This parameter is used with the type parameter to determine the range of time in which the returned objects have an incorrect logon try recorded.</param>
+        <param name="type">A &lt;see cref="T:System.DirectoryServices.AccountManagement.MatchType"&gt; enumeration value that specifies the type of match that is applied to the  parameter.</param>
+        <summary>Returns a collection of &lt;xref:System.DirectoryServices.AccountManagement.PrincipalSearchResult%601&gt; objects for users that have set their password within the specified date and time range.</summary>
+        <returns>A &lt;xref:System.DirectoryServices.AccountManagement.PrincipalSearchResult%601&gt; that contains one or more &lt;xref:System.DirectoryServices.AccountManagement.UserPrincipal&gt; objects, or an empty collection if no results are found.</returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ The time will default to UTC. If you want to specify the time in local time, then specify the <xref:System.DateTime.Kind%2A> property of the  object as <xref:System.DateTimeKind?displayProperty=fullName>.  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="GetAuthorizationGroups">
@@ -302,9 +408,18 @@
       </ReturnValue>
       <Parameters />
       <Docs>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
-        <remarks>To be added.</remarks>
+        <summary>Returns a collection of principal objects that contains all the authorization groups of which this user is a member. This function only returns groups that are security groups; distribution groups are not returned.</summary>
+        <returns>A collection of &lt;see cref="T:System.DirectoryServices.AccountManagement.Principal"&gt; objects that contain the groups of which the user is a member, or null if the user does not belong to any groups.</returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ This method searches all groups recursively and returns the groups in which the user is a member. The returned set may also include additional groups that system would consider the user a member of for authorization purposes.  
+  
+ The groups that are returned by this method may include groups from a different scope and store than the principal. For example, if the principal is an AD DS object that has a DN of "CN=SpecialGroups,DC=Fabrikam,DC=com, the returned set can contain groups that belong to the "CN=NormalGroups,DC=Fabrikam,DC=com.  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="GivenName">
@@ -318,8 +433,8 @@
         <ReturnType>System.String</ReturnType>
       </ReturnValue>
       <Docs>
-        <summary>To be added.</summary>
-        <value>To be added.</value>
+        <summary>Gets or sets the given name for the user principal.</summary>
+        <value>The given name of the user principal.</value>
         <remarks>To be added.</remarks>
       </Docs>
     </Member>
@@ -334,8 +449,8 @@
         <ReturnType>System.String</ReturnType>
       </ReturnValue>
       <Docs>
-        <summary>To be added.</summary>
-        <value>To be added.</value>
+        <summary>Gets or sets the middle name for the user principal.</summary>
+        <value>The middle name of the user principal.</value>
         <remarks>To be added.</remarks>
       </Docs>
     </Member>
@@ -350,8 +465,8 @@
         <ReturnType>System.String</ReturnType>
       </ReturnValue>
       <Docs>
-        <summary>To be added.</summary>
-        <value>To be added.</value>
+        <summary>Gets or sets the surname for the user principal.</summary>
+        <value>The surname of the user principal.</value>
         <remarks>To be added.</remarks>
       </Docs>
     </Member>
@@ -366,8 +481,8 @@
         <ReturnType>System.String</ReturnType>
       </ReturnValue>
       <Docs>
-        <summary>To be added.</summary>
-        <value>To be added.</value>
+        <summary>Gets or sets the voice telephone number for the user principal.</summary>
+        <value>The voice telephone number of the user principal.</value>
         <remarks>To be added.</remarks>
       </Docs>
     </Member>

@@ -19,8 +19,32 @@
     </Attribute>
   </Attributes>
   <Docs>
-    <summary>To be added.</summary>
-    <remarks>To be added.</remarks>
+    <summary>Defines the set of information that constitutes input to security policy decisions. This class cannot be inherited.</summary>
+    <remarks>
+      <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ Common forms of evidence include signatures and location of origin of code, but can potentially be anything. Objects of any type that are recognized by security policy represent evidence.  
+  
+ Security policy is composed of code groups; a particular assembly (the basic unit of code for granting security permissions) is a member of a code group if it satisfies the code group's membership condition. Evidence is the set of inputs to policy that membership conditions use to determine to which code groups an assembly belongs.  
+  
+ The Evidence class is a collection (see <xref:System.Collections.ICollection>) that holds a set of objects that represent evidence. This class holds two sets that correspond to the source of the evidence: host evidence and assembly evidence.  
+  
+ Policy can get evidence from two different sources when evaluating permissions for code.  
+  
+-   is provided by the host, and can only be provided by hosts that have been granted the <xref:System.Security.Permissions.SecurityPermissionFlag> permission. Typically, this is evidence of the origin of the code and digital signatures on the assembly. Evidence about origin typically includes <xref:System.Security.Policy.Url>, <xref:System.Security.Policy.Site>, and <xref:System.Security.Policy.Zone> evidence. Signatures refer to software publisher (AuthentiCode X.509v3 signature) and strong name identities. Both kinds of digital signature-based identity are built into the assembly, but must be validated and passed to policy by the host; when loaded, the security system verifies the signature. The system then creates the appropriate evidence and passes it to policy only if the corresponding signature is valid.  
+  
+-   is part of the assembly itself. Developers or administrators can attach custom evidence to the assembly to extend the set of evidence for policy. Assembly evidence can only be added at the time of assembly generation, which occurs before the assembly is signed. The default policy of the security system ignores assembly-provided evidence, but policy can be extended to accept it.  
+  
+   
+  
+## Examples  
+ The following code example demonstrates how to create new Evidence classes with both host evidence and assembly evidence.  
+  
+ [!CODE [System.Security.Policy.Evidence#1](../CodeSnippet/VS_Snippets_CLR_System/system.Security.Policy.Evidence#1)]  
+  
+ ]]></format>
+    </remarks>
   </Docs>
   <Members>
     <Member MemberName=".ctor">
@@ -32,8 +56,17 @@
       </AssemblyInfo>
       <Parameters />
       <Docs>
-        <summary>To be added.</summary>
-        <remarks>To be added.</remarks>
+        <summary>Initializes a new empty instance of the &lt;see cref="T:System.Security.Policy.Evidence"&gt; class.</summary>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Examples  
+ The following code example shows the use of the Evidence constructor. This example is part of a larger example provided for the <xref:System.Security.Policy.Evidence> class.  
+  
+ [!CODE [System.Security.Policy.Evidence#15](../CodeSnippet/VS_Snippets_CLR_System/system.Security.Policy.Evidence#15)]  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName=".ctor">
@@ -47,9 +80,18 @@
         <Parameter Name="evidence" Type="System.Security.Policy.Evidence" />
       </Parameters>
       <Docs>
-        <param name="evidence">To be added.</param>
-        <summary>To be added.</summary>
-        <remarks>To be added.</remarks>
+        <param name="evidence">The &lt;see cref="T:System.Security.Policy.Evidence"&gt; instance from which to create the new instance. This instance is not deep-copied.</param>
+        <summary>Initializes a new instance of the &lt;see cref="T:System.Security.Policy.Evidence"&gt; class from a shallow copy of an existing one.</summary>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Examples  
+ The following code example shows the use of the Evidence constructor. This example is part of a larger example provided for the <xref:System.Security.Policy.Evidence> class.  
+  
+ [!CODE [System.Security.Policy.Evidence#12](../CodeSnippet/VS_Snippets_CLR_System/system.Security.Policy.Evidence#12)]  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName=".ctor">
@@ -69,10 +111,19 @@
         <Parameter Name="assemblyEvidence" Type="System.Object[]" />
       </Parameters>
       <Docs>
-        <param name="hostEvidence">To be added.</param>
-        <param name="assemblyEvidence">To be added.</param>
-        <summary>To be added.</summary>
-        <remarks>To be added.</remarks>
+        <param name="hostEvidence">The host evidence from which to create the new instance.</param>
+        <param name="assemblyEvidence">The assembly evidence from which to create the new instance.</param>
+        <summary>Initializes a new instance of the &lt;see cref="T:System.Security.Policy.Evidence"&gt; class from multiple sets of host and assembly evidence.</summary>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Examples  
+ The following code example shows the use of the Evidence constructor. This example is part of a larger example provided for the <xref:System.Security.Policy.Evidence> class.  
+  
+ [!CODE [System.Security.Policy.Evidence#3](../CodeSnippet/VS_Snippets_CLR_System/system.Security.Policy.Evidence#3)]  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName=".ctor">
@@ -87,10 +138,17 @@
         <Parameter Name="assemblyEvidence" Type="System.Security.Policy.EvidenceBase[]" />
       </Parameters>
       <Docs>
-        <param name="hostEvidence">To be added.</param>
-        <param name="assemblyEvidence">To be added.</param>
-        <summary>To be added.</summary>
-        <remarks>To be added.</remarks>
+        <param name="hostEvidence">The host evidence from which to create the new instance.</param>
+        <param name="assemblyEvidence">The assembly evidence from which to create the new instance.</param>
+        <summary>Initializes a new instance of the &lt;see cref="T:System.Security.Policy.Evidence"&gt; class from multiple sets of host and assembly evidence.</summary>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ This constructor creates a new instance of the class by using evidence objects that inherit from the <xref:System.Security.Policy.EvidenceBase> class.  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="AddAssembly">
@@ -112,9 +170,26 @@
         <Parameter Name="id" Type="System.Object" />
       </Parameters>
       <Docs>
-        <param name="id">To be added.</param>
-        <summary>To be added.</summary>
-        <remarks>To be added.</remarks>
+        <param name="id">Any evidence object.</param>
+        <summary>Adds the specified assembly evidence to the evidence set.</summary>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ Use this method for evidence derived from the assembly.  
+  
+> [!NOTE]
+>  This method does not perform a check to prevent adding duplicate types of evidence. Many assembly evidence objects can exist at the same time.  
+  
+   
+  
+## Examples  
+ The following code example shows the use of the AddAssembly method. This example is part of a larger example provided for the <xref:System.Security.Policy.Evidence> class.  
+  
+ [!CODE [System.Security.Policy.Evidence#4](../CodeSnippet/VS_Snippets_CLR_System/system.Security.Policy.Evidence#4)]  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="AddAssemblyEvidence&lt;T&gt;">
@@ -171,9 +246,26 @@
         <Parameter Name="id" Type="System.Object" />
       </Parameters>
       <Docs>
-        <param name="id">To be added.</param>
-        <summary>To be added.</summary>
-        <remarks>To be added.</remarks>
+        <param name="id">Any evidence object.</param>
+        <summary>Adds the specified evidence supplied by the host to the evidence set.</summary>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ Use this method for evidence supplied by the host.  
+  
+> [!NOTE]
+>  This method does not perform a check to prevent adding duplicate types of evidence. Many host evidence objects can exist at the same time.  
+  
+   
+  
+## Examples  
+ The following code example shows the use of the AddHost method. This example is part of a larger example provided for the <xref:System.Security.Policy.Evidence> class.  
+  
+ [!CODE [System.Security.Policy.Evidence#2](../CodeSnippet/VS_Snippets_CLR_System/system.Security.Policy.Evidence#2)]  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="AddHostEvidence&lt;T&gt;">
@@ -228,8 +320,22 @@
       </ReturnValue>
       <Parameters />
       <Docs>
-        <summary>To be added.</summary>
-        <remarks>To be added.</remarks>
+        <summary>Removes the host and assembly evidence from the evidence set.</summary>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ Clear removes the evidence in the host and assembly enumerations, setting both to `null`.  
+  
+   
+  
+## Examples  
+ The following code example shows the use of the Clear method. This example is part of a larger example provided for the <xref:System.Security.Policy.Evidence> class.  
+  
+ [!CODE [System.Security.Policy.Evidence#13](../CodeSnippet/VS_Snippets_CLR_System/system.Security.Policy.Evidence#13)]  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="Clone">
@@ -249,9 +355,16 @@
       </ReturnValue>
       <Parameters />
       <Docs>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
-        <remarks>To be added.</remarks>
+        <summary>Returns a duplicate copy of this evidence object.</summary>
+        <returns>A duplicate copy of this evidence object.</returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ The duplicate copy is a complete copy that includes all the evidence objects in the collection.  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="CopyTo">
@@ -274,10 +387,19 @@
         <Parameter Name="index" Type="System.Int32" />
       </Parameters>
       <Docs>
-        <param name="array">To be added.</param>
-        <param name="index">To be added.</param>
-        <summary>To be added.</summary>
-        <remarks>To be added.</remarks>
+        <param name="array">The target array to which to copy evidence objects.</param>
+        <param name="index">The zero-based position in the array to which to begin copying evidence objects.</param>
+        <summary>Copies evidence objects to an &lt;see cref="T:System.Array"&gt;.</summary>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Examples  
+ The following code example shows the use of the CopyTo method. This example is part of a larger example provided for the <xref:System.Security.Policy.Evidence> class.  
+  
+ [!CODE [System.Security.Policy.Evidence#6](../CodeSnippet/VS_Snippets_CLR_System/system.Security.Policy.Evidence#6)]  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="Count">
@@ -296,9 +418,18 @@
         <ReturnType>System.Int32</ReturnType>
       </ReturnValue>
       <Docs>
-        <summary>To be added.</summary>
-        <value>To be added.</value>
-        <remarks>To be added.</remarks>
+        <summary>Gets the number of evidence objects in the evidence set.</summary>
+        <value>The number of evidence objects in the evidence set.</value>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Examples  
+ The following code example shows the use of the Count property. This example is part of a larger example provided for the <xref:System.Security.Policy.Evidence> class.  
+  
+ [!CODE [System.Security.Policy.Evidence#12](../CodeSnippet/VS_Snippets_CLR_System/system.Security.Policy.Evidence#12)]  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="GetAssemblyEnumerator">
@@ -313,9 +444,18 @@
       </ReturnValue>
       <Parameters />
       <Docs>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
-        <remarks>To be added.</remarks>
+        <summary>Enumerates evidence provided by the assembly.</summary>
+        <returns>An enumerator for evidence added by the &lt;xref:System.Security.Policy.Evidence.AddAssembly%2A&gt; method.</returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Examples  
+ The following example shows the use of the GetAssemblyEnumerator method. This example is part of a larger example provided for the <xref:System.Security.Policy.Evidence> class.  
+  
+ [!CODE [System.Security.Policy.Evidence#3](../CodeSnippet/VS_Snippets_CLR_System/system.Security.Policy.Evidence#3)]  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="GetAssemblyEvidence&lt;T&gt;">
@@ -365,9 +505,18 @@
       </ReturnValue>
       <Parameters />
       <Docs>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
-        <remarks>To be added.</remarks>
+        <summary>Enumerates all evidence in the set, both that provided by the host and that provided by the assembly.</summary>
+        <returns>An enumerator for evidence added by both the &lt;xref:System.Security.Policy.Evidence.AddHost%2A&gt; method and the &lt;xref:System.Security.Policy.Evidence.AddAssembly%2A&gt; method.</returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Examples  
+ The following code example shows the use of the GetEnumerator method. This example is part of a larger example provided for the <xref:System.Security.Policy.Evidence> class.  
+  
+ [!CODE [System.Security.Policy.Evidence#14](../CodeSnippet/VS_Snippets_CLR_System/system.Security.Policy.Evidence#14)]  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="GetHostEnumerator">
@@ -382,9 +531,18 @@
       </ReturnValue>
       <Parameters />
       <Docs>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
-        <remarks>To be added.</remarks>
+        <summary>Enumerates evidence supplied by the host.</summary>
+        <returns>An enumerator for evidence added by the &lt;xref:System.Security.Policy.Evidence.AddHost%2A&gt; method.</returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Examples  
+ The following example shows the use of the GetHostEnumerator method. This example is part of a larger example provided for the <xref:System.Security.Policy.Evidence> class.  
+  
+ [!CODE [System.Security.Policy.Evidence#2](../CodeSnippet/VS_Snippets_CLR_System/system.Security.Policy.Evidence#2)]  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="GetHostEvidence&lt;T&gt;">
@@ -428,9 +586,16 @@
         <ReturnType>System.Boolean</ReturnType>
       </ReturnValue>
       <Docs>
-        <summary>To be added.</summary>
-        <value>To be added.</value>
-        <remarks>To be added.</remarks>
+        <summary>Gets a value indicating whether the evidence set is read-only.</summary>
+        <value>Always `false`, because read-only evidence sets are not supported.</value>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ Application code does not normally use this property.  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="IsSynchronized">
@@ -444,9 +609,16 @@
         <ReturnType>System.Boolean</ReturnType>
       </ReturnValue>
       <Docs>
-        <summary>To be added.</summary>
-        <value>To be added.</value>
-        <remarks>To be added.</remarks>
+        <summary>Gets a value indicating whether the evidence set is thread-safe.</summary>
+        <value>Always `false` because thread-safe evidence sets are not supported.</value>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ Application code does not normally use this property.  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="Locked">
@@ -465,9 +637,18 @@
         <ReturnType>System.Boolean</ReturnType>
       </ReturnValue>
       <Docs>
-        <summary>To be added.</summary>
-        <value>To be added.</value>
-        <remarks>To be added.</remarks>
+        <summary>Gets or sets a value indicating whether the evidence is locked.</summary>
+        <value>`true` if the evidence is locked; otherwise, `false`. The default is `false`.</value>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Examples  
+ The following code example shows the use of the Locked property. This example is part of a larger example provided for the <xref:System.Security.Policy.Evidence> class.  
+  
+ [!CODE [System.Security.Policy.Evidence#7](../CodeSnippet/VS_Snippets_CLR_System/system.Security.Policy.Evidence#7)]  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="Merge">
@@ -489,9 +670,26 @@
         <Parameter Name="evidence" Type="System.Security.Policy.Evidence" />
       </Parameters>
       <Docs>
-        <param name="evidence">To be added.</param>
-        <summary>To be added.</summary>
-        <remarks>To be added.</remarks>
+        <param name="evidence">The evidence set to be merged into the current evidence set.</param>
+        <summary>Merges the specified evidence set into the current evidence set.</summary>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ Each evidence object in the specified evidence set is added to the assembly and host sets of the current evidence set, according to the sets from which it came.  
+  
+> [!NOTE]
+>  This method does not perform a check to prevent adding duplicate types of evidence. Many assembly and host evidence objects can exist at the same time.  
+  
+   
+  
+## Examples  
+ The following code example shows the use of the Merge method. This example is part of a larger example provided for the <xref:System.Security.Policy.Evidence> class.  
+  
+ [!CODE [System.Security.Policy.Evidence#10](../CodeSnippet/VS_Snippets_CLR_System/system.Security.Policy.Evidence#10)]  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="RemoveType">
@@ -516,9 +714,23 @@
         <Parameter Name="t" Type="System.Type" />
       </Parameters>
       <Docs>
-        <param name="t">To be added.</param>
-        <summary>To be added.</summary>
-        <remarks>To be added.</remarks>
+        <param name="t">The type of the evidence to be removed.</param>
+        <summary>Removes the evidence for a given type from the host and assembly enumerations.</summary>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ The results of executing the RemoveType method can be confirmed using the <xref:System.Security.Policy.Evidence.GetAssemblyEnumerator%2A> method and the <xref:System.Security.Policy.Evidence.GetHostEnumerator%2A> method.  
+  
+   
+  
+## Examples  
+ The following code example shows the use of the RemoveType method. This example is part of a larger example provided for the <xref:System.Security.Policy.Evidence> class.  
+  
+ [!CODE [System.Security.Policy.Evidence#11](../CodeSnippet/VS_Snippets_CLR_System/system.Security.Policy.Evidence#11)]  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="SyncRoot">
@@ -532,9 +744,16 @@
         <ReturnType>System.Object</ReturnType>
       </ReturnValue>
       <Docs>
-        <summary>To be added.</summary>
-        <value>To be added.</value>
-        <remarks>To be added.</remarks>
+        <summary>Gets the synchronization root.</summary>
+        <value>Always `this` (`Me` in Visual Basic), because synchronization of evidence sets is not supported.</value>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ This property is not normally used by application code.  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
   </Members>

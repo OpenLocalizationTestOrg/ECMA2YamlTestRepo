@@ -15,8 +15,61 @@
     </Attribute>
   </Attributes>
   <Docs>
-    <summary>To be added.</summary>
-    <remarks>To be added.</remarks>
+    <summary>Declaratively instructs the .NET Framework to instantiate a configuration property. This class cannot be inherited.</summary>
+    <remarks>
+      <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ You use the ConfigurationPropertyAttribute to decorate a configuration property, which will instruct the .NET Framework to instantiate and to initialize the property using the value of the decorating parameter.  
+  
+> [!NOTE]
+>  The simplest way to create a custom configuration element is to use the attributed (declarative) model. You declare the custom public properties and decorate them with the ConfigurationPropertyAttribute attribute. For each property marked with this attribute, the .NET Framework uses reflection to read the decorating parameters and create a related <xref:System.Configuration.ConfigurationProperty> instance. You can also use the programmatic model, in which case it is your responsibility to declare the custom public properties and return their collection.  
+  
+ The .NET Framework configuration system provides attribute types that you can use during the creation of custom configuration elements. There are two kinds of attribute types:  
+  
+1.  The types instructing the .NET Framework how to instantiate the custom configuration-element properties. These types include:  
+  
+    -   <xref:System.Configuration.ConfigurationCollectionAttribute>  
+  
+    -   ConfigurationPropertyAttribute  
+  
+2.  The types instructing the .NET Framework how to validate the custom configuration-element properties. These types include:  
+  
+    -   <xref:System.Configuration.IntegerValidatorAttribute>  
+  
+    -   <xref:System.Configuration.LongValidatorAttribute>  
+  
+    -   <xref:System.Configuration.RegexStringValidatorAttribute>  
+  
+    -   <xref:System.Configuration.StringValidatorAttribute>  
+  
+    -   <xref:System.Configuration.TimeSpanValidatorAttribute>  
+  
+   
+  
+## Examples  
+ The following example shows how to define the properties of a custom <xref:System.Configuration.ConfigurationSection> object using the ConfigurationPropertyAttribute attribute.  
+  
+ The example contains two classes. The `UrlsSection` custom class uses the ConfigurationPropertyAttribute to define its own properties. The `UsingConfigurationPropertyAttribute` class uses the `UrlsSection` to read and write the custom section in the application configuration file.  
+  
+ [!CODE [System.Configuration.ConfigurationPropertyAttribute#1](../CodeSnippet/VS_Snippets_WebNet/System.Configuration.ConfigurationPropertyAttribute#1)]  
+  
+ [!CODE [System.Configuration.ConfigurationPropertyAttribute#21](../CodeSnippet/VS_Snippets_WebNet/System.Configuration.ConfigurationPropertyAttribute#21)]  
+  
+ The following is an excerpt of the configuration file containing the custom section as defined in the previous sample.  
+  
+```  
+<?xml version="1.0" encoding="utf-8"?>  
+<configuration>  
+    <configSections>  
+        <section name="CustomSection" type="UrlsSection, UsingConfigurationPropertyAttribute, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null" />  
+    </configSections>  
+    <CustomSection name="Contoso" url="http://www.contoso.com" />  
+</configuration>  
+```  
+  
+ ]]></format>
+    </remarks>
   </Docs>
   <Members>
     <Member MemberName=".ctor">
@@ -30,8 +83,8 @@
         <Parameter Name="name" Type="System.String" />
       </Parameters>
       <Docs>
-        <param name="name">To be added.</param>
-        <summary>To be added.</summary>
+        <param name="name">Name of the &lt;see cref="T:System.Configuration.ConfigurationProperty"&gt; object defined.</param>
+        <summary>Initializes a new instance of &lt;see cref="T:System.Configuration.ConfigurationPropertyAttribute"&gt; class.</summary>
         <remarks>To be added.</remarks>
       </Docs>
     </Member>
@@ -46,9 +99,18 @@
         <ReturnType>System.Object</ReturnType>
       </ReturnValue>
       <Docs>
-        <summary>To be added.</summary>
-        <value>To be added.</value>
-        <remarks>To be added.</remarks>
+        <summary>Gets or sets the default value for the decorated property.</summary>
+        <value>The object representing the default value of the decorated configuration-element property.</value>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Examples  
+ The following example shows how to use the DefaultValue property.  
+  
+ [!CODE [System.Configuration.ConfigurationPropertyAttribute#3](../CodeSnippet/VS_Snippets_WebNet/System.Configuration.ConfigurationPropertyAttribute#3)]  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="IsDefaultCollection">
@@ -62,9 +124,16 @@
         <ReturnType>System.Boolean</ReturnType>
       </ReturnValue>
       <Docs>
-        <summary>To be added.</summary>
-        <value>To be added.</value>
-        <remarks>To be added.</remarks>
+        <summary>Gets or sets a value indicating whether this is the default property collection for the decorated configuration property.</summary>
+        <value>`true` if the property represents the default collection of an element; otherwise, `false`. The default is `false`.</value>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ The IsDefaultCollection property value is ignored if the decorated property is not a collection.  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="IsKey">
@@ -78,9 +147,23 @@
         <ReturnType>System.Boolean</ReturnType>
       </ReturnValue>
       <Docs>
-        <summary>To be added.</summary>
-        <value>To be added.</value>
-        <remarks>To be added.</remarks>
+        <summary>Gets or sets a value indicating whether this is a key property for the decorated element property.</summary>
+        <value>`true` if the property is a key property for an element of the collection; otherwise, `false`. The default is `false`.</value>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ The IsKey property applies only if the property you decorate is a collection. It does not have any effect if the property is not a collection. Multiple elements can be marked as IsKey.  
+  
+   
+  
+## Examples  
+ The following example shows how to use the IsKey property.  
+  
+ [!CODE [System.Configuration.ConfigurationPropertyAttribute#2](../CodeSnippet/VS_Snippets_WebNet/System.Configuration.ConfigurationPropertyAttribute#2)]  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="IsRequired">
@@ -94,9 +177,18 @@
         <ReturnType>System.Boolean</ReturnType>
       </ReturnValue>
       <Docs>
-        <summary>To be added.</summary>
-        <value>To be added.</value>
-        <remarks>To be added.</remarks>
+        <summary>Gets or sets a value indicating whether the decorated element property is required.</summary>
+        <value>`true` if the property is required; otherwise, `false`. The default is `false`.</value>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Examples  
+ The following example shows how to use the <xref:System.Configuration.ConfigurationPropertyAttribute.DefaultValue%2A> property.  
+  
+ [!CODE [System.Configuration.ConfigurationPropertyAttribute#3](../CodeSnippet/VS_Snippets_WebNet/System.Configuration.ConfigurationPropertyAttribute#3)]  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="Name">
@@ -110,8 +202,8 @@
         <ReturnType>System.String</ReturnType>
       </ReturnValue>
       <Docs>
-        <summary>To be added.</summary>
-        <value>To be added.</value>
+        <summary>Gets the name of the decorated configuration-element property.</summary>
+        <value>The name of the decorated configuration-element property.</value>
         <remarks>To be added.</remarks>
       </Docs>
     </Member>
@@ -126,8 +218,8 @@
         <ReturnType>System.Configuration.ConfigurationPropertyOptions</ReturnType>
       </ReturnValue>
       <Docs>
-        <summary>To be added.</summary>
-        <value>To be added.</value>
+        <summary>Gets or sets the &lt;see cref="T:System.Configuration.ConfigurationPropertyOptions"&gt; for the decorated configuration-element property.</summary>
+        <value>One of the &lt;see cref="T:System.Configuration.ConfigurationPropertyOptions"&gt; enumeration values associated with the property.</value>
         <remarks>To be added.</remarks>
       </Docs>
     </Member>

@@ -15,8 +15,40 @@
     </Attribute>
   </Attributes>
   <Docs>
-    <summary>To be added.</summary>
-    <remarks>To be added.</remarks>
+    <summary>Serializes an object graph to a series of CodeDOM statements. This class provides an abstract base class for a serializer.</summary>
+    <remarks>
+      <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ You can implement a custom CodeDomSerializer to control the generation of component initialization code for a type of component at design time.  
+  
+ To implement a custom CodeDomSerializer for a type, you must:  
+  
+1.  Define a class that derives from CodeDomSerializer.  
+  
+2.  Implement method overrides for serialization or deserialization methods. (See the information below for details.)  
+  
+3.  Associate your custom CodeDomSerializer implementation with a type of component using a <xref:System.ComponentModel.Design.Serialization.DesignerSerializerAttribute>.  
+  
+ To implement a serialization method for generating configuration code for a component:  
+  
+1.  Within a class that derives from CodeDomSerializer, override an appropriate serialization or deserialization method of the base class.  
+  
+2.  If you want the default serializer to generate code statements that perform the default component configuration, you must obtain and call the base serializer for the component. To obtain the base serializer for the component, call the <xref:System.ComponentModel.Design.Serialization.IDesignerSerializationManager.GetSerializer%2A> method of the <xref:System.ComponentModel.Design.Serialization.IDesignerSerializationManager> passed to your method override. Pass the <xref:System.ComponentModel.Design.Serialization.IDesignerSerializationManager.GetSerializer%2A> method the type of the component to serialize the configuration of, along with the base type of serializer you are requesting, which is CodeDomSerializer. Call the method of the same name you are overriding on the base serializer, using the <xref:System.ComponentModel.Design.Serialization.IDesignerSerializationManager> and object passed to your method override. If you are implementing the <xref:System.ComponentModel.Design.Serialization.CodeDomSerializer.Serialize%2A> method, the <xref:System.ComponentModel.Design.Serialization.CodeDomSerializer.Serialize%2A> method of the base serializer will return an object. The type of this object depends on the type of base serializer which depends on the type of component you are serializing the values of. If you are implementing the <xref:System.ComponentModel.Design.Serialization.CodeDomSerializerBase.SerializeEvents%2A>, <xref:System.ComponentModel.Design.Serialization.CodeDomSerializerBase.SerializeProperties%2A>, or <xref:System.ComponentModel.Design.Serialization.CodeDomSerializerBase.SerializePropertiesToResources%2A> method, you must create a new <xref:System.CodeDom.CodeStatementCollection> to contain the generated code statements, and pass it to the method.  
+  
+3.  If you have called a base serializer method, you will have a <xref:System.CodeDom.CodeStatementCollection> that contains the statements to generate to initialize the component. Otherwise you should create a <xref:System.CodeDom.CodeStatementCollection>. You can add <xref:System.CodeDom.CodeStatement> objects representing statements to generate in the component configuration code to this collection.  
+  
+4.  Return the <xref:System.CodeDom.CodeStatementCollection> that represents the source code to generate to configure the component.  
+  
+   
+  
+## Examples  
+ The following code example illustrates how to create a custom CodeDOM serializer that derives from CodeDomSerializer.  
+  
+ [!CODE [IDesignerSerializationManagerSample#1](../CodeSnippet/VS_Snippets_Winforms/IDesignerSerializationManagerSample#1)]  
+  
+ ]]></format>
+    </remarks>
   </Docs>
   <Members>
     <Member MemberName=".ctor">
@@ -28,7 +60,7 @@
       </AssemblyInfo>
       <Parameters />
       <Docs>
-        <summary>To be added.</summary>
+        <summary>Initializes a new instance of the &lt;see cref="T:System.ComponentModel.Design.Serialization.CodeDomSerializer"&gt; class.</summary>
         <remarks>To be added.</remarks>
       </Docs>
     </Member>
@@ -47,11 +79,18 @@
         <Parameter Name="codeObject" Type="System.Object" />
       </Parameters>
       <Docs>
-        <param name="manager">To be added.</param>
-        <param name="codeObject">To be added.</param>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
-        <remarks>To be added.</remarks>
+        <param name="manager">A serialization manager interface that is used during the deserialization process.</param>
+        <param name="codeObject">A serialized CodeDOM object to deserialize.</param>
+        <summary>Deserializes the specified serialized CodeDOM object into an object.</summary>
+        <returns>The deserialized CodeDOM object.</returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ This method uses the serialization manager to create objects and resolve data types. The root of the object graph is returned.  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="DeserializeStatementToInstance">
@@ -69,11 +108,18 @@
         <Parameter Name="statement" Type="System.CodeDom.CodeStatement" />
       </Parameters>
       <Docs>
-        <param name="manager">To be added.</param>
-        <param name="statement">To be added.</param>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
-        <remarks>To be added.</remarks>
+        <param name="manager">The serialization manager to use for serialization.</param>
+        <param name="statement">The statement to deserialize.</param>
+        <summary>Deserializes a single statement.</summary>
+        <returns>An object instance resulting from deserializing .</returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ The DeserializeStatementToInstance is equivalent of calling <xref:System.ComponentModel.Design.Serialization.CodeDomSerializerBase.DeserializeStatement%2A>, except that it returns an object instance if the resulting statement was a variable assign statement, a variable declaration with an init expression, or a field assignment statement.  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="GetTargetComponentName">
@@ -92,11 +138,11 @@
         <Parameter Name="targetType" Type="System.Type" />
       </Parameters>
       <Docs>
-        <param name="statement">To be added.</param>
-        <param name="expression">To be added.</param>
-        <param name="targetType">To be added.</param>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
+        <param name="statement">The &lt;xref:System.CodeDom.CodeStatement&gt; for which to determine the group.</param>
+        <param name="expression">A &lt;xref:System.CodeDom.CodeExpression&gt; that  has been reduced to.</param>
+        <param name="targetType">The &lt;see cref="T:System.Type"&gt; of .</param>
+        <summary>Determines which statement group the given statement should belong to.</summary>
+        <returns>The name of the component with which  should be grouped.</returns>
         <remarks>To be added.</remarks>
       </Docs>
     </Member>
@@ -115,10 +161,10 @@
         <Parameter Name="value" Type="System.Object" />
       </Parameters>
       <Docs>
-        <param name="manager">To be added.</param>
-        <param name="value">To be added.</param>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
+        <param name="manager">The serialization manager to use during serialization.</param>
+        <param name="value">The object to serialize.</param>
+        <summary>Serializes the specified object into a CodeDOM object.</summary>
+        <returns>A CodeDOM object representing the object that has been serialized.</returns>
         <remarks>To be added.</remarks>
       </Docs>
     </Member>
@@ -137,10 +183,10 @@
         <Parameter Name="value" Type="System.Object" />
       </Parameters>
       <Docs>
-        <param name="manager">To be added.</param>
-        <param name="value">To be added.</param>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
+        <param name="manager">The serialization manager to use for serialization.</param>
+        <param name="value">The object to serialize.</param>
+        <summary>Serializes the given object, accounting for default values.</summary>
+        <returns>A CodeDom object representing .</returns>
         <remarks>To be added.</remarks>
       </Docs>
     </Member>
@@ -160,11 +206,11 @@
         <Parameter Name="member" Type="System.ComponentModel.MemberDescriptor" />
       </Parameters>
       <Docs>
-        <param name="manager">To be added.</param>
-        <param name="owningObject">To be added.</param>
-        <param name="member">To be added.</param>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
+        <param name="manager">The serialization manager to use for serialization.</param>
+        <param name="owningObject">The object to which is  attached.</param>
+        <param name="member">The member to serialize.</param>
+        <summary>Serializes the given member on the given object.</summary>
+        <returns>A &lt;xref:System.CodeDom.CodeStatementCollection&gt; representing the serialized state of .</returns>
         <remarks>To be added.</remarks>
       </Docs>
     </Member>
@@ -184,11 +230,11 @@
         <Parameter Name="member" Type="System.ComponentModel.MemberDescriptor" />
       </Parameters>
       <Docs>
-        <param name="manager">To be added.</param>
-        <param name="owningObject">To be added.</param>
-        <param name="member">To be added.</param>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
+        <param name="manager">The serialization manager to use for serialization.</param>
+        <param name="owningObject">The object to which is  attached.</param>
+        <param name="member">The member to serialize.</param>
+        <summary>Serializes the given member, accounting for default values.</summary>
+        <returns>A CodeDom object representing .</returns>
         <remarks>To be added.</remarks>
       </Docs>
     </Member>
@@ -212,11 +258,18 @@
         <Parameter Name="value" Type="System.Object" />
       </Parameters>
       <Docs>
-        <param name="manager">To be added.</param>
-        <param name="value">To be added.</param>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
-        <remarks>To be added.</remarks>
+        <param name="manager">The serialization manager to use during serialization.</param>
+        <param name="value">The object to serialize.</param>
+        <summary>Serializes the specified value to a CodeDOM expression.</summary>
+        <returns>The serialized value. This returns `null` if no reference expression can be obtained for the specified value, or the value cannot be serialized.</returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ This method is similar to <xref:System.ComponentModel.Design.Serialization.CodeDomSerializerBase.SerializeToExpression%2A>, except that it stops if it cannot obtain a simple reference expression for the value. Call this method when you expect the resulting expression to be used as a parameter or target of a statement.  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
   </Members>

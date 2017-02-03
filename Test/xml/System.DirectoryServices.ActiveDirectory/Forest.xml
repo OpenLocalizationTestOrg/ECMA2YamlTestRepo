@@ -14,7 +14,7 @@
     </Interface>
   </Interfaces>
   <Docs>
-    <summary>To be added.</summary>
+    <summary>The Forest class represents an Active Directory Domain Services forest.</summary>
     <remarks>To be added.</remarks>
   </Docs>
   <Members>
@@ -29,8 +29,8 @@
         <ReturnType>System.DirectoryServices.ActiveDirectory.ApplicationPartitionCollection</ReturnType>
       </ReturnValue>
       <Docs>
-        <summary>To be added.</summary>
-        <value>To be added.</value>
+        <summary>Gets a collection of all application partitions in the forest.</summary>
+        <value>The &lt;see cref="T:System.DirectoryServices.ActiveDirectory.ApplicationPartitionCollection"&gt; object that contains all of the application partitions in this forest.</value>
         <remarks>To be added.</remarks>
       </Docs>
     </Member>
@@ -50,11 +50,22 @@
         <Parameter Name="trustPassword" Type="System.String" />
       </Parameters>
       <Docs>
-        <param name="targetForestName">To be added.</param>
-        <param name="direction">To be added.</param>
-        <param name="trustPassword">To be added.</param>
-        <summary>To be added.</summary>
-        <remarks>To be added.</remarks>
+        <param name="targetForestName">The DNS name of the forest that the trust is created with.</param>
+        <param name="direction">One of the &lt;see cref="T:System.DirectoryServices.ActiveDirectory.TrustDirection"&gt; members that determines the direction of the trust, relative to this forest.</param>
+        <param name="trustPassword">The password for the trust. See the Remarks section for more information.</param>
+        <summary>Creates the local side of a trust relationship with the specified forest.</summary>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ This method creates one side of a trust relationship. The trust is not established until both sides of the trust have been created.  
+  
+ The  parameter associates a password with the created trust. When the other side of the trust is created, the same password is provided and the two local trusts are then bound to each other.  
+  
+ To programmatically create both sides of a trust relationship in a single method call, use the <xref:System.DirectoryServices.ActiveDirectory.Forest.CreateTrustRelationship%2A?displayProperty=fullName> method.  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="CreateTrustRelationship">
@@ -72,10 +83,17 @@
         <Parameter Name="direction" Type="System.DirectoryServices.ActiveDirectory.TrustDirection" />
       </Parameters>
       <Docs>
-        <param name="targetForest">To be added.</param>
-        <param name="direction">To be added.</param>
-        <summary>To be added.</summary>
-        <remarks>To be added.</remarks>
+        <param name="targetForest">A &lt;see cref="T:System.DirectoryServices.ActiveDirectory.Forest"&gt; object that represents the forest that the trust is being created with.</param>
+        <param name="direction">One of the &lt;see cref="T:System.DirectoryServices.ActiveDirectory.TrustDirection"&gt; members that determines the direction of the trust, relative to this forest.</param>
+        <summary>Creates both sides of a trust relationship with the specified forest.</summary>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ This method creates both sides of a trust relationship with a single method call. The <xref:System.DirectoryServices.ActiveDirectory.Forest.CreateLocalSideOfTrustRelationship%2A?displayProperty=fullName> method is used to create only one side of a trust.  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="DeleteLocalSideOfTrustRelationship">
@@ -92,9 +110,18 @@
         <Parameter Name="targetForestName" Type="System.String" />
       </Parameters>
       <Docs>
-        <param name="targetForestName">To be added.</param>
-        <summary>To be added.</summary>
-        <remarks>To be added.</remarks>
+        <param name="targetForestName">The DNS name of the forest that the trust exists with.</param>
+        <summary>Deletes the local side of a trust relationship.</summary>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ When one side of a trust relationship is deleted, the trust is no longer established.  
+  
+ To delete both sides of a trust relationship with one method call, use the <xref:System.DirectoryServices.ActiveDirectory.Forest.DeleteTrustRelationship%2A?displayProperty=fullName> method.  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="DeleteTrustRelationship">
@@ -111,9 +138,16 @@
         <Parameter Name="targetForest" Type="System.DirectoryServices.ActiveDirectory.Forest" />
       </Parameters>
       <Docs>
-        <param name="targetForest">To be added.</param>
-        <summary>To be added.</summary>
-        <remarks>To be added.</remarks>
+        <param name="targetForest">A &lt;see cref="T:System.DirectoryServices.ActiveDirectory.Forest"&gt; object that represents the forest that the trust exists with.</param>
+        <summary>Deletes both sides of a trust relationship.</summary>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ To delete only one side of a trust relationship, use the <xref:System.DirectoryServices.ActiveDirectory.Forest.DeleteLocalSideOfTrustRelationship%2A?displayProperty=fullName> method.  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="Dispose">
@@ -128,7 +162,7 @@
       </ReturnValue>
       <Parameters />
       <Docs>
-        <summary>To be added.</summary>
+        <summary>Releases all managed and unmanaged resources that are held by the object.</summary>
         <remarks>To be added.</remarks>
       </Docs>
     </Member>
@@ -146,8 +180,8 @@
         <Parameter Name="disposing" Type="System.Boolean" />
       </Parameters>
       <Docs>
-        <param name="disposing">To be added.</param>
-        <summary>To be added.</summary>
+        <param name="disposing">A &lt;see cref="T:System.Boolean"&gt; value that determines if the managed resources should be released. `true` if the managed resources should be released; `false` if only the unmanaged resources should be released.</param>
+        <summary>Releases the managed resources that are used by the object and, optionally, releases unmanaged resources.</summary>
         <remarks>To be added.</remarks>
       </Docs>
     </Member>
@@ -162,8 +196,8 @@
         <ReturnType>System.DirectoryServices.ActiveDirectory.DomainCollection</ReturnType>
       </ReturnValue>
       <Docs>
-        <summary>To be added.</summary>
-        <value>To be added.</value>
+        <summary>Gets a collection of all domains in the forest.</summary>
+        <value>A &lt;see cref="T:System.DirectoryServices.ActiveDirectory.DomainCollection"&gt; collection that contains the &lt;xref:System.DirectoryServices.ActiveDirectory.Domain&gt; domains in the current &lt;xref:System.DirectoryServices.ActiveDirectory.Forest&gt;.</value>
         <remarks>To be added.</remarks>
       </Docs>
     </Member>
@@ -179,9 +213,16 @@
       </ReturnValue>
       <Parameters />
       <Docs>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
-        <remarks>To be added.</remarks>
+        <summary>Finds all of the discoverable global catalogs in this forest.</summary>
+        <returns>A &lt;see cref="T:System.DirectoryServices.ActiveDirectory.GlobalCatalogCollection"&gt; that contains the collection of global catalogs that were found.</returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ You can find discoverable domain controllers by querying DNS SRV records.  Only global catalogs that register a generic, non-site-specific, GC SRV record are returned by this method.  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="FindAllDiscoverableGlobalCatalogs">
@@ -198,10 +239,19 @@
         <Parameter Name="siteName" Type="System.String" />
       </Parameters>
       <Docs>
-        <param name="siteName">To be added.</param>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
-        <remarks>To be added.</remarks>
+        <param name="siteName">The name of the site to search.</param>
+        <summary>Finds all of the discoverable global catalogs in this forest in a specified site.</summary>
+        <returns>A &lt;see cref="T:System.DirectoryServices.ActiveDirectory.GlobalCatalogCollection"&gt; that contains the collection of global catalogs that were found.</returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ You can find discoverable global catalogs by querying DNS SRV records.  If a global catalog does not register a GC SRV record for the specified site, it will not be returned by this method, even if the global catalog is physically located within that site.  
+  
+ All global catalogs which register a GC SRV record for the specified site will be returned by this method, even if they might not be physically located within that site.  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="FindAllGlobalCatalogs">
@@ -216,8 +266,8 @@
       </ReturnValue>
       <Parameters />
       <Docs>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
+        <summary>Finds all the global catalogs in this forest.</summary>
+        <returns>A &lt;see cref="T:System.DirectoryServices.ActiveDirectory.GlobalCatalogCollection"&gt; that contains the collection of global catalogs that were found.</returns>
         <remarks>To be added.</remarks>
       </Docs>
     </Member>
@@ -235,9 +285,9 @@
         <Parameter Name="siteName" Type="System.String" />
       </Parameters>
       <Docs>
-        <param name="siteName">To be added.</param>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
+        <param name="siteName">The name of the site to search.</param>
+        <summary>Finds all the global catalogs in this forest for a given site.</summary>
+        <returns>A &lt;see cref="T:System.DirectoryServices.ActiveDirectory.GlobalCatalogCollection"&gt; object that contains the collection of global catalogs that were found.</returns>
         <remarks>To be added.</remarks>
       </Docs>
     </Member>
@@ -253,8 +303,8 @@
       </ReturnValue>
       <Parameters />
       <Docs>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
+        <summary>Finds any global catalog in this forest.</summary>
+        <returns>A &lt;see cref="T:System.DirectoryServices.ActiveDirectory.GlobalCatalog"&gt; of this &lt;xref:System.DirectoryServices.ActiveDirectory.Forest&gt;.</returns>
         <remarks>To be added.</remarks>
       </Docs>
     </Member>
@@ -272,9 +322,9 @@
         <Parameter Name="flag" Type="System.DirectoryServices.ActiveDirectory.LocatorOptions" />
       </Parameters>
       <Docs>
-        <param name="flag">To be added.</param>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
+        <param name="flag">A &lt;see cref="T:System.DirectoryServices.ActiveDirectory.LocatorOptions"&gt; value specifying the location criteria.</param>
+        <summary>Finds a global catalog in this forest for a specified location criteria.</summary>
+        <returns>A &lt;see cref="T:System.DirectoryServices.ActiveDirectory.GlobalCatalog"&gt; object for the specified location criteria.</returns>
         <remarks>To be added.</remarks>
       </Docs>
     </Member>
@@ -292,9 +342,9 @@
         <Parameter Name="siteName" Type="System.String" />
       </Parameters>
       <Docs>
-        <param name="siteName">To be added.</param>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
+        <param name="siteName">The name of the site to search.</param>
+        <summary>Finds a global catalog in this forest for a specified site.</summary>
+        <returns>A &lt;see cref="T:System.DirectoryServices.ActiveDirectory.GlobalCatalog"&gt; object for the specified site.</returns>
         <remarks>To be added.</remarks>
       </Docs>
     </Member>
@@ -313,10 +363,10 @@
         <Parameter Name="flag" Type="System.DirectoryServices.ActiveDirectory.LocatorOptions" />
       </Parameters>
       <Docs>
-        <param name="siteName">To be added.</param>
-        <param name="flag">To be added.</param>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
+        <param name="siteName">The name of the site to search.</param>
+        <param name="flag">A &lt;see cref="T:System.DirectoryServices.ActiveDirectory.LocatorOptions"&gt; value that specifies the location criteria.</param>
+        <summary>Finds a global catalog in this forest for a specified site and location criteria.</summary>
+        <returns>A &lt;see cref="T:System.DirectoryServices.ActiveDirectory.GlobalCatalog"&gt; object for the specified site and location criteria.</returns>
         <remarks>To be added.</remarks>
       </Docs>
     </Member>
@@ -331,8 +381,8 @@
         <ReturnType>System.DirectoryServices.ActiveDirectory.ForestMode</ReturnType>
       </ReturnValue>
       <Docs>
-        <summary>To be added.</summary>
-        <value>To be added.</value>
+        <summary>Gets the operating mode of the forest.</summary>
+        <value>A &lt;see cref="T:System.DirectoryServices.ActiveDirectory.ForestMode"&gt; value that represents the current forest mode of this &lt;xref:System.DirectoryServices.ActiveDirectory.Forest&gt;.</value>
         <remarks>To be added.</remarks>
       </Docs>
     </Member>
@@ -347,8 +397,8 @@
         <ReturnType>System.Int32</ReturnType>
       </ReturnValue>
       <Docs>
-        <summary>To be added.</summary>
-        <value>To be added.</value>
+        <summary>Gets the operating mode level of the forest.</summary>
+        <value>The operating mode level of the forest.</value>
         <remarks>To be added.</remarks>
       </Docs>
     </Member>
@@ -364,8 +414,8 @@
       </ReturnValue>
       <Parameters />
       <Docs>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
+        <summary>Gets a collection of the trust relationships of the current forest.</summary>
+        <returns>A &lt;see cref="T:System.DirectoryServices.ActiveDirectory.TrustRelationshipInformationCollection"&gt; collection that contains &lt;xref:System.DirectoryServices.ActiveDirectory.TrustRelationshipInformation&gt; objects that represents trust relationships of the current &lt;xref:System.DirectoryServices.ActiveDirectory.Forest&gt;.</returns>
         <remarks>To be added.</remarks>
       </Docs>
     </Member>
@@ -381,8 +431,8 @@
       </ReturnValue>
       <Parameters />
       <Docs>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
+        <summary>Gets a &lt;see cref="T:System.DirectoryServices.ActiveDirectory.Forest"&gt; object for the current user context.</summary>
+        <returns>A &lt;see cref="T:System.DirectoryServices.ActiveDirectory.Forest"&gt; object that represents the current forest.</returns>
         <remarks>To be added.</remarks>
       </Docs>
     </Member>
@@ -400,9 +450,9 @@
         <Parameter Name="context" Type="System.DirectoryServices.ActiveDirectory.DirectoryContext" />
       </Parameters>
       <Docs>
-        <param name="context">To be added.</param>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
+        <param name="context">A &lt;see cref="T:System.DirectoryServices.ActiveDirectory.DirectoryContext"&gt; object that contains the target and credentials to use to retrieve the object.</param>
+        <summary>Gets a &lt;see cref="T:System.DirectoryServices.ActiveDirectory.Forest"&gt; object for the specified context.</summary>
+        <returns>A &lt;see cref="T:System.DirectoryServices.ActiveDirectory.Forest"&gt; object that represents the forest that was retrieved by this method.</returns>
         <remarks>To be added.</remarks>
       </Docs>
     </Member>
@@ -420,10 +470,19 @@
         <Parameter Name="targetForestName" Type="System.String" />
       </Parameters>
       <Docs>
-        <param name="targetForestName">To be added.</param>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
-        <remarks>To be added.</remarks>
+        <param name="targetForestName">The DNS name of the &lt;see cref="T:System.DirectoryServices.ActiveDirectory.Forest"&gt; with which the inbound trust relationship exists.</param>
+        <summary>Gets a Boolean value that indicates whether selective authentication is enabled on the inbound trust relationship with the specified forest.  `true` if selective authentication is enabled; otherwise, `false`. For more information, see the Remarks section.</summary>
+        <returns>`true` if selective authentication is enabled; otherwise, `false`.</returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ For a forest trust, if you opt for selective authentication, permissions must be manually enabled on each domain and resource in the local forest to which you want users in the other forest to have access.  
+  
+ When a user authenticates across a trust for which selective authentication is enabled, an Other Organization security ID (SID) is added to the user's authorization data. The presence of this SID prompts a check on the resource domain to ensure that the user is allowed to authenticate to the particular service. After the user is authenticated, the server that authenticates the user adds the This Organization SID if the Other Organization SID is not already present. Only one of these special SIDs can be present in an authenticated user's context.  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="GetSidFilteringStatus">
@@ -440,9 +499,9 @@
         <Parameter Name="targetForestName" Type="System.String" />
       </Parameters>
       <Docs>
-        <param name="targetForestName">To be added.</param>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
+        <param name="targetForestName">The DNS name of the &lt;see cref="T:System.DirectoryServices.ActiveDirectory.Forest"&gt; object with which the trust relationship exists.</param>
+        <summary>Gets the SID filtering status of a trust.</summary>
+        <returns>`true` if SID filtering is enabled; otherwise, `false`.</returns>
         <remarks>To be added.</remarks>
       </Docs>
     </Member>
@@ -460,9 +519,9 @@
         <Parameter Name="targetForestName" Type="System.String" />
       </Parameters>
       <Docs>
-        <param name="targetForestName">To be added.</param>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
+        <param name="targetForestName">The name of the &lt;see cref="T:System.DirectoryServices.ActiveDirectory.Forest"&gt; object for which the trust relationship information is to be obtained.</param>
+        <summary>Gets the trust relationship between this forest and the specified forest.</summary>
+        <returns>A &lt;see cref="T:System.DirectoryServices.ActiveDirectory.ForestTrustRelationshipInformation"&gt; object that represents the trust relationship between this forest and the specified forest.</returns>
         <remarks>To be added.</remarks>
       </Docs>
     </Member>
@@ -477,8 +536,8 @@
         <ReturnType>System.DirectoryServices.ActiveDirectory.GlobalCatalogCollection</ReturnType>
       </ReturnValue>
       <Docs>
-        <summary>To be added.</summary>
-        <value>To be added.</value>
+        <summary>Gets a collection of all global catalogs in the forest.</summary>
+        <value>A &lt;see cref="T:System.DirectoryServices.ActiveDirectory.GlobalCatalogCollection"&gt; collection that contains the &lt;xref:System.DirectoryServices.ActiveDirectory.GlobalCatalog&gt; global catalogs in the current &lt;xref:System.DirectoryServices.ActiveDirectory.Forest&gt;.</value>
         <remarks>To be added.</remarks>
       </Docs>
     </Member>
@@ -493,8 +552,8 @@
         <ReturnType>System.String</ReturnType>
       </ReturnValue>
       <Docs>
-        <summary>To be added.</summary>
-        <value>To be added.</value>
+        <summary>Gets the name of the forest.</summary>
+        <value>The name of this &lt;see cref="T:System.DirectoryServices.ActiveDirectory.Forest"&gt;.</value>
         <remarks>To be added.</remarks>
       </Docs>
     </Member>
@@ -509,8 +568,8 @@
         <ReturnType>System.DirectoryServices.ActiveDirectory.DomainController</ReturnType>
       </ReturnValue>
       <Docs>
-        <summary>To be added.</summary>
-        <value>To be added.</value>
+        <summary>Gets the domain controller that holds the FSMO naming master role for the forest.</summary>
+        <value>A &lt;see cref="T:System.DirectoryServices.ActiveDirectory.DomainController"&gt; object that represents the domain controller that is the FSMO naming master of this &lt;xref:System.DirectoryServices.ActiveDirectory.Forest&gt;.</value>
         <remarks>To be added.</remarks>
       </Docs>
     </Member>
@@ -528,9 +587,26 @@
         <Parameter Name="forestMode" Type="System.DirectoryServices.ActiveDirectory.ForestMode" />
       </Parameters>
       <Docs>
-        <param name="forestMode">To be added.</param>
-        <summary>To be added.</summary>
-        <remarks>To be added.</remarks>
+        <param name="forestMode">A &lt;see cref="T:System.DirectoryServices.ActiveDirectory.ForestMode"&gt; enumeration value that specifies the new operation level for the forest.</param>
+        <summary>Raises the mode of operation for the forest.</summary>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ The <xref:System.DirectoryServices.ActiveDirectory.ForestMode> value can be raised but not lowered. This means that raising the functionality level of the forest is not reversible and the decision to do this should be made carefully.  
+  
+ For more information about forest operational modes, see [Domain and forest functionality](http://www.microsoft.com/resources/documentation/WindowsServ/2003/standard/proddocs/en-us/sag_levels.asp).  
+  
+ The following table defines the valid values for  based on the current operating mode of the forest.  
+  
+|Current mode|Mode can be raised to|  
+|------------------|---------------------------|  
+|<xref:System.DirectoryServices.ActiveDirectory.ForestMode>|<xref:System.DirectoryServices.ActiveDirectory.ForestMode><br /><br /> <xref:System.DirectoryServices.ActiveDirectory.ForestMode>|  
+|<xref:System.DirectoryServices.ActiveDirectory.ForestMode>|<xref:System.DirectoryServices.ActiveDirectory.ForestMode>|  
+|<xref:System.DirectoryServices.ActiveDirectory.ForestMode>|None|  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="RaiseForestFunctionalityLevel">
@@ -547,8 +623,8 @@
         <Parameter Name="forestMode" Type="System.Int32" />
       </Parameters>
       <Docs>
-        <param name="forestMode">To be added.</param>
-        <summary>To be added.</summary>
+        <param name="forestMode">Raise to this level.</param>
+        <summary>Raises the forest functionality level to the given setting.</summary>
         <remarks>To be added.</remarks>
       </Docs>
     </Member>
@@ -566,8 +642,8 @@
         <Parameter Name="targetForest" Type="System.DirectoryServices.ActiveDirectory.Forest" />
       </Parameters>
       <Docs>
-        <param name="targetForest">To be added.</param>
-        <summary>To be added.</summary>
+        <param name="targetForest">A &lt;see cref="T:System.DirectoryServices.ActiveDirectory.Forest"&gt; object that represents the forest object with which the trust exists.</param>
+        <summary>Repairs a trust relationship.</summary>
         <remarks>To be added.</remarks>
       </Docs>
     </Member>
@@ -582,8 +658,8 @@
         <ReturnType>System.DirectoryServices.ActiveDirectory.Domain</ReturnType>
       </ReturnValue>
       <Docs>
-        <summary>To be added.</summary>
-        <value>To be added.</value>
+        <summary>Gets the first domain that was created in a forest.</summary>
+        <value>A &lt;see cref="T:System.DirectoryServices.ActiveDirectory.Domain"&gt; object that represents the first domain that was created in this &lt;xref:System.DirectoryServices.ActiveDirectory.Forest&gt;.</value>
         <remarks>To be added.</remarks>
       </Docs>
     </Member>
@@ -598,8 +674,8 @@
         <ReturnType>System.DirectoryServices.ActiveDirectory.ActiveDirectorySchema</ReturnType>
       </ReturnValue>
       <Docs>
-        <summary>To be added.</summary>
-        <value>To be added.</value>
+        <summary>Gets the schema of the forest.</summary>
+        <value>An &lt;see cref="T:System.DirectoryServices.ActiveDirectory.ActiveDirectorySchema"&gt; object that represents the schema of the current &lt;xref:System.DirectoryServices.ActiveDirectory.Forest&gt;.</value>
         <remarks>To be added.</remarks>
       </Docs>
     </Member>
@@ -614,8 +690,8 @@
         <ReturnType>System.DirectoryServices.ActiveDirectory.DomainController</ReturnType>
       </ReturnValue>
       <Docs>
-        <summary>To be added.</summary>
-        <value>To be added.</value>
+        <summary>Gets the domain controller that holds the FSMO schema master role for the forest.</summary>
+        <value>A &lt;see cref="T:System.DirectoryServices.ActiveDirectory.DomainController"&gt; object that represents the domain controller that is the FSMO schema master of this &lt;xref:System.DirectoryServices.ActiveDirectory.Forest&gt;.</value>
         <remarks>To be added.</remarks>
       </Docs>
     </Member>
@@ -634,9 +710,9 @@
         <Parameter Name="enable" Type="System.Boolean" />
       </Parameters>
       <Docs>
-        <param name="targetForestName">To be added.</param>
-        <param name="enable">To be added.</param>
-        <summary>To be added.</summary>
+        <param name="targetForestName">The DNS name of the &lt;see cref="T:System.DirectoryServices.ActiveDirectory.Forest"&gt; object with which the inbound trust relationship exists.</param>
+        <param name="enable">`true` if selective authentication is to be enabled; otherwise, `false`.</param>
+        <summary>Enables or disables selective authentication for an inbound trust.</summary>
         <remarks>To be added.</remarks>
       </Docs>
     </Member>
@@ -655,10 +731,17 @@
         <Parameter Name="enable" Type="System.Boolean" />
       </Parameters>
       <Docs>
-        <param name="targetForestName">To be added.</param>
-        <param name="enable">To be added.</param>
-        <summary>To be added.</summary>
-        <remarks>To be added.</remarks>
+        <param name="targetForestName">The DNS name of the &lt;see cref="T:System.DirectoryServices.ActiveDirectory.Forest"&gt; object with which the trust relationship exists.</param>
+        <param name="enable">`true` if SID filtering is to be enabled; otherwise, `false`.</param>
+        <summary>Sets the SID filtering state with the specified forest.</summary>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ By default, new external and forest trusts in [!INCLUDE[WinXPSvr](../../add/includes/winxpsvr-md.md)] Active Directory Domain Services enforce SID filtering.  SID filtering is used to prevent attacks from malicious users who might try to grant elevated user rights to another user account.  Enforcing SID filtering on forest trusts does not prevent migrations to domains within the same forest from using SID history and will not affect your universal group access control strategy.  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="Sites">
@@ -672,8 +755,8 @@
         <ReturnType>System.DirectoryServices.ActiveDirectory.ReadOnlySiteCollection</ReturnType>
       </ReturnValue>
       <Docs>
-        <summary>To be added.</summary>
-        <value>To be added.</value>
+        <summary>Gets a collection of sites that are contained in the forest.</summary>
+        <value>A &lt;see cref="T:System.DirectoryServices.ActiveDirectory.ReadOnlySiteCollection"&gt; that contains the &lt;xref:System.DirectoryServices.ActiveDirectory.ActiveDirectorySite&gt; sites in the current &lt;xref:System.DirectoryServices.ActiveDirectory.Forest&gt;.</value>
         <remarks>To be added.</remarks>
       </Docs>
     </Member>
@@ -689,8 +772,8 @@
       </ReturnValue>
       <Parameters />
       <Docs>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
+        <summary>Returns a string representation of the current forest.</summary>
+        <returns>A &lt;see cref="T:System.String"&gt; that represents the DNS name of the &lt;xref:System.DirectoryServices.ActiveDirectory.Forest&gt; object.</returns>
         <remarks>To be added.</remarks>
       </Docs>
     </Member>
@@ -709,9 +792,9 @@
         <Parameter Name="newTrustPassword" Type="System.String" />
       </Parameters>
       <Docs>
-        <param name="targetForestName">To be added.</param>
-        <param name="newTrustPassword">To be added.</param>
-        <summary>To be added.</summary>
+        <param name="targetForestName">The name of the &lt;see cref="T:System.DirectoryServices.ActiveDirectory.Forest"&gt; object for which the local trust password is to be changed.</param>
+        <param name="newTrustPassword">The new password for the trust relationship.</param>
+        <summary>Updates the password for the local side of a trust relationship.</summary>
         <remarks>To be added.</remarks>
       </Docs>
     </Member>
@@ -731,10 +814,10 @@
         <Parameter Name="newTrustPassword" Type="System.String" />
       </Parameters>
       <Docs>
-        <param name="targetForestName">To be added.</param>
-        <param name="newTrustDirection">To be added.</param>
-        <param name="newTrustPassword">To be added.</param>
-        <summary>To be added.</summary>
+        <param name="targetForestName">The name of the &lt;see cref="T:System.DirectoryServices.ActiveDirectory.Forest"&gt; object for which the local trust direction and password must be changed.</param>
+        <param name="newTrustDirection">A &lt;see cref="T:System.DirectoryServices.ActiveDirectory.TrustDirection"&gt; value for the new trust direction for the trust relationship.</param>
+        <param name="newTrustPassword">The new password for the trust relationship.</param>
+        <summary>Updates the password and trust direction for the local side of a trust relationship.</summary>
         <remarks>To be added.</remarks>
       </Docs>
     </Member>
@@ -753,9 +836,9 @@
         <Parameter Name="newTrustDirection" Type="System.DirectoryServices.ActiveDirectory.TrustDirection" />
       </Parameters>
       <Docs>
-        <param name="targetForest">To be added.</param>
-        <param name="newTrustDirection">To be added.</param>
-        <summary>To be added.</summary>
+        <param name="targetForest">A &lt;see cref="T:System.DirectoryServices.ActiveDirectory.Forest"&gt; object for which the trust directions must be changed.</param>
+        <param name="newTrustDirection">A &lt;see cref="T:System.DirectoryServices.ActiveDirectory.TrustDirection"&gt; value that specifies the new trust direction for the trust relationship.</param>
+        <summary>Updates the trust direction for a trust relationship. The trust directions are updated on both sides of the trust.</summary>
         <remarks>To be added.</remarks>
       </Docs>
     </Member>
@@ -773,8 +856,8 @@
         <Parameter Name="targetForestName" Type="System.String" />
       </Parameters>
       <Docs>
-        <param name="targetForestName">To be added.</param>
-        <summary>To be added.</summary>
+        <param name="targetForestName">The DNS name of the domain with which the trust exists.</param>
+        <summary>Verifies that a previously established outbound trust with the specified forest is valid.</summary>
         <remarks>To be added.</remarks>
       </Docs>
     </Member>
@@ -793,10 +876,17 @@
         <Parameter Name="direction" Type="System.DirectoryServices.ActiveDirectory.TrustDirection" />
       </Parameters>
       <Docs>
-        <param name="targetForest">To be added.</param>
-        <param name="direction">To be added.</param>
-        <summary>To be added.</summary>
-        <remarks>To be added.</remarks>
+        <param name="targetForest">A &lt;see cref="T:System.DirectoryServices.ActiveDirectory.Forest"&gt; object for which to verify the trust relationship.</param>
+        <param name="direction">A &lt;see cref="T:System.DirectoryServices.ActiveDirectory.TrustDirection"&gt; value that specifies the direction of the trust, relative to this forest.</param>
+        <summary>Verifies that a previously established trust with the specified forest is valid.</summary>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ This method verifies that a trust relationship has been fully established. The trust is not established until both sides of the trust have been created.  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
   </Members>

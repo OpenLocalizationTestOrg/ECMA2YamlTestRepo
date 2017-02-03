@@ -25,8 +25,30 @@
     </Attribute>
   </Attributes>
   <Docs>
-    <summary>To be added.</summary>
-    <remarks>To be added.</remarks>
+    <summary>Defines and represents a constructor of a dynamic class.</summary>
+    <remarks>
+      <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ ConstructorBuilder is used to fully describe a constructor in Microsoft intermediate language (MSIL), including the name, attributes, signature, and constructor body. It is used in conjunction with the <xref:System.Reflection.Emit.TypeBuilder> class to create classes at run time. Call <xref:System.Reflection.Emit.TypeBuilder.DefineConstructor%2A> to get an instance of ConstructorBuilder.  
+  
+ If you do not define a constructor for your dynamic type, a default constructor is provided automatically, and it calls the default constructor of the base class.  
+  
+ If you use ConstructorBuilder to define a constructor for your dynamic type, a default constructor is not provided. You have the following options for providing a default constructor in addition to the constructor you defined:  
+  
+-   If you want a default constructor that simply calls the default constructor of the base class, you can use the <xref:System.Reflection.Emit.TypeBuilder.DefineDefaultConstructor%2A?displayProperty=fullName> method to create one (and optionally restrict access to it). Do not provide an implementation for this default constructor. If you do, an exception is thrown when you try to use the constructor. No exception is thrown when the <xref:System.Reflection.Emit.TypeBuilder.CreateType%2A?displayProperty=fullName> method is called.  
+  
+-   If you want a default constructor that does something more than simply calling the default constructor of the base class, or that calls another constructor of the base class, or that does something else entirely, you must use the <xref:System.Reflection.Emit.TypeBuilder.DefineConstructor%2A?displayProperty=fullName> method to create a ConstructorBuilder, and provide your own implementation.  
+  
+   
+  
+## Examples  
+ The following code sample illustrates the contextual usage of a `ConstructorBuilder`.  
+  
+ [!CODE [System.Reflection.Emit.ConstructorBuilder Example#1](../CodeSnippet/VS_Snippets_CLR_System/system.Reflection.Emit.ConstructorBuilder Example#1)]  
+  
+ ]]></format>
+    </remarks>
   </Docs>
   <Members>
     <Member MemberName="AddDeclarativeSecurity">
@@ -49,10 +71,27 @@
         <Parameter Name="pset" Type="System.Security.PermissionSet" />
       </Parameters>
       <Docs>
-        <param name="action">To be added.</param>
-        <param name="pset">To be added.</param>
-        <summary>To be added.</summary>
-        <remarks>To be added.</remarks>
+        <param name="action">The security action to be taken, such as Demand, Assert, and so on.</param>
+        <param name="pset">The set of permissions the action applies to.</param>
+        <summary>Adds declarative security to this constructor.</summary>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ AddDeclarativeSecurity can be called several times, with each call specifying a security action (such as `Demand`, `Assert`, and `Deny`) and a set of permissions that the action applies to.  
+  
+> [!NOTE]
+>  In the .NET Framework versions 1.0, 1.1, and 2.0, the declarative security attributes applied to a constructor by using this method are stored in the old XML metadata format. See Emitting Declarative Security Attributes.  
+  
+   
+  
+## Examples  
+ The following code sample illustrates the use of `AddDeclarativeSecurity`.  
+  
+ [!CODE [ConstructorBuilder_Attributes_4#1](../CodeSnippet/VS_Snippets_CLR/ConstructorBuilder_Attributes_4#1)]  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="Attributes">
@@ -66,9 +105,18 @@
         <ReturnType>System.Reflection.MethodAttributes</ReturnType>
       </ReturnValue>
       <Docs>
-        <summary>To be added.</summary>
-        <value>To be added.</value>
-        <remarks>To be added.</remarks>
+        <summary>Retrieves the attributes for this constructor.</summary>
+        <value>Returns the attributes for this constructor.</value>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ The following code sample illustrates the use of `Attributes`.  
+  
+ [!CODE [ConstructorBuilder_Attributes_4#2](../CodeSnippet/VS_Snippets_CLR/ConstructorBuilder_Attributes_4#2)]  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="CallingConvention">
@@ -82,8 +130,8 @@
         <ReturnType>System.Reflection.CallingConventions</ReturnType>
       </ReturnValue>
       <Docs>
-        <summary>To be added.</summary>
-        <value>To be added.</value>
+        <summary>Gets a &lt;see cref="T:System.Reflection.CallingConventions"&gt; value that depends on whether the declaring type is generic.</summary>
+        <value>&lt;xref:System.Reflection.CallingConventions?displayProperty=fullName&gt; if the declaring type is generic; otherwise, &lt;xref:System.Reflection.CallingConventions?displayProperty=fullName&gt;.</value>
         <remarks>To be added.</remarks>
       </Docs>
     </Member>
@@ -98,9 +146,20 @@
         <ReturnType>System.Type</ReturnType>
       </ReturnValue>
       <Docs>
-        <summary>To be added.</summary>
-        <value>To be added.</value>
-        <remarks>To be added.</remarks>
+        <summary>Retrieves a reference to the &lt;see cref="T:System.Type"&gt; object for the type that declares this member.</summary>
+        <value>Returns the &lt;see cref="T:System.Type"&gt; object for the type that declares this member.</value>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ A member of a class (or interface) is either declared or inherited from a base class (or interface).  
+  
+ The following code sample illustrates the use of `DeclaringType`.  
+  
+ [!CODE [ConstructorBuilder_Attributes_4#2](../CodeSnippet/VS_Snippets_CLR/ConstructorBuilder_Attributes_4#2)]  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="DefineParameter">
@@ -119,12 +178,19 @@
         <Parameter Name="strParamName" Type="System.String" />
       </Parameters>
       <Docs>
-        <param name="iSequence">To be added.</param>
-        <param name="attributes">To be added.</param>
-        <param name="strParamName">To be added.</param>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
-        <remarks>To be added.</remarks>
+        <param name="iSequence">The position of the parameter in the parameter list. Parameters are indexed beginning with the number 1 for the first parameter.</param>
+        <param name="attributes">The attributes of the parameter.</param>
+        <param name="strParamName">The name of the parameter. The name can be the null string.</param>
+        <summary>Defines a parameter of this constructor.</summary>
+        <returns>Returns a `ParameterBuilder` object that represents the new parameter of this constructor.</returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ If you specify 0 (zero) for , this method returns a <xref:System.Reflection.Emit.ParameterBuilder> instead of throwing an exception. There is nothing useful that you can do with this <xref:System.Reflection.Emit.ParameterBuilder>.  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="GetCustomAttributes">
@@ -141,10 +207,19 @@
         <Parameter Name="inherit" Type="System.Boolean" />
       </Parameters>
       <Docs>
-        <param name="inherit">To be added.</param>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
-        <remarks>To be added.</remarks>
+        <param name="inherit">Controls inheritance of custom attributes from base classes. This parameter is ignored.</param>
+        <summary>Returns all the custom attributes defined for this constructor.</summary>
+        <returns>Returns an array of objects representing all the custom attributes of the constructor represented by this &lt;see cref="T:System.Reflection.Emit.ConstructorBuilder"&gt; instance.</returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ The  parameter is ignored because a class never inherits constructors from base classes.  
+  
+ To get the custom attributes, finish building the type by calling <xref:System.Reflection.Emit.TypeBuilder.CreateType%2A>, retrieve the constructor by calling the <xref:System.Type.GetConstructor%2A> method on the returned type, and then call the <xref:System.Reflection.MemberInfo.GetCustomAttributes%2A> method on the returned <xref:System.Reflection.ConstructorInfo>.  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="GetCustomAttributes">
@@ -162,11 +237,20 @@
         <Parameter Name="inherit" Type="System.Boolean" />
       </Parameters>
       <Docs>
-        <param name="attributeType">To be added.</param>
-        <param name="inherit">To be added.</param>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
-        <remarks>To be added.</remarks>
+        <param name="attributeType">The custom attribute type.</param>
+        <param name="inherit">Controls inheritance of custom attributes from base classes. This parameter is ignored.</param>
+        <summary>Returns the custom attributes identified by the given type.</summary>
+        <returns>Returns an array of type &lt;see cref="T:System.Object"&gt; representing the attributes of this constructor.</returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ The  parameter is ignored because a class never inherits constructors from base classes.  
+  
+ To get the custom attributes, finish building the type by calling <xref:System.Reflection.Emit.TypeBuilder.CreateType%2A>, retrieve the constructor by calling the <xref:System.Type.GetConstructor%2A> method on the returned type, and then call the <xref:System.Reflection.MemberInfo.GetCustomAttributes%2A> method on the returned <xref:System.Reflection.ConstructorInfo>.  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="GetILGenerator">
@@ -181,9 +265,23 @@
       </ReturnValue>
       <Parameters />
       <Docs>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
-        <remarks>To be added.</remarks>
+        <summary>Gets an &lt;see cref="T:System.Reflection.Emit.ILGenerator"&gt; for this constructor.</summary>
+        <returns>Returns an &lt;see cref="T:System.Reflection.Emit.ILGenerator"&gt; object for this constructor.</returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ The runtime generates the code for default constructors. Therefore, if an attempt is made to obtain an `ILGenerator`, an exception will be thrown.  
+  
+   
+  
+## Examples  
+ The following code sample illustrates the use of the `GetILGenerator` method.  
+  
+ [!CODE [System.Reflection.Emit.ConstructorBuilder Example#1](../CodeSnippet/VS_Snippets_CLR_System/system.Reflection.Emit.ConstructorBuilder Example#1)]  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="GetILGenerator">
@@ -200,10 +298,17 @@
         <Parameter Name="streamSize" Type="System.Int32" />
       </Parameters>
       <Docs>
-        <param name="streamSize">To be added.</param>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
-        <remarks>To be added.</remarks>
+        <param name="streamSize">The size of the MSIL stream, in bytes.</param>
+        <summary>Gets an &lt;see cref="T:System.Reflection.Emit.ILGenerator"&gt; object, with the specified MSIL stream size, that can be used to build a method body for this constructor.</summary>
+        <returns>An &lt;see cref="T:System.Reflection.Emit.ILGenerator"&gt; for this constructor.</returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ The runtime generates the code for default constructors. Therefore, if an attempt is made to obtain an `ILGenerator` for a default constructor, an exception is thrown.  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="GetMethodImplementationFlags">
@@ -218,9 +323,18 @@
       </ReturnValue>
       <Parameters />
       <Docs>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
-        <remarks>To be added.</remarks>
+        <summary>Returns the method implementation flags for this constructor.</summary>
+        <returns>The method implementation flags for this constructor.</returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ The following code sample illustrates the use of `GetMethodImplementationFlags`.  
+  
+ [!CODE [ConstructorBuilder_GetModule_4#3](../CodeSnippet/VS_Snippets_CLR/ConstructorBuilder_GetModule_4#3)]  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="GetModule">
@@ -235,9 +349,18 @@
       </ReturnValue>
       <Parameters />
       <Docs>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
-        <remarks>To be added.</remarks>
+        <summary>Returns a reference to the module that contains this constructor.</summary>
+        <returns>The module that contains this constructor.</returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ The following code sample illustrates the usage of `GetModule`.  
+  
+ [!CODE [System.Reflection.Emit.MethodBuilder.GetModule#1](../CodeSnippet/VS_Snippets_CLR_System/system.Reflection.Emit.MethodBuilder.GetModule#1)]  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="GetParameters">
@@ -252,9 +375,23 @@
       </ReturnValue>
       <Parameters />
       <Docs>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
-        <remarks>To be added.</remarks>
+        <summary>Returns the parameters of this constructor.</summary>
+        <returns>Returns an array of &lt;see cref="T:System.Reflection.ParameterInfo"&gt; objects that represent the parameters of this constructor.</returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ This property is not supported until after the <xref:System.Reflection.Emit.TypeBuilder.CreateType%2A?displayProperty=fullName> method has been called. In the .NET Framework versions 1.0 and 1.1, <xref:System.InvalidOperationException> is thrown. In the .NET Framework version 2.0, <xref:System.NotSupportedException> is thrown.  
+  
+   
+  
+## Examples  
+ The code sample illustrates the use of `GetParameters`.  
+  
+ [!CODE [ConstructorBuilder_GetModule_4#4](../CodeSnippet/VS_Snippets_CLR/ConstructorBuilder_GetModule_4#4)]  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="GetToken">
@@ -269,9 +406,18 @@
       </ReturnValue>
       <Parameters />
       <Docs>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
-        <remarks>To be added.</remarks>
+        <summary>Returns the &lt;see cref="T:System.Reflection.Emit.MethodToken"&gt; that represents the token for this constructor.</summary>
+        <returns>Returns the &lt;see cref="T:System.Reflection.Emit.MethodToken"&gt; of this constructor.</returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ This code sample illustrates the use of `GetToken`.  
+  
+ [!CODE [ConstructorBuilder_GetModule_4#2](../CodeSnippet/VS_Snippets_CLR/ConstructorBuilder_GetModule_4#2)]  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="InitLocals">
@@ -285,8 +431,8 @@
         <ReturnType>System.Boolean</ReturnType>
       </ReturnValue>
       <Docs>
-        <summary>To be added.</summary>
-        <value>To be added.</value>
+        <summary>Gets or sets whether the local variables in this constructor should be zero-initialized.</summary>
+        <value>Read/write. Gets or sets whether the local variables in this constructor should be zero-initialized.</value>
         <remarks>To be added.</remarks>
       </Docs>
     </Member>
@@ -307,13 +453,25 @@
         <Parameter Name="culture" Type="System.Globalization.CultureInfo" />
       </Parameters>
       <Docs>
-        <param name="invokeAttr">To be added.</param>
-        <param name="binder">To be added.</param>
-        <param name="parameters">To be added.</param>
-        <param name="culture">To be added.</param>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
-        <remarks>To be added.</remarks>
+        <param name="invokeAttr">This must be a bit flag from &lt;see cref="T:System.Reflection.BindingFlags"&gt;, such as InvokeMethod, NonPublic, and so on.</param>
+        <param name="binder">An object that enables the binding, coercion of argument types, invocation of members, and retrieval of `MemberInfo` objects using reflection. If binder is `null`, the default binder is used. See &lt;see cref="T:System.Reflection.Binder"&gt;.</param>
+        <param name="parameters">An argument list. This is an array of arguments with the same number, order, and type as the parameters of the constructor to be invoked. If there are no parameters this should be `null`.</param>
+        <param name="culture">An instance of &lt;see cref="T:System.Globalization.CultureInfo"&gt; used to govern the coercion of types. If this is null, the &lt;see cref="T:System.Globalization.CultureInfo"&gt; for the current thread is used. (For example, this is necessary to convert a &lt;xref:System.String&gt; that represents 1000 to a &lt;xref:System.Double&gt; value, since 1000 is represented differently by different cultures.)</param>
+        <summary>Invokes the constructor dynamically reflected by this instance on the given object, passing along the specified parameters, and under the constraints of the given binder.</summary>
+        <returns>Returns an &lt;see cref="T:System.Object"&gt; that is the return value of the invoked constructor.</returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ If the constructor has no parameters, the value of the  parameter should be `null`. Otherwise, the number, type, and order of elements in the  array should be identical to the number, type, and order of parameters for the constructor reflected by this instance.  
+  
+ For example, if the constructor reflected by this instance is declared as public class taking two strings, then the  parameter should be an array of <xref:System.Object> with length 2.  
+  
+> [!NOTE]
+>  Access restrictions are ignored for fully-trusted code. That is, private constructors, methods, fields, and properties can be accessed and invoked using Reflection whenever the code is fully trusted.  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="Invoke">
@@ -334,14 +492,25 @@
         <Parameter Name="culture" Type="System.Globalization.CultureInfo" />
       </Parameters>
       <Docs>
-        <param name="obj">To be added.</param>
-        <param name="invokeAttr">To be added.</param>
-        <param name="binder">To be added.</param>
-        <param name="parameters">To be added.</param>
-        <param name="culture">To be added.</param>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
-        <remarks>To be added.</remarks>
+        <param name="obj">The object that needs to be reinitialized.</param>
+        <param name="invokeAttr">One of the `BindingFlags` values that specifies the type of binding that is desired.</param>
+        <param name="binder">A `Binder` that defines a set of properties and enables the binding, coercion of argument types, and invocation of members using reflection. If  is `null`, then Binder.DefaultBinding is used.</param>
+        <param name="parameters">An argument list. This is an array of arguments with the same number, order, and type as the parameters of the constructor to be invoked. If there are no parameters, this should be a null reference (`Nothing` in Visual Basic).</param>
+        <param name="culture">A &lt;see cref="T:System.Globalization.CultureInfo"&gt; used to govern the coercion of types. If this is null, the &lt;see cref="T:System.Globalization.CultureInfo"&gt; for the current thread is used.</param>
+        <summary>Dynamically invokes the constructor reflected by this instance with the specified arguments, under the constraints of the specified `Binder`.</summary>
+        <returns>An instance of the class associated with the constructor.</returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ The number, type, and order of elements in the parameters array should be identical to the number, type, and order of parameters for the constructor reflected by this instance.  
+  
+ Before calling the constructor, `Invoke` ensures that the caller has access permission, and that the parameters are of the correct number, order and type.  
+  
+ Access restrictions are ignored for fully-trusted code. That is, private constructors, methods, fields, and properties can be accessed and invoked using Reflection whenever the code is fully trusted.  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="IsDefined">
@@ -359,11 +528,18 @@
         <Parameter Name="inherit" Type="System.Boolean" />
       </Parameters>
       <Docs>
-        <param name="attributeType">To be added.</param>
-        <param name="inherit">To be added.</param>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
-        <remarks>To be added.</remarks>
+        <param name="attributeType">A custom attribute type.</param>
+        <param name="inherit">Controls inheritance of custom attributes from base classes. This parameter is ignored.</param>
+        <summary>Checks if the specified custom attribute type is defined.</summary>
+        <returns>`true` if the specified custom attribute type is defined; otherwise, `false`.</returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ See the metadata specification for details on how to format .  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="MethodHandle">
@@ -377,8 +553,8 @@
         <ReturnType>System.RuntimeMethodHandle</ReturnType>
       </ReturnValue>
       <Docs>
-        <summary>To be added.</summary>
-        <value>To be added.</value>
+        <summary>Retrieves the internal handle for the method. Use this handle to access the underlying metadata handle.</summary>
+        <value>Returns the internal handle for the method. Use this handle to access the underlying metadata handle.</value>
         <remarks>To be added.</remarks>
       </Docs>
     </Member>
@@ -393,9 +569,16 @@
         <ReturnType>System.Reflection.Module</ReturnType>
       </ReturnValue>
       <Docs>
-        <summary>To be added.</summary>
-        <value>To be added.</value>
-        <remarks>To be added.</remarks>
+        <summary>Gets the dynamic module in which this constructor is defined.</summary>
+        <value>A &lt;see cref="T:System.Reflection.Module"&gt; object that represents the dynamic module in which this constructor is defined.</value>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ This property returns the same value as the <xref:System.Reflection.Emit.ConstructorBuilder.GetModule%2A> method.  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="Name">
@@ -409,9 +592,18 @@
         <ReturnType>System.String</ReturnType>
       </ReturnValue>
       <Docs>
-        <summary>To be added.</summary>
-        <value>To be added.</value>
-        <remarks>To be added.</remarks>
+        <summary>Retrieves the name of this constructor.</summary>
+        <value>Returns the name of this constructor.</value>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ The following code sample illustrates the use of `Name`.  
+  
+ [!CODE [ConstructorBuilder_Name_5#2](../CodeSnippet/VS_Snippets_CLR/ConstructorBuilder_Name_5#2)]  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="ReflectedType">
@@ -425,9 +617,16 @@
         <ReturnType>System.Type</ReturnType>
       </ReturnValue>
       <Docs>
-        <summary>To be added.</summary>
-        <value>To be added.</value>
-        <remarks>To be added.</remarks>
+        <summary>Holds a reference to the &lt;see cref="T:System.Type"&gt; object from which this object was obtained.</summary>
+        <value>Returns the `Type` object from which this object was obtained.</value>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ A <xref:System.Reflection.Emit.ConstructorBuilder> object represents a constructor on a particular class. In order to obtain a <xref:System.Reflection.ConstructorInfo> object, the <xref:System.Type> object that represents the class that supports the constructor is queried. This property holds a reference to that <xref:System.Type> object.  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="ReturnType">
@@ -446,9 +645,16 @@
         <ReturnType>System.Type</ReturnType>
       </ReturnValue>
       <Docs>
-        <summary>To be added.</summary>
-        <value>To be added.</value>
-        <remarks>To be added.</remarks>
+        <summary>Gets `null`.</summary>
+        <value>Returns `null`.</value>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ This property might be removed in a future version.  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="SetCustomAttribute">
@@ -465,9 +671,18 @@
         <Parameter Name="customBuilder" Type="System.Reflection.Emit.CustomAttributeBuilder" />
       </Parameters>
       <Docs>
-        <param name="customBuilder">To be added.</param>
-        <summary>To be added.</summary>
-        <remarks>To be added.</remarks>
+        <param name="customBuilder">An instance of a helper class to define the custom attribute.</param>
+        <summary>Set a custom attribute using a custom attribute builder.</summary>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Examples  
+ The following code sample illustrates the use of `SetCustomAttribute` of the context of a <xref:System.Reflection.Emit.ConstructorBuilder>, passing a <xref:System.Reflection.Emit.CustomAttributeBuilder>.  
+  
+ [!CODE [ConstructorBuilder_SetCustomAttribute1#1](../CodeSnippet/VS_Snippets_CLR/ConstructorBuilder_SetCustomAttribute1#1)]  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="SetCustomAttribute">
@@ -490,10 +705,24 @@
         <Parameter Name="binaryAttribute" Type="System.Byte[]" />
       </Parameters>
       <Docs>
-        <param name="con">To be added.</param>
-        <param name="binaryAttribute">To be added.</param>
-        <summary>To be added.</summary>
-        <remarks>To be added.</remarks>
+        <param name="con">The constructor for the custom attribute.</param>
+        <param name="binaryAttribute">A byte blob representing the attributes.</param>
+        <summary>Set a custom attribute using a specified custom attribute blob.</summary>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ See the metadata specification in the ECMA Partition II documentation for details on how to format . The documentation is available online; see [ECMA C# and Common Language Infrastructure Standards](http://go.microsoft.com/fwlink/?LinkID=99212) on MSDN and [Standard ECMA-335 - Common Language Infrastructure (CLI)](http://go.microsoft.com/fwlink/?LinkID=65552) on the Ecma International Web site.  
+  
+   
+  
+## Examples  
+ The following code sample illustrates the use of `SetCustomAttribute` of the context of a <xref:System.Reflection.Emit.ConstructorBuilder>, passing a byte blob.  
+  
+ [!CODE [ConstructorBuilder_SetCustomAttribute2#1](../CodeSnippet/VS_Snippets_CLR/ConstructorBuilder_SetCustomAttribute2#1)]  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="SetImplementationFlags">
@@ -510,9 +739,18 @@
         <Parameter Name="attributes" Type="System.Reflection.MethodImplAttributes" />
       </Parameters>
       <Docs>
-        <param name="attributes">To be added.</param>
-        <summary>To be added.</summary>
-        <remarks>To be added.</remarks>
+        <param name="attributes">The method implementation flags.</param>
+        <summary>Sets the method implementation flags for this constructor.</summary>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ The following code sample illustrates the use of `SetImplementationFlags`.  
+  
+ [!CODE [ConstructorBuilder_SetImplementationFlags#1](../CodeSnippet/VS_Snippets_CLR/ConstructorBuilder_SetImplementationFlags#1)]  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="SetMethodBody">
@@ -533,12 +771,12 @@
         <Parameter Name="tokenFixups" Type="System.Collections.Generic.IEnumerable&lt;System.Int32&gt;" />
       </Parameters>
       <Docs>
-        <param name="il">To be added.</param>
-        <param name="maxStack">To be added.</param>
-        <param name="localSignature">To be added.</param>
-        <param name="exceptionHandlers">To be added.</param>
-        <param name="tokenFixups">To be added.</param>
-        <summary>To be added.</summary>
+        <param name="il">An array that contains valid MSIL instructions.</param>
+        <param name="maxStack">The maximum stack evaluation depth.</param>
+        <param name="localSignature">An array of bytes that contain the serialized local variable structure. Specify `null` if the constructor has no local variables.</param>
+        <param name="exceptionHandlers">A collection that contains the exception handlers for the constructor. Specify `null` if the constructor has no exception handlers.</param>
+        <param name="tokenFixups">A collection of values that represent offsets in , each of which specifies the beginning of a token that may be modified. Specify `null` if the constructor has no tokens that have to be modified.</param>
+        <summary>Creates the body of the constructor by using a specified byte array of Microsoft intermediate language (MSIL) instructions.</summary>
         <remarks>To be added.</remarks>
       </Docs>
     </Member>
@@ -557,10 +795,19 @@
         <Parameter Name="data" Type="System.Byte[]" />
       </Parameters>
       <Docs>
-        <param name="name">To be added.</param>
-        <param name="data">To be added.</param>
-        <summary>To be added.</summary>
-        <remarks>To be added.</remarks>
+        <param name="name">The name of the custom attribute.</param>
+        <param name="data">The value of the custom attribute.</param>
+        <summary>Sets this constructor's custom attribute associated with symbolic information.</summary>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ The following code sample illustrates the use of `SetSymCustomAttributes`.  
+  
+ [!CODE [ConstructorBuilder_SetSymCustomAttribute#1](../CodeSnippet/VS_Snippets_CLR/ConstructorBuilder_SetSymCustomAttribute#1)]  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="Signature">
@@ -574,8 +821,8 @@
         <ReturnType>System.String</ReturnType>
       </ReturnValue>
       <Docs>
-        <summary>To be added.</summary>
-        <value>To be added.</value>
+        <summary>Retrieves the signature of the field in the form of a string.</summary>
+        <value>Returns the signature of the field.</value>
         <remarks>To be added.</remarks>
       </Docs>
     </Member>
@@ -597,13 +844,20 @@
         <Parameter Name="rgDispId" Type="System.IntPtr" />
       </Parameters>
       <Docs>
-        <param name="riid">To be added.</param>
-        <param name="rgszNames">To be added.</param>
-        <param name="cNames">To be added.</param>
-        <param name="lcid">To be added.</param>
-        <param name="rgDispId">To be added.</param>
-        <summary>To be added.</summary>
-        <remarks>To be added.</remarks>
+        <param name="riid">Reserved for future use. Must be IID_NULL.</param>
+        <param name="rgszNames">Passed-in array of names to be mapped.</param>
+        <param name="cNames">Count of the names to be mapped.</param>
+        <param name="lcid">The locale context in which to interpret the names.</param>
+        <param name="rgDispId">Caller-allocated array which receives the IDs corresponding to the names.</param>
+        <summary>Maps a set of names to a corresponding set of dispatch identifiers.</summary>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ This method is for access to managed classes from unmanaged code, and should not be called from managed code. For more information about `IDispatch::GetIDsOfNames`, see the MSDN Library.  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="System.Runtime.InteropServices._ConstructorBuilder.GetTypeInfo">
@@ -622,11 +876,18 @@
         <Parameter Name="ppTInfo" Type="System.IntPtr" />
       </Parameters>
       <Docs>
-        <param name="iTInfo">To be added.</param>
-        <param name="lcid">To be added.</param>
-        <param name="ppTInfo">To be added.</param>
-        <summary>To be added.</summary>
-        <remarks>To be added.</remarks>
+        <param name="iTInfo">The type information to return.</param>
+        <param name="lcid">The locale identifier for the type information.</param>
+        <param name="ppTInfo">Receives a pointer to the requested type information object.</param>
+        <summary>Retrieves the type information for an object, which can then be used to get the type information for an interface.</summary>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ This method is for access to managed classes from unmanaged code, and should not be called from managed code. For more information about `IDispatch::GetTypeInfo`, see the MSDN Library.  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="System.Runtime.InteropServices._ConstructorBuilder.GetTypeInfoCount">
@@ -643,9 +904,16 @@
         <Parameter Name="pcTInfo" Type="System.UInt32&amp;" RefType="out" />
       </Parameters>
       <Docs>
-        <param name="pcTInfo">To be added.</param>
-        <summary>To be added.</summary>
-        <remarks>To be added.</remarks>
+        <param name="pcTInfo">Points to a location that receives the number of type information interfaces provided by the object.</param>
+        <summary>Retrieves the number of type information interfaces that an object provides (either 0 or 1).</summary>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ This method is for access to managed classes from unmanaged code, and should not be called from managed code. For more information about `IDispatch::GetTypeInfoCount`, see the MSDN Library.  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="System.Runtime.InteropServices._ConstructorBuilder.Invoke">
@@ -669,16 +937,23 @@
         <Parameter Name="puArgErr" Type="System.IntPtr" />
       </Parameters>
       <Docs>
-        <param name="dispIdMember">To be added.</param>
-        <param name="riid">To be added.</param>
-        <param name="lcid">To be added.</param>
-        <param name="wFlags">To be added.</param>
-        <param name="pDispParams">To be added.</param>
-        <param name="pVarResult">To be added.</param>
-        <param name="pExcepInfo">To be added.</param>
-        <param name="puArgErr">To be added.</param>
-        <summary>To be added.</summary>
-        <remarks>To be added.</remarks>
+        <param name="dispIdMember">Identifies the member.</param>
+        <param name="riid">Reserved for future use. Must be IID_NULL.</param>
+        <param name="lcid">The locale context in which to interpret arguments.</param>
+        <param name="wFlags">Flags describing the context of the call.</param>
+        <param name="pDispParams">Pointer to a structure containing an array of arguments, an array of argument DISPIDs for named arguments, and counts for the number of elements in the arrays.</param>
+        <param name="pVarResult">Pointer to the location where the result is to be stored.</param>
+        <param name="pExcepInfo">Pointer to a structure that contains exception information.</param>
+        <param name="puArgErr">The index of the first argument that has an error.</param>
+        <summary>Provides access to properties and methods exposed by an object.</summary>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ This method is for access to managed classes from unmanaged code, and should not be called from managed code. For more information about `IDispatch::Invoke`, see the MSDN Library.  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="ToString">
@@ -693,8 +968,8 @@
       </ReturnValue>
       <Parameters />
       <Docs>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
+        <summary>Returns this &lt;see cref="T:System.Reflection.Emit.ConstructorBuilder"&gt; instance as a &lt;xref:System.String&gt;.</summary>
+        <returns>Returns a &lt;see cref="T:System.String"&gt; containing the name, attributes, and exceptions of this constructor, followed by the current Microsoft intermediate language (MSIL) stream.</returns>
         <remarks>To be added.</remarks>
       </Docs>
     </Member>

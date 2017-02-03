@@ -10,8 +10,49 @@
   </Base>
   <Interfaces />
   <Docs>
-    <summary>To be added.</summary>
-    <remarks>To be added.</remarks>
+    <summary>Represents a group of related sections within a configuration file.</summary>
+    <remarks>
+      <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ Settings in configuration files (such as the Web.config file) are organized into sections. Because some sections are related, it is often convenient to group them in a section group. The ConfigurationSectionGroup class represents the `sectionGroup` XML element that is used to group sections when they are defined in the `configSections` element of a configuration file. Section groups can be nested (a section group can contain other section groups as well as sections). The following example shows a `configSections` element that defines three nested section groups:  
+  
+```  
+<configSections>  
+  <sectionGroup name="system.web.extensions"...>  
+    <sectionGroup name="scripting" ...>  
+      <section name="scriptResourceHandler".../>  
+      <sectionGroup name="webServices"...>  
+        <section name="jsonSerialization" .../>  
+        <section name="profileService" ... />        <section name="authenticationService" .../>  
+        <section name="roleService" .../>  
+      </sectionGroup>  
+    </sectionGroup>  
+  </sectionGroup>  
+</configSections>  
+```  
+  
+ The configuration system loads settings from configuration files into ConfigurationSectionGroup objects. You can use the <xref:System.Configuration.ConfigurationSectionGroup.Sections%2A> and <xref:System.Configuration.ConfigurationSectionGroup.SectionGroups%2A> properties to access the sections and section groups that are contained in a ConfigurationSectionGroup object.  
+  
+ For more information about how to access information from configuration files, see the <xref:System.Configuration.ConfigurationManager> class.  
+  
+   
+  
+## Examples  
+ The following example shows how to use the ConfigurationSectionGroup class to retrieve configuration settings. The example is a console application that reads configuration settings and writes information about each configuration section group and the sections in it to the console.  
+  
+ The `Main` method loads the configuration settings into a <xref:System.Configuration.Configuration> object, retrieves the <xref:System.Configuration.Configuration.SectionGroups%2A> collection from the <xref:System.Configuration.Configuration> object, and then calls the `ShowSectionGroupCollectionInfo` method to display the section property values.  
+  
+ The `ShowSectionGroupCollectionInfo` method iterates through the section groups and calls the `ShowSectionGroupInfo` method for each one.  
+  
+ The `ShowSectionGroupInfo` method displays the name of the section group, some property values, and the names of the sections that it contains. If the section group contains section groups, this method calls `ShowSectionGroupCollectionInfo` recursively to display those section groups.  
+  
+ The `indentLevel` field is used to add spaces to the left side of displayed lines to show logical groupings. All lines are limited to 79 characters of text to avoid line wrapping, which would make it harder to distinguish the logical groupings.  
+  
+ [!CODE [System.Configuration.ConfigurationSectionGroup#1](../CodeSnippet/VS_Snippets_WebNet/System.Configuration.ConfigurationSectionGroup#1)]  
+  
+ ]]></format>
+    </remarks>
   </Docs>
   <Members>
     <Member MemberName=".ctor">
@@ -23,7 +64,7 @@
       </AssemblyInfo>
       <Parameters />
       <Docs>
-        <summary>To be added.</summary>
+        <summary>Initializes a new instance of the &lt;see cref="T:System.Configuration.ConfigurationSectionGroup"&gt; class.</summary>
         <remarks>To be added.</remarks>
       </Docs>
     </Member>
@@ -39,8 +80,22 @@
       </ReturnValue>
       <Parameters />
       <Docs>
-        <summary>To be added.</summary>
-        <remarks>To be added.</remarks>
+        <summary>Forces the declaration for this &lt;see cref="T:System.Configuration.ConfigurationSectionGroup"&gt; object.</summary>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ The ForceDeclaration method can force a <xref:System.Configuration.ConfigurationSectionGroup> object to be written to a configuration file, even if it is not required because it is already declared in a parent file.  
+  
+   
+  
+## Examples  
+ The following code example shows how to use the ForceDeclaration method.  
+  
+ [!CODE [System.Configuration.ConfigurationSectionGroup#12](../CodeSnippet/VS_Snippets_WebNet/System.Configuration.ConfigurationSectionGroup#12)]  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="ForceDeclaration">
@@ -57,9 +112,27 @@
         <Parameter Name="force" Type="System.Boolean" />
       </Parameters>
       <Docs>
-        <param name="force">To be added.</param>
-        <summary>To be added.</summary>
-        <remarks>To be added.</remarks>
+        <param name="force">`true` if the &lt;see cref="T:System.Configuration.ConfigurationSectionGroup"&gt; object must be written to the file; otherwise, `false`.</param>
+        <summary>Forces the declaration for this &lt;see cref="T:System.Configuration.ConfigurationSectionGroup"&gt; object.</summary>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ The <xref:System.Configuration.ConfigurationSectionGroup.ForceDeclaration%2A> method forces this <xref:System.Configuration.ConfigurationSectionGroup> declaration to be written to the file if  is `true`. If  is `false`, this action might be ignored if the <xref:System.Configuration.ConfigurationSectionGroup> object is required by the system.  
+  
+ The ForceDeclaration method can force a <xref:System.Configuration.ConfigurationSectionGroup> object to be written to a configuration file, even if it is not required because it is already declared in a parent file. Also, it can remove a group from a configuration file if the group is not required.  
+  
+ You might want to use the ForceDeclaration method to make a configuration file more portable from one computer to another, without worrying about whether the group declaration already exists.  
+  
+   
+  
+## Examples  
+ The following code example shows how to use the ForceDeclaration method.  
+  
+ [!CODE [System.Configuration.ConfigurationSectionGroup#13](../CodeSnippet/VS_Snippets_WebNet/System.Configuration.ConfigurationSectionGroup#13)]  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="IsDeclarationRequired">
@@ -73,9 +146,18 @@
         <ReturnType>System.Boolean</ReturnType>
       </ReturnValue>
       <Docs>
-        <summary>To be added.</summary>
-        <value>To be added.</value>
-        <remarks>To be added.</remarks>
+        <summary>Gets a value that indicates whether this &lt;see cref="T:System.Configuration.ConfigurationSectionGroup"&gt; object declaration is required.</summary>
+        <value>`true` if this &lt;see cref="T:System.Configuration.ConfigurationSectionGroup"&gt; declaration is required; otherwise, `false`.</value>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Examples  
+ The following code example determines whether this instance of the <xref:System.Configuration.ConfigurationSectionGroup> declaration is required.  
+  
+ [!CODE [System.Configuration.ConfigurationSectionGroup#5](../CodeSnippet/VS_Snippets_WebNet/System.Configuration.ConfigurationSectionGroup#5)]  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="IsDeclared">
@@ -89,9 +171,25 @@
         <ReturnType>System.Boolean</ReturnType>
       </ReturnValue>
       <Docs>
-        <summary>To be added.</summary>
-        <value>To be added.</value>
-        <remarks>To be added.</remarks>
+        <summary>Gets a value that indicates whether this &lt;see cref="T:System.Configuration.ConfigurationSectionGroup"&gt; object is declared.</summary>
+        <value>`true` if this &lt;see cref="T:System.Configuration.ConfigurationSectionGroup"&gt; is declared; otherwise, `false`. The default is `false`.</value>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ If the section group is declared in the configuration file, the IsDeclared property returns `true`.  
+  
+ The IsDeclared property returns `false` if this section is inherited from Machine.config or a parent configuration file.  
+  
+   
+  
+## Examples  
+ The following code example determines whether this instance of <xref:System.Configuration.ConfigurationSectionGroup> is declared. This is part of a larger example provided in the overview for the <xref:System.Configuration.ConfigurationSectionGroup> class.  
+  
+ [!CODE [System.Configuration.ConfigurationSectionGroup#6](../CodeSnippet/VS_Snippets_WebNet/System.Configuration.ConfigurationSectionGroup#6)]  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="Name">
@@ -105,9 +203,23 @@
         <ReturnType>System.String</ReturnType>
       </ReturnValue>
       <Docs>
-        <summary>To be added.</summary>
-        <value>To be added.</value>
-        <remarks>To be added.</remarks>
+        <summary>Gets the name property of this &lt;see cref="T:System.Configuration.ConfigurationSectionGroup"&gt; object.</summary>
+        <value>The name property of this &lt;see cref="T:System.Configuration.ConfigurationSectionGroup"&gt; object.</value>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ The Name property value is the name of the section group that does not contain the parent section groups.  
+  
+   
+  
+## Examples  
+ The following code example shows how to display the name of this instance of the <xref:System.Configuration.ConfigurationSectionGroup> class. This is part of a larger example provided in the overview for the <xref:System.Configuration.ConfigurationSectionGroup> class.  
+  
+ [!CODE [System.Configuration.ConfigurationSectionGroup#3](../CodeSnippet/VS_Snippets_WebNet/System.Configuration.ConfigurationSectionGroup#3)]  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="SectionGroupName">
@@ -121,9 +233,23 @@
         <ReturnType>System.String</ReturnType>
       </ReturnValue>
       <Docs>
-        <summary>To be added.</summary>
-        <value>To be added.</value>
-        <remarks>To be added.</remarks>
+        <summary>Gets the section group name associated with this &lt;see cref="T:System.Configuration.ConfigurationSectionGroup"&gt;.</summary>
+        <value>The section group name of this &lt;see cref="T:System.Configuration.ConfigurationSectionGroup"&gt; object.</value>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ The SectionGroupName property value is the full path name of the section group, including the parent section groups..  
+  
+   
+  
+## Examples  
+ The following code example shows how to display the name of this instance of the <xref:System.Configuration.ConfigurationSectionGroup> class. This is part of a larger example provided in the overview for the <xref:System.Configuration.ConfigurationSectionGroup> class.  
+  
+ [!CODE [System.Configuration.ConfigurationSectionGroup#11](../CodeSnippet/VS_Snippets_WebNet/System.Configuration.ConfigurationSectionGroup#11)]  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="SectionGroups">
@@ -137,9 +263,18 @@
         <ReturnType>System.Configuration.ConfigurationSectionGroupCollection</ReturnType>
       </ReturnValue>
       <Docs>
-        <summary>To be added.</summary>
-        <value>To be added.</value>
-        <remarks>To be added.</remarks>
+        <summary>Gets a &lt;see cref="T:System.Configuration.ConfigurationSectionGroupCollection"&gt; object that contains all the &lt;xref:System.Configuration.ConfigurationSectionGroup&gt; objects that are children of this &lt;xref:System.Configuration.ConfigurationSectionGroup&gt; object.</summary>
+        <value>A &lt;see cref="T:System.Configuration.ConfigurationSectionGroupCollection"&gt; object that contains all the &lt;xref:System.Configuration.ConfigurationSectionGroup&gt; objects that are children of this &lt;xref:System.Configuration.ConfigurationSectionGroup&gt; object.</value>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Examples  
+ The following code example shows how to access the SectionGroups property. This is part of a larger example provided in the overview for the <xref:System.Configuration.ConfigurationSectionGroup> class.  
+  
+ [!CODE [System.Configuration.ConfigurationSectionGroup#8](../CodeSnippet/VS_Snippets_WebNet/System.Configuration.ConfigurationSectionGroup#8)]  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="Sections">
@@ -153,9 +288,18 @@
         <ReturnType>System.Configuration.ConfigurationSectionCollection</ReturnType>
       </ReturnValue>
       <Docs>
-        <summary>To be added.</summary>
-        <value>To be added.</value>
-        <remarks>To be added.</remarks>
+        <summary>Gets a &lt;see cref="T:System.Configuration.ConfigurationSectionCollection"&gt; object that contains all of &lt;xref:System.Configuration.ConfigurationSection&gt; objects within this &lt;xref:System.Configuration.ConfigurationSectionGroup&gt; object.</summary>
+        <value>A &lt;see cref="T:System.Configuration.ConfigurationSectionCollection"&gt; object that contains all the &lt;xref:System.Configuration.ConfigurationSection&gt; objects within this &lt;xref:System.Configuration.ConfigurationSectionGroup&gt; object.</value>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Examples  
+ The following code example shows how to access the Sections property. This is part of a larger example provided in the overview for the <xref:System.Configuration.ConfigurationSectionGroup> class.  
+  
+ [!CODE [System.Configuration.ConfigurationSectionGroup#7](../CodeSnippet/VS_Snippets_WebNet/System.Configuration.ConfigurationSectionGroup#7)]  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="ShouldSerializeSectionGroupInTargetVersion">
@@ -172,10 +316,19 @@
         <Parameter Name="targetFramework" Type="System.Runtime.Versioning.FrameworkName" />
       </Parameters>
       <Docs>
-        <param name="targetFramework">To be added.</param>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
-        <remarks>To be added.</remarks>
+        <param name="targetFramework">The target version of the [!INCLUDE[dnprdnshort](../../add/includes/dnprdnshort-md.md)].</param>
+        <summary>Indicates whether the current &lt;see cref="T:System.Configuration.ConfigurationSectionGroup"&gt; instance should be serialized when the configuration object hierarchy is serialized for the specified target version of the [!INCLUDE[dnprdnshort](../../add/includes/dnprdnshort-md.md)].</summary>
+        <returns>`true` if the current section group should be serialized; otherwise, `false`.</returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ Each configuration section group that is created for the [!INCLUDE[net_v40_long](../../add/includes/net-v40-long-md.md)] and later versions must explicitly override this method and return `true`, but only if the section group is valid for the specified version of the [!INCLUDE[dnprdnshort](../../add/includes/dnprdnshort-md.md)]. Existing configuration section groups that were created for earlier versions of the [!INCLUDE[dnprdnshort](../../add/includes/dnprdnshort-md.md)] do not have to be changed.  
+  
+ The base type contains a default implementation of this method that always returns `true`. In other words, if a configuration section group implementer does not override this method, by default the configuration section group will be serialized for all framework versions.  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="Type">
@@ -189,9 +342,23 @@
         <ReturnType>System.String</ReturnType>
       </ReturnValue>
       <Docs>
-        <summary>To be added.</summary>
-        <value>To be added.</value>
-        <remarks>To be added.</remarks>
+        <summary>Gets or sets the type for this &lt;see cref="T:System.Configuration.ConfigurationSectionGroup"&gt; object.</summary>
+        <value>The type of this &lt;see cref="T:System.Configuration.ConfigurationSectionGroup"&gt; object.</value>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ If this instance of the <xref:System.Configuration.ConfigurationSectionGroup> class is a derived type, the Type property will return the name of the derived type that extends the <xref:System.Configuration.ConfigurationSectionGroup> class.  
+  
+   
+  
+## Examples  
+ The following code example shows how to use the Type property. This is part of a larger example provided in the overview for the <xref:System.Configuration.ConfigurationSectionGroup> class.  
+  
+ [!CODE [System.Configuration.ConfigurationSectionGroup#4](../CodeSnippet/VS_Snippets_WebNet/System.Configuration.ConfigurationSectionGroup#4)]  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
   </Members>

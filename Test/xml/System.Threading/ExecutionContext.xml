@@ -17,8 +17,23 @@
     </Interface>
   </Interfaces>
   <Docs>
-    <summary>To be added.</summary>
-    <remarks>To be added.</remarks>
+    <summary>Manages the execution context for the current thread. This class cannot be inherited.</summary>
+    <remarks>
+      <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ The ExecutionContext class provides a single container for all information relevant to a logical thread of execution. This includes security context, call context, and synchronization context.  
+  
+ The ExecutionContext class provides the functionality for user code to capture and transfer this context across user-defined asynchronous points. The common language runtime ensures that the ExecutionContext is consistently transferred across runtime-defined asynchronous points within the managed process.  
+  
+ An execution context is the managed equivalent of a COM apartment. Within an application domain, the entire execution context must be transferred whenever a thread is transferred. This situation occurs during transfers made by the <xref:System.Threading.Thread.Start%2A?displayProperty=fullName> method, most thread pool operations, and Windows Forms thread marshaling through the Windows message pump. It does not occur in unsafe thread pool operations (such as the <xref:System.Threading.ThreadPool.UnsafeQueueUserWorkItem%2A> method), which do not transfer the compressed stack. Wherever the compressed stack flows, the managed principal, synchronization, locale, and user context also flow. The ExecutionContext class provides the <xref:System.Threading.ExecutionContext.Capture%2A> and <xref:System.Threading.ExecutionContext.CreateCopy%2A> methods to get the execution context and the <xref:System.Threading.ExecutionContext.Run%2A> method to set the execution context for the current thread.  
+  
+ An ExecutionContext that is associated with a thread cannot be set on another thread. Attempting to do so will result in an exception being thrown. To propagate the ExecutionContext from one thread to another, make a copy of the ExecutionContext.  
+  
+ Internally, the ExecutionContext stores all data that is associated with the <xref:System.Runtime.Remoting.Messaging.LogicalCallContext>. This allows the <xref:System.Runtime.Remoting.Messaging.LogicalCallContext> data to be propagated when the ExecutionContext is copied and transferred.  
+  
+ ]]></format>
+    </remarks>
   </Docs>
   <Members>
     <Member MemberName="Capture">
@@ -38,9 +53,16 @@
       </ReturnValue>
       <Parameters />
       <Docs>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
-        <remarks>To be added.</remarks>
+        <summary>Captures the execution context from the current thread.</summary>
+        <returns>An &lt;see cref="T:System.Threading.ExecutionContext"&gt; object representing the execution context for the current thread.</returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ The captured execution context can be used as the  parameter for the <xref:System.Threading.ExecutionContext.Run%2A> method.  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="CreateCopy">
@@ -60,9 +82,16 @@
       </ReturnValue>
       <Parameters />
       <Docs>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
-        <remarks>To be added.</remarks>
+        <summary>Creates a copy of the current execution context.</summary>
+        <returns>An &lt;see cref="T:System.Threading.ExecutionContext"&gt; object representing the current execution context.</returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ This method is useful for propagating an execution context from one thread to another.  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="Dispose">
@@ -77,8 +106,20 @@
       </ReturnValue>
       <Parameters />
       <Docs>
-        <summary>To be added.</summary>
-        <remarks>To be added.</remarks>
+        <summary>Releases all resources used by the current instance of the &lt;see cref="T:System.Threading.ExecutionContext"&gt; class.</summary>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ Call `Dispose` when you are finished using the <xref:System.Threading.ExecutionContext>. The `Dispose` method leaves the <xref:System.Threading.ExecutionContext> in an unusable state. After calling `Dispose`, you must release all references to the <xref:System.Threading.ExecutionContext> so the garbage collector can reclaim the memory that the <xref:System.Threading.ExecutionContext> was occupying.  
+  
+ For more information, see [Cleaning Up Unmanaged Resources](../Topic/Cleaning%20Up%20Unmanaged%20Resources.md) and [Implementing a Dispose Method](../Topic/Implementing%20a%20Dispose%20Method.md).  
+  
+> [!NOTE]
+>  Always call `Dispose` before you release your last reference to the <xref:System.Threading.ExecutionContext>. Otherwise, the resources it is using will not be freed until the garbage collector calls the <xref:System.Threading.ExecutionContext> object's `Finalize` method.  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="GetObjectData">
@@ -101,10 +142,19 @@
         <Parameter Name="context" Type="System.Runtime.Serialization.StreamingContext" />
       </Parameters>
       <Docs>
-        <param name="info">To be added.</param>
-        <param name="context">To be added.</param>
-        <summary>To be added.</summary>
-        <remarks>To be added.</remarks>
+        <param name="info">The &lt;see cref="T:System.Runtime.Serialization.SerializationInfo"&gt; object to be populated with serialization information.</param>
+        <param name="context">The &lt;see cref="T:System.Runtime.Serialization.StreamingContext"&gt; structure representing the destination context of the serialization.</param>
+        <summary>Sets the specified &lt;see cref="T:System.Runtime.Serialization.SerializationInfo"&gt; object with the logical context information needed to recreate an instance of the current execution context.</summary>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ GetObjectData sets a <xref:System.Runtime.Serialization.SerializationInfo> with the logical call context information. During deserialization, the execution context object is reconstituted from the <xref:System.Runtime.Serialization.SerializationInfo> transmitted over the stream.  
+  
+ For more information, see <xref:System.Runtime.Serialization.SerializationInfo>.  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="IsFlowSuppressed">
@@ -119,9 +169,16 @@
       </ReturnValue>
       <Parameters />
       <Docs>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
-        <remarks>To be added.</remarks>
+        <summary>Indicates whether the flow of the execution context is currently suppressed.</summary>
+        <returns>`true` if the flow is suppressed; otherwise, `false`.</returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ The IsFlowSuppressed method is used by infrastructure components to determine whether to transfer the <xref:System.Threading.ExecutionContext> during asynchronous operations.  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="RestoreFlow">
@@ -141,8 +198,17 @@
       </ReturnValue>
       <Parameters />
       <Docs>
-        <summary>To be added.</summary>
-        <remarks>To be added.</remarks>
+        <summary>Restores the flow of the execution context across asynchronous threads.</summary>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ RestoreFlow reverses the effect of a prior <xref:System.Threading.ExecutionContext.SuppressFlow%2A> method call.  
+  
+ This method is called by the <xref:System.Threading.AsyncFlowControl.Undo%2A> method of the <xref:System.Threading.AsyncFlowControl> structure returned by the <xref:System.Threading.ExecutionContext.SuppressFlow%2A> method.  You should use the <xref:System.Threading.AsyncFlowControl.Undo%2A> method to restore the flow of the execution context, not the RestoreFlow method.  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="Run">
@@ -166,11 +232,18 @@
         <Parameter Name="state" Type="System.Object" />
       </Parameters>
       <Docs>
-        <param name="executionContext">To be added.</param>
-        <param name="callback">To be added.</param>
-        <param name="state">To be added.</param>
-        <summary>To be added.</summary>
-        <remarks>To be added.</remarks>
+        <param name="executionContext">The &lt;see cref="T:System.Threading.ExecutionContext"&gt; to set.</param>
+        <param name="callback">A &lt;see cref="T:System.Threading.ContextCallback"&gt; delegate that represents the method to be run in the provided execution context.</param>
+        <param name="state">The object to pass to the callback method.</param>
+        <summary>Runs a method in a specified execution context on the current thread.</summary>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ The execution context is returned to its previous state when the method completes.  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="SuppressFlow">
@@ -190,9 +263,20 @@
       </ReturnValue>
       <Parameters />
       <Docs>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
-        <remarks>To be added.</remarks>
+        <summary>Suppresses the flow of the execution context across asynchronous threads.</summary>
+        <returns>An &lt;see cref="T:System.Threading.AsyncFlowControl"&gt; structure for restoring the flow.</returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ Use this method to suppress the flow of the <xref:System.Threading.ExecutionContext> on the current thread.  
+  
+ You must use the <xref:System.Threading.AsyncFlowControl.Undo%2A> method on the returned <xref:System.Threading.AsyncFlowControl> structure to restore the flow of the <xref:System.Threading.ExecutionContext>.  
+  
+ This method is protected with a <xref:System.Security.Permissions.SecurityAction?displayProperty=fullName> for <xref:System.Security.Permissions.SecurityPermissionFlag?displayProperty=fullName> permission. A fully trusted component can call this method to suppress the flow of the <xref:System.Threading.ExecutionContext> during asynchronous calls. While the flow is suppressed, the <xref:System.Security.SecurityContext.Capture%2A> method returns `null`.  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
   </Members>

@@ -10,7 +10,7 @@
   </Base>
   <Interfaces />
   <Docs>
-    <summary>To be added.</summary>
+    <summary>Represents an import that is required by a &lt;see cref="T:System.ComponentModel.Composition.Primitives.ComposablePart"&gt; object.</summary>
     <remarks>To be added.</remarks>
   </Docs>
   <Members>
@@ -23,8 +23,15 @@
       </AssemblyInfo>
       <Parameters />
       <Docs>
-        <summary>To be added.</summary>
-        <remarks>To be added.</remarks>
+        <summary>Initializes a new instance of the &lt;see cref="T:System.ComponentModel.Composition.Primitives.ImportDefinition"&gt; class.</summary>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ Derived types that call this constructor must override the <xref:System.ComponentModel.Composition.Primitives.ImportDefinition.Constraint%2A> property, and optionally, the <xref:System.ComponentModel.Composition.Primitives.ImportDefinition.Cardinality%2A>, <xref:System.ComponentModel.Composition.Primitives.ImportDefinition.IsPrerequisite%2A> and <xref:System.ComponentModel.Composition.Primitives.ImportDefinition.IsRecomposable%2A> properties.  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName=".ctor">
@@ -42,12 +49,12 @@
         <Parameter Name="isPrerequisite" Type="System.Boolean" />
       </Parameters>
       <Docs>
-        <param name="constraint">To be added.</param>
-        <param name="contractName">To be added.</param>
-        <param name="cardinality">To be added.</param>
-        <param name="isRecomposable">To be added.</param>
-        <param name="isPrerequisite">To be added.</param>
-        <summary>To be added.</summary>
+        <param name="constraint">An expression that contains a &lt;xref:System.Func%602&gt; object that defines the conditions an &lt;xref:System.ComponentModel.Composition.Primitives.Export&gt; must match to satisfy the import definition.</param>
+        <param name="contractName">The contract name.</param>
+        <param name="cardinality">One of the enumeration values that indicates the cardinality of the &lt;see cref="T:System.ComponentModel.Composition.Primitives.Export"&gt; objects required by the import definition.</param>
+        <param name="isRecomposable">`true` to specify that the import definition can be satisfied multiple times throughout the lifetime of a &lt;see cref="T:System.ComponentModel.Composition.Primitives.ComposablePart"&gt; object; otherwise, `false`.</param>
+        <param name="isPrerequisite">`true` to specify that the import definition must be satisfied before a &lt;see cref="T:System.ComponentModel.Composition.Primitives.ComposablePart"&gt; can start producing exported objects; otherwise, `false`.</param>
+        <summary>Initializes a new instance of the &lt;see cref="T:System.ComponentModel.Composition.Primitives.ImportDefinition"&gt; class with the specified constraint, contract name, and cardinality, and indicates whether the import definition is recomposable or a prerequisite.</summary>
         <remarks>To be added.</remarks>
       </Docs>
     </Member>
@@ -67,13 +74,13 @@
         <Parameter Name="metadata" Type="System.Collections.Generic.IDictionary&lt;System.String,System.Object&gt;" />
       </Parameters>
       <Docs>
-        <param name="constraint">To be added.</param>
-        <param name="contractName">To be added.</param>
-        <param name="cardinality">To be added.</param>
-        <param name="isRecomposable">To be added.</param>
-        <param name="isPrerequisite">To be added.</param>
-        <param name="metadata">To be added.</param>
-        <summary>To be added.</summary>
+        <param name="constraint">An expression that contains a &lt;xref:System.Func%602&gt; object that defines the conditions an &lt;xref:System.ComponentModel.Composition.Primitives.Export&gt; must match to satisfy the import definition.</param>
+        <param name="contractName">The contract name.</param>
+        <param name="cardinality">One of the enumeration values that indicates the cardinality of the &lt;see cref="T:System.ComponentModel.Composition.Primitives.Export"&gt; objects required by the import definition.</param>
+        <param name="isRecomposable">`true` to specify that the import definition can be satisfied multiple times throughout the lifetime of a &lt;see cref="T:System.ComponentModel.Composition.Primitives.ComposablePart"&gt; object; otherwise, `false`.</param>
+        <param name="isPrerequisite">`true` to specify that the import definition must be satisfied before a &lt;see cref="T:System.ComponentModel.Composition.Primitives.ComposablePart"&gt; can start producing exported objects; otherwise, `false`.</param>
+        <param name="metadata">The metadata associated with the import.</param>
+        <summary>Initializes a new instance of the &lt;see cref="T:System.ComponentModel.Composition.Primitives.ImportDefinition"&gt; class with the specified constraint, contract name, cardinality, and metadata, and indicates whether the import definition is recomposable or a prerequisite.</summary>
         <remarks>To be added.</remarks>
       </Docs>
     </Member>
@@ -88,8 +95,8 @@
         <ReturnType>System.ComponentModel.Composition.Primitives.ImportCardinality</ReturnType>
       </ReturnValue>
       <Docs>
-        <summary>To be added.</summary>
-        <value>To be added.</value>
+        <summary>Gets the cardinality of the exports required by the import definition.</summary>
+        <value>One of the enumeration values that indicates the cardinality of the &lt;see cref="T:System.ComponentModel.Composition.Primitives.Export"&gt; objects required by the &lt;xref:System.ComponentModel.Composition.Primitives.ImportDefinition&gt;. The default is &lt;xref:System.ComponentModel.Composition.Primitives.ImportCardinality&gt;.</value>
         <remarks>To be added.</remarks>
       </Docs>
     </Member>
@@ -104,9 +111,16 @@
         <ReturnType>System.Linq.Expressions.Expression&lt;System.Func&lt;System.ComponentModel.Composition.Primitives.ExportDefinition,System.Boolean&gt;&gt;</ReturnType>
       </ReturnValue>
       <Docs>
-        <summary>To be added.</summary>
-        <value>To be added.</value>
-        <remarks>To be added.</remarks>
+        <summary>Gets an expression that defines conditions that the import must satisfy to match the import definition.</summary>
+        <value>An expression that contains a &lt;xref:System.Func%602&gt; object that defines the conditions an &lt;xref:System.ComponentModel.Composition.Primitives.Export&gt; must satisfy to match the &lt;xref:System.ComponentModel.Composition.Primitives.ImportDefinition&gt;.</value>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ Overrides of this property should never return `null`.  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="ContractName">
@@ -120,8 +134,8 @@
         <ReturnType>System.String</ReturnType>
       </ReturnValue>
       <Docs>
-        <summary>To be added.</summary>
-        <value>To be added.</value>
+        <summary>Gets the name of the contract.</summary>
+        <value>The contract name.</value>
         <remarks>To be added.</remarks>
       </Docs>
     </Member>
@@ -139,9 +153,9 @@
         <Parameter Name="exportDefinition" Type="System.ComponentModel.Composition.Primitives.ExportDefinition" />
       </Parameters>
       <Docs>
-        <param name="exportDefinition">To be added.</param>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
+        <param name="exportDefinition">The export definition to test.</param>
+        <summary>Gets a value that indicates whether the export represented by the specified definition satisfies the constraints of this import definition.</summary>
+        <returns>`true` if the constraints are satisfied; otherwise, `false`.</returns>
         <remarks>To be added.</remarks>
       </Docs>
     </Member>
@@ -156,8 +170,8 @@
         <ReturnType>System.Boolean</ReturnType>
       </ReturnValue>
       <Docs>
-        <summary>To be added.</summary>
-        <value>To be added.</value>
+        <summary>Gets a value that indicates whether the import definition must be satisfied before a part can start producing exported objects.</summary>
+        <value>`true` if the &lt;see cref="T:System.ComponentModel.Composition.Primitives.ImportDefinition"&gt; must be satisfied before a &lt;xref:System.ComponentModel.Composition.Primitives.ComposablePart&gt; object can start producing exported objects; otherwise, `false`. The default is `true`.</value>
         <remarks>To be added.</remarks>
       </Docs>
     </Member>
@@ -172,8 +186,8 @@
         <ReturnType>System.Boolean</ReturnType>
       </ReturnValue>
       <Docs>
-        <summary>To be added.</summary>
-        <value>To be added.</value>
+        <summary>Gets a value that indicates whether the import definition can be satisfied multiple times.</summary>
+        <value>`true` if the &lt;see cref="T:System.ComponentModel.Composition.Primitives.ImportDefinition"&gt; can be satisfied multiple times throughout the lifetime of a &lt;xref:System.ComponentModel.Composition.Primitives.ComposablePart&gt; object; otherwise, `false`. The default is `false`.</value>
         <remarks>To be added.</remarks>
       </Docs>
     </Member>
@@ -188,9 +202,16 @@
         <ReturnType>System.Collections.Generic.IDictionary&lt;System.String,System.Object&gt;</ReturnType>
       </ReturnValue>
       <Docs>
-        <summary>To be added.</summary>
-        <value>To be added.</value>
-        <remarks>To be added.</remarks>
+        <summary>Gets the metadata associated with this import.</summary>
+        <value>A collection that contains the metadata associated with this import.</value>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ This property should never return null. Imports with no metadata should return an empty <xref:System.Collections.Generic.IDictionary%602> collection.  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="ToString">
@@ -205,8 +226,8 @@
       </ReturnValue>
       <Parameters />
       <Docs>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
+        <summary>Returns a string representation of the import definition.</summary>
+        <returns>A string representation of the import definition.</returns>
         <remarks>To be added.</remarks>
       </Docs>
     </Member>

@@ -19,8 +19,49 @@
     </Attribute>
   </Attributes>
   <Docs>
-    <summary>To be added.</summary>
-    <remarks>To be added.</remarks>
+    <summary>Represents a configuration element containing a collection of child elements.</summary>
+    <remarks>
+      <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ The ConfigurationElementCollection represents a collection of elements within a configuration file.  
+  
+> [!NOTE]
+>  An element within a configuration file refers to a basic XML element or a section. A simple element is an XML tag with related attributes, if any. A simple element constitutes a section. Complex sections can contain one or more simple elements, a collection of elements, and other sections.  
+  
+ You use the ConfigurationElementCollection to work with a collection of <xref:System.Configuration.ConfigurationElement> objects. Implement this class to add collections of custom <xref:System.Configuration.ConfigurationElement> elements to a <xref:System.Configuration.ConfigurationSection>.  
+  
+   
+  
+## Examples  
+ The following example shows how to use the ConfigurationElementCollection.  
+  
+ The first example consists of three classes: `UrlsSection`, `UrlsCollection` and `UrlConfigElement`.The `UrlsSection` class uses the <xref:System.Configuration.ConfigurationCollectionAttribute> to define a custom configuration section. This section contains a URL collection (defined by the `UrlsCollection` class) of URL elements (defined by the `UrlConfigElement` class).  
+  
+ [!CODE [System.Configuration.ConfigurationElementCollection#1](../CodeSnippet/VS_Snippets_WebNet/system.configuration.configurationelementcollection#1)]  
+  
+ This second code example uses the classes specified before. You combine these two examples in a console application project.  
+  
+ [!CODE [System.Configuration.ConfigurationElementCollection#31](../CodeSnippet/VS_Snippets_WebNet/system.configuration.configurationelementcollection#31)]  
+  
+ When you run the console application, an instance of the `UrlsSection` class is created and the following configuration elements are generated in the application configuration file:  
+  
+```  
+<configuration>  
+    <configSections>  
+        <section name="MyUrls" type="UrlsSection,   
+          ConfigurationElementCollection, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null" />  
+    </configSections>  
+    <MyUrls>  
+        <urls>  
+           <add name="Contoso" url="http://www.contoso.com" port="4040 />  
+        </urls>  
+    </MyUrls>  
+</configuration  
+```  
+  
+ ]]></format>
+    </remarks>
   </Docs>
   <Members>
     <Member MemberName=".ctor">
@@ -32,8 +73,15 @@
       </AssemblyInfo>
       <Parameters />
       <Docs>
-        <summary>To be added.</summary>
-        <remarks>To be added.</remarks>
+        <summary>Initializes a new instance of the &lt;see cref="T:System.Configuration.ConfigurationElementCollection"&gt; class.</summary>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ You create a new instance of the <xref:System.Configuration.ConfigurationElementCollection> when your application needs to create a custom <xref:System.Configuration.ConfigurationElementCollection>.  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName=".ctor">
@@ -47,9 +95,16 @@
         <Parameter Name="comparer" Type="System.Collections.IComparer" />
       </Parameters>
       <Docs>
-        <param name="comparer">To be added.</param>
-        <summary>To be added.</summary>
-        <remarks>To be added.</remarks>
+        <param name="comparer">The &lt;see cref="T:System.Collections.IComparer"&gt; comparer to use.</param>
+        <summary>Creates a new instance of the &lt;see cref="T:System.Configuration.ConfigurationElementCollection"&gt; class.</summary>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ The <xref:System.Collections.IComparer> is used to set a comparer to use. For example, you can use a case-insensitive comparer to make the key case insensitive.  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="AddElementName">
@@ -63,8 +118,8 @@
         <ReturnType>System.String</ReturnType>
       </ReturnValue>
       <Docs>
-        <summary>To be added.</summary>
-        <value>To be added.</value>
+        <summary>Gets or sets the name of the &lt;see cref="T:System.Configuration.ConfigurationElement"&gt; to associate with the add operation in the &lt;xref:System.Configuration.ConfigurationElementCollection&gt; when overridden in a derived class.</summary>
+        <value>The name of the element.</value>
         <remarks>To be added.</remarks>
       </Docs>
     </Member>
@@ -82,9 +137,25 @@
         <Parameter Name="element" Type="System.Configuration.ConfigurationElement" />
       </Parameters>
       <Docs>
-        <param name="element">To be added.</param>
-        <summary>To be added.</summary>
-        <remarks>To be added.</remarks>
+        <param name="element">The &lt;see cref="T:System.Configuration.ConfigurationElement"&gt; to add.</param>
+        <summary>Adds a configuration element to the &lt;see cref="T:System.Configuration.ConfigurationElementCollection"&gt;.</summary>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ Use the BaseAdd method to add a new <xref:System.Configuration.ConfigurationElement> to the collection. Override it in a derived class if custom behavior is required when the element is added.  
+  
+ When adding, an element is considered a duplicate only if the keys are identical but the values are different. Elements with identical keys and values are accepted silently because the elements do not compete. However, an element with an identical key but a different value cannot be added because there is no logic to determine which of the competing values should be honored.  
+  
+   
+  
+## Examples  
+ The following code example shows how to override the BaseAdd method and how to call it from an `Add` method.  
+  
+ [!CODE [System.Configuration.ConfigurationElementCollection#2](../CodeSnippet/VS_Snippets_WebNet/system.configuration.configurationelementcollection#2)]  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="BaseAdd">
@@ -102,10 +173,19 @@
         <Parameter Name="throwIfExists" Type="System.Boolean" />
       </Parameters>
       <Docs>
-        <param name="element">To be added.</param>
-        <param name="throwIfExists">To be added.</param>
-        <summary>To be added.</summary>
-        <remarks>To be added.</remarks>
+        <param name="element">The &lt;see cref="T:System.Configuration.ConfigurationElement"&gt; to add.</param>
+        <param name="throwIfExists">`true` to throw an exception if the &lt;see cref="T:System.Configuration.ConfigurationElement"&gt; specified is already contained in the &lt;xref:System.Configuration.ConfigurationElementCollection&gt;; otherwise, `false`.</param>
+        <summary>Adds a configuration element to the configuration element collection.</summary>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ Use the optional parameter  to throw an <xref:System.Exception> exception if the specified <xref:System.Configuration.ConfigurationElement> object already exists in the <xref:System.Configuration.ConfigurationElementCollection> collection.  
+  
+ An element is considered a duplicate only if the keys are identical but the values are different. Elements with identical keys and values are accepted silently because the elements do not compete. However, an element with an identical key but a different value cannot be added because there is no logic to determine which of the competing values should be honored.  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="BaseAdd">
@@ -123,10 +203,17 @@
         <Parameter Name="element" Type="System.Configuration.ConfigurationElement" />
       </Parameters>
       <Docs>
-        <param name="index">To be added.</param>
-        <param name="element">To be added.</param>
-        <summary>To be added.</summary>
-        <remarks>To be added.</remarks>
+        <param name="index">The index location at which to add the specified &lt;see cref="T:System.Configuration.ConfigurationElement"&gt;.</param>
+        <param name="element">The &lt;see cref="T:System.Configuration.ConfigurationElement"&gt; to add.</param>
+        <summary>Adds a configuration element to the configuration element collection.</summary>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ Use the  parameter to add the <xref:System.Configuration.ConfigurationElement> object to the <xref:System.Configuration.ConfigurationElementCollection> at a specific index location.  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="BaseClear">
@@ -141,8 +228,22 @@
       </ReturnValue>
       <Parameters />
       <Docs>
-        <summary>To be added.</summary>
-        <remarks>To be added.</remarks>
+        <summary>Removes all configuration element objects from the collection.</summary>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ When the BaseClear method is called, it removes all <xref:System.Configuration.ConfigurationElement> objects from the collection. It also inserts a `clear` directive into the configuration file.  
+  
+   
+  
+## Examples  
+ The following code example shows how to call the BaseClear method.  
+  
+ [!CODE [System.Configuration.ConfigurationElementCollection#3](../CodeSnippet/VS_Snippets_WebNet/system.configuration.configurationelementcollection#3)]  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="BaseGet">
@@ -159,10 +260,19 @@
         <Parameter Name="index" Type="System.Int32" />
       </Parameters>
       <Docs>
-        <param name="index">To be added.</param>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
-        <remarks>To be added.</remarks>
+        <param name="index">The index location of the &lt;see cref="T:System.Configuration.ConfigurationElement"&gt; to return.</param>
+        <summary>Gets the configuration element at the specified index location.</summary>
+        <returns>The &lt;see cref="T:System.Configuration.ConfigurationElement"&gt; at the specified index.</returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Examples  
+ The following code example shows how to call the BaseGet method.  
+  
+ [!CODE [System.Configuration.ConfigurationElementCollection#8](../CodeSnippet/VS_Snippets_WebNet/system.configuration.configurationelementcollection#8)]  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="BaseGet">
@@ -179,10 +289,24 @@
         <Parameter Name="key" Type="System.Object" />
       </Parameters>
       <Docs>
-        <param name="key">To be added.</param>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
-        <remarks>To be added.</remarks>
+        <param name="key">The key of the element to return.</param>
+        <summary>Returns the configuration element with the specified key.</summary>
+        <returns>The &lt;see cref="T:System.Configuration.ConfigurationElement"&gt; with the specified key; otherwise, `null`.</returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ The BaseGet method returns `null` if there is no <xref:System.Configuration.ConfigurationElement> object with the specified key in the collection.  
+  
+   
+  
+## Examples  
+ The following code example shows how to call the BaseGet method.  
+  
+ [!CODE [System.Configuration.ConfigurationElementCollection#9](../CodeSnippet/VS_Snippets_WebNet/system.configuration.configurationelementcollection#9)]  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="BaseGetAllKeys">
@@ -197,8 +321,8 @@
       </ReturnValue>
       <Parameters />
       <Docs>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
+        <summary>Returns an array of the keys for all of the configuration elements contained in the &lt;see cref="T:System.Configuration.ConfigurationElementCollection"&gt;.</summary>
+        <returns>An array that contains the keys for all of the &lt;see cref="T:System.Configuration.ConfigurationElement"&gt; objects contained in the &lt;xref:System.Configuration.ConfigurationElementCollection&gt;.</returns>
         <remarks>To be added.</remarks>
       </Docs>
     </Member>
@@ -216,9 +340,9 @@
         <Parameter Name="index" Type="System.Int32" />
       </Parameters>
       <Docs>
-        <param name="index">To be added.</param>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
+        <param name="index">The index location for the &lt;see cref="T:System.Configuration.ConfigurationElement"&gt;.</param>
+        <summary>Gets the key for the &lt;see cref="T:System.Configuration.ConfigurationElement"&gt; at the specified index location.</summary>
+        <returns>The key for the specified &lt;see cref="T:System.Configuration.ConfigurationElement"&gt;.</returns>
         <remarks>To be added.</remarks>
       </Docs>
     </Member>
@@ -236,10 +360,19 @@
         <Parameter Name="element" Type="System.Configuration.ConfigurationElement" />
       </Parameters>
       <Docs>
-        <param name="element">To be added.</param>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
-        <remarks>To be added.</remarks>
+        <param name="element">The &lt;see cref="T:System.Configuration.ConfigurationElement"&gt; for the specified index location.</param>
+        <summary>Indicates the index of the specified &lt;see cref="T:System.Configuration.ConfigurationElement"&gt;.</summary>
+        <returns>The index of the specified &lt;see cref="T:System.Configuration.ConfigurationElement"&gt;; otherwise, -1.</returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Examples  
+ The following code example shows how to call the BaseIndexOf method.  
+  
+ [!CODE [System.Configuration.ConfigurationElementCollection#10](../CodeSnippet/VS_Snippets_WebNet/system.configuration.configurationelementcollection#10)]  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="BaseIsRemoved">
@@ -256,9 +389,9 @@
         <Parameter Name="key" Type="System.Object" />
       </Parameters>
       <Docs>
-        <param name="key">To be added.</param>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
+        <param name="key">The key of the element to check.</param>
+        <summary>Indicates whether the &lt;see cref="T:System.Configuration.ConfigurationElement"&gt; with the specified key has been removed from the &lt;xref:System.Configuration.ConfigurationElementCollection&gt;.</summary>
+        <returns>`true` if the &lt;see cref="T:System.Configuration.ConfigurationElement"&gt; with the specified key has been removed; otherwise, `false`. The default is `false`.</returns>
         <remarks>To be added.</remarks>
       </Docs>
     </Member>
@@ -276,9 +409,23 @@
         <Parameter Name="key" Type="System.Object" />
       </Parameters>
       <Docs>
-        <param name="key">To be added.</param>
-        <summary>To be added.</summary>
-        <remarks>To be added.</remarks>
+        <param name="key">The key of the &lt;see cref="T:System.Configuration.ConfigurationElement"&gt; to remove.</param>
+        <summary>Removes a &lt;see cref="T:System.Configuration.ConfigurationElement"&gt; from the collection.</summary>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ The BaseRemove method inserts a `<remove>` directive into the configuration file for the <xref:System.Configuration.ConfigurationElement> with the specified key.  
+  
+   
+  
+## Examples  
+ The following code example shows how to call the BaseRemove method.  
+  
+ [!CODE [System.Configuration.ConfigurationElementCollection#3](../CodeSnippet/VS_Snippets_WebNet/system.configuration.configurationelementcollection#3)]  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="BaseRemoveAt">
@@ -295,9 +442,16 @@
         <Parameter Name="index" Type="System.Int32" />
       </Parameters>
       <Docs>
-        <param name="index">To be added.</param>
-        <summary>To be added.</summary>
-        <remarks>To be added.</remarks>
+        <param name="index">The index location of the &lt;see cref="T:System.Configuration.ConfigurationElement"&gt; to remove.</param>
+        <summary>Removes the &lt;see cref="T:System.Configuration.ConfigurationElement"&gt; at the specified index location.</summary>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ The BaseRemoveAt method inserts a `<remove>` directive into the configuration file for the element at the specified index location.  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="ClearElementName">
@@ -311,8 +465,8 @@
         <ReturnType>System.String</ReturnType>
       </ReturnValue>
       <Docs>
-        <summary>To be added.</summary>
-        <value>To be added.</value>
+        <summary>Gets or sets the name for the &lt;see cref="T:System.Configuration.ConfigurationElement"&gt; to associate with the clear operation in the &lt;xref:System.Configuration.ConfigurationElementCollection&gt; when overridden in a derived class.</summary>
+        <value>The name of the element.</value>
         <remarks>To be added.</remarks>
       </Docs>
     </Member>
@@ -327,9 +481,23 @@
         <ReturnType>System.Configuration.ConfigurationElementCollectionType</ReturnType>
       </ReturnValue>
       <Docs>
-        <summary>To be added.</summary>
-        <value>To be added.</value>
-        <remarks>To be added.</remarks>
+        <summary>Gets the type of the &lt;see cref="T:System.Configuration.ConfigurationElementCollection"&gt;.</summary>
+        <value>The &lt;see cref="T:System.Configuration.ConfigurationElementCollectionType"&gt; of this collection.</value>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ The type will be either a <xref:System.Configuration.ConfigurationElementCollectionType> or an <xref:System.Configuration.ConfigurationElementCollectionType> field. For more information, see <xref:System.Configuration.ConfigurationElementCollectionType>.  
+  
+   
+  
+## Examples  
+ The following code example shows how to get the CollectionType property.  
+  
+ [!CODE [System.Configuration.ConfigurationElementCollection#5](../CodeSnippet/VS_Snippets_WebNet/system.configuration.configurationelementcollection#5)]  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="CopyTo">
@@ -347,9 +515,9 @@
         <Parameter Name="index" Type="System.Int32" />
       </Parameters>
       <Docs>
-        <param name="array">To be added.</param>
-        <param name="index">To be added.</param>
-        <summary>To be added.</summary>
+        <param name="array">Array to which to copy the contents of the &lt;see cref="T:System.Configuration.ConfigurationElementCollection"&gt;.</param>
+        <param name="index">Index location at which to begin copying.</param>
+        <summary>Copies the contents of the &lt;see cref="T:System.Configuration.ConfigurationElementCollection"&gt; to an array.</summary>
         <remarks>To be added.</remarks>
       </Docs>
     </Member>
@@ -364,8 +532,8 @@
         <ReturnType>System.Int32</ReturnType>
       </ReturnValue>
       <Docs>
-        <summary>To be added.</summary>
-        <value>To be added.</value>
+        <summary>Gets the number of elements in the collection.</summary>
+        <value>The number of elements in the collection.</value>
         <remarks>To be added.</remarks>
       </Docs>
     </Member>
@@ -381,9 +549,23 @@
       </ReturnValue>
       <Parameters />
       <Docs>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
-        <remarks>To be added.</remarks>
+        <summary>When overridden in a derived class, creates a new &lt;see cref="T:System.Configuration.ConfigurationElement"&gt;.</summary>
+        <returns>A newly created &lt;see cref="T:System.Configuration.ConfigurationElement"&gt;.</returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ Override the CreateNewElement method to create custom <xref:System.Configuration.ConfigurationElement> objects of a specific type. When a collection is loaded from the configuration file, CreateNewElement is called to create individual elements. CreateNewElement must be overridden in classes that derive from the <xref:System.Configuration.ConfigurationElementCollection> class.  
+  
+   
+  
+## Examples  
+ The following code example shows how to override the CreateNewElement method.  
+  
+ [!CODE [System.Configuration.ConfigurationElementCollection#6](../CodeSnippet/VS_Snippets_WebNet/system.configuration.configurationelementcollection#6)]  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="CreateNewElement">
@@ -400,10 +582,17 @@
         <Parameter Name="elementName" Type="System.String" />
       </Parameters>
       <Docs>
-        <param name="elementName">To be added.</param>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
-        <remarks>To be added.</remarks>
+        <param name="elementName">The name of the &lt;see cref="T:System.Configuration.ConfigurationElement"&gt; to create.</param>
+        <summary>Creates a new &lt;see cref="T:System.Configuration.ConfigurationElement"&gt; when overridden in a derived class.</summary>
+        <returns>A new &lt;see cref="T:System.Configuration.ConfigurationElement"&gt; with a specified name.</returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ Override the CreateNewElement method to create custom <xref:System.Configuration.ConfigurationElement> objects of a specific type. When a collection is loaded from the configuration file, CreateNewElement is called to create individual elements. CreateNewElement must be overridden in classes that derive from the <xref:System.Configuration.ConfigurationElementCollection> class.  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="ElementName">
@@ -417,9 +606,16 @@
         <ReturnType>System.String</ReturnType>
       </ReturnValue>
       <Docs>
-        <summary>To be added.</summary>
-        <value>To be added.</value>
-        <remarks>To be added.</remarks>
+        <summary>Gets the name used to identify this collection of elements in the configuration file when overridden in a derived class.</summary>
+        <value>The name of the collection; otherwise, an empty string. The default is an empty string.</value>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ Override the ElementName property to name a custom <xref:System.Configuration.ConfigurationElementCollection>.  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="EmitClear">
@@ -433,9 +629,16 @@
         <ReturnType>System.Boolean</ReturnType>
       </ReturnValue>
       <Docs>
-        <summary>To be added.</summary>
-        <value>To be added.</value>
-        <remarks>To be added.</remarks>
+        <summary>Gets or sets a value that specifies whether the collection has been cleared.</summary>
+        <value>`true` if the collection has been cleared; otherwise, `false`. The default is `false`.</value>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ Setting the EmitClear property to `true` causes a `<clear>` directive to be written to the configuration file when the collection is serialized.  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="Equals">
@@ -452,9 +655,9 @@
         <Parameter Name="compareTo" Type="System.Object" />
       </Parameters>
       <Docs>
-        <param name="compareTo">To be added.</param>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
+        <param name="compareTo">The object to compare.</param>
+        <summary>Compares the &lt;see cref="T:System.Configuration.ConfigurationElementCollection"&gt; to the specified object.</summary>
+        <returns>`true` if the object to compare with is equal to the current &lt;see cref="T:System.Configuration.ConfigurationElementCollection"&gt; instance; otherwise, `false`. The default is `false`.</returns>
         <remarks>To be added.</remarks>
       </Docs>
     </Member>
@@ -472,10 +675,19 @@
         <Parameter Name="element" Type="System.Configuration.ConfigurationElement" />
       </Parameters>
       <Docs>
-        <param name="element">To be added.</param>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
-        <remarks>To be added.</remarks>
+        <param name="element">The &lt;see cref="T:System.Configuration.ConfigurationElement"&gt; to return the key for.</param>
+        <summary>Gets the element key for a specified configuration element when overridden in a derived class.</summary>
+        <returns>An &lt;see cref="T:System.Object"&gt; that acts as the key for the specified &lt;xref:System.Configuration.ConfigurationElement&gt;.</returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Examples  
+ The following code example shows how to override GetElementKey method.  
+  
+ [!CODE [System.Configuration.ConfigurationElementCollection#7](../CodeSnippet/VS_Snippets_WebNet/system.configuration.configurationelementcollection#7)]  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="GetEnumerator">
@@ -490,8 +702,8 @@
       </ReturnValue>
       <Parameters />
       <Docs>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
+        <summary>Gets an &lt;see cref="T:System.Collections.IEnumerator"&gt; which is used to iterate through the &lt;xref:System.Configuration.ConfigurationElementCollection&gt;.</summary>
+        <returns>An &lt;see cref="T:System.Collections.IEnumerator"&gt; which is used to iterate through the &lt;xref:System.Configuration.ConfigurationElementCollection&gt;.</returns>
         <remarks>To be added.</remarks>
       </Docs>
     </Member>
@@ -507,8 +719,8 @@
       </ReturnValue>
       <Parameters />
       <Docs>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
+        <summary>Gets a unique value representing the &lt;see cref="T:System.Configuration.ConfigurationElementCollection"&gt; instance.</summary>
+        <returns>A unique value representing the &lt;see cref="T:System.Configuration.ConfigurationElementCollection"&gt; current instance.</returns>
         <remarks>To be added.</remarks>
       </Docs>
     </Member>
@@ -526,10 +738,17 @@
         <Parameter Name="elementName" Type="System.String" />
       </Parameters>
       <Docs>
-        <param name="elementName">To be added.</param>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
-        <remarks>To be added.</remarks>
+        <param name="elementName">The name of the element to verify.</param>
+        <summary>Indicates whether the specified &lt;see cref="T:System.Configuration.ConfigurationElement"&gt; exists in the &lt;xref:System.Configuration.ConfigurationElementCollection&gt;.</summary>
+        <returns>`true` if the element exists in the collection; otherwise, `false`. The default is `false`.</returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ Override the IsElementName method to provide custom behavior.  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="IsElementRemovable">
@@ -546,10 +765,17 @@
         <Parameter Name="element" Type="System.Configuration.ConfigurationElement" />
       </Parameters>
       <Docs>
-        <param name="element">To be added.</param>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
-        <remarks>To be added.</remarks>
+        <param name="element">The element to check.</param>
+        <summary>Indicates whether the specified &lt;see cref="T:System.Configuration.ConfigurationElement"&gt; can be removed from the &lt;xref:System.Configuration.ConfigurationElementCollection&gt;.</summary>
+        <returns>`true` if the specified &lt;see cref="T:System.Configuration.ConfigurationElement"&gt; can be removed from this &lt;xref:System.Configuration.ConfigurationElementCollection&gt;; otherwise, `false`. The default is `true`.</returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ Query IsElementRemovable before removing a collection element.  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="IsModified">
@@ -564,9 +790,16 @@
       </ReturnValue>
       <Parameters />
       <Docs>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
-        <remarks>To be added.</remarks>
+        <summary>Indicates whether this &lt;see cref="T:System.Configuration.ConfigurationElementCollection"&gt; has been modified since it was last saved or loaded when overridden in a derived class.</summary>
+        <returns>`true` if any contained element has been modified; otherwise, `false`</returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ If the <xref:System.Configuration.ConfigurationElement.IsModified%2A> method of any <xref:System.Configuration.ConfigurationElement> contained within a <xref:System.Configuration.ConfigurationElementCollection> returns `true`, the IsModified method of the entire collection returns `true` as well.  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="IsReadOnly">
@@ -581,9 +814,16 @@
       </ReturnValue>
       <Parameters />
       <Docs>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
-        <remarks>To be added.</remarks>
+        <summary>Indicates whether the &lt;see cref="T:System.Configuration.ConfigurationElementCollection"&gt; object is read only.</summary>
+        <returns>`true` if the &lt;see cref="T:System.Configuration.ConfigurationElementCollection"&gt; object is read only; otherwise, `false`.</returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ The system defines configuration elements that cannot be modified. Call this method to determine whether elements can be modified.  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="IsSynchronized">
@@ -597,8 +837,8 @@
         <ReturnType>System.Boolean</ReturnType>
       </ReturnValue>
       <Docs>
-        <summary>To be added.</summary>
-        <value>To be added.</value>
+        <summary>Gets a value indicating whether access to the collection is synchronized.</summary>
+        <value>`true` if access to the &lt;see cref="T:System.Configuration.ConfigurationElementCollection"&gt; is synchronized; otherwise, `false`.</value>
         <remarks>To be added.</remarks>
       </Docs>
     </Member>
@@ -617,11 +857,20 @@
         <Parameter Name="reader" Type="System.Xml.XmlReader" />
       </Parameters>
       <Docs>
-        <param name="elementName">To be added.</param>
-        <param name="reader">To be added.</param>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
-        <remarks>To be added.</remarks>
+        <param name="elementName">The name of the unrecognized element.</param>
+        <param name="reader">An input stream that reads XML from the configuration file.</param>
+        <summary>Causes the configuration system to throw an exception.</summary>
+        <returns>`true` if the unrecognized element was deserialized successfully; otherwise, `false`. The default is `false`.</returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ The OnDeserializeUnrecognizedElement is called when an unrecognized configuration element is read from a configuration file.  
+  
+ Override this method to provide custom handling of unrecognized configuration elements from a configuration file. The default return value, `false`, causes the configuration system to throw an exception.  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="RemoveElementName">
@@ -635,8 +884,8 @@
         <ReturnType>System.String</ReturnType>
       </ReturnValue>
       <Docs>
-        <summary>To be added.</summary>
-        <value>To be added.</value>
+        <summary>Gets or sets the name of the &lt;see cref="T:System.Configuration.ConfigurationElement"&gt; to associate with the remove operation in the &lt;xref:System.Configuration.ConfigurationElementCollection&gt; when overridden in a derived class.</summary>
+        <value>The name of the element.</value>
         <remarks>To be added.</remarks>
       </Docs>
     </Member>
@@ -654,9 +903,16 @@
         <Parameter Name="parentElement" Type="System.Configuration.ConfigurationElement" />
       </Parameters>
       <Docs>
-        <param name="parentElement">To be added.</param>
-        <summary>To be added.</summary>
-        <remarks>To be added.</remarks>
+        <param name="parentElement">The &lt;see cref="T:System.Configuration.ConfigurationElement"&gt; representing the collection parent element, if any; otherwise, `null`.</param>
+        <summary>Resets the &lt;see cref="T:System.Configuration.ConfigurationElementCollection"&gt; to its unmodified state when overridden in a derived class.</summary>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ The default behavior for the Reset method is to clear any modified elements a <xref:System.Configuration.ConfigurationElementCollection> object contains and to set the modified elements to the values specified by their parent configuration file. If any element in the <xref:System.Configuration.ConfigurationElementCollection> has child elements, Reset is also called on those child elements.  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="ResetModified">
@@ -671,8 +927,15 @@
       </ReturnValue>
       <Parameters />
       <Docs>
-        <summary>To be added.</summary>
-        <remarks>To be added.</remarks>
+        <summary>Resets the value of the &lt;xref:System.Configuration.ConfigurationElementCollection.IsModified%2A&gt; property to `false` when overridden in a derived class.</summary>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ The ResetModified method determines whether the elements of this collection will be written to the configuration file when the configuration is updated.  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="SerializeElement">
@@ -690,11 +953,18 @@
         <Parameter Name="serializeCollectionKey" Type="System.Boolean" />
       </Parameters>
       <Docs>
-        <param name="writer">To be added.</param>
-        <param name="serializeCollectionKey">To be added.</param>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
-        <remarks>To be added.</remarks>
+        <param name="writer">Output stream that writes XML to the configuration file.</param>
+        <param name="serializeCollectionKey">`true` to serialize the collection key; otherwise, `false`.</param>
+        <summary>Writes the configuration data to an XML element in the configuration file when overridden in a derived class.</summary>
+        <returns>`true` if the &lt;see cref="T:System.Configuration.ConfigurationElementCollection"&gt; was written to the configuration file successfully.</returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ The SerializeElement method writes the contents of the configuration elements contained in the collection and any nested elements they contain to the configuration file. Override SerializeElement to provide a custom write procedure out of the collection contents and nested elements.  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="SetReadOnly">
@@ -709,8 +979,15 @@
       </ReturnValue>
       <Parameters />
       <Docs>
-        <summary>To be added.</summary>
-        <remarks>To be added.</remarks>
+        <summary>Sets the &lt;xref:System.Configuration.ConfigurationElementCollection.IsReadOnly%2A&gt; property for the &lt;xref:System.Configuration.ConfigurationElementCollection&gt; object and for all sub-elements.</summary>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ This method is used internally to set aside those system configuration elements that cannot be modified. To determine which elements are modifiable, call the <xref:System.Configuration.ConfigurationElementCollection.IsReadOnly%2A> method.  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="SyncRoot">
@@ -724,8 +1001,8 @@
         <ReturnType>System.Object</ReturnType>
       </ReturnValue>
       <Docs>
-        <summary>To be added.</summary>
-        <value>To be added.</value>
+        <summary>Gets an object used to synchronize access to the &lt;see cref="T:System.Configuration.ConfigurationElementCollection"&gt;.</summary>
+        <value>An object used to synchronize access to the &lt;see cref="T:System.Configuration.ConfigurationElementCollection"&gt;.</value>
         <remarks>To be added.</remarks>
       </Docs>
     </Member>
@@ -744,9 +1021,9 @@
         <Parameter Name="index" Type="System.Int32" />
       </Parameters>
       <Docs>
-        <param name="arr">To be added.</param>
-        <param name="index">To be added.</param>
-        <summary>To be added.</summary>
+        <param name="arr">Array to which to copy this &lt;see cref="T:System.Configuration.ConfigurationElementCollection"&gt;.</param>
+        <param name="index">Index location at which to begin copying.</param>
+        <summary>Copies the &lt;see cref="T:System.Configuration.ConfigurationElementCollection"&gt; to an array.</summary>
         <remarks>To be added.</remarks>
       </Docs>
     </Member>
@@ -761,9 +1038,18 @@
         <ReturnType>System.Boolean</ReturnType>
       </ReturnValue>
       <Docs>
-        <summary>To be added.</summary>
-        <value>To be added.</value>
-        <remarks>To be added.</remarks>
+        <summary>Gets a value indicating whether an attempt to add a duplicate &lt;see cref="T:System.Configuration.ConfigurationElement"&gt; to the &lt;xref:System.Configuration.ConfigurationElementCollection&gt; will cause an exception to be thrown.</summary>
+        <value>`true` if an attempt to add a duplicate &lt;see cref="T:System.Configuration.ConfigurationElement"&gt; to this &lt;xref:System.Configuration.ConfigurationElementCollection&gt; will cause an exception to be thrown; otherwise, `false`.</value>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ When you add a duplicate element, an exception is thrown if the <xref:System.Configuration.ConfigurationElementCollection.CollectionType%2A> value of the element is either <xref:System.Configuration.ConfigurationElementCollectionType> or <xref:System.Configuration.ConfigurationElementCollectionType>.  
+  
+ Note that elements with identical keys and values are not considered duplicates, and are accepted silently. Only elements with identical keys but different values are considered duplicates. For more information, see the Remarks section for the <xref:System.Configuration.ConfigurationElementCollection.BaseAdd%2A> method.  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="Unmerge">
@@ -782,11 +1068,20 @@
         <Parameter Name="saveMode" Type="System.Configuration.ConfigurationSaveMode" />
       </Parameters>
       <Docs>
-        <param name="sourceElement">To be added.</param>
-        <param name="parentElement">To be added.</param>
-        <param name="saveMode">To be added.</param>
-        <summary>To be added.</summary>
-        <remarks>To be added.</remarks>
+        <param name="sourceElement">A &lt;see cref="T:System.Configuration.ConfigurationElement"&gt; object at the current level containing a merged view of the properties.</param>
+        <param name="parentElement">The parent &lt;see cref="T:System.Configuration.ConfigurationElement"&gt; object of the current element, or `null` if this is the top level.</param>
+        <param name="saveMode">A &lt;see cref="T:System.Configuration.ConfigurationSaveMode"&gt; enumerated value that determines which property values to include.</param>
+        <summary>Reverses the effect of merging configuration information from different levels of the configuration hierarchy</summary>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ The Unmerge method reverses the effect of merging configuration information from different levels of the configuration hierarchy. This allows configuration set at the current hierarchy level to be differentiated from that set at parent levels, before serialization.  
+  
+ Unmerge is called by the system on a new temporary element to compare the parent object and the source object. Based on the <xref:System.Configuration.ConfigurationSaveMode> value, it then sets the temporary object to contain the data that needs to be serialized. For details about save modes, see <xref:System.Configuration.ConfigurationSaveMode>.  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
   </Members>

@@ -14,8 +14,22 @@
     </Attribute>
   </Attributes>
   <Docs>
-    <summary>To be added.</summary>
-    <remarks>To be added.</remarks>
+    <summary>Identifies the type of class interface that is generated for a class.</summary>
+    <remarks>
+      <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ This enumeration is used in conjunction with the <xref:System.Runtime.InteropServices.ClassInterfaceAttribute> attribute.  
+  
+   
+  
+## Examples  
+ This example shows how to apply the <xref:System.Runtime.InteropServices.ClassInterfaceAttribute> to a type, setting the ClassInterfaceType. Classes defined this way can be used from unmanaged COM.  
+  
+ [!CODE [ClassInterfaceType#1](../CodeSnippet/VS_Snippets_CLR/ClassInterfaceType#1)]  
+  
+ ]]></format>
+    </remarks>
   </Docs>
   <Members>
     <Member MemberName="AutoDispatch">
@@ -29,7 +43,15 @@
         <ReturnType>System.Runtime.InteropServices.ClassInterfaceType</ReturnType>
       </ReturnValue>
       <Docs>
-        <summary>To be added.</summary>
+        <summary>Indicates that the class only supports late binding for COM clients. A `dispinterface` for the class is automatically exposed to COM clients on request. The type library produced by [Tlbexp.exe (Type Library Exporter)](../Topic/Tlbexp.exe%20\(Type%20Library%20Exporter\).md) does not contain type information for the `dispinterface` in order to prevent clients from caching the DISPIDs of the interface. The `dispinterface` does not exhibit the versioning problems described in T:System.Runtime.InteropServices.ClassInterfaceAttribute?qualifyHint=False&amp;autoUpgrade=True because clients can only late-bind to the interface.</summary>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ This is the default setting for T:System.Runtime.InteropServices.ClassInterfaceAttribute?qualifyHint=False&autoUpgrade=True.  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="AutoDual">
@@ -43,7 +65,7 @@
         <ReturnType>System.Runtime.InteropServices.ClassInterfaceType</ReturnType>
       </ReturnValue>
       <Docs>
-        <summary>To be added.</summary>
+        <summary>Indicates that a dual class interface is automatically generated for the class and exposed to COM. Type information is produced for the class interface and published in the type library. Using `AutoDual` is strongly discouraged because of the versioning limitations described in T:System.Runtime.InteropServices.ClassInterfaceAttribute?qualifyHint=False&amp;autoUpgrade=True.</summary>
       </Docs>
     </Member>
     <Member MemberName="None">
@@ -57,7 +79,15 @@
         <ReturnType>System.Runtime.InteropServices.ClassInterfaceType</ReturnType>
       </ReturnValue>
       <Docs>
-        <summary>To be added.</summary>
+        <summary>Indicates that no class interface is generated for the class. If no interfaces are implemented explicitly, the class can only provide late-bound access through the `IDispatch` interface. This is the recommended setting for &lt;see cref="T:System.Runtime.InteropServices.ClassInterfaceAttribute"&gt;. Using `ClassInterfaceType.None` is the only way to expose functionality through interfaces implemented explicitly by the class.</summary>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ [Tlbexp.exe (Type Library Exporter)](../Topic/Tlbexp.exe%20\(Type%20Library%20Exporter\).md) exposes the first public, COM-visible interface implemented by the class as the default interface of the coclass. Beginning with the .NET Framework version 2.0, you can specify the default interface exposed to COM by using the T:System.Runtime.InteropServices.ComDefaultInterfaceAttribute?qualifyHint=False&autoUpgrade=True attribute. If the class implements no interfaces, the first public, COM-visible interface implemented by a base class becomes the default interface (starting with the most recently derived base class and working backward). Tlbexp.exe exposes `_Object` as the default interface if neither the class nor its base classes implement interfaces.  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
   </Members>

@@ -10,7 +10,7 @@
   </Base>
   <Interfaces />
   <Docs>
-    <summary>To be added.</summary>
+    <summary>Provides a Cryptography Next Generation (CNG) implementation of the Advanced Encryption Standard (AES) algorithm.</summary>
     <remarks>To be added.</remarks>
   </Docs>
   <Members>
@@ -23,7 +23,7 @@
       </AssemblyInfo>
       <Parameters />
       <Docs>
-        <summary>To be added.</summary>
+        <summary>Initializes a new instance of the &lt;see cref="T:System.Security.Cryptography.AesCng"&gt; class with an ephemeral key.</summary>
         <remarks>To be added.</remarks>
       </Docs>
     </Member>
@@ -38,9 +38,16 @@
         <Parameter Name="keyName" Type="System.String" />
       </Parameters>
       <Docs>
-        <param name="keyName">To be added.</param>
-        <summary>To be added.</summary>
-        <remarks>To be added.</remarks>
+        <param name="keyName">The name of the key.</param>
+        <summary>Initializes a new instance of the &lt;see cref="T:System.Security.Cryptography.AesCng"&gt; class with the specified key name, which represents an existing persisted AES key.</summary>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ This constructor uses a default <xref:System.Security.Cryptography.CngKeyOpenOptions> value of <xref:System.Security.Cryptography.CngKeyOpenOptions> and <xref:System.Security.Cryptography.CngProvider.MicrosoftSoftwareKeyStorageProvider%2A> as the default key storage provider (KSP) to open the key.  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName=".ctor">
@@ -55,10 +62,17 @@
         <Parameter Name="provider" Type="System.Security.Cryptography.CngProvider" />
       </Parameters>
       <Docs>
-        <param name="keyName">To be added.</param>
-        <param name="provider">To be added.</param>
-        <summary>To be added.</summary>
-        <remarks>To be added.</remarks>
+        <param name="keyName">The name of the key.</param>
+        <param name="provider">The KSP that contains the key.</param>
+        <summary>Initializes a new instance of the &lt;see cref="T:System.Security.Cryptography.AesCng"&gt; class with the specified key name, which represents an existing persisted AES key, and the specified key storage provider (KSP).</summary>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ A default <xref:System.Security.Cryptography.CngKeyOpenOptions> value of <xref:System.Security.Cryptography.CngKeyOpenOptions> is used to open the key.  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName=".ctor">
@@ -74,10 +88,10 @@
         <Parameter Name="openOptions" Type="System.Security.Cryptography.CngKeyOpenOptions" />
       </Parameters>
       <Docs>
-        <param name="keyName">To be added.</param>
-        <param name="provider">To be added.</param>
-        <param name="openOptions">To be added.</param>
-        <summary>To be added.</summary>
+        <param name="keyName">The name of the key.</param>
+        <param name="provider">The KSP that contains the key.</param>
+        <param name="openOptions">A bitwise combination of the enumeration values that specify options for opening the key, such as where the key is opened from (machine or user storage) and whether to suppress UI prompting.</param>
+        <summary>Initializes a new instance of the &lt;see cref="T:System.Security.Cryptography.AesCng"&gt; class with the specified key name, which represents an existing persisted AES key,  the specified key storage provider (KSP) and key open options.</summary>
         <remarks>To be added.</remarks>
       </Docs>
     </Member>
@@ -93,9 +107,16 @@
       </ReturnValue>
       <Parameters />
       <Docs>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
-        <remarks>To be added.</remarks>
+        <summary>Creates a symmetric AES decryptor object with the current key and initialization vector (&lt;xref:System.Security.Cryptography.SymmetricAlgorithm.IV%2A&gt;).</summary>
+        <returns>A symmetric AES decryptor object.</returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ This method decrypts an encrypted message created using the <xref:System.Security.Cryptography.AesCng.CreateEncryptor> overload with the same signature.  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="CreateDecryptor">
@@ -113,11 +134,21 @@
         <Parameter Name="rgbIV" Type="System.Byte[]" />
       </Parameters>
       <Docs>
-        <param name="rgbKey">To be added.</param>
-        <param name="rgbIV">To be added.</param>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
-        <remarks>To be added.</remarks>
+        <param name="rgbKey">The secret key to use for the AES algorithm. The key size must be 128, 192, or 256 bits.</param>
+        <param name="rgbIV">The initialization vector to use for the AES algorithm.</param>
+        <summary>Creates a symmetric AES decryptor object with the specified key and initialization vector (IV).</summary>
+        <returns>A symmetric AES decryptor object.</returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ This method decrypts an encrypted message created using the [CreateEncryptor(Byte\[\], Byte\[\])](assetId:///M:System.Security.Cryptography.AesCng.CreateEncryptor(System.Byte[],System.Byte[])?qualifyHint=False&autoUpgrade=False) overload with the same signature.  
+  
+> [!NOTE]
+>  If you've created the <xref:System.Security.Cryptography.AesCng> object using an existing persisted key and you want to make use of that key when decrypting the message, you want to set the <xref:System.Security.Cryptography.SymmetricAlgorithm.IV%2A> property and then call the  parameterless <xref:System.Security.Cryptography.AesCng.CreateDecryptor> overload instead; otherwise, using this method will create an ephemeral key as specified by the  parameter.  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="CreateEncryptor">
@@ -132,9 +163,16 @@
       </ReturnValue>
       <Parameters />
       <Docs>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
-        <remarks>To be added.</remarks>
+        <summary>Creates a symmetric AES encryptor object using the current key and initialization vector (&lt;xref:System.Security.Cryptography.SymmetricAlgorithm.IV%2A&gt;).</summary>
+        <returns>A symmetric AES encryptor object.</returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ Use this method to encrypt a message and then use the <xref:System.Security.Cryptography.AesCng.CreateDecryptor%2A> overload with the same signature to decrypt the  result of this method.  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="CreateEncryptor">
@@ -152,11 +190,21 @@
         <Parameter Name="rgbIV" Type="System.Byte[]" />
       </Parameters>
       <Docs>
-        <param name="rgbKey">To be added.</param>
-        <param name="rgbIV">To be added.</param>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
-        <remarks>To be added.</remarks>
+        <param name="rgbKey">The secret key to use for the AES algorithm. The key size must be 128, 192, or 256 bits.</param>
+        <param name="rgbIV">The initialization vector to use for the AES algorithm.</param>
+        <summary>Creates a symmetric AES encryptor object with the specified key and initialization vector (IV).</summary>
+        <returns>A symmetric AES encryptor object.</returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ Use this method to encrypt a message and then use the <xref:System.Security.Cryptography.AesCng.CreateDecryptor%2A> overload with the same signature to decrypt the  result of this method.  
+  
+> [!NOTE]
+>  If you've created the <xref:System.Security.Cryptography.AesCng> object using an existing persisted key and you want to make use of that key when encrypting the message, you want to set the <xref:System.Security.Cryptography.SymmetricAlgorithm.IV%2A> property and then call the  parameterless <xref:System.Security.Cryptography.AesCng.CreateEncryptor> overload instead; otherwise, using this method will create an ephemeral key as specified by the  parameter.  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="Dispose">
@@ -190,7 +238,7 @@
       </ReturnValue>
       <Parameters />
       <Docs>
-        <summary>To be added.</summary>
+        <summary>Generates a random initialization vector (IV) to use for the AES algorithm.</summary>
         <remarks>To be added.</remarks>
       </Docs>
     </Member>
@@ -206,7 +254,7 @@
       </ReturnValue>
       <Parameters />
       <Docs>
-        <summary>To be added.</summary>
+        <summary>Generates a random key to use for the AES algorithm.</summary>
         <remarks>To be added.</remarks>
       </Docs>
     </Member>
@@ -221,9 +269,18 @@
         <ReturnType>System.Byte[]</ReturnType>
       </ReturnValue>
       <Docs>
-        <summary>To be added.</summary>
-        <value>To be added.</value>
-        <remarks>To be added.</remarks>
+        <summary>Gets or sets the key for the &lt;see cref="T:System.Security.Cryptography.AesCng"&gt; algorithm.</summary>
+        <value>The key for the &lt;see cref="T:System.Security.Cryptography.AesCng"&gt; algorithm.</value>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ If you've created the <xref:System.Security.Cryptography.AesCng> object using an existing persisted key, when you read the value of the Key property, an attempt to export the key will be made. In this case, if the key is not exportable, a <xref:System.Security.Cryptography.CryptographicException> will be thrown.  
+  
+ In addition to that, if you set the value of the Key property,  the persisted key will no longer be used and a temporary key will be used instead. If you need to use the persisted key again, a new instance of <xref:System.Security.Cryptography.AesCng> class needs to be created.  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="KeySize">
@@ -237,9 +294,16 @@
         <ReturnType>System.Int32</ReturnType>
       </ReturnValue>
       <Docs>
-        <summary>To be added.</summary>
-        <value>To be added.</value>
-        <remarks>To be added.</remarks>
+        <summary>Gets or sets the size, in bits, of the secret key used by the &lt;see cref="T:System.Security.Cryptography.AesCng"&gt; algorithm.</summary>
+        <value>The size, in bits, of the secret key used by the &lt;see cref="T:System.Security.Cryptography.AesCng"&gt; algorithm.</value>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ If you've created the <xref:System.Security.Cryptography.AesCng> object using an existing persisted key and you set the value of the KeySize property,  the persisted key will no longer be used and an ephemeral key will be used instead. If you need to use the persisted key again, a new instance of <xref:System.Security.Cryptography.AesCng> class needs to be created.  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
   </Members>

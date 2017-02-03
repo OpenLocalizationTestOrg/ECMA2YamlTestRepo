@@ -25,8 +25,21 @@
     </Attribute>
   </Attributes>
   <Docs>
-    <summary>To be added.</summary>
-    <remarks>To be added.</remarks>
+    <summary>Classes that derive from this abstract base class define geometric shapes. Geometry objects can be used for clipping, hit-testing, and rendering 2-D graphic data.</summary>
+    <remarks>
+      <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+  
+## Geometry Compared to Shape  
+ The <xref:System.Windows.Shapes.Shape?displayProperty=fullName> class has a <xref:System.Windows.Shapes.Shape.Fill%2A>, <xref:System.Windows.Shapes.Shape.Stroke%2A>, and other rendering properties that Geometry and its derived classes lack. The <xref:System.Windows.Shapes.Shape> class is a <xref:System.Windows.FrameworkElement> and therefore participates in the layout system; its derived classes can be used as the content of any element that supports <xref:System.Windows.UIElement> children.  
+  
+ The Geometry class, on the other hand, simply defines the geometry of a shape, and cannot render itself. Because of its simplicity, it has a wider range of uses.  
+  
+ **Freezable Features:** Because it inherits from the <xref:System.Windows.Freezable> class, the Geometry class provides several special features: Geometry objects can be declared as , shared among multiple objects, made read-only to improve performance, cloned, and made thread-safe. For more information about the different features provided by <xref:System.Windows.Freezable> objects, see [Freezable Objects Overview](../Topic/Freezable%20Objects%20Overview.md).  
+  
+ ]]></format>
+    </remarks>
   </Docs>
   <Members>
     <Member MemberName="Bounds">
@@ -40,9 +53,16 @@
         <ReturnType>System.Windows.Rect</ReturnType>
       </ReturnValue>
       <Docs>
-        <summary>To be added.</summary>
-        <value>To be added.</value>
-        <remarks>To be added.</remarks>
+        <summary>Gets a &lt;xref:System.Windows.Rect&gt; that specifies the axis-aligned bounding box of the &lt;xref:System.Windows.Media.Geometry&gt;.</summary>
+        <value>The axis-aligned bounding box of the &lt;see cref="T:System.Windows.Media.Geometry"&gt;.</value>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ This property does not take into account the area potentially added by a stroke.  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="Clone">
@@ -57,9 +77,18 @@
       </ReturnValue>
       <Parameters />
       <Docs>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
-        <remarks>To be added.</remarks>
+        <summary>Creates a modifiable clone of the &lt;see cref="T:System.Windows.Media.Geometry"&gt;, making deep copies of the object's values. When copying dependency properties, this method copies resource references and data bindings (but they might no longer resolve) but not animations or their current values.</summary>
+        <returns>A modifiable clone of the current object. The cloned object's &lt;xref:System.Windows.Freezable.IsFrozen%2A&gt; property will be `false` even if the source's &lt;xref:System.Windows.Freezable.IsFrozen%2A&gt; property was `true.`</returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ This method is used to produce modifiable copies of frozen <xref:System.Windows.Freezable> objects (or any <xref:System.Windows.Freezable> object). For convenience, this method shadows the inherited version with a strongly typed implementation.  
+  
+ For more information, see <xref:System.Windows.Freezable.Clone%2A?displayProperty=fullName>.  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="CloneCurrentValue">
@@ -74,9 +103,18 @@
       </ReturnValue>
       <Parameters />
       <Docs>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
-        <remarks>To be added.</remarks>
+        <summary>Creates a modifiable clone of the &lt;see cref="T:System.Windows.Media.Geometry"&gt; object, making deep copies of the object's current values. Resource references, data bindings, and animations are not copied, but their current values are.</summary>
+        <returns>A modifiable clone of the current object. The cloned object's &lt;xref:System.Windows.Freezable.IsFrozen%2A&gt; property will be `false` even if the source's &lt;xref:System.Windows.Freezable.IsFrozen%2A&gt; property was `true`.</returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ This method is used to produce modifiable copies of frozen <xref:System.Windows.Freezable> objects (or any <xref:System.Windows.Freezable> object). For convenience, this method shadows the inherited version with a strongly typed implementation.  
+  
+ For more information, see <xref:System.Windows.Freezable.CloneCurrentValue%2A?displayProperty=fullName>.  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="Combine">
@@ -96,13 +134,34 @@
         <Parameter Name="transform" Type="System.Windows.Media.Transform" />
       </Parameters>
       <Docs>
-        <param name="geometry1">To be added.</param>
-        <param name="geometry2">To be added.</param>
-        <param name="mode">To be added.</param>
-        <param name="transform">To be added.</param>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
-        <remarks>To be added.</remarks>
+        <param name="geometry1">The first geometry to combine.</param>
+        <param name="geometry2">The second geometry to combine.</param>
+        <param name="mode">One of the enumeration values that specifies how the geometries are combined.</param>
+        <param name="transform">A transformation to apply to the combined geometry, or `null`.</param>
+        <summary>Combines the two geometries using the specified &lt;see cref="T:System.Windows.Media.GeometryCombineMode"&gt; and applies the specified transform to the resulting geometry.</summary>
+        <returns>The combined geometry.</returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ This method uses the default tolerance factor (described by the <xref:System.Windows.Media.Geometry.StandardFlatteningTolerance%2A> property) when combining geometries. To specify your own tolerance factor, use the <xref:System.Windows.Media.Geometry.Combine%2A> method.  
+  
+ Some <xref:System.Windows.Media.Geometry> methods (such as <xref:System.Windows.Media.Geometry.Combine%2A>) produce or use a polygonal approximation of the geometry. The tolerance factor specifies the maximum distance between points in this polygonal approximation. Smaller tolerance values produce better approximations, but require more processing than an approximation with a large tolerance factor.  
+  
+ Careful thought should be involved when using Combine to perform a union as it can be very CPU-expensive. In most cases, a <xref:System.Windows.Media.GeometryGroup> or <xref:System.Windows.Media.PathGeometry.AddGeometry%2A> will work better.  
+  
+ Use Combine only when any of the following apply:  
+  
+-   The geometric operation is not a union.  
+  
+-   Either of the geometries has a <xref:System.Windows.Media.FillRule> value of <xref:System.Windows.Media.FillRule> and the geometries are self-intersecting (i.e. the <xref:System.Windows.Media.FillRule> actually matters).  
+  
+-   Time is not a concern, but space is (for instance, if the geometry is created once and then cached). Typically, Combine produces smaller output than <xref:System.Windows.Media.PathGeometry.AddGeometry%2A>.  
+  
+-   The resulting geometry will be stroked or used in a path animation and <xref:System.Windows.Media.PathGeometry.AddGeometry%2A> does not provide the desired outline.  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="Combine">
@@ -124,15 +183,34 @@
         <Parameter Name="type" Type="System.Windows.Media.ToleranceType" />
       </Parameters>
       <Docs>
-        <param name="geometry1">To be added.</param>
-        <param name="geometry2">To be added.</param>
-        <param name="mode">To be added.</param>
-        <param name="transform">To be added.</param>
-        <param name="tolerance">To be added.</param>
-        <param name="type">To be added.</param>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
-        <remarks>To be added.</remarks>
+        <param name="geometry1">The first geometry to combine.</param>
+        <param name="geometry2">The second geometry to combine.</param>
+        <param name="mode">One of the enumeration values that specifies how the geometries are combined.</param>
+        <param name="transform">A transformation to apply to the combined geometry, or `null`.</param>
+        <param name="tolerance">The maximum bounds on the distance between points in the polygonal approximation of the geometries. Smaller values produce more accurate results but cause slower execution. If  is less than .000001, .000001 is used instead.</param>
+        <param name="type">One of the &lt;see cref="T:System.Windows.Media.ToleranceType"&gt; values that specifies whether the tolerance factor is an absolute value or relative to the area of the geometry.</param>
+        <summary>Combines the two geometries using the specified &lt;see cref="T:System.Windows.Media.GeometryCombineMode"&gt; and tolerance factor, and applies the specified transform to the resulting geometry.</summary>
+        <returns>The combined geometry.</returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ Some <xref:System.Windows.Media.Geometry> methods (such as <xref:System.Windows.Media.Geometry.Combine%2A>) produce or use a polygonal approximation of the geometry. The tolerance factor specifies the maximum distance between points in this polygonal approximation. Smaller tolerance values produce better approximations, but require more processing than an approximation with a large tolerance factor.  
+  
+ Careful thought should be involved when using Combine to perform a union as it can be very CPU-expensive. In most cases, a <xref:System.Windows.Media.GeometryGroup> or <xref:System.Windows.Media.PathGeometry.AddGeometry%2A> will work better.  
+  
+ Use Combine only when any of the following apply:  
+  
+-   The geometric operation is not a union.  
+  
+-   Either of the geometries has a <xref:System.Windows.Media.FillRule> value of <xref:System.Windows.Media.FillRule> and the geometries are self-intersecting (i.e. the <xref:System.Windows.Media.FillRule> actually matters).  
+  
+-   Time is not a concern, but space is (for instance, if the geometry is created once and then cached). Typically, Combine produces smaller output than <xref:System.Windows.Media.PathGeometry.AddGeometry%2A>.  
+  
+-   The resulting geometry will be stroked or used in a path animation and <xref:System.Windows.Media.PathGeometry.AddGeometry%2A> does not provide the desired outline.  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="Empty">
@@ -146,8 +224,8 @@
         <ReturnType>System.Windows.Media.Geometry</ReturnType>
       </ReturnValue>
       <Docs>
-        <summary>To be added.</summary>
-        <value>To be added.</value>
+        <summary>Gets an empty object.</summary>
+        <value>The empty geometry object.</value>
         <remarks>To be added.</remarks>
       </Docs>
     </Member>
@@ -165,10 +243,17 @@
         <Parameter Name="geometry" Type="System.Windows.Media.Geometry" />
       </Parameters>
       <Docs>
-        <param name="geometry">To be added.</param>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
-        <remarks>To be added.</remarks>
+        <param name="geometry">The geometry to test for containment.</param>
+        <summary>Indicates whether the current geometry completely contains the specified &lt;see cref="T:System.Windows.Media.Geometry"&gt;.</summary>
+        <returns>`true` if the current geometry completely contains ; otherwise, `false`.</returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ The default margin of error (described by the <xref:System.Windows.Media.Geometry.StandardFlatteningTolerance%2A> property) is used when determining whether the current geometry contains the specified geometry. To specify your own margin of error, use the <xref:System.Windows.Media.Geometry.FillContains%2A> method.  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="FillContains">
@@ -185,10 +270,17 @@
         <Parameter Name="hitPoint" Type="System.Windows.Point" />
       </Parameters>
       <Docs>
-        <param name="hitPoint">To be added.</param>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
-        <remarks>To be added.</remarks>
+        <param name="hitPoint">The point to test for containment.</param>
+        <summary>Indicates whether the geometry contains the specified &lt;xref:System.Windows.Point&gt;.</summary>
+        <returns>`true` if the geometry contains ; otherwise, `false`.</returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ The default tolerance factor (described by the <xref:System.Windows.Media.Geometry.StandardFlatteningTolerance%2A> property) is used when determining whether the geometry contains the specified point. To specify your own tolerance factor, use the <xref:System.Windows.Media.Geometry.FillContains%2A> method.  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="FillContains">
@@ -207,12 +299,19 @@
         <Parameter Name="type" Type="System.Windows.Media.ToleranceType" />
       </Parameters>
       <Docs>
-        <param name="geometry">To be added.</param>
-        <param name="tolerance">To be added.</param>
-        <param name="type">To be added.</param>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
-        <remarks>To be added.</remarks>
+        <param name="geometry">The geometry to test for containment.</param>
+        <param name="tolerance">The maximum bounds on the distance between points in the polygonal approximation of the geometries. Smaller values produce more accurate results but cause slower execution. If  is less than .000001, .000001 is used instead.</param>
+        <param name="type">One of the &lt;see cref="T:System.Windows.Media.ToleranceType"&gt; values that specifies whether the tolerance factor is an absolute value or relative to the area of the geometry.</param>
+        <summary>Indicates whether the current geometry contains the specified &lt;see cref="T:System.Windows.Media.Geometry"&gt;, given the specified margin of error.</summary>
+        <returns>`true` if the current geometry contains , given the specified margin of error; otherwise, `false`.</returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ Some <xref:System.Windows.Media.Geometry> methods (such as <xref:System.Windows.Media.Geometry.FillContains%2A>) produce or use a polygonal approximation of the geometry. The tolerance factor specifies the maximum distance between points in this polygonal approximation. Smaller tolerance values produce better approximations, but require more processing than an approximation with a large tolerance factor.  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="FillContains">
@@ -231,12 +330,19 @@
         <Parameter Name="type" Type="System.Windows.Media.ToleranceType" />
       </Parameters>
       <Docs>
-        <param name="hitPoint">To be added.</param>
-        <param name="tolerance">To be added.</param>
-        <param name="type">To be added.</param>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
-        <remarks>To be added.</remarks>
+        <param name="hitPoint">The point to test for containment.</param>
+        <param name="tolerance">The maximum bounds on the distance between points in the polygonal approximation of the geometry. Smaller values produce more accurate results but cause slower execution. If  is less than .000001, .000001 is used instead.</param>
+        <param name="type">One of the &lt;see cref="T:System.Windows.Media.ToleranceType"&gt; values that specifies whether the tolerance factor is an absolute value or relative to the area of the geometry.</param>
+        <summary>Indicates whether the geometry contains the specified &lt;xref:System.Windows.Point&gt;, given the specified margin of error.</summary>
+        <returns>`true` if the geometry contains , given the specified margin of error; otherwise, `false`.</returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ Some <xref:System.Windows.Media.Geometry> methods (such as <xref:System.Windows.Media.Geometry.FillContains%2A>) produce or use a polygonal approximation of the geometry. The tolerance factor specifies the maximum distance between points in this polygonal approximation. Smaller tolerance values produce better approximations, but require more processing than an approximation with a large tolerance factor.  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="FillContainsWithDetail">
@@ -253,10 +359,19 @@
         <Parameter Name="geometry" Type="System.Windows.Media.Geometry" />
       </Parameters>
       <Docs>
-        <param name="geometry">To be added.</param>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
-        <remarks>To be added.</remarks>
+        <param name="geometry">The geometry to test for containment.</param>
+        <summary>Returns a value that describes the intersection between the current geometry and the specified geometry.</summary>
+        <returns>One of the enumeration values.</returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ The default tolerance factor (defined by the <xref:System.Windows.Media.Geometry.StandardFlatteningTolerance%2A> property) is used when determining whether the current geometry contains the specified geometry. To specify your own tolerance factor, use the <xref:System.Windows.Media.Geometry.FillContainsWithDetail%2A> method.  
+  
+ Some <xref:System.Windows.Media.Geometry> methods (such as <xref:System.Windows.Media.Geometry.FillContainsWithDetail%2A>) produce or use a polygonal approximation of the geometry. The tolerance factor specifies the maximum distance between points in this polygonal approximation. Smaller tolerance values produce better approximations, but require more processing than an approximation with a large tolerance factor.  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="FillContainsWithDetail">
@@ -275,12 +390,19 @@
         <Parameter Name="type" Type="System.Windows.Media.ToleranceType" />
       </Parameters>
       <Docs>
-        <param name="geometry">To be added.</param>
-        <param name="tolerance">To be added.</param>
-        <param name="type">To be added.</param>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
-        <remarks>To be added.</remarks>
+        <param name="geometry">The geometry to test for containment.</param>
+        <param name="tolerance">The maximum bounds on the distance between points in the polygonal approximation of the geometries. Smaller values produce more accurate results but cause slower execution. If  is less than .000001, .000001 is used instead.</param>
+        <param name="type">One of the &lt;see cref="T:System.Windows.Media.ToleranceType"&gt; values that specifies whether the tolerance factor is an absolute value or relative to the area of the geometry.</param>
+        <summary>Returns a value that describes the intersection between the current geometry and the specified geometry, given the specified margin of error.</summary>
+        <returns>One of the enumeration values.</returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ Some <xref:System.Windows.Media.Geometry> methods (such as <xref:System.Windows.Media.Geometry.FillContainsWithDetail%2A>) produce or use a polygonal approximation of the geometry. The tolerance factor specifies the maximum distance between points in this polygonal approximation. Smaller tolerance values produce better approximations, but require more processing than an approximation with a large tolerance factor.  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="GetArea">
@@ -295,9 +417,16 @@
       </ReturnValue>
       <Parameters />
       <Docs>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
-        <remarks>To be added.</remarks>
+        <summary>Gets the area of the filled region of the &lt;see cref="T:System.Windows.Media.Geometry"&gt; object.</summary>
+        <returns>The area of the filled region of the geometry.</returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ Some <xref:System.Windows.Media.Geometry> methods (such as <xref:System.Windows.Media.Geometry.GetArea%2A>) produce or use a polygonal approximation of the geometry. The tolerance factor specifies the maximum distance between points in this polygonal approximation. Smaller tolerance values produce better approximations, but require more processing than an approximation with a large tolerance factor.  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="GetArea">
@@ -320,11 +449,18 @@
         <Parameter Name="type" Type="System.Windows.Media.ToleranceType" />
       </Parameters>
       <Docs>
-        <param name="tolerance">To be added.</param>
-        <param name="type">To be added.</param>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
-        <remarks>To be added.</remarks>
+        <param name="tolerance">The maximum bounds on the distance between points in the polygonal approximation of the geometry. Smaller values produce more accurate results but cause slower execution. If  is less than .000001, .000001 is used instead.</param>
+        <param name="type">One of the &lt;see cref="T:System.Windows.Media.ToleranceType"&gt; values that specifies whether the tolerance factor is an absolute value or relative to the area of the geometry.</param>
+        <summary>Gets the area, within the specified tolerance, of the filled region of the &lt;see cref="T:System.Windows.Media.Geometry"&gt; object.</summary>
+        <returns>The area of the filled region of the geometry.</returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ Some <xref:System.Windows.Media.Geometry> methods (such as <xref:System.Windows.Media.Geometry.GetArea%2A>) produce or use a polygonal approximation of the geometry. The tolerance factor specifies the maximum distance between points in this polygonal approximation. Smaller tolerance values produce better approximations, but require more processing than an approximation with a large tolerance factor.  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="GetFlattenedPathGeometry">
@@ -339,9 +475,18 @@
       </ReturnValue>
       <Parameters />
       <Docs>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
-        <remarks>To be added.</remarks>
+        <summary>Gets a &lt;see cref="T:System.Windows.Media.PathGeometry"&gt; that is a polygonal approximation of the &lt;xref:System.Windows.Media.Geometry&gt; object.</summary>
+        <returns>The polygonal approximation of the &lt;see cref="T:System.Windows.Media.Geometry"&gt;.</returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ This method uses the default tolerance factor (described by the <xref:System.Windows.Media.Geometry.StandardFlatteningTolerance%2A> property) when processing the geometry. To specify your own tolerance factor, use the <xref:System.Windows.Media.Geometry.GetFlattenedPathGeometry%2A> method.  
+  
+ Some <xref:System.Windows.Media.Geometry> methods (such as <xref:System.Windows.Media.Geometry.GetFlattenedPathGeometry%2A>) produce or use a polygonal approximation of the geometry. The tolerance factor specifies the maximum distance between points in this polygonal approximation. Smaller tolerance values produce better approximations, but require more processing than an approximation with a large tolerance factor.  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="GetFlattenedPathGeometry">
@@ -364,11 +509,18 @@
         <Parameter Name="type" Type="System.Windows.Media.ToleranceType" />
       </Parameters>
       <Docs>
-        <param name="tolerance">To be added.</param>
-        <param name="type">To be added.</param>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
-        <remarks>To be added.</remarks>
+        <param name="tolerance">The maximum bounds on the distance between points in the polygonal approximation of the geometry. Smaller values produce more accurate results but cause slower execution. If  is less than .000001, .000001 is used instead.</param>
+        <param name="type">One of the &lt;see cref="T:System.Windows.Media.ToleranceType"&gt; values that specifies whether the tolerance factor is an absolute value or relative to the area of the geometry.</param>
+        <summary>Gets a &lt;see cref="T:System.Windows.Media.PathGeometry"&gt;, within the specified tolerance, that is a polygonal approximation of the &lt;xref:System.Windows.Media.Geometry&gt; object.</summary>
+        <returns>The polygonal approximation of the &lt;see cref="T:System.Windows.Media.Geometry"&gt;.</returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ Some <xref:System.Windows.Media.Geometry> methods (such as <xref:System.Windows.Media.Geometry.GetFlattenedPathGeometry%2A>) produce or use a polygonal approximation of the geometry. The tolerance factor specifies the maximum distance between points in this polygonal approximation. Smaller tolerance values produce better approximations, but require more processing than an approximation with a large tolerance factor.  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="GetOutlinedPathGeometry">
@@ -383,9 +535,18 @@
       </ReturnValue>
       <Parameters />
       <Docs>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
-        <remarks>To be added.</remarks>
+        <summary>Gets a &lt;see cref="T:System.Windows.Media.PathGeometry"&gt; that is a simplified outline of the filled region of the &lt;xref:System.Windows.Media.Geometry&gt;.</summary>
+        <returns>A simplified outline of the filled region of the &lt;see cref="T:System.Windows.Media.Geometry"&gt;.</returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ This method uses the default tolerance factor (described by the <xref:System.Windows.Media.Geometry.StandardFlatteningTolerance%2A> property) when processing the geometry. To specify your own tolerance factor, use the <xref:System.Windows.Media.Geometry.GetOutlinedPathGeometry%2A> method.  
+  
+ Some <xref:System.Windows.Media.Geometry> methods (such as <xref:System.Windows.Media.Geometry.GetOutlinedPathGeometry%2A>) produce or use a polygonal approximation of the geometry. The tolerance factor specifies the maximum distance between points in this polygonal approximation. Smaller tolerance values produce better approximations, but require more processing than an approximation with a large tolerance factor.  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="GetOutlinedPathGeometry">
@@ -408,11 +569,18 @@
         <Parameter Name="type" Type="System.Windows.Media.ToleranceType" />
       </Parameters>
       <Docs>
-        <param name="tolerance">To be added.</param>
-        <param name="type">To be added.</param>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
-        <remarks>To be added.</remarks>
+        <param name="tolerance">The maximum bounds on the distance between points in the polygonal approximation of the geometry. Smaller values produce more accurate results but cause slower execution. If  is less than .000001, .000001 is used instead.</param>
+        <param name="type">One of the &lt;see cref="T:System.Windows.Media.ToleranceType"&gt; values that specifies whether the tolerance factor is an absolute value or relative to the area of the geometry.</param>
+        <summary>Gets a &lt;see cref="T:System.Windows.Media.PathGeometry"&gt;, within the specified tolerance, that is a simplified outline of the filled region of the &lt;xref:System.Windows.Media.Geometry&gt;.</summary>
+        <returns>A simplified outline of the filled region of the &lt;see cref="T:System.Windows.Media.Geometry"&gt;.</returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ Some <xref:System.Windows.Media.Geometry> methods (such as <xref:System.Windows.Media.Geometry.GetOutlinedPathGeometry%2A>) produce or use a polygonal approximation of the geometry. The tolerance factor specifies the maximum distance between points in this polygonal approximation. Smaller tolerance values produce better approximations, but require more processing than an approximation with a large tolerance factor.  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="GetRenderBounds">
@@ -429,10 +597,19 @@
         <Parameter Name="pen" Type="System.Windows.Media.Pen" />
       </Parameters>
       <Docs>
-        <param name="pen">To be added.</param>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
-        <remarks>To be added.</remarks>
+        <param name="pen">An object that describes the area of the geometry's stroke.</param>
+        <summary>Returns an axis-aligned rectangle that is exactly large enough to contain the geometry after it has been outlined with the specified &lt;see cref="T:System.Windows.Media.Pen"&gt;.</summary>
+        <returns>An axis aligned rectangle that is exactly large enough to contain the outlined geometry.</returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ This method uses the default tolerance factor (described by the <xref:System.Windows.Media.Geometry.StandardFlatteningTolerance%2A> property) when processing the geometry. To specify your own tolerance factor, use the <xref:System.Windows.Media.Geometry.GetRenderBounds%2A> method.  
+  
+ Some <xref:System.Windows.Media.Geometry> methods (such as <xref:System.Windows.Media.Geometry.GetRenderBounds%2A>) produce or use a polygonal approximation of the geometry. The tolerance factor specifies the maximum distance between points in this polygonal approximation. Smaller tolerance values produce better approximations, but require more processing than an approximation with a large tolerance factor.  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="GetRenderBounds">
@@ -451,12 +628,19 @@
         <Parameter Name="type" Type="System.Windows.Media.ToleranceType" />
       </Parameters>
       <Docs>
-        <param name="pen">To be added.</param>
-        <param name="tolerance">To be added.</param>
-        <param name="type">To be added.</param>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
-        <remarks>To be added.</remarks>
+        <param name="pen">An object that describes the area of the geometry's stroke.</param>
+        <param name="tolerance">The maximum bounds on the distance between points in the polygonal approximation of the geometry. Smaller values produce more accurate results but cause slower execution. If  is less than .000001, .000001 is used instead.</param>
+        <param name="type">One of the &lt;see cref="T:System.Windows.Media.ToleranceType"&gt; values that specifies whether the tolerance factor is an absolute value or relative to the area of the geometry.</param>
+        <summary>Returns an axis-aligned rectangle that is exactly large enough to contain the geometry after it has been outlined with the specified &lt;see cref="T:System.Windows.Media.Pen"&gt;, given the specified tolerance factor.</summary>
+        <returns>An axis aligned rectangle that is exactly large enough to contain the outlined geometry.</returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ Some <xref:System.Windows.Media.Geometry> methods (such as <xref:System.Windows.Media.Geometry.GetRenderBounds%2A>) produce or use a polygonal approximation of the geometry. The tolerance factor specifies the maximum distance between points in this polygonal approximation. Smaller tolerance values produce better approximations, but require more processing than an approximation with a large tolerance factor.  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="GetWidenedPathGeometry">
@@ -473,10 +657,17 @@
         <Parameter Name="pen" Type="System.Windows.Media.Pen" />
       </Parameters>
       <Docs>
-        <param name="pen">To be added.</param>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
-        <remarks>To be added.</remarks>
+        <param name="pen">An object that describes the area of the geometry's stroke.</param>
+        <summary>Gets a &lt;see cref="T:System.Windows.Media.PathGeometry"&gt; that is the shape defined by the stroke on the &lt;xref:System.Windows.Media.Geometry&gt; produced by the specified &lt;xref:System.Windows.Media.Pen&gt;.</summary>
+        <returns>The outlined geometry.</returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ Some <xref:System.Windows.Media.Geometry> methods (such as <xref:System.Windows.Media.Geometry.GetWidenedPathGeometry%2A>) produce or use a polygonal approximation of the geometry. The tolerance factor specifies the maximum distance between points in this polygonal approximation. Smaller tolerance values produce better approximations, but require more processing than an approximation with a large tolerance factor.  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="GetWidenedPathGeometry">
@@ -500,12 +691,19 @@
         <Parameter Name="type" Type="System.Windows.Media.ToleranceType" />
       </Parameters>
       <Docs>
-        <param name="pen">To be added.</param>
-        <param name="tolerance">To be added.</param>
-        <param name="type">To be added.</param>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
-        <remarks>To be added.</remarks>
+        <param name="pen">The object used to define the area of the geometry's stroke.</param>
+        <param name="tolerance">The maximum bounds on the distance between points in the polygonal approximation of the geometry. Smaller values produce more accurate results but cause slower execution. If  is less than .000001, .000001 is used instead.</param>
+        <param name="type">One of the &lt;see cref="T:System.Windows.Media.ToleranceType"&gt; values that specifies whether the tolerance factor is an absolute value or relative to the area of the geometry.</param>
+        <summary>Gets a &lt;see cref="T:System.Windows.Media.PathGeometry"&gt; that is the shape defined by the stroke on the &lt;xref:System.Windows.Media.Geometry&gt; produced by the specified &lt;xref:System.Windows.Media.Pen&gt;, given the specified tolerance factor.</summary>
+        <returns>The geometry, widened by .</returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ Some <xref:System.Windows.Media.Geometry> methods (such as <xref:System.Windows.Media.Geometry.GetWidenedPathGeometry%2A>) produce or use a polygonal approximation of the geometry. The tolerance factor specifies the maximum distance between points in this polygonal approximation. Smaller tolerance values produce better approximations, but require more processing than an approximation with a large tolerance factor.  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="IsEmpty">
@@ -520,8 +718,8 @@
       </ReturnValue>
       <Parameters />
       <Docs>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
+        <summary>Determines whether the object is empty.</summary>
+        <returns>`true` if the geometry is empty; otherwise, `false`.</returns>
         <remarks>To be added.</remarks>
       </Docs>
     </Member>
@@ -537,8 +735,8 @@
       </ReturnValue>
       <Parameters />
       <Docs>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
+        <summary>Determines whether the object might have curved segments.</summary>
+        <returns>`true` if the geometry object might have curved segments; otherwise, `false`.</returns>
         <remarks>To be added.</remarks>
       </Docs>
     </Member>
@@ -556,10 +754,17 @@
         <Parameter Name="source" Type="System.String" />
       </Parameters>
       <Docs>
-        <param name="source">To be added.</param>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
-        <remarks>To be added.</remarks>
+        <param name="source">A string that describes the geometry to be created.</param>
+        <summary>Creates a new &lt;see cref="T:System.Windows.Media.Geometry"&gt; instance from the specified string using the current culture.</summary>
+        <returns>A new &lt;see cref="T:System.Windows.Media.Geometry"&gt; instance created from the specified string.</returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ See [Path Markup Syntax](../Topic/Path%20Markup%20Syntax.md) for information about how this string is formatted  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="ShouldSerializeTransform">
@@ -579,8 +784,8 @@
       </ReturnValue>
       <Parameters />
       <Docs>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
+        <summary>Gets a value that indicates whether the value of the &lt;xref:System.Windows.Media.Geometry.Transform%2A&gt; property should be serialized.</summary>
+        <returns>`true` if the value of the geometry's &lt;xref:System.Windows.Media.Geometry.Transform%2A&gt; property should be serialized; otherwise, `false`.</returns>
         <remarks>To be added.</remarks>
       </Docs>
     </Member>
@@ -595,8 +800,8 @@
         <ReturnType>System.Double</ReturnType>
       </ReturnValue>
       <Docs>
-        <summary>To be added.</summary>
-        <value>To be added.</value>
+        <summary>Gets the standard tolerance used for polygonal approximation.</summary>
+        <value>The standard tolerance, 0.25.</value>
         <remarks>To be added.</remarks>
       </Docs>
     </Member>
@@ -615,11 +820,20 @@
         <Parameter Name="hitPoint" Type="System.Windows.Point" />
       </Parameters>
       <Docs>
-        <param name="pen">To be added.</param>
-        <param name="hitPoint">To be added.</param>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
-        <remarks>To be added.</remarks>
+        <param name="pen">An object that determines the area of the geometry's stroke.</param>
+        <param name="hitPoint">The point to test for containment.</param>
+        <summary>Determines whether the specified &lt;xref:System.Windows.Point&gt; is contained in the stroke produced by applying the specified &lt;xref:System.Windows.Media.Pen&gt; to the geometry.</summary>
+        <returns>`true` if  is contained in the stroke produced by applying the specified &lt;see cref="T:System.Windows.Media.Pen"&gt; to the geometry; otherwise, `false`.</returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ The default tolerance factor (specified by the <xref:System.Windows.Media.Geometry.StandardFlatteningTolerance%2A> property) is used when determining whether the specified point is located in the geometry's stroke. To specify your own tolerance factor, use the <xref:System.Windows.Media.Geometry.StrokeContains%2A> overload.  
+  
+ Some <xref:System.Windows.Media.Geometry> methods (such as <xref:System.Windows.Media.Geometry.StrokeContains%2A>) produce or use a polygonal approximation of the geometry. The tolerance factor specifies the maximum distance between points in this polygonal approximation. Smaller tolerance values produce better approximations, but require more processing than an approximation with a large tolerance factor.  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="StrokeContains">
@@ -639,13 +853,20 @@
         <Parameter Name="type" Type="System.Windows.Media.ToleranceType" />
       </Parameters>
       <Docs>
-        <param name="pen">To be added.</param>
-        <param name="hitPoint">To be added.</param>
-        <param name="tolerance">To be added.</param>
-        <param name="type">To be added.</param>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
-        <remarks>To be added.</remarks>
+        <param name="pen">An object that defines the stroke of a geometry.</param>
+        <param name="hitPoint">The point to test for containment.</param>
+        <param name="tolerance">The maximum bounds on the distance between points in the polygonal approximation of the geometry. Smaller values produce more accurate results but cause slower execution. If  is less than .000001, .000001 is used instead.</param>
+        <param name="type">One of the &lt;see cref="T:System.Windows.Media.ToleranceType"&gt; values that specifies whether the tolerance factor is an absolute value or relative to the area of the geometry.</param>
+        <summary>Determines whether the specified &lt;xref:System.Windows.Point&gt; is contained in the stroke produced by applying the specified &lt;xref:System.Windows.Media.Pen&gt; to the geometry, given the specified margin of error.</summary>
+        <returns>`true` if the stroke created by applying the specified &lt;see cref="T:System.Windows.Media.Pen"&gt; to the geometry contains the specified point, given the specified tolerance factor; otherwise, `false`.</returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ Some <xref:System.Windows.Media.Geometry> methods (such as <xref:System.Windows.Media.Geometry.StrokeContains%2A>) produce or use a polygonal approximation of the geometry. The tolerance factor specifies the maximum distance between points in this polygonal approximation. Smaller tolerance values produce better approximations, but require more processing than an approximation with a large tolerance factor.  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="StrokeContainsWithDetail">
@@ -663,11 +884,20 @@
         <Parameter Name="geometry" Type="System.Windows.Media.Geometry" />
       </Parameters>
       <Docs>
-        <param name="pen">To be added.</param>
-        <param name="geometry">To be added.</param>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
-        <remarks>To be added.</remarks>
+        <param name="pen">An object that determines the area of the current geometry's stroke.</param>
+        <param name="geometry">The geometry to test for containment.</param>
+        <summary>Returns a value that describes the intersection between the specified &lt;see cref="T:System.Windows.Media.Geometry"&gt; and the stroke created by applying the specified &lt;xref:System.Windows.Media.Pen&gt; to the current geometry.</summary>
+        <returns>One of the enumeration values.</returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ The default tolerance factor (defined by the <xref:System.Windows.Media.Geometry.StandardFlatteningTolerance%2A> property) is used when determining whether the specified geometry is located in the current geometry's stroke. To specify your own tolerance factor, use the <xref:System.Windows.Media.Geometry.StrokeContainsWithDetail%2A> method.  
+  
+ Some <xref:System.Windows.Media.Geometry> methods (such as <xref:System.Windows.Media.Geometry.StrokeContainsWithDetail%2A>) produce or use a polygonal approximation of the geometry. The tolerance factor specifies the maximum distance between points in this polygonal approximation. Smaller tolerance values produce better approximations, but require more processing than an approximation with a large tolerance factor.  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="StrokeContainsWithDetail">
@@ -687,13 +917,20 @@
         <Parameter Name="type" Type="System.Windows.Media.ToleranceType" />
       </Parameters>
       <Docs>
-        <param name="pen">To be added.</param>
-        <param name="geometry">To be added.</param>
-        <param name="tolerance">To be added.</param>
-        <param name="type">To be added.</param>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
-        <remarks>To be added.</remarks>
+        <param name="pen">An object that determines the area of the current geometry's stroke.</param>
+        <param name="geometry">The geometry to test for containment.</param>
+        <param name="tolerance">The maximum bounds on the distance between points in the polygonal approximation of the geometries. Smaller values produce more accurate results but cause slower execution. If  is less than .000001, .000001 is used instead.</param>
+        <param name="type">One of the &lt;see cref="T:System.Windows.Media.ToleranceType"&gt; values that specifies whether the tolerance factor is an absolute value or relative to the area of the geometry.</param>
+        <summary>Gets a value that describes the intersection between the specified &lt;see cref="T:System.Windows.Media.Geometry"&gt; and the stroke created by applying the specified &lt;xref:System.Windows.Media.Pen&gt; to the current geometry, given the specified margin of error.</summary>
+        <returns>One of the enumeration values.</returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ Some <xref:System.Windows.Media.Geometry> methods (such as <xref:System.Windows.Media.Geometry.StrokeContainsWithDetail%2A>) produce or use a polygonal approximation of the geometry. The tolerance factor specifies the maximum distance between points in this polygonal approximation. Smaller tolerance values produce better approximations, but require more processing than an approximation with a large tolerance factor.  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="System.IFormattable.ToString">
@@ -711,10 +948,18 @@
         <Parameter Name="provider" Type="System.IFormatProvider" />
       </Parameters>
       <Docs>
-        <param name="format">To be added.</param>
-        <param name="provider">To be added.</param>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
+        <param name="format">The format to use.  
+  
+ -or-  
+  
+ A null reference (`Nothing` in Visual Basic) to use the default format defined for the type of the &lt;see cref="T:System.IFormattable"&gt; implementation.</param>
+        <param name="provider">The provider to use to format the value.  
+  
+ -or-  
+  
+ A null reference (`Nothing` in Visual Basic) to obtain the numeric format information from the current locale setting of the operating system.</param>
+        <summary>Formats the value of the current instance using the specified format.</summary>
+        <returns>The value of the current instance in the specified format.</returns>
         <remarks>To be added.</remarks>
       </Docs>
     </Member>
@@ -730,8 +975,8 @@
       </ReturnValue>
       <Parameters />
       <Docs>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
+        <summary>Creates a string representation of the object based on the current culture.</summary>
+        <returns>A string representation of the object.</returns>
         <remarks>To be added.</remarks>
       </Docs>
     </Member>
@@ -749,9 +994,9 @@
         <Parameter Name="provider" Type="System.IFormatProvider" />
       </Parameters>
       <Docs>
-        <param name="provider">To be added.</param>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
+        <param name="provider">Culture-specific formatting information, or `null` to use the current culture.</param>
+        <summary>Creates a string representation of the object using the specified culture-specific formatting information.</summary>
+        <returns>A string representation of the object.</returns>
         <remarks>To be added.</remarks>
       </Docs>
     </Member>
@@ -766,9 +1011,33 @@
         <ReturnType>System.Windows.Media.Transform</ReturnType>
       </ReturnValue>
       <Docs>
-        <summary>To be added.</summary>
-        <value>To be added.</value>
-        <remarks>To be added.</remarks>
+        <summary>Gets or sets the &lt;see cref="T:System.Windows.Media.Transform"&gt; object applied to a &lt;xref:System.Windows.Media.Geometry&gt;.</summary>
+        <value>The transformation applied to the &lt;see cref="T:System.Windows.Media.Geometry"&gt;. Note that this value may be a single &lt;xref:System.Windows.Media.Transform&gt; or a &lt;xref:System.Windows.Media.TransformCollection&gt; cast as a &lt;xref:System.Windows.Media.Transform&gt;.</value>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ This method returns the identity transformation if the current object has no transformation value. Otherwise, it returns the <xref:System.Windows.Media.Transform> applied to the current object.  
+  
+<a name="dependencyPropertyInfo_Transform"></a>   
+## Dependency Property Information  
+  
+|||  
+|-|-|  
+|Identifier field|<xref:System.Windows.Media.Geometry.TransformProperty>|  
+|Metadata properties set to `true`|None|  
+  
+   
+  
+## Examples  
+ The following example shows how to use the Transform property to apply a <xref:System.Windows.Media.RotateTransform> to a <xref:System.Windows.Media.Geometry> object.  
+  
+ The example uses a <xref:System.Windows.Media.GeometryGroup> to create a composite shape from three <xref:System.Windows.Media.Geometry> objects and then rotates the geometry 45 degrees by using the Transform property.  
+  
+ [!code-xml[Transforms_snip#GeometryTransformExampleWholePage](../../add/codesnippet/Xaml/Transforms/GeometryTransformExample.xaml#geometrytransformexamplewholepage)]  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="TransformProperty">
@@ -782,7 +1051,7 @@
         <ReturnType>System.Windows.DependencyProperty</ReturnType>
       </ReturnValue>
       <Docs>
-        <summary>To be added.</summary>
+        <summary>Identifies the &lt;xref:System.Windows.Media.Geometry.Transform%2A&gt; dependency property.</summary>
         <remarks>To be added.</remarks>
       </Docs>
     </Member>

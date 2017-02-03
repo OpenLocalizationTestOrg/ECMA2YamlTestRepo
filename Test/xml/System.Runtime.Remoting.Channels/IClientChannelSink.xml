@@ -16,8 +16,24 @@
     </Attribute>
   </Attributes>
   <Docs>
-    <summary>To be added.</summary>
-    <remarks>To be added.</remarks>
+    <summary>Provides required functions and properties for client channel sinks.</summary>
+    <remarks>
+      <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ Channel sinks provide a plug-in point that allows access to the underlying messages flowing through the channel as well as the stream used by the transport mechanism to send messages to a remote object. Channel sinks are linked together in a chain of channel sink providers and all channel messages flow through this chain of sinks before they are serialized and transported.  
+  
+   
+  
+## Examples  
+ The following code example illustrates an implementation of the IClientChannelSink interface.  
+  
+ [!CODE [Remoting_Sinks#20](../CodeSnippet/VS_Snippets_Remoting/Remoting_Sinks#20)]  
+  
+ See the <xref:System.Runtime.Remoting.Channels.IClientChannelSinkProvider> interface documentation for an example of the corresponding client sink provider implementation.  
+  
+ ]]></format>
+    </remarks>
   </Docs>
   <Members>
     <Member MemberName="AsyncProcessRequest">
@@ -42,12 +58,19 @@
         <Parameter Name="stream" Type="System.IO.Stream" />
       </Parameters>
       <Docs>
-        <param name="sinkStack">To be added.</param>
-        <param name="msg">To be added.</param>
-        <param name="headers">To be added.</param>
-        <param name="stream">To be added.</param>
-        <summary>To be added.</summary>
-        <remarks>To be added.</remarks>
+        <param name="sinkStack">A stack of channel sinks that called this sink.</param>
+        <param name="msg">The message to process.</param>
+        <param name="headers">The headers to add to the outgoing message heading to the server.</param>
+        <param name="stream">The stream headed to the transport sink.</param>
+        <summary>Requests asynchronous processing of a method call on the current sink.</summary>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Examples  
+ [!CODE [SoapClientFormatterSinkProvider_BaseChannelSinkWithProperties#2](../CodeSnippet/VS_Snippets_Remoting/SoapClientFormatterSinkProvider_BaseChannelSinkWithProperties#2)]  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="AsyncProcessResponse">
@@ -72,12 +95,19 @@
         <Parameter Name="stream" Type="System.IO.Stream" />
       </Parameters>
       <Docs>
-        <param name="sinkStack">To be added.</param>
-        <param name="state">To be added.</param>
-        <param name="headers">To be added.</param>
-        <param name="stream">To be added.</param>
-        <summary>To be added.</summary>
-        <remarks>To be added.</remarks>
+        <param name="sinkStack">A stack of sinks that called this sink.</param>
+        <param name="state">Information generated on the request side that is associated with this sink.</param>
+        <param name="headers">The headers retrieved from the server response stream.</param>
+        <param name="stream">The stream coming back from the transport sink.</param>
+        <summary>Requests asynchronous processing of a response to a method call on the current sink.</summary>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Examples  
+ [!CODE [CommonTransportKeys#1](../CodeSnippet/VS_Snippets_Remoting/CommonTransportKeys#1)]  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="GetRequestStream">
@@ -100,11 +130,25 @@
         <Parameter Name="headers" Type="System.Runtime.Remoting.Channels.ITransportHeaders" />
       </Parameters>
       <Docs>
-        <param name="msg">To be added.</param>
-        <param name="headers">To be added.</param>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
-        <remarks>To be added.</remarks>
+        <param name="msg">The &lt;see cref="T:System.Runtime.Remoting.Messaging.IMethodCallMessage"&gt; containing details about the method call.</param>
+        <param name="headers">The headers to add to the outgoing message heading to the server.</param>
+        <summary>Returns the &lt;see cref="T:System.IO.Stream"&gt; onto which the provided message is to be serialized.</summary>
+        <returns>The &lt;see cref="T:System.IO.Stream"&gt; onto which the provided message is to be serialized.</returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ The GetRequestStream method is called by the formatter sink before it serializes the message.  
+  
+   
+  
+## Examples  
+ The following code example illustrates an implementation of this method.  
+  
+ [!CODE [Remoting_Sinks#23](../CodeSnippet/VS_Snippets_Remoting/Remoting_Sinks#23)]  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="NextChannelSink">
@@ -123,9 +167,23 @@
         <ReturnType>System.Runtime.Remoting.Channels.IClientChannelSink</ReturnType>
       </ReturnValue>
       <Docs>
-        <summary>To be added.</summary>
-        <value>To be added.</value>
-        <remarks>To be added.</remarks>
+        <summary>Gets the next client channel sink in the client sink chain.</summary>
+        <value>The next client channel sink in the client sink chain.</value>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ Channel sinks are linked together in a chain of sink providers and all channel messages flow through this chain before they are serialized and transported.  
+  
+   
+  
+## Examples  
+ The following code example illustrates an implementation of this property.  
+  
+ [!CODE [Remoting_Sinks#22](../CodeSnippet/VS_Snippets_Remoting/Remoting_Sinks#22)]  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="ProcessMessage">
@@ -151,13 +209,22 @@
         <Parameter Name="responseStream" Type="System.IO.Stream&amp;" RefType="out" />
       </Parameters>
       <Docs>
-        <param name="msg">To be added.</param>
-        <param name="requestHeaders">To be added.</param>
-        <param name="requestStream">To be added.</param>
-        <param name="responseHeaders">To be added.</param>
-        <param name="responseStream">To be added.</param>
-        <summary>To be added.</summary>
-        <remarks>To be added.</remarks>
+        <param name="msg">The message to process.</param>
+        <param name="requestHeaders">The headers to add to the outgoing message heading to the server.</param>
+        <param name="requestStream">The stream headed to the transport sink.</param>
+        <param name="responseHeaders">When this method returns, contains a &lt;see cref="T:System.Runtime.Remoting.Channels.ITransportHeaders"&gt; interface that holds the headers that the server returned. This parameter is passed uninitialized.</param>
+        <param name="responseStream">When this method returns, contains a &lt;see cref="T:System.IO.Stream"&gt; coming back from the transport sink. This parameter is passed uninitialized.</param>
+        <summary>Requests message processing from the current sink.</summary>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Examples  
+ The following code example illustrates an implementation of this method.  
+  
+ [!CODE [Remoting_Sinks#24](../CodeSnippet/VS_Snippets_Remoting/Remoting_Sinks#24)]  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
   </Members>

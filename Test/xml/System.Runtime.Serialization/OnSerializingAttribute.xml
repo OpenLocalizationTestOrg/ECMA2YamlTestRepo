@@ -18,8 +18,31 @@
     </Attribute>
   </Attributes>
   <Docs>
-    <summary>To be added.</summary>
-    <remarks>To be added.</remarks>
+    <summary>When applied to a method, specifies that the method is during serialization of an object in an object graph. The order of serialization relative to other objects in the graph is non-deterministic.</summary>
+    <remarks>
+      <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ Use the OnSerializingAttribute to manipulate the object before serialization occurs.  
+  
+ To use the OnSerializingAttribute, the method must contain a <xref:System.Runtime.Serialization.StreamingContext> parameter. The attribute marks the method to be called by the serialization infrastructure and the <xref:System.Runtime.Serialization.StreamingContext> provides additional data about the type of serialization taking place.  The usage is shown in the following code:  
+  
+ [!CODE [System.Runtime.Serialization.OnSerialization#2](../CodeSnippet/VS_Snippets_Remoting/System.Runtime.Serialization.OnSerialization#2)]  
+  
+> [!NOTE]
+>  In your code, you can use the word `OnSerializing` instead of the longer OnSerializingAttribute.  
+  
+ When using binary serialization, the binary serialization process omits the call to the `onSerializing` method when the serialized  objects are equal. Therefore, when using the <xref:System.Runtime.Serialization.Formatters.Binary.BinaryFormatter> type with the `equals` method (or `Object.GetHashCode`) for example, the result may be undefined behavior.  
+  
+   
+  
+## Examples  
+ The following example applies the <xref:System.Runtime.Serialization.OnDeserializedAttribute>, OnSerializingAttribute, <xref:System.Runtime.Serialization.OnSerializedAttribute>, and <xref:System.Runtime.Serialization.OnDeserializingAttribute> attributes to methods in a class.  
+  
+ [!CODE [System.Runtime.Serialization.OnSerialization#1](../CodeSnippet/VS_Snippets_Remoting/System.Runtime.Serialization.OnSerialization#1)]  
+  
+ ]]></format>
+    </remarks>
   </Docs>
   <Members>
     <Member MemberName=".ctor">
@@ -31,7 +54,7 @@
       </AssemblyInfo>
       <Parameters />
       <Docs>
-        <summary>To be added.</summary>
+        <summary>Initializes a new instance of the &lt;see cref="T:System.Runtime.Serialization.OnSerializingAttribute"&gt; class.</summary>
         <remarks>To be added.</remarks>
       </Docs>
     </Member>

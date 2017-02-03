@@ -15,8 +15,22 @@
     </Attribute>
   </Attributes>
   <Docs>
-    <summary>To be added.</summary>
-    <remarks>To be added.</remarks>
+    <summary>Provides a controlled memory buffer that can be used for reading and writing. Attempts to access memory outside the controlled buffer (underruns and overruns) raise exceptions.</summary>
+    <remarks>
+      <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ You must call the <xref:System.Runtime.InteropServices.SafeBuffer.Initialize%2A?displayProperty=fullName> method before you use any instance of SafeBuffer. To avoid races when you store an instance of a SafeBuffer object in a static variable, you should use one of the following approaches:  
+  
+-   Create a lock when publishing the SafeBuffer.  
+  
+-   Create a local variable, initialize the SafeBuffer, and then assign the SafeBuffer to the static variable, for example, by using the <xref:System.Threading.Interlocked.CompareExchange%2A?displayProperty=fullName> method.  
+  
+> [!NOTE]
+>  Assignments in a static class constructor are implicitly locked.  
+  
+ ]]></format>
+    </remarks>
   </Docs>
   <Members>
     <Member MemberName=".ctor">
@@ -30,8 +44,8 @@
         <Parameter Name="ownsHandle" Type="System.Boolean" />
       </Parameters>
       <Docs>
-        <param name="ownsHandle">To be added.</param>
-        <summary>To be added.</summary>
+        <param name="ownsHandle">`true` to reliably release the handle during the finalization phase; `false` to prevent reliable release (not recommended).</param>
+        <summary>Creates a new instance of the &lt;see cref="T:System.Runtime.InteropServices.SafeBuffer"&gt; class, and specifies whether the buffer handle is to be reliably released.</summary>
         <remarks>To be added.</remarks>
       </Docs>
     </Member>
@@ -57,9 +71,37 @@
         <Parameter Name="pointer" Type="System.Byte*&amp;" RefType="ref" />
       </Parameters>
       <Docs>
-        <param name="pointer">To be added.</param>
-        <summary>To be added.</summary>
-        <remarks>To be added.</remarks>
+        <param name="pointer">A byte pointer, passed by reference, to receive the pointer from within the &lt;see cref="T:System.Runtime.InteropServices.SafeBuffer"&gt; object. You must set this pointer to `null` before you call this method.</param>
+        <summary>Obtains a pointer from a &lt;see cref="T:System.Runtime.InteropServices.SafeBuffer"&gt; object for a block of memory.</summary>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ When AcquirePointer returns, you should perform bounds checking by verifying that the  parameter is `null`. If it is not `null`, you must call the <xref:System.Runtime.InteropServices.SafeBuffer.ReleasePointer%2A?displayProperty=fullName> method in a constrained execution region (CER).  
+  
+ AcquirePointer calls the <xref:System.Runtime.InteropServices.SafeHandle.DangerousAddRef%2A?displayProperty=fullName> method and exposes the pointer. Unlike the <xref:System.Runtime.InteropServices.SafeBuffer.Read%2A> method, it does not change the current position of the pointer.  
+  
+ The following exampledemonstrates how to use the AcquirePointer method:  
+  
+```  
+byte* pointer = null;  
+RuntimeHelpers.PrepareConstrainedRegions();  
+try {  
+    MySafeBuffer.AcquirePointer(ref pointer);  
+    // Use pointer here, with your own bounds checking.  
+    }  
+finally {  
+    if (pointer != null)  
+        MySafeBuffer.ReleasePointer();  
+    }  
+```  
+  
+ If you cast  (which is a pointer to a byte) as a pointer to a different type (T*), you may have pointer alignment issues.  
+  
+ You must take responsibility for all bounds checking with this pointer.  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="ByteLength">
@@ -81,8 +123,8 @@
         <ReturnType>System.UInt64</ReturnType>
       </ReturnValue>
       <Docs>
-        <summary>To be added.</summary>
-        <value>To be added.</value>
+        <summary>Gets the size of the buffer, in bytes.</summary>
+        <value>The number of bytes in the memory buffer.</value>
         <remarks>To be added.</remarks>
       </Docs>
     </Member>
@@ -105,8 +147,8 @@
         <Parameter Name="numBytes" Type="System.UInt64" />
       </Parameters>
       <Docs>
-        <param name="numBytes">To be added.</param>
-        <summary>To be added.</summary>
+        <param name="numBytes">The number of bytes in the buffer.</param>
+        <summary>Defines the allocation size of the memory region in bytes. You must call this method before you use the &lt;see cref="T:System.Runtime.InteropServices.SafeBuffer"&gt; instance.</summary>
         <remarks>To be added.</remarks>
       </Docs>
     </Member>
@@ -130,10 +172,17 @@
         <Parameter Name="sizeOfEachElement" Type="System.UInt32" />
       </Parameters>
       <Docs>
-        <param name="numElements">To be added.</param>
-        <param name="sizeOfEachElement">To be added.</param>
-        <summary>To be added.</summary>
-        <remarks>To be added.</remarks>
+        <param name="numElements">The number of elements in the buffer.</param>
+        <param name="sizeOfEachElement">The size of each element in the buffer.</param>
+        <summary>Specifies the allocation size of the memory buffer by using the specified number of elements and element size. You must call this method before you use the &lt;see cref="T:System.Runtime.InteropServices.SafeBuffer"&gt; instance.</summary>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ This method defines the required size of the memory region as the number of elements in an array multiplied by the size of each element.  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="Initialize&lt;T&gt;">
@@ -268,8 +317,15 @@
       </ReturnValue>
       <Parameters />
       <Docs>
-        <summary>To be added.</summary>
-        <remarks>To be added.</remarks>
+        <summary>Releases a pointer that was obtained by the &lt;xref:System.Runtime.InteropServices.SafeBuffer.AcquirePointer%2A&gt; method.</summary>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ After this method returns, the pointer cannot be used.  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="Write&lt;T&gt;">

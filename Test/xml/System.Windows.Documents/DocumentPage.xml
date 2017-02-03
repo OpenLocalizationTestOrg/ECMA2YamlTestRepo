@@ -14,7 +14,7 @@
     </Interface>
   </Interfaces>
   <Docs>
-    <summary>To be added.</summary>
+    <summary>Represents a document page produced by a paginator.</summary>
     <remarks>To be added.</remarks>
   </Docs>
   <Members>
@@ -29,8 +29,8 @@
         <Parameter Name="visual" Type="System.Windows.Media.Visual" />
       </Parameters>
       <Docs>
-        <param name="visual">To be added.</param>
-        <summary>To be added.</summary>
+        <param name="visual">The visual representation of the page.</param>
+        <summary>Initializes a new instance of the &lt;see cref="T:System.Windows.Documents.DocumentPage"&gt; class by using the specified &lt;xref:System.Windows.Media.Visual&gt;.</summary>
         <remarks>To be added.</remarks>
       </Docs>
     </Member>
@@ -48,12 +48,19 @@
         <Parameter Name="contentBox" Type="System.Windows.Rect" />
       </Parameters>
       <Docs>
-        <param name="visual">To be added.</param>
-        <param name="pageSize">To be added.</param>
-        <param name="bleedBox">To be added.</param>
-        <param name="contentBox">To be added.</param>
-        <summary>To be added.</summary>
-        <remarks>To be added.</remarks>
+        <param name="visual">The visual representation of the page.</param>
+        <param name="pageSize">The size of the page, including margins, as it will be after any cropping.</param>
+        <param name="bleedBox">The area for print production-related bleeds, registration marks, and crop marks that may appear on the physical sheet outside the logical page boundaries.</param>
+        <param name="contentBox">The area of the page within the margins.</param>
+        <summary>Initializes a new instance of the &lt;see cref="T:System.Windows.Documents.DocumentPage"&gt; class by using the specified &lt;xref:System.Windows.Media.Visual&gt; and box sizes.</summary>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ The  dimensions may be greater than the  dimensions when it is expected that the physical sheets will be cropped to their final page size.  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="BleedBox">
@@ -67,9 +74,18 @@
         <ReturnType>System.Windows.Rect</ReturnType>
       </ReturnValue>
       <Docs>
-        <summary>To be added.</summary>
-        <value>To be added.</value>
-        <remarks>To be added.</remarks>
+        <summary>When overridden in a derived class, gets the area for print production-related bleeds, registration marks, and crop marks that may appear on the physical sheet outside the logical page boundaries.</summary>
+        <value>A &lt;xref:System.Windows.Rect&gt; representing the size and location of the bleed box area.</value>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ The bleed box will extend outside the page when it is expected that the physical sheets will be cropped to their final page size.  
+  
+ Use the protected <xref:System.Windows.Documents.DocumentPage.SetBleedBox%2A> method to set this property.  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="ContentBox">
@@ -83,9 +99,16 @@
         <ReturnType>System.Windows.Rect</ReturnType>
       </ReturnValue>
       <Docs>
-        <summary>To be added.</summary>
-        <value>To be added.</value>
-        <remarks>To be added.</remarks>
+        <summary>When overridden in a derived class, gets the area of the page within the margins.</summary>
+        <value>A &lt;xref:System.Windows.Rect&gt; representing the area of the page, not including the margins.</value>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ Use the protected <xref:System.Windows.Documents.DocumentPage.SetContentBox%2A> method to set this property.  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="Dispose">
@@ -100,8 +123,18 @@
       </ReturnValue>
       <Parameters />
       <Docs>
-        <summary>To be added.</summary>
-        <remarks>To be added.</remarks>
+        <summary>Releases all resources used by the &lt;see cref="T:System.Windows.Documents.DocumentPage"&gt;.</summary>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ Call Dispose when you are finished using the <xref:System.Windows.Documents.DocumentPage>. The Dispose method leaves the <xref:System.Windows.Documents.DocumentPage> in an unusable state. After calling Dispose you must release all references to the <xref:System.Windows.Documents.DocumentPage> so the garbage collector can reclaim the memory that the <xref:System.Windows.Documents.DocumentPage> was occupying. For more information, see [Cleaning Up Unmanaged Resources](../Topic/Cleaning%20Up%20Unmanaged%20Resources.md) and [Implementing a Dispose Method](../Topic/Implementing%20a%20Dispose%20Method.md).  
+  
+> [!NOTE]
+>  Always call Dispose before you release your last reference to the <xref:System.Windows.Documents.DocumentPage>. Otherwise, the resources it is using will not be freed until the garbage collector calls the <xref:System.Windows.Documents.DocumentPage> object's `Finalize` method.  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="Missing">
@@ -115,8 +148,17 @@
         <ReturnType>System.Windows.Documents.DocumentPage</ReturnType>
       </ReturnValue>
       <Docs>
-        <summary>To be added.</summary>
-        <remarks>To be added.</remarks>
+        <summary>Represents a missing page. This property is static and read only.</summary>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ Return the value Missing when calling code requests a page that does not exist; for example, page 2 of a one-page document.  
+  
+ There is always just one missing page object. Its <xref:System.Windows.Documents.DocumentPage.Visual%2A> property is `null`. Its <xref:System.Windows.Documents.DocumentPage.Size%2A>, <xref:System.Windows.Documents.DocumentPage.BleedBox%2A>, and <xref:System.Windows.Documents.DocumentPage.ContentBox%2A> properties are all set to special "empty" values.  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="OnPageDestroyed">
@@ -133,8 +175,8 @@
         <Parameter Name="e" Type="System.EventArgs" />
       </Parameters>
       <Docs>
-        <param name="e">To be added.</param>
-        <summary>To be added.</summary>
+        <param name="e">An &lt;see cref="T:System.EventArgs"&gt; that contains the event data.</param>
+        <summary>Raises the &lt;see cref="E:System.Windows.Documents.DocumentPage.PageDestroyed"&gt; event.</summary>
         <remarks>To be added.</remarks>
       </Docs>
     </Member>
@@ -149,7 +191,7 @@
         <ReturnType>System.EventHandler</ReturnType>
       </ReturnValue>
       <Docs>
-        <summary>To be added.</summary>
+        <summary>Occurs when the &lt;xref:System.Windows.Documents.DocumentPage.Visual%2A&gt; that depicts the &lt;xref:System.Windows.Documents.DocumentPage&gt; is destroyed and can no longer be used for display.</summary>
         <remarks>To be added.</remarks>
       </Docs>
     </Member>
@@ -167,9 +209,16 @@
         <Parameter Name="bleedBox" Type="System.Windows.Rect" />
       </Parameters>
       <Docs>
-        <param name="bleedBox">To be added.</param>
-        <summary>To be added.</summary>
-        <remarks>To be added.</remarks>
+        <param name="bleedBox">An object that specifies the size and location of a rectangle.</param>
+        <summary>Sets the dimensions and location of the &lt;xref:System.Windows.Documents.DocumentPage.BleedBox%2A&gt;.</summary>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ The bleed box includes material, such as crop marks, that are not necessarily included in the final, post-cropping, physical page. For this reason, the <xref:System.Windows.Rect.X%2A> and <xref:System.Windows.Rect.Y%2A> coordinates of the  parameter can be negative numbers, because they are specified as relative to the upper left corner of the page. For the same reason, the <xref:System.Windows.Rect.Height%2A> and <xref:System.Windows.Rect.Width%2A> of  can be greater than the height and width of the page.  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="SetContentBox">
@@ -186,8 +235,8 @@
         <Parameter Name="contentBox" Type="System.Windows.Rect" />
       </Parameters>
       <Docs>
-        <param name="contentBox">To be added.</param>
-        <summary>To be added.</summary>
+        <param name="contentBox">An object that specifies the size and location of a rectangle.</param>
+        <summary>Sets the dimension and location of the &lt;xref:System.Windows.Documents.DocumentPage.ContentBox%2A&gt;.</summary>
         <remarks>To be added.</remarks>
       </Docs>
     </Member>
@@ -205,8 +254,8 @@
         <Parameter Name="size" Type="System.Windows.Size" />
       </Parameters>
       <Docs>
-        <param name="size">To be added.</param>
-        <summary>To be added.</summary>
+        <param name="size">The size of the page.</param>
+        <summary>Sets the &lt;xref:System.Windows.Documents.DocumentPage.Size%2A&gt; of the physical page as it will be after any cropping.</summary>
         <remarks>To be added.</remarks>
       </Docs>
     </Member>
@@ -224,8 +273,8 @@
         <Parameter Name="visual" Type="System.Windows.Media.Visual" />
       </Parameters>
       <Docs>
-        <param name="visual">To be added.</param>
-        <summary>To be added.</summary>
+        <param name="visual">The visual representation of the page.</param>
+        <summary>Sets the &lt;xref:System.Windows.Documents.DocumentPage.Visual%2A&gt; that depicts the page.</summary>
         <remarks>To be added.</remarks>
       </Docs>
     </Member>
@@ -240,9 +289,18 @@
         <ReturnType>System.Windows.Size</ReturnType>
       </ReturnValue>
       <Docs>
-        <summary>To be added.</summary>
-        <value>To be added.</value>
-        <remarks>To be added.</remarks>
+        <summary>When overridden in a derived class, gets the actual size of a page as it will be following any cropping.</summary>
+        <value>A &lt;xref:System.Windows.Size&gt; representing the height and width of the page.</value>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ This property represents the post-cropping size of the physical page. Hence, it is not necessarily the physical size of the sheets before they are cropped.  
+  
+ Use the protected <xref:System.Windows.Documents.DocumentPage.SetSize%2A> method to set this property.  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="Visual">
@@ -256,9 +314,16 @@
         <ReturnType>System.Windows.Media.Visual</ReturnType>
       </ReturnValue>
       <Docs>
-        <summary>To be added.</summary>
-        <value>To be added.</value>
-        <remarks>To be added.</remarks>
+        <summary>When overridden in a derived class, gets the visual representation of the page.</summary>
+        <value>A &lt;see cref="T:System.Windows.Media.Visual"&gt; depicting the page.</value>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ Use the protected <xref:System.Windows.Documents.DocumentPage.SetVisual%2A> method to set this property.  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
   </Members>

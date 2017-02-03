@@ -22,8 +22,25 @@
     </Attribute>
   </Attributes>
   <Docs>
-    <summary>To be added.</summary>
-    <remarks>To be added.</remarks>
+    <summary>Provides a default implementation for a lifetime sponsor class.</summary>
+    <remarks>
+      <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ The current lifetime sponsor implementation can be used to sponsor objects by specifying the required renewal <xref:System.TimeSpan>.  
+  
+> [!NOTE]
+>  This class makes a link demand and an inheritance demand at the class level. A <xref:System.Security.SecurityException> is thrown when either the immediate caller or the derived class does not have infrastructure permission. For details about security demands, see [Link Demands](../Topic/Link%20Demands.md) and [Inheritance Demands](http://msdn.microsoft.com/en-us/28b9adbb-8f08-4f10-b856-dbf59eb932d9).  
+  
+   
+  
+## Examples  
+ The following example illustrates the ClientSponsor class to extend the life of a class-activated remote object.  
+  
+ [!CODE [ClientSponsor_Register#1](../CodeSnippet/VS_Snippets_Remoting/ClientSponsor_Register#1)]  
+  
+ ]]></format>
+    </remarks>
   </Docs>
   <Members>
     <Member MemberName=".ctor">
@@ -35,8 +52,15 @@
       </AssemblyInfo>
       <Parameters />
       <Docs>
-        <summary>To be added.</summary>
-        <remarks>To be added.</remarks>
+        <summary>Initializes a new instance of the &lt;see cref="T:System.Runtime.Remoting.Lifetime.ClientSponsor"&gt; class with default values.</summary>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ The default time by which the lifetime of a sponsored object is increased when renewal is requested to 2 minutes. For more information on the renewal time, see the <xref:System.Runtime.Remoting.Lifetime.LifetimeServices.RenewOnCallTime%2A?displayProperty=fullName> property.  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName=".ctor">
@@ -50,8 +74,8 @@
         <Parameter Name="renewalTime" Type="System.TimeSpan" />
       </Parameters>
       <Docs>
-        <param name="renewalTime">To be added.</param>
-        <summary>To be added.</summary>
+        <param name="renewalTime">The &lt;see cref="T:System.TimeSpan"&gt; by which to increase the lifetime of the sponsored objects when renewal is requested.</param>
+        <summary>Initializes a new instance of the &lt;see cref="T:System.Runtime.Remoting.Lifetime.ClientSponsor"&gt; class with the renewal time of the sponsored object.</summary>
         <remarks>To be added.</remarks>
       </Docs>
     </Member>
@@ -72,8 +96,15 @@
       </ReturnValue>
       <Parameters />
       <Docs>
-        <summary>To be added.</summary>
-        <remarks>To be added.</remarks>
+        <summary>Empties the list objects registered with the current &lt;see cref="T:System.Runtime.Remoting.Lifetime.ClientSponsor"&gt;.</summary>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Examples  
+ [!CODE [ClientSponsor_Register#2](../CodeSnippet/VS_Snippets_Remoting/ClientSponsor_Register#2)]  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="Finalize">
@@ -93,7 +124,7 @@
       </ReturnValue>
       <Parameters />
       <Docs>
-        <summary>To be added.</summary>
+        <summary>Frees the resources of the current &lt;see cref="T:System.Runtime.Remoting.Lifetime.ClientSponsor"&gt; before the garbage collector reclaims them.</summary>
         <remarks>To be added.</remarks>
       </Docs>
     </Member>
@@ -114,9 +145,21 @@
       </ReturnValue>
       <Parameters />
       <Docs>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
-        <remarks>To be added.</remarks>
+        <summary>Initializes a new instance of &lt;see cref="T:System.Runtime.Remoting.Lifetime.ClientSponsor"&gt;, providing a lease for the current object.</summary>
+        <returns>An &lt;see cref="T:System.Runtime.Remoting.Lifetime.ILease"&gt; for the current object.</returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ For more information, see <xref:System.MarshalByRefObject.InitializeLifetimeService%2A?displayProperty=fullName>.  
+  
+   
+  
+## Examples  
+ [!CODE [ClientSponsor_Register#2](../CodeSnippet/VS_Snippets_Remoting/ClientSponsor_Register#2)]  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="Register">
@@ -138,10 +181,17 @@
         <Parameter Name="obj" Type="System.MarshalByRefObject" />
       </Parameters>
       <Docs>
-        <param name="obj">To be added.</param>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
-        <remarks>To be added.</remarks>
+        <param name="obj">The object to register for sponsorship with the &lt;see cref="T:System.Runtime.Remoting.Lifetime.ClientSponsor"&gt;.</param>
+        <summary>Registers the specified &lt;see cref="T:System.MarshalByRefObject"&gt; for sponsorship.</summary>
+        <returns>`true` if registration succeeded; otherwise, `false`.</returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Examples  
+ [!CODE [ClientSponsor_Register#2](../CodeSnippet/VS_Snippets_Remoting/ClientSponsor_Register#2)]  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="Renewal">
@@ -163,10 +213,22 @@
         <Parameter Name="lease" Type="System.Runtime.Remoting.Lifetime.ILease" />
       </Parameters>
       <Docs>
-        <param name="lease">To be added.</param>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
-        <remarks>To be added.</remarks>
+        <param name="lease">The lifetime lease of the object that requires lease renewal.</param>
+        <summary>Requests a sponsoring client to renew the lease for the specified object.</summary>
+        <returns>The additional lease time for the specified object.</returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ The <xref:System.Runtime.Remoting.Lifetime.ISponsor.Renewal%2A> method is called by the distributed garbage collector to renew the lease for the specified object.  
+  
+   
+  
+## Examples  
+ [!CODE [ClientSponsor_Register#2](../CodeSnippet/VS_Snippets_Remoting/ClientSponsor_Register#2)]  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="RenewalTime">
@@ -180,9 +242,16 @@
         <ReturnType>System.TimeSpan</ReturnType>
       </ReturnValue>
       <Docs>
-        <summary>To be added.</summary>
-        <value>To be added.</value>
-        <remarks>To be added.</remarks>
+        <summary>Gets or sets the &lt;see cref="T:System.TimeSpan"&gt; by which to increase the lifetime of the sponsored objects when renewal is requested.</summary>
+        <value>The &lt;see cref="T:System.TimeSpan"&gt; by which to increase the lifetime of the sponsored objects when renewal is requested.</value>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Examples  
+ [!CODE [ClientSponsor_Register#2](../CodeSnippet/VS_Snippets_Remoting/ClientSponsor_Register#2)]  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="Unregister">
@@ -204,9 +273,16 @@
         <Parameter Name="obj" Type="System.MarshalByRefObject" />
       </Parameters>
       <Docs>
-        <param name="obj">To be added.</param>
-        <summary>To be added.</summary>
-        <remarks>To be added.</remarks>
+        <param name="obj">The object to unregister.</param>
+        <summary>Unregisters the specified &lt;see cref="T:System.MarshalByRefObject"&gt; from the list of objects sponsored by the current &lt;xref:System.Runtime.Remoting.Lifetime.ClientSponsor&gt;.</summary>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Examples  
+ [!CODE [ClientSponsor_Register#2](../CodeSnippet/VS_Snippets_Remoting/ClientSponsor_Register#2)]  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
   </Members>

@@ -18,8 +18,17 @@
     </Attribute>
   </Attributes>
   <Docs>
-    <summary>To be added.</summary>
-    <remarks>To be added.</remarks>
+    <summary>Provides APIs that are needed for communication and operation with unmanaged classes outside of the &lt;see cref="T:System.AppDomain"&gt;. This class cannot be inherited.</summary>
+    <remarks>
+      <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+  
+> [!NOTE]
+>  This class makes a link demand. A SecurityException is thrown if the immediate caller does not have infrastructure permission. See [Link Demands](../Topic/Link%20Demands.md) for more information.  
+  
+ ]]></format>
+    </remarks>
   </Docs>
   <Members>
     <Member MemberName=".ctor">
@@ -31,7 +40,7 @@
       </AssemblyInfo>
       <Parameters />
       <Docs>
-        <summary>To be added.</summary>
+        <summary>Creates an instance of &lt;see cref="T:System.Runtime.Remoting.Services.EnterpriseServicesHelper"&gt;.</summary>
         <remarks>To be added.</remarks>
       </Docs>
     </Member>
@@ -55,10 +64,10 @@
         <Parameter Name="retObj" Type="System.MarshalByRefObject" />
       </Parameters>
       <Docs>
-        <param name="ctorMsg">To be added.</param>
-        <param name="retObj">To be added.</param>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
+        <param name="ctorMsg">A construction call to the object from which the new &lt;see cref="T:System.Runtime.Remoting.Messaging.ReturnMessage"&gt; instance is returning.</param>
+        <param name="retObj">A &lt;see cref="T:System.Runtime.Remoting.ObjRef"&gt; that represents the object that is constructed with the construction call in .</param>
+        <summary>Constructs a &lt;see cref="T:System.Runtime.Remoting.Messaging.ReturnMessage"&gt; from the specified &lt;xref:System.Runtime.Remoting.Activation.IConstructionCallMessage&gt;.</summary>
+        <returns>A &lt;see cref="T:System.Runtime.Remoting.Activation.IConstructionReturnMessage"&gt; returned from the construction call that is specified in the  parameter.</returns>
         <remarks>To be added.</remarks>
       </Docs>
     </Member>
@@ -82,10 +91,19 @@
         <Parameter Name="newcp" Type="System.Runtime.Remoting.Proxies.RealProxy" />
       </Parameters>
       <Docs>
-        <param name="oldcp">To be added.</param>
-        <param name="newcp">To be added.</param>
-        <summary>To be added.</summary>
-        <remarks>To be added.</remarks>
+        <param name="oldcp">A proxy that represents the old instance of a class that is referenced by a CCW.</param>
+        <param name="newcp">A proxy that represents the new instance of a class that is referenced by a CCW.</param>
+        <summary>Switches a [COM Callable Wrapper](../Topic/COM%20Callable%20Wrapper.md) (CCW) from one instance of a class to another instance of the same class.</summary>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+  
+> [!CAUTION]
+>  This method can cause unwanted behavior. Before calling it, the user must ensure that this is a thread-safe operation, and that a call is not being made through the CCW to one of the instances of the class.  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="WrapIUnknownWithComObject">
@@ -107,10 +125,17 @@
         <Parameter Name="punk" Type="System.IntPtr" />
       </Parameters>
       <Docs>
-        <param name="punk">To be added.</param>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
-        <remarks>To be added.</remarks>
+        <param name="punk">A pointer to the `IUnknown` COM interface to wrap.</param>
+        <summary>Wraps the specified `IUnknown` COM interface with a [Runtime Callable Wrapper](../Topic/Runtime%20Callable%20Wrapper.md) (RCW).</summary>
+        <returns>The RCW where the specified `IUnknown` is wrapped.</returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ The WrapIUnknownWithComObject method is similar to the <xref:System.Runtime.InteropServices.Marshal.GetObjectForIUnknown%2A?displayProperty=fullName> method, but does not attempt to maintain the identity of the unmanaged object. For example, two calls with the same `IUnknown` to the current method return two different RCWs, but two calls to the <xref:System.Runtime.InteropServices.Marshal.GetObjectForIUnknown%2A> method with the same `IUnknown` return the same RCW.  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
   </Members>

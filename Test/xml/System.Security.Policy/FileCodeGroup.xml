@@ -15,8 +15,26 @@
     </Attribute>
   </Attributes>
   <Docs>
-    <summary>To be added.</summary>
-    <remarks>To be added.</remarks>
+    <summary>Grants permission to manipulate files located in the code assemblies to code assemblies that match the membership condition. This class cannot be inherited.</summary>
+    <remarks>
+      <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ Code groups are the building blocks of code access security policy. Each policy level consists of a root code group that can have child code groups. Each child code group can have their own child code groups; this behavior extends to any number of levels, forming a tree. Each code group has a membership condition that determines if a given assembly belongs to it based on the evidence for that assembly. Only code groups whose membership conditions match a given assembly and their child code groups apply policy.  
+  
+ FileCodeGroup has the same child matching semantics as <xref:System.Security.Policy.UnionCodeGroup>. However, FileCodeGroup returns a permission set containing a dynamically-calculated <xref:System.Security.Permissions.FileIOPermission> that grants file access to the directory from which the code is run; <xref:System.Security.Policy.UnionCodeGroup> only returns a static permission set. The type of file access granted is passed as a parameter to the constructor.  
+  
+ This code group only matches assemblies run over a file protocol, that is, assemblies that have URLs that point to a file or UNC path.  
+  
+   
+  
+## Examples  
+ The following example shows the use of members of the FileCodeGroup class.  
+  
+ [!CODE [System.Security.Policy.FileCodeGroup_Evt#1](../CodeSnippet/VS_Snippets_CLR_System/system.Security.Policy.FileCodeGroup_Evt#1)]  
+  
+ ]]></format>
+    </remarks>
   </Docs>
   <Members>
     <Member MemberName=".ctor">
@@ -31,10 +49,26 @@
         <Parameter Name="access" Type="System.Security.Permissions.FileIOPermissionAccess" />
       </Parameters>
       <Docs>
-        <param name="membershipCondition">To be added.</param>
-        <param name="access">To be added.</param>
-        <summary>To be added.</summary>
-        <remarks>To be added.</remarks>
+        <param name="membershipCondition">A membership condition that tests evidence to determine whether this code group applies policy.</param>
+        <param name="access">One of the &lt;see cref="T:System.Security.Permissions.FileIOPermissionAccess"&gt; values. This value is used to construct the &lt;xref:System.Security.Permissions.FileIOPermission&gt; that is granted.</param>
+        <summary>Initializes a new instance of the &lt;see cref="T:System.Security.Policy.FileCodeGroup"&gt; class.</summary>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ This constructor creates a basic code group. Child code groups can be added with the <xref:System.Security.Policy.CodeGroup.AddChild%2A> method.  
+  
+ <xref:System.Security.Policy.FileCodeGroup> returns a permission set containing a dynamically-calculated <xref:System.Security.Permissions.FileIOPermission> that grants file access to the directory from which the code is run. The type of access granted is determined by the  parameter.  
+  
+   
+  
+## Examples  
+ The following code shows the use of the FileCodeGroup constructor. This code example is part of a larger example provided for the <xref:System.Security.Policy.FileCodeGroup> class.  
+  
+ [!CODE [System.Security.Policy.FileCodeGroup_Evt#2](../CodeSnippet/VS_Snippets_CLR_System/system.Security.Policy.FileCodeGroup_Evt#2)]  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="AttributeString">
@@ -48,9 +82,23 @@
         <ReturnType>System.String</ReturnType>
       </ReturnValue>
       <Docs>
-        <summary>To be added.</summary>
-        <value>To be added.</value>
-        <remarks>To be added.</remarks>
+        <summary>Gets a string representation of the attributes of the policy statement for the code group.</summary>
+        <value>Always `null`.</value>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <xref:System.Security.Policy.FileCodeGroup> does not use AttributeString, so this property is always `null`.  
+  
+   
+  
+## Examples  
+ The following code shows the use of the AttributeString property to get the attributes for the code group. This code example is part of a larger example provided for the <xref:System.Security.Policy.FileCodeGroup> class.  
+  
+ [!CODE [System.Security.Policy.FileCodeGroup_Evt#5](../CodeSnippet/VS_Snippets_CLR_System/system.Security.Policy.FileCodeGroup_Evt#5)]  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="Copy">
@@ -65,9 +113,23 @@
       </ReturnValue>
       <Parameters />
       <Docs>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
-        <remarks>To be added.</remarks>
+        <summary>Makes a deep copy of the current code group.</summary>
+        <returns>An equivalent copy of the current code group, including its membership conditions and child code groups.</returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ This method makes a deep copy of the code group, so that copies of all objects the code group contains are also made.  
+  
+   
+  
+## Examples  
+ The following code shows the use of the Copy method to make a deep copy of the code group. This code example is part of a larger example provided for the <xref:System.Security.Policy.FileCodeGroup> class.  
+  
+ [!CODE [System.Security.Policy.FileCodeGroup_Evt#18](../CodeSnippet/VS_Snippets_CLR_System/system.Security.Policy.FileCodeGroup_Evt#18)]  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="CreateXml">
@@ -105,10 +167,19 @@
         <Parameter Name="o" Type="System.Object" />
       </Parameters>
       <Docs>
-        <param name="o">To be added.</param>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
-        <remarks>To be added.</remarks>
+        <param name="o">The code group to compare with the current code group.</param>
+        <summary>Determines whether the specified code group is equivalent to the current code group.</summary>
+        <returns>`true` if the specified code group is equivalent to the current code group; otherwise, `false`.</returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Examples  
+ The following code shows the use of the Equals method to determine if two code groups are equal. This code example is part of a larger example provided for the <xref:System.Security.Policy.FileCodeGroup> class.  
+  
+ [!CODE [System.Security.Policy.FileCodeGroup_Evt#20](../CodeSnippet/VS_Snippets_CLR_System/system.Security.Policy.FileCodeGroup_Evt#20)]  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="GetHashCode">
@@ -123,9 +194,18 @@
       </ReturnValue>
       <Parameters />
       <Docs>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
-        <remarks>To be added.</remarks>
+        <summary>Gets the hash code of the current code group.</summary>
+        <returns>The hash code of the current code group.</returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Examples  
+ The following code shows the use of the GetHashCode method to get the hash code of the current code group. This code example is part of a larger example provided for the <xref:System.Security.Policy.FileCodeGroup> class.  
+  
+ [!CODE [System.Security.Policy.FileCodeGroup_Evt#14](../CodeSnippet/VS_Snippets_CLR_System/system.Security.Policy.FileCodeGroup_Evt#14)]  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="MergeLogic">
@@ -139,9 +219,18 @@
         <ReturnType>System.String</ReturnType>
       </ReturnValue>
       <Docs>
-        <summary>To be added.</summary>
-        <value>To be added.</value>
-        <remarks>To be added.</remarks>
+        <summary>Gets the merge logic.</summary>
+        <value>The string "Union".</value>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Examples  
+ The following code shows the use of the MergeLogic property to get the merge logic for this code group. This code example is part of a larger example provided for the <xref:System.Security.Policy.FileCodeGroup> class.  
+  
+ [!CODE [System.Security.Policy.FileCodeGroup_Evt#15](../CodeSnippet/VS_Snippets_CLR_System/system.Security.Policy.FileCodeGroup_Evt#15)]  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="ParseXml">
@@ -176,9 +265,18 @@
         <ReturnType>System.String</ReturnType>
       </ReturnValue>
       <Docs>
-        <summary>To be added.</summary>
-        <value>To be added.</value>
-        <remarks>To be added.</remarks>
+        <summary>Gets the name of the named permission set for the code group.</summary>
+        <value>The concatenatation of the string "Same directory FileIO - " and the access type.</value>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Examples  
+ The following code shows the use of the PermissionSetName property to get the name of the named permission set for the code group. This code example is part of a larger example provided for the <xref:System.Security.Policy.FileCodeGroup> class.  
+  
+ [!CODE [System.Security.Policy.FileCodeGroup_Evt#13](../CodeSnippet/VS_Snippets_CLR_System/system.Security.Policy.FileCodeGroup_Evt#13)]  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="Resolve">
@@ -200,10 +298,28 @@
         <Parameter Name="evidence" Type="System.Security.Policy.Evidence" />
       </Parameters>
       <Docs>
-        <param name="evidence">To be added.</param>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
-        <remarks>To be added.</remarks>
+        <param name="evidence">The evidence for the assembly.</param>
+        <summary>Resolves policy for the code group and its descendants for a set of evidence.</summary>
+        <returns>A policy statement consisting of the permissions granted by the code group with optional attributes, or `null` if the code group does not apply (the membership condition does not match the specified evidence).</returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ Given evidence for an assembly to be loaded, this method evaluates the code group by first checking the membership condition against the specified evidence. If there is a match, this method returns a policy statement for the code group, including evaluation of child code groups.  
+  
+ The .NET Framework security system uses Resolve on the policy levels to determine which permissions to grant to loaded code from the resulting policy statements and the code request on the assembly.  
+  
+ <xref:System.Security.Policy.FileCodeGroup> uses union semantics and forms a permission set based on the <xref:System.Security.Policy.Url> specified by .  
+  
+   
+  
+## Examples  
+ The following code shows the use of the Resolve method to resolve policy for the code group. This code example is part of a larger example provided for the <xref:System.Security.Policy.FileCodeGroup> class.  
+  
+ [!CODE [System.Security.Policy.FileCodeGroup_Evt#19](../CodeSnippet/VS_Snippets_CLR_System/system.Security.Policy.FileCodeGroup_Evt#19)]  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="ResolveMatchingCodeGroups">
@@ -220,10 +336,26 @@
         <Parameter Name="evidence" Type="System.Security.Policy.Evidence" />
       </Parameters>
       <Docs>
-        <param name="evidence">To be added.</param>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
-        <remarks>To be added.</remarks>
+        <param name="evidence">The evidence for the assembly.</param>
+        <summary>Resolves matching code groups.</summary>
+        <returns>A &lt;see cref="T:System.Security.Policy.CodeGroup"&gt; that is the root of the tree of matching code groups.</returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ Given evidence for an assembly to be loaded, this method evaluates the code group by first checking the membership condition against the specified evidence. If there is a match, this method returns a root code group. The code group that is returned contains child code groups, which in turn can have child code groups as necessary to reflect the complete set of code groups that were matched by the evidence provided.  
+  
+ <xref:System.Security.Policy.FileCodeGroup> uses union semantics and forms a permission set based on the <xref:System.Security.Policy.Url> specified by .  
+  
+   
+  
+## Examples  
+ The following code shows the use of the ResolveMatchingCodeGroups method to resolve matching code groups. This code example is part of a larger example provided for the <xref:System.Security.Policy.FileCodeGroup> class.  
+  
+ [!CODE [System.Security.Policy.FileCodeGroup_Evt#9](../CodeSnippet/VS_Snippets_CLR_System/system.Security.Policy.FileCodeGroup_Evt#9)]  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
   </Members>

@@ -10,8 +10,27 @@
   </Base>
   <Interfaces />
   <Docs>
-    <summary>To be added.</summary>
-    <remarks>To be added.</remarks>
+    <summary>Represents the Behavior objects that are managed by a &lt;see cref="T:System.Windows.Forms.Design.Behavior.BehaviorService"&gt;.</summary>
+    <remarks>
+      <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ This class can be extended to develop any type of user interface behavior, including selection, drag, and resize behaviors.  
+  
+ For more information, see [Behavior Service Overview](../Topic/Behavior%20Service%20Overview.md).  
+  
+> [!NOTE]
+>  Your Behavior type must be associated with a <xref:System.Windows.Forms.Design.Behavior.Glyph> type. Glyph-independent behaviors are not supported.  
+  
+   
+  
+## Examples  
+ The following code example demonstrates how to create your own class based on the Behavior class that responds to user clicks. This code example is part of a larger example provided for the <xref:System.Windows.Forms.Design.Behavior.BehaviorService> class.  
+  
+ [!CODE [System.Windows.Forms.Design.Behavior.BehaviorService#5](../CodeSnippet/VS_Snippets_Winforms/System.Windows.Forms.Design.Behavior.BehaviorService#5)]  
+  
+ ]]></format>
+    </remarks>
   </Docs>
   <Members>
     <Member MemberName=".ctor">
@@ -23,8 +42,17 @@
       </AssemblyInfo>
       <Parameters />
       <Docs>
-        <summary>To be added.</summary>
-        <remarks>To be added.</remarks>
+        <summary>Initializes a new instance of the &lt;see cref="T:System.Windows.Forms.Design.Behavior.Behavior"&gt; class.</summary>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Examples  
+ The following code example demonstrates how to initialize a new instance of the <xref:System.Windows.Forms.Design.Behavior.Behavior> class. This code example is part of a larger example provided for the <xref:System.Windows.Forms.Design.Behavior.BehaviorService> class.  
+  
+ [!CODE [System.Windows.Forms.Design.Behavior.BehaviorService#7](../CodeSnippet/VS_Snippets_Winforms/System.Windows.Forms.Design.Behavior.BehaviorService#7)]  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName=".ctor">
@@ -39,10 +67,19 @@
         <Parameter Name="behaviorService" Type="System.Windows.Forms.Design.Behavior.BehaviorService" />
       </Parameters>
       <Docs>
-        <param name="callParentBehavior">To be added.</param>
-        <param name="behaviorService">To be added.</param>
-        <summary>To be added.</summary>
-        <remarks>To be added.</remarks>
+        <param name="callParentBehavior">`true` if the parent behavior should be called if it exists; otherwise, `false`.</param>
+        <param name="behaviorService">The &lt;see cref="T:System.Windows.Forms.Design.Behavior.BehaviorService"&gt; to use.</param>
+        <summary>Initializes a new instance of the &lt;see cref="T:System.Windows.Forms.Design.Behavior.Behavior"&gt; class with the given &lt;xref:System.Windows.Forms.Design.Behavior.BehaviorService&gt;.</summary>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ The parent behavior is the next behavior on the behavior stack maintained by the <xref:System.Windows.Forms.Design.Behavior.BehaviorService>. If the  parameter is `true`, then the  parameter must not be `null`.  
+  
+ indicates whether the base <xref:System.Windows.Forms.Design.Behavior.Behavior> class should call the parent behavior, and then allow the <xref:System.Windows.Forms.Design.Behavior.BehaviorService> select the correct parent behavior.  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="Cursor">
@@ -56,8 +93,8 @@
         <ReturnType>System.Windows.Forms.Cursor</ReturnType>
       </ReturnValue>
       <Docs>
-        <summary>To be added.</summary>
-        <value>To be added.</value>
+        <summary>Gets the cursor that should be displayed for this behavior.</summary>
+        <value>A &lt;xref:System.Windows.Forms.Cursor&gt; that represents the cursor that should be displayed for this behavior.</value>
         <remarks>To be added.</remarks>
       </Docs>
     </Member>
@@ -72,9 +109,24 @@
         <ReturnType>System.Boolean</ReturnType>
       </ReturnValue>
       <Docs>
-        <summary>To be added.</summary>
-        <value>To be added.</value>
-        <remarks>To be added.</remarks>
+        <summary>Gets a value indicating whether &lt;xref:System.ComponentModel.Design.MenuCommand&gt; objects should be disabled.</summary>
+        <value>`true` if all &lt;xref:System.ComponentModel.Design.MenuCommand&gt; objects the designer receives should have states set to `Enabled = false` when this &lt;xref:System.Windows.Forms.Design.Behavior.Behavior&gt; is active; otherwise, `false`.</value>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ A `true` value for the DisableAllCommands property indicates to the <xref:System.Windows.Forms.Design.Behavior.BehaviorService> that all <xref:System.ComponentModel.Design.MenuCommand> objects the designer receives should have their state disabled when this behavior is active.  
+  
+ The DisableAllCommands property works in conjunction with the <xref:System.Windows.Forms.Design.Behavior.Behavior.FindCommand%2A> method so you can customize the interaction between glyphs and behaviors. The following table summarizes the results of a call to <xref:System.Windows.Forms.Design.Behavior.Behavior.FindCommand%2A> for a particular <xref:System.ComponentModel.Design.MenuCommand>.  
+  
+||||  
+|-|-|-|  
+||DisableAllCommands is `true`|DisableAllCommands is `false`|  
+|Hit-tested glyph has an assigned behavior|If the <xref:System.ComponentModel.Design.MenuCommand> with the specified  is found in the <xref:System.ComponentModel.Design.IMenuCommandService>, that <xref:System.ComponentModel.Design.MenuCommand> is disabled and returned. Otherwise, `null` is returned.|<xref:System.ComponentModel.Design.MenuCommandService.FindCommand%2A> is called on the behavior and, if found, the behavior’s <xref:System.ComponentModel.Design.MenuCommand> is returned. Otherwise, the result of <xref:System.ComponentModel.Design.IMenuCommandService.FindCommand%2A?displayProperty=fullName> with the specified  is returned.|  
+|Hit-tested glyph has no assigned behavior|The result of <xref:System.ComponentModel.Design.IMenuCommandService.FindCommand%2A?displayProperty=fullName> with the specified  is returned.|The result of <xref:System.ComponentModel.Design.IMenuCommandService.FindCommand%2A?displayProperty=fullName> with the specified  is returned.|  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="FindCommand">
@@ -91,10 +143,17 @@
         <Parameter Name="commandId" Type="System.ComponentModel.Design.CommandID" />
       </Parameters>
       <Docs>
-        <param name="commandId">To be added.</param>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
-        <remarks>To be added.</remarks>
+        <param name="commandId">A &lt;xref:System.ComponentModel.Design.CommandID&gt; object.</param>
+        <summary>Intercepts commands.</summary>
+        <returns>A &lt;xref:System.ComponentModel.Design.MenuCommand&gt;. By default, FindCommand returns `null`.</returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ The FindCommand method is called from the <xref:System.Windows.Forms.Design.Behavior.BehaviorService>. It provides an opportunity for the <xref:System.Windows.Forms.Design.Behavior.Behavior> to return its own custom <xref:System.ComponentModel.Design.MenuCommand>, thereby intercepting this message.  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="OnDragDrop">
@@ -112,9 +171,9 @@
         <Parameter Name="e" Type="System.Windows.Forms.DragEventArgs" />
       </Parameters>
       <Docs>
-        <param name="g">To be added.</param>
-        <param name="e">To be added.</param>
-        <summary>To be added.</summary>
+        <param name="g">A &lt;see cref="T:System.Windows.Forms.Design.Behavior.Glyph"&gt; object on which to invoke drag-and-drop behavior.</param>
+        <param name="e">A &lt;xref:System.Windows.Forms.DragEventArgs&gt; that contains the event data.</param>
+        <summary>Permits custom drag-and-drop behavior.</summary>
         <remarks>To be added.</remarks>
       </Docs>
     </Member>
@@ -133,9 +192,9 @@
         <Parameter Name="e" Type="System.Windows.Forms.DragEventArgs" />
       </Parameters>
       <Docs>
-        <param name="g">To be added.</param>
-        <param name="e">To be added.</param>
-        <summary>To be added.</summary>
+        <param name="g">A &lt;see cref="T:System.Windows.Forms.Design.Behavior.Glyph"&gt; on which to invoke drag-enter behavior.</param>
+        <param name="e">A &lt;xref:System.Windows.Forms.DragEventArgs&gt; that contains the event data.</param>
+        <summary>Permits custom drag-enter behavior.</summary>
         <remarks>To be added.</remarks>
       </Docs>
     </Member>
@@ -154,9 +213,9 @@
         <Parameter Name="e" Type="System.EventArgs" />
       </Parameters>
       <Docs>
-        <param name="g">To be added.</param>
-        <param name="e">To be added.</param>
-        <summary>To be added.</summary>
+        <param name="g">A &lt;see cref="T:System.Windows.Forms.Design.Behavior.Glyph"&gt; on which to invoke drag-leave behavior.</param>
+        <param name="e">A &lt;xref:System.Windows.Forms.DragEventArgs&gt; that contains the event data.</param>
+        <summary>Permits custom drag-leave behavior.</summary>
         <remarks>To be added.</remarks>
       </Docs>
     </Member>
@@ -175,9 +234,9 @@
         <Parameter Name="e" Type="System.Windows.Forms.DragEventArgs" />
       </Parameters>
       <Docs>
-        <param name="g">To be added.</param>
-        <param name="e">To be added.</param>
-        <summary>To be added.</summary>
+        <param name="g">A &lt;see cref="T:System.Windows.Forms.Design.Behavior.Glyph"&gt; on which to invoke drag-over behavior.</param>
+        <param name="e">A &lt;xref:System.Windows.Forms.DragEventArgs&gt; that contains the event data.</param>
+        <summary>Permits custom drag-over behavior.</summary>
         <remarks>To be added.</remarks>
       </Docs>
     </Member>
@@ -196,9 +255,9 @@
         <Parameter Name="e" Type="System.Windows.Forms.GiveFeedbackEventArgs" />
       </Parameters>
       <Docs>
-        <param name="g">To be added.</param>
-        <param name="e">To be added.</param>
-        <summary>To be added.</summary>
+        <param name="g">A &lt;see cref="T:System.Windows.Forms.Design.Behavior.Glyph"&gt; on which to invoke drag-and-drop behavior.</param>
+        <param name="e">A &lt;xref:System.Windows.Forms.GiveFeedbackEventArgs&gt; that contains the event data.</param>
+        <summary>Permits custom drag-and-drop feedback behavior.</summary>
         <remarks>To be added.</remarks>
       </Docs>
     </Member>
@@ -217,10 +276,25 @@
         <Parameter Name="e" Type="System.EventArgs" />
       </Parameters>
       <Docs>
-        <param name="g">To be added.</param>
-        <param name="e">To be added.</param>
-        <summary>To be added.</summary>
-        <remarks>To be added.</remarks>
+        <param name="g">A &lt;see cref="T:System.Windows.Forms.Design.Behavior.Glyph"&gt; on which to invoke drag-and-drop behavior.</param>
+        <param name="e">An &lt;see cref="T:System.EventArgs"&gt; that contains the event data.</param>
+        <summary>Called by the adorner window when it loses mouse capture.</summary>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ A behavior can request mouse capture through the behavior service by pushing itself onto the behavior stack with the <xref:System.Windows.Forms.Design.Behavior.BehaviorService.PushCaptureBehavior%2A> method. If it does so, it will be notified through the OnLoseCapture method when capture is lost. Generally the behavior removes itself from the stack at this time. Capture is lost when one of the following actions occurs:  
+  
+-   Someone else requests capture.  
+  
+-   Another behavior is pushed.  
+  
+-   This behavior is removed.  
+  
+ In each of these cases, OnLoseCapture will be called on the behavior.  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="OnMouseDoubleClick">
@@ -239,12 +313,26 @@
         <Parameter Name="mouseLoc" Type="System.Drawing.Point" />
       </Parameters>
       <Docs>
-        <param name="g">To be added.</param>
-        <param name="button">To be added.</param>
-        <param name="mouseLoc">To be added.</param>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
-        <remarks>To be added.</remarks>
+        <param name="g">A &lt;see cref="T:System.Windows.Forms.Design.Behavior.Glyph"&gt;.</param>
+        <param name="button">A &lt;xref:System.Windows.Forms.MouseButtons&gt; value indicating which button was clicked.</param>
+        <param name="mouseLoc">The location at which the click occurred.</param>
+        <summary>Called when any double-click message enters the adorner window of the &lt;see cref="T:System.Windows.Forms.Design.Behavior.BehaviorService"&gt;.</summary>
+        <returns>`true` if the message was handled; otherwise, `false`.</returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ The OnMouseDoubleClick method is called when any double-click message enters the `WndProc` of the adorner window of the <xref:System.Windows.Forms.Design.Behavior.BehaviorService>. The message is first passed here, to the top-most <xref:System.Windows.Forms.Design.Behavior.Behavior> in the behavior stack. Returning `true` from this method signifies that the message was handled by the <xref:System.Windows.Forms.Design.Behavior.Behavior> and should not continue to be processed. From here, the message is sent to the appropriate behavior.  
+  
+   
+  
+## Examples  
+ The following code example demonstrates how to handle a double-click message. For a full code listing, see [How to: Extend the Appearance and Behavior of Controls in Design Mode](../Topic/How%20to:%20Extend%20the%20Appearance%20and%20Behavior%20of%20Controls%20in%20Design%20Mode.md).  
+  
+ [!CODE [System.Windows.Forms.Design.Behavior.Glyph.MarginBorderAnchorGlyphs#10](../CodeSnippet/VS_Snippets_Winforms/System.Windows.Forms.Design.Behavior.Glyph.MarginBorderAnchorGlyphs#10)]  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="OnMouseDown">
@@ -263,12 +351,19 @@
         <Parameter Name="mouseLoc" Type="System.Drawing.Point" />
       </Parameters>
       <Docs>
-        <param name="g">To be added.</param>
-        <param name="button">To be added.</param>
-        <param name="mouseLoc">To be added.</param>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
-        <remarks>To be added.</remarks>
+        <param name="g">A &lt;see cref="T:System.Windows.Forms.Design.Behavior.Glyph"&gt;.</param>
+        <param name="button">A &lt;xref:System.Windows.Forms.MouseButtons&gt; value indicating which button was clicked.</param>
+        <param name="mouseLoc">The location at which the click occurred.</param>
+        <summary>Called when any mouse-down message enters the adorner window of the &lt;see cref="T:System.Windows.Forms.Design.Behavior.BehaviorService"&gt;.</summary>
+        <returns>`true` if the message was handled; otherwise, `false`.</returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ The <xref:System.Windows.Forms.Design.Behavior.Behavior.OnMouseDoubleClick%2A> method is called when any mouse-down message enters the `WndProc` of the adorner window of the <xref:System.Windows.Forms.Design.Behavior.BehaviorService>. The message is first passed here, to the top-most <xref:System.Windows.Forms.Design.Behavior.Behavior> in the behavior stack. Returning `true` from this method signifies that the message was handled by the <xref:System.Windows.Forms.Design.Behavior.Behavior> and should not continue to be processed. From here, the message is sent to the appropriate behavior.  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="OnMouseEnter">
@@ -285,10 +380,19 @@
         <Parameter Name="g" Type="System.Windows.Forms.Design.Behavior.Glyph" />
       </Parameters>
       <Docs>
-        <param name="g">To be added.</param>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
-        <remarks>To be added.</remarks>
+        <param name="g">A &lt;see cref="T:System.Windows.Forms.Design.Behavior.Glyph"&gt;.</param>
+        <summary>Called when any mouse-enter message enters the adorner window of the &lt;see cref="T:System.Windows.Forms.Design.Behavior.BehaviorService"&gt;.</summary>
+        <returns>`true` if the message was handled; otherwise, `false`.</returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ The <xref:System.Windows.Forms.Design.Behavior.Behavior.OnMouseDoubleClick%2A> method is called when any mouse-enter message enters the `WndProc` of the adorner window of the <xref:System.Windows.Forms.Design.Behavior.BehaviorService>. From here, the message is sent to the appropriate behavior.  
+  
+ When the mouse pointer's location is positively hit-tested with a different <xref:System.Windows.Forms.Design.Behavior.Glyph> than previous hit tests, this method is called on the <xref:System.Windows.Forms.Design.Behavior.Behavior> associated with the <xref:System.Windows.Forms.Design.Behavior.Glyph>.  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="OnMouseHover">
@@ -306,11 +410,18 @@
         <Parameter Name="mouseLoc" Type="System.Drawing.Point" />
       </Parameters>
       <Docs>
-        <param name="g">To be added.</param>
-        <param name="mouseLoc">To be added.</param>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
-        <remarks>To be added.</remarks>
+        <param name="g">A &lt;see cref="T:System.Windows.Forms.Design.Behavior.Glyph"&gt;.</param>
+        <param name="mouseLoc">The location at which the hover occurred.</param>
+        <summary>Called when any mouse-hover message enters the adorner window of the &lt;see cref="T:System.Windows.Forms.Design.Behavior.BehaviorService"&gt;.</summary>
+        <returns>`true` if the message was handled; otherwise, `false`.</returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ The <xref:System.Windows.Forms.Design.Behavior.Behavior.OnMouseDoubleClick%2A> method is called when any mouse-hover message enters the `WndProc` of the adorner window of the <xref:System.Windows.Forms.Design.Behavior.BehaviorService>. The message is first passed here, to the top-most <xref:System.Windows.Forms.Design.Behavior.Behavior> in the behavior stack. Returning `true` from this method signifies that the message was handled by the <xref:System.Windows.Forms.Design.Behavior.Behavior> and should not continue to be processed. From here, the message is sent to the appropriate behavior.  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="OnMouseLeave">
@@ -327,10 +438,19 @@
         <Parameter Name="g" Type="System.Windows.Forms.Design.Behavior.Glyph" />
       </Parameters>
       <Docs>
-        <param name="g">To be added.</param>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
-        <remarks>To be added.</remarks>
+        <param name="g">A &lt;see cref="T:System.Windows.Forms.Design.Behavior.Glyph"&gt;.</param>
+        <summary>Called when any mouse-leave message enters the adorner window of the &lt;see cref="T:System.Windows.Forms.Design.Behavior.BehaviorService"&gt;.</summary>
+        <returns>`true` if the message was handled; otherwise, `false`.</returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ The <xref:System.Windows.Forms.Design.Behavior.Behavior.OnMouseDoubleClick%2A> method is called when any mouse-leave message enters the `WndProc` of the adorner window of the <xref:System.Windows.Forms.Design.Behavior.BehaviorService>. From here, the message is sent to the appropriate behavior.  
+  
+ When the mouse pointer leaves a positively hit-tested <xref:System.Windows.Forms.Design.Behavior.Glyph> with a valid <xref:System.Windows.Forms.Design.Behavior.Behavior>, this method is invoked.  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="OnMouseMove">
@@ -349,12 +469,19 @@
         <Parameter Name="mouseLoc" Type="System.Drawing.Point" />
       </Parameters>
       <Docs>
-        <param name="g">To be added.</param>
-        <param name="button">To be added.</param>
-        <param name="mouseLoc">To be added.</param>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
-        <remarks>To be added.</remarks>
+        <param name="g">A &lt;see cref="T:System.Windows.Forms.Design.Behavior.Glyph"&gt;.</param>
+        <param name="button">A &lt;xref:System.Windows.Forms.MouseButtons&gt; value indicating which button was clicked.</param>
+        <param name="mouseLoc">The location at which the move occurred.</param>
+        <summary>Called when any mouse-move message enters the adorner window of the &lt;see cref="T:System.Windows.Forms.Design.Behavior.BehaviorService"&gt;.</summary>
+        <returns>`true` if the message was handled; otherwise, `false`.</returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ The <xref:System.Windows.Forms.Design.Behavior.Behavior.OnMouseDoubleClick%2A> method is called when any mouse-move message enters the `WndProc` of the adorner window of the <xref:System.Windows.Forms.Design.Behavior.BehaviorService>. The message is first passed here, to the top-most <xref:System.Windows.Forms.Design.Behavior.Behavior> in the behavior stack. Returning `true` from this method signifies that the message was handled by the <xref:System.Windows.Forms.Design.Behavior.Behavior> and should not continue to be processed. From here, the message is sent to the appropriate behavior.  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="OnMouseUp">
@@ -372,11 +499,18 @@
         <Parameter Name="button" Type="System.Windows.Forms.MouseButtons" />
       </Parameters>
       <Docs>
-        <param name="g">To be added.</param>
-        <param name="button">To be added.</param>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
-        <remarks>To be added.</remarks>
+        <param name="g">A &lt;see cref="T:System.Windows.Forms.Design.Behavior.Glyph"&gt;.</param>
+        <param name="button">A &lt;xref:System.Windows.Forms.MouseButtons&gt; value indicating which button was clicked.</param>
+        <summary>Called when any mouse-up message enters the adorner window of the &lt;see cref="T:System.Windows.Forms.Design.Behavior.BehaviorService"&gt;.</summary>
+        <returns>`true` if the message was handled; otherwise, `false`.</returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ The <xref:System.Windows.Forms.Design.Behavior.Behavior.OnMouseDoubleClick%2A> method is called when any mouse-up message enters the `WndProc` of the adorner window of the <xref:System.Windows.Forms.Design.Behavior.BehaviorService>. The message is first passed here, to the top-most <xref:System.Windows.Forms.Design.Behavior.Behavior> in the behavior stack. Returning `true` from this method signifies that the message was handled by the <xref:System.Windows.Forms.Design.Behavior.Behavior> and should not continue to be processed. From here, the message is sent to the appropriate behavior.  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="OnQueryContinueDrag">
@@ -394,9 +528,9 @@
         <Parameter Name="e" Type="System.Windows.Forms.QueryContinueDragEventArgs" />
       </Parameters>
       <Docs>
-        <param name="g">To be added.</param>
-        <param name="e">To be added.</param>
-        <summary>To be added.</summary>
+        <param name="g">A &lt;see cref="T:System.Windows.Forms.Design.Behavior.Glyph"&gt;.</param>
+        <param name="e">A &lt;xref:System.Windows.Forms.QueryContinueDragEventArgs&gt; that contains the event data.</param>
+        <summary>Sends this drag-and-drop event from the adorner window to the appropriate &lt;see cref="T:System.Windows.Forms.Design.Behavior.Behavior"&gt; or hit-tested &lt;xref:System.Windows.Forms.Design.Behavior.Glyph&gt;.</summary>
         <remarks>To be added.</remarks>
       </Docs>
     </Member>

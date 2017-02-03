@@ -28,8 +28,89 @@
     </Attribute>
   </Attributes>
   <Docs>
-    <summary>To be added.</summary>
-    <remarks>To be added.</remarks>
+    <summary>Represents a time interval.  
+  
+ To browse the .NET Framework source code for this type, see the [Reference Source](http://referencesource.microsoft.com/#mscorlib/system/timespan.cs#865ef7b89f41b632).</summary>
+    <remarks>
+      <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+  
+> [!NOTE]
+>  To view the .NET Framework source code for this type, see the [Reference Source](http://referencesource.microsoft.com/#mscorlib/system/timespan.cs#865ef7b89f41b632). You can browse through the source code online, download the reference for offline viewing, and step through the sources (including patches and updates) during debugging; see [instructions](http://referencesource.microsoft.com/).  
+  
+ A TimeSpan object represents a time interval (duration of time or elapsed time) that is measured as a positive or negative number of days, hours, minutes, seconds, and fractions of a second. The TimeSpan structure can also be used to represent the time of day, but only if the time is unrelated to a particular date. Otherwise, the <xref:System.DateTime> or <xref:System.DateTimeOffset> structure should be used instead. (For more information about using the TimeSpan structure to reflect the time of day, see [Choosing Between DateTime, DateTimeOffset, TimeSpan, and TimeZoneInfo](../Topic/Choosing%20Between%20DateTime,%20DateTimeOffset,%20TimeSpan,%20and%20TimeZoneInfo.md).)  
+  
+> [!NOTE]
+>  A TimeSpan value represents a time interval and can be expressed as a particular number of days, hours, minutes, seconds, and milliseconds. Because it represents a general interval without reference to a particular start or end point, it cannot be expressed in terms of years and months, both of which have a variable number of days. It differs from a <xref:System.DateTime> value, which represents a date and time without reference to a particular time zone, or a <xref:System.DateTimeOffset> value, which represents a specific moment of time.  
+  
+ The largest unit of time that the TimeSpan structure uses to measure duration is a day. Time intervals are measured in days for consistency, because the number of days in larger units of time, such as months and years, varies.  
+  
+ The value of a TimeSpan object is the number of ticks that equal the represented time interval. A tick is equal to 100 nanoseconds, or one ten-millionth of a second. The value of a TimeSpan object can range from <xref:System.TimeSpan.MinValue?displayProperty=fullName> to <xref:System.TimeSpan.MaxValue?displayProperty=fullName>.  
+  
+## Instantiating a TimeSpan Value  
+ You can instantiate a TimeSpan value in a number of ways:  
+  
+-   By calling its implicit default constructor. This creates an object whose value is <xref:System.TimeSpan.Zero?displayProperty=fullName>, as the following example shows.  
+  
+     [!CODE [System.TimeSpan.Class#2](../CodeSnippet/VS_Snippets_CLR_System/system.timespan.class#2)]  
+  
+-   By calling one of its explicit constructors. The following example initializes a TimeSpan value to a specified number of hours, minutes, and seconds.  
+  
+     [!CODE [System.TimeSpan.Class#3](../CodeSnippet/VS_Snippets_CLR_System/system.timespan.class#3)]  
+  
+-   By calling a method or performing an operation that returns a TimeSpan value. For example, you can instantiate a TimeSpan value that represents the interval between two date and time values, as the following example shows.  
+  
+     [!CODE [System.TimeSpan.Class#4](../CodeSnippet/VS_Snippets_CLR_System/system.timespan.class#4)]  
+  
+     You can also initialize a TimeSpan object to a zero time value in this way, as the following example shows.  
+  
+     [!CODE [System.TimeSpan.Class#6](../CodeSnippet/VS_Snippets_CLR_System/system.timespan.class#6)]  
+  
+     TimeSpan values are returned by arithmetic operators and methods of the <xref:System.DateTime>, <xref:System.DateTimeOffset>, and TimeSpan structures.  
+  
+-   By parsing the string representation of a TimeSpan value. You can use the <xref:System.TimeSpan.Parse%2A> and <xref:System.TimeSpan.TryParse%2A> methods to convert strings that contain time intervals to TimeSpan values. The following example uses the <xref:System.TimeSpan.Parse%2A> method to convert an array of strings to TimeSpan values.  
+  
+     [!CODE [System.TimeSpan.Class#5](../CodeSnippet/VS_Snippets_CLR_System/system.timespan.class#5)]  
+  
+     In addition, you can define the precise format of the input string to be parsed and converted to a TimeSpan value by calling the <xref:System.TimeSpan.ParseExact%2A> or <xref:System.TimeSpan.TryParseExact%2A> method.  
+  
+## Performing Operations on TimeSpan Values  
+ You can add and subtract time durations either by using the <xref:System.TimeSpan.op_Addition%2A> and <xref:System.TimeSpan.op_Subtraction%2A> operators, or by calling the <xref:System.TimeSpan.Add%2A> and <xref:System.TimeSpan.Subtract%2A> methods. You can also compare two time durations by calling the <xref:System.TimeSpan.Compare%2A>, <xref:System.TimeSpan.CompareTo%2A>, and <xref:System.TimeSpan.Equals%2A> methods. The TimeSpan structure also includes the <xref:System.TimeSpan.Duration%2A> and <xref:System.TimeSpan.Negate%2A> methods, which convert time intervals to positive and negative values,  
+  
+ The range of TimeSpan values is <xref:System.TimeSpan.MinValue> to <xref:System.TimeSpan.MaxValue>.  
+  
+## Formatting a TimeSpan Value  
+ A TimeSpan value can be represented as [*-*]*d*.*hh*:*mm*:*ss*.*ff*, where the optional minus sign indicates a negative time interval, the *d* component is days, *hh* is hours as measured on a 24-hour clock, *mm* is minutes, *ss* is seconds, and *ff* is fractions of a second. That is, a time interval consists of a positive or negative number of days without a time of day, or a number of days with a time of day, or only a time of day.  
+  
+ Beginning with the [!INCLUDE[net_v40_long](../../add/includes/net-v40-long-md.md)], the TimeSpan structure supports culture-sensitive formatting through the overloads of its <xref:System.TimeSpan.ToString%2A> method, which converts a TimeSpan value to its string representation. The default <xref:System.TimeSpan.ToString?displayProperty=fullName> method returns a time interval by using an invariant format that is identical to its return value in previous versions of the .NET Framework. The <xref:System.TimeSpan.ToString%28System.String%29?displayProperty=fullName> overload lets you specify a format string that defines the string representation of the time interval. The <xref:System.TimeSpan.ToString%28System.String%2CSystem.IFormatProvider%29?displayProperty=fullName> overload lets you specify a format string and the culture whose formatting conventions are used to create the string representation of the time interval. TimeSpan supports both standard and custom format strings. (For more information, see [Standard TimeSpan Format Strings](../Topic/Standard%20TimeSpan%20Format%20Strings.md) and [Custom TimeSpan Format Strings](../Topic/Custom%20TimeSpan%20Format%20Strings.md).) However, only standard format strings are culture-sensitive.  
+  
+## Restoring Legacy TimeSpan Formatting  
+ In some cases, code that successfully formats TimeSpan values in [!INCLUDE[net_v35_short](../../add/includes/net-v35-short-md.md)] and earlier versions fails in [!INCLUDE[net_v40_short](../../add/includes/net-v40-short-md.md)]. This is most common in code that calls a [<TimeSpan_LegacyFormatMode> element](../Topic/%3CTimeSpan_LegacyFormatMode%3E%20Element.md) method to format a TimeSpan value with a format string. The following example successfully formats a TimeSpan value in [!INCLUDE[net_v35_short](../../add/includes/net-v35-short-md.md)] and earlier versions, but throws an exception in [!INCLUDE[net_v40_short](../../add/includes/net-v40-short-md.md)] and later versions. Note that it attempts to format a TimeSpan value by using an unsupported format specifier, which is ignored in [!INCLUDE[net_v35_short](../../add/includes/net-v35-short-md.md)] and earlier versions.  
+  
+ [!CODE [System.TimeSpan.Class.Legacy#1](../../add/codesnippet/system.timespan.class.md)]  
+  
+ If you cannot modify the code, you can restore the legacy formatting of TimeSpan values in one of the following ways:  
+  
+-   By creating a configuration file that contains the [<TimeSpan_LegacyFormatMode> element](../Topic/%3CTimeSpan_LegacyFormatMode%3E%20Element.md). Setting this element's `enabled` attribute to `true` restores legacy TimeSpan formatting on a per-application basis.  
+  
+-   By setting the "NetFx40_TimeSpanLegacyFormatMode" compatibility switch when you create an application domain. This enables legacy TimeSpan formatting on a per-application-domain basis. The following example creates an application domain that uses legacy TimeSpan formatting.  
+  
+     [!CODE [System.TimeSpan.Class.AppDomain#1](../../add/codesnippet/system.timespan.class.md)]  
+  
+     When the following code executes in the new application domain, it reverts to legacy TimeSpan formatting behavior.  
+  
+     [!CODE [System.TimeSpan.Class.AppDomain#2](../../add/codesnippet/system.timespan.class.md)]  
+  
+   
+  
+## Examples  
+ The following example instantiates a TimeSpan object that represents the difference between two dates. It then displays the TimeSpan object's properties.  
+  
+ [!CODE [System.TimeSpan.Class#1](../CodeSnippet/VS_Snippets_CLR_System/system.timespan.class#1)]  
+  
+ ]]></format>
+    </remarks>
   </Docs>
   <Members>
     <Member MemberName=".ctor">
@@ -43,9 +124,23 @@
         <Parameter Name="ticks" Type="System.Int64" />
       </Parameters>
       <Docs>
-        <param name="ticks">To be added.</param>
-        <summary>To be added.</summary>
-        <remarks>To be added.</remarks>
+        <param name="ticks">A time period expressed in 100-nanosecond units.</param>
+        <summary>Initializes a new instance of the &lt;see cref="T:System.TimeSpan"&gt; structure to the specified number of ticks.</summary>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ A single tick represents one hundred nanoseconds or one ten-millionth of a second. There are 10,000 ticks in a millisecond.  
+  
+   
+  
+## Examples  
+ The following example creates several <xref:System.TimeSpan> objects using the constructor overload that initializes a <xref:System.TimeSpan> to a specified number of ticks.  
+  
+ [!CODE [System.TimeSpan.Ctor#1](../CodeSnippet/VS_Snippets_CLR_System/system.TimeSpan.Ctor#1)]  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName=".ctor">
@@ -61,11 +156,25 @@
         <Parameter Name="seconds" Type="System.Int32" />
       </Parameters>
       <Docs>
-        <param name="hours">To be added.</param>
-        <param name="minutes">To be added.</param>
-        <param name="seconds">To be added.</param>
-        <summary>To be added.</summary>
-        <remarks>To be added.</remarks>
+        <param name="hours">Number of hours.</param>
+        <param name="minutes">Number of minutes.</param>
+        <param name="seconds">Number of seconds.</param>
+        <summary>Initializes a new instance of the &lt;see cref="T:System.TimeSpan"&gt; structure to a specified number of hours, minutes, and seconds.</summary>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ The specified , , and  are converted to ticks, and that value initializes this instance.  
+  
+   
+  
+## Examples  
+ The following example creates several <xref:System.TimeSpan> objects using the constructor overload that initializes a <xref:System.TimeSpan> to a specified number of hours, minutes, and seconds.  
+  
+ [!CODE [System.TimeSpan.Ctor#2](../CodeSnippet/VS_Snippets_CLR_System/system.TimeSpan.Ctor#2)]  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName=".ctor">
@@ -82,12 +191,26 @@
         <Parameter Name="seconds" Type="System.Int32" />
       </Parameters>
       <Docs>
-        <param name="days">To be added.</param>
-        <param name="hours">To be added.</param>
-        <param name="minutes">To be added.</param>
-        <param name="seconds">To be added.</param>
-        <summary>To be added.</summary>
-        <remarks>To be added.</remarks>
+        <param name="days">Number of days.</param>
+        <param name="hours">Number of hours.</param>
+        <param name="minutes">Number of minutes.</param>
+        <param name="seconds">Number of seconds.</param>
+        <summary>Initializes a new instance of the &lt;see cref="T:System.TimeSpan"&gt; structure to a specified number of days, hours, minutes, and seconds.</summary>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ The specified , , , and  are converted to ticks, and that value initializes this instance.  
+  
+   
+  
+## Examples  
+ The following example creates several <xref:System.TimeSpan> objects using the constructor overload that initializes a <xref:System.TimeSpan> to a specified number of days, hours, minutes, and seconds.  
+  
+ [!CODE [System.TimeSpan.Ctor#3](../CodeSnippet/VS_Snippets_CLR_System/system.TimeSpan.Ctor#3)]  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName=".ctor">
@@ -105,13 +228,27 @@
         <Parameter Name="milliseconds" Type="System.Int32" />
       </Parameters>
       <Docs>
-        <param name="days">To be added.</param>
-        <param name="hours">To be added.</param>
-        <param name="minutes">To be added.</param>
-        <param name="seconds">To be added.</param>
-        <param name="milliseconds">To be added.</param>
-        <summary>To be added.</summary>
-        <remarks>To be added.</remarks>
+        <param name="days">Number of days.</param>
+        <param name="hours">Number of hours.</param>
+        <param name="minutes">Number of minutes.</param>
+        <param name="seconds">Number of seconds.</param>
+        <param name="milliseconds">Number of milliseconds.</param>
+        <summary>Initializes a new instance of the &lt;see cref="T:System.TimeSpan"&gt; structure to a specified number of days, hours, minutes, seconds, and milliseconds.</summary>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ The specified , , , , and  are converted to ticks, and that value initializes this instance.  
+  
+   
+  
+## Examples  
+ The following example creates several <xref:System.TimeSpan> objects using the constructor overload that initializes a <xref:System.TimeSpan> to a specified number of days, hours, minutes, seconds, and milliseconds.  
+  
+ [!CODE [System.TimeSpan.Ctor#4](../CodeSnippet/VS_Snippets_CLR_System/system.TimeSpan.Ctor#4)]  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="Add">
@@ -128,10 +265,26 @@
         <Parameter Name="ts" Type="System.TimeSpan" />
       </Parameters>
       <Docs>
-        <param name="ts">To be added.</param>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
-        <remarks>To be added.</remarks>
+        <param name="ts">The time interval to add.</param>
+        <summary>Returns a new &lt;see cref="T:System.TimeSpan"&gt; object whose value is the sum of the specified &lt;see cref="T:System.TimeSpan"&gt; object and this instance.</summary>
+        <returns>A new object that represents the value of this instance plus the value of .</returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ The return value must be between <xref:System.TimeSpan?displayProperty=fullName> and <xref:System.TimeSpan?displayProperty=fullName>; otherwise, an exception is thrown.  
+  
+ The return value is a new <xref:System.TimeSpan>; the original <xref:System.TimeSpan> is not modified.  
+  
+   
+  
+## Examples  
+ The following example calls the Add method to add each element in an array of time intervals to a base <xref:System.TimeSpan> value.  
+  
+ [!CODE [System.TimeSpan.Add#1](../CodeSnippet/VS_Snippets_CLR_System/system.timespan.add#1)]  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="Compare">
@@ -149,11 +302,26 @@
         <Parameter Name="t2" Type="System.TimeSpan" />
       </Parameters>
       <Docs>
-        <param name="t1">To be added.</param>
-        <param name="t2">To be added.</param>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
-        <remarks>To be added.</remarks>
+        <param name="t1">The first time interval to compare.</param>
+        <param name="t2">The second time interval to compare.</param>
+        <summary>Compares two &lt;see cref="T:System.TimeSpan"&gt; values and returns an integer that indicates whether the first value is shorter than, equal to, or longer than the second value.</summary>
+        <returns>One of the following values.  
+  
+|Value|Description|  
+|-----------|-----------------|  
+|-1|is shorter than .|  
+|0|is equal to .|  
+|1|is longer than .|</returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Examples  
+ The following example uses the Compare method to compare several <xref:System.TimeSpan> objects with a <xref:System.TimeSpan> object whose value is a 2-hour time interval.  
+  
+ [!CODE [System.TimeSpan.Compare#1](../CodeSnippet/VS_Snippets_CLR_System/system.timespan.compare#1)]  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="CompareTo">
@@ -170,10 +338,32 @@
         <Parameter Name="value" Type="System.Object" />
       </Parameters>
       <Docs>
-        <param name="value">To be added.</param>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
-        <remarks>To be added.</remarks>
+        <param name="value">An object to compare, or `null`.</param>
+        <summary>Compares this instance to a specified object and returns an integer that indicates whether this instance is shorter than, equal to, or longer than the specified object.</summary>
+        <returns>One of the following values.  
+  
+|Value|Description|  
+|-----------|-----------------|  
+|-1|This instance is shorter than .|  
+|0|This instance is equal to .|  
+|1|This instance is longer than .&lt;br /&gt;&lt;br /&gt; -or-&lt;br /&gt;&lt;br /&gt; is `null`.|</returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ Any instance of <xref:System.TimeSpan>, regardless of its value, is considered greater than `null`.  
+  
+ The  parameter must be an instance of <xref:System.TimeSpan> or `null`; otherwise, an exception is thrown.  
+  
+   
+  
+## Examples  
+ The following example compares several <xref:System.TimeSpan> structures and other objects to a reference <xref:System.TimeSpan> structure using the CompareTo method.  
+  
+ [!CODE [System.TimeSpan.Compare_Equals#1](../CodeSnippet/VS_Snippets_CLR_System/system.TimeSpan.Compare_Equals#1)]  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="CompareTo">
@@ -190,10 +380,30 @@
         <Parameter Name="value" Type="System.TimeSpan" />
       </Parameters>
       <Docs>
-        <param name="value">To be added.</param>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
-        <remarks>To be added.</remarks>
+        <param name="value">An object to compare to this instance.</param>
+        <summary>Compares this instance to a specified &lt;see cref="T:System.TimeSpan"&gt; object and returns an integer that indicates whether this instance is shorter than, equal to, or longer than the &lt;see cref="T:System.TimeSpan"&gt; object.</summary>
+        <returns>A signed number indicating the relative values of this instance and .  
+  
+|Value|Description|  
+|-----------|-----------------|  
+|A negative integer|This instance is shorter than .|  
+|Zero|This instance is equal to .|  
+|A positive integer|This instance is longer than .|</returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ This method implements the <xref:System.IComparable%601?displayProperty=fullName> interface and performs slightly better than the <xref:System.TimeSpan.CompareTo%2A?displayProperty=fullName> method because it does not have to convert the  parameter to an object.  
+  
+   
+  
+## Examples  
+ The following example demonstrates generic and nongeneric versions of the <xref:System.TimeSpan.CompareTo%2A> method for several value and reference types.  
+  
+ [!CODE [T.CompareTo#1](../CodeSnippet/VS_Snippets_CLR/T.CompareTo#1)]  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="Days">
@@ -207,9 +417,25 @@
         <ReturnType>System.Int32</ReturnType>
       </ReturnValue>
       <Docs>
-        <summary>To be added.</summary>
-        <value>To be added.</value>
-        <remarks>To be added.</remarks>
+        <summary>Gets the days component of the time interval represented by the current &lt;see cref="T:System.TimeSpan"&gt; structure.</summary>
+        <value>The day component of this instance. The return value can be positive or negative.</value>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ A <xref:System.TimeSpan> value can be represented as [*-*]*d*.*hh*:*mm*:*ss*.*ff*, where the optional minus sign indicates a negative time interval, the *d* component is days, *hh* is hours as measured on a 24-hour clock, *mm* is minutes, *ss* is seconds, and *ff* is fractions of a second. The value of the Days property is the day component, *d*.  
+  
+ The Days property represents whole days, whereas the <xref:System.TimeSpan.TotalDays%2A> property represents whole and fractional days.  
+  
+   
+  
+## Examples  
+ The following example creates several <xref:System.TimeSpan> objects and displays the Days property of each.  
+  
+ [!CODE [System.TimeSpan.Properties#1](../CodeSnippet/VS_Snippets_CLR_System/system.TimeSpan.Properties#1)]  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="Duration">
@@ -224,9 +450,18 @@
       </ReturnValue>
       <Parameters />
       <Docs>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
-        <remarks>To be added.</remarks>
+        <summary>Returns a new &lt;see cref="T:System.TimeSpan"&gt; object whose value is the absolute value of the current &lt;see cref="T:System.TimeSpan"&gt; object.</summary>
+        <returns>A new object whose value is the absolute value of the current &lt;see cref="T:System.TimeSpan"&gt; object.</returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Examples  
+ The following example applies the Duration method to several <xref:System.TimeSpan> objects.  
+  
+ [!CODE [System.TimeSpan.Dura_Nega_Unary#1](../CodeSnippet/VS_Snippets_CLR_System/system.TimeSpan.Dura_Nega_Unary#1)]  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="Equals">
@@ -243,10 +478,19 @@
         <Parameter Name="value" Type="System.Object" />
       </Parameters>
       <Docs>
-        <param name="value">To be added.</param>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
-        <remarks>To be added.</remarks>
+        <param name="value">An object to compare with this instance.</param>
+        <summary>Returns a value indicating whether this instance is equal to a specified object.</summary>
+        <returns>`true` if  is a &lt;see cref="T:System.TimeSpan"&gt; object that represents the same time interval as the current &lt;see cref="T:System.TimeSpan"&gt; structure; otherwise, `false`.</returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Examples  
+ The following example compares several <xref:System.TimeSpan> and other objects to a reference <xref:System.TimeSpan> using the Equals method.  
+  
+ [!CODE [System.TimeSpan.Compare_Equals#1](../CodeSnippet/VS_Snippets_CLR_System/system.TimeSpan.Compare_Equals#1)]  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="Equals">
@@ -263,10 +507,24 @@
         <Parameter Name="obj" Type="System.TimeSpan" />
       </Parameters>
       <Docs>
-        <param name="obj">To be added.</param>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
-        <remarks>To be added.</remarks>
+        <param name="obj">An object to compare with this instance.</param>
+        <summary>Returns a value indicating whether this instance is equal to a specified &lt;see cref="T:System.TimeSpan"&gt; object.</summary>
+        <returns>`true` if  represents the same time interval as this instance; otherwise, `false`.</returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ This method implements the <xref:System.IEquatable%601?displayProperty=fullName> interface, and performs slightly better than <xref:System.TimeSpan.Equals%2A> because it does not have to convert the  parameter to an object.  
+  
+   
+  
+## Examples  
+ The following example demonstrates generic and nongeneric versions of the <xref:System.TimeSpan.CompareTo%2A> method for several value and reference types.  
+  
+ [!CODE [T.CompareTo#1](../CodeSnippet/VS_Snippets_CLR/T.CompareTo#1)]  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="Equals">
@@ -284,11 +542,20 @@
         <Parameter Name="t2" Type="System.TimeSpan" />
       </Parameters>
       <Docs>
-        <param name="t1">To be added.</param>
-        <param name="t2">To be added.</param>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
-        <remarks>To be added.</remarks>
+        <param name="t1">The first time interval to compare.</param>
+        <param name="t2">The second time interval to compare.</param>
+        <summary>Returns a value that indicates whether two specified instances of &lt;see cref="T:System.TimeSpan"&gt; are equal.</summary>
+        <returns>`true` if the values of  and  are equal; otherwise, `false`.</returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Examples  
+ The following example compares several <xref:System.TimeSpan> objects to a reference <xref:System.TimeSpan> object using the static Equals method.  
+  
+ [!CODE [System.TimeSpan.Compare_Equals#2](../CodeSnippet/VS_Snippets_CLR_System/system.TimeSpan.Compare_Equals#2)]  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="FromDays">
@@ -305,10 +572,26 @@
         <Parameter Name="value" Type="System.Double" />
       </Parameters>
       <Docs>
-        <param name="value">To be added.</param>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
-        <remarks>To be added.</remarks>
+        <param name="value">A number of days, accurate to the nearest millisecond.</param>
+        <summary>Returns a &lt;see cref="T:System.TimeSpan"&gt; that represents a specified number of days, where the specification is accurate to the nearest millisecond.</summary>
+        <returns>An object that represents .</returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ The  parameter is converted to milliseconds, which is converted to ticks, and that number of ticks is used to initialize the new <xref:System.TimeSpan>. Therefore,  will only be considered accurate to the nearest millisecond. Note that, because of the loss of precision of the <xref:System.Double> data type, this conversion can cause an <xref:System.OverflowException> for values that are near to but still in the range of either <xref:System.TimeSpan.MinValue> or <xref:System.TimeSpan.MaxValue>. For example, this causes an <xref:System.OverflowException> in the following attempt to instantiate a <xref:System.TimeSpan> object.  
+  
+ [!CODE [System.TimeSpan.FromMinutes#2](../CodeSnippet/VS_Snippets_CLR_System/system.TimeSpan.FromMinutes#2)]  
+  
+   
+  
+## Examples  
+ The following example creates several <xref:System.TimeSpan> objects using the FromDays method.  
+  
+ [!CODE [System.TimeSpan.From#6](../CodeSnippet/VS_Snippets_CLR_System/system.TimeSpan.From#6)]  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="FromHours">
@@ -325,10 +608,26 @@
         <Parameter Name="value" Type="System.Double" />
       </Parameters>
       <Docs>
-        <param name="value">To be added.</param>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
-        <remarks>To be added.</remarks>
+        <param name="value">A number of hours accurate to the nearest millisecond.</param>
+        <summary>Returns a &lt;see cref="T:System.TimeSpan"&gt; that represents a specified number of hours, where the specification is accurate to the nearest millisecond.</summary>
+        <returns>An object that represents .</returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ The  parameter is converted to milliseconds, which is converted to ticks, and that number of ticks is used to initialize the new <xref:System.TimeSpan>. Therefore,  will only be considered accurate to the nearest millisecond. Note that, because of the loss of precision of the <xref:System.Double> data type, this conversion can generate an <xref:System.OverflowException> for values that are near to but still in the range of either <xref:System.TimeSpan.MinValue> or <xref:System.TimeSpan.MaxValue>. For example, this causes an <xref:System.OverflowException> in the following attempt to instantiate a <xref:System.TimeSpan> object.  
+  
+ [!CODE [System.TimeSpan.FromMinutes#3](../CodeSnippet/VS_Snippets_CLR_System/system.TimeSpan.FromMinutes#3)]  
+  
+   
+  
+## Examples  
+ The following example creates several <xref:System.TimeSpan> objects using the FromHours method.  
+  
+ [!CODE [System.TimeSpan.From#5](../CodeSnippet/VS_Snippets_CLR_System/system.TimeSpan.From#5)]  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="FromMilliseconds">
@@ -345,10 +644,26 @@
         <Parameter Name="value" Type="System.Double" />
       </Parameters>
       <Docs>
-        <param name="value">To be added.</param>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
-        <remarks>To be added.</remarks>
+        <param name="value">A number of milliseconds.</param>
+        <summary>Returns a &lt;see cref="T:System.TimeSpan"&gt; that represents a specified number of milliseconds.</summary>
+        <returns>An object that represents .</returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ The  parameter is converted to ticks, and that number of ticks is used to initialize the new <xref:System.TimeSpan>. Therefore,  will only be considered accurate to the nearest millisecond. Note that, because of the loss of precision of the <xref:System.Double> data type, this conversion can generate an <xref:System.OverflowException> for values that are near to but still in the range of either <xref:System.TimeSpan.MinValue> or <xref:System.TimeSpan.MaxValue>. For example, this causes an <xref:System.OverflowException> in the following attempt to instantiate a <xref:System.TimeSpan> object.  
+  
+ [!CODE [System.TimeSpan.FromMinutes#4](../CodeSnippet/VS_Snippets_CLR_System/system.TimeSpan.FromMinutes#4)]  
+  
+   
+  
+## Examples  
+ The following example creates several <xref:System.TimeSpan> objects by using the FromMilliseconds method.  
+  
+ [!CODE [System.TimeSpan.From#2](../CodeSnippet/VS_Snippets_CLR_System/system.TimeSpan.From#2)]  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="FromMinutes">
@@ -365,10 +680,26 @@
         <Parameter Name="value" Type="System.Double" />
       </Parameters>
       <Docs>
-        <param name="value">To be added.</param>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
-        <remarks>To be added.</remarks>
+        <param name="value">A number of minutes, accurate to the nearest millisecond.</param>
+        <summary>Returns a &lt;see cref="T:System.TimeSpan"&gt; that represents a specified number of minutes, where the specification is accurate to the nearest millisecond.</summary>
+        <returns>An object that represents .</returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ The  parameter is converted to milliseconds, which is converted to ticks, and that number of ticks is used to initialize the new <xref:System.TimeSpan>. Therefore,  will only be considered accurate to the nearest millisecond. Note that, because of the loss of precision of the <xref:System.Double> data type, this conversion can generate an <xref:System.OverflowException> for values that are near to but still in the range of either <xref:System.TimeSpan.MinValue> or <xref:System.TimeSpan.MaxValue>. For example, this causes an <xref:System.OverflowException> in the following attempt to instantiate a <xref:System.TimeSpan> object.  
+  
+ [!CODE [System.TimeSpan.FromMinutes#1](../CodeSnippet/VS_Snippets_CLR_System/system.TimeSpan.FromMinutes#1)]  
+  
+   
+  
+## Examples  
+ The following example creates several <xref:System.TimeSpan> objects using the FromMinutes method.  
+  
+ [!CODE [System.TimeSpan.From#4](../CodeSnippet/VS_Snippets_CLR_System/system.TimeSpan.From#4)]  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="FromSeconds">
@@ -385,10 +716,26 @@
         <Parameter Name="value" Type="System.Double" />
       </Parameters>
       <Docs>
-        <param name="value">To be added.</param>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
-        <remarks>To be added.</remarks>
+        <param name="value">A number of seconds, accurate to the nearest millisecond.</param>
+        <summary>Returns a &lt;see cref="T:System.TimeSpan"&gt; that represents a specified number of seconds, where the specification is accurate to the nearest millisecond.</summary>
+        <returns>An object that represents .</returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ The  parameter is converted to milliseconds, which is converted to ticks, and that number of ticks is used to intialize the new <xref:System.TimeSpan>. Therefore,  will only be considered accurate to the nearest millisecond. Note that, because of the loss of precision of the <xref:System.Double> data type, this can generate an <xref:System.OverflowException> for values that are near but still in the range of either  <xref:System.TimeSpan.MinValue> or <xref:System.TimeSpan.MaxValue>, This is the cause of an <xref:System.OverflowException>, for example, in the following attempt to instantiate a <xref:System.TimeSpan> object.  
+  
+ [!CODE [System.TimeSpan.FromMinutes#5](../CodeSnippet/VS_Snippets_CLR_System/system.TimeSpan.FromMinutes#5)]  
+  
+   
+  
+## Examples  
+ The following example creates several <xref:System.TimeSpan> objects using the FromSeconds method.  
+  
+ [!CODE [System.TimeSpan.From#3](../CodeSnippet/VS_Snippets_CLR_System/system.TimeSpan.From#3)]  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="FromTicks">
@@ -405,10 +752,24 @@
         <Parameter Name="value" Type="System.Int64" />
       </Parameters>
       <Docs>
-        <param name="value">To be added.</param>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
-        <remarks>To be added.</remarks>
+        <param name="value">A number of ticks that represent a time.</param>
+        <summary>Returns a &lt;see cref="T:System.TimeSpan"&gt; that represents a specified time, where the specification is in units of ticks.</summary>
+        <returns>An object that represents .</returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ This is a convenience method with the same behavior as the <xref:System.TimeSpan.%23ctor%28System.Int64%29?displayProperty=fullName> constructor. A single tick represents one hundred nanoseconds or one ten-millionth of a second. There are 10,000 ticks in a millisecond.  
+  
+   
+  
+## Examples  
+ The following example creates several <xref:System.TimeSpan> objects using the FromTicks method.  
+  
+ [!CODE [System.TimeSpan.From#1](../CodeSnippet/VS_Snippets_CLR_System/system.TimeSpan.From#1)]  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="GetHashCode">
@@ -423,9 +784,23 @@
       </ReturnValue>
       <Parameters />
       <Docs>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
-        <remarks>To be added.</remarks>
+        <summary>Returns a hash code for this instance.</summary>
+        <returns>A 32-bit signed integer hash code.</returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ Two <xref:System.TimeSpan> objects might have the same hash code even though they represent different time values.  
+  
+   
+  
+## Examples  
+ The following example generates the hash codes of several <xref:System.TimeSpan> objects using the GetHashCode method.  
+  
+ [!CODE [System.TimeSpan.GetHashCode#1](../CodeSnippet/VS_Snippets_CLR_System/system.TimeSpan.GetHashCode#1)]  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="Hours">
@@ -439,9 +814,25 @@
         <ReturnType>System.Int32</ReturnType>
       </ReturnValue>
       <Docs>
-        <summary>To be added.</summary>
-        <value>To be added.</value>
-        <remarks>To be added.</remarks>
+        <summary>Gets the hours component of the time interval represented by the current &lt;see cref="T:System.TimeSpan"&gt; structure.</summary>
+        <value>The hour component of the current &lt;see cref="T:System.TimeSpan"&gt; structure. The return value ranges from -23 through 23.</value>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ A <xref:System.TimeSpan> value can be represented as [*-*]*d*.*hh*:*mm*:*ss*.*ff*, where the optional minus sign indicates a negative time interval, the *d* component is days, *hh* is hours as measured on a 24-hour clock, *mm* is minutes, *ss* is seconds, and *ff* is fractions of a second. The value of the Hours property is the hours component, *hh*.  
+  
+ The Hours property represents whole hours, whereas the <xref:System.TimeSpan.TotalHours%2A> property represents whole and fractional hours.  
+  
+   
+  
+## Examples  
+ The following example creates several <xref:System.TimeSpan> objects and displays the Hours property of each.  
+  
+ [!CODE [System.TimeSpan.Properties#1](../CodeSnippet/VS_Snippets_CLR_System/system.TimeSpan.Properties#1)]  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="MaxValue">
@@ -455,8 +846,22 @@
         <ReturnType>System.TimeSpan</ReturnType>
       </ReturnValue>
       <Docs>
-        <summary>To be added.</summary>
-        <remarks>To be added.</remarks>
+        <summary>Represents the maximum &lt;see cref="T:System.TimeSpan"&gt; value. This field is read-only.</summary>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ The value of this field is equivalent to <xref:System.Int64.MaxValue?displayProperty=fullName> ticks. The string representation of this value is positive 10675199.02:48:05.4775807, or slightly more than 10,675,199 days.  
+  
+   
+  
+## Examples  
+ The following example references and displays the value of the MaxValue field.  
+  
+ [!CODE [System.TimeSpan.Fields#1](../CodeSnippet/VS_Snippets_CLR_System/system.TimeSpan.Fields#1)]  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="Milliseconds">
@@ -470,9 +875,25 @@
         <ReturnType>System.Int32</ReturnType>
       </ReturnValue>
       <Docs>
-        <summary>To be added.</summary>
-        <value>To be added.</value>
-        <remarks>To be added.</remarks>
+        <summary>Gets the milliseconds component of the time interval represented by the current &lt;see cref="T:System.TimeSpan"&gt; structure.</summary>
+        <value>The millisecond component of the current &lt;see cref="T:System.TimeSpan"&gt; structure. The return value ranges from -999 through 999.</value>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ A <xref:System.TimeSpan> value can be represented as [*-*]*d*.*hh*:*mm*:*ss*.*ff*, where the optional minus sign indicates a negative time interval, the *d* component is days, *hh* is hours as measured on a 24-hour clock, *mm* is minutes, *ss* is seconds, and *ff* is fractions of a second. The value of the Milliseconds property is the fractional second component, *ff*.  
+  
+ The Milliseconds property represents whole milliseconds, whereas the <xref:System.TimeSpan.TotalMilliseconds%2A> property represents whole and fractional milliseconds.  
+  
+   
+  
+## Examples  
+ The following example creates several <xref:System.TimeSpan> objects and displays the Milliseconds property of each.  
+  
+ [!CODE [System.TimeSpan.Properties#1](../CodeSnippet/VS_Snippets_CLR_System/system.TimeSpan.Properties#1)]  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="Minutes">
@@ -486,9 +907,25 @@
         <ReturnType>System.Int32</ReturnType>
       </ReturnValue>
       <Docs>
-        <summary>To be added.</summary>
-        <value>To be added.</value>
-        <remarks>To be added.</remarks>
+        <summary>Gets the minutes component of the time interval represented by the current &lt;see cref="T:System.TimeSpan"&gt; structure.</summary>
+        <value>The minute component of the current &lt;see cref="T:System.TimeSpan"&gt; structure. The return value ranges from -59 through 59.</value>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ A <xref:System.TimeSpan> value can be represented as [*-*]*d*.*hh*:*mm*:*ss*.*ff*, where the optional minus sign indicates a negative time interval, the *d* component is days, *hh* is hours as measured on a 24-hour clock, *mm* is minutes, *ss* is seconds, and *ff* is fractions of a second. The value of the Minutes property is the minute component, *mm*.  
+  
+ The Minutes property represents whole minutes, whereas the <xref:System.TimeSpan.TotalMinutes%2A> property represents whole and fractional minutes.  
+  
+   
+  
+## Examples  
+ The following example creates several <xref:System.TimeSpan> objects and displays the Minutes property of each.  
+  
+ [!CODE [System.TimeSpan.Properties#1](../CodeSnippet/VS_Snippets_CLR_System/system.TimeSpan.Properties#1)]  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="MinValue">
@@ -502,8 +939,22 @@
         <ReturnType>System.TimeSpan</ReturnType>
       </ReturnValue>
       <Docs>
-        <summary>To be added.</summary>
-        <remarks>To be added.</remarks>
+        <summary>Represents the minimum &lt;see cref="T:System.TimeSpan"&gt; value. This field is read-only.</summary>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ The value of this field is equivalent to <xref:System.Int64.MinValue?displayProperty=fullName> ticks. The string representation of this value is negative 10675199.02:48:05.4775808, or slightly more than negative 10,675,199 days.  
+  
+   
+  
+## Examples  
+ The following example references and displays the value of the MinValue field.  
+  
+ [!CODE [System.TimeSpan.Fields#1](../CodeSnippet/VS_Snippets_CLR_System/system.TimeSpan.Fields#1)]  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="Negate">
@@ -518,9 +969,18 @@
       </ReturnValue>
       <Parameters />
       <Docs>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
-        <remarks>To be added.</remarks>
+        <summary>Returns a new &lt;see cref="T:System.TimeSpan"&gt; object whose value is the negated value of this instance.</summary>
+        <returns>A new object with the same numeric value as this instance, but with the opposite sign.</returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Examples  
+ The following example applies the Negate method to several <xref:System.TimeSpan> objects.  
+  
+ [!CODE [System.TimeSpan.Dura_Nega_Unary#1](../CodeSnippet/VS_Snippets_CLR_System/system.TimeSpan.Dura_Nega_Unary#1)]  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="op_Addition">
@@ -538,11 +998,22 @@
         <Parameter Name="t2" Type="System.TimeSpan" />
       </Parameters>
       <Docs>
-        <param name="t1">To be added.</param>
-        <param name="t2">To be added.</param>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
-        <remarks>To be added.</remarks>
+        <param name="t1">The first time interval to add.</param>
+        <param name="t2">The second time interval to add.</param>
+        <summary>Adds two specified &lt;see cref="T:System.TimeSpan"&gt; instances.</summary>
+        <returns>An object whose value is the sum of the values of  and .</returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ The Addition method defines the addition operator for <xref:System.TimeSpan> values. It enables code such as the following:  
+  
+ [!CODE [System.TimeSpan.Operators#1](../CodeSnippet/VS_Snippets_CLR_System/system.timespan.operators#1)]  
+  
+ Languages that do not support custom operators can call the <xref:System.TimeSpan.Add%2A> method instead.  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="op_Equality">
@@ -560,11 +1031,20 @@
         <Parameter Name="t2" Type="System.TimeSpan" />
       </Parameters>
       <Docs>
-        <param name="t1">To be added.</param>
-        <param name="t2">To be added.</param>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
-        <remarks>To be added.</remarks>
+        <param name="t1">The first time interval to compare.</param>
+        <param name="t2">The second time interval to compare.</param>
+        <summary>Indicates whether two &lt;see cref="T:System.TimeSpan"&gt; instances are equal.</summary>
+        <returns>`true` if the values of  and  are equal; otherwise, `false`.</returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Examples  
+ The following example compares several <xref:System.TimeSpan> objects to a reference <xref:System.TimeSpan> using the Equality operator.  
+  
+ [!CODE [System.TimeSpan.RelationalOps#1](../CodeSnippet/VS_Snippets_CLR_System/system.TimeSpan.RelationalOps#1)]  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="op_GreaterThan">
@@ -582,11 +1062,20 @@
         <Parameter Name="t2" Type="System.TimeSpan" />
       </Parameters>
       <Docs>
-        <param name="t1">To be added.</param>
-        <param name="t2">To be added.</param>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
-        <remarks>To be added.</remarks>
+        <param name="t1">The first time interval to compare.</param>
+        <param name="t2">The second time interval to compare.</param>
+        <summary>Indicates whether a specified &lt;see cref="T:System.TimeSpan"&gt; is greater than another specified &lt;see cref="T:System.TimeSpan"&gt;.</summary>
+        <returns>`true` if the value of  is greater than the value of ; otherwise, `false`.</returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Examples  
+ The following example compares several <xref:System.TimeSpan> objects to a reference <xref:System.TimeSpan> using the GreaterThan operator.  
+  
+ [!CODE [System.TimeSpan.RelationalOps#1](../CodeSnippet/VS_Snippets_CLR_System/system.TimeSpan.RelationalOps#1)]  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="op_GreaterThanOrEqual">
@@ -604,11 +1093,20 @@
         <Parameter Name="t2" Type="System.TimeSpan" />
       </Parameters>
       <Docs>
-        <param name="t1">To be added.</param>
-        <param name="t2">To be added.</param>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
-        <remarks>To be added.</remarks>
+        <param name="t1">The first time interval to compare.</param>
+        <param name="t2">The second time interval to compare.</param>
+        <summary>Indicates whether a specified &lt;see cref="T:System.TimeSpan"&gt; is greater than or equal to another specified &lt;see cref="T:System.TimeSpan"&gt;.</summary>
+        <returns>`true` if the value of  is greater than or equal to the value of ; otherwise, `false`.</returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Examples  
+ The following example compares several <xref:System.TimeSpan> objects to a reference <xref:System.TimeSpan> using the GreaterThanOrEqual operator.  
+  
+ [!CODE [System.TimeSpan.RelationalOps#1](../CodeSnippet/VS_Snippets_CLR_System/system.TimeSpan.RelationalOps#1)]  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="op_Inequality">
@@ -626,11 +1124,20 @@
         <Parameter Name="t2" Type="System.TimeSpan" />
       </Parameters>
       <Docs>
-        <param name="t1">To be added.</param>
-        <param name="t2">To be added.</param>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
-        <remarks>To be added.</remarks>
+        <param name="t1">The first time interval to compare.</param>
+        <param name="t2">The second time interval to compare.</param>
+        <summary>Indicates whether two &lt;see cref="T:System.TimeSpan"&gt; instances are not equal.</summary>
+        <returns>`true` if the values of  and  are not equal; otherwise, `false`.</returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Examples  
+ The following example compares several <xref:System.TimeSpan> objects to a reference <xref:System.TimeSpan> using the Inequality operator.  
+  
+ [!CODE [System.TimeSpan.RelationalOps#1](../CodeSnippet/VS_Snippets_CLR_System/system.TimeSpan.RelationalOps#1)]  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="op_LessThan">
@@ -648,11 +1155,20 @@
         <Parameter Name="t2" Type="System.TimeSpan" />
       </Parameters>
       <Docs>
-        <param name="t1">To be added.</param>
-        <param name="t2">To be added.</param>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
-        <remarks>To be added.</remarks>
+        <param name="t1">The first time interval to compare.</param>
+        <param name="t2">The second time interval to compare.</param>
+        <summary>Indicates whether a specified &lt;see cref="T:System.TimeSpan"&gt; is less than another specified &lt;see cref="T:System.TimeSpan"&gt;.</summary>
+        <returns>`true` if the value of  is less than the value of ; otherwise, `false`.</returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Examples  
+ The following example compares several <xref:System.TimeSpan> objects to a reference <xref:System.TimeSpan> using the LessThan operator.  
+  
+ [!CODE [System.TimeSpan.RelationalOps#1](../CodeSnippet/VS_Snippets_CLR_System/system.TimeSpan.RelationalOps#1)]  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="op_LessThanOrEqual">
@@ -670,11 +1186,20 @@
         <Parameter Name="t2" Type="System.TimeSpan" />
       </Parameters>
       <Docs>
-        <param name="t1">To be added.</param>
-        <param name="t2">To be added.</param>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
-        <remarks>To be added.</remarks>
+        <param name="t1">The first time interval to compare.</param>
+        <param name="t2">The second time interval to compare.</param>
+        <summary>Indicates whether a specified &lt;see cref="T:System.TimeSpan"&gt; is less than or equal to another specified &lt;see cref="T:System.TimeSpan"&gt;.</summary>
+        <returns>`true` if the value of  is less than or equal to the value of ; otherwise, `false`.</returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Examples  
+ The following example compares several <xref:System.TimeSpan> objects to a reference <xref:System.TimeSpan> using the LessThanOrEqual operator.  
+  
+ [!CODE [System.TimeSpan.RelationalOps#1](../CodeSnippet/VS_Snippets_CLR_System/system.TimeSpan.RelationalOps#1)]  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="op_Subtraction">
@@ -692,11 +1217,20 @@
         <Parameter Name="t2" Type="System.TimeSpan" />
       </Parameters>
       <Docs>
-        <param name="t1">To be added.</param>
-        <param name="t2">To be added.</param>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
-        <remarks>To be added.</remarks>
+        <param name="t1">The minuend.</param>
+        <param name="t2">The subtrahend.</param>
+        <summary>Subtracts a specified &lt;see cref="T:System.TimeSpan"&gt; from another specified &lt;see cref="T:System.TimeSpan"&gt;.</summary>
+        <returns>An object whose value is the result of the value of  minus the value of .</returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Examples  
+ The following example uses the <xref:System.TimeSpan> subtraction operator to calculate the total length of the weekly work day. It also uses the <xref:System.TimeSpan> addition operator to compute the total time of the daily breaks before using it in a subtraction operation to compute the total actual daily working time.  
+  
+ [!CODE [System.TimeSpan.Operators#2](../CodeSnippet/VS_Snippets_CLR_System/system.timespan.operators#2)]  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="op_UnaryNegation">
@@ -713,10 +1247,19 @@
         <Parameter Name="t" Type="System.TimeSpan" />
       </Parameters>
       <Docs>
-        <param name="t">To be added.</param>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
-        <remarks>To be added.</remarks>
+        <param name="t">The time interval to be negated.</param>
+        <summary>Returns a &lt;see cref="T:System.TimeSpan"&gt; whose value is the negated value of the specified instance.</summary>
+        <returns>An object that has the same numeric value as this instance, but the opposite sign.</returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Examples  
+ The following example applies the UnaryNegation operator to several <xref:System.TimeSpan> objects.  
+  
+ [!CODE [System.TimeSpan.Dura_Nega_Unary#1](../CodeSnippet/VS_Snippets_CLR_System/system.TimeSpan.Dura_Nega_Unary#1)]  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="op_UnaryPlus">
@@ -733,10 +1276,19 @@
         <Parameter Name="t" Type="System.TimeSpan" />
       </Parameters>
       <Docs>
-        <param name="t">To be added.</param>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
-        <remarks>To be added.</remarks>
+        <param name="t">The time interval to return.</param>
+        <summary>Returns the specified instance of &lt;see cref="T:System.TimeSpan"&gt;.</summary>
+        <returns>The time interval specified by .</returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Examples  
+ The following example applies the UnaryPlus operator to several <xref:System.TimeSpan> objects.  
+  
+ [!CODE [System.TimeSpan.Dura_Nega_Unary#1](../CodeSnippet/VS_Snippets_CLR_System/system.TimeSpan.Dura_Nega_Unary#1)]  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="Parse">
@@ -753,10 +1305,45 @@
         <Parameter Name="s" Type="System.String" />
       </Parameters>
       <Docs>
-        <param name="s">To be added.</param>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
-        <remarks>To be added.</remarks>
+        <param name="s">A string that specifies the time interval to convert.</param>
+        <summary>Converts the string representation of a time interval to its &lt;see cref="T:System.TimeSpan"&gt; equivalent.</summary>
+        <returns>A time interval that corresponds to .</returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ The  parameter contains a time interval specification in the form:  
+  
+ [*ws*][-]{ *d* &#124; [*d*.]*hh*:*mm*[:*ss*[.*ff*]] }[*ws*]  
+  
+ Elements in square brackets ([ and ]) are optional. One selection from the list of alternatives enclosed in braces ({ and }) and separated by vertical bars (&#124;) is required. The following table describes each element.  
+  
+|Element|Description|  
+|-------------|-----------------|  
+|*ws*|Optional white space.|  
+|-|An optional minus sign, which indicates a negative <xref:System.TimeSpan>.|  
+|*d*|Days, ranging from 0 to 10675199.|  
+|.|A culture-sensitive symbol that separates days from hours. The invariant format uses a period (".") character.|  
+|*hh*|Hours, ranging from 0 to 23.|  
+|:|The culture-sensitive time separator symbol. The invariant format uses a colon (":") character.|  
+|*mm*|Minutes, ranging from 0 to 59.|  
+|*ss*|Optional seconds, ranging from 0 to 59.|  
+|*.*|A culture-sensitive symbol that separates seconds from fractions of a second. The invariant format uses a period (".") character.|  
+|*ff*|Optional fractional seconds, consisting of one to seven decimal digits.|  
+  
+ The components of  must collectively specify a time interval that is greater than or equal to <xref:System.TimeSpan?displayProperty=fullName> and less than or equal to <xref:System.TimeSpan?displayProperty=fullName>.  
+  
+ The Parse method tries to parse  by using each of the culture-specific formats for the current culture.  
+  
+   
+  
+## Examples  
+ The following example uses the Parse method to convert each element in a string array to a <xref:System.TimeSpan> value. It changes the current system culture to Croatian - Croatia ("hr-HR") and English - United States ("en-US") to illustrate how the current system culture affects the parsing operation.  
+  
+ [!CODE [System.TimeSpan.Parse#1](../CodeSnippet/VS_Snippets_CLR_System/system.timespan.parse#1)]  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="Parse">
@@ -774,11 +1361,56 @@
         <Parameter Name="formatProvider" Type="System.IFormatProvider" />
       </Parameters>
       <Docs>
-        <param name="input">To be added.</param>
-        <param name="formatProvider">To be added.</param>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
-        <remarks>To be added.</remarks>
+        <param name="input">A string that specifies the time interval to convert.</param>
+        <param name="formatProvider">An object that supplies culture-specific formatting information.</param>
+        <summary>Converts the string representation of a time interval to its &lt;see cref="T:System.TimeSpan"&gt; equivalent by using the specified culture-specific format information.</summary>
+        <returns>A time interval that corresponds to , as specified by .</returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ The  parameter contains a time interval specification in the form:  
+  
+ [*ws*][-]{ *d* &#124; [*d*.]*hh*:*mm*[:*ss*[.*ff*]] }[*ws*]  
+  
+ Elements in square brackets ([ and ]) are optional; one selection from the list of alternatives enclosed in braces ({ and }) and separated by vertical bars (&#124;) is required. The following table describes each element.  
+  
+|Element|Description|  
+|-------------|-----------------|  
+|*ws*|Optional white space.|  
+|-|An optional minus sign, which indicates a negative <xref:System.TimeSpan>.|  
+|*d*|Days, ranging from 0 to 10675199.|  
+|.|A culture-sensitive symbol that separates days from hours. The default value is a period (".") character.|  
+|*hh*|Hours, ranging from 0 to 23.|  
+|:|The culture-sensitive time separator symbol.|  
+|*mm*|Minutes, ranging from 0 to 59.|  
+|*ss*|Optional seconds, ranging from 0 to 59.|  
+|.|A culture-sensitive symbol that separates seconds from fractions of a second. The default value is a period (".") character.|  
+|*ff*|Optional fractional seconds, consisting of one to seven decimal digits.|  
+  
+ The components of  must collectively specify a time interval that is greater than or equal to <xref:System.TimeSpan?displayProperty=fullName> and less than or equal to <xref:System.TimeSpan?displayProperty=fullName>.  
+  
+ The <xref:System.TimeSpan.Parse%28System.String%29> method tries to parse  by using each of the culture-specific formats for the culture specified by .  
+  
+ The  parameter is an <xref:System.IFormatProvider> implementation that provides culture-specific information about the format of the returned string. The  parameter can be any of the following:  
+  
+-   A <xref:System.Globalization.CultureInfo> object that represents the culture whose formatting conventions are to be reflected in the returned string. The <xref:System.Globalization.DateTimeFormatInfo> object returned by the <xref:System.Globalization.CultureInfo.DateTimeFormat%2A?displayProperty=fullName> property defines the formatting of the returned string.  
+  
+-   A <xref:System.Globalization.DateTimeFormatInfo> object that defines the formatting of the returned string.  
+  
+-   A custom object that implements the <xref:System.IFormatProvider> interface. Its <xref:System.IFormatProvider.GetFormat%2A?displayProperty=fullName> method returns a <xref:System.Globalization.DateTimeFormatInfo> object that provides formatting information.  
+  
+ If  is `null`, the <xref:System.Globalization.DateTimeFormatInfo> object that is associated with the current culture is used.  
+  
+   
+  
+## Examples  
+ The following example defines an array of <xref:System.Globalization.CultureInfo> objects, and uses each object in calls to the Parse method to parse the elements in a string array. The example illustrates how the conventions of a specific culture influence the formatting operation.  
+  
+ [!CODE [System.TimeSpan.Parse#2](../CodeSnippet/VS_Snippets_CLR_System/system.timespan.parse#2)]  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="ParseExact">
@@ -797,12 +1429,41 @@
         <Parameter Name="formatProvider" Type="System.IFormatProvider" />
       </Parameters>
       <Docs>
-        <param name="input">To be added.</param>
-        <param name="format">To be added.</param>
-        <param name="formatProvider">To be added.</param>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
-        <remarks>To be added.</remarks>
+        <param name="input">A string that specifies the time interval to convert.</param>
+        <param name="format">A standard or custom format string that defines the required format of .</param>
+        <param name="formatProvider">An object that provides culture-specific formatting information.</param>
+        <summary>Converts the string representation of a time interval to its &lt;see cref="T:System.TimeSpan"&gt; equivalent by using the specified format and culture-specific format information. The format of the string representation must match the specified format exactly.</summary>
+        <returns>A time interval that corresponds to , as specified by  and .</returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ The ParseExact method parses the string representation of a time interval, which must be in the format defined by the  parameter, except that leading and trailing white-space characters are ignored. Because  must conform to the format of  exactly, you should always use exception handling when converting a string input by the user to a time interval. If you prefer not to use exception handling, you can call the <xref:System.TimeSpan.TryParseExact%28System.String%2CSystem.String%2CSystem.IFormatProvider%2CSystem.TimeSpan%40%29> method instead.  
+  
+ The  parameter is a string that contains either a single standard format specifier, or one or more custom format specifiers that define the required format of . For more information about valid format strings, see [Standard TimeSpan Format Strings](../Topic/Standard%20TimeSpan%20Format%20Strings.md) and [Custom TimeSpan Format Strings](../Topic/Custom%20TimeSpan%20Format%20Strings.md).  
+  
+> [!IMPORTANT]
+>  The ParseExact method uses the conventions of the culture specified by the  parameter only if  is a standard <xref:System.TimeSpan> format string whose value is either "g" or "G". The "c", "t", and "T" standard format strings use the formatting conventions of the invariant culture. Custom format strings define the precise format of the input string and use literal characters to separate the components of a time interval.  
+  
+ The  parameter is an <xref:System.IFormatProvider> implementation that provides culture-specific information about the format of the returned string if  is a standard format string. The  parameter can be any of the following:  
+  
+-   A <xref:System.Globalization.CultureInfo> object that represents the culture whose formatting conventions are to be reflected in the returned string. The <xref:System.Globalization.DateTimeFormatInfo> object returned by the <xref:System.Globalization.CultureInfo.DateTimeFormat%2A?displayProperty=fullName> property defines the formatting of the returned string.  
+  
+-   A <xref:System.Globalization.DateTimeFormatInfo> object that defines the formatting of the returned string.  
+  
+-   A custom object that implements the <xref:System.IFormatProvider> interface. Its <xref:System.IFormatProvider.GetFormat%2A?displayProperty=fullName> method returns a <xref:System.Globalization.DateTimeFormatInfo> object that provides formatting information.  
+  
+ If  is `null`, the <xref:System.Globalization.DateTimeFormatInfo> object that is associated with the current culture is used.  
+  
+   
+  
+## Examples  
+ The following example uses the ParseExact method to parse several string representations of time intervals using various format strings and cultures.  
+  
+ [!CODE [System.TimeSpan.ParseExact#1](../CodeSnippet/VS_Snippets_CLR_System/system.timespan.parseexact#1)]  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="ParseExact">
@@ -821,12 +1482,43 @@
         <Parameter Name="formatProvider" Type="System.IFormatProvider" />
       </Parameters>
       <Docs>
-        <param name="input">To be added.</param>
-        <param name="formats">To be added.</param>
-        <param name="formatProvider">To be added.</param>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
-        <remarks>To be added.</remarks>
+        <param name="input">A string that specifies the time interval to convert.</param>
+        <param name="formats">A array of standard or custom format strings that defines the required format of .</param>
+        <param name="formatProvider">An object that provides culture-specific formatting information.</param>
+        <summary>Converts the string representation of a time interval to its &lt;see cref="T:System.TimeSpan"&gt; equivalent by using the specified array of format strings and culture-specific format information. The format of the string representation must match one of the specified formats exactly.</summary>
+        <returns>A time interval that corresponds to , as specified by  and .</returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ The <xref:System.TimeSpan.ParseExact%28System.String%2CSystem.String%2CSystem.IFormatProvider%29> method parses the string representation of a time interval, which must be in one of the formats defined by the  parameter, except that leading and trailing white-space characters are ignored. Because  must exactly conform to one of the formats specified in , you should always use exception handling when converting a string input by the user to a time interval. If you prefer not to use exception handling, you can call the [TryParseExact(String, String\[\], IFormatProvider, TimeSpan)](assetId:///M:System.TimeSpan.TryParseExact(System.String,System.String[],System.IFormatProvider,System.TimeSpan@)?qualifyHint=False&autoUpgrade=False) method instead.  
+  
+ The  parameter is a string array whose elements consist of either a single standard format specifier, or one or more custom format specifiers that define the required format of . For more information about valid format strings, see [Standard TimeSpan Format Strings](../Topic/Standard%20TimeSpan%20Format%20Strings.md) and [Custom TimeSpan Format Strings](../Topic/Custom%20TimeSpan%20Format%20Strings.md).  must correspond exactly to a member of  for the parse operation to succeed. The parse operation attempts to match  to each element in  starting with the first element in the array.  
+  
+> [!IMPORTANT]
+>  The <xref:System.TimeSpan.ParseExact%2A> method uses the conventions of the culture specified by the  parameter only if the format string used to parse  is a standard <xref:System.TimeSpan> format string whose value is either "g" or "G". The "c", "t", and "T" standard format strings use the formatting conventions of the invariant culture. Custom format strings define the precise format of the input string and use literal characters to separate the components of a time interval.  
+  
+ The  parameter is an <xref:System.IFormatProvider> implementation that provides culture-specific information about the format of the returned string if the format string used to parse  is a standard format string. The  parameter can be any of the following:  
+  
+-   A <xref:System.Globalization.CultureInfo> object that represents the culture whose formatting conventions are to be reflected in the returned string. The <xref:System.Globalization.DateTimeFormatInfo> object returned by the <xref:System.Globalization.CultureInfo.DateTimeFormat%2A?displayProperty=fullName> property defines the formatting of the returned string.  
+  
+-   A <xref:System.Globalization.DateTimeFormatInfo> object that defines the formatting of the returned string.  
+  
+-   A custom object that implements the <xref:System.IFormatProvider> interface. Its <xref:System.IFormatProvider.GetFormat%2A?displayProperty=fullName> method returns a <xref:System.Globalization.DateTimeFormatInfo> object that provides formatting information.  
+  
+ If  is `null`, the <xref:System.Globalization.DateTimeFormatInfo> object that is associated with the current culture is used.  
+  
+   
+  
+## Examples  
+ The following example calls the ParseExact method to convert each element of a string array to a <xref:System.TimeSpan> value. The example interprets the strings using the formatting conventions of the French - France ("fr-FR") culture. The strings can represent a time interval in either the general short format or the general long format.  
+  
+ In addition, the example changes the way in which the time interval parsing methods interpret a single digit. Ordinarily, a single digit is interpreted as the number of days in a time interval. Instead, the `%h` custom format string is used to interpret a single digit as the number of hours. For this change to be effective, note that the `%h` custom format string must precede the other format strings in the `formats` array.  
+  
+ [!CODE [System.TimeSpan.ParseExact#3](../CodeSnippet/VS_Snippets_CLR_System/system.timespan.parseexact#3)]  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="ParseExact">
@@ -846,13 +1538,44 @@
         <Parameter Name="styles" Type="System.Globalization.TimeSpanStyles" />
       </Parameters>
       <Docs>
-        <param name="input">To be added.</param>
-        <param name="format">To be added.</param>
-        <param name="formatProvider">To be added.</param>
-        <param name="styles">To be added.</param>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
-        <remarks>To be added.</remarks>
+        <param name="input">A string that specifies the time interval to convert.</param>
+        <param name="format">A standard or custom format string that defines the required format of .</param>
+        <param name="formatProvider">An object that provides culture-specific formatting information.</param>
+        <param name="styles">A bitwise combination of enumeration values that defines the style elements that may be present in .</param>
+        <summary>Converts the string representation of a time interval to its &lt;see cref="T:System.TimeSpan"&gt; equivalent by using the specified format, culture-specific format information, and styles. The format of the string representation must match the specified format exactly.</summary>
+        <returns>A time interval that corresponds to , as specified by , , and .</returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ The ParseExact method parses the string representation of a time interval, which must be in the format defined by the  parameter, except that leading and trailing white-space characters are ignored. Because  must conform to the format of  exactly, you should always use exception handling when converting a string input by the user to a time interval. If you prefer not to use exception handling, you can call the <xref:System.TimeSpan.TryParseExact%28System.String%2CSystem.String%2CSystem.IFormatProvider%2CSystem.Globalization.TimeSpanStyles%2CSystem.TimeSpan%40%29> method instead.  
+  
+ The  parameter is a string that contains either a single standard format specifier, or one or more custom format specifiers that define the required format of . For more information about valid format strings, see [Standard TimeSpan Format Strings](../Topic/Standard%20TimeSpan%20Format%20Strings.md) and [Custom TimeSpan Format Strings](../Topic/Custom%20TimeSpan%20Format%20Strings.md).  
+  
+> [!IMPORTANT]
+>  The <xref:System.TimeSpan.ParseExact%2A> method uses the conventions of the culture specified by the  parameter only if  is a standard <xref:System.TimeSpan> format string whose value is either "g" or "G". The "c", "t", and "T" standard format strings use the formatting conventions of the invariant culture. Custom format strings define the precise format of the input string and use literal characters to separate the components of a time interval.  
+  
+ The  parameter is an <xref:System.IFormatProvider> implementation that provides culture-specific information about the format of the returned string if  is a standard format string. The  parameter can be any of the following:  
+  
+-   A <xref:System.Globalization.CultureInfo> object that represents the culture whose formatting conventions are to be reflected in the returned string. The <xref:System.Globalization.DateTimeFormatInfo> object returned by the <xref:System.Globalization.CultureInfo.DateTimeFormat%2A?displayProperty=fullName> property defines the formatting of the returned string.  
+  
+-   A <xref:System.Globalization.DateTimeFormatInfo> object that defines the formatting of the returned string.  
+  
+-   A custom object that implements the <xref:System.IFormatProvider> interface. Its <xref:System.IFormatProvider.GetFormat%2A?displayProperty=fullName> method returns a <xref:System.Globalization.DateTimeFormatInfo> object that provides formatting information.  
+  
+ If  is `null`, the <xref:System.Globalization.DateTimeFormatInfo> object that is associated with the current culture is used.  
+  
+ The  parameter affects the interpretation of strings that are parsed using custom format strings. It determines whether  is interpreted as a negative time interval only if a negative sign is present (<xref:System.Globalization.TimeSpanStyles?displayProperty=fullName>), or whether it is always interpreted as a negative time interval (<xref:System.Globalization.TimeSpanStyles?displayProperty=fullName>). If <xref:System.Globalization.TimeSpanStyles?displayProperty=fullName> is not used,  must include a literal negative sign symbol (such as "\\-") to successfully parse a negative time interval.  
+  
+   
+  
+## Examples  
+ The following example uses the <xref:System.TimeSpan.ParseExact%28System.String%2CSystem.String%2CSystem.IFormatProvider%29> method to parse several string representations of time intervals using various format strings and cultures. It also uses the <xref:System.Globalization.TimeSpanStyles?displayProperty=fullName> value to interpret each string as a negative time interval. The output from the example illustrates that the <xref:System.Globalization.TimeSpanStyles?displayProperty=fullName> style affects the return value only when it is used with custom format strings.  
+  
+ [!CODE [System.TimeSpan.ParseExact#2](../CodeSnippet/VS_Snippets_CLR_System/system.timespan.parseexact#2)]  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="ParseExact">
@@ -872,13 +1595,46 @@
         <Parameter Name="styles" Type="System.Globalization.TimeSpanStyles" />
       </Parameters>
       <Docs>
-        <param name="input">To be added.</param>
-        <param name="formats">To be added.</param>
-        <param name="formatProvider">To be added.</param>
-        <param name="styles">To be added.</param>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
-        <remarks>To be added.</remarks>
+        <param name="input">A string that specifies the time interval to convert.</param>
+        <param name="formats">A array of standard or custom format strings that define the required format of .</param>
+        <param name="formatProvider">An object that provides culture-specific formatting information.</param>
+        <param name="styles">A bitwise combination of enumeration values that defines the style elements that may be present in input.</param>
+        <summary>Converts the string representation of a time interval to its &lt;see cref="T:System.TimeSpan"&gt; equivalent by using the specified formats, culture-specific format information, and styles. The format of the string representation must match one of the specified formats exactly.</summary>
+        <returns>A time interval that corresponds to , as specified by , , and .</returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ The ParseExact method parses the string representation of a time interval, which must be in one of the formats defined by the  parameter, except that leading and trailing white-space characters are ignored. Because  must exactly conform to one of the formats specified in , you should always use exception handling when converting a string input by the user to a time interval. If you prefer not to use exception handling, you can call the [TryParseExact(String, String\[\], IFormatProvider, TimeSpanStyles, TimeSpan)](assetId:///M:System.TimeSpan.TryParseExact(System.String,System.String[],System.IFormatProvider,System.Globalization.TimeSpanStyles,System.TimeSpan@)?qualifyHint=False&autoUpgrade=False) method instead.  
+  
+ The  parameter is a string array whose elements consist of either a single standard format specifier, or one or more custom format specifiers that define the required format of . For more information about valid format strings, see [Standard TimeSpan Format Strings](../Topic/Standard%20TimeSpan%20Format%20Strings.md) and [Custom TimeSpan Format Strings](../Topic/Custom%20TimeSpan%20Format%20Strings.md).  must correspond exactly to a member of  for the parse operation to succeed. The parse operation attempts to match  to each element in  starting with the first element in the array.  
+  
+> [!IMPORTANT]
+>  The <xref:System.TimeSpan.ParseExact%2A> method uses the conventions of the culture specified by the  parameter only if the format string used to parse  is a standard <xref:System.TimeSpan> format string whose value is either "g" or "G". The "c", "t", and "T" standard format strings use the formatting conventions of the invariant culture. Custom format strings define the precise format of the input string and use literal characters to separate the components of a time interval.  
+  
+ The  parameter is an <xref:System.IFormatProvider> implementation that provides culture-specific information about the format of the returned string if the format string used to parse  is a standard format string. The  parameter can be any of the following:  
+  
+-   A <xref:System.Globalization.CultureInfo> object that represents the culture whose formatting conventions are to be reflected in the returned string. The <xref:System.Globalization.DateTimeFormatInfo> object returned by the <xref:System.Globalization.CultureInfo.DateTimeFormat%2A?displayProperty=fullName> property defines the formatting of the returned string.  
+  
+-   A <xref:System.Globalization.DateTimeFormatInfo> object that defines the formatting of the returned string.  
+  
+-   A custom object that implements the <xref:System.IFormatProvider> interface. Its <xref:System.IFormatProvider.GetFormat%2A?displayProperty=fullName> method returns a <xref:System.Globalization.DateTimeFormatInfo> object that provides formatting information.  
+  
+ If  is `null`, the <xref:System.Globalization.DateTimeFormatInfo> object that is associated with the current culture is used.  
+  
+ The  parameter affects the interpretation of strings that are parsed using custom format strings. It determines whether  is interpreted as a negative time interval only if a negative sign is present (<xref:System.Globalization.TimeSpanStyles?displayProperty=fullName>), or whether it is always interpreted as a negative time interval (<xref:System.Globalization.TimeSpanStyles?displayProperty=fullName>). If <xref:System.Globalization.TimeSpanStyles?displayProperty=fullName> is not used,  must include a literal negative sign symbol (such as "\\-") to successfully parse a negative time interval.  
+  
+   
+  
+## Examples  
+ The following example calls the ParseExact method to convert each element of a string array to a <xref:System.TimeSpan> value. The strings can represent a time interval in either the general short format or the general long format.  
+  
+ In addition, the example changes the way in which the time interval parsing methods interpret a single digit. Ordinarily, a single digit is interpreted as the number of days in a time interval. Instead, the `%h` custom format string is used to interpret a single digit as the number of hours. For this change to be effective, note that the `%h` custom format string must precede the other format strings in the `formats` array. Also note from the output that the <xref:System.Globalization.TimeSpanStyles?displayProperty=fullName> flag specified in the method call is used only when parsing a string with this format specifier.  
+  
+ [!CODE [System.TimeSpan.ParseExact#4](../CodeSnippet/VS_Snippets_CLR_System/system.timespan.parseexact#4)]  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="Seconds">
@@ -892,9 +1648,25 @@
         <ReturnType>System.Int32</ReturnType>
       </ReturnValue>
       <Docs>
-        <summary>To be added.</summary>
-        <value>To be added.</value>
-        <remarks>To be added.</remarks>
+        <summary>Gets the seconds component of the time interval represented by the current &lt;see cref="T:System.TimeSpan"&gt; structure.</summary>
+        <value>The second component of the current &lt;see cref="T:System.TimeSpan"&gt; structure. The return value ranges from -59 through 59.</value>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ A <xref:System.TimeSpan> value can be represented as [*-*]*d*.*hh*:*mm*:*ss*.*ff*, where the optional minus sign indicates a negative time interval, the *d* component is days, *hh* is hours as measured on a 24-hour clock, *mm* is minutes, *ss* is seconds, and *ff* is fractions of a second. The value of the Seconds property is the seconds component, *ss*.  
+  
+ The Seconds property represents whole seconds, whereas the <xref:System.TimeSpan.TotalSeconds%2A> property represents whole and fractional seconds.  
+  
+   
+  
+## Examples  
+ The following example creates several <xref:System.TimeSpan> objects and displays the Seconds property of each.  
+  
+ [!CODE [System.TimeSpan.Properties#1](../CodeSnippet/VS_Snippets_CLR_System/system.TimeSpan.Properties#1)]  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="Subtract">
@@ -911,10 +1683,26 @@
         <Parameter Name="ts" Type="System.TimeSpan" />
       </Parameters>
       <Docs>
-        <param name="ts">To be added.</param>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
-        <remarks>To be added.</remarks>
+        <param name="ts">The time interval to be subtracted.</param>
+        <summary>Returns a new &lt;see cref="T:System.TimeSpan"&gt; object whose value is the difference between the specified &lt;see cref="T:System.TimeSpan"&gt; object and this instance.</summary>
+        <returns>A new time interval whose value is the result of the value of this instance minus the value of .</returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ The return value must be between <xref:System.TimeSpan?displayProperty=fullName> and <xref:System.TimeSpan?displayProperty=fullName>; otherwise, an exception is thrown.  
+  
+ The return value is a new <xref:System.TimeSpan>; the original <xref:System.TimeSpan> is not modified.  
+  
+   
+  
+## Examples  
+ The following example uses the Subtract method to calculate the difference between a single <xref:System.TimeSpan> value and each of the time intervals in an array. Note that, because <xref:System.TimeSpan> format strings do not include negative signs in the result string, the example uses conditional logic to include a negative sign with negative time intervals.  
+  
+ [!CODE [System.TimeSpan.Subtract#1](../CodeSnippet/VS_Snippets_CLR_System/system.timespan.subtract#1)]  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="Ticks">
@@ -928,9 +1716,23 @@
         <ReturnType>System.Int64</ReturnType>
       </ReturnValue>
       <Docs>
-        <summary>To be added.</summary>
-        <value>To be added.</value>
-        <remarks>To be added.</remarks>
+        <summary>Gets the number of ticks that represent the value of the current &lt;see cref="T:System.TimeSpan"&gt; structure.</summary>
+        <value>The number of ticks contained in this instance.</value>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ The smallest unit of time is the tick, which is equal to 100 nanoseconds or one ten-millionth of a second. There are 10,000 ticks in a millisecond. The value of the Ticks property can be negative or positive to represent a negative or positive time interval.  
+  
+   
+  
+## Examples  
+ The following example creates several <xref:System.TimeSpan> objects and displays the Ticks property of each.  
+  
+ [!CODE [System.TimeSpan.Properties#1](../CodeSnippet/VS_Snippets_CLR_System/system.TimeSpan.Properties#1)]  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="TicksPerDay">
@@ -945,8 +1747,22 @@
       </ReturnValue>
       <MemberValue>864000000000</MemberValue>
       <Docs>
-        <summary>To be added.</summary>
-        <remarks>To be added.</remarks>
+        <summary>Represents the number of ticks in 1 day. This field is constant.</summary>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ The value of this constant is 864 billion; that is, 864,000,000,000.  
+  
+   
+  
+## Examples  
+ The following example references and displays the value of the TicksPerDay field.  
+  
+ [!CODE [System.TimeSpan.Fields#1](../CodeSnippet/VS_Snippets_CLR_System/system.TimeSpan.Fields#1)]  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="TicksPerHour">
@@ -961,8 +1777,22 @@
       </ReturnValue>
       <MemberValue>36000000000</MemberValue>
       <Docs>
-        <summary>To be added.</summary>
-        <remarks>To be added.</remarks>
+        <summary>Represents the number of ticks in 1 hour. This field is constant.</summary>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ The value of this constant is 36 billion; that is, 36,000,000,000.  
+  
+   
+  
+## Examples  
+ The following example references and displays the value of the TicksPerHour field.  
+  
+ [!CODE [System.TimeSpan.Fields#1](../CodeSnippet/VS_Snippets_CLR_System/system.TimeSpan.Fields#1)]  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="TicksPerMillisecond">
@@ -977,8 +1807,22 @@
       </ReturnValue>
       <MemberValue>10000</MemberValue>
       <Docs>
-        <summary>To be added.</summary>
-        <remarks>To be added.</remarks>
+        <summary>Represents the number of ticks in 1 millisecond. This field is constant.</summary>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ The value of this constant is 10 thousand; that is, 10,000.  
+  
+   
+  
+## Examples  
+ The following example references and displays the value of the TicksPerMillisecond field.  
+  
+ [!CODE [System.TimeSpan.Fields#1](../CodeSnippet/VS_Snippets_CLR_System/system.TimeSpan.Fields#1)]  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="TicksPerMinute">
@@ -993,8 +1837,22 @@
       </ReturnValue>
       <MemberValue>600000000</MemberValue>
       <Docs>
-        <summary>To be added.</summary>
-        <remarks>To be added.</remarks>
+        <summary>Represents the number of ticks in 1 minute. This field is constant.</summary>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ The value of this constant is 600 million; that is, 600,000,000.  
+  
+   
+  
+## Examples  
+ The following example references and displays the value of the TicksPerMinute field.  
+  
+ [!CODE [System.TimeSpan.Fields#1](../CodeSnippet/VS_Snippets_CLR_System/system.TimeSpan.Fields#1)]  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="TicksPerSecond">
@@ -1009,8 +1867,22 @@
       </ReturnValue>
       <MemberValue>10000000</MemberValue>
       <Docs>
-        <summary>To be added.</summary>
-        <remarks>To be added.</remarks>
+        <summary>Represents the number of ticks in 1 second.</summary>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ The value of this constant is 10 million; that is, 10,000,000.  
+  
+   
+  
+## Examples  
+ The following example references and displays the value of the TicksPerSecond field.  
+  
+ [!CODE [System.TimeSpan.Fields#1](../CodeSnippet/VS_Snippets_CLR_System/system.TimeSpan.Fields#1)]  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="ToString">
@@ -1025,9 +1897,39 @@
       </ReturnValue>
       <Parameters />
       <Docs>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
-        <remarks>To be added.</remarks>
+        <summary>Converts the value of the current &lt;see cref="T:System.TimeSpan"&gt; object to its equivalent string representation.</summary>
+        <returns>The string representation of the current &lt;see cref="T:System.TimeSpan"&gt; value.</returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ The returned string is formatted with the "c" format specifier and has the following format:  
+  
+ [-][*d*.]*hh*:*mm*:*ss*[.*fffffff*]  
+  
+ Elements in square brackets ([ and ]) may not be included in the returned string. Colons and periods (: and.) are literal characters. The non-literal elements are listed in the following table. Note that the string returned by the ToString method is not culture-sensitive.  
+  
+|Item|Description|  
+|----------|-----------------|  
+|"-"|A minus sign, which indicates a negative time interval. No sign is included for a positive time span.|  
+|"*d*"|The number of days in the time interval. This element is omitted if the time interval is less than one day.|  
+|"*hh*"|The number of hours in the time interval, ranging from 0 to 23.|  
+|"*mm*"|The number of minutes in the time interval, ranging from 0 to 59.|  
+|"*ss*"|The number of seconds in the time interval, ranging from 0 to 59.|  
+|"*fffffff*"|Fractional seconds in the time interval. This element is omitted if the time interval does not include fractional seconds. If present, fractional seconds are always expressed using seven decimal digits.|  
+  
+> [!NOTE]
+>  For more information about comparing the string representation of <xref:System.TimeSpan> and Oracle data types, see Knowledge Base article [324577: System.TimeSpan Does Not Match Oracle 9i INTERVAL DAY TO SECOND Data Type](http://go.microsoft.com/fwlink/?LinkId=161146).  
+  
+   
+  
+## Examples  
+ The following example displays the strings returned by calling the ToString method with a number of <xref:System.TimeSpan> values. Note that although the example does not call the ToString method directly, it is called by the <xref:System.Console.WriteLine%2A?displayProperty=fullName> method when it attempts to convert a <xref:System.TimeSpan> value to its string representation.  
+  
+ [!CODE [System.TimeSpan.ToString#1](../CodeSnippet/VS_Snippets_CLR_System/system.TimeSpan.ToString#1)]  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="ToString">
@@ -1044,10 +1946,35 @@
         <Parameter Name="format" Type="System.String" />
       </Parameters>
       <Docs>
-        <param name="format">To be added.</param>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
-        <remarks>To be added.</remarks>
+        <param name="format">A standard or custom &lt;see cref="T:System.TimeSpan"&gt; format string.</param>
+        <summary>Converts the value of the current &lt;see cref="T:System.TimeSpan"&gt; object to its equivalent string representation by using the specified format.</summary>
+        <returns>The string representation of the current &lt;see cref="T:System.TimeSpan"&gt; value in the format specified by the  parameter.</returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ The  parameter can be any valid standard or custom format specifier for <xref:System.TimeSpan> values. If  is equal to <xref:System.String.Empty?displayProperty=fullName> or is `null`, the return value of the current <xref:System.TimeSpan> object is formatted with the common format specifier ("c"). If  is any other value, the method throws a <xref:System.FormatException>.  
+  
+ If  is a standard format string, the format of the returned string is defined by the formatting conventions of the current culture.  
+  
+> [!IMPORTANT]
+>  The custom format strings for <xref:System.TimeSpan> values do not include a date or time separator. If you want to include these elements in your format string, you must treat them as character literals. See the example for an illustration, and see the [Custom TimeSpan Format Strings](../Topic/Custom%20TimeSpan%20Format%20Strings.md) topic for more information.  
+  
+ The .NET Framework provides extensive formatting support, which is described in greater detail in the following formatting topics:  
+  
+-   For more information about format strings for <xref:System.TimeSpan> values, see [Standard TimeSpan Format Strings](../Topic/Standard%20TimeSpan%20Format%20Strings.md) and [Custom TimeSpan Format Strings](../Topic/Custom%20TimeSpan%20Format%20Strings.md).  
+  
+-   For more information about support for formatting in the .NET Framework, see [Formatting Types](../Topic/Formatting%20Types%20in%20the%20.NET%20Framework.md).  
+  
+   
+  
+## Examples  
+ The following example uses standard and custom <xref:System.TimeSpan> format strings to display the string representation of each element in an array of <xref:System.TimeSpan> values  
+  
+ [!CODE [System.TimeSpan.ToString#3](../CodeSnippet/VS_Snippets_CLR_System/system.TimeSpan.ToString#3)]  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="ToString">
@@ -1065,11 +1992,44 @@
         <Parameter Name="formatProvider" Type="System.IFormatProvider" />
       </Parameters>
       <Docs>
-        <param name="format">To be added.</param>
-        <param name="formatProvider">To be added.</param>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
-        <remarks>To be added.</remarks>
+        <param name="format">A standard or custom &lt;see cref="T:System.TimeSpan"&gt; format string.</param>
+        <param name="formatProvider">An object that supplies culture-specific formatting information.</param>
+        <summary>Converts the value of the current &lt;see cref="T:System.TimeSpan"&gt; object to its equivalent string representation by using the specified format and culture-specific formatting information.</summary>
+        <returns>The string representation of the current &lt;see cref="T:System.TimeSpan"&gt; value, as specified by  and .</returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ The  parameter can be any valid standard or custom format specifier for <xref:System.TimeSpan> values. If  is equal to <xref:System.String.Empty?displayProperty=fullName> or is `null`, the return value of the current <xref:System.TimeSpan> object is formatted with the common format specifier ("c"). If format is any other value, the method throws a <xref:System.FormatException>.  
+  
+> [!IMPORTANT]
+>  The custom format strings for <xref:System.TimeSpan> values do not include a date or time separator. If you want to include these elements in your format string, you must treat them as character literals. See the example for an illustration, and see the [Custom TimeSpan Format Strings](../Topic/Custom%20TimeSpan%20Format%20Strings.md) topic for more information.  
+  
+ The .NET Framework provides extensive formatting support, which is described in greater detail in the following formatting topics:  
+  
+-   For more information about format strings for <xref:System.TimeSpan> values, see [Standard TimeSpan Format Strings](../Topic/Standard%20TimeSpan%20Format%20Strings.md) and [Custom TimeSpan Format Strings](../Topic/Custom%20TimeSpan%20Format%20Strings.md).  
+  
+-   For more information about support for formatting in the .NET Framework, see [Formatting Types](../Topic/Formatting%20Types%20in%20the%20.NET%20Framework.md).  
+  
+ The  parameter is an <xref:System.IFormatProvider> implementation that provides culture-specific information about the format of the returned string. The  parameter can be any of the following:  
+  
+-   A <xref:System.Globalization.CultureInfo> object that represents the culture whose formatting conventions are to be reflected in the returned string. The <xref:System.Globalization.DateTimeFormatInfo> object retuned by the <xref:System.Globalization.CultureInfo.DateTimeFormat%2A?displayProperty=fullName> property defines the formatting of the returned string.  
+  
+-   A <xref:System.Globalization.DateTimeFormatInfo> object that defines the formatting of the returned string.  
+  
+-   A custom object that implements the <xref:System.IFormatProvider> interface. Its <xref:System.IFormatProvider.GetFormat%2A?displayProperty=fullName> method returns a <xref:System.Globalization.DateTimeFormatInfo> object that provides formatting information.  
+  
+ If  is `null`, the <xref:System.Globalization.DateTimeFormatInfo> object that is associated with the current culture is used. If  is a custom format string, the  parameter is ignored.  
+  
+   
+  
+## Examples  
+ The following example calls the ToString method to format two time intervals. The example calls the method twice for each format string, first to display it using the conventions of the en-US culture and then to display it using the conventions of the fr-FR culture.  
+  
+ [!CODE [System.TimeSpan.ToString#4](../CodeSnippet/VS_Snippets_CLR_System/system.TimeSpan.ToString#4)]  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="TotalDays">
@@ -1083,9 +2043,25 @@
         <ReturnType>System.Double</ReturnType>
       </ReturnValue>
       <Docs>
-        <summary>To be added.</summary>
-        <value>To be added.</value>
-        <remarks>To be added.</remarks>
+        <summary>Gets the value of the current &lt;see cref="T:System.TimeSpan"&gt; structure expressed in whole and fractional days.</summary>
+        <value>The total number of days represented by this instance.</value>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ This property converts the value of this instance from ticks to days. This number might include whole and fractional days.  
+  
+ The TotalDays property represents whole and fractional days, whereas the <xref:System.TimeSpan.Days%2A> property represents whole days.  
+  
+   
+  
+## Examples  
+ The following example instantiates a <xref:System.TimeSpan> object and displays the value of its TotalDays property. It also displays the value of each component (hours, minutes, seconds, milliseconds) that forms the fractional part of the value of its TotalDays property.  
+  
+ [!CODE [System.TimeSpan.TotalDays#1](../CodeSnippet/VS_Snippets_CLR_System/system.timespan.totaldays#1)]  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="TotalHours">
@@ -1099,9 +2075,25 @@
         <ReturnType>System.Double</ReturnType>
       </ReturnValue>
       <Docs>
-        <summary>To be added.</summary>
-        <value>To be added.</value>
-        <remarks>To be added.</remarks>
+        <summary>Gets the value of the current &lt;see cref="T:System.TimeSpan"&gt; structure expressed in whole and fractional hours.</summary>
+        <value>The total number of hours represented by this instance.</value>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ This property converts the value of this instance from ticks to hours. This number might include whole and fractional hours.  
+  
+ The TotalHours property represents whole and fractional hours, whereas the <xref:System.TimeSpan.Hours%2A> property represents whole hours.  
+  
+   
+  
+## Examples  
+ The following example instantiates a <xref:System.TimeSpan> object and displays the value its TotalHours property. It also displays the value of each component (hours, minutes, seconds, and milliseconds) that forms the fractional part of the value of its TotalHours property.  
+  
+ [!CODE [System.TimeSpan.TotalHours#1](../CodeSnippet/VS_Snippets_CLR_System/system.timespan.totalhours#1)]  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="TotalMilliseconds">
@@ -1115,9 +2107,25 @@
         <ReturnType>System.Double</ReturnType>
       </ReturnValue>
       <Docs>
-        <summary>To be added.</summary>
-        <value>To be added.</value>
-        <remarks>To be added.</remarks>
+        <summary>Gets the value of the current &lt;see cref="T:System.TimeSpan"&gt; structure expressed in whole and fractional milliseconds.</summary>
+        <value>The total number of milliseconds represented by this instance.</value>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ This property converts the value of this instance from ticks to milliseconds. This number might include whole and fractional milliseconds.  
+  
+ The TotalMilliseconds property represents whole and fractional milliseconds, whereas the <xref:System.TimeSpan.Milliseconds%2A> property represents whole milliseconds.  
+  
+   
+  
+## Examples  
+ The following example instantiates a <xref:System.TimeSpan> object and displays the value of its TotalMilliseconds property.  
+  
+ [!CODE [System.TimeSpan.TotalMilliseconds#1](../CodeSnippet/VS_Snippets_CLR_System/system.timespan.totalmilliseconds#1)]  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="TotalMinutes">
@@ -1131,9 +2139,25 @@
         <ReturnType>System.Double</ReturnType>
       </ReturnValue>
       <Docs>
-        <summary>To be added.</summary>
-        <value>To be added.</value>
-        <remarks>To be added.</remarks>
+        <summary>Gets the value of the current &lt;see cref="T:System.TimeSpan"&gt; structure expressed in whole and fractional minutes.</summary>
+        <value>The total number of minutes represented by this instance.</value>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ This property converts the value of this instance from ticks to minutes. This number might include whole and fractional minutes.  
+  
+ The TotalMinutes property represents whole and fractional minutes, whereas the <xref:System.TimeSpan.Minutes%2A> property represents whole minutes.  
+  
+   
+  
+## Examples  
+ The following example instantiates a <xref:System.TimeSpan> object and displays the value of its TotalMinutes property. It also displays the value of each component (seconds, milliseconds) that forms the fractional part of the value of its TotalMinutes property.  
+  
+ [!CODE [System.TimeSpan.TotalMinutes#1](../CodeSnippet/VS_Snippets_CLR_System/system.timespan.totalminutes#1)]  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="TotalSeconds">
@@ -1147,9 +2171,25 @@
         <ReturnType>System.Double</ReturnType>
       </ReturnValue>
       <Docs>
-        <summary>To be added.</summary>
-        <value>To be added.</value>
-        <remarks>To be added.</remarks>
+        <summary>Gets the value of the current &lt;see cref="T:System.TimeSpan"&gt; structure expressed in whole and fractional seconds.</summary>
+        <value>The total number of seconds represented by this instance.</value>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ This property converts the value of this instance from ticks to seconds. This number might include whole and fractional seconds.  
+  
+ The TotalSeconds property represents whole and fractional seconds, whereas the <xref:System.TimeSpan.Seconds%2A> property represents whole seconds.  
+  
+   
+  
+## Examples  
+ The following example instantiates a <xref:System.TimeSpan> object and displays the value of its TotalSeconds property. It also displays the value of its milliseconds component, which forms the fractional part of the value of its TotalSeconds property.  
+  
+ [!CODE [System.TimeSpan.TotalSeconds#1](../CodeSnippet/VS_Snippets_CLR_System/system.timespan.totalseconds#1)]  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="TryParse">
@@ -1167,11 +2207,48 @@
         <Parameter Name="result" Type="System.TimeSpan&amp;" RefType="out" />
       </Parameters>
       <Docs>
-        <param name="s">To be added.</param>
-        <param name="result">To be added.</param>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
-        <remarks>To be added.</remarks>
+        <param name="s">A string that specifies the time interval to convert.</param>
+        <param name="result">When this method returns, contains an object that represents the time interval specified by , or &lt;xref:System.TimeSpan?displayProperty=fullName&gt; if the conversion failed. This parameter is passed uninitialized.</param>
+        <summary>Converts the string representation of a time interval to its &lt;see cref="T:System.TimeSpan"&gt; equivalent and returns a value that indicates whether the conversion succeeded.</summary>
+        <returns>`true` if  was converted successfully; otherwise, `false`. This operation returns `false` if the  parameter is `null` or &lt;xref:System.String.Empty?displayProperty=fullName&gt;, has an invalid format, represents a time interval that is less than &lt;xref:System.TimeSpan.MinValue?displayProperty=fullName&gt; or greater than &lt;xref:System.TimeSpan.MaxValue?displayProperty=fullName&gt;, or has at least one days, hours, minutes, or seconds component outside its valid range.</returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ The TryParse method is like the <xref:System.TimeSpan.Parse%28System.String%29?displayProperty=fullName> method, except that it does not throw an exception if the conversion fails.  
+  
+ The  parameter contains a time interval specification in the form:  
+  
+ [*ws*][-]{ *d* &#124; *d*.*hh*:*mm*[:*ss*[.*ff*]] &#124; *hh*:*mm*[:*ss*[.*ff*]] }[*ws*]  
+  
+ Elements in square brackets ([ and ]) are optional. One selection from the list of alternatives enclosed in braces ({ and }) and separated by vertical bars (&#124;) is required. The following table describes each element.  
+  
+|Element|Description|  
+|-------------|-----------------|  
+|*ws*|Optional white space.|  
+|-|An optional minus sign, which indicates a negative <xref:System.TimeSpan>.|  
+|*d*|Days, ranging from 0 to 10675199.|  
+|.|A culture-sensitive symbol that separates days from hours. The invariant format uses a period (".") character.|  
+|*hh*|Hours, ranging from 0 to 23.|  
+|:|The culture-sensitive time separator symbol. The invariant format uses a colon (":") character.|  
+|*mm*|Minutes, ranging from 0 to 59.|  
+|*ss*|Optional seconds, ranging from 0 to 59.|  
+|.|A culture-sensitive symbol that separates seconds from fractions of a second. The invariant format uses a period (".") character.|  
+|*ff*|Optional fractional seconds, consisting of one to seven decimal digits.|  
+  
+ The components of  must collectively specify a time interval that is greater than or equal to <xref:System.TimeSpan.MinValue?displayProperty=fullName> and less than or equal to <xref:System.TimeSpan.MaxValue?displayProperty=fullName>.  
+  
+ The <xref:System.TimeSpan.Parse%28System.String%29> method tries to parse  by using each of the culture-specific formats for the current culture.  
+  
+   
+  
+## Examples  
+ The following example uses the TryParse method to create <xref:System.TimeSpan> objects from valid <xref:System.TimeSpan> strings and to indicate when the parse operation has failed because the time span string is invalid.  
+  
+ [!CODE [System.TimeSpan.TryParse#1](../CodeSnippet/VS_Snippets_CLR_System/system.TimeSpan.TryParse#1)]  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="TryParse">
@@ -1190,12 +2267,59 @@
         <Parameter Name="result" Type="System.TimeSpan&amp;" RefType="out" />
       </Parameters>
       <Docs>
-        <param name="input">To be added.</param>
-        <param name="formatProvider">To be added.</param>
-        <param name="result">To be added.</param>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
-        <remarks>To be added.</remarks>
+        <param name="input">A string that specifies the time interval to convert.</param>
+        <param name="formatProvider">An object that supplies culture-specific formatting information.</param>
+        <param name="result">When this method returns, contains an object that represents the time interval specified by , or &lt;xref:System.TimeSpan?displayProperty=fullName&gt; if the conversion failed. This parameter is passed uninitialized.</param>
+        <summary>Converts the string representation of a time interval to its &lt;see cref="T:System.TimeSpan"&gt; equivalent by using the specified culture-specific formatting information, and returns a value that indicates whether the conversion succeeded.</summary>
+        <returns>`true` if  was converted successfully; otherwise, `false`. This operation returns `false` if the  parameter is `null` or &lt;xref:System.String.Empty?displayProperty=fullName&gt;, has an invalid format, represents a time interval that is less than &lt;xref:System.TimeSpan.MinValue?displayProperty=fullName&gt; or greater than &lt;xref:System.TimeSpan.MaxValue?displayProperty=fullName&gt;, or has at least one days, hours, minutes, or seconds component outside its valid range.</returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ The TryParse method is like the <xref:System.TimeSpan.Parse%28System.String%2CSystem.IFormatProvider%29> method, except that it does not throw an exception if the conversion fails.  
+  
+ The  parameter contains a time interval specification in the form:  
+  
+ [*ws*][-]{ *d* &#124; *d*.*hh*:*mm*[:*ss*[.*ff*]] &#124; *hh*:*mm*[:*ss*[.*ff*]] }[*ws*]  
+  
+ Elements in square brackets ([ and ]) are optional. One selection from the list of alternatives enclosed in braces ({ and }) and separated by vertical bars (&#124;) is required. The following table describes each element.  
+  
+|Element|Description|  
+|-------------|-----------------|  
+|*ws*|Optional white space.|  
+|-|An optional minus sign, which indicates a negative <xref:System.TimeSpan>.|  
+|*d*|Days, ranging from 0 to 10675199.|  
+|.|A culture-sensitive symbol that separates days from hours. The invariant format uses a period (".") character.|  
+|*hh*|Hours, ranging from 0 to 23.|  
+|:|The culture-sensitive time separator symbol. The invariant format uses a colon (":") character.|  
+|*mm*|Minutes, ranging from 0 to 59.|  
+|*ss*|Optional seconds, ranging from 0 to 59.|  
+|.|A culture-sensitive symbol that separates seconds from fractions of a second. The invariant format uses a period (".") character.|  
+|*ff*|Optional fractional seconds, consisting of one to seven decimal digits.|  
+  
+ The components of  must collectively specify a time interval that is greater than or equal to <xref:System.TimeSpan.MinValue?displayProperty=fullName> and less than or equal to <xref:System.TimeSpan.MaxValue?displayProperty=fullName>.  
+  
+ The TryParse method tries to parse  by using each of the culture-specific formats for the culture specified by .  
+  
+ The  parameter is an <xref:System.IFormatProvider> implementation that provides culture-specific information about the format of the returned string. The  parameter can be any of the following:  
+  
+-   A <xref:System.Globalization.CultureInfo> object that represents the culture whose formatting conventions are to be reflected in the returned string. The <xref:System.Globalization.DateTimeFormatInfo> object returned by the <xref:System.Globalization.CultureInfo.DateTimeFormat%2A?displayProperty=fullName> property defines the formatting of the returned string.  
+  
+-   A <xref:System.Globalization.DateTimeFormatInfo> object that defines the formatting of the returned string.  
+  
+-   A custom object that implements the <xref:System.IFormatProvider> interface. Its <xref:System.IFormatProvider.GetFormat%2A?displayProperty=fullName> method returns a <xref:System.Globalization.DateTimeFormatInfo> object that provides formatting information.  
+  
+ If  is `null`, the <xref:System.Globalization.DateTimeFormatInfo> object that is associated with the current culture is used.  
+  
+   
+  
+## Examples  
+ The following example defines an array of <xref:System.Globalization.CultureInfo> objects, and uses each object in calls to the TryParse method to parse the elements in a string array. The example illustrates how the conventions of a specific culture influence the formatting operation.  
+  
+ [!CODE [System.TimeSpan.TryParse#2](../CodeSnippet/VS_Snippets_CLR_System/system.TimeSpan.TryParse#2)]  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="TryParseExact">
@@ -1215,13 +2339,42 @@
         <Parameter Name="result" Type="System.TimeSpan&amp;" RefType="out" />
       </Parameters>
       <Docs>
-        <param name="input">To be added.</param>
-        <param name="format">To be added.</param>
-        <param name="formatProvider">To be added.</param>
-        <param name="result">To be added.</param>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
-        <remarks>To be added.</remarks>
+        <param name="input">A string that specifies the time interval to convert.</param>
+        <param name="format">A standard or custom format string that defines the required format of .</param>
+        <param name="formatProvider">An object that supplies culture-specific formatting information.</param>
+        <param name="result">When this method returns, contains an object that represents the time interval specified by , or &lt;xref:System.TimeSpan?displayProperty=fullName&gt; if the conversion failed. This parameter is passed uninitialized.</param>
+        <summary>Converts the string representation of a time interval to its &lt;see cref="T:System.TimeSpan"&gt; equivalent by using the specified format and culture-specific format information, and returns a value that indicates whether the conversion succeeded. The format of the string representation must match the specified format exactly.</summary>
+        <returns>`true` if  was converted successfully; otherwise, `false`.</returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ The TryParseExact method parses the string representation of a time interval, which must be in the format defined by the  parameter, except that leading and trailing white-space characters are ignored. This method is similar to the <xref:System.TimeSpan.ParseExact%28System.String%2CSystem.String%2CSystem.IFormatProvider%29> method, except that it does not throw an exception if the conversion fails.  
+  
+ The  parameter is a string that contains either a single standard format specifier, or one or more custom format specifiers that define the required format of . For more information about valid format strings, see [Standard TimeSpan Format Strings](../Topic/Standard%20TimeSpan%20Format%20Strings.md) and [Custom TimeSpan Format Strings](../Topic/Custom%20TimeSpan%20Format%20Strings.md).  
+  
+> [!IMPORTANT]
+>  The TryParseExact method uses the conventions of the culture specified by the  parameter only if  is a standard <xref:System.TimeSpan> format string whose value is either "g" or "G". The "c", "t", and "T" standard format strings use the formatting conventions of the invariant culture. Custom format strings define the precise format of the input string and use literal characters to separate the components of a time interval.  
+  
+ The  parameter is an <xref:System.IFormatProvider> implementation that provides culture-specific information about the format of the returned string if  is a standard format string. The  parameter can be any of the following:  
+  
+-   A <xref:System.Globalization.CultureInfo> object that represents the culture whose formatting conventions are to be reflected in the returned string. The <xref:System.Globalization.DateTimeFormatInfo> object returned by the <xref:System.Globalization.CultureInfo.DateTimeFormat%2A?displayProperty=fullName> property defines the formatting of the returned string.  
+  
+-   A <xref:System.Globalization.DateTimeFormatInfo> object that defines the formatting of the returned string.  
+  
+-   A custom object that implements the <xref:System.IFormatProvider> interface. Its <xref:System.IFormatProvider.GetFormat%2A?displayProperty=fullName> method returns a <xref:System.Globalization.DateTimeFormatInfo> object that provides formatting information.  
+  
+ If  is `null`, the <xref:System.Globalization.DateTimeFormatInfo> object that is associated with the current culture is used.  
+  
+   
+  
+## Examples  
+ The following example uses the <xref:System.TimeSpan.TryParseExact%28System.String%2CSystem.String%2CSystem.IFormatProvider%2CSystem.Globalization.TimeSpanStyles%2CSystem.TimeSpan%40%29> method to parse several string representations of time intervals using various format strings and cultures.  
+  
+ [!CODE [System.TimeSpan.TryParseExact#1](../CodeSnippet/VS_Snippets_CLR_System/system.timespan.tryparseexact#1)]  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="TryParseExact">
@@ -1241,13 +2394,44 @@
         <Parameter Name="result" Type="System.TimeSpan&amp;" RefType="out" />
       </Parameters>
       <Docs>
-        <param name="input">To be added.</param>
-        <param name="formats">To be added.</param>
-        <param name="formatProvider">To be added.</param>
-        <param name="result">To be added.</param>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
-        <remarks>To be added.</remarks>
+        <param name="input">A string that specifies the time interval to convert.</param>
+        <param name="formats">A array of standard or custom format strings that define the acceptable formats of .</param>
+        <param name="formatProvider">An object that provides culture-specific formatting information.</param>
+        <param name="result">When this method returns, contains an object that represents the time interval specified by , or &lt;xref:System.TimeSpan?displayProperty=fullName&gt; if the conversion failed. This parameter is passed uninitialized.</param>
+        <summary>Converts the specified string representation of a time interval to its &lt;see cref="T:System.TimeSpan"&gt; equivalent by using the specified formats and culture-specific format information, and returns a value that indicates whether the conversion succeeded. The format of the string representation must match one of the specified formats exactly.</summary>
+        <returns>`true` if  was converted successfully; otherwise, `false`.</returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ The TryParseExact method parses the string representation of a time interval, which must be in the format defined by one of the format strings specified by the  parameter, except that leading and trailing white-space characters are ignored. This method is similar to the [ParseExact(String, String\[\], IFormatProvider)](assetId:///M:System.TimeSpan.ParseExact(System.String,System.String[],System.IFormatProvider)?qualifyHint=False&autoUpgrade=False) method, except that it does not throw an exception if the conversion fails.  
+  
+ The  parameter is a string array whose elements consist of either a single standard format specifier, or one or more custom format specifiers that define the required format of . For more information about valid format strings, see [Standard TimeSpan Format Strings](../Topic/Standard%20TimeSpan%20Format%20Strings.md) and [Custom TimeSpan Format Strings](../Topic/Custom%20TimeSpan%20Format%20Strings.md).  must correspond exactly to a member of  for the parse operation to succeed. The parse operation attempts to match  to each element in  starting with the first element in the array.  
+  
+> [!IMPORTANT]
+>  The TryParseExact method uses the conventions of the culture specified by the  parameter only if the format string used to parse  is a standard <xref:System.TimeSpan> format string whose value is either "g" or "G". The "c", "t", and "T" standard format strings use the formatting conventions of the invariant culture. Custom format strings define the precise format of the input string and use literal characters to separate the components of a time interval.  
+  
+ The  parameter is an <xref:System.IFormatProvider> implementation that provides culture-specific information about the format of the returned string if the format string used to parse  is a standard format string. The  parameter can be any of the following:  
+  
+-   A <xref:System.Globalization.CultureInfo> object that represents the culture whose formatting conventions are to be reflected in the returned string. The <xref:System.Globalization.DateTimeFormatInfo> object returned by the <xref:System.Globalization.CultureInfo.DateTimeFormat%2A?displayProperty=fullName> property defines the formatting of the returned string.  
+  
+-   A <xref:System.Globalization.DateTimeFormatInfo> object that defines the formatting of the returned string.  
+  
+-   A custom object that implements the <xref:System.IFormatProvider> interface. Its <xref:System.IFormatProvider.GetFormat%2A?displayProperty=fullName> method returns a <xref:System.Globalization.DateTimeFormatInfo> object that provides formatting information.  
+  
+ If  is `null`, the <xref:System.Globalization.DateTimeFormatInfo> object that is associated with the current culture is used.  
+  
+   
+  
+## Examples  
+ The following example calls the TryParseExact method to convert each element of a string array to a <xref:System.TimeSpan> value. The example interprets the strings by using the formatting conventions of the French - France ("fr-FR") culture. The strings can represent a time interval in either the general short format or the general long format.  
+  
+ In addition, the example changes the way in which the time interval parsing methods interpret a single digit. Ordinarily, a single digit is interpreted as the number of days in a time interval. Instead, the `%h` custom format string is used to interpret a single digit as the number of hours. For this change to be effective, note that the `%h` custom format string must precede the other format strings in the `formats` array.  
+  
+ [!CODE [System.TimeSpan.TryParseExact#3](../CodeSnippet/VS_Snippets_CLR_System/system.timespan.tryparseexact#3)]  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="TryParseExact">
@@ -1268,14 +2452,42 @@
         <Parameter Name="result" Type="System.TimeSpan&amp;" RefType="out" />
       </Parameters>
       <Docs>
-        <param name="input">To be added.</param>
-        <param name="format">To be added.</param>
-        <param name="formatProvider">To be added.</param>
-        <param name="styles">To be added.</param>
-        <param name="result">To be added.</param>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
-        <remarks>To be added.</remarks>
+        <param name="input">A string that specifies the time interval to convert.</param>
+        <param name="format">A standard or custom format string that defines the required format of .</param>
+        <param name="formatProvider">An object that provides culture-specific formatting information.</param>
+        <param name="styles">One or more enumeration values that indicate the style of .</param>
+        <param name="result">When this method returns, contains an object that represents the time interval specified by , or &lt;xref:System.TimeSpan?displayProperty=fullName&gt; if the conversion failed. This parameter is passed uninitialized.</param>
+        <summary>Converts the string representation of a time interval to its &lt;see cref="T:System.TimeSpan"&gt; equivalent by using the specified format, culture-specific format information, and styles, and returns a value that indicates whether the conversion succeeded. The format of the string representation must match the specified format exactly.</summary>
+        <returns>`true` if  was converted successfully; otherwise, `false`.</returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ The TryParseExact method parses the string representation of a time interval, which must be in the format defined by the  parameter, except that leading and trailing white-space characters are ignored. This method is similar to the <xref:System.TimeSpan.ParseExact%28System.String%2CSystem.String%2CSystem.IFormatProvider%2CSystem.Globalization.TimeSpanStyles%29> method, except that it does not throw an exception if the conversion fails.  
+  
+ The  parameter is a string that contains either a single standard format specifier, or one or more custom format specifiers that define the required format of . For more information about valid format strings, see [Standard TimeSpan Format Strings](../Topic/Standard%20TimeSpan%20Format%20Strings.md) and [Custom TimeSpan Format Strings](../Topic/Custom%20TimeSpan%20Format%20Strings.md).  
+  
+ The  parameter is an <xref:System.IFormatProvider> implementation that provides culture-specific information about the format of the returned string if  is a standard format string. The  parameter can be any of the following:  
+  
+-   A <xref:System.Globalization.CultureInfo> object that represents the culture whose formatting conventions are to be reflected in the returned string. The <xref:System.Globalization.DateTimeFormatInfo> object returned by the <xref:System.Globalization.CultureInfo.DateTimeFormat%2A?displayProperty=fullName> property defines the formatting of the returned string.  
+  
+-   A <xref:System.Globalization.DateTimeFormatInfo> object that defines the formatting of the returned string.  
+  
+-   A custom object that implements the <xref:System.IFormatProvider> interface. Its <xref:System.IFormatProvider.GetFormat%2A?displayProperty=fullName> method returns a <xref:System.Globalization.DateTimeFormatInfo> object that provides formatting information.  
+  
+ If  is `null`, the <xref:System.Globalization.DateTimeFormatInfo> object that is associated with the current culture is used.  
+  
+ The  parameter affects the interpretation of strings parsed using custom format strings. It determines whether  is interpreted as a negative time interval only if a negative sign is present (<xref:System.Globalization.TimeSpanStyles?displayProperty=fullName>), or whether it is always interpreted as a negative time interval (<xref:System.Globalization.TimeSpanStyles?displayProperty=fullName>). If <xref:System.Globalization.TimeSpanStyles?displayProperty=fullName> is not used,  must include a literal negative sign symbol (such as "\\-") to successfully parse a negative time interval.  
+  
+   
+  
+## Examples  
+ The following example uses the <xref:System.TimeSpan.ParseExact%28System.String%2CSystem.String%2CSystem.IFormatProvider%29> method to parse several string representations of time intervals using various format strings and cultures. It also uses the <xref:System.Globalization.TimeSpanStyles?displayProperty=fullName> value to interpret each string as a negative time interval. The output from the example illustrates that the <xref:System.Globalization.TimeSpanStyles?displayProperty=fullName> style affects the return value only when it is used with custom format strings.  
+  
+ [!CODE [System.TimeSpan.TryParseExact#2](../CodeSnippet/VS_Snippets_CLR_System/system.timespan.tryparseexact#2)]  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="TryParseExact">
@@ -1296,14 +2508,47 @@
         <Parameter Name="result" Type="System.TimeSpan&amp;" RefType="out" />
       </Parameters>
       <Docs>
-        <param name="input">To be added.</param>
-        <param name="formats">To be added.</param>
-        <param name="formatProvider">To be added.</param>
-        <param name="styles">To be added.</param>
-        <param name="result">To be added.</param>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
-        <remarks>To be added.</remarks>
+        <param name="input">A string that specifies the time interval to convert.</param>
+        <param name="formats">A array of standard or custom format strings that define the acceptable formats of .</param>
+        <param name="formatProvider">An object that supplies culture-specific formatting information.</param>
+        <param name="styles">One or more enumeration values that indicate the style of .</param>
+        <param name="result">When this method returns, contains an object that represents the time interval specified by , or &lt;xref:System.TimeSpan?displayProperty=fullName&gt; if the conversion failed. This parameter is passed uninitialized.</param>
+        <summary>Converts the specified string representation of a time interval to its &lt;see cref="T:System.TimeSpan"&gt; equivalent by using the specified formats, culture-specific format information, and styles, and returns a value that indicates whether the conversion succeeded. The format of the string representation must match one of the specified formats exactly.</summary>
+        <returns>`true` if  was converted successfully; otherwise, `false`.</returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ The TryParseExact method parses the string representation of a time interval, which must be in the format defined by one of the format strings specified by the  parameter, except that leading and trailing white-space characters are ignored. This method is similar to the [ParseExact(String, String\[\], IFormatProvider, TimeSpanStyles)](assetId:///M:System.TimeSpan.ParseExact(System.String,System.String[],System.IFormatProvider,System.Globalization.TimeSpanStyles)?qualifyHint=False&autoUpgrade=False) method, except that it does not throw an exception if the conversion fails.  
+  
+ The  parameter is a string array whose elements consist of either a single standard format specifier, or one or more custom format specifiers that define the required format of . For more information about valid format strings, see [Standard TimeSpan Format Strings](../Topic/Standard%20TimeSpan%20Format%20Strings.md) and [Custom TimeSpan Format Strings](../Topic/Custom%20TimeSpan%20Format%20Strings.md).  must correspond exactly to a member of  for the parse operation to succeed. The parse operation attempts to match  to each element in  starting with the first element in the array.  
+  
+> [!IMPORTANT]
+>  The <xref:System.TimeSpan.ParseExact%2A> method uses the conventions of the culture specified by the  parameter only if the format string used to parse  is a standard <xref:System.TimeSpan> format string whose value is either "g" or "G". The "c", "t", and "T" standard format strings use the formatting conventions of the invariant culture. Custom format strings define the precise format of the input string and use literal characters to separate the components of a time interval.  
+  
+ The  parameter is an <xref:System.IFormatProvider> implementation that provides culture-specific information about the format of the returned string if the format string used to parse  is a standard format string. The  parameter can be any of the following:  
+  
+-   A <xref:System.Globalization.CultureInfo> object that represents the culture whose formatting conventions are to be reflected in the returned string. The <xref:System.Globalization.DateTimeFormatInfo> object returned by the <xref:System.Globalization.CultureInfo.DateTimeFormat%2A?displayProperty=fullName> property defines the formatting of the returned string.  
+  
+-   A <xref:System.Globalization.DateTimeFormatInfo> object that defines the formatting of the returned string.  
+  
+-   A custom object that implements the <xref:System.IFormatProvider> interface. Its <xref:System.IFormatProvider.GetFormat%2A?displayProperty=fullName> method returns a <xref:System.Globalization.DateTimeFormatInfo> object that provides formatting information.  
+  
+ If  is `null`, the <xref:System.Globalization.DateTimeFormatInfo> object that is associated with the current culture is used.  
+  
+ The  parameter affects the interpretation of strings that are parsed using custom format strings. It determines whether  is interpreted as a negative time interval only if a negative sign is present (<xref:System.Globalization.TimeSpanStyles?displayProperty=fullName>), or whether it is always interpreted as a negative time interval (<xref:System.Globalization.TimeSpanStyles?displayProperty=fullName>). If <xref:System.Globalization.TimeSpanStyles?displayProperty=fullName> is not used,  must include a literal negative sign symbol (such as "\\-") to successfully parse a negative time interval.  
+  
+   
+  
+## Examples  
+ The following example calls the TryParseExact method to convert each element of a string array to a <xref:System.TimeSpan> value. The strings can represent a time interval in either the general short format or the general long format.  
+  
+ In addition, the example changes the way in which the time interval parsing methods interpret a single digit. Ordinarily, a single digit is interpreted as the number of days in a time interval. Instead, the `%h` custom format string is used to interpret a single digit as the number of hours. For this change to be effective, note that the `%h` custom format string must precede the other format strings in the `formats` array. Also note from the output that the <xref:System.Globalization.TimeSpanStyles?displayProperty=fullName> flag specified in the method call is used only when parsing a string with this format specifier.  
+  
+ [!CODE [System.TimeSpan.TryParseExact#4](../CodeSnippet/VS_Snippets_CLR_System/system.timespan.tryparseexact#4)]  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="Zero">
@@ -1317,8 +2562,22 @@
         <ReturnType>System.TimeSpan</ReturnType>
       </ReturnValue>
       <Docs>
-        <summary>To be added.</summary>
-        <remarks>To be added.</remarks>
+        <summary>Represents the zero &lt;see cref="T:System.TimeSpan"&gt; value. This field is read-only.</summary>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ Because the value of the Zero field is a <xref:System.TimeSpan> object that represents a zero time value, you can compare it with other <xref:System.TimeSpan> objects to determine whether the latter represent positive, non-zero, or negative time intervals. You can also use this field to initialize a <xref:System.TimeSpan> object to a zero time value.  
+  
+   
+  
+## Examples  
+ The following example references and displays the value of the Zero field.  
+  
+ [!CODE [System.TimeSpan.Fields#1](../CodeSnippet/VS_Snippets_CLR_System/system.TimeSpan.Fields#1)]  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
   </Members>

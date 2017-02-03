@@ -22,8 +22,22 @@
     </Attribute>
   </Attributes>
   <Docs>
-    <summary>To be added.</summary>
-    <remarks>To be added.</remarks>
+    <summary>Provides a slimmed down version of &lt;see cref="T:System.Threading.ManualResetEvent"&gt;.</summary>
+    <remarks>
+      <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ You can use this class for better performance than <xref:System.Threading.ManualResetEvent> when wait times are expected to be very short, and when the event does not cross a process boundary. ManualResetEventSlim uses busy spinning for a short time while it waits for the event to become signaled. When wait times are short, spinning can be much less expensive than waiting by using wait handles. However, if the event does not become signaled within a certain period of time, ManualResetEventSlim resorts to a regular event handle wait.  
+  
+   
+  
+## Examples  
+ The following example shows how to use a ManualResetEventSlim. For more information about the use of `SpinCount` and other best practices concerning the use of this type, see [ManualResetEvent and ManualResetEventSlim](../Topic/ManualResetEvent%20and%20ManualResetEventSlim.md).  
+  
+ [!CODE [System.Threading.ManualResetEventSlim#01](../CodeSnippet/VS_Snippets_CLR_System/system.threading.manualreseteventslim#01)]  
+  
+ ]]></format>
+    </remarks>
   </Docs>
   <Members>
     <Member MemberName=".ctor">
@@ -35,7 +49,7 @@
       </AssemblyInfo>
       <Parameters />
       <Docs>
-        <summary>To be added.</summary>
+        <summary>Initializes a new instance of the &lt;see cref="T:System.Threading.ManualResetEventSlim"&gt; class with an initial state of nonsignaled.</summary>
         <remarks>To be added.</remarks>
       </Docs>
     </Member>
@@ -50,8 +64,8 @@
         <Parameter Name="initialState" Type="System.Boolean" />
       </Parameters>
       <Docs>
-        <param name="initialState">To be added.</param>
-        <summary>To be added.</summary>
+        <param name="initialState">true to set the initial state signaled; false to set the initial state to nonsignaled.</param>
+        <summary>Initializes a new instance of the &lt;see cref="T:System.Threading.ManualResetEventSlim"&gt; class with a Boolean value indicating whether to set the intial state to signaled.</summary>
         <remarks>To be added.</remarks>
       </Docs>
     </Member>
@@ -67,9 +81,9 @@
         <Parameter Name="spinCount" Type="System.Int32" />
       </Parameters>
       <Docs>
-        <param name="initialState">To be added.</param>
-        <param name="spinCount">To be added.</param>
-        <summary>To be added.</summary>
+        <param name="initialState">true to set the initial state to signaled; false to set the initial state to nonsignaled.</param>
+        <param name="spinCount">The number of spin waits that will occur before falling back to a kernel-based wait operation.</param>
+        <summary>Initializes a new instance of the &lt;see cref="T:System.Threading.ManualResetEventSlim"&gt; class with a Boolean value indicating whether to set the intial state to signaled and a specified spin count.</summary>
         <remarks>To be added.</remarks>
       </Docs>
     </Member>
@@ -85,8 +99,20 @@
       </ReturnValue>
       <Parameters />
       <Docs>
-        <summary>To be added.</summary>
-        <remarks>To be added.</remarks>
+        <summary>Releases all resources used by the current instance of the &lt;see cref="T:System.Threading.ManualResetEventSlim"&gt; class.</summary>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ Call `Dispose` when you are finished using the <xref:System.Threading.ManualResetEventSlim>. The `Dispose` method leaves the <xref:System.Threading.ManualResetEventSlim> in an unusable state. After calling `Dispose`, you must release all references to the <xref:System.Threading.ManualResetEventSlim> so the garbage collector can reclaim the memory that the <xref:System.Threading.ManualResetEventSlim> was occupying.  
+  
+ For more information, see [Cleaning Up Unmanaged Resources](../Topic/Cleaning%20Up%20Unmanaged%20Resources.md) and [Implementing a Dispose Method](../Topic/Implementing%20a%20Dispose%20Method.md).  
+  
+> [!NOTE]
+>  Always call `Dispose` before you release your last reference to the <xref:System.Threading.ManualResetEventSlim>. Otherwise, the resources it is using will not be freed until the garbage collector calls the <xref:System.Threading.ManualResetEventSlim> object's `Finalize` method.  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="Dispose">
@@ -103,9 +129,16 @@
         <Parameter Name="disposing" Type="System.Boolean" />
       </Parameters>
       <Docs>
-        <param name="disposing">To be added.</param>
-        <summary>To be added.</summary>
-        <remarks>To be added.</remarks>
+        <param name="disposing">true to release both managed and unmanaged resources; false to release only unmanaged resources.</param>
+        <summary>Releases the unmanaged resources used by the &lt;see cref="T:System.Threading.ManualResetEventSlim"&gt;, and optionally releases the managed resources.</summary>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ Unlike most of the members of <xref:System.Threading.ManualResetEventSlim>, Dispose is not thread-safe and may not be used concurrently with other members of this instance.  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="IsSet">
@@ -119,8 +152,8 @@
         <ReturnType>System.Boolean</ReturnType>
       </ReturnValue>
       <Docs>
-        <summary>To be added.</summary>
-        <value>To be added.</value>
+        <summary>Gets whether the event is set.</summary>
+        <value>true if the event has is set; otherwise, false.</value>
         <remarks>To be added.</remarks>
       </Docs>
     </Member>
@@ -136,8 +169,15 @@
       </ReturnValue>
       <Parameters />
       <Docs>
-        <summary>To be added.</summary>
-        <remarks>To be added.</remarks>
+        <summary>Sets the state of the event to nonsignaled, which causes threads to block.</summary>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ Reset can be called concurrently with all members except <xref:System.Threading.ManualResetEventSlim.WaitHandle%2A>.  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="Set">
@@ -152,7 +192,7 @@
       </ReturnValue>
       <Parameters />
       <Docs>
-        <summary>To be added.</summary>
+        <summary>Sets the state of the event to signaled, which allows one or more threads waiting on the event to proceed.</summary>
         <remarks>To be added.</remarks>
       </Docs>
     </Member>
@@ -167,8 +207,8 @@
         <ReturnType>System.Int32</ReturnType>
       </ReturnValue>
       <Docs>
-        <summary>To be added.</summary>
-        <value>To be added.</value>
+        <summary>Gets the number of spin waits that will occur before falling back to a kernel-based wait operation.</summary>
+        <value>Returns the number of spin waits that will occur before falling back to a kernel-based wait operation.</value>
         <remarks>To be added.</remarks>
       </Docs>
     </Member>
@@ -184,8 +224,15 @@
       </ReturnValue>
       <Parameters />
       <Docs>
-        <summary>To be added.</summary>
-        <remarks>To be added.</remarks>
+        <summary>Blocks the current thread until the current &lt;see cref="T:System.Threading.ManualResetEventSlim"&gt; is set.</summary>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ The caller of this method blocks indefinitely until the current instance is set. The caller will return immediately if the event is currently in a set state.  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="Wait">
@@ -202,9 +249,9 @@
         <Parameter Name="millisecondsTimeout" Type="System.Int32" />
       </Parameters>
       <Docs>
-        <param name="millisecondsTimeout">To be added.</param>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
+        <param name="millisecondsTimeout">The number of milliseconds to wait, or &lt;see cref="F:System.Threading.Timeout.Infinite"&gt;(-1) to wait indefinitely.</param>
+        <summary>Blocks the current thread until the current &lt;see cref="T:System.Threading.ManualResetEventSlim"&gt; is set, using a 32-bit signed integer to measure the time interval.</summary>
+        <returns>`true` if the &lt;see cref="T:System.Threading.ManualResetEventSlim"&gt; was set; otherwise, `false`.</returns>
         <remarks>To be added.</remarks>
       </Docs>
     </Member>
@@ -222,9 +269,16 @@
         <Parameter Name="cancellationToken" Type="System.Threading.CancellationToken" />
       </Parameters>
       <Docs>
-        <param name="cancellationToken">To be added.</param>
-        <summary>To be added.</summary>
-        <remarks>To be added.</remarks>
+        <param name="cancellationToken">The &lt;see cref="T:System.Threading.CancellationToken"&gt; to observe.</param>
+        <summary>Blocks the current thread until the current &lt;see cref="T:System.Threading.ManualResetEventSlim"&gt; receives a signal, while observing a &lt;xref:System.Threading.CancellationToken&gt;.</summary>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ The caller of this method blocks indefinitely until the current instance is set. The caller will return immediately if the event is currently in a set state.  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="Wait">
@@ -241,9 +295,9 @@
         <Parameter Name="timeout" Type="System.TimeSpan" />
       </Parameters>
       <Docs>
-        <param name="timeout">To be added.</param>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
+        <param name="timeout">A &lt;see cref="T:System.TimeSpan"&gt; that represents the number of milliseconds to wait, or a &lt;see cref="T:System.TimeSpan"&gt; that represents -1 milliseconds to wait indefinitely.</param>
+        <summary>Blocks the current thread until the current &lt;see cref="T:System.Threading.ManualResetEventSlim"&gt; is set, using a &lt;xref:System.TimeSpan&gt; to measure the time interval.</summary>
+        <returns>`true` if the &lt;see cref="T:System.Threading.ManualResetEventSlim"&gt; was set; otherwise, `false`.</returns>
         <remarks>To be added.</remarks>
       </Docs>
     </Member>
@@ -262,10 +316,10 @@
         <Parameter Name="cancellationToken" Type="System.Threading.CancellationToken" />
       </Parameters>
       <Docs>
-        <param name="millisecondsTimeout">To be added.</param>
-        <param name="cancellationToken">To be added.</param>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
+        <param name="millisecondsTimeout">The number of milliseconds to wait, or &lt;see cref="F:System.Threading.Timeout.Infinite"&gt;(-1) to wait indefinitely.</param>
+        <param name="cancellationToken">The &lt;see cref="T:System.Threading.CancellationToken"&gt; to observe.</param>
+        <summary>Blocks the current thread until the current &lt;see cref="T:System.Threading.ManualResetEventSlim"&gt; is set, using a 32-bit signed integer to measure the time interval, while observing a &lt;xref:System.Threading.CancellationToken&gt;.</summary>
+        <returns>`true` if the &lt;see cref="T:System.Threading.ManualResetEventSlim"&gt; was set; otherwise, `false`.</returns>
         <remarks>To be added.</remarks>
       </Docs>
     </Member>
@@ -284,10 +338,10 @@
         <Parameter Name="cancellationToken" Type="System.Threading.CancellationToken" />
       </Parameters>
       <Docs>
-        <param name="timeout">To be added.</param>
-        <param name="cancellationToken">To be added.</param>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
+        <param name="timeout">A &lt;see cref="T:System.TimeSpan"&gt; that represents the number of milliseconds to wait, or a &lt;see cref="T:System.TimeSpan"&gt; that represents -1 milliseconds to wait indefinitely.</param>
+        <param name="cancellationToken">The &lt;see cref="T:System.Threading.CancellationToken"&gt; to observe.</param>
+        <summary>Blocks the current thread until the current &lt;see cref="T:System.Threading.ManualResetEventSlim"&gt; is set, using a &lt;xref:System.TimeSpan&gt; to measure the time interval, while observing a &lt;xref:System.Threading.CancellationToken&gt;.</summary>
+        <returns>`true` if the &lt;see cref="T:System.Threading.ManualResetEventSlim"&gt; was set; otherwise, `false`.</returns>
         <remarks>To be added.</remarks>
       </Docs>
     </Member>
@@ -302,9 +356,16 @@
         <ReturnType>System.Threading.WaitHandle</ReturnType>
       </ReturnValue>
       <Docs>
-        <summary>To be added.</summary>
-        <value>To be added.</value>
-        <remarks>To be added.</remarks>
+        <summary>Gets the underlying &lt;see cref="T:System.Threading.WaitHandle"&gt; object for this &lt;xref:System.Threading.ManualResetEventSlim&gt;.</summary>
+        <value>The underlying &lt;see cref="T:System.Threading.WaitHandle"&gt; event object fore this &lt;xref:System.Threading.ManualResetEventSlim&gt;.</value>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ Accessing this property forces initialization of an underlying event object if one hasn't already been created. To simply wait on this <xref:System.Threading.ManualResetEventSlim>, the public Wait methods should be preferred. It is recommended to dispose the <xref:System.Threading.ManualResetEventSlim> instance after accessing this property, in order to prevent a resource leak.  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
   </Members>
