@@ -8,11 +8,12 @@ items:
   - System.Runtime.GCSettings.LatencyMode
   langs:
   - csharp
-  - vb
   name: GCSettings
   nameWithType: GCSettings
   fullName: System.Runtime.GCSettings
   type: Class
+  summary: Specifies the garbage collection settings for the current process.
+  remarks: Use the <xref:System.Runtime.GCSettings.IsServerGC%2A> property to determine whether server garbage collection is enabled for the current process.
   syntax:
     content: public static class GCSettings
   inheritance:
@@ -26,12 +27,15 @@ items:
   - System.Object.MemberwiseClone
   - System.Object.ReferenceEquals(System.Object,System.Object)
   - System.Object.ToString
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Runtime.GCSettings.IsServerGC
   id: IsServerGC
   parent: System.Runtime.GCSettings
   langs:
   - csharp
-  - vb
   name: IsServerGC
   nameWithType: GCSettings.IsServerGC
   fullName: System.Runtime.GCSettings.IsServerGC
@@ -39,17 +43,24 @@ items:
   assemblies:
   - mscorlib
   namespace: System.Runtime
+  summary: Gets a value that indicates whether server garbage collection is enabled.
+  remarks: "For information about server garbage collection, see the \"Workstation and Server Garbage Collection\" section in [Fundamentals of Garbage Collection](../Topic/Fundamentals%20of%20Garbage%20Collection.md).  \n  \n If server garbage collection is not enabled, workstation garbage collection is in effect (with or without concurrent collection). Server garbage collection is available only on multiprocessor computers.  \n  \n An unmanaged host can request server garbage collection, and the host request overrides configuration file settings. If the host does not specify the type of garbage collection, you can use a configuration file setting to specify server garbage collection. This setting is valid only in the application configuration file, not in the machine configuration file (see [Configuring Apps](../Topic/Configuring%20Apps%20by%20using%20Configuration%20Files.md)). The following example shows the contents of a sample application configuration file that enables server garbage collection.  \n  \n```  \n<configuration>  \n  <runtime>  \n    <gcServer enabled=\"true\" />  \n  </runtime>  \n</configuration>  \n```"
+  example:
+  - "The following example indicates whether the host computer is using server or workstation garbage collection.  \n  \n [!CODE [Environment.IsServerGC#1](../CodeSnippet/VS_Snippets_CLR/environment.IsServerGC#1)]"
   syntax:
     content: public static bool IsServerGC { get; }
     return:
       type: System.Boolean
-      description: Return description to be filled
+      description: To be added.
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Runtime.GCSettings.LargeObjectHeapCompactionMode
   id: LargeObjectHeapCompactionMode
   parent: System.Runtime.GCSettings
   langs:
   - csharp
-  - vb
   name: LargeObjectHeapCompactionMode
   nameWithType: GCSettings.LargeObjectHeapCompactionMode
   fullName: System.Runtime.GCSettings.LargeObjectHeapCompactionMode
@@ -57,17 +68,22 @@ items:
   assemblies:
   - mscorlib
   namespace: System.Runtime
+  summary: "[Supported in the .NET Framework 4.5.1 and later versions]  \n  \n Gets or sets a value that indicates whether a full blocking garbage collection compacts the large object heap (LOH)."
+  remarks: "The LOH is used for allocating memory for large objects (such as arrays) that require more than 85,000 bytes. Because of the performance impact of copying large blocks of memory, the garbage collector ordinarily sweeps the   LOH, which involves creating a list of the memory locations that were occupied by dead objects and that can be reused to satisfy future requests for allocation of memory for large objects. However, in apps that make extensive use of the LOH to store transient objects, memory fragmentation can also adversely impact performance. In this case, it is possible to use the LargeObjectHeapCompactionMode property to compact rather than simply sweep the LOH during a garbage collection.  \n  \n The default value of the LargeObjectHeapCompactionMode property is <xref:System.Runtime.GCLargeObjectHeapCompactionMode?displayProperty=fullName>, which indicates that the LOH is not compacted during garbage collections. If you assign the property a value of <xref:System.Runtime.GCLargeObjectHeapCompactionMode?displayProperty=fullName>, the LOH is compacted during the next full blocking garbage collection, and the property value is reset to <xref:System.Runtime.GCLargeObjectHeapCompactionMode?displayProperty=fullName>.  \n  \n> [!NOTE]\n>  Background garbage collections are not blocking. This means that, if you set the LargeObjectHeapCompactionMode property to <xref:System.Runtime.GCLargeObjectHeapCompactionMode?displayProperty=fullName>, any background generation 2 collections that occur subsequently do not compact the LOH. Only the first blocking generation 2 collection compacts the LOH.  \n  \n After the LargeObjectHeapCompactionMode property is set to <xref:System.Runtime.GCLargeObjectHeapCompactionMode?displayProperty=fullName>, the next full blocking garbage collection (and compaction of the LOH) occurs at an indeterminate future time. You can compact the LOH immediately by using code like the following:  \n  \n [!CODE [System.Runtime.GCSettings#1](../CodeSnippet/VS_Snippets_CLR_System/system.runtime.gcsettings#1)]"
   syntax:
     content: public static System.Runtime.GCLargeObjectHeapCompactionMode LargeObjectHeapCompactionMode { get; set; }
     return:
       type: System.Runtime.GCLargeObjectHeapCompactionMode
-      description: Return description to be filled
+      description: To be added.
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Runtime.GCSettings.LatencyMode
   id: LatencyMode
   parent: System.Runtime.GCSettings
   langs:
   - csharp
-  - vb
   name: LatencyMode
   nameWithType: GCSettings.LatencyMode
   fullName: System.Runtime.GCSettings.LatencyMode
@@ -75,11 +91,17 @@ items:
   assemblies:
   - mscorlib
   namespace: System.Runtime
+  summary: Gets or sets the current latency mode for garbage collection.
+  remarks: "You can reduce the level of intrusiveness of garbage collection in your application by setting the <xref:System.Runtime.GCLatencyMode> to <xref:System.Runtime.GCLatencyMode> during critical operations. After such operations are completed, return to a higher latency mode so that more objects can be reclaimed to increase memory.  \n  \n Ordinarily, you set the value of the LatencyMode property to define the garbage collector's latency mode. However, you cannot set the no GC region latency mode by assigning the <xref:System.Runtime.GCLatencyMode?displayProperty=fullName> enumeration value to the LatencyMode property. Instead, you call the <xref:System.GC.TryStartNoGCRegion%2A?displayProperty=fullName> method to begin the no GC region latency mode, and you call the <xref:System.GC.EndNoGCRegion%2A?displayProperty=fullName> to end it.  \n  \n See [Latency Modes](../Topic/Latency%20Modes.md) for a discussion of how the runtime configuration settings for garbage collection affect the default value of the <xref:System.Runtime.GCLatencyMode> enumeration."
   syntax:
     content: public static System.Runtime.GCLatencyMode LatencyMode { get; set; }
     return:
       type: System.Runtime.GCLatencyMode
-      description: Return description to be filled
+      description: To be added.
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 references:
 - uid: System.Object
   isExternal: false

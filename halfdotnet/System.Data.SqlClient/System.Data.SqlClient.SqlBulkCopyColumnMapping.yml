@@ -14,11 +14,14 @@ items:
   - System.Data.SqlClient.SqlBulkCopyColumnMapping.SourceOrdinal
   langs:
   - csharp
-  - vb
   name: SqlBulkCopyColumnMapping
   nameWithType: SqlBulkCopyColumnMapping
   fullName: System.Data.SqlClient.SqlBulkCopyColumnMapping
   type: Class
+  summary: Defines the mapping between a column in a <see cref="T:System.Data.SqlClient.SqlBulkCopy"> instance's data source and a column in the instance's destination table.
+  remarks: "Column mappings define the mapping between data source and the target table.  \n  \n If mappings are not defined—that is, the <xref:System.Data.SqlClient.SqlBulkCopy.ColumnMappings%2A> collection is empty—the columns are mapped implicitly based on ordinal position. For this to work, source and target schemas must match. If they do not, an <xref:System.InvalidOperationException> will be thrown.  \n  \n If the <xref:System.Data.SqlClient.SqlBulkCopy.ColumnMappings%2A> collection is not empty, not every column present in the data source has to be specified. Those not mapped by the collection are ignored.  \n  \n You can refer to source and target columns by either name or ordinal. You can also mix by-name and by-ordinal column references in the same mappings collection."
+  example:
+  - "The following example bulk copies data from a source table in the **AdventureWorks** sample database to a destination table in the same database. Although the number of columns in the destination matches the number of columns in the source, and each destination column is in the same ordinal position as its corresponding source column, the column names do not match. SqlBulkCopyColumnMapping objects are used to create a column map for the bulk copy.  \n  \n> [!IMPORTANT]\n>  This sample will not run unless you have created the work tables as described in [Bulk Copy Example Setup](../Topic/Bulk%20Copy%20Example%20Setup.md). This code is provided to demonstrate the syntax for using **SqlBulkCopy** only. If the source and destination tables are in the same SQL Server instance, it is easier and faster to use a Transact-SQL `INSERT … SELECT` statement to copy the data.  \n  \n [!CODE [DataWorks SqlBulkCopy.ColumnMapping#1](../CodeSnippet/VS_Snippets_ADO.NET/DataWorks SqlBulkCopy.ColumnMapping#1)]"
   syntax:
     content: public sealed class SqlBulkCopyColumnMapping
   inheritance:
@@ -32,12 +35,15 @@ items:
   - System.Object.MemberwiseClone
   - System.Object.ReferenceEquals(System.Object,System.Object)
   - System.Object.ToString
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Data.SqlClient.SqlBulkCopyColumnMapping.#ctor
   id: '#ctor'
   parent: System.Data.SqlClient.SqlBulkCopyColumnMapping
   langs:
   - csharp
-  - vb
   name: SqlBulkCopyColumnMapping()
   nameWithType: SqlBulkCopyColumnMapping.SqlBulkCopyColumnMapping()
   fullName: System.Data.SqlClient.SqlBulkCopyColumnMapping.SqlBulkCopyColumnMapping()
@@ -45,15 +51,22 @@ items:
   assemblies:
   - System.Data
   namespace: System.Data.SqlClient
+  summary: Default constructor that initializes a new <see cref="T:System.Data.SqlClient.SqlBulkCopyColumnMapping"> object.
+  remarks: If you use this constructor, you must then define the source for the mapping using the <xref:System.Data.SqlClient.SqlBulkCopyColumnMapping.SourceColumn%2A> property or the <xref:System.Data.SqlClient.SqlBulkCopyColumnMapping.SourceOrdinal%2A> property, and define the destination for the mapping using the <xref:System.Data.SqlClient.SqlBulkCopyColumnMapping.DestinationColumn%2A> property or the <xref:System.Data.SqlClient.SqlBulkCopyColumnMapping.DestinationOrdinal%2A> property.
+  example:
+  - "The following example bulk copies data from a source table in the **AdventureWorks** sample database to a destination table in the same database. Although the number of columns in the destination matches the number of columns in the source, the column names and ordinal positions do not match. <xref:System.Data.SqlClient.SqlBulkCopyColumnMapping> objects are used to create a column map for the bulk copy.  \n  \n> [!IMPORTANT]\n>  This sample will not run unless you have created the work tables as described in [Bulk Copy Example Setup](../Topic/Bulk%20Copy%20Example%20Setup.md). This code is provided to demonstrate the syntax for using **SqlBulkCopy** only. If the source and destination tables are in the same SQL Server instance, it is easier and faster to use a Transact-SQL `INSERT … SELECT` statement to copy the data.  \n  \n [!CODE [DataWorks SqlBulkCopy.ColumnMapping#1](../CodeSnippet/VS_Snippets_ADO.NET/DataWorks SqlBulkCopy.ColumnMapping#1)]"
   syntax:
     content: public SqlBulkCopyColumnMapping ();
     parameters: []
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Data.SqlClient.SqlBulkCopyColumnMapping.#ctor(System.Int32,System.Int32)
   id: '#ctor(System.Int32,System.Int32)'
   parent: System.Data.SqlClient.SqlBulkCopyColumnMapping
   langs:
   - csharp
-  - vb
   name: SqlBulkCopyColumnMapping(Int32,Int32)
   nameWithType: SqlBulkCopyColumnMapping.SqlBulkCopyColumnMapping(Int32,Int32)
   fullName: System.Data.SqlClient.SqlBulkCopyColumnMapping.SqlBulkCopyColumnMapping(Int32,Int32)
@@ -61,21 +74,28 @@ items:
   assemblies:
   - System.Data
   namespace: System.Data.SqlClient
+  summary: Creates a new column mapping, using column ordinals to refer to source and destination columns.
+  remarks: ''
+  example:
+  - "The following example bulk copies data from a source table in the **AdventureWorks** sample database to a destination table in the same database. Although the number of columns in the destination matches the number of columns in the source, the column names and ordinal positions do not match. <xref:System.Data.SqlClient.SqlBulkCopyColumnMapping> objects are used to create a column map for the bulk copy based on the ordinal positions of the columns.  \n  \n> [!IMPORTANT]\n>  This sample will not run unless you have created the work tables as described in [Bulk Copy Example Setup](../Topic/Bulk%20Copy%20Example%20Setup.md). This code is provided to demonstrate the syntax for using **SqlBulkCopy** only. If the source and destination tables are in the same SQL Server instance, it is easier and faster to use a Transact-SQL `INSERT … SELECT` statement to copy the data.  \n  \n [!CODE [DataWorks SqlBulkCopy.ColumnMappingOrdinal#1](../CodeSnippet/VS_Snippets_ADO.NET/DataWorks SqlBulkCopy.ColumnMappingOrdinal#1)]"
   syntax:
     content: public SqlBulkCopyColumnMapping (int sourceColumnOrdinal, int destinationOrdinal);
     parameters:
     - id: sourceColumnOrdinal
       type: System.Int32
-      description: Parameter description to be filled
+      description: The ordinal position of the source column within the data source.
     - id: destinationOrdinal
       type: System.Int32
-      description: Parameter description to be filled
+      description: The ordinal position of the destination column within the destination table.
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Data.SqlClient.SqlBulkCopyColumnMapping.#ctor(System.Int32,System.String)
   id: '#ctor(System.Int32,System.String)'
   parent: System.Data.SqlClient.SqlBulkCopyColumnMapping
   langs:
   - csharp
-  - vb
   name: SqlBulkCopyColumnMapping(Int32,String)
   nameWithType: SqlBulkCopyColumnMapping.SqlBulkCopyColumnMapping(Int32,String)
   fullName: System.Data.SqlClient.SqlBulkCopyColumnMapping.SqlBulkCopyColumnMapping(Int32,String)
@@ -83,21 +103,28 @@ items:
   assemblies:
   - System.Data
   namespace: System.Data.SqlClient
+  summary: Creates a new column mapping, using a column ordinal to refer to the source column and a column name for the target column.
+  remarks: ''
+  example:
+  - "The following example bulk copies data from a source table in the **AdventureWorks** sample database to a destination table in the same database. Although the number of columns in the destination matches the number of columns in the source, the column names and ordinal positions do not match. <xref:System.Data.SqlClient.SqlBulkCopyColumnMapping> objects are used to create a column map for the bulk copy.  \n  \n> [!IMPORTANT]\n>  This sample will not run unless you have created the work tables as described in [Bulk Copy Example Setup](../Topic/Bulk%20Copy%20Example%20Setup.md). This code is provided to demonstrate the syntax for using **SqlBulkCopy** only. If the source and destination tables are in the same SQL Server instance, it is easier and faster to use a Transact-SQL `INSERT … SELECT` statement to copy the data.  \n  \n [!CODE [DataWorks SqlBulkCopy.ColumnMappingOrdinalName#1](../CodeSnippet/VS_Snippets_ADO.NET/DataWorks SqlBulkCopy.ColumnMappingOrdinalName#1)]"
   syntax:
     content: public SqlBulkCopyColumnMapping (int sourceColumnOrdinal, string destinationColumn);
     parameters:
     - id: sourceColumnOrdinal
       type: System.Int32
-      description: Parameter description to be filled
+      description: The ordinal position of the source column within the data source.
     - id: destinationColumn
       type: System.String
-      description: Parameter description to be filled
+      description: The name of the destination column within the destination table.
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Data.SqlClient.SqlBulkCopyColumnMapping.#ctor(System.String,System.Int32)
   id: '#ctor(System.String,System.Int32)'
   parent: System.Data.SqlClient.SqlBulkCopyColumnMapping
   langs:
   - csharp
-  - vb
   name: SqlBulkCopyColumnMapping(String,Int32)
   nameWithType: SqlBulkCopyColumnMapping.SqlBulkCopyColumnMapping(String,Int32)
   fullName: System.Data.SqlClient.SqlBulkCopyColumnMapping.SqlBulkCopyColumnMapping(String,Int32)
@@ -105,21 +132,28 @@ items:
   assemblies:
   - System.Data
   namespace: System.Data.SqlClient
+  summary: Creates a new column mapping, using a column name to refer to the source column and a column ordinal for the target column.
+  remarks: ''
+  example:
+  - "The following example bulk copies data from a source table in the **AdventureWorks** sample database to a destination table in the same database. Although the number of columns in the destination matches the number of columns in the source, the column names and ordinal positions do not match. <xref:System.Data.SqlClient.SqlBulkCopyColumnMapping> objects are used to create a column map for the bulk copy.  \n  \n> [!IMPORTANT]\n>  This sample will not run unless you have created the work tables as described in [Bulk Copy Example Setup](../Topic/Bulk%20Copy%20Example%20Setup.md). This code is provided to demonstrate the syntax for using **SqlBulkCopy** only. If the source and destination tables are in the same SQL Server instance, it is easier and faster to use a Transact-SQL `INSERT … SELECT` statement to copy the data.  \n  \n [!CODE [DataWorks SqlBulkCopy.ColumnMappingNameOrdinal#1](../CodeSnippet/VS_Snippets_ADO.NET/DataWorks SqlBulkCopy.ColumnMappingNameOrdinal#1)]"
   syntax:
     content: public SqlBulkCopyColumnMapping (string sourceColumn, int destinationOrdinal);
     parameters:
     - id: sourceColumn
       type: System.String
-      description: Parameter description to be filled
+      description: The name of the source column within the data source.
     - id: destinationOrdinal
       type: System.Int32
-      description: Parameter description to be filled
+      description: The ordinal position of the destination column within the destination table.
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Data.SqlClient.SqlBulkCopyColumnMapping.#ctor(System.String,System.String)
   id: '#ctor(System.String,System.String)'
   parent: System.Data.SqlClient.SqlBulkCopyColumnMapping
   langs:
   - csharp
-  - vb
   name: SqlBulkCopyColumnMapping(String,String)
   nameWithType: SqlBulkCopyColumnMapping.SqlBulkCopyColumnMapping(String,String)
   fullName: System.Data.SqlClient.SqlBulkCopyColumnMapping.SqlBulkCopyColumnMapping(String,String)
@@ -127,21 +161,28 @@ items:
   assemblies:
   - System.Data
   namespace: System.Data.SqlClient
+  summary: Creates a new column mapping, using column names to refer to source and destination columns.
+  remarks: ''
+  example:
+  - "The following example bulk copies data from a source table in the **AdventureWorks** sample database to a destination table in the same database. Although the number of columns in the destination matches the number of columns in the source, the column names and ordinal positions do not match. <xref:System.Data.SqlClient.SqlBulkCopyColumnMapping> objects are used to create a column map for the bulk copy.  \n  \n> [!IMPORTANT]\n>  This sample will not run unless you have created the work tables as described in [Bulk Copy Example Setup](../Topic/Bulk%20Copy%20Example%20Setup.md). This code is provided to demonstrate the syntax for using **SqlBulkCopy** only. If the source and destination tables are in the same SQL Server instance, it is easier and faster to use a Transact-SQL `INSERT … SELECT` statement to copy the data.  \n  \n [!CODE [DataWorks SqlBulkCopy.ColumnMapping#1](../CodeSnippet/VS_Snippets_ADO.NET/DataWorks SqlBulkCopy.ColumnMapping#1)]"
   syntax:
     content: public SqlBulkCopyColumnMapping (string sourceColumn, string destinationColumn);
     parameters:
     - id: sourceColumn
       type: System.String
-      description: Parameter description to be filled
+      description: The name of the source column within the data source.
     - id: destinationColumn
       type: System.String
-      description: Parameter description to be filled
+      description: The name of the destination column within the destination table.
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Data.SqlClient.SqlBulkCopyColumnMapping.DestinationColumn
   id: DestinationColumn
   parent: System.Data.SqlClient.SqlBulkCopyColumnMapping
   langs:
   - csharp
-  - vb
   name: DestinationColumn
   nameWithType: SqlBulkCopyColumnMapping.DestinationColumn
   fullName: System.Data.SqlClient.SqlBulkCopyColumnMapping.DestinationColumn
@@ -149,17 +190,24 @@ items:
   assemblies:
   - System.Data
   namespace: System.Data.SqlClient
+  summary: Name of the column being mapped in the destination database table.
+  remarks: The DestinationColumn and <xref:System.Data.SqlClient.SqlBulkCopyColumnMapping.DestinationOrdinal%2A> properties are mutually exclusive. The last value set takes precedence.
+  example:
+  - "The following example bulk copies data from a source table in the **AdventureWorks** sample database to a destination table in the same database. Although the number of columns in the destination matches the number of columns in the source, the column names and ordinal positions do not match. <xref:System.Data.SqlClient.SqlBulkCopyColumnMapping> objects are used to create a column map for the bulk copy.  \n  \n> [!IMPORTANT]\n>  This sample will not run unless you have created the work tables as described in [Bulk Copy Example Setup](../Topic/Bulk%20Copy%20Example%20Setup.md). This code is provided to demonstrate the syntax for using **SqlBulkCopy** only. If the source and destination tables are in the same SQL Server instance, it is easier and faster to use a Transact-SQL `INSERT … SELECT` statement to copy the data.  \n  \n [!CODE [DataWorks SqlBulkCopy.ColumnMappingDestinationColumn#1](../CodeSnippet/VS_Snippets_ADO.NET/DataWorks SqlBulkCopy.ColumnMappingDestinationColumn#1)]"
   syntax:
     content: public string DestinationColumn { get; set; }
     return:
       type: System.String
-      description: Return description to be filled
+      description: To be added.
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Data.SqlClient.SqlBulkCopyColumnMapping.DestinationOrdinal
   id: DestinationOrdinal
   parent: System.Data.SqlClient.SqlBulkCopyColumnMapping
   langs:
   - csharp
-  - vb
   name: DestinationOrdinal
   nameWithType: SqlBulkCopyColumnMapping.DestinationOrdinal
   fullName: System.Data.SqlClient.SqlBulkCopyColumnMapping.DestinationOrdinal
@@ -167,17 +215,24 @@ items:
   assemblies:
   - System.Data
   namespace: System.Data.SqlClient
+  summary: Ordinal value of the destination column within the destination table.
+  remarks: The <xref:System.Data.SqlClient.SqlBulkCopyColumnMapping.DestinationColumn%2A> and DestinationOrdinal properties are mutually exclusive. The last value set takes precedence.
+  example:
+  - "The following example bulk copies data from a source table in the **AdventureWorks** sample database to a destination table in the same database. Although the number of columns in the destination matches the number of columns in the source, the column names and ordinal positions do not match. <xref:System.Data.SqlClient.SqlBulkCopyColumnMapping> objects are used to create a column map for the bulk copy.  \n  \n> [!IMPORTANT]\n>  This sample will not run unless you have created the work tables as described in [Bulk Copy Example Setup](../Topic/Bulk%20Copy%20Example%20Setup.md). This code is provided to demonstrate the syntax for using **SqlBulkCopy** only. If the source and destination tables are in the same SQL Server instance, it is easier and faster to use a Transact-SQL `INSERT … SELECT` statement to copy the data.  \n  \n [!CODE [DataWorks SqlBulkCopy.ColumnMappingDestinationOrdinal#1](../CodeSnippet/VS_Snippets_ADO.NET/DataWorks SqlBulkCopy.ColumnMappingDestinationOrdinal#1)]"
   syntax:
     content: public int DestinationOrdinal { get; set; }
     return:
       type: System.Int32
-      description: Return description to be filled
+      description: To be added.
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Data.SqlClient.SqlBulkCopyColumnMapping.SourceColumn
   id: SourceColumn
   parent: System.Data.SqlClient.SqlBulkCopyColumnMapping
   langs:
   - csharp
-  - vb
   name: SourceColumn
   nameWithType: SqlBulkCopyColumnMapping.SourceColumn
   fullName: System.Data.SqlClient.SqlBulkCopyColumnMapping.SourceColumn
@@ -185,17 +240,24 @@ items:
   assemblies:
   - System.Data
   namespace: System.Data.SqlClient
+  summary: Name of the column being mapped in the data source.
+  remarks: The SourceColumn and <xref:System.Data.SqlClient.SqlBulkCopyColumnMapping.SourceOrdinal%2A> properties are mutually exclusive. The last value set takes precedence.
+  example:
+  - "The following example bulk copies data from a source table in the **AdventureWorks** sample database to a destination table in the same database. Although the number of columns in the destination matches the number of columns in the source, the column names and ordinal positions do not match. <xref:System.Data.SqlClient.SqlBulkCopyColumnMapping> objects are used to create a column map for the bulk copy.  \n  \n> [!IMPORTANT]\n>  This sample will not run unless you have created the work tables as described in [Bulk Copy Example Setup](../Topic/Bulk%20Copy%20Example%20Setup.md). This code is provided to demonstrate the syntax for using **SqlBulkCopy** only. If the source and destination tables are in the same SQL Server instance, it is easier and faster to use a Transact-SQL `INSERT … SELECT` statement to copy the data.  \n  \n [!CODE [DataWorks SqlBulkCopy.ColumnMappingDestinationColumn#1](../CodeSnippet/VS_Snippets_ADO.NET/DataWorks SqlBulkCopy.ColumnMappingDestinationColumn#1)]"
   syntax:
     content: public string SourceColumn { get; set; }
     return:
       type: System.String
-      description: Return description to be filled
+      description: To be added.
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Data.SqlClient.SqlBulkCopyColumnMapping.SourceOrdinal
   id: SourceOrdinal
   parent: System.Data.SqlClient.SqlBulkCopyColumnMapping
   langs:
   - csharp
-  - vb
   name: SourceOrdinal
   nameWithType: SqlBulkCopyColumnMapping.SourceOrdinal
   fullName: System.Data.SqlClient.SqlBulkCopyColumnMapping.SourceOrdinal
@@ -203,11 +265,19 @@ items:
   assemblies:
   - System.Data
   namespace: System.Data.SqlClient
+  summary: The ordinal position of the source column within the data source.
+  remarks: The <xref:System.Data.SqlClient.SqlBulkCopyColumnMapping.SourceColumn%2A> and SourceOrdinal properties are mutually exclusive. The last value set takes precedence.
+  example:
+  - "The following example bulk copies data from a source table in the **AdventureWorks** sample database to a destination table in the same database. Although the number of columns in the destination matches the number of columns in the source, the column names and ordinal positions do not match. <xref:System.Data.SqlClient.SqlBulkCopyColumnMapping> objects are used to create a column map for the bulk copy.  \n  \n> [!IMPORTANT]\n>  This sample will not run unless you have created the work tables as described in [Bulk Copy Example Setup](../Topic/Bulk%20Copy%20Example%20Setup.md). This code is provided to demonstrate the syntax for using **SqlBulkCopy** only. If the source and destination tables are in the same SQL Server instance, it is easier and faster to use a Transact-SQL `INSERT … SELECT` statement to copy the data.  \n  \n [!CODE [DataWorks SqlBulkCopy.ColumnMappingDestinationOrdinal#1](../CodeSnippet/VS_Snippets_ADO.NET/DataWorks SqlBulkCopy.ColumnMappingDestinationOrdinal#1)]"
   syntax:
     content: public int SourceOrdinal { get; set; }
     return:
       type: System.Int32
-      description: Return description to be filled
+      description: To be added.
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 references:
 - uid: System.Object
   isExternal: false

@@ -11,11 +11,12 @@ items:
   - System.Runtime.InteropServices.CustomMarshalers.ExpandoToDispatchExMarshaler.MarshalNativeToManaged(System.IntPtr)
   langs:
   - csharp
-  - vb
   name: ExpandoToDispatchExMarshaler
   nameWithType: ExpandoToDispatchExMarshaler
   fullName: System.Runtime.InteropServices.CustomMarshalers.ExpandoToDispatchExMarshaler
   type: Class
+  summary: Marshals the COM `IDispatchEx` interface to either the .NET Framework <see cref="T:System.Runtime.InteropServices.Expando.IExpando"> interface, or to the <xref:System.Reflection.IReflect> interface, and vice versa.
+  remarks: "Because the CLR does not use this custom marshaler automatically, it must be declared as follows:  \n  \n```  \nvoid UseCustomMarshaler([MarshalAs(UnmanagedType.CustomMarshaler, MarshalTypeRef=typeof(ExpandoToDispatchExMarhsaler))] IExpando expando);  \n```"
   syntax:
     content: 'public class ExpandoToDispatchExMarshaler : System.Runtime.InteropServices.ICustomMarshaler'
   inheritance:
@@ -30,12 +31,15 @@ items:
   - System.Object.MemberwiseClone
   - System.Object.ReferenceEquals(System.Object,System.Object)
   - System.Object.ToString
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Runtime.InteropServices.CustomMarshalers.ExpandoToDispatchExMarshaler.CleanUpManagedData(System.Object)
   id: CleanUpManagedData(System.Object)
   parent: System.Runtime.InteropServices.CustomMarshalers.ExpandoToDispatchExMarshaler
   langs:
   - csharp
-  - vb
   name: CleanUpManagedData(Object)
   nameWithType: ExpandoToDispatchExMarshaler.CleanUpManagedData(Object)
   fullName: System.Runtime.InteropServices.CustomMarshalers.ExpandoToDispatchExMarshaler.CleanUpManagedData(Object)
@@ -43,21 +47,23 @@ items:
   assemblies:
   - CustomMarshalers
   namespace: System.Runtime.InteropServices.CustomMarshalers
+  summary: Performs necessary cleanup of the managed data when it is no longer needed.
+  remarks: The CLR calls this method to clean up managed data allocated in the <xref:System.Runtime.InteropServices.CustomMarshalers.ExpandoToDispatchExMarshaler.MarshalManagedToNative%2A> method.
   syntax:
     content: public virtual void CleanUpManagedData (object pManagedObj);
     parameters:
     - id: pManagedObj
       type: System.Object
-      description: Parameter description to be filled
-    return:
-      type: System.Void
-      description: Return description to be filled
+      description: The managed object to be destroyed.
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Runtime.InteropServices.CustomMarshalers.ExpandoToDispatchExMarshaler.CleanUpNativeData(System.IntPtr)
   id: CleanUpNativeData(System.IntPtr)
   parent: System.Runtime.InteropServices.CustomMarshalers.ExpandoToDispatchExMarshaler
   langs:
   - csharp
-  - vb
   name: CleanUpNativeData(IntPtr)
   nameWithType: ExpandoToDispatchExMarshaler.CleanUpNativeData(IntPtr)
   fullName: System.Runtime.InteropServices.CustomMarshalers.ExpandoToDispatchExMarshaler.CleanUpNativeData(IntPtr)
@@ -65,21 +71,23 @@ items:
   assemblies:
   - CustomMarshalers
   namespace: System.Runtime.InteropServices.CustomMarshalers
+  summary: Performs necessary cleanup of the unmanaged data when it is no longer needed.
+  remarks: The CLR calls this method to clean up the unmanaged data allocated in the <xref:System.Runtime.InteropServices.CustomMarshalers.ExpandoToDispatchExMarshaler.MarshalManagedToNative%2A> method.
   syntax:
     content: public virtual void CleanUpNativeData (IntPtr pNativeData);
     parameters:
     - id: pNativeData
       type: System.IntPtr
-      description: Parameter description to be filled
-    return:
-      type: System.Void
-      description: Return description to be filled
+      description: A pointer to the unmanaged data to be destroyed.
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Runtime.InteropServices.CustomMarshalers.ExpandoToDispatchExMarshaler.GetInstance(System.String)
   id: GetInstance(System.String)
   parent: System.Runtime.InteropServices.CustomMarshalers.ExpandoToDispatchExMarshaler
   langs:
   - csharp
-  - vb
   name: GetInstance(String)
   nameWithType: ExpandoToDispatchExMarshaler.GetInstance(String)
   fullName: System.Runtime.InteropServices.CustomMarshalers.ExpandoToDispatchExMarshaler.GetInstance(String)
@@ -87,21 +95,26 @@ items:
   assemblies:
   - CustomMarshalers
   namespace: System.Runtime.InteropServices.CustomMarshalers
+  summary: Returns an instance of the custom marshaler.
+  remarks: All custom marshalers must implement this method, although it is not part of the <xref:System.Runtime.InteropServices.ICustomMarshaler> interface definition.
   syntax:
     content: public static System.Runtime.InteropServices.ICustomMarshaler GetInstance (string pstrCookie);
     parameters:
     - id: pstrCookie
       type: System.String
-      description: Parameter description to be filled
+      description: String "cookie" parameter that can be used by the custom marshaler.
     return:
       type: System.Runtime.InteropServices.ICustomMarshaler
-      description: Return description to be filled
+      description: An instance of the custom marshaler.
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Runtime.InteropServices.CustomMarshalers.ExpandoToDispatchExMarshaler.GetNativeDataSize
   id: GetNativeDataSize
   parent: System.Runtime.InteropServices.CustomMarshalers.ExpandoToDispatchExMarshaler
   langs:
   - csharp
-  - vb
   name: GetNativeDataSize()
   nameWithType: ExpandoToDispatchExMarshaler.GetNativeDataSize()
   fullName: System.Runtime.InteropServices.CustomMarshalers.ExpandoToDispatchExMarshaler.GetNativeDataSize()
@@ -109,18 +122,23 @@ items:
   assemblies:
   - CustomMarshalers
   namespace: System.Runtime.InteropServices.CustomMarshalers
+  summary: Returns the size in bytes of the unmanaged data to be marshaled.
+  remarks: Because custom marshaling of value types is not supported in the .NET Framework, this method always returns -1.
   syntax:
     content: public virtual int GetNativeDataSize ();
     parameters: []
     return:
       type: System.Int32
-      description: Return description to be filled
+      description: -1 to indicate the type this marshaler handles is not a value type.
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Runtime.InteropServices.CustomMarshalers.ExpandoToDispatchExMarshaler.MarshalManagedToNative(System.Object)
   id: MarshalManagedToNative(System.Object)
   parent: System.Runtime.InteropServices.CustomMarshalers.ExpandoToDispatchExMarshaler
   langs:
   - csharp
-  - vb
   name: MarshalManagedToNative(Object)
   nameWithType: ExpandoToDispatchExMarshaler.MarshalManagedToNative(Object)
   fullName: System.Runtime.InteropServices.CustomMarshalers.ExpandoToDispatchExMarshaler.MarshalManagedToNative(Object)
@@ -128,21 +146,26 @@ items:
   assemblies:
   - CustomMarshalers
   namespace: System.Runtime.InteropServices.CustomMarshalers
+  summary: Marshals an object from managed code to unmanaged code.
+  remarks: The CLR calls this method with the specified instance of a managed object to convert that object from managed code to unmanaged code, and it returns a pointer to the appropriate unmanaged object, representing the COM view of that object.
   syntax:
     content: public virtual IntPtr MarshalManagedToNative (object pManagedObj);
     parameters:
     - id: pManagedObj
       type: System.Object
-      description: Parameter description to be filled
+      description: The managed object to be converted.
     return:
       type: System.IntPtr
-      description: Return description to be filled
+      description: A pointer to the unmanaged object.
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Runtime.InteropServices.CustomMarshalers.ExpandoToDispatchExMarshaler.MarshalNativeToManaged(System.IntPtr)
   id: MarshalNativeToManaged(System.IntPtr)
   parent: System.Runtime.InteropServices.CustomMarshalers.ExpandoToDispatchExMarshaler
   langs:
   - csharp
-  - vb
   name: MarshalNativeToManaged(IntPtr)
   nameWithType: ExpandoToDispatchExMarshaler.MarshalNativeToManaged(IntPtr)
   fullName: System.Runtime.InteropServices.CustomMarshalers.ExpandoToDispatchExMarshaler.MarshalNativeToManaged(IntPtr)
@@ -150,15 +173,21 @@ items:
   assemblies:
   - CustomMarshalers
   namespace: System.Runtime.InteropServices.CustomMarshalers
+  summary: Marshals an object from unmanaged code to managed code.
+  remarks: The CLR calls this method with the specified pointer to an unmanaged object to convert that object from unmanaged code to managed code, and returns a managed object representing the managed view of the unmanaged data.
   syntax:
     content: public virtual object MarshalNativeToManaged (IntPtr pNativeData);
     parameters:
     - id: pNativeData
       type: System.IntPtr
-      description: Parameter description to be filled
+      description: A pointer to the unmanaged object to be converted.
     return:
       type: System.Object
-      description: Return description to be filled
+      description: A managed object.
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 references:
 - uid: System.Object
   isExternal: false
@@ -169,12 +198,6 @@ references:
   name: CleanUpManagedData(Object)
   nameWithType: ExpandoToDispatchExMarshaler.CleanUpManagedData(Object)
   fullName: System.Runtime.InteropServices.CustomMarshalers.ExpandoToDispatchExMarshaler.CleanUpManagedData(Object)
-- uid: System.Void
-  parent: System
-  isExternal: false
-  name: Void
-  nameWithType: Void
-  fullName: System.Void
 - uid: System.Object
   parent: System
   isExternal: false
@@ -187,12 +210,6 @@ references:
   name: CleanUpNativeData(IntPtr)
   nameWithType: ExpandoToDispatchExMarshaler.CleanUpNativeData(IntPtr)
   fullName: System.Runtime.InteropServices.CustomMarshalers.ExpandoToDispatchExMarshaler.CleanUpNativeData(IntPtr)
-- uid: System.Void
-  parent: System
-  isExternal: false
-  name: Void
-  nameWithType: Void
-  fullName: System.Void
 - uid: System.IntPtr
   parent: System
   isExternal: false

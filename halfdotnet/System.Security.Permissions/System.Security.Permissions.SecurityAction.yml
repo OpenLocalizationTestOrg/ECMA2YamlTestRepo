@@ -14,11 +14,14 @@ items:
   - System.Security.Permissions.SecurityAction.RequestRefuse
   langs:
   - csharp
-  - vb
   name: SecurityAction
   nameWithType: SecurityAction
   fullName: System.Security.Permissions.SecurityAction
   type: Enum
+  summary: Specifies the security actions that can be performed using declarative security.
+  remarks: "The following table describes the time that each security action takes place and the targets that it supports.  \n  \n> [!IMPORTANT]\n>  In the [!INCLUDE[net_v40_long](../../add/includes/net-v40-long-md.md)], runtime support has been removed for enforcing the F:System.Security.Permissions.SecurityAction.Deny?qualifyHint=False&autoUpgrade=True, F:System.Security.Permissions.SecurityAction.RequestMinimum?qualifyHint=False&autoUpgrade=True, F:System.Security.Permissions.SecurityAction.RequestOptional?qualifyHint=False&autoUpgrade=True, and F:System.Security.Permissions.SecurityAction.RequestRefuse?qualifyHint=False&autoUpgrade=True permission requests. These requests should not be used in code that is based on [!INCLUDE[net_v40_short](../../add/includes/net-v40-short-md.md)] or later. For more information about this and other changes, see [Security Changes](../Topic/Security%20Changes%20in%20the%20.NET%20Framework.md).  \n  \n You should not useF:System.Security.Permissions.SecurityAction.LinkDemand?qualifyHint=False&autoUpgrade=True in the [!INCLUDE[net_v40_short](../../add/includes/net-v40-short-md.md)]. Instead, use the T:System.Security.SecurityCriticalAttribute?qualifyHint=False&autoUpgrade=True to restrict usage to fully trusted applications, or use F:System.Security.Permissions.SecurityAction.Demand?qualifyHint=False&autoUpgrade=True to restrict partially trusted callers.  \n  \n|Declaration of security action|Time of action|Targets supported|  \n|------------------------------------|--------------------|-----------------------|  \n|`LinkDemand` (do not use in the [!INCLUDE[net_v40_short](../../add/includes/net-v40-short-md.md)])|Just-in-time compilation|Class, method|  \n|`InheritanceDemand`|Load time|Class, method|  \n|`Demand`|Run time|Class, method|  \n|`Assert`|Run time|Class, method|  \n|`Deny` (obsolete in the [!INCLUDE[net_v40_short](../../add/includes/net-v40-short-md.md)])|Run time|Class, method|  \n|`PermitOnly`|Run time|Class, method|  \n|`RequestMinimum` (obsolete in the [!INCLUDE[net_v40_short](../../add/includes/net-v40-short-md.md)])|Grant time|Assembly|  \n|`RequestOptional` (obsolete in the [!INCLUDE[net_v40_short](../../add/includes/net-v40-short-md.md)])|Grant time|Assembly|  \n|`RequestRefuse` (obsolete in the [!INCLUDE[net_v40_short](../../add/includes/net-v40-short-md.md)])|Grant time|Assembly|  \n  \n For additional information about attribute targets, see T:System.Attribute?qualifyHint=False&autoUpgrade=True."
+  example:
+  - "This example shows how to notify the CLR that code in called methods has only T:System.Security.Permissions.IsolatedStoragePermission?qualifyHint=False&autoUpgrade=True, and also demonstrates how to write and read from isolated storage.  \n  \n [!CODE [IsolatedStoragePermissionAttribute#1](../CodeSnippet/VS_Snippets_CLR/IsolatedStoragePermissionAttribute#1)]"
   syntax:
     content: >-
       [System.Runtime.InteropServices.ComVisible(true)]
@@ -28,12 +31,15 @@ items:
   - System.Object
   - System.ValueType
   - System.Enum
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Security.Permissions.SecurityAction.Assert
   id: Assert
   parent: System.Security.Permissions.SecurityAction
   langs:
   - csharp
-  - vb
   name: Assert
   nameWithType: SecurityAction.Assert
   fullName: System.Security.Permissions.SecurityAction.Assert
@@ -41,17 +47,21 @@ items:
   assemblies:
   - mscorlib
   namespace: System.Security.Permissions
+  summary: The calling code can access the resource identified by the current permission object, even if callers higher in the stack have not been granted permission to access the resource (see [Using the Assert Method](../Topic/Using%20the%20Assert%20Method.md)).
   syntax:
     content: Assert
     return:
       type: System.Security.Permissions.SecurityAction
-      description: Return description to be filled
+      description: To be added.
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Security.Permissions.SecurityAction.Demand
   id: Demand
   parent: System.Security.Permissions.SecurityAction
   langs:
   - csharp
-  - vb
   name: Demand
   nameWithType: SecurityAction.Demand
   fullName: System.Security.Permissions.SecurityAction.Demand
@@ -59,17 +69,21 @@ items:
   assemblies:
   - mscorlib
   namespace: System.Security.Permissions
+  summary: All callers higher in the call stack are required to have been granted the permission specified by the current permission object.
   syntax:
     content: Demand
     return:
       type: System.Security.Permissions.SecurityAction
-      description: Return description to be filled
+      description: To be added.
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Security.Permissions.SecurityAction.Deny
   id: Deny
   parent: System.Security.Permissions.SecurityAction
   langs:
   - csharp
-  - vb
   name: Deny
   nameWithType: SecurityAction.Deny
   fullName: System.Security.Permissions.SecurityAction.Deny
@@ -77,17 +91,21 @@ items:
   assemblies:
   - mscorlib
   namespace: System.Security.Permissions
+  summary: The ability to access the resource specified by the current permission object is denied to callers, even if they have been granted permission to access it (see [Using the Deny Method](http://msdn.microsoft.com/en-us/6b4d2e01-c504-4ac3-b50e-d6f5e7f5df25)).
   syntax:
     content: Deny
     return:
       type: System.Security.Permissions.SecurityAction
-      description: Return description to be filled
+      description: To be added.
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Security.Permissions.SecurityAction.InheritanceDemand
   id: InheritanceDemand
   parent: System.Security.Permissions.SecurityAction
   langs:
   - csharp
-  - vb
   name: InheritanceDemand
   nameWithType: SecurityAction.InheritanceDemand
   fullName: System.Security.Permissions.SecurityAction.InheritanceDemand
@@ -95,17 +113,21 @@ items:
   assemblies:
   - mscorlib
   namespace: System.Security.Permissions
+  summary: The derived class inheriting the class or overriding a method is required to have been granted the specified permission..
   syntax:
     content: InheritanceDemand
     return:
       type: System.Security.Permissions.SecurityAction
-      description: Return description to be filled
+      description: To be added.
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Security.Permissions.SecurityAction.LinkDemand
   id: LinkDemand
   parent: System.Security.Permissions.SecurityAction
   langs:
   - csharp
-  - vb
   name: LinkDemand
   nameWithType: SecurityAction.LinkDemand
   fullName: System.Security.Permissions.SecurityAction.LinkDemand
@@ -113,17 +135,21 @@ items:
   assemblies:
   - mscorlib
   namespace: System.Security.Permissions
+  summary: The immediate caller is required to have been granted the specified permission. Do not use in the [!INCLUDE[net_v40_short](../../add/includes/net-v40-short-md.md)]. For full trust, use T:System.Security.SecurityCriticalAttribute?qualifyHint=False&autoUpgrade=True instead; for partial trust, use F:System.Security.Permissions.SecurityAction.Demand?qualifyHint=False&autoUpgrade=True.
   syntax:
     content: LinkDemand
     return:
       type: System.Security.Permissions.SecurityAction
-      description: Return description to be filled
+      description: To be added.
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Security.Permissions.SecurityAction.PermitOnly
   id: PermitOnly
   parent: System.Security.Permissions.SecurityAction
   langs:
   - csharp
-  - vb
   name: PermitOnly
   nameWithType: SecurityAction.PermitOnly
   fullName: System.Security.Permissions.SecurityAction.PermitOnly
@@ -131,17 +157,21 @@ items:
   assemblies:
   - mscorlib
   namespace: System.Security.Permissions
+  summary: Only the resources specified by this permission object can be accessed, even if the code has been granted permission to access other resources.
   syntax:
     content: PermitOnly
     return:
       type: System.Security.Permissions.SecurityAction
-      description: Return description to be filled
+      description: To be added.
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Security.Permissions.SecurityAction.RequestMinimum
   id: RequestMinimum
   parent: System.Security.Permissions.SecurityAction
   langs:
   - csharp
-  - vb
   name: RequestMinimum
   nameWithType: SecurityAction.RequestMinimum
   fullName: System.Security.Permissions.SecurityAction.RequestMinimum
@@ -149,17 +179,21 @@ items:
   assemblies:
   - mscorlib
   namespace: System.Security.Permissions
+  summary: The request for the minimum permissions required for code to run. This action can only be used within the scope of the assembly.
   syntax:
     content: RequestMinimum
     return:
       type: System.Security.Permissions.SecurityAction
-      description: Return description to be filled
+      description: To be added.
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Security.Permissions.SecurityAction.RequestOptional
   id: RequestOptional
   parent: System.Security.Permissions.SecurityAction
   langs:
   - csharp
-  - vb
   name: RequestOptional
   nameWithType: SecurityAction.RequestOptional
   fullName: System.Security.Permissions.SecurityAction.RequestOptional
@@ -167,17 +201,21 @@ items:
   assemblies:
   - mscorlib
   namespace: System.Security.Permissions
+  summary: The request for additional permissions that are optional (not required to run). This request implicitly refuses all other permissions not specifically requested. This action can only be used within the scope of the assembly.
   syntax:
     content: RequestOptional
     return:
       type: System.Security.Permissions.SecurityAction
-      description: Return description to be filled
+      description: To be added.
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Security.Permissions.SecurityAction.RequestRefuse
   id: RequestRefuse
   parent: System.Security.Permissions.SecurityAction
   langs:
   - csharp
-  - vb
   name: RequestRefuse
   nameWithType: SecurityAction.RequestRefuse
   fullName: System.Security.Permissions.SecurityAction.RequestRefuse
@@ -185,11 +223,16 @@ items:
   assemblies:
   - mscorlib
   namespace: System.Security.Permissions
+  summary: The request that permissions that might be misused will not be granted to the calling code. This action can only be used within the scope of the assembly.
   syntax:
     content: RequestRefuse
     return:
       type: System.Security.Permissions.SecurityAction
-      description: Return description to be filled
+      description: To be added.
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 references:
 - uid: System.Enum
   isExternal: false

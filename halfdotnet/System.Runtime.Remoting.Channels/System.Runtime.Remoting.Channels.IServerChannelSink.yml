@@ -9,11 +9,14 @@ items:
   - System.Runtime.Remoting.Channels.IServerChannelSink.ProcessMessage(System.Runtime.Remoting.Channels.IServerChannelSinkStack,System.Runtime.Remoting.Messaging.IMessage,System.Runtime.Remoting.Channels.ITransportHeaders,System.IO.Stream,System.Runtime.Remoting.Messaging.IMessage@,System.Runtime.Remoting.Channels.ITransportHeaders@,System.IO.Stream@)
   langs:
   - csharp
-  - vb
   name: IServerChannelSink
   nameWithType: IServerChannelSink
   fullName: System.Runtime.Remoting.Channels.IServerChannelSink
   type: Interface
+  summary: Provides methods used for security and transport sinks.
+  remarks: Channel sinks provide a plug-in point that allows access to the underlying messages flowing through the channel as well as the stream used by the transport mechanism to send messages to a remote object. Channel sinks are linked together in a chain of channel sink providers, and all channel messages flow through this chain of sinks before the message is serialized and transported.
+  example:
+  - "The following code example illustrates an implementation of the IServerChannelSink interface.  \n  \n [!CODE [Remoting_Sinks#60](../CodeSnippet/VS_Snippets_Remoting/Remoting_Sinks#60)]  \n  \n See the <xref:System.Runtime.Remoting.Channels.IServerChannelSinkProvider> interface documentation for an example of the corresponding server sink provider implementation."
   syntax:
     content: >-
       [System.Runtime.InteropServices.ComVisible(true)]
@@ -21,12 +24,15 @@ items:
       public interface IServerChannelSink : System.Runtime.Remoting.Channels.IChannelSinkBase
   implements:
   - System.Runtime.Remoting.Channels.IChannelSinkBase
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Runtime.Remoting.Channels.IServerChannelSink.AsyncProcessResponse(System.Runtime.Remoting.Channels.IServerResponseChannelSinkStack,System.Object,System.Runtime.Remoting.Messaging.IMessage,System.Runtime.Remoting.Channels.ITransportHeaders,System.IO.Stream)
   id: AsyncProcessResponse(System.Runtime.Remoting.Channels.IServerResponseChannelSinkStack,System.Object,System.Runtime.Remoting.Messaging.IMessage,System.Runtime.Remoting.Channels.ITransportHeaders,System.IO.Stream)
   parent: System.Runtime.Remoting.Channels.IServerChannelSink
   langs:
   - csharp
-  - vb
   name: AsyncProcessResponse(IServerResponseChannelSinkStack,Object,IMessage,ITransportHeaders,Stream)
   nameWithType: IServerChannelSink.AsyncProcessResponse(IServerResponseChannelSinkStack,Object,IMessage,ITransportHeaders,Stream)
   fullName: System.Runtime.Remoting.Channels.IServerChannelSink.AsyncProcessResponse(IServerResponseChannelSinkStack,Object,IMessage,ITransportHeaders,Stream)
@@ -34,33 +40,37 @@ items:
   assemblies:
   - mscorlib
   namespace: System.Runtime.Remoting.Channels
+  summary: Requests processing from the current sink of the response from a method call sent asynchronously.
+  remarks: The  parameter contains information that was pushed onto the channel sink stack and associated with the current sink.
+  example:
+  - '[!CODE [CommonTransportKeys#1](../CodeSnippet/VS_Snippets_Remoting/CommonTransportKeys#1)]'
   syntax:
     content: public void AsyncProcessResponse (System.Runtime.Remoting.Channels.IServerResponseChannelSinkStack sinkStack, object state, System.Runtime.Remoting.Messaging.IMessage msg, System.Runtime.Remoting.Channels.ITransportHeaders headers, System.IO.Stream stream);
     parameters:
     - id: sinkStack
       type: System.Runtime.Remoting.Channels.IServerResponseChannelSinkStack
-      description: Parameter description to be filled
+      description: A stack of sinks leading back to the server transport sink.
     - id: state
       type: System.Object
-      description: Parameter description to be filled
+      description: Information generated on the request side that is associated with this sink.
     - id: msg
       type: System.Runtime.Remoting.Messaging.IMessage
-      description: Parameter description to be filled
+      description: The response message.
     - id: headers
       type: System.Runtime.Remoting.Channels.ITransportHeaders
-      description: Parameter description to be filled
+      description: The headers to add to the return message heading to the client.
     - id: stream
       type: System.IO.Stream
-      description: Parameter description to be filled
-    return:
-      type: System.Void
-      description: Return description to be filled
+      description: The stream heading back to the transport sink.
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Runtime.Remoting.Channels.IServerChannelSink.GetResponseStream(System.Runtime.Remoting.Channels.IServerResponseChannelSinkStack,System.Object,System.Runtime.Remoting.Messaging.IMessage,System.Runtime.Remoting.Channels.ITransportHeaders)
   id: GetResponseStream(System.Runtime.Remoting.Channels.IServerResponseChannelSinkStack,System.Object,System.Runtime.Remoting.Messaging.IMessage,System.Runtime.Remoting.Channels.ITransportHeaders)
   parent: System.Runtime.Remoting.Channels.IServerChannelSink
   langs:
   - csharp
-  - vb
   name: GetResponseStream(IServerResponseChannelSinkStack,Object,IMessage,ITransportHeaders)
   nameWithType: IServerChannelSink.GetResponseStream(IServerResponseChannelSinkStack,Object,IMessage,ITransportHeaders)
   fullName: System.Runtime.Remoting.Channels.IServerChannelSink.GetResponseStream(IServerResponseChannelSinkStack,Object,IMessage,ITransportHeaders)
@@ -68,30 +78,35 @@ items:
   assemblies:
   - mscorlib
   namespace: System.Runtime.Remoting.Channels
+  summary: Returns the <see cref="T:System.IO.Stream"> onto which the provided response message is to be serialized.
+  remarks: This method is called when a response stream needs to be created.
   syntax:
     content: public System.IO.Stream GetResponseStream (System.Runtime.Remoting.Channels.IServerResponseChannelSinkStack sinkStack, object state, System.Runtime.Remoting.Messaging.IMessage msg, System.Runtime.Remoting.Channels.ITransportHeaders headers);
     parameters:
     - id: sinkStack
       type: System.Runtime.Remoting.Channels.IServerResponseChannelSinkStack
-      description: Parameter description to be filled
+      description: A stack of sinks leading back to the server transport sink.
     - id: state
       type: System.Object
-      description: Parameter description to be filled
+      description: The state that has been pushed to the stack by this sink.
     - id: msg
       type: System.Runtime.Remoting.Messaging.IMessage
-      description: Parameter description to be filled
+      description: The response message to serialize.
     - id: headers
       type: System.Runtime.Remoting.Channels.ITransportHeaders
-      description: Parameter description to be filled
+      description: The headers to put in the response stream to the client.
     return:
       type: System.IO.Stream
-      description: Return description to be filled
+      description: The <see cref="T:System.IO.Stream"> onto which the provided response message is to be serialized.
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Runtime.Remoting.Channels.IServerChannelSink.NextChannelSink
   id: NextChannelSink
   parent: System.Runtime.Remoting.Channels.IServerChannelSink
   langs:
   - csharp
-  - vb
   name: NextChannelSink
   nameWithType: IServerChannelSink.NextChannelSink
   fullName: System.Runtime.Remoting.Channels.IServerChannelSink.NextChannelSink
@@ -99,17 +114,22 @@ items:
   assemblies:
   - mscorlib
   namespace: System.Runtime.Remoting.Channels
+  summary: Gets the next server channel sink in the server sink chain.
+  remarks: Channel sinks are linked together in a chain of sink providers, and all channel messages flow through this chain before the message is serialized and transported.
   syntax:
     content: public System.Runtime.Remoting.Channels.IServerChannelSink NextChannelSink { get; }
     return:
       type: System.Runtime.Remoting.Channels.IServerChannelSink
-      description: Return description to be filled
+      description: To be added.
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Runtime.Remoting.Channels.IServerChannelSink.ProcessMessage(System.Runtime.Remoting.Channels.IServerChannelSinkStack,System.Runtime.Remoting.Messaging.IMessage,System.Runtime.Remoting.Channels.ITransportHeaders,System.IO.Stream,System.Runtime.Remoting.Messaging.IMessage@,System.Runtime.Remoting.Channels.ITransportHeaders@,System.IO.Stream@)
   id: ProcessMessage(System.Runtime.Remoting.Channels.IServerChannelSinkStack,System.Runtime.Remoting.Messaging.IMessage,System.Runtime.Remoting.Channels.ITransportHeaders,System.IO.Stream,System.Runtime.Remoting.Messaging.IMessage@,System.Runtime.Remoting.Channels.ITransportHeaders@,System.IO.Stream@)
   parent: System.Runtime.Remoting.Channels.IServerChannelSink
   langs:
   - csharp
-  - vb
   name: ProcessMessage(IServerChannelSinkStack,IMessage,ITransportHeaders,Stream,IMessage,ITransportHeaders,Stream)
   nameWithType: IServerChannelSink.ProcessMessage(IServerChannelSinkStack,IMessage,ITransportHeaders,Stream,IMessage,ITransportHeaders,Stream)
   fullName: System.Runtime.Remoting.Channels.IServerChannelSink.ProcessMessage(IServerChannelSinkStack,IMessage,ITransportHeaders,Stream,IMessage,ITransportHeaders,Stream)
@@ -117,33 +137,39 @@ items:
   assemblies:
   - mscorlib
   namespace: System.Runtime.Remoting.Channels
+  summary: Requests message processing from the current sink.
+  remarks: The job of a proxy is to convert a method call invoked on it into a message object. This message object, which implements the <xref:System.Runtime.Remoting.Messaging.IMessage> interface, is passed from the client end to the server end by invoking ProcessMessage on message sink objects. Message sinks are chained together in the sense that every message sink is responsible for calling ProcessMessage on the next message sink after it has performed its work. For instance, a synchronization-related message sink can cause a lock to be acquired or released, and then delegated further to the downstream message sink.
   syntax:
     content: public System.Runtime.Remoting.Channels.ServerProcessing ProcessMessage (System.Runtime.Remoting.Channels.IServerChannelSinkStack sinkStack, System.Runtime.Remoting.Messaging.IMessage requestMsg, System.Runtime.Remoting.Channels.ITransportHeaders requestHeaders, System.IO.Stream requestStream, out System.Runtime.Remoting.Messaging.IMessage responseMsg, out System.Runtime.Remoting.Channels.ITransportHeaders responseHeaders, out System.IO.Stream responseStream);
     parameters:
     - id: sinkStack
       type: System.Runtime.Remoting.Channels.IServerChannelSinkStack
-      description: Parameter description to be filled
+      description: A stack of channel sinks that called the current sink.
     - id: requestMsg
       type: System.Runtime.Remoting.Messaging.IMessage
-      description: Parameter description to be filled
+      description: The message that contains the request.
     - id: requestHeaders
       type: System.Runtime.Remoting.Channels.ITransportHeaders
-      description: Parameter description to be filled
+      description: Headers retrieved from the incoming message from the client.
     - id: requestStream
       type: System.IO.Stream
-      description: Parameter description to be filled
+      description: The stream that needs to be to processed and passed on to the deserialization sink.
     - id: responseMsg
       type: System.Runtime.Remoting.Messaging.IMessage
-      description: Parameter description to be filled
+      description: When this method returns, contains a <see cref="T:System.Runtime.Remoting.Messaging.IMessage"> that holds the response message. This parameter is passed uninitialized.
     - id: responseHeaders
       type: System.Runtime.Remoting.Channels.ITransportHeaders
-      description: Parameter description to be filled
+      description: When this method returns, contains a <see cref="T:System.Runtime.Remoting.Channels.ITransportHeaders"> that holds the headers that are to be added to return message heading to the client. This parameter is passed uninitialized.
     - id: responseStream
       type: System.IO.Stream
-      description: Parameter description to be filled
+      description: When this method returns, contains a <see cref="T:System.IO.Stream"> that is heading back to the transport sink. This parameter is passed uninitialized.
     return:
       type: System.Runtime.Remoting.Channels.ServerProcessing
-      description: Return description to be filled
+      description: A <see cref="T:System.Runtime.Remoting.Channels.ServerProcessing"> status value that provides information about how message was processed.
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 references:
 - uid: System.Runtime.Remoting.Channels.IServerChannelSink.AsyncProcessResponse(System.Runtime.Remoting.Channels.IServerResponseChannelSinkStack,System.Object,System.Runtime.Remoting.Messaging.IMessage,System.Runtime.Remoting.Channels.ITransportHeaders,System.IO.Stream)
   parent: System.Runtime.Remoting.Channels.IServerChannelSink
@@ -151,12 +177,6 @@ references:
   name: AsyncProcessResponse(IServerResponseChannelSinkStack,Object,IMessage,ITransportHeaders,Stream)
   nameWithType: IServerChannelSink.AsyncProcessResponse(IServerResponseChannelSinkStack,Object,IMessage,ITransportHeaders,Stream)
   fullName: System.Runtime.Remoting.Channels.IServerChannelSink.AsyncProcessResponse(IServerResponseChannelSinkStack,Object,IMessage,ITransportHeaders,Stream)
-- uid: System.Void
-  parent: System
-  isExternal: false
-  name: Void
-  nameWithType: Void
-  fullName: System.Void
 - uid: System.Runtime.Remoting.Channels.IServerResponseChannelSinkStack
   parent: System.Runtime.Remoting.Channels
   isExternal: false

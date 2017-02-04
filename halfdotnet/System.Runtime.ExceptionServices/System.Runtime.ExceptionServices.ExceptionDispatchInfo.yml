@@ -8,11 +8,12 @@ items:
   - System.Runtime.ExceptionServices.ExceptionDispatchInfo.Throw
   langs:
   - csharp
-  - vb
   name: ExceptionDispatchInfo
   nameWithType: ExceptionDispatchInfo
   fullName: System.Runtime.ExceptionServices.ExceptionDispatchInfo
   type: Class
+  summary: Represents an exception whose state is captured at a certain point in code.
+  remarks: "The ExceptionDispatchInfo object stores the stack trace information and Watson information that the exception contains at the point where it is captured. The exception can be thrown at another time and possibly on another thread by calling the <xref:System.Runtime.ExceptionServices.ExceptionDispatchInfo.Throw%2A?displayProperty=fullName> method. The exception is thrown as if it had flowed from the point where it was captured to the point where the <xref:System.Runtime.ExceptionServices.ExceptionDispatchInfo.Throw%2A> method is called.  \n  \n ExceptionDispatchInfo cannot be serialized and is not intended to cross application domain boundaries."
   syntax:
     content: public sealed class ExceptionDispatchInfo
   inheritance:
@@ -26,12 +27,15 @@ items:
   - System.Object.MemberwiseClone
   - System.Object.ReferenceEquals(System.Object,System.Object)
   - System.Object.ToString
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Runtime.ExceptionServices.ExceptionDispatchInfo.Capture(System.Exception)
   id: Capture(System.Exception)
   parent: System.Runtime.ExceptionServices.ExceptionDispatchInfo
   langs:
   - csharp
-  - vb
   name: Capture(Exception)
   nameWithType: ExceptionDispatchInfo.Capture(Exception)
   fullName: System.Runtime.ExceptionServices.ExceptionDispatchInfo.Capture(Exception)
@@ -39,21 +43,26 @@ items:
   assemblies:
   - mscorlib
   namespace: System.Runtime.ExceptionServices
+  summary: Creates an <see cref="T:System.Runtime.ExceptionServices.ExceptionDispatchInfo"> object that represents the specified exception at the current point in code.
+  remarks: "You can use the <xref:System.Runtime.ExceptionServices.ExceptionDispatchInfo> object that is returned by this method at another time and possibly on another thread to rethrow the specified exception, as if the exception had flowed from this point where it was captured to the point where it is rethrown.  \n  \n If the exception is active when it is captured, the current stack trace information and Watson information that is contained in the exception is stored.  If it is inactive, that is, if it has not been thrown, it will not have any stack trace information or Watson information."
   syntax:
     content: public static System.Runtime.ExceptionServices.ExceptionDispatchInfo Capture (Exception source);
     parameters:
     - id: source
       type: System.Exception
-      description: Parameter description to be filled
+      description: The exception whose state is captured, and which is represented by the returned object.
     return:
       type: System.Runtime.ExceptionServices.ExceptionDispatchInfo
-      description: Return description to be filled
+      description: An object that represents the specified exception at the current point in code.
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Runtime.ExceptionServices.ExceptionDispatchInfo.SourceException
   id: SourceException
   parent: System.Runtime.ExceptionServices.ExceptionDispatchInfo
   langs:
   - csharp
-  - vb
   name: SourceException
   nameWithType: ExceptionDispatchInfo.SourceException
   fullName: System.Runtime.ExceptionServices.ExceptionDispatchInfo.SourceException
@@ -61,17 +70,22 @@ items:
   assemblies:
   - mscorlib
   namespace: System.Runtime.ExceptionServices
+  summary: Gets the exception that is represented by the current instance.
+  remarks: This property is used by the Task Parallel Library, for example, to combine multiple exceptions in an <xref:System.AggregateException> object. It is not intended to be used by application code. Use the <xref:System.Runtime.ExceptionServices.ExceptionDispatchInfo.Throw%2A> method to restore the state of the captured exception and throw it.
   syntax:
     content: public Exception SourceException { get; }
     return:
       type: System.Exception
-      description: Return description to be filled
+      description: To be added.
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Runtime.ExceptionServices.ExceptionDispatchInfo.Throw
   id: Throw
   parent: System.Runtime.ExceptionServices.ExceptionDispatchInfo
   langs:
   - csharp
-  - vb
   name: Throw()
   nameWithType: ExceptionDispatchInfo.Throw()
   fullName: System.Runtime.ExceptionServices.ExceptionDispatchInfo.Throw()
@@ -79,12 +93,15 @@ items:
   assemblies:
   - mscorlib
   namespace: System.Runtime.ExceptionServices
+  summary: Throws the exception that is represented by the current <see cref="T:System.Runtime.ExceptionServices.ExceptionDispatchInfo"> object, after restoring the state that was saved when the exception was captured.
+  remarks: 'When the exception is restored, the following string is inserted in the stack trace to indicate the restore point: "End of stack trace from the previous location where the exception was thrown". This is similar to the way inner exceptions or marshaled exceptions are indicated in stack traces.'
   syntax:
     content: public void Throw ();
     parameters: []
-    return:
-      type: System.Void
-      description: Return description to be filled
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 references:
 - uid: System.Object
   isExternal: false
@@ -125,9 +142,3 @@ references:
   name: Throw()
   nameWithType: ExceptionDispatchInfo.Throw()
   fullName: System.Runtime.ExceptionServices.ExceptionDispatchInfo.Throw()
-- uid: System.Void
-  parent: System
-  isExternal: false
-  name: Void
-  nameWithType: Void
-  fullName: System.Void

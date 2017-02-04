@@ -13,11 +13,14 @@ items:
   - Microsoft.Build.Framework.ITaskItem.SetMetadata(System.String,System.String)
   langs:
   - csharp
-  - vb
   name: ITaskItem
   nameWithType: ITaskItem
   fullName: Microsoft.Build.Framework.ITaskItem
   type: Interface
+  summary: Defines an [!INCLUDE[vstecmsbuild](../../add/includes/vstecmsbuild-md.md)] item that can be consumed and emitted by tasks.
+  remarks: "The number of ITaskItem objects created during a build may not correspond exactly to items declared in a project file for the following reasons:  \n  \n-   Tasks sometimes create items that were not declared in the project file.  \n  \n-   An item collection can be declared in the project file with wildcards, which could create many items when built."
+  example:
+  - "The following example shows the code for a task that creates one or more directories.  \n  \n [!code-cs[msbuild_MakeDirTask#1](../../add/codesnippet/CSharp/msbuild_MakeDirTask/msbuild_MakeDirTask.cs#1)]"
   syntax:
     content: >-
       [System.Runtime.InteropServices.ComVisible(true)]
@@ -26,12 +29,15 @@ items:
 
       public interface ITaskItem
   implements: []
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: Microsoft.Build.Framework.ITaskItem.CloneCustomMetadata
   id: CloneCustomMetadata
   parent: Microsoft.Build.Framework.ITaskItem
   langs:
   - csharp
-  - vb
   name: CloneCustomMetadata()
   nameWithType: ITaskItem.CloneCustomMetadata()
   fullName: Microsoft.Build.Framework.ITaskItem.CloneCustomMetadata()
@@ -39,18 +45,23 @@ items:
   assemblies:
   - Microsoft.Build.Framework
   namespace: Microsoft.Build.Framework
+  summary: Gets the collection of custom metadata.
+  remarks: "-   Does not include built-in metadata.  \n  \n-   This method should return a clone of the metadata.  \n  \n-   Writing to this dictionary should not be reflected in the underlying item."
   syntax:
     content: public System.Collections.IDictionary CloneCustomMetadata ();
     parameters: []
     return:
       type: System.Collections.IDictionary
-      description: Return description to be filled
+      description: The collection of custom metadata.
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: Microsoft.Build.Framework.ITaskItem.CopyMetadataTo(Microsoft.Build.Framework.ITaskItem)
   id: CopyMetadataTo(Microsoft.Build.Framework.ITaskItem)
   parent: Microsoft.Build.Framework.ITaskItem
   langs:
   - csharp
-  - vb
   name: CopyMetadataTo(ITaskItem)
   nameWithType: ITaskItem.CopyMetadataTo(ITaskItem)
   fullName: Microsoft.Build.Framework.ITaskItem.CopyMetadataTo(ITaskItem)
@@ -58,21 +69,23 @@ items:
   assemblies:
   - Microsoft.Build.Framework
   namespace: Microsoft.Build.Framework
+  summary: Copies the custom metadata entries to another item.
+  remarks: "Follow the guidelines below when implementing this method.  \n  \n-   Do not overwrite the <xref:Microsoft.Build.Framework.ITaskItem.ItemSpec%2A> property.  \n  \n-   Do not overwrite existing metadata entries.  \n  \n-   Do not copy metadata entries that do not make sense on the destination item."
   syntax:
     content: public void CopyMetadataTo (Microsoft.Build.Framework.ITaskItem destinationItem);
     parameters:
     - id: destinationItem
       type: Microsoft.Build.Framework.ITaskItem
-      description: Parameter description to be filled
-    return:
-      type: System.Void
-      description: Return description to be filled
+      description: The item to copy the metadata entries to.
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: Microsoft.Build.Framework.ITaskItem.GetMetadata(System.String)
   id: GetMetadata(System.String)
   parent: Microsoft.Build.Framework.ITaskItem
   langs:
   - csharp
-  - vb
   name: GetMetadata(String)
   nameWithType: ITaskItem.GetMetadata(String)
   fullName: Microsoft.Build.Framework.ITaskItem.GetMetadata(String)
@@ -80,21 +93,26 @@ items:
   assemblies:
   - Microsoft.Build.Framework
   namespace: Microsoft.Build.Framework
+  summary: Gets the value of the specified metadata entry.
+  remarks: To be added.
   syntax:
     content: public string GetMetadata (string metadataName);
     parameters:
     - id: metadataName
       type: System.String
-      description: Parameter description to be filled
+      description: The name of the metadata entry.
     return:
       type: System.String
-      description: Return description to be filled
+      description: The value of the  metadata.
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: Microsoft.Build.Framework.ITaskItem.ItemSpec
   id: ItemSpec
   parent: Microsoft.Build.Framework.ITaskItem
   langs:
   - csharp
-  - vb
   name: ItemSpec
   nameWithType: ITaskItem.ItemSpec
   fullName: Microsoft.Build.Framework.ITaskItem.ItemSpec
@@ -102,17 +120,24 @@ items:
   assemblies:
   - Microsoft.Build.Framework
   namespace: Microsoft.Build.Framework
+  summary: Gets or sets the item specification.
+  remarks: "The item specification is an arbitrary string. If the item represents a file on disk, the item specification will be the path of that file.  \n  \n The ItemSpec for the following item declaration in a project file is `File.cs`.  \n  \n```  \n<ItemGroup>  \n    <Compile Include=\"File.cs\"/>  \n</ItemGroup>  \n```"
+  example:
+  - "The following example shows the code for a task that creates one or more directories.  \n  \n [!code-cs[msbuild_MakeDirTask#1](../../add/codesnippet/CSharp/msbuild_MakeDirTask/msbuild_MakeDirTask.cs#1)]"
   syntax:
     content: public string ItemSpec { get; set; }
     return:
       type: System.String
-      description: Return description to be filled
+      description: To be added.
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: Microsoft.Build.Framework.ITaskItem.MetadataCount
   id: MetadataCount
   parent: Microsoft.Build.Framework.ITaskItem
   langs:
   - csharp
-  - vb
   name: MetadataCount
   nameWithType: ITaskItem.MetadataCount
   fullName: Microsoft.Build.Framework.ITaskItem.MetadataCount
@@ -120,17 +145,22 @@ items:
   assemblies:
   - Microsoft.Build.Framework
   namespace: Microsoft.Build.Framework
+  summary: Gets the number of metadata entries associated with the item.
+  remarks: To be added.
   syntax:
     content: public int MetadataCount { get; }
     return:
       type: System.Int32
-      description: Return description to be filled
+      description: To be added.
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: Microsoft.Build.Framework.ITaskItem.MetadataNames
   id: MetadataNames
   parent: Microsoft.Build.Framework.ITaskItem
   langs:
   - csharp
-  - vb
   name: MetadataNames
   nameWithType: ITaskItem.MetadataNames
   fullName: Microsoft.Build.Framework.ITaskItem.MetadataNames
@@ -138,17 +168,22 @@ items:
   assemblies:
   - Microsoft.Build.Framework
   namespace: Microsoft.Build.Framework
+  summary: Gets the names of the metadata entries associated with the item.
+  remarks: To be added.
   syntax:
     content: public System.Collections.ICollection MetadataNames { get; }
     return:
       type: System.Collections.ICollection
-      description: Return description to be filled
+      description: To be added.
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: Microsoft.Build.Framework.ITaskItem.RemoveMetadata(System.String)
   id: RemoveMetadata(System.String)
   parent: Microsoft.Build.Framework.ITaskItem
   langs:
   - csharp
-  - vb
   name: RemoveMetadata(String)
   nameWithType: ITaskItem.RemoveMetadata(String)
   fullName: Microsoft.Build.Framework.ITaskItem.RemoveMetadata(String)
@@ -156,21 +191,23 @@ items:
   assemblies:
   - Microsoft.Build.Framework
   namespace: Microsoft.Build.Framework
+  summary: Removes the specified metadata entry from the item.
+  remarks: To be added.
   syntax:
     content: public void RemoveMetadata (string metadataName);
     parameters:
     - id: metadataName
       type: System.String
-      description: Parameter description to be filled
-    return:
-      type: System.Void
-      description: Return description to be filled
+      description: The name of the metadata entry to remove.
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: Microsoft.Build.Framework.ITaskItem.SetMetadata(System.String,System.String)
   id: SetMetadata(System.String,System.String)
   parent: Microsoft.Build.Framework.ITaskItem
   langs:
   - csharp
-  - vb
   name: SetMetadata(String,String)
   nameWithType: ITaskItem.SetMetadata(String,String)
   fullName: Microsoft.Build.Framework.ITaskItem.SetMetadata(String,String)
@@ -178,18 +215,21 @@ items:
   assemblies:
   - Microsoft.Build.Framework
   namespace: Microsoft.Build.Framework
+  summary: Adds or changes a custom metadata entry to the item.
+  remarks: To be added.
   syntax:
     content: public void SetMetadata (string metadataName, string metadataValue);
     parameters:
     - id: metadataName
       type: System.String
-      description: Parameter description to be filled
+      description: The name of the metadata entry.
     - id: metadataValue
       type: System.String
-      description: Parameter description to be filled
-    return:
-      type: System.Void
-      description: Return description to be filled
+      description: The value of the metadata entry.
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 references:
 - uid: Microsoft.Build.Framework.ITaskItem.CloneCustomMetadata
   parent: Microsoft.Build.Framework.ITaskItem
@@ -209,12 +249,6 @@ references:
   name: CopyMetadataTo(ITaskItem)
   nameWithType: ITaskItem.CopyMetadataTo(ITaskItem)
   fullName: Microsoft.Build.Framework.ITaskItem.CopyMetadataTo(ITaskItem)
-- uid: System.Void
-  parent: System
-  isExternal: false
-  name: Void
-  nameWithType: Void
-  fullName: System.Void
 - uid: Microsoft.Build.Framework.ITaskItem
   parent: Microsoft.Build.Framework
   isExternal: false
@@ -281,12 +315,6 @@ references:
   name: RemoveMetadata(String)
   nameWithType: ITaskItem.RemoveMetadata(String)
   fullName: Microsoft.Build.Framework.ITaskItem.RemoveMetadata(String)
-- uid: System.Void
-  parent: System
-  isExternal: false
-  name: Void
-  nameWithType: Void
-  fullName: System.Void
 - uid: System.String
   parent: System
   isExternal: false
@@ -299,12 +327,6 @@ references:
   name: SetMetadata(String,String)
   nameWithType: ITaskItem.SetMetadata(String,String)
   fullName: Microsoft.Build.Framework.ITaskItem.SetMetadata(String,String)
-- uid: System.Void
-  parent: System
-  isExternal: false
-  name: Void
-  nameWithType: Void
-  fullName: System.Void
 - uid: System.String
   parent: System
   isExternal: false

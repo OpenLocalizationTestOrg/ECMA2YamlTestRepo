@@ -14,11 +14,14 @@ items:
   - System.ArgumentOutOfRangeException.Message
   langs:
   - csharp
-  - vb
   name: ArgumentOutOfRangeException
   nameWithType: ArgumentOutOfRangeException
   fullName: System.ArgumentOutOfRangeException
   type: Class
+  summary: The exception that is thrown when the value of an argument is outside the allowable range of values as defined by the invoked method.
+  remarks: "An              ArgumentOutOfRangeException exception is thrown when a method is invoked and at least one of the arguments passed to the method is not `null` and contains an invalid value that is not a member of the set of values expected for the argument. The <xref:System.ArgumentException.ParamName%2A> property identifies the invalid argument, and the <xref:System.ArgumentOutOfRangeException.ActualValue%2A> property, if a value is present, identifies the invalid value.  \n  \n Typically, an ArgumentOutOfRangeException results from developer error. Instead of handling the exception in a `try`/`catch` block, you should eliminate the cause of the exception or, if the argument is returned by a method call or input by the user before being passed to the method that throws the exception, you should validate arguments before passing them to the method.  \n  \n ArgumentOutOfRangeException is used extensively by:  \n  \n-   Classes in the <xref:System.Collections> and <xref:System.IO> namespaces.  \n  \n-   The <xref:System.Array> class.  \n  \n-   String manipulation methods in the <xref:System.String> class.  \n  \n The conditions in which an ArgumentOutOfRangeException exception             is thrown include the following:  \n  \n You are retrieving the member of a collection by its index number, and the index number is invalid.  \n This is the most common cause of an ArgumentOutOfRangeException exception.   Typically, the index number is invalid for one of three reasons:  \n  \n-   The collection has no members, and your code assumes that it does. The following example attempts to retrieve the first element of a collection that has no elements:  \n  \n     [!CODE [System.ArgumentOutOfRangeException#4](../CodeSnippet/VS_Snippets_CLR_System/System.ArgumentOutOfRangeException#4)]  \n  \n     To prevent the exception, check whether the collection's `Count` property is greater than zero before attempting to retrieve any members, as the following code fragment does.  \n  \n     [!CODE [System.ArgumentOutOfRangeException#5](../CodeSnippet/VS_Snippets_CLR_System/System.ArgumentOutOfRangeException#5)]  \n  \n     In some cases, this may occur because you are attempting to add a member to a collection by using an index that does not exist, rather than by calling the method, such as `Add`, that exists for this purpose.  The following example attempts to add an element to a collection by using a non-existent index rather than calling the <xref:System.Collections.Generic.List%601.Add%2A?displayProperty=fullName> method.  \n  \n     [!CODE [System.ArgumentOutOfRangeException#13](../CodeSnippet/VS_Snippets_CLR_System/System.ArgumentOutOfRangeException#13)]  \n  \n     The following code fragment corrects this error:  \n  \n     [!CODE [System.ArgumentOutOfRangeException#14](../CodeSnippet/VS_Snippets_CLR_System/System.ArgumentOutOfRangeException#14)]  \n  \n-   You're attempting to retrieve an item whose index is negative. This usually occurs because you've searched a collection for the index of a particular element and have erroneously assumed that the search is successful. In the following example, the call to the <xref:System.Collections.Generic.List%601.FindIndex%28System.Predicate%7B%600%7D%29?displayProperty=fullName> method fails  to find a string equal to \"Z\" and so returns -1. However, this is an invalid index value.  \n  \n     [!CODE [System.ArgumentOutOfRangeException#6](../CodeSnippet/VS_Snippets_CLR_System/System.ArgumentOutOfRangeException#6)]  \n  \n     To prevent the exception, check that the search is successful by making sure that the returned index is greater than or equal to zero before attempting to retrieve the item from the collection, as the following code fragment does.  \n  \n     [!CODE [System.ArgumentOutOfRangeException#7](../CodeSnippet/VS_Snippets_CLR_System/System.ArgumentOutOfRangeException#7)]  \n  \n-   You're attempting to retrieve an element whose index is equal to the value of the collection's `Count` property, as the following example illustrates.  \n  \n     [!CODE [System.ArgumentOutOfRangeException#8](../CodeSnippet/VS_Snippets_CLR_System/System.ArgumentOutOfRangeException#8)]  \n  \n     Because collections in the .NET Framework use zero-based indexing, the first element of the collection is at index 0, and the last element is at index `Count` - 1. You can eliminate the error by ensuring that you access the last element at index  `Count` - 1, as the following code does.  \n  \n     [!CODE [System.ArgumentOutOfRangeException#9](../CodeSnippet/VS_Snippets_CLR_System/System.ArgumentOutOfRangeException#9)]  \n  \n You are attempting to perform a string operation by calling a string manipulation method, and the starting index does not exist in the string.  \n Overloads of methods such as such as <xref:System.String.Compare%2A?displayProperty=fullName>, <xref:System.String.CompareOrdinal%2A?displayProperty=fullName>, <xref:System.String.IndexOf%2A?displayProperty=fullName>, <xref:System.String.IndexOfAny%2A>, <xref:System.String.Insert%2A?displayProperty=fullName>, <xref:System.String.LastIndexOf%2A?displayProperty=fullName>, <xref:System.String.LastIndexOfAny%2A?displayProperty=fullName>, <xref:System.String.Remove%2A>,  or <xref:System.String.Substring%2A?displayProperty=fullName> that allow you to specify the starting index of the operation require that the index be a valid position within the string. Valid indexes range from 0 to <xref:System.String.Length%2A?displayProperty=fullName> - 1.  \n  \n There are four common causes of this ArgumentOutOfRangeException exception:  \n  \n-   You are working with an empty string., or <xref:System.String.Empty?displayProperty=fullName>. Because its <xref:System.String.Length%2A?displayProperty=fullName> property returns 0, any attempt to manipulate it by index throws an ArgumentOutOfRangeException exception. The following example, defines a `GetFirstCharacter` method that returns the first character of a string. If the string is empty, as the final string passed to the method is, the method throws an ArgumentOutOfRangeException exception.  \n  \n     [!CODE [System.ArgumentOutOfRangeException#15](../CodeSnippet/VS_Snippets_CLR_System/System.ArgumentOutOfRangeException#15)]  \n  \n     You can eliminate the exception by testing whether the string's <xref:System.String.Length%2A?displayProperty=fullName> is greater than zero or by calling the <xref:System.String.IsNullOrEmpty%2A> method to ensure that the string is not `null` or empty. The following code fragment does the latter. In this case, if the string is `null` or empty, the `GetFirstCharacter` method returns U+0000.  \n  \n     [!CODE [System.ArgumentOutOfRangeException#16](../CodeSnippet/VS_Snippets_CLR_System/System.ArgumentOutOfRangeException#16)]  \n  \n-   You're manipulating a string based on the position of a substring within that string, and you've failed to determine whether the substring was actually found.  \n  \n     The following example extracts the second word of a two-word phrase. It throws  an ArgumentOutOfRangeException exception if the phrase consists of only one word, and therefore does not contain an embedded space character.  This occurs because the call to the <xref:System.String.IndexOf%28System.String%29?displayProperty=fullName> method returns -1 to indicate that the search failed, and this invalid value is then passed to the  <xref:System.String.Substring%28System.Int32%29?displayProperty=fullName> method.  \n  \n     [!CODE [System.ArgumentOutOfRangeException#17](../CodeSnippet/VS_Snippets_CLR_System/System.ArgumentOutOfRangeException#17)]  \n  \n     To eliminate the exception, validate the value returned by the string search method before calling the string manipulation method.  \n  \n     [!CODE [System.ArgumentOutOfRangeException#18](../CodeSnippet/VS_Snippets_CLR_System/System.ArgumentOutOfRangeException#18)]  \n  \n-  \n  \n You've attempted to extract a substring that is outside the range of the current string.  \n The methods that extract substrings all require that you specify the starting position of the substring and, for substrings that do not continue to the end of the string, the number of characters in the substring. Note that this is not the *index* of the last character in the substring.  \n  \n An ArgumentOutOfRangeException exception is typically thrown in this case because you've incorrectly calculated the number of characters in the substring.  If you are using a search method like <xref:System.String.IndexOf%2A?displayProperty=fullName> to identify the starting and ending positions of a substring:  \n  \n-   If the character in the ending position returned by <xref:System.String.IndexOf%2A?displayProperty=fullName> is to be included in the substring, the ending position of the substring is given by the formula  \n  \n    ```  \n    endIndex - startIndex + 1  \n    ```  \n  \n-   If the character in the ending position returned by <xref:System.String.IndexOf%2A?displayProperty=fullName> is to be excluded from the substring, the ending position of the substring is given by the formula  \n  \n    ```  \n    endIndex - startIndex   \n    ```  \n  \n The following example defines a `FindWords` method that uses the [String.IndexOfAny(Char\\[\\], Int32)](assetId:///M:System.String.IndexOfAny(System.Char[],System.Int32)?qualifyHint=True&autoUpgrade=False) method to identify space characters and punctuation marks in a string and returns an array that contains the words found in the string.  \n  \n [!CODE [System.ArgumentOutOfRangeException#19](../CodeSnippet/VS_Snippets_CLR_System/System.ArgumentOutOfRangeException#19)]  \n  \n You have passed a negative number to a method with an argument that requires only positive numbers and zero, or you have passed either a negative number or zero to a method with an argument that requires only positive numbers.  \n For example, the <xref:System.Array.CreateInstance%28System.Type%2CSystem.Int32%2CSystem.Int32%2CSystem.Int32%29?displayProperty=fullName> method requires that you specify the number of elements in each dimension of a two-dimensional array; valid values for each dimension can range from 0 to <xref:System.Int32.MaxValue?displayProperty=fullName>. But because the dimension argument in the following example has a negative value, the method throws an ArgumentOutOfRangeException exception.  \n  \n [!CODE [System.ArgumentOutOfRangeException#1](../CodeSnippet/VS_Snippets_CLR_System/System.ArgumentOutOfRangeException#1)]  \n  \n To correct the error, ensure that the value of the invalid argument is non-negative. You can do this by providing a valid value, as the following code fragment does.  \n  \n [!CODE [System.ArgumentOutOfRangeException#2](../CodeSnippet/VS_Snippets_CLR_System/System.ArgumentOutOfRangeException#2)]  \n  \n You can also validate the input and, if it is invalid, take some action. The following code fragment displays an error message instead of calling the method.  \n  \n [!CODE [System.ArgumentOutOfRangeException#3](../CodeSnippet/VS_Snippets_CLR_System/System.ArgumentOutOfRangeException#3)]  \n  \n A race condition exists in an app that is multithreaded or has tasks that  execute asynchronously and that updates an array or collection.  \n The following example uses a <xref:System.Collections.Generic.List%601> object to populate a collection of `Continent` objects. It throws an  ArgumentOutOfRangeException exception if the example attempts to display the seven items in the collection before the collection is fully populated.  \n  \n [!CODE [System.ArgumentOutOfRangeException#11](../CodeSnippet/VS_Snippets_CLR_System/System.ArgumentOutOfRangeException#11)]  \n  \n In this case, two resources are accessed from multiple threads:  \n  \n-   The `continents` collection. Its <xref:System.Collections.Generic.List%601.Add%2A?displayProperty=fullName> method is called from multiple threads. In addition, the main or primary thread assumes the collection is fully populated with seven elements when it iterates its members.  \n  \n-   The `msg` string, which is concatenated from multiple threads.  \n  \n To correct the error, ensure that shared state is accessed in a thread-safe way, as follows.  \n  \n-   if your app uses an array or collection object, consider using a thread-safe collection class, such as the types in the <xref:System.Collections.Concurrent> namespace or the [System.Collections.Immutable](../Topic/System.Collections.Immutable.md) out-of-band release.  \n  \n-   Ensure that shared state (that is, resources that can be accessed by multiple threads) is accessed in a thread-safe way, so that only one thread at a time has exclusive access to the resources. A large number of classes, such as <xref:System.Threading.CountdownEvent>, <xref:System.Threading.Interlocked>, <xref:System.Threading.Monitor>, and <xref:System.Threading.Mutex>, are available to synchronize access to resources. For more information, see [Threading](../Topic/Managed%20Threading.md). In addition, language support is available through the [lock](../Topic/lock%20Statement%20\\(C%23%20Reference\\).md) statement in C# and the [SyncLock](../Topic/SyncLock%20Statement.md) construct in Visual Basic.  \n  \n The following example addresses the ArgumentOutOfRangeException exception and the other issues from the previous example. It replaces the <xref:System.Collections.Generic.List%601> object with a   <xref:System.Collections.Concurrent.ConcurrentBag%601> object to ensure that access to the collection is thread-safe, uses a <xref:System.Threading.CountdownEvent> object to ensure that the application thread continues only after other threads have executed, and uses a lock to ensure that only one thread can  access the `msg` variable at a time.  \n  \n [!CODE [System.ArgumentOutOfRangeException#12](../CodeSnippet/VS_Snippets_CLR_System/System.ArgumentOutOfRangeException#12)]  \n  \n ArgumentOutOfRangeException uses the HRESULT COR_E_ARGUMENTOUTOFRANGE, which has the value 0x80131502.  \n  \n For a list of initial property values for an instance of ArgumentOutOfRangeException, see the ArgumentOutOfRangeException constructors."
+  example:
+  - "The following example defines a class to contain information about an invited guest. If the guest is younger than 21, an ArgumentOutOfRangeException exception is thrown.  \n  \n [!CODE [ArgumentOutOfRangeException#1](../CodeSnippet/VS_Snippets_CLR/ArgumentOutOfRangeException#1)]"
   syntax:
     content: >-
       [System.Runtime.InteropServices.ComVisible(true)]
@@ -48,12 +51,15 @@ items:
   - System.Object.GetHashCode
   - System.Object.MemberwiseClone
   - System.Object.ReferenceEquals(System.Object,System.Object)
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.ArgumentOutOfRangeException.#ctor
   id: '#ctor'
   parent: System.ArgumentOutOfRangeException
   langs:
   - csharp
-  - vb
   name: ArgumentOutOfRangeException()
   nameWithType: ArgumentOutOfRangeException.ArgumentOutOfRangeException()
   fullName: System.ArgumentOutOfRangeException.ArgumentOutOfRangeException()
@@ -61,15 +67,20 @@ items:
   assemblies:
   - mscorlib
   namespace: System
+  summary: Initializes a new instance of the <see cref="T:System.ArgumentOutOfRangeException"> class.
+  remarks: "This constructor initializes the <xref:System.ArgumentException.Message%2A> property of the new instance to a system-supplied message that describes the error, such as \"Nonnegative number required.\" This message takes into account the current system culture.  \n  \n The following table shows the initial property values for an instance of <xref:System.ArgumentOutOfRangeException>.  \n  \n|Property|Value|  \n|--------------|-----------|  \n|<xref:System.Exception.InnerException%2A>|A null reference (`Nothing` in Visual Basic).|  \n|<xref:System.ArgumentOutOfRangeException.Message%2A>|The localized error message string.|"
   syntax:
     content: public ArgumentOutOfRangeException ();
     parameters: []
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.ArgumentOutOfRangeException.#ctor(System.String)
   id: '#ctor(System.String)'
   parent: System.ArgumentOutOfRangeException
   langs:
   - csharp
-  - vb
   name: ArgumentOutOfRangeException(String)
   nameWithType: ArgumentOutOfRangeException.ArgumentOutOfRangeException(String)
   fullName: System.ArgumentOutOfRangeException.ArgumentOutOfRangeException(String)
@@ -77,18 +88,23 @@ items:
   assemblies:
   - mscorlib
   namespace: System
+  summary: Initializes a new instance of the <see cref="T:System.ArgumentOutOfRangeException"> class with the name of the parameter that causes this exception.
+  remarks: "This constructor initializes the <xref:System.ArgumentException.Message%2A> property of the new instance to a system-supplied message that describes the error, such as \"Nonnegative number required.\" This message takes into account the current system culture.  \n  \n This constructor initializes the <xref:System.ArgumentException.ParamName%2A> property of the new instance using the  parameter. The content of  is intended to be understood by humans.  \n  \n The following table shows the initial property values for an instance of <xref:System.ArgumentOutOfRangeException>.  \n  \n|Property|Value|  \n|--------------|-----------|  \n|<xref:System.Exception.InnerException%2A>|A null reference (`Nothing` in Visual Basic).|  \n|<xref:System.ArgumentOutOfRangeException.Message%2A>|The empty string (\"\").|  \n|<xref:System.ArgumentException.ParamName%2A>|The parameter name string.|"
   syntax:
     content: public ArgumentOutOfRangeException (string paramName);
     parameters:
     - id: paramName
       type: System.String
-      description: Parameter description to be filled
+      description: The name of the parameter that causes this exception.
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.ArgumentOutOfRangeException.#ctor(System.Runtime.Serialization.SerializationInfo,System.Runtime.Serialization.StreamingContext)
   id: '#ctor(System.Runtime.Serialization.SerializationInfo,System.Runtime.Serialization.StreamingContext)'
   parent: System.ArgumentOutOfRangeException
   langs:
   - csharp
-  - vb
   name: ArgumentOutOfRangeException(SerializationInfo,StreamingContext)
   nameWithType: ArgumentOutOfRangeException.ArgumentOutOfRangeException(SerializationInfo,StreamingContext)
   fullName: System.ArgumentOutOfRangeException.ArgumentOutOfRangeException(SerializationInfo,StreamingContext)
@@ -96,21 +112,26 @@ items:
   assemblies:
   - mscorlib
   namespace: System
+  summary: Initializes a new instance of the <see cref="T:System.ArgumentOutOfRangeException"> class with serialized data.
+  remarks: This constructor is called during deserialization to reconstitute the exception object transmitted over a stream. For more information, see [XML and SOAP Serialization](../Topic/XML%20and%20SOAP%20Serialization.md).
   syntax:
     content: protected ArgumentOutOfRangeException (System.Runtime.Serialization.SerializationInfo info, System.Runtime.Serialization.StreamingContext context);
     parameters:
     - id: info
       type: System.Runtime.Serialization.SerializationInfo
-      description: Parameter description to be filled
+      description: The object that holds the serialized object data.
     - id: context
       type: System.Runtime.Serialization.StreamingContext
-      description: Parameter description to be filled
+      description: An object that describes the source or destination of the serialized data.
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.ArgumentOutOfRangeException.#ctor(System.String,System.Exception)
   id: '#ctor(System.String,System.Exception)'
   parent: System.ArgumentOutOfRangeException
   langs:
   - csharp
-  - vb
   name: ArgumentOutOfRangeException(String,Exception)
   nameWithType: ArgumentOutOfRangeException.ArgumentOutOfRangeException(String,Exception)
   fullName: System.ArgumentOutOfRangeException.ArgumentOutOfRangeException(String,Exception)
@@ -118,21 +139,26 @@ items:
   assemblies:
   - mscorlib
   namespace: System
+  summary: Initializes a new instance of the <see cref="T:System.ArgumentOutOfRangeException"> class with a specified error message and the exception that is the cause of this exception.
+  remarks: To be added.
   syntax:
     content: public ArgumentOutOfRangeException (string message, Exception innerException);
     parameters:
     - id: message
       type: System.String
-      description: Parameter description to be filled
+      description: The error message that explains the reason for this exception.
     - id: innerException
       type: System.Exception
-      description: Parameter description to be filled
+      description: The exception that is the cause of the current exception, or a null reference (`Nothing` in Visual Basic) if no inner exception is specified.
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.ArgumentOutOfRangeException.#ctor(System.String,System.String)
   id: '#ctor(System.String,System.String)'
   parent: System.ArgumentOutOfRangeException
   langs:
   - csharp
-  - vb
   name: ArgumentOutOfRangeException(String,String)
   nameWithType: ArgumentOutOfRangeException.ArgumentOutOfRangeException(String,String)
   fullName: System.ArgumentOutOfRangeException.ArgumentOutOfRangeException(String,String)
@@ -140,21 +166,26 @@ items:
   assemblies:
   - mscorlib
   namespace: System
+  summary: Initializes a new instance of the <see cref="T:System.ArgumentOutOfRangeException"> class with the name of the parameter that causes this exception and a specified error message.
+  remarks: "This constructor initializes the <xref:System.ArgumentOutOfRangeException.Message%2A> property of the new instance using the value of the  parameter. The content of the  parameter is intended to be understood by humans. The caller of this constructor is required to ensure that this string has been localized for the current system culture.  \n  \n This constructor initializes the <xref:System.ArgumentException.ParamName%2A> property of the new instance using the  parameter. The content of  is intended to be understood by humans.  \n  \n The following table shows the initial property values for an instance of <xref:System.ArgumentOutOfRangeException>.  \n  \n|Property|Value|  \n|--------------|-----------|  \n|<xref:System.Exception.InnerException%2A>|`null`.|  \n|<xref:System.ArgumentOutOfRangeException.Message%2A>|The error message string.|  \n|<xref:System.ArgumentException.ParamName%2A>|The parameter name string.|"
   syntax:
     content: public ArgumentOutOfRangeException (string paramName, string message);
     parameters:
     - id: paramName
       type: System.String
-      description: Parameter description to be filled
+      description: The name of the parameter that caused the exception.
     - id: message
       type: System.String
-      description: Parameter description to be filled
+      description: The message that describes the error.
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.ArgumentOutOfRangeException.#ctor(System.String,System.Object,System.String)
   id: '#ctor(System.String,System.Object,System.String)'
   parent: System.ArgumentOutOfRangeException
   langs:
   - csharp
-  - vb
   name: ArgumentOutOfRangeException(String,Object,String)
   nameWithType: ArgumentOutOfRangeException.ArgumentOutOfRangeException(String,Object,String)
   fullName: System.ArgumentOutOfRangeException.ArgumentOutOfRangeException(String,Object,String)
@@ -162,24 +193,29 @@ items:
   assemblies:
   - mscorlib
   namespace: System
+  summary: Initializes a new instance of the <see cref="T:System.ArgumentOutOfRangeException"> class with the parameter name, the value of the argument, and a specified error message.
+  remarks: "This constructor initializes the <xref:System.ArgumentException.ParamName%2A> property of the new instance using the  parameter, the <xref:System.ArgumentOutOfRangeException.ActualValue%2A> property using the  parameter, and the <xref:System.ArgumentException.Message%2A> property using the  parameter. The content of the  and  parameters is intended to be understood by humans. The caller of this constructor is required to ensure that these strings have been localized for the current system culture.  \n  \n The  parameter is not used within the .NET Framework class library. However, the <xref:System.ArgumentOutOfRangeException.ActualValue%2A> property is provided so that applications can use the available argument value.  \n  \n The  parameter contains an invalid value that is passed to the method and causes this exception to be thrown. This value is stored in the <xref:System.ArgumentOutOfRangeException.ActualValue%2A> property and its string representation is appended to the message string held in the <xref:System.ArgumentOutOfRangeException.Message%2A> property.  \n  \n The following table shows the initial property values for an instance of <xref:System.ArgumentOutOfRangeException>.  \n  \n|Property|Value|  \n|--------------|-----------|  \n|<xref:System.ArgumentOutOfRangeException.ActualValue%2A>|The argument value.|  \n|<xref:System.Exception.InnerException%2A>|The null reference (`Nothing` in Visual Basic).|  \n|<xref:System.ArgumentOutOfRangeException.Message%2A>|The error message string.|  \n|<xref:System.ArgumentException.ParamName%2A>|The parameter name string.|"
   syntax:
     content: public ArgumentOutOfRangeException (string paramName, object actualValue, string message);
     parameters:
     - id: paramName
       type: System.String
-      description: Parameter description to be filled
+      description: The name of the parameter that caused the exception.
     - id: actualValue
       type: System.Object
-      description: Parameter description to be filled
+      description: The value of the argument that causes this exception.
     - id: message
       type: System.String
-      description: Parameter description to be filled
+      description: The message that describes the error.
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.ArgumentOutOfRangeException.ActualValue
   id: ActualValue
   parent: System.ArgumentOutOfRangeException
   langs:
   - csharp
-  - vb
   name: ActualValue
   nameWithType: ArgumentOutOfRangeException.ActualValue
   fullName: System.ArgumentOutOfRangeException.ActualValue
@@ -187,17 +223,22 @@ items:
   assemblies:
   - mscorlib
   namespace: System
+  summary: Gets the argument value that causes this exception.
+  remarks: "Use this property to retrieve the invalid argument.  \n  \n The `ActualValue` property returns the same value that was passed to the constructor, or `null` if no value was supplied.  \n  \n The ActualValue property is assigned a value at the time of object construction. If the ActualValue property value is not `null`, a string representation of the value is appended to the message string held by the <xref:System.ArgumentOutOfRangeException.Message%2A> property.  \n  \n The ActualValue property is not used within the .NET Framework class library. It carries a null value in all the <xref:System.ArgumentOutOfRangeException> objects thrown by the .NET Framework class library. The ActualValue property is provided so that applications can use the available argument value.  \n  \n This property is read-only and should be overridden only to customize the content or format of the value."
   syntax:
     content: public virtual object ActualValue { get; }
     return:
       type: System.Object
-      description: Return description to be filled
+      description: To be added.
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.ArgumentOutOfRangeException.GetObjectData(System.Runtime.Serialization.SerializationInfo,System.Runtime.Serialization.StreamingContext)
   id: GetObjectData(System.Runtime.Serialization.SerializationInfo,System.Runtime.Serialization.StreamingContext)
   parent: System.ArgumentOutOfRangeException
   langs:
   - csharp
-  - vb
   name: GetObjectData(SerializationInfo,StreamingContext)
   nameWithType: ArgumentOutOfRangeException.GetObjectData(SerializationInfo,StreamingContext)
   fullName: System.ArgumentOutOfRangeException.GetObjectData(SerializationInfo,StreamingContext)
@@ -205,24 +246,26 @@ items:
   assemblies:
   - mscorlib
   namespace: System
+  summary: Sets the <see cref="T:System.Runtime.Serialization.SerializationInfo"> object with the invalid argument value and additional exception information.
+  remarks: "GetObjectData sets a <xref:System.Runtime.Serialization.SerializationInfo> object with all the exception object data targeted for serialization. During deserialization, the exception object is reconstituted from the <xref:System.Runtime.Serialization.SerializationInfo> transmitted over the stream.  \n  \n For more information, see <xref:System.Runtime.Serialization.SerializationInfo>."
   syntax:
     content: public override void GetObjectData (System.Runtime.Serialization.SerializationInfo info, System.Runtime.Serialization.StreamingContext context);
     parameters:
     - id: info
       type: System.Runtime.Serialization.SerializationInfo
-      description: Parameter description to be filled
+      description: The object that holds the serialized object data.
     - id: context
       type: System.Runtime.Serialization.StreamingContext
-      description: Parameter description to be filled
-    return:
-      type: System.Void
-      description: Return description to be filled
+      description: An object that describes the source or destination of the serialized data.
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.ArgumentOutOfRangeException.Message
   id: Message
   parent: System.ArgumentOutOfRangeException
   langs:
   - csharp
-  - vb
   name: Message
   nameWithType: ArgumentOutOfRangeException.Message
   fullName: System.ArgumentOutOfRangeException.Message
@@ -230,11 +273,17 @@ items:
   assemblies:
   - mscorlib
   namespace: System
+  summary: Gets the error message and the string representation of the invalid argument value, or only the error message if the argument value is null.
+  remarks: "This property overrides <xref:System.ArgumentException.Message%2A>.  \n  \n The error message should describe the expected values of the parameter that causes this exception. The error message should be localized."
   syntax:
     content: public override string Message { get; }
     return:
       type: System.String
-      description: Return description to be filled
+      description: To be added.
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 references:
 - uid: System.ArgumentException
   isExternal: false
@@ -353,12 +402,6 @@ references:
   name: GetObjectData(SerializationInfo,StreamingContext)
   nameWithType: ArgumentOutOfRangeException.GetObjectData(SerializationInfo,StreamingContext)
   fullName: System.ArgumentOutOfRangeException.GetObjectData(SerializationInfo,StreamingContext)
-- uid: System.Void
-  parent: System
-  isExternal: false
-  name: Void
-  nameWithType: Void
-  fullName: System.Void
 - uid: System.Runtime.Serialization.SerializationInfo
   parent: System.Runtime.Serialization
   isExternal: false

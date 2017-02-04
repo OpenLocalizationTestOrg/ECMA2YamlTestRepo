@@ -9,11 +9,14 @@ items:
   - System.Resources.NeutralResourcesLanguageAttribute.Location
   langs:
   - csharp
-  - vb
   name: NeutralResourcesLanguageAttribute
   nameWithType: NeutralResourcesLanguageAttribute
   fullName: System.Resources.NeutralResourcesLanguageAttribute
   type: Class
+  summary: Informs the resource manager of an app's default culture. This class cannot be inherited.
+  remarks: "## Desktop Apps  \n In desktop apps, the NeutralResourcesLanguageAttribute attribute informs the resource manager of an app's default culture and the location of its resources. By default, resources are embedded in the main app assembly, and you can use the attribute as follows. This statement specifies that the English (United States) is the app's default culture.  \n  \n [!CODE [System.Resources.NeutralResourcesLanguageAttribute#1](../CodeSnippet/VS_Snippets_CLR_System/system.resources.neutralresourceslanguageattribute#1)]  \n  \n You can also use the NeutralResourcesLanguageAttribute attribute to indicate where <xref:System.Resources.ResourceManager> can find the resources of the default culture by providing an <xref:System.Resources.UltimateResourceFallbackLocation> enumeration value in the attribute statement. This is most commonly done to indicate that the resources reside in a satellite assembly. For example, the following statement specifies that English (United States) is the app's default or neutral culture and that its resources reside in a satellite assembly. The <xref:System.Resources.ResourceManager> object will look for them in a subdirectory named en-US.  \n  \n [!CODE [System.Resources.NeutralResourcesLanguageAttribute#2](../CodeSnippet/VS_Snippets_CLR_System/system.resources.neutralresourceslanguageattribute#2)]  \n  \n> [!TIP]\n>  We recommend that you always use the NeutralResourcesLanguageAttribute attribute to define the default culture of your app.  \n  \n The attribute performs two roles:  \n  \n-   If the default culture's resources are embedded in the app's main assembly and <xref:System.Resources.ResourceManager> has to retrieve resources that belong to the same culture as the default culture, the <xref:System.Resources.ResourceManager> automatically uses the resources located in the main assembly instead of searching for a satellite assembly. This bypasses the usual assembly probe, improves lookup performance for the first resource you load, and can reduce your working set. See [Packaging and Deploying Resources](../Topic/Packaging%20and%20Deploying%20Resources%20in%20Desktop%20Apps.md) for the process <xref:System.Resources.ResourceManager> uses to probe for resource files.  \n  \n-   If the default culture's resources are located in a satellite assembly rather than in the main app assembly, the NeutralResourcesLanguageAttribute attribute specifies the culture and the directory from which the runtime can load the resources.  \n  \n## [!INCLUDE[win8_appname_long](../../add/includes/win8-appname-long-md.md)] Apps  \n In [!INCLUDE[win8_appname_long](../../add/includes/win8-appname-long-md.md)] apps whose resources are loaded and retrieved by using the <xref:System.Resources.ResourceManager> class, the NeutralResourcesLanguageAttribute attribute defines the neutral culture whose resources are used in the event of a failed probe. It does not specify the location of the resources. By default, <xref:System.Resources.ResourceManager> uses the app's package resource index (PRI) file to locate the resources of the default culture. The neutral culture that is defined by the NeutralResourcesLanguageAttribute attribute is added to the end of the UI language list to simulate this effect.  \n  \n If you load and retrieve resources by using the [!INCLUDE[wrt](../../add/includes/wrt-md.md)][Windows.ApplicationModel.Resources.ResourceLoader](http://go.microsoft.com/fwlink/p/?LinkId=238182) class or the types in the [Windows.ApplicationModel.Resources.Core](http://go.microsoft.com/fwlink/p/?LinkId=238194) namespace, the NeutralResourcesLanguageAttribute attribute is ignored."
+  example:
+  - "The following example uses a simple \"Hello World\" app to illustrate the use of the NeutralResourcesLanguageAttribute attribute to define a default or fallback culture. It requires the creation of separate resource files for the English (en), English (United States) (en-US), and French (France) (fr-FR) cultures. The following shows the contents of a text file named ExampleResources.txt for the English culture.  \n  \n```  \n# Resources for the default (en) culture.  \nGreeting=Hello  \n```  \n  \n To use the resource file in an app, you must use the  to convert the file from its text (.txt) format to a binary (.resources) format as follows:  \n  \n```  \nresgen ExampleResources.txt  \n```  \n  \n When the app is compiled, the binary resource file will be embedded in the main app assembly.  \n  \n The following shows the contents of a text file named ExampleResources.en-US.txt that provides resources for the English (United States) culture.  \n  \n```  \n# Resources for the en-US culture.  \nGreeting=Hi  \n```  \n  \n The text file can be converted to a binary resources file by using the  at the command line as follows:  \n  \n```  \nresgen ExampleResources.en-US.txt ExampleResources.en-US.resources  \n```  \n  \n The binary resource file should then be compiled into an assembly by using  and placed in the en-US subdirectory of the app directory by issuing the following command:  \n  \n```  \nal /t:lib /embed:ExampleResources.en-US.resources /culture:en-US /out:en-us\\Example.resources.dll  \n```  \n  \n The following shows the contents of a text file named ExampleResources.fr-FR.txt that provides resources for the French (France) culture.  \n  \n```  \n# Resources for the fr-FR culture.  \nGreeting=Bonjour  \n```  \n  \n The text file can be converted to a binary resource file by using ResGen.exe at the command line as follows:  \n  \n```  \nresgen ExampleResources.fr-FR.txt ExampleResources.fr-FR.resources  \n```  \n  \n The binary resources file should then be compiled into an assembly by using Assembly Linker and placed in the fr-FR subdirectory of the app directory by issuing the following command:  \n  \n```  \nal /t:lib /embed:ExampleResources.fr-FR.resources /culture:fr-FR /out:fr-FR\\Example.resources.dll  \n```  \n  \n The following example provides the executable code that sets the current culture, prompts for the user's name, and displays a localized string.  \n  \n [!CODE [System.Globalization.NeutralResourcesLanguageAttribute#1](../CodeSnippet/VS_Snippets_CLR_System/system.globalization.neutralresourceslanguageattribute#1)]  \n  \n It can be compiled by using the following command in Visual Basic:  \n  \n```  \nvbc Example.vb /resource:ExampleResources.resources  \n```  \n  \n or by using the following command in C#:  \n  \n```  \ncsc Example.cs /resource:ExampleResources.resources  \n```"
   syntax:
     content: >-
       [System.AttributeUsage(System.AttributeTargets.Assembly, AllowMultiple=false)]
@@ -72,12 +75,15 @@ items:
   - System.Object.MemberwiseClone
   - System.Object.ReferenceEquals(System.Object,System.Object)
   - System.Object.ToString
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Resources.NeutralResourcesLanguageAttribute.#ctor(System.String)
   id: '#ctor(System.String)'
   parent: System.Resources.NeutralResourcesLanguageAttribute
   langs:
   - csharp
-  - vb
   name: NeutralResourcesLanguageAttribute(String)
   nameWithType: NeutralResourcesLanguageAttribute.NeutralResourcesLanguageAttribute(String)
   fullName: System.Resources.NeutralResourcesLanguageAttribute.NeutralResourcesLanguageAttribute(String)
@@ -85,18 +91,23 @@ items:
   assemblies:
   - mscorlib
   namespace: System.Resources
+  summary: Initializes a new instance of the <see cref="T:System.Resources.NeutralResourcesLanguageAttribute"> class.
+  remarks: For a detailed list of culture names, see [National Language Support (NLS) API Reference](http://go.microsoft.com/fwlink/?LinkId=200048) at the Go Global Developer Center.
   syntax:
     content: public NeutralResourcesLanguageAttribute (string cultureName);
     parameters:
     - id: cultureName
       type: System.String
-      description: Parameter description to be filled
+      description: The name of the culture that the current assembly's neutral resources were written in.
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Resources.NeutralResourcesLanguageAttribute.#ctor(System.String,System.Resources.UltimateResourceFallbackLocation)
   id: '#ctor(System.String,System.Resources.UltimateResourceFallbackLocation)'
   parent: System.Resources.NeutralResourcesLanguageAttribute
   langs:
   - csharp
-  - vb
   name: NeutralResourcesLanguageAttribute(String,UltimateResourceFallbackLocation)
   nameWithType: NeutralResourcesLanguageAttribute.NeutralResourcesLanguageAttribute(String,UltimateResourceFallbackLocation)
   fullName: System.Resources.NeutralResourcesLanguageAttribute.NeutralResourcesLanguageAttribute(String,UltimateResourceFallbackLocation)
@@ -104,21 +115,26 @@ items:
   assemblies:
   - mscorlib
   namespace: System.Resources
+  summary: Initializes a new instance of the <see cref="T:System.Resources.NeutralResourcesLanguageAttribute"> class with the specified ultimate resource fallback location.
+  remarks: "Use the <xref:System.Resources.NeutralResourcesLanguageAttribute> constructor with the <xref:System.Resources.UltimateResourceFallbackLocation> enumeration to specify whether the <xref:System.Resources.ResourceManager> class is to retrieve neutral fallback resources from the main app assembly (the default), or from a satellite assembly specified by the <xref:System.Globalization.CultureInfo.CurrentUICulture%2A> and the <xref:System.Resources.ResourceManager.FallbackLocation%2A> properties.  \n  \n For a detailed list of culture names, see [National Language Support (NLS) API Reference](http://go.microsoft.com/fwlink/?LinkId=200048) at the Go Global Developer Center."
   syntax:
     content: public NeutralResourcesLanguageAttribute (string cultureName, System.Resources.UltimateResourceFallbackLocation location);
     parameters:
     - id: cultureName
       type: System.String
-      description: Parameter description to be filled
+      description: The name of the culture that the current assembly's neutral resources were written in.
     - id: location
       type: System.Resources.UltimateResourceFallbackLocation
-      description: Parameter description to be filled
+      description: One of the enumeration values that indicates the location from which to retrieve neutral fallback resources.
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Resources.NeutralResourcesLanguageAttribute.CultureName
   id: CultureName
   parent: System.Resources.NeutralResourcesLanguageAttribute
   langs:
   - csharp
-  - vb
   name: CultureName
   nameWithType: NeutralResourcesLanguageAttribute.CultureName
   fullName: System.Resources.NeutralResourcesLanguageAttribute.CultureName
@@ -126,17 +142,22 @@ items:
   assemblies:
   - mscorlib
   namespace: System.Resources
+  summary: Gets the culture name.
+  remarks: For a detailed list of culture names, see [National Language Support (NLS) API Reference](http://go.microsoft.com/fwlink/?LinkId=200048) at the Go Global Developer Center.
   syntax:
     content: public string CultureName { get; }
     return:
       type: System.String
-      description: Return description to be filled
+      description: To be added.
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Resources.NeutralResourcesLanguageAttribute.Location
   id: Location
   parent: System.Resources.NeutralResourcesLanguageAttribute
   langs:
   - csharp
-  - vb
   name: Location
   nameWithType: NeutralResourcesLanguageAttribute.Location
   fullName: System.Resources.NeutralResourcesLanguageAttribute.Location
@@ -144,11 +165,17 @@ items:
   assemblies:
   - mscorlib
   namespace: System.Resources
+  summary: Gets the location for the <see cref="T:System.Resources.ResourceManager"> class to use to retrieve neutral resources by using the [resource fallback process](../Topic/Packaging%20and%20Deploying%20Resources%20in%20Desktop%20Apps.md).
+  remarks: To be added.
   syntax:
     content: public System.Resources.UltimateResourceFallbackLocation Location { get; }
     return:
       type: System.Resources.UltimateResourceFallbackLocation
-      description: Return description to be filled
+      description: To be added.
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 references:
 - uid: System.Attribute
   isExternal: false

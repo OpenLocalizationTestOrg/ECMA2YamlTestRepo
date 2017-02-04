@@ -15,11 +15,14 @@ items:
   - System.Threading.SpinLock.TryEnter(System.TimeSpan,System.Boolean@)
   langs:
   - csharp
-  - vb
   name: SpinLock
   nameWithType: SpinLock
   fullName: System.Threading.SpinLock
   type: Struct
+  summary: Provides a mutual exclusion lock primitive where a thread trying to acquire the lock waits in a loop repeatedly checking until the lock becomes available.
+  remarks: "For an example of how to use a Spin Lock, see [How to: Use SpinLock for Low-Level Synchronization](../Topic/How%20to:%20Use%20SpinLock%20for%20Low-Level%20Synchronization.md).  \n  \n Spin locks can be used for leaf-level locks where the object allocation implied by using a <xref:System.Threading.Monitor>, in size or due to garbage collection pressure, is overly expensive. A spin lock can be useful in to avoid blocking; however, if you expect a significant amount of blocking, you should probably not use spin locks due to excessive spinning. Spinning can be beneficial when locks are fine-grained and large in number (for example, a lock per node in a linked list) and also when lock hold-times are always extremely short. In general, while holding a spin lock, one should avoid any of these actions:  \n  \n-   blocking,  \n  \n-   calling anything that itself may block,  \n  \n-   holding more than one spin lock at once,  \n  \n-   making dynamically dispatched calls (interface and virtuals),  \n  \n-   making statically dispatched calls into any code one doesn't own, or  \n  \n-   allocating memory.  \n  \n SpinLock should only be used after you have been determined that doing so will improve an application's performance. It is also important to note that SpinLock is a value type, for performance reasons. For this reason, you must be very careful not to accidentally copy a SpinLock instance, as the two instances (the original and the copy) would then be completely independent of one another, which would likely lead to erroneous behavior of the application. If a SpinLock instance must be passed around, it should be passed by reference rather than by value.  \n  \n Do not store SpinLock instances in readonly fields."
+  example:
+  - "The following example shows how to use a SpinLock:  \n  \n [!CODE [System.Threading.SpinLock#01](../CodeSnippet/VS_Snippets_CLR_System/system.threading.spinlock#01)]"
   syntax:
     content: >-
       [System.Diagnostics.DebuggerDisplay("IsHeld = {IsHeld}")]
@@ -33,12 +36,15 @@ items:
   - System.Object
   - System.ValueType
   implements: []
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Threading.SpinLock.#ctor(System.Boolean)
   id: '#ctor(System.Boolean)'
   parent: System.Threading.SpinLock
   langs:
   - csharp
-  - vb
   name: SpinLock(Boolean)
   nameWithType: SpinLock.SpinLock(Boolean)
   fullName: System.Threading.SpinLock.SpinLock(Boolean)
@@ -46,18 +52,25 @@ items:
   assemblies:
   - mscorlib
   namespace: System.Threading
+  summary: Initializes a new instance of the <see cref="T:System.Threading.SpinLock"> structure with the option to track thread IDs to improve debugging.
+  remarks: The default constructor for <xref:System.Threading.SpinLock> tracks thread ownership.
+  example:
+  - "The following example demonstrates how a SpinLock may be used.  \n  \n```  \n// C#  \npublic class MyType  \n{  \n    private SpinLock _spinLock = new SpinLock();  \n  \n    public void DoWork()  \n    {  \n        bool lockTaken = false;   \n        try  \n        {  \n           _spinLock.Enter(ref lockTaken);  \n           // do work here protected by the lock  \n        }  \n        finally  \n        {  \n            if (lockTaken) _spinLock.Exit();  \n        }  \n    }  \n}  \n```  \n  \n```  \n' Visual Basic  \n  \nClass MyType  \n   Private _spinLock As New SpinLock()  \n  \n   Public Sub DoWork()  \n      Dim lockTaken As Boolean = False  \n      Try  \n         _spinLock.Enter(lockTaken)  \n         ' do work here protected by the lock  \n      Finally  \n         If lockTaken Then _spinLock.Exit()  \n      End Try  \n   End Sub  \nEnd Class  \n```"
   syntax:
     content: public SpinLock (bool enableThreadOwnerTracking);
     parameters:
     - id: enableThreadOwnerTracking
       type: System.Boolean
-      description: Parameter description to be filled
+      description: Whether to capture and use thread IDs for debugging purposes.
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Threading.SpinLock.Enter(System.Boolean@)
   id: Enter(System.Boolean@)
   parent: System.Threading.SpinLock
   langs:
   - csharp
-  - vb
   name: Enter(Boolean)
   nameWithType: SpinLock.Enter(Boolean)
   fullName: System.Threading.SpinLock.Enter(Boolean)
@@ -65,21 +78,23 @@ items:
   assemblies:
   - mscorlib
   namespace: System.Threading
+  summary: Acquires the lock in a reliable manner, such that even if an exception occurs within the method call,  can be examined reliably to determine whether the lock was acquired.
+  remarks: "<xref:System.Threading.SpinLock> is a non-reentrant lock, meaning that if a thread holds the lock, it is not allowed to enter the lock again. If thread ownership tracking is enabled (whether it's enabled is available through <xref:System.Threading.SpinLock.IsThreadOwnerTrackingEnabled%2A>), an exception will be thrown when a thread tries to re-enter a lock it already holds. However, if thread ownership tracking is disabled, attempting to enter a lock already held will result in deadlock.  \n  \n If you call <xref:System.Threading.SpinLock.Exit%2A> without having first called Enter the internal state of the <xref:System.Threading.SpinLock> can become corrupted."
   syntax:
     content: public void Enter (ref bool lockTaken);
     parameters:
     - id: lockTaken
       type: System.Boolean
-      description: Parameter description to be filled
-    return:
-      type: System.Void
-      description: Return description to be filled
+      description: True if the lock is acquired; otherwise, false.  must be initialized to false prior to calling this method.
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Threading.SpinLock.Exit
   id: Exit
   parent: System.Threading.SpinLock
   langs:
   - csharp
-  - vb
   name: Exit()
   nameWithType: SpinLock.Exit()
   fullName: System.Threading.SpinLock.Exit()
@@ -87,19 +102,21 @@ items:
   assemblies:
   - mscorlib
   namespace: System.Threading
+  summary: Releases the lock.
+  remarks: "The default overload of Exit provides the same behavior as if calling <xref:System.Threading.SpinLock.Exit%2A> using true as the argument.  \n  \n If you call Exit without having first called <xref:System.Threading.SpinLock.Enter%2A> the internal state of the <xref:System.Threading.SpinLock> can become corrupted."
   syntax:
     content: public void Exit ();
     parameters: []
-    return:
-      type: System.Void
-      description: Return description to be filled
   overload: System.Threading.SpinLock.Exit*
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Threading.SpinLock.Exit(System.Boolean)
   id: Exit(System.Boolean)
   parent: System.Threading.SpinLock
   langs:
   - csharp
-  - vb
   name: Exit(Boolean)
   nameWithType: SpinLock.Exit(Boolean)
   fullName: System.Threading.SpinLock.Exit(Boolean)
@@ -107,22 +124,24 @@ items:
   assemblies:
   - mscorlib
   namespace: System.Threading
+  summary: Releases the lock.
+  remarks: "Calling Exit with the  argument set to true will improve the fairness of the lock at the expense of some performance. The default <xref:System.Threading.SpinLock.Exit%2A> overload behaves as if specifying true for .  \n  \n If you call <xref:System.Threading.SpinLock.Exit%2A> without having first called <xref:System.Threading.SpinLock.Enter%2A> the internal state of the <xref:System.Threading.SpinLock> can become corrupted."
   syntax:
     content: public void Exit (bool useMemoryBarrier);
     parameters:
     - id: useMemoryBarrier
       type: System.Boolean
-      description: Parameter description to be filled
-    return:
-      type: System.Void
-      description: Return description to be filled
+      description: A Boolean value that indicates whether a memory fence should be issued in order to immediately publish the exit operation to other threads.
   overload: System.Threading.SpinLock.Exit*
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Threading.SpinLock.IsHeld
   id: IsHeld
   parent: System.Threading.SpinLock
   langs:
   - csharp
-  - vb
   name: IsHeld
   nameWithType: SpinLock.IsHeld
   fullName: System.Threading.SpinLock.IsHeld
@@ -130,17 +149,22 @@ items:
   assemblies:
   - mscorlib
   namespace: System.Threading
+  summary: Gets whether the lock is currently held by any thread.
+  remarks: To be added.
   syntax:
     content: public bool IsHeld { get; }
     return:
       type: System.Boolean
-      description: Return description to be filled
+      description: To be added.
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Threading.SpinLock.IsHeldByCurrentThread
   id: IsHeldByCurrentThread
   parent: System.Threading.SpinLock
   langs:
   - csharp
-  - vb
   name: IsHeldByCurrentThread
   nameWithType: SpinLock.IsHeldByCurrentThread
   fullName: System.Threading.SpinLock.IsHeldByCurrentThread
@@ -148,17 +172,22 @@ items:
   assemblies:
   - mscorlib
   namespace: System.Threading
+  summary: Gets whether the lock is held by the current thread.
+  remarks: If the lock was initialized to track owner threads, this will return whether the lock is acquired by the current thread. It is invalid to use this property when the lock was initialized to not track thread ownership.
   syntax:
     content: public bool IsHeldByCurrentThread { get; }
     return:
       type: System.Boolean
-      description: Return description to be filled
+      description: To be added.
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Threading.SpinLock.IsThreadOwnerTrackingEnabled
   id: IsThreadOwnerTrackingEnabled
   parent: System.Threading.SpinLock
   langs:
   - csharp
-  - vb
   name: IsThreadOwnerTrackingEnabled
   nameWithType: SpinLock.IsThreadOwnerTrackingEnabled
   fullName: System.Threading.SpinLock.IsThreadOwnerTrackingEnabled
@@ -166,17 +195,22 @@ items:
   assemblies:
   - mscorlib
   namespace: System.Threading
+  summary: Gets whether thread ownership tracking is enabled for this instance.
+  remarks: To be added.
   syntax:
     content: public bool IsThreadOwnerTrackingEnabled { get; }
     return:
       type: System.Boolean
-      description: Return description to be filled
+      description: To be added.
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Threading.SpinLock.TryEnter(System.Boolean@)
   id: TryEnter(System.Boolean@)
   parent: System.Threading.SpinLock
   langs:
   - csharp
-  - vb
   name: TryEnter(Boolean)
   nameWithType: SpinLock.TryEnter(Boolean)
   fullName: System.Threading.SpinLock.TryEnter(Boolean)
@@ -184,22 +218,24 @@ items:
   assemblies:
   - mscorlib
   namespace: System.Threading
+  summary: Attempts to acquire the lock in a reliable manner, such that even if an exception occurs within the method call,  can be examined reliably to determine whether the lock was acquired.
+  remarks: Unlike <xref:System.Threading.SpinLock.Enter%2A>, TryEnter will not block waiting for the lock to be available. If the lock is not available when TryEnter is called, it will return immediately without any further spinning.
   syntax:
     content: public void TryEnter (ref bool lockTaken);
     parameters:
     - id: lockTaken
       type: System.Boolean
-      description: Parameter description to be filled
-    return:
-      type: System.Void
-      description: Return description to be filled
+      description: True if the lock is acquired; otherwise, false.  must be initialized to false prior to calling this method.
   overload: System.Threading.SpinLock.TryEnter*
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Threading.SpinLock.TryEnter(System.Int32,System.Boolean@)
   id: TryEnter(System.Int32,System.Boolean@)
   parent: System.Threading.SpinLock
   langs:
   - csharp
-  - vb
   name: TryEnter(Int32,Boolean)
   nameWithType: SpinLock.TryEnter(Int32,Boolean)
   fullName: System.Threading.SpinLock.TryEnter(Int32,Boolean)
@@ -207,25 +243,27 @@ items:
   assemblies:
   - mscorlib
   namespace: System.Threading
+  summary: Attempts to acquire the lock in a reliable manner, such that even if an exception occurs within the method call,  can be examined reliably to determine whether the lock was acquired.
+  remarks: Unlike <xref:System.Threading.SpinLock.Enter%2A>, TryEnter will not block indefinitely waiting for the lock to be available. It will block until either the lock is available or until the  has expired.
   syntax:
     content: public void TryEnter (int millisecondsTimeout, ref bool lockTaken);
     parameters:
     - id: millisecondsTimeout
       type: System.Int32
-      description: Parameter description to be filled
+      description: The number of milliseconds to wait, or <see cref="F:System.Threading.Timeout.Infinite"> (-1) to wait indefinitely.
     - id: lockTaken
       type: System.Boolean
-      description: Parameter description to be filled
-    return:
-      type: System.Void
-      description: Return description to be filled
+      description: True if the lock is acquired; otherwise, false.  must be initialized to false prior to calling this method.
   overload: System.Threading.SpinLock.TryEnter*
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Threading.SpinLock.TryEnter(System.TimeSpan,System.Boolean@)
   id: TryEnter(System.TimeSpan,System.Boolean@)
   parent: System.Threading.SpinLock
   langs:
   - csharp
-  - vb
   name: TryEnter(TimeSpan,Boolean)
   nameWithType: SpinLock.TryEnter(TimeSpan,Boolean)
   fullName: System.Threading.SpinLock.TryEnter(TimeSpan,Boolean)
@@ -233,19 +271,22 @@ items:
   assemblies:
   - mscorlib
   namespace: System.Threading
+  summary: Attempts to acquire the lock in a reliable manner, such that even if an exception occurs within the method call,  can be examined reliably to determine whether the lock was acquired.
+  remarks: Unlike <xref:System.Threading.SpinLock.Enter%2A>, TryEnter will not block indefinitely waiting for the lock to be available. It will block until either the lock is available or until the  has expired.
   syntax:
     content: public void TryEnter (TimeSpan timeout, ref bool lockTaken);
     parameters:
     - id: timeout
       type: System.TimeSpan
-      description: Parameter description to be filled
+      description: A <see cref="T:System.TimeSpan"> that represents the number of milliseconds to wait, or a <see cref="T:System.TimeSpan"> that represents -1 milliseconds to wait indefinitely.
     - id: lockTaken
       type: System.Boolean
-      description: Parameter description to be filled
-    return:
-      type: System.Void
-      description: Return description to be filled
+      description: True if the lock is acquired; otherwise, false.  must be initialized to false prior to calling this method.
   overload: System.Threading.SpinLock.TryEnter*
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 references:
 - uid: System.ValueType
   isExternal: false
@@ -268,12 +309,6 @@ references:
   name: Enter(Boolean)
   nameWithType: SpinLock.Enter(Boolean)
   fullName: System.Threading.SpinLock.Enter(Boolean)
-- uid: System.Void
-  parent: System
-  isExternal: false
-  name: Void
-  nameWithType: Void
-  fullName: System.Void
 - uid: System.Boolean
   parent: System
   isExternal: false
@@ -286,24 +321,12 @@ references:
   name: Exit()
   nameWithType: SpinLock.Exit()
   fullName: System.Threading.SpinLock.Exit()
-- uid: System.Void
-  parent: System
-  isExternal: false
-  name: Void
-  nameWithType: Void
-  fullName: System.Void
 - uid: System.Threading.SpinLock.Exit(System.Boolean)
   parent: System.Threading.SpinLock
   isExternal: false
   name: Exit(Boolean)
   nameWithType: SpinLock.Exit(Boolean)
   fullName: System.Threading.SpinLock.Exit(Boolean)
-- uid: System.Void
-  parent: System
-  isExternal: false
-  name: Void
-  nameWithType: Void
-  fullName: System.Void
 - uid: System.Boolean
   parent: System
   isExternal: false
@@ -352,12 +375,6 @@ references:
   name: TryEnter(Boolean)
   nameWithType: SpinLock.TryEnter(Boolean)
   fullName: System.Threading.SpinLock.TryEnter(Boolean)
-- uid: System.Void
-  parent: System
-  isExternal: false
-  name: Void
-  nameWithType: Void
-  fullName: System.Void
 - uid: System.Boolean
   parent: System
   isExternal: false
@@ -370,12 +387,6 @@ references:
   name: TryEnter(Int32,Boolean)
   nameWithType: SpinLock.TryEnter(Int32,Boolean)
   fullName: System.Threading.SpinLock.TryEnter(Int32,Boolean)
-- uid: System.Void
-  parent: System
-  isExternal: false
-  name: Void
-  nameWithType: Void
-  fullName: System.Void
 - uid: System.Int32
   parent: System
   isExternal: false
@@ -394,12 +405,6 @@ references:
   name: TryEnter(TimeSpan,Boolean)
   nameWithType: SpinLock.TryEnter(TimeSpan,Boolean)
   fullName: System.Threading.SpinLock.TryEnter(TimeSpan,Boolean)
-- uid: System.Void
-  parent: System
-  isExternal: false
-  name: Void
-  nameWithType: Void
-  fullName: System.Void
 - uid: System.TimeSpan
   parent: System
   isExternal: false

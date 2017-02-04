@@ -57,11 +57,14 @@ items:
   - System.Reflection.Emit.MethodBuilder.ToString
   langs:
   - csharp
-  - vb
   name: MethodBuilder
   nameWithType: MethodBuilder
   fullName: System.Reflection.Emit.MethodBuilder
   type: Class
+  summary: Defines and represents a method (or constructor) on a dynamic class.
+  remarks: "The MethodBuilder class is used to fully describe a method in Microsoft intermediate language (MSIL), including the name, attributes, signature, and method body. It is used in conjunction with the <xref:System.Reflection.Emit.TypeBuilder> class to create classes at runtime.  \n  \n## Global methods and methods as type members  \n You can use reflection emit to define global methods and to define methods as type members. The APIs that define methods return MethodBuilder objects.  \n  \n### Global methods  \n A global method is defined by using the <xref:System.Reflection.Emit.ModuleBuilder.DefineGlobalMethod%2A?displayProperty=fullName> method, which returns a **MethodBuilder** object.  \n  \n Global methods must be static. If a dynamic module contains global methods, the <xref:System.Reflection.Emit.ModuleBuilder.CreateGlobalFunctions%2A?displayProperty=fullName> method must be called before persisting the dynamic module or the containing dynamic assembly because the common language runtime postpones fixing up the dynamic module until all global functions have been defined.  \n  \n A global native method is defined by using the <xref:System.Reflection.Emit.ModuleBuilder.DefinePInvokeMethod%2A?displayProperty=fullName> method. Platform invoke (PInvoke) methods must not be declared abstract or virtual. The runtime sets the <xref:System.Reflection.MethodAttributes?displayProperty=fullName> attribute for a platform invoke method.  \n  \n### Methods as members of types  \n A method is defined as a type member by using the <xref:System.Reflection.Emit.TypeBuilder.DefineMethod%2A?displayProperty=fullName> method, which returns a MethodBuilder object.  \n  \n The <xref:System.Reflection.Emit.MethodBuilder.DefineParameter%2A> method is used to set the name and parameter attributes of a parameter, or of the return value. The<xref:System.Reflection.Emit.ParameterBuilder> object returned by this method represents a parameter or the return value. The <xref:System.Reflection.Emit.ParameterBuilder> object can be used to set the marshaling, to set the constant value, and to apply custom attributes.  \n  \n## Attributes  \n Members of the <xref:System.Reflection.MethodAttributes> enumeration define the precise character of a dynamic method:  \n  \n-   Static methods are specified using the <xref:System.Reflection.MethodAttributes?displayProperty=fullName> attribute.  \n  \n-   Final methods (methods that cannot be overridden) are specified using the <xref:System.Reflection.MethodAttributes?displayProperty=fullName> attribute.  \n  \n-   Virtual methods are specified using the <xref:System.Reflection.MethodAttributes?displayProperty=fullName> attribute.  \n  \n-   Abstract methods are specified using the <xref:System.Reflection.MethodAttributes?displayProperty=fullName> attribute.  \n  \n-   Several attributes determine method visibility. See the description of the <xref:System.Reflection.MethodAttributes> enumeration.  \n  \n-   Methods that implement overloaded operators must set the <xref:System.Reflection.MethodAttributes?displayProperty=fullName> attribute.  \n  \n-   Finalizers must set the <xref:System.Reflection.MethodAttributes?displayProperty=fullName> attribute.  \n  \n## Known Issues  \n  \n-   Although MethodBuilder is derived from <xref:System.Reflection.MethodInfo>, some of the abstract methods defined in the <xref:System.Reflection.MethodInfo> class are not fully implemented in MethodBuilder. These MethodBuilder methods throw the <xref:System.NotSupportedException>. For example the <xref:System.Reflection.Emit.MethodBuilder.Invoke%2A?displayProperty=fullName> method is not fully implemented. You can reflect on these methods by retrieving the enclosing type using the <xref:System.Type.GetType%2A?displayProperty=fullName> or <xref:System.Reflection.Assembly.GetType%2A?displayProperty=fullName> methods.  \n  \n-   Custom modifiers are supported starting with the .NET Framework version 2.0. They are not supported in earlier versions."
+  example:
+  - "The following example uses the MethodBuilder class to create a method within a dynamic type.  \n  \n [!CODE [System.Reflection.Emit.MethodBuilder Example#1](../CodeSnippet/VS_Snippets_CLR_System/system.Reflection.Emit.MethodBuilder Example#1)]"
   syntax:
     content: >-
       [System.Runtime.InteropServices.ClassInterface(System.Runtime.InteropServices.ClassInterfaceType.None)]
@@ -142,12 +145,15 @@ items:
   - System.Reflection.MethodInfo.System#Runtime#InteropServices#_MethodInfo#GetTypeInfo(System.UInt32,System.UInt32,System.IntPtr)
   - System.Reflection.MethodInfo.System#Runtime#InteropServices#_MethodInfo#GetTypeInfoCount(System.UInt32@)
   - System.Reflection.MethodInfo.System#Runtime#InteropServices#_MethodInfo#Invoke(System.UInt32,System.Guid@,System.UInt32,System.Int16,System.IntPtr,System.IntPtr,System.IntPtr,System.IntPtr)
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Reflection.Emit.MethodBuilder.AddDeclarativeSecurity(System.Security.Permissions.SecurityAction,System.Security.PermissionSet)
   id: AddDeclarativeSecurity(System.Security.Permissions.SecurityAction,System.Security.PermissionSet)
   parent: System.Reflection.Emit.MethodBuilder
   langs:
   - csharp
-  - vb
   name: AddDeclarativeSecurity(SecurityAction,PermissionSet)
   nameWithType: MethodBuilder.AddDeclarativeSecurity(SecurityAction,PermissionSet)
   fullName: System.Reflection.Emit.MethodBuilder.AddDeclarativeSecurity(SecurityAction,PermissionSet)
@@ -155,24 +161,28 @@ items:
   assemblies:
   - mscorlib
   namespace: System.Reflection.Emit
+  summary: Adds declarative security to this method.
+  remarks: "AddDeclarativeSecurity can be called several times, with each call specifying a security action (such as `Demand`, `Assert`, and `Deny`) and a set of permissions that the action applies to.  \n  \n> [!NOTE]\n>  In the .NET Framework versions 1.0, 1.1, and 2.0, the declarative security attributes applied to a method by using the AddDeclarativeSecurity method are stored in the old XML metadata format. See Emitting Declarative Security Attributes."
+  example:
+  - "The code sample below illustrates the contextual use of `AddDeclarativeSecurity` to require the caller of a method to have unrestricted permissions.  \n  \n [!CODE [System.Reflection.Emit.MethodBuilder.AddDeclarativeSecurity Example#1](../CodeSnippet/VS_Snippets_CLR_System/system.Reflection.Emit.MethodBuilder.AddDeclarativeSecurity Example#1)]"
   syntax:
     content: public void AddDeclarativeSecurity (System.Security.Permissions.SecurityAction action, System.Security.PermissionSet pset);
     parameters:
     - id: action
       type: System.Security.Permissions.SecurityAction
-      description: Parameter description to be filled
+      description: The security action to be taken (Demand, Assert, and so on).
     - id: pset
       type: System.Security.PermissionSet
-      description: Parameter description to be filled
-    return:
-      type: System.Void
-      description: Return description to be filled
+      description: The set of permissions the action applies to.
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Reflection.Emit.MethodBuilder.Attributes
   id: Attributes
   parent: System.Reflection.Emit.MethodBuilder
   langs:
   - csharp
-  - vb
   name: Attributes
   nameWithType: MethodBuilder.Attributes
   fullName: System.Reflection.Emit.MethodBuilder.Attributes
@@ -180,17 +190,22 @@ items:
   assemblies:
   - mscorlib
   namespace: System.Reflection.Emit
+  summary: Retrieves the attributes for this method.
+  remarks: To be added.
   syntax:
     content: public override System.Reflection.MethodAttributes Attributes { get; }
     return:
       type: System.Reflection.MethodAttributes
-      description: Return description to be filled
+      description: To be added.
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Reflection.Emit.MethodBuilder.CallingConvention
   id: CallingConvention
   parent: System.Reflection.Emit.MethodBuilder
   langs:
   - csharp
-  - vb
   name: CallingConvention
   nameWithType: MethodBuilder.CallingConvention
   fullName: System.Reflection.Emit.MethodBuilder.CallingConvention
@@ -198,17 +213,22 @@ items:
   assemblies:
   - mscorlib
   namespace: System.Reflection.Emit
+  summary: Returns the calling convention of the method.
+  remarks: To be added.
   syntax:
     content: public override System.Reflection.CallingConventions CallingConvention { get; }
     return:
       type: System.Reflection.CallingConventions
-      description: Return description to be filled
+      description: To be added.
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Reflection.Emit.MethodBuilder.ContainsGenericParameters
   id: ContainsGenericParameters
   parent: System.Reflection.Emit.MethodBuilder
   langs:
   - csharp
-  - vb
   name: ContainsGenericParameters
   nameWithType: MethodBuilder.ContainsGenericParameters
   fullName: System.Reflection.Emit.MethodBuilder.ContainsGenericParameters
@@ -216,17 +236,22 @@ items:
   assemblies:
   - mscorlib
   namespace: System.Reflection.Emit
+  summary: Not supported for this type.
+  remarks: "A <xref:System.Reflection.Emit.MethodBuilder> always represents a generic method definition, and thus cannot be invoked.  \n  \n For more information, see <xref:System.Reflection.MethodInfo.IsGenericMethod%2A?displayProperty=fullName> and <xref:System.Reflection.MethodInfo.ContainsGenericParameters%2A?displayProperty=fullName>. For information on generic types, see <xref:System.Type.IsGenericType%2A?displayProperty=fullName>."
   syntax:
     content: public override bool ContainsGenericParameters { get; }
     return:
       type: System.Boolean
-      description: Return description to be filled
+      description: To be added.
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Reflection.Emit.MethodBuilder.CreateMethodBody(System.Byte[],System.Int32)
   id: CreateMethodBody(System.Byte[],System.Int32)
   parent: System.Reflection.Emit.MethodBuilder
   langs:
   - csharp
-  - vb
   name: CreateMethodBody(Byte[],Int32)
   nameWithType: MethodBuilder.CreateMethodBody(Byte[],Int32)
   fullName: System.Reflection.Emit.MethodBuilder.CreateMethodBody(Byte[],Int32)
@@ -234,24 +259,28 @@ items:
   assemblies:
   - mscorlib
   namespace: System.Reflection.Emit
+  summary: Creates the body of the method using a supplied byte array of Microsoft intermediate language (MSIL) instructions.
+  remarks: "This method creates the method's body from , an array containing MSIL instructions as opcodes. The number of bytes of valid MSIL is given by count.  \n  \n> [!NOTE]\n>  This is currently not fully supported. The user cannot supply the location of token fix ups and exception handlers."
+  example:
+  - "In the example provided below, a simple method that adds two integers is generated via opcode using `CreateMethodBody`.  \n  \n [!CODE [System.Refelction.Emit.MethodBuilder.CreateMethodBody Example#1](../CodeSnippet/VS_Snippets_CLR_System/system.Refelction.Emit.MethodBuilder.CreateMethodBody Example#1)]"
   syntax:
     content: public void CreateMethodBody (byte[] il, int count);
     parameters:
     - id: il
       type: System.Byte[]
-      description: Parameter description to be filled
+      description: An array containing valid MSIL instructions. If this parameter is `null`, the method's body is cleared.
     - id: count
       type: System.Int32
-      description: Parameter description to be filled
-    return:
-      type: System.Void
-      description: Return description to be filled
+      description: The number of valid bytes in the MSIL array. This value is ignored if MSIL is `null`.
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Reflection.Emit.MethodBuilder.DeclaringType
   id: DeclaringType
   parent: System.Reflection.Emit.MethodBuilder
   langs:
   - csharp
-  - vb
   name: DeclaringType
   nameWithType: MethodBuilder.DeclaringType
   fullName: System.Reflection.Emit.MethodBuilder.DeclaringType
@@ -259,17 +288,24 @@ items:
   assemblies:
   - mscorlib
   namespace: System.Reflection.Emit
+  summary: Returns the type that declares this method.
+  remarks: ''
+  example:
+  - "The following code illustrates the use of the `Type` property.  \n  \n [!CODE [MethodBuilderClass_TypeSample#1](../CodeSnippet/VS_Snippets_CLR/MethodBuilderClass_TypeSample#1)]"
   syntax:
     content: public override Type DeclaringType { get; }
     return:
       type: System.Type
-      description: Return description to be filled
+      description: To be added.
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Reflection.Emit.MethodBuilder.DefineGenericParameters(System.String[])
   id: DefineGenericParameters(System.String[])
   parent: System.Reflection.Emit.MethodBuilder
   langs:
   - csharp
-  - vb
   name: DefineGenericParameters(String[])
   nameWithType: MethodBuilder.DefineGenericParameters(String[])
   fullName: System.Reflection.Emit.MethodBuilder.DefineGenericParameters(String[])
@@ -277,21 +313,28 @@ items:
   assemblies:
   - mscorlib
   namespace: System.Reflection.Emit
+  summary: Sets the number of generic type parameters for the current method, specifies their names, and returns an array of <see cref="T:System.Reflection.Emit.GenericTypeParameterBuilder"> objects that can be used to define their constraints.
+  remarks: "Calling the DefineGenericParameters method makes the current method generic. There is no way to undo this change. Calling this method a second time causes an <xref:System.InvalidOperationException>.  \n  \n The type parameters of the generic method can be retrieved later by using the <xref:System.Reflection.Emit.MethodBuilder.GetGenericArguments%2A> method.  \n  \n By convention, a type parameter name is a single uppercase letter.  \n  \n For more information, see <xref:System.Reflection.MethodInfo.IsGenericMethod%2A?displayProperty=fullName> and <xref:System.Reflection.MethodInfo.GetGenericMethodDefinition%2A?displayProperty=fullName>. For information on generic types, see <xref:System.Type.IsGenericType%2A?displayProperty=fullName>."
+  example:
+  - "The following code example creates a dynamic type, `DemoType`, which contains the dynamic generic method `DemoMethod`. This method has two generic type parameters, one of which is used as a parameter, and the other as the return type.  \n  \n When the code is executed, the dynamic assembly is saved as DemoGenericMethod1.dll, and can be examined using the [Ildasm.exe (IL Disassembler)](../Topic/Ildasm.exe%20\\(IL%20Disassembler\\).md).  \n  \n> [!NOTE]\n>  This code example generates a simple method body that merely returns a null reference. For a code example with a more fully developed method body that creates and uses generic types, see [How to: Define a Generic Method with Reflection Emit](../Topic/How%20to:%20Define%20a%20Generic%20Method%20with%20Reflection%20Emit.md).  \n  \n [!CODE [GenericMethodBuilder#1](../CodeSnippet/VS_Snippets_CLR/GenericMethodBuilder#1)]"
   syntax:
     content: public System.Reflection.Emit.GenericTypeParameterBuilder[] DefineGenericParameters (string[] names);
     parameters:
     - id: names
       type: System.String[]
-      description: Parameter description to be filled
+      description: An array of strings that represent the names of the generic type parameters.
     return:
       type: System.Reflection.Emit.GenericTypeParameterBuilder[]
-      description: Return description to be filled
+      description: An array of <see cref="T:System.Reflection.Emit.GenericTypeParameterBuilder"> objects representing the type parameters of the generic method.
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Reflection.Emit.MethodBuilder.DefineParameter(System.Int32,System.Reflection.ParameterAttributes,System.String)
   id: DefineParameter(System.Int32,System.Reflection.ParameterAttributes,System.String)
   parent: System.Reflection.Emit.MethodBuilder
   langs:
   - csharp
-  - vb
   name: DefineParameter(Int32,ParameterAttributes,String)
   nameWithType: MethodBuilder.DefineParameter(Int32,ParameterAttributes,String)
   fullName: System.Reflection.Emit.MethodBuilder.DefineParameter(Int32,ParameterAttributes,String)
@@ -299,27 +342,32 @@ items:
   assemblies:
   - mscorlib
   namespace: System.Reflection.Emit
+  summary: Sets the parameter attributes and the name of a parameter of this method, or of the return value of this method. Returns a ParameterBuilder that can be used to apply custom attributes.
+  remarks: "The <xref:System.Reflection.Emit.ParameterBuilder> object returned by this method can be used to set the default value for a parameter or to apply custom attributes.  \n  \n Parameter numbering begins with 1, so  is 1 for the first parameter. If  is zero, this method affects the return value.  \n  \n> [!NOTE]\n>  In the .NET Framework versions 1.0 and 1.1, an exception is thrown if  is zero, so this method cannot be used to modify attributes of the return value in those versions."
   syntax:
     content: public System.Reflection.Emit.ParameterBuilder DefineParameter (int position, System.Reflection.ParameterAttributes attributes, string strParamName);
     parameters:
     - id: position
       type: System.Int32
-      description: Parameter description to be filled
+      description: The position of the parameter in the parameter list. Parameters are indexed beginning with the number 1 for the first parameter; the number 0 represents the return value of the method.
     - id: attributes
       type: System.Reflection.ParameterAttributes
-      description: Parameter description to be filled
+      description: The parameter attributes of the parameter.
     - id: strParamName
       type: System.String
-      description: Parameter description to be filled
+      description: The name of the parameter. The name can be the null string.
     return:
       type: System.Reflection.Emit.ParameterBuilder
-      description: Return description to be filled
+      description: Returns a `ParameterBuilder` object that represents a parameter of this method or the return value of this method.
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Reflection.Emit.MethodBuilder.Equals(System.Object)
   id: Equals(System.Object)
   parent: System.Reflection.Emit.MethodBuilder
   langs:
   - csharp
-  - vb
   name: Equals(Object)
   nameWithType: MethodBuilder.Equals(Object)
   fullName: System.Reflection.Emit.MethodBuilder.Equals(Object)
@@ -327,21 +375,26 @@ items:
   assemblies:
   - mscorlib
   namespace: System.Reflection.Emit
+  summary: Determines whether the given object is equal to this instance.
+  remarks: Equality is determined by having the same name, attributes, and signature.
   syntax:
     content: public override bool Equals (object obj);
     parameters:
     - id: obj
       type: System.Object
-      description: Parameter description to be filled
+      description: The object to compare with this `MethodBuilder` instance.
     return:
       type: System.Boolean
-      description: Return description to be filled
+      description: '`true` if  is an instance of `MethodBuilder` and is equal to this object; otherwise, `false`.'
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Reflection.Emit.MethodBuilder.GetBaseDefinition
   id: GetBaseDefinition
   parent: System.Reflection.Emit.MethodBuilder
   langs:
   - csharp
-  - vb
   name: GetBaseDefinition()
   nameWithType: MethodBuilder.GetBaseDefinition()
   fullName: System.Reflection.Emit.MethodBuilder.GetBaseDefinition()
@@ -349,18 +402,23 @@ items:
   assemblies:
   - mscorlib
   namespace: System.Reflection.Emit
+  summary: Return the base implementation for a method.
+  remarks: This always returns the current `MethodBuilder` object.
   syntax:
     content: public override System.Reflection.MethodInfo GetBaseDefinition ();
     parameters: []
     return:
       type: System.Reflection.MethodInfo
-      description: Return description to be filled
+      description: The base implementation of this method.
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Reflection.Emit.MethodBuilder.GetCustomAttributes(System.Boolean)
   id: GetCustomAttributes(System.Boolean)
   parent: System.Reflection.Emit.MethodBuilder
   langs:
   - csharp
-  - vb
   name: GetCustomAttributes(Boolean)
   nameWithType: MethodBuilder.GetCustomAttributes(Boolean)
   fullName: System.Reflection.Emit.MethodBuilder.GetCustomAttributes(Boolean)
@@ -368,22 +426,27 @@ items:
   assemblies:
   - mscorlib
   namespace: System.Reflection.Emit
+  summary: Returns all the custom attributes defined for this method.
+  remarks: To be added.
   syntax:
     content: public override object[] GetCustomAttributes (bool inherit);
     parameters:
     - id: inherit
       type: System.Boolean
-      description: Parameter description to be filled
+      description: Specifies whether to search this member's inheritance chain to find the custom attributes.
     return:
       type: System.Object[]
-      description: Return description to be filled
+      description: Returns an array of objects representing all the custom attributes of this method.
   overload: System.Reflection.Emit.MethodBuilder.GetCustomAttributes*
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Reflection.Emit.MethodBuilder.GetCustomAttributes(System.Type,System.Boolean)
   id: GetCustomAttributes(System.Type,System.Boolean)
   parent: System.Reflection.Emit.MethodBuilder
   langs:
   - csharp
-  - vb
   name: GetCustomAttributes(Type,Boolean)
   nameWithType: MethodBuilder.GetCustomAttributes(Type,Boolean)
   fullName: System.Reflection.Emit.MethodBuilder.GetCustomAttributes(Type,Boolean)
@@ -391,25 +454,30 @@ items:
   assemblies:
   - mscorlib
   namespace: System.Reflection.Emit
+  summary: Returns the custom attributes identified by the given type.
+  remarks: To be added.
   syntax:
     content: public override object[] GetCustomAttributes (Type attributeType, bool inherit);
     parameters:
     - id: attributeType
       type: System.Type
-      description: Parameter description to be filled
+      description: The custom attribute type.
     - id: inherit
       type: System.Boolean
-      description: Parameter description to be filled
+      description: Specifies whether to search this member's inheritance chain to find the custom attributes.
     return:
       type: System.Object[]
-      description: Return description to be filled
+      description: Returns an array of objects representing the attributes of this method that are of type .
   overload: System.Reflection.Emit.MethodBuilder.GetCustomAttributes*
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Reflection.Emit.MethodBuilder.GetGenericArguments
   id: GetGenericArguments
   parent: System.Reflection.Emit.MethodBuilder
   langs:
   - csharp
-  - vb
   name: GetGenericArguments()
   nameWithType: MethodBuilder.GetGenericArguments()
   fullName: System.Reflection.Emit.MethodBuilder.GetGenericArguments()
@@ -417,18 +485,23 @@ items:
   assemblies:
   - mscorlib
   namespace: System.Reflection.Emit
+  summary: Returns an array of <see cref="T:System.Reflection.Emit.GenericTypeParameterBuilder"> objects that represent the type parameters of the method, if it is generic.
+  remarks: "The type parameters of a generic method also are returned by the <xref:System.Reflection.Emit.MethodBuilder.DefineGenericParameters%2A> method that is used to define them.  \n  \n For more information, see <xref:System.Reflection.MethodInfo.IsGenericMethod%2A?displayProperty=fullName> and <xref:System.Reflection.MethodInfo.GetGenericArguments%2A?displayProperty=fullName>. For information on generic types, see <xref:System.Type.IsGenericType%2A?displayProperty=fullName>."
   syntax:
     content: public override Type[] GetGenericArguments ();
     parameters: []
     return:
       type: System.Type[]
-      description: Return description to be filled
+      description: An array of <see cref="T:System.Reflection.Emit.GenericTypeParameterBuilder"> objects representing the type parameters, if the method is generic, or `null` if the method is not generic.
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Reflection.Emit.MethodBuilder.GetGenericMethodDefinition
   id: GetGenericMethodDefinition
   parent: System.Reflection.Emit.MethodBuilder
   langs:
   - csharp
-  - vb
   name: GetGenericMethodDefinition()
   nameWithType: MethodBuilder.GetGenericMethodDefinition()
   fullName: System.Reflection.Emit.MethodBuilder.GetGenericMethodDefinition()
@@ -436,18 +509,23 @@ items:
   assemblies:
   - mscorlib
   namespace: System.Reflection.Emit
+  summary: Returns this method.
+  remarks: "A <xref:System.Reflection.Emit.MethodBuilder> cannot be used to emit a constructed generic method directly. The emitted method is a generic method definition.  \n  \n For more information, see <xref:System.Reflection.MethodInfo.IsGenericMethod%2A?displayProperty=fullName> and <xref:System.Reflection.MethodInfo.GetGenericMethodDefinition%2A?displayProperty=fullName>. For information on generic types, see <xref:System.Type.IsGenericType%2A?displayProperty=fullName>."
   syntax:
     content: public override System.Reflection.MethodInfo GetGenericMethodDefinition ();
     parameters: []
     return:
       type: System.Reflection.MethodInfo
-      description: Return description to be filled
+      description: The current instance of <see cref="T:System.Reflection.Emit.MethodBuilder">.
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Reflection.Emit.MethodBuilder.GetHashCode
   id: GetHashCode
   parent: System.Reflection.Emit.MethodBuilder
   langs:
   - csharp
-  - vb
   name: GetHashCode()
   nameWithType: MethodBuilder.GetHashCode()
   fullName: System.Reflection.Emit.MethodBuilder.GetHashCode()
@@ -455,18 +533,23 @@ items:
   assemblies:
   - mscorlib
   namespace: System.Reflection.Emit
+  summary: Gets the hash code for this method.
+  remarks: To be added.
   syntax:
     content: public override int GetHashCode ();
     parameters: []
     return:
       type: System.Int32
-      description: Return description to be filled
+      description: The hash code for this method.
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Reflection.Emit.MethodBuilder.GetILGenerator
   id: GetILGenerator
   parent: System.Reflection.Emit.MethodBuilder
   langs:
   - csharp
-  - vb
   name: GetILGenerator()
   nameWithType: MethodBuilder.GetILGenerator()
   fullName: System.Reflection.Emit.MethodBuilder.GetILGenerator()
@@ -474,19 +557,26 @@ items:
   assemblies:
   - mscorlib
   namespace: System.Reflection.Emit
+  summary: Returns an `ILGenerator` for this method with a default Microsoft intermediate language (MSIL) stream size of 64 bytes.
+  remarks: ''
+  example:
+  - "The code sample below demonstrates the contextual usage of the `GetILGenerator` method, creating and emitting a dynamic assembly that will calculate the dot product of two points in 3D space.  \n  \n [!CODE [System.Reflection.Emit ILGenerator Example#1](../CodeSnippet/VS_Snippets_CLR_System/system.Reflection.Emit ILGenerator Example#1)]"
   syntax:
     content: public System.Reflection.Emit.ILGenerator GetILGenerator ();
     parameters: []
     return:
       type: System.Reflection.Emit.ILGenerator
-      description: Return description to be filled
+      description: Returns an `ILGenerator` object for this method.
   overload: System.Reflection.Emit.MethodBuilder.GetILGenerator*
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Reflection.Emit.MethodBuilder.GetILGenerator(System.Int32)
   id: GetILGenerator(System.Int32)
   parent: System.Reflection.Emit.MethodBuilder
   langs:
   - csharp
-  - vb
   name: GetILGenerator(Int32)
   nameWithType: MethodBuilder.GetILGenerator(Int32)
   fullName: System.Reflection.Emit.MethodBuilder.GetILGenerator(Int32)
@@ -494,22 +584,29 @@ items:
   assemblies:
   - mscorlib
   namespace: System.Reflection.Emit
+  summary: Returns an `ILGenerator` for this method with the specified Microsoft intermediate language (MSIL) stream size.
+  remarks: ''
+  example:
+  - "The code sample below demonstrates the contextual usage of the `GetILGenerator` method, creating and emitting a dynamic assembly that will calculate the dot product of two points in 3D space.  \n  \n [!CODE [System.Reflection.Emit ILGenerator Example#1](../CodeSnippet/VS_Snippets_CLR_System/system.Reflection.Emit ILGenerator Example#1)]"
   syntax:
     content: public System.Reflection.Emit.ILGenerator GetILGenerator (int size);
     parameters:
     - id: size
       type: System.Int32
-      description: Parameter description to be filled
+      description: The size of the MSIL stream, in bytes.
     return:
       type: System.Reflection.Emit.ILGenerator
-      description: Return description to be filled
+      description: Returns an `ILGenerator` object for this method.
   overload: System.Reflection.Emit.MethodBuilder.GetILGenerator*
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Reflection.Emit.MethodBuilder.GetMethodImplementationFlags
   id: GetMethodImplementationFlags
   parent: System.Reflection.Emit.MethodBuilder
   langs:
   - csharp
-  - vb
   name: GetMethodImplementationFlags()
   nameWithType: MethodBuilder.GetMethodImplementationFlags()
   fullName: System.Reflection.Emit.MethodBuilder.GetMethodImplementationFlags()
@@ -517,18 +614,23 @@ items:
   assemblies:
   - mscorlib
   namespace: System.Reflection.Emit
+  summary: Returns the implementation flags for the method.
+  remarks: To be added.
   syntax:
     content: public override System.Reflection.MethodImplAttributes GetMethodImplementationFlags ();
     parameters: []
     return:
       type: System.Reflection.MethodImplAttributes
-      description: Return description to be filled
+      description: Returns the implementation flags for the method.
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Reflection.Emit.MethodBuilder.GetModule
   id: GetModule
   parent: System.Reflection.Emit.MethodBuilder
   langs:
   - csharp
-  - vb
   name: GetModule()
   nameWithType: MethodBuilder.GetModule()
   fullName: System.Reflection.Emit.MethodBuilder.GetModule()
@@ -536,18 +638,25 @@ items:
   assemblies:
   - mscorlib
   namespace: System.Reflection.Emit
+  summary: Returns a reference to the module that contains this method.
+  remarks: ''
+  example:
+  - "The sample code below illustrates the usage of the `GetModule` method to retrieve information about a dynamically-generated module.  \n  \n [!CODE [System.Reflection.Emit.MethodBuilder.GetModule#1](../CodeSnippet/VS_Snippets_CLR_System/system.Reflection.Emit.MethodBuilder.GetModule#1)]"
   syntax:
     content: public System.Reflection.Module GetModule ();
     parameters: []
     return:
       type: System.Reflection.Module
-      description: Return description to be filled
+      description: Returns a reference to the module that contains this method.
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Reflection.Emit.MethodBuilder.GetParameters
   id: GetParameters
   parent: System.Reflection.Emit.MethodBuilder
   langs:
   - csharp
-  - vb
   name: GetParameters()
   nameWithType: MethodBuilder.GetParameters()
   fullName: System.Reflection.Emit.MethodBuilder.GetParameters()
@@ -555,18 +664,25 @@ items:
   assemblies:
   - mscorlib
   namespace: System.Reflection.Emit
+  summary: Returns the parameters of this method.
+  remarks: ''
+  example:
+  - "The code sample below illustrates the use of `GetParameters` to discover information on the parameters passed to a dynamically-generated method.  \n  \n [!CODE [System.Reflection.Emit.MethodBuilder.GetParameters Example#1](../CodeSnippet/VS_Snippets_CLR_System/system.Reflection.Emit.MethodBuilder.GetParameters Example#1)]"
   syntax:
     content: public override System.Reflection.ParameterInfo[] GetParameters ();
     parameters: []
     return:
       type: System.Reflection.ParameterInfo[]
-      description: Return description to be filled
+      description: An array of `ParameterInfo` objects that represent the parameters of the method.
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Reflection.Emit.MethodBuilder.GetToken
   id: GetToken
   parent: System.Reflection.Emit.MethodBuilder
   langs:
   - csharp
-  - vb
   name: GetToken()
   nameWithType: MethodBuilder.GetToken()
   fullName: System.Reflection.Emit.MethodBuilder.GetToken()
@@ -574,18 +690,23 @@ items:
   assemblies:
   - mscorlib
   namespace: System.Reflection.Emit
+  summary: Returns the `MethodToken` that represents the token for this method.
+  remarks: To be added.
   syntax:
     content: public System.Reflection.Emit.MethodToken GetToken ();
     parameters: []
     return:
       type: System.Reflection.Emit.MethodToken
-      description: Return description to be filled
+      description: Returns the `MethodToken` of this method.
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Reflection.Emit.MethodBuilder.InitLocals
   id: InitLocals
   parent: System.Reflection.Emit.MethodBuilder
   langs:
   - csharp
-  - vb
   name: InitLocals
   nameWithType: MethodBuilder.InitLocals
   fullName: System.Reflection.Emit.MethodBuilder.InitLocals
@@ -593,17 +714,22 @@ items:
   assemblies:
   - mscorlib
   namespace: System.Reflection.Emit
+  summary: Gets or sets a Boolean value that specifies whether the local variables in this method are zero initialized. The default value of this property is `true`.
+  remarks: If this property is set to `true`, the emitted MSIL includes initialization of local variables. If it is set to `false`, local variables are not initialized and the generated code is unverifiable.
   syntax:
     content: public bool InitLocals { get; set; }
     return:
       type: System.Boolean
-      description: Return description to be filled
+      description: To be added.
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Reflection.Emit.MethodBuilder.Invoke(System.Object,System.Reflection.BindingFlags,System.Reflection.Binder,System.Object[],System.Globalization.CultureInfo)
   id: Invoke(System.Object,System.Reflection.BindingFlags,System.Reflection.Binder,System.Object[],System.Globalization.CultureInfo)
   parent: System.Reflection.Emit.MethodBuilder
   langs:
   - csharp
-  - vb
   name: Invoke(Object,BindingFlags,Binder,Object[],CultureInfo)
   nameWithType: MethodBuilder.Invoke(Object,BindingFlags,Binder,Object[],CultureInfo)
   fullName: System.Reflection.Emit.MethodBuilder.Invoke(Object,BindingFlags,Binder,Object[],CultureInfo)
@@ -611,33 +737,38 @@ items:
   assemblies:
   - mscorlib
   namespace: System.Reflection.Emit
+  summary: Dynamically invokes the method reflected by this instance on the given object, passing along the specified parameters, and under the constraints of the given binder.
+  remarks: "If the method is static, the  parameter is ignored. For non-static methods,  should be an instance of a class that inherits or declares the method and must be the same type as this class. If the method has no parameters, the value of  should be `null`. Otherwise the number, type, and order of elements in the parameters array should be identical to the number, type, and order of parameters for the method reflected by this instance.  \n  \n> [!NOTE]\n>  Access restrictions are ignored for fully-trusted code. That is, private constructors, methods, fields, and properties can be accessed and invoked using Reflection whenever the code is fully-trusted."
   syntax:
     content: public override object Invoke (object obj, System.Reflection.BindingFlags invokeAttr, System.Reflection.Binder binder, object[] parameters, System.Globalization.CultureInfo culture);
     parameters:
     - id: obj
       type: System.Object
-      description: Parameter description to be filled
+      description: The object on which to invoke the specified method. If the method is static, this parameter is ignored.
     - id: invokeAttr
       type: System.Reflection.BindingFlags
-      description: Parameter description to be filled
+      description: 'This must be a bit flag from <see cref="T:System.Reflection.BindingFlags"> : `InvokeMethod`, `NonPublic`, and so on.'
     - id: binder
       type: System.Reflection.Binder
-      description: Parameter description to be filled
+      description: An object that enables the binding, coercion of argument types, invocation of members, and retrieval of MemberInfo objects via reflection. If binder is `null`, the default binder is used. For more details, see <see cref="T:System.Reflection.Binder">.
     - id: parameters
       type: System.Object[]
-      description: Parameter description to be filled
+      description: An argument list. This is an array of arguments with the same number, order, and type as the parameters of the method to be invoked. If there are no parameters this should be `null`.
     - id: culture
       type: System.Globalization.CultureInfo
-      description: Parameter description to be filled
+      description: An instance of <see cref="T:System.Globalization.CultureInfo"> used to govern the coercion of types. If this is null, the <see cref="T:System.Globalization.CultureInfo"> for the current thread is used. (Note that this is necessary to, for example, convert a <xref:System.String> that represents 1000 to a <xref:System.Double> value, since 1000 is represented differently by different cultures.)
     return:
       type: System.Object
-      description: Return description to be filled
+      description: Returns an object containing the return value of the invoked method.
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Reflection.Emit.MethodBuilder.IsDefined(System.Type,System.Boolean)
   id: IsDefined(System.Type,System.Boolean)
   parent: System.Reflection.Emit.MethodBuilder
   langs:
   - csharp
-  - vb
   name: IsDefined(Type,Boolean)
   nameWithType: MethodBuilder.IsDefined(Type,Boolean)
   fullName: System.Reflection.Emit.MethodBuilder.IsDefined(Type,Boolean)
@@ -645,24 +776,29 @@ items:
   assemblies:
   - mscorlib
   namespace: System.Reflection.Emit
+  summary: Checks if the specified custom attribute type is defined.
+  remarks: To be added.
   syntax:
     content: public override bool IsDefined (Type attributeType, bool inherit);
     parameters:
     - id: attributeType
       type: System.Type
-      description: Parameter description to be filled
+      description: The custom attribute type.
     - id: inherit
       type: System.Boolean
-      description: Parameter description to be filled
+      description: Specifies whether to search this member's inheritance chain to find the custom attributes.
     return:
       type: System.Boolean
-      description: Return description to be filled
+      description: '`true` if the specified custom attribute type is defined; otherwise, `false`.'
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Reflection.Emit.MethodBuilder.IsGenericMethod
   id: IsGenericMethod
   parent: System.Reflection.Emit.MethodBuilder
   langs:
   - csharp
-  - vb
   name: IsGenericMethod
   nameWithType: MethodBuilder.IsGenericMethod
   fullName: System.Reflection.Emit.MethodBuilder.IsGenericMethod
@@ -670,17 +806,24 @@ items:
   assemblies:
   - mscorlib
   namespace: System.Reflection.Emit
+  summary: Gets a value indicating whether the method is a generic method.
+  remarks: A method is generic if it has type parameters. You can make a method generic by calling the <xref:System.Reflection.Emit.MethodBuilder.DefineGenericParameters%2A> method to add type parameters. This change cannot be reversed.
+  example:
+  - "The following code example displays the status of a method. This code is part of a larger example provided for the <xref:System.Reflection.Emit.MethodBuilder.DefineGenericParameters%2A> method.  \n  \n [!CODE [GenericMethodBuilder#7](../CodeSnippet/VS_Snippets_CLR/GenericMethodBuilder#7)]"
   syntax:
     content: public override bool IsGenericMethod { get; }
     return:
       type: System.Boolean
-      description: Return description to be filled
+      description: To be added.
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Reflection.Emit.MethodBuilder.IsGenericMethodDefinition
   id: IsGenericMethodDefinition
   parent: System.Reflection.Emit.MethodBuilder
   langs:
   - csharp
-  - vb
   name: IsGenericMethodDefinition
   nameWithType: MethodBuilder.IsGenericMethodDefinition
   fullName: System.Reflection.Emit.MethodBuilder.IsGenericMethodDefinition
@@ -688,17 +831,24 @@ items:
   assemblies:
   - mscorlib
   namespace: System.Reflection.Emit
+  summary: Gets a value indicating whether the current <see cref="T:System.Reflection.Emit.MethodBuilder"> object represents the definition of a generic method.
+  remarks: A <xref:System.Reflection.Emit.MethodBuilder> can only be used to create generic method definitions; it cannot be used to create a constructed generic method directly. However, a subclass of <xref:System.Reflection.Emit.MethodBuilder> might represent a constructed generic method.
+  example:
+  - "The following code example displays the status of a method. This code is part of a larger example provided for the <xref:System.Reflection.Emit.MethodBuilder.DefineGenericParameters%2A> method.  \n  \n [!CODE [GenericMethodBuilder#7](../CodeSnippet/VS_Snippets_CLR/GenericMethodBuilder#7)]"
   syntax:
     content: public override bool IsGenericMethodDefinition { get; }
     return:
       type: System.Boolean
-      description: Return description to be filled
+      description: To be added.
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Reflection.Emit.MethodBuilder.IsSecurityCritical
   id: IsSecurityCritical
   parent: System.Reflection.Emit.MethodBuilder
   langs:
   - csharp
-  - vb
   name: IsSecurityCritical
   nameWithType: MethodBuilder.IsSecurityCritical
   fullName: System.Reflection.Emit.MethodBuilder.IsSecurityCritical
@@ -706,17 +856,22 @@ items:
   assemblies:
   - mscorlib
   namespace: System.Reflection.Emit
+  summary: Throws a <see cref="T:System.NotSupportedException"> in all cases.
+  remarks: To determine whether a method in a dynamic assembly is security-critical, complete the type by calling <xref:System.Reflection.Emit.TypeBuilder.CreateType%2A?displayProperty=fullName>, call the <xref:System.Type.GetMethod%2A> method on the completed type, and get the <xref:System.Reflection.MethodBase.IsSecurityCritical%2A> property on the resulting <xref:System.Reflection.MethodInfo>.
   syntax:
     content: public override bool IsSecurityCritical { get; }
     return:
       type: System.Boolean
-      description: Return description to be filled
+      description: To be added.
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Reflection.Emit.MethodBuilder.IsSecuritySafeCritical
   id: IsSecuritySafeCritical
   parent: System.Reflection.Emit.MethodBuilder
   langs:
   - csharp
-  - vb
   name: IsSecuritySafeCritical
   nameWithType: MethodBuilder.IsSecuritySafeCritical
   fullName: System.Reflection.Emit.MethodBuilder.IsSecuritySafeCritical
@@ -724,17 +879,22 @@ items:
   assemblies:
   - mscorlib
   namespace: System.Reflection.Emit
+  summary: Throws a <see cref="T:System.NotSupportedException"> in all cases.
+  remarks: To determine whether a method in a dynamic assembly is security-safe-critical, complete the type by calling <xref:System.Reflection.Emit.TypeBuilder.CreateType%2A?displayProperty=fullName>, call the <xref:System.Type.GetMethod%2A> method on the completed type, and get the <xref:System.Reflection.MethodBase.IsSecuritySafeCritical%2A> property on the resulting <xref:System.Reflection.MethodInfo>.
   syntax:
     content: public override bool IsSecuritySafeCritical { get; }
     return:
       type: System.Boolean
-      description: Return description to be filled
+      description: To be added.
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Reflection.Emit.MethodBuilder.IsSecurityTransparent
   id: IsSecurityTransparent
   parent: System.Reflection.Emit.MethodBuilder
   langs:
   - csharp
-  - vb
   name: IsSecurityTransparent
   nameWithType: MethodBuilder.IsSecurityTransparent
   fullName: System.Reflection.Emit.MethodBuilder.IsSecurityTransparent
@@ -742,17 +902,22 @@ items:
   assemblies:
   - mscorlib
   namespace: System.Reflection.Emit
+  summary: Throws a <see cref="T:System.NotSupportedException"> in all cases.
+  remarks: To determine whether a method in a dynamic assembly is security-transparent, complete the type by calling <xref:System.Reflection.Emit.TypeBuilder.CreateType%2A?displayProperty=fullName>, call the <xref:System.Type.GetMethod%2A> method on the completed type, and get the <xref:System.Reflection.MethodBase.IsSecurityTransparent%2A> property on the resulting <xref:System.Reflection.MethodInfo>.
   syntax:
     content: public override bool IsSecurityTransparent { get; }
     return:
       type: System.Boolean
-      description: Return description to be filled
+      description: To be added.
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Reflection.Emit.MethodBuilder.MakeGenericMethod(System.Type[])
   id: MakeGenericMethod(System.Type[])
   parent: System.Reflection.Emit.MethodBuilder
   langs:
   - csharp
-  - vb
   name: MakeGenericMethod(Type[])
   nameWithType: MethodBuilder.MakeGenericMethod(Type[])
   fullName: System.Reflection.Emit.MethodBuilder.MakeGenericMethod(Type[])
@@ -760,21 +925,28 @@ items:
   assemblies:
   - mscorlib
   namespace: System.Reflection.Emit
+  summary: Returns a generic method constructed from the current generic method definition using the specified generic type arguments.
+  remarks: When you are emitting dynamic code, you might need to emit a call to a method constructed from the generic method definition represented by a <xref:System.Reflection.Emit.MethodBuilder>, before the enclosing type has been completed. You can use the MakeGenericMethod method to create a <xref:System.Reflection.MethodInfo> for such a constructed method, and use the <xref:System.Reflection.MethodInfo> in the emitted call.
+  example:
+  - "The following code example creates a constructed method from an incomplete generic method definition in an incomplete type.  \n  \n The example creates a transient assembly and module with a single type, adds a method `M`, and makes the method generic by adding a type parameter T using the <xref:System.Reflection.Emit.MethodBuilder.DefineGenericParameters%2A> method. The type parameter is used as the type of the method's parameter, and also as its return type. The generic method definition is not given a body, and the enclosing type is not completed. The MakeGenericMethod method is then used to make the constructed method `M<String>` (`M(Of String)` in Visual Basic). The example code has no output, because the subclass of <xref:System.Reflection.MethodInfo> returned by the MakeGenericMethod method does not allow reflection over its parameters.  \n  \n> [!NOTE]\n>  For another code example that uses MakeGenericMethod, see <xref:System.Reflection.Emit.MethodBuilder.DefineGenericParameters%2A>. MakeGenericMethod is also used extensively when emitting code that uses generic types. See [How to: Define a Generic Method with Reflection Emit](../Topic/How%20to:%20Define%20a%20Generic%20Method%20with%20Reflection%20Emit.md).  \n  \n [!CODE [MethodBuilder.MakeGenericMethod#1](../CodeSnippet/VS_Snippets_CLR/MethodBuilder.MakeGenericMethod#1)]"
   syntax:
     content: public override System.Reflection.MethodInfo MakeGenericMethod (Type[] typeArguments);
     parameters:
     - id: typeArguments
       type: System.Type[]
-      description: Parameter description to be filled
+      description: An array of <see cref="T:System.Type"> objects that represent the type arguments for the generic method.
     return:
       type: System.Reflection.MethodInfo
-      description: Return description to be filled
+      description: A <see cref="T:System.Reflection.MethodInfo"> representing the generic method constructed from the current generic method definition using the specified generic type arguments.
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Reflection.Emit.MethodBuilder.MethodHandle
   id: MethodHandle
   parent: System.Reflection.Emit.MethodBuilder
   langs:
   - csharp
-  - vb
   name: MethodHandle
   nameWithType: MethodBuilder.MethodHandle
   fullName: System.Reflection.Emit.MethodBuilder.MethodHandle
@@ -782,17 +954,22 @@ items:
   assemblies:
   - mscorlib
   namespace: System.Reflection.Emit
+  summary: Retrieves the internal handle for the method. Use this handle to access the underlying metadata handle.
+  remarks: To be added.
   syntax:
     content: public override RuntimeMethodHandle MethodHandle { get; }
     return:
       type: System.RuntimeMethodHandle
-      description: Return description to be filled
+      description: To be added.
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Reflection.Emit.MethodBuilder.Module
   id: Module
   parent: System.Reflection.Emit.MethodBuilder
   langs:
   - csharp
-  - vb
   name: Module
   nameWithType: MethodBuilder.Module
   fullName: System.Reflection.Emit.MethodBuilder.Module
@@ -800,17 +977,22 @@ items:
   assemblies:
   - mscorlib
   namespace: System.Reflection.Emit
+  summary: Gets the module in which the current method is being defined.
+  remarks: "This property is provided as a convenience. It is equivalent to using the <xref:System.Reflection.Emit.MethodBuilder.DeclaringType%2A> property to get the type in which the method is being declared, and then calling the <xref:System.Type.Module%2A> property of the resulting <xref:System.Type> object.  \n  \n This property is also equivalent to calling <xref:System.Reflection.Emit.MethodBuilder.GetModule%2A>."
   syntax:
     content: public override System.Reflection.Module Module { get; }
     return:
       type: System.Reflection.Module
-      description: Return description to be filled
+      description: To be added.
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Reflection.Emit.MethodBuilder.Name
   id: Name
   parent: System.Reflection.Emit.MethodBuilder
   langs:
   - csharp
-  - vb
   name: Name
   nameWithType: MethodBuilder.Name
   fullName: System.Reflection.Emit.MethodBuilder.Name
@@ -818,17 +1000,22 @@ items:
   assemblies:
   - mscorlib
   namespace: System.Reflection.Emit
+  summary: Retrieves the name of this method.
+  remarks: To be added.
   syntax:
     content: public override string Name { get; }
     return:
       type: System.String
-      description: Return description to be filled
+      description: To be added.
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Reflection.Emit.MethodBuilder.ReflectedType
   id: ReflectedType
   parent: System.Reflection.Emit.MethodBuilder
   langs:
   - csharp
-  - vb
   name: ReflectedType
   nameWithType: MethodBuilder.ReflectedType
   fullName: System.Reflection.Emit.MethodBuilder.ReflectedType
@@ -836,17 +1023,22 @@ items:
   assemblies:
   - mscorlib
   namespace: System.Reflection.Emit
+  summary: Retrieves the class that was used in reflection to obtain this object.
+  remarks: To be added.
   syntax:
     content: public override Type ReflectedType { get; }
     return:
       type: System.Type
-      description: Return description to be filled
+      description: To be added.
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Reflection.Emit.MethodBuilder.ReturnParameter
   id: ReturnParameter
   parent: System.Reflection.Emit.MethodBuilder
   langs:
   - csharp
-  - vb
   name: ReturnParameter
   nameWithType: MethodBuilder.ReturnParameter
   fullName: System.Reflection.Emit.MethodBuilder.ReturnParameter
@@ -854,17 +1046,22 @@ items:
   assemblies:
   - mscorlib
   namespace: System.Reflection.Emit
+  summary: Gets a <see cref="T:System.Reflection.ParameterInfo"> object that contains information about the return type of the method, such as whether the return type has custom modifiers.
+  remarks: Compiler designers can use the <xref:System.Reflection.ParameterInfo> object returned by this property to discover whether custom modifiers, such as <xref:Microsoft.VisualC.IsConstModifier>, have been applied to the return type.
   syntax:
     content: public override System.Reflection.ParameterInfo ReturnParameter { get; }
     return:
       type: System.Reflection.ParameterInfo
-      description: Return description to be filled
+      description: To be added.
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Reflection.Emit.MethodBuilder.ReturnType
   id: ReturnType
   parent: System.Reflection.Emit.MethodBuilder
   langs:
   - csharp
-  - vb
   name: ReturnType
   nameWithType: MethodBuilder.ReturnType
   fullName: System.Reflection.Emit.MethodBuilder.ReturnType
@@ -872,17 +1069,25 @@ items:
   assemblies:
   - mscorlib
   namespace: System.Reflection.Emit
+  summary: Gets the return type of the method represented by this <see cref="T:System.Reflection.Emit.MethodBuilder">.
+  remarks: >-
+    > [!NOTE]
+
+    >  Starting with the .NET Framework 2.0 and the .NET Compact Framework 2.0, this member is inherited from the base class, <xref:System.Reflection.MethodInfo>. See <xref:System.Reflection.MethodInfo.ReturnType%2A?displayProperty=fullName>.
   syntax:
     content: public override Type ReturnType { get; }
     return:
       type: System.Type
-      description: Return description to be filled
+      description: To be added.
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Reflection.Emit.MethodBuilder.ReturnTypeCustomAttributes
   id: ReturnTypeCustomAttributes
   parent: System.Reflection.Emit.MethodBuilder
   langs:
   - csharp
-  - vb
   name: ReturnTypeCustomAttributes
   nameWithType: MethodBuilder.ReturnTypeCustomAttributes
   fullName: System.Reflection.Emit.MethodBuilder.ReturnTypeCustomAttributes
@@ -890,17 +1095,22 @@ items:
   assemblies:
   - mscorlib
   namespace: System.Reflection.Emit
+  summary: Returns the custom attributes of the method's return type.
+  remarks: This method always returns `null`. Get the <xref:System.Reflection.MethodInfo> after the containing <xref:System.Type> has been created and invoked <xref:System.Reflection.MethodInfo.ReturnTypeCustomAttributes%2A> on the <xref:System.Reflection.MethodInfo>.
   syntax:
     content: public override System.Reflection.ICustomAttributeProvider ReturnTypeCustomAttributes { get; }
     return:
       type: System.Reflection.ICustomAttributeProvider
-      description: Return description to be filled
+      description: To be added.
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Reflection.Emit.MethodBuilder.SetCustomAttribute(System.Reflection.Emit.CustomAttributeBuilder)
   id: SetCustomAttribute(System.Reflection.Emit.CustomAttributeBuilder)
   parent: System.Reflection.Emit.MethodBuilder
   langs:
   - csharp
-  - vb
   name: SetCustomAttribute(CustomAttributeBuilder)
   nameWithType: MethodBuilder.SetCustomAttribute(CustomAttributeBuilder)
   fullName: System.Reflection.Emit.MethodBuilder.SetCustomAttribute(CustomAttributeBuilder)
@@ -908,22 +1118,24 @@ items:
   assemblies:
   - mscorlib
   namespace: System.Reflection.Emit
+  summary: Sets a custom attribute using a custom attribute builder.
+  remarks: The <xref:System.Reflection.Emit.MethodBuilder.SetCustomAttribute%2A> method can interact with the <xref:System.Reflection.Emit.MethodBuilder.SetImplementationFlags%2A> method when the two methods are used in combination. See the Remarks section of the <xref:System.Reflection.Emit.MethodBuilder.SetImplementationFlags%2A> method for details.
   syntax:
     content: public void SetCustomAttribute (System.Reflection.Emit.CustomAttributeBuilder customBuilder);
     parameters:
     - id: customBuilder
       type: System.Reflection.Emit.CustomAttributeBuilder
-      description: Parameter description to be filled
-    return:
-      type: System.Void
-      description: Return description to be filled
+      description: An instance of a helper class to describe the custom attribute.
   overload: System.Reflection.Emit.MethodBuilder.SetCustomAttribute*
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Reflection.Emit.MethodBuilder.SetCustomAttribute(System.Reflection.ConstructorInfo,System.Byte[])
   id: SetCustomAttribute(System.Reflection.ConstructorInfo,System.Byte[])
   parent: System.Reflection.Emit.MethodBuilder
   langs:
   - csharp
-  - vb
   name: SetCustomAttribute(ConstructorInfo,Byte[])
   nameWithType: MethodBuilder.SetCustomAttribute(ConstructorInfo,Byte[])
   fullName: System.Reflection.Emit.MethodBuilder.SetCustomAttribute(ConstructorInfo,Byte[])
@@ -931,25 +1143,27 @@ items:
   assemblies:
   - mscorlib
   namespace: System.Reflection.Emit
+  summary: Sets a custom attribute using a specified custom attribute blob.
+  remarks: "For details on how to format , see the Common Language Infrastructure (CLI) documentation, especially \"Partition II: Metadata Definition and Semantics\". The documentation is available online; see [ECMA C# and Common Language Infrastructure Standards](http://go.microsoft.com/fwlink/?LinkID=99212) on MSDN and [Standard ECMA-335 - Common Language Infrastructure (CLI)](http://go.microsoft.com/fwlink/?LinkID=65552) on the Ecma International Web site.  \n  \n The <xref:System.Reflection.Emit.MethodBuilder.SetCustomAttribute%2A> method can interact with the <xref:System.Reflection.Emit.MethodBuilder.SetImplementationFlags%2A> method when the two methods are used in combination. See the Remarks section of the <xref:System.Reflection.Emit.MethodBuilder.SetImplementationFlags%2A> method for details."
   syntax:
     content: public void SetCustomAttribute (System.Reflection.ConstructorInfo con, byte[] binaryAttribute);
     parameters:
     - id: con
       type: System.Reflection.ConstructorInfo
-      description: Parameter description to be filled
+      description: The constructor for the custom attribute.
     - id: binaryAttribute
       type: System.Byte[]
-      description: Parameter description to be filled
-    return:
-      type: System.Void
-      description: Return description to be filled
+      description: A byte blob representing the attributes.
   overload: System.Reflection.Emit.MethodBuilder.SetCustomAttribute*
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Reflection.Emit.MethodBuilder.SetImplementationFlags(System.Reflection.MethodImplAttributes)
   id: SetImplementationFlags(System.Reflection.MethodImplAttributes)
   parent: System.Reflection.Emit.MethodBuilder
   langs:
   - csharp
-  - vb
   name: SetImplementationFlags(MethodImplAttributes)
   nameWithType: MethodBuilder.SetImplementationFlags(MethodImplAttributes)
   fullName: System.Reflection.Emit.MethodBuilder.SetImplementationFlags(MethodImplAttributes)
@@ -957,21 +1171,25 @@ items:
   assemblies:
   - mscorlib
   namespace: System.Reflection.Emit
+  summary: Sets the implementation flags for this method.
+  remarks: "When you use the SetImplementationFlags method in combination with the <xref:System.Reflection.Emit.MethodBuilder.SetCustomAttribute%2A> method, be aware of potential interactions. For example, using the <xref:System.Reflection.Emit.MethodBuilder.SetCustomAttribute%2A> method to add the <xref:System.Runtime.InteropServices.DllImportAttribute> attribute also sets the <xref:System.Reflection.MethodImplAttributes?displayProperty=fullName> flag. If you subsequently call the SetImplementationFlags method, the <xref:System.Reflection.MethodImplAttributes> flag is overwritten. There are two ways to avoid this:  \n  \n-   Call the SetImplementationFlags method before you call the <xref:System.Reflection.Emit.MethodBuilder.SetCustomAttribute%2A> method. The <xref:System.Reflection.Emit.MethodBuilder.SetCustomAttribute%2A> method always respects existing method implementation flags.  \n  \n-   When you set implementation flags, call the <xref:System.Reflection.Emit.MethodBuilder.GetMethodImplementationFlags%2A> method to retrieve the existing flags, use bitwise OR to add your flag, and then call the SetImplementationFlags method."
+  example:
+  - "The code sample below illustrates the contextual use of the `SetImplementationFlags` method to describe the implementation of MSIL in a method body.  \n  \n [!CODE [System.Reflection.Emit.MethodBuilder.SetImplementationFlags Example#1](../CodeSnippet/VS_Snippets_CLR_System/system.Reflection.Emit.MethodBuilder.SetImplementationFlags Example#1)]"
   syntax:
     content: public void SetImplementationFlags (System.Reflection.MethodImplAttributes attributes);
     parameters:
     - id: attributes
       type: System.Reflection.MethodImplAttributes
-      description: Parameter description to be filled
-    return:
-      type: System.Void
-      description: Return description to be filled
+      description: The implementation flags to set.
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Reflection.Emit.MethodBuilder.SetMarshal(System.Reflection.Emit.UnmanagedMarshal)
   id: SetMarshal(System.Reflection.Emit.UnmanagedMarshal)
   parent: System.Reflection.Emit.MethodBuilder
   langs:
   - csharp
-  - vb
   name: SetMarshal(UnmanagedMarshal)
   nameWithType: MethodBuilder.SetMarshal(UnmanagedMarshal)
   fullName: System.Reflection.Emit.MethodBuilder.SetMarshal(UnmanagedMarshal)
@@ -979,55 +1197,61 @@ items:
   assemblies:
   - mscorlib
   namespace: System.Reflection.Emit
+  summary: Sets marshaling information for the return type of this method.
+  remarks: ''
+  example:
+  - "The code sample below illustrates the contextual usage of the `SetMarshal` method to marshal the results of a method call as a different type.  \n  \n [!CODE [System.Reflection.Emit.MethodBuilder.SetMarshal Example#1](../CodeSnippet/VS_Snippets_CLR_System/system.Reflection.Emit.MethodBuilder.SetMarshal Example#1)]"
   syntax:
     content: public void SetMarshal (System.Reflection.Emit.UnmanagedMarshal unmanagedMarshal);
     parameters:
     - id: unmanagedMarshal
       type: System.Reflection.Emit.UnmanagedMarshal
-      description: Parameter description to be filled
-    return:
-      type: System.Void
-      description: Return description to be filled
+      description: Marshaling information for the return type of this method.
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Reflection.Emit.MethodBuilder.SetMethodBody(System.Byte[],System.Int32,System.Byte[],System.Collections.Generic.IEnumerable{System.Reflection.Emit.ExceptionHandler},System.Collections.Generic.IEnumerable{System.Int32})
   id: SetMethodBody(System.Byte[],System.Int32,System.Byte[],System.Collections.Generic.IEnumerable{System.Reflection.Emit.ExceptionHandler},System.Collections.Generic.IEnumerable{System.Int32})
   parent: System.Reflection.Emit.MethodBuilder
   langs:
   - csharp
-  - vb
-  name: SetMethodBody(Byte[],Int32,Byte[],IEnumerable,IEnumerable)
-  nameWithType: MethodBuilder.SetMethodBody(Byte[],Int32,Byte[],IEnumerable,IEnumerable)
-  fullName: System.Reflection.Emit.MethodBuilder.SetMethodBody(Byte[],Int32,Byte[],IEnumerable,IEnumerable)
+  name: SetMethodBody(Byte[],Int32,Byte[],IEnumerable<ExceptionHandler>,IEnumerable<Int32>)
+  nameWithType: MethodBuilder.SetMethodBody(Byte[],Int32,Byte[],IEnumerable<ExceptionHandler>,IEnumerable<Int32>)
+  fullName: System.Reflection.Emit.MethodBuilder.SetMethodBody(Byte[],Int32,Byte[],IEnumerable<ExceptionHandler>,IEnumerable<Int32>)
   type: Method
   assemblies:
   - mscorlib
   namespace: System.Reflection.Emit
+  summary: Creates the body of the method by using a specified byte array of Microsoft intermediate language (MSIL) instructions.
+  remarks: To be added.
   syntax:
     content: public void SetMethodBody (byte[] il, int maxStack, byte[] localSignature, System.Collections.Generic.IEnumerable<System.Reflection.Emit.ExceptionHandler> exceptionHandlers, System.Collections.Generic.IEnumerable<int> tokenFixups);
     parameters:
     - id: il
       type: System.Byte[]
-      description: Parameter description to be filled
+      description: An array that contains valid MSIL instructions.
     - id: maxStack
       type: System.Int32
-      description: Parameter description to be filled
+      description: The maximum stack evaluation depth.
     - id: localSignature
       type: System.Byte[]
-      description: Parameter description to be filled
+      description: An array of bytes that contain the serialized local variable structure. Specify `null` if the method has no local variables.
     - id: exceptionHandlers
       type: System.Collections.Generic.IEnumerable{System.Reflection.Emit.ExceptionHandler}
-      description: Parameter description to be filled
+      description: A collection that contains the exception handlers for the method. Specify `null` if the method has no exception handlers.
     - id: tokenFixups
       type: System.Collections.Generic.IEnumerable{System.Int32}
-      description: Parameter description to be filled
-    return:
-      type: System.Void
-      description: Return description to be filled
+      description: A collection of values that represent offsets in , each of which specifies the beginning of a token that may be modified. Specify `null` if the method has no tokens that have to be modified.
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Reflection.Emit.MethodBuilder.SetParameters(System.Type[])
   id: SetParameters(System.Type[])
   parent: System.Reflection.Emit.MethodBuilder
   langs:
   - csharp
-  - vb
   name: SetParameters(Type[])
   nameWithType: MethodBuilder.SetParameters(Type[])
   fullName: System.Reflection.Emit.MethodBuilder.SetParameters(Type[])
@@ -1035,21 +1259,25 @@ items:
   assemblies:
   - mscorlib
   namespace: System.Reflection.Emit
+  summary: Sets the number and types of parameters for a method.
+  remarks: "If the number and types of the parameters are known when the method is defined, they can be set using any overload of the <xref:System.Reflection.Emit.TypeBuilder.DefineMethod%2A?displayProperty=fullName> method that accepts an array of parameter types. However, a generic method can have parameters whose types are specified by one or more of its own generic type parameters, which cannot be defined until after the method has been defined. Use this method to set the parameter types in that case.  \n  \n If the return type has optional or required custom modifiers, such as <xref:System.Runtime.CompilerServices.IsConst>, use the [SetSignature(Type, Type\\[\\], Type\\[\\], Type\\[\\], Type\\[\\]\\[\\], Type\\[\\]\\[\\])](assetId:///M:System.Reflection.Emit.MethodBuilder.SetSignature(System.Type,System.Type[],System.Type[],System.Type[],System.Type[][],System.Type[][])?qualifyHint=False&autoUpgrade=False) method overload.  \n  \n Calling this method replaces any parameter types that were set using the <xref:System.Reflection.Emit.TypeBuilder.DefineMethod%2A?displayProperty=fullName> method."
+  example:
+  - "The following code example uses the <xref:System.Reflection.Emit.MethodBuilder.DefineGenericParameters%2A> method to make a method generic. The SetParameters method is used to give the method one parameter, whose type will be specified by the first generic type parameter. The <xref:System.Reflection.Emit.MethodBuilder.SetReturnType%2A> method is used to give the method a return type, specified by the second generic type parameter.  \n  \n This code is part of a larger example provided for the <xref:System.Reflection.Emit.MethodBuilder.DefineGenericParameters%2A> method.  \n  \n [!CODE [GenericMethodBuilder#3](../CodeSnippet/VS_Snippets_CLR/GenericMethodBuilder#3)]  \n[!CODE [GenericMethodBuilder#5](../CodeSnippet/VS_Snippets_CLR/GenericMethodBuilder#5)]"
   syntax:
     content: public void SetParameters (Type[] parameterTypes);
     parameters:
     - id: parameterTypes
       type: System.Type[]
-      description: Parameter description to be filled
-    return:
-      type: System.Void
-      description: Return description to be filled
+      description: An array of <see cref="T:System.Type"> objects representing the parameter types.
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Reflection.Emit.MethodBuilder.SetReturnType(System.Type)
   id: SetReturnType(System.Type)
   parent: System.Reflection.Emit.MethodBuilder
   langs:
   - csharp
-  - vb
   name: SetReturnType(Type)
   nameWithType: MethodBuilder.SetReturnType(Type)
   fullName: System.Reflection.Emit.MethodBuilder.SetReturnType(Type)
@@ -1057,21 +1285,25 @@ items:
   assemblies:
   - mscorlib
   namespace: System.Reflection.Emit
+  summary: Sets the return type of the method.
+  remarks: "Use this method to set the return type of a generic method, when the return type is specified by one of the generic type parameters of the method. If the return type has optional or required custom modifiers, such as <xref:System.Runtime.CompilerServices.IsConst>, use the [SetSignature(Type, Type\\[\\], Type\\[\\], Type\\[\\], Type\\[\\]\\[\\], Type\\[\\]\\[\\])](assetId:///M:System.Reflection.Emit.MethodBuilder.SetSignature(System.Type,System.Type[],System.Type[],System.Type[],System.Type[][],System.Type[][])?qualifyHint=False&autoUpgrade=False) method overload.  \n  \n Calling this method replaces a return type established using the <xref:System.Reflection.Emit.TypeBuilder.DefineMethod%2A?displayProperty=fullName> method."
+  example:
+  - "The following code example uses the <xref:System.Reflection.Emit.MethodBuilder.DefineGenericParameters%2A> method to make a method generic. The <xref:System.Reflection.Emit.MethodBuilder.SetParameters%2A> method is used to give the method one parameter, whose type will be specified by the first generic type parameter. The SetReturnType method is used to give the method a return type, specified by the second generic type parameter.  \n  \n This code is part of a larger example provided for the <xref:System.Reflection.Emit.MethodBuilder.DefineGenericParameters%2A> method.  \n  \n [!CODE [GenericMethodBuilder#3](../CodeSnippet/VS_Snippets_CLR/GenericMethodBuilder#3)]  \n[!CODE [GenericMethodBuilder#5](../CodeSnippet/VS_Snippets_CLR/GenericMethodBuilder#5)]"
   syntax:
     content: public void SetReturnType (Type returnType);
     parameters:
     - id: returnType
       type: System.Type
-      description: Parameter description to be filled
-    return:
-      type: System.Void
-      description: Return description to be filled
+      description: A <see cref="T:System.Type"> object that represents the return type of the method.
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Reflection.Emit.MethodBuilder.SetSignature(System.Type,System.Type[],System.Type[],System.Type[],System.Type[][],System.Type[][])
   id: SetSignature(System.Type,System.Type[],System.Type[],System.Type[],System.Type[][],System.Type[][])
   parent: System.Reflection.Emit.MethodBuilder
   langs:
   - csharp
-  - vb
   name: SetSignature(Type,Type[],Type[],Type[],Type[][],Type[][])
   nameWithType: MethodBuilder.SetSignature(Type,Type[],Type[],Type[],Type[][],Type[][])
   fullName: System.Reflection.Emit.MethodBuilder.SetSignature(Type,Type[],Type[],Type[],Type[][],Type[][])
@@ -1079,36 +1311,40 @@ items:
   assemblies:
   - mscorlib
   namespace: System.Reflection.Emit
+  summary: Sets the method signature, including the return type, the parameter types, and the required and optional custom modifiers of the return type and parameter types.
+  remarks: "If the return type and the number and types of the parameters are known when the method is defined, they can be established using any overload of the <xref:System.Reflection.Emit.TypeBuilder.DefineMethod%2A?displayProperty=fullName> method that accepts an array of parameter types. However, a generic method can have parameters whose types are specified by one or more of its own generic type parameters, which cannot be defined until after the method has been defined. Use this method to set the parameter types in that case.  \n  \n If neither the return type nor the parameter types have optional or required custom modifiers, such as <xref:Microsoft.VisualC.IsConstModifier>, you can use the <xref:System.Reflection.Emit.MethodBuilder.SetReturnType%2A> and <xref:System.Reflection.Emit.MethodBuilder.SetParameters%2A> methods.  \n  \n Calling this method replaces the parameters and return type established using the <xref:System.Reflection.Emit.TypeBuilder.DefineMethod%2A?displayProperty=fullName> method."
+  example:
+  - "The following code example contains source code for a generic class named Sample that has a type parameter `T`. The class has a field named `Field`, of type `T`, and a generic method `GM` with its own type parameter, `U`. Method `GM` creates an instance of Sample, substituting its own type parameter `U` for the type parameter of Sample, and stores its input parameter in `Field`. This source code is compiled but not used; you can view it with the [Ildasm.exe (IL Disassembler)](../Topic/Ildasm.exe%20\\(IL%20Disassembler\\).md), and compare it to the code emitted by class `Example`.  \n  \n The code in class `Example` demonstrates the use of the SetSignature method in emitting generic code. The `Main` method of class `Example` creates a dynamic assembly containing a class named `Sample`, and uses the <xref:System.Reflection.Emit.TypeBuilder.DefineGenericParameters%2A?displayProperty=fullName> method to make it generic by adding a type parameter named `T`. A default constructor and a field named `Field`, of type `T`, are added to class `Sample`. A method `GM` is added, and turned into a generic method using the <xref:System.Reflection.Emit.MethodBuilder.DefineGenericParameters%2A> method. The type parameter of `GM` is named `U`. Once the type parameter is defined, the signature of `GM` is added, using the SetSignature method. There is no return type, and no required or custom modifiers, so all the parameters of this method are `null` except , which sets the type of the only parameter of the method; this is set to the method's type parameter, `U`. The body of the method creates an instance of the constructed type `Sample<U>` (`Sample(Of U)` in Visual Basic), assigns the method's parameter to `Field`, and then prints the value of `Field`. A dummy type is defined, to hold the entry point method `Main`. In the body of `Main`, the static `GM` method is invoked on the constructed generic type `Sample<int>` (`Sample(Of Integer)` in Visual Basic), with type <xref:System.String> substituted for `U`. The <xref:System.Reflection.Emit.TypeBuilder.GetMethod%2A?displayProperty=fullName> method is used to create a <xref:System.Reflection.MethodInfo> for the static `GM` method of the constructed generic type `Sample<U>`, and the <xref:System.Reflection.MethodInfo.MakeGenericMethod%2A?displayProperty=fullName> method is then used to create a <xref:System.Reflection.MethodInfo> that can emitted in a method call.  \n  \n When the code example is run, it saves the emitted assembly as TypeBuilderGetFieldExample.exe. You can run TypeBuilderGetFieldExample.exe, and you can use the [Ildasm.exe (IL Disassembler)](../Topic/Ildasm.exe%20\\(IL%20Disassembler\\).md) to compare the emitted code with the code for the `Sample` class that is compiled into the code example itself.  \n  \n [!CODE [TypeBuilder.GetField_Generic#1](../CodeSnippet/VS_Snippets_CLR/TypeBuilder.GetField_Generic#1)]"
   syntax:
     content: public void SetSignature (Type returnType, Type[] returnTypeRequiredCustomModifiers, Type[] returnTypeOptionalCustomModifiers, Type[] parameterTypes, Type[][] parameterTypeRequiredCustomModifiers, Type[][] parameterTypeOptionalCustomModifiers);
     parameters:
     - id: returnType
       type: System.Type
-      description: Parameter description to be filled
+      description: The return type of the method.
     - id: returnTypeRequiredCustomModifiers
       type: System.Type[]
-      description: Parameter description to be filled
+      description: An array of types representing the required custom modifiers, such as <see cref="T:System.Runtime.CompilerServices.IsConst">, for the return type of the method. If the return type has no required custom modifiers, specify `null`.
     - id: returnTypeOptionalCustomModifiers
       type: System.Type[]
-      description: Parameter description to be filled
+      description: An array of types representing the optional custom modifiers, such as <see cref="T:System.Runtime.CompilerServices.IsConst">, for the return type of the method. If the return type has no optional custom modifiers, specify `null`.
     - id: parameterTypes
       type: System.Type[]
-      description: Parameter description to be filled
+      description: The types of the parameters of the method.
     - id: parameterTypeRequiredCustomModifiers
       type: System.Type[][]
-      description: Parameter description to be filled
+      description: An array of arrays of types. Each array of types represents the required custom modifiers for the corresponding parameter, such as <see cref="T:System.Runtime.CompilerServices.IsConst">. If a particular parameter has no required custom modifiers, specify `null` instead of an array of types. If none of the parameters have required custom modifiers, specify `null` instead of an array of arrays.
     - id: parameterTypeOptionalCustomModifiers
       type: System.Type[][]
-      description: Parameter description to be filled
-    return:
-      type: System.Void
-      description: Return description to be filled
+      description: An array of arrays of types. Each array of types represents the optional custom modifiers for the corresponding parameter, such as <see cref="T:System.Runtime.CompilerServices.IsConst">. If a particular parameter has no optional custom modifiers, specify `null` instead of an array of types. If none of the parameters have optional custom modifiers, specify `null` instead of an array of arrays.
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Reflection.Emit.MethodBuilder.SetSymCustomAttribute(System.String,System.Byte[])
   id: SetSymCustomAttribute(System.String,System.Byte[])
   parent: System.Reflection.Emit.MethodBuilder
   langs:
   - csharp
-  - vb
   name: SetSymCustomAttribute(String,Byte[])
   nameWithType: MethodBuilder.SetSymCustomAttribute(String,Byte[])
   fullName: System.Reflection.Emit.MethodBuilder.SetSymCustomAttribute(String,Byte[])
@@ -1116,24 +1352,28 @@ items:
   assemblies:
   - mscorlib
   namespace: System.Reflection.Emit
+  summary: Set a symbolic custom attribute using a blob.
+  remarks: Unlike the metadata custom attribute, this custom attribute is associated with a symbol writer.
+  example:
+  - "The code sample below illustrates the contextual usage of the `SetSymCustomAttribute` method to set the byte values for the name and key of a custom attribute attached to a method.  \n  \n [!CODE [System.Reflection.Emit.MethodBuilder.SetSymCustomAttribute Example#1](../CodeSnippet/VS_Snippets_CLR_System/system.Reflection.Emit.MethodBuilder.SetSymCustomAttribute Example#1)]"
   syntax:
     content: public void SetSymCustomAttribute (string name, byte[] data);
     parameters:
     - id: name
       type: System.String
-      description: Parameter description to be filled
+      description: The name of the symbolic custom attribute.
     - id: data
       type: System.Byte[]
-      description: Parameter description to be filled
-    return:
-      type: System.Void
-      description: Return description to be filled
+      description: The byte blob that represents the value of the symbolic custom attribute.
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Reflection.Emit.MethodBuilder.Signature
   id: Signature
   parent: System.Reflection.Emit.MethodBuilder
   langs:
   - csharp
-  - vb
   name: Signature
   nameWithType: MethodBuilder.Signature
   fullName: System.Reflection.Emit.MethodBuilder.Signature
@@ -1141,18 +1381,23 @@ items:
   assemblies:
   - mscorlib
   namespace: System.Reflection.Emit
+  summary: Retrieves the signature of the method.
+  remarks: To be added.
   syntax:
     content: public string Signature { get; }
     return:
       type: System.String
-      description: Return description to be filled
+      description: To be added.
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Reflection.Emit.MethodBuilder.System#Runtime#InteropServices#_MethodBuilder#GetIDsOfNames(System.Guid@,System.IntPtr,System.UInt32,System.UInt32,System.IntPtr)
   id: System#Runtime#InteropServices#_MethodBuilder#GetIDsOfNames(System.Guid@,System.IntPtr,System.UInt32,System.UInt32,System.IntPtr)
   isEii: true
   parent: System.Reflection.Emit.MethodBuilder
   langs:
   - csharp
-  - vb
   name: System.Runtime.InteropServices._MethodBuilder.GetIDsOfNames(Guid,IntPtr,UInt32,UInt32,IntPtr)
   nameWithType: MethodBuilder.System.Runtime.InteropServices._MethodBuilder.GetIDsOfNames(Guid,IntPtr,UInt32,UInt32,IntPtr)
   fullName: System.Reflection.Emit.MethodBuilder.System.Runtime.InteropServices._MethodBuilder.GetIDsOfNames(Guid,IntPtr,UInt32,UInt32,IntPtr)
@@ -1160,34 +1405,36 @@ items:
   assemblies:
   - mscorlib
   namespace: System.Reflection.Emit
+  summary: Maps a set of names to a corresponding set of dispatch identifiers.
+  remarks: This method is for access to managed classes from unmanaged code, and should not be called from managed code. For more information about `IDispatch::GetIDsOfNames`, see the MSDN Library.
   syntax:
     content: void _MethodBuilder.GetIDsOfNames (ref Guid riid, IntPtr rgszNames, uint cNames, uint lcid, IntPtr rgDispId);
     parameters:
     - id: riid
       type: System.Guid
-      description: Parameter description to be filled
+      description: Reserved for future use. Must be IID_NULL.
     - id: rgszNames
       type: System.IntPtr
-      description: Parameter description to be filled
+      description: Passed-in array of names to be mapped.
     - id: cNames
       type: System.UInt32
-      description: Parameter description to be filled
+      description: Count of the names to be mapped.
     - id: lcid
       type: System.UInt32
-      description: Parameter description to be filled
+      description: The locale context in which to interpret the names.
     - id: rgDispId
       type: System.IntPtr
-      description: Parameter description to be filled
-    return:
-      type: System.Void
-      description: Return description to be filled
+      description: Caller-allocated array that receives the IDs corresponding to the names.
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Reflection.Emit.MethodBuilder.System#Runtime#InteropServices#_MethodBuilder#GetTypeInfo(System.UInt32,System.UInt32,System.IntPtr)
   id: System#Runtime#InteropServices#_MethodBuilder#GetTypeInfo(System.UInt32,System.UInt32,System.IntPtr)
   isEii: true
   parent: System.Reflection.Emit.MethodBuilder
   langs:
   - csharp
-  - vb
   name: System.Runtime.InteropServices._MethodBuilder.GetTypeInfo(UInt32,UInt32,IntPtr)
   nameWithType: MethodBuilder.System.Runtime.InteropServices._MethodBuilder.GetTypeInfo(UInt32,UInt32,IntPtr)
   fullName: System.Reflection.Emit.MethodBuilder.System.Runtime.InteropServices._MethodBuilder.GetTypeInfo(UInt32,UInt32,IntPtr)
@@ -1195,28 +1442,30 @@ items:
   assemblies:
   - mscorlib
   namespace: System.Reflection.Emit
+  summary: Retrieves the type information for an object, which can then be used to get the type information for an interface.
+  remarks: This method is for access to managed classes from unmanaged code, and should not be called from managed code. For more information about `IDispatch::GetTypeInfo`, see the MSDN Library.
   syntax:
     content: void _MethodBuilder.GetTypeInfo (uint iTInfo, uint lcid, IntPtr ppTInfo);
     parameters:
     - id: iTInfo
       type: System.UInt32
-      description: Parameter description to be filled
+      description: The type information to return.
     - id: lcid
       type: System.UInt32
-      description: Parameter description to be filled
+      description: The locale identifier for the type information.
     - id: ppTInfo
       type: System.IntPtr
-      description: Parameter description to be filled
-    return:
-      type: System.Void
-      description: Return description to be filled
+      description: Receives a pointer to the requested type information object.
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Reflection.Emit.MethodBuilder.System#Runtime#InteropServices#_MethodBuilder#GetTypeInfoCount(System.UInt32@)
   id: System#Runtime#InteropServices#_MethodBuilder#GetTypeInfoCount(System.UInt32@)
   isEii: true
   parent: System.Reflection.Emit.MethodBuilder
   langs:
   - csharp
-  - vb
   name: System.Runtime.InteropServices._MethodBuilder.GetTypeInfoCount(UInt32)
   nameWithType: MethodBuilder.System.Runtime.InteropServices._MethodBuilder.GetTypeInfoCount(UInt32)
   fullName: System.Reflection.Emit.MethodBuilder.System.Runtime.InteropServices._MethodBuilder.GetTypeInfoCount(UInt32)
@@ -1224,22 +1473,24 @@ items:
   assemblies:
   - mscorlib
   namespace: System.Reflection.Emit
+  summary: Retrieves the number of type information interfaces that an object provides (either 0 or 1).
+  remarks: This method is for access to managed classes from unmanaged code, and should not be called from managed code. For more information about `IDispatch::GetTypeInfoCount`, see the MSDN Library.
   syntax:
     content: void _MethodBuilder.GetTypeInfoCount (out uint pcTInfo);
     parameters:
     - id: pcTInfo
       type: System.UInt32
-      description: Parameter description to be filled
-    return:
-      type: System.Void
-      description: Return description to be filled
+      description: Points to a location that receives the number of type information interfaces provided by the object.
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Reflection.Emit.MethodBuilder.System#Runtime#InteropServices#_MethodBuilder#Invoke(System.UInt32,System.Guid@,System.UInt32,System.Int16,System.IntPtr,System.IntPtr,System.IntPtr,System.IntPtr)
   id: System#Runtime#InteropServices#_MethodBuilder#Invoke(System.UInt32,System.Guid@,System.UInt32,System.Int16,System.IntPtr,System.IntPtr,System.IntPtr,System.IntPtr)
   isEii: true
   parent: System.Reflection.Emit.MethodBuilder
   langs:
   - csharp
-  - vb
   name: System.Runtime.InteropServices._MethodBuilder.Invoke(UInt32,Guid,UInt32,Int16,IntPtr,IntPtr,IntPtr,IntPtr)
   nameWithType: MethodBuilder.System.Runtime.InteropServices._MethodBuilder.Invoke(UInt32,Guid,UInt32,Int16,IntPtr,IntPtr,IntPtr,IntPtr)
   fullName: System.Reflection.Emit.MethodBuilder.System.Runtime.InteropServices._MethodBuilder.Invoke(UInt32,Guid,UInt32,Int16,IntPtr,IntPtr,IntPtr,IntPtr)
@@ -1247,42 +1498,44 @@ items:
   assemblies:
   - mscorlib
   namespace: System.Reflection.Emit
+  summary: Provides access to properties and methods exposed by an object.
+  remarks: This method is for access to managed classes from unmanaged code, and should not be called from managed code. For more information about `IDispatch::Invoke`, see the MSDN Library.
   syntax:
     content: void _MethodBuilder.Invoke (uint dispIdMember, ref Guid riid, uint lcid, short wFlags, IntPtr pDispParams, IntPtr pVarResult, IntPtr pExcepInfo, IntPtr puArgErr);
     parameters:
     - id: dispIdMember
       type: System.UInt32
-      description: Parameter description to be filled
+      description: Identifies the member.
     - id: riid
       type: System.Guid
-      description: Parameter description to be filled
+      description: Reserved for future use. Must be IID_NULL.
     - id: lcid
       type: System.UInt32
-      description: Parameter description to be filled
+      description: The locale context in which to interpret arguments.
     - id: wFlags
       type: System.Int16
-      description: Parameter description to be filled
+      description: Flags describing the context of the call.
     - id: pDispParams
       type: System.IntPtr
-      description: Parameter description to be filled
+      description: Pointer to a structure containing an array of arguments, an array of argument DispIDs for named arguments, and counts for the number of elements in the arrays.
     - id: pVarResult
       type: System.IntPtr
-      description: Parameter description to be filled
+      description: Pointer to the location where the result is to be stored.
     - id: pExcepInfo
       type: System.IntPtr
-      description: Parameter description to be filled
+      description: Pointer to a structure that contains exception information.
     - id: puArgErr
       type: System.IntPtr
-      description: Parameter description to be filled
-    return:
-      type: System.Void
-      description: Return description to be filled
+      description: The index of the first argument that has an error.
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Reflection.Emit.MethodBuilder.ToString
   id: ToString
   parent: System.Reflection.Emit.MethodBuilder
   langs:
   - csharp
-  - vb
   name: ToString()
   nameWithType: MethodBuilder.ToString()
   fullName: System.Reflection.Emit.MethodBuilder.ToString()
@@ -1290,12 +1543,18 @@ items:
   assemblies:
   - mscorlib
   namespace: System.Reflection.Emit
+  summary: Returns this `MethodBuilder` instance as a string.
+  remarks: To be added.
   syntax:
     content: public override string ToString ();
     parameters: []
     return:
       type: System.String
-      description: Return description to be filled
+      description: Returns a string containing the name, attributes, method signature, exceptions, and local signature of this method followed by the current Microsoft intermediate language (MSIL) stream.
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 references:
 - uid: System.Reflection.MethodInfo
   isExternal: false
@@ -1306,12 +1565,6 @@ references:
   name: AddDeclarativeSecurity(SecurityAction,PermissionSet)
   nameWithType: MethodBuilder.AddDeclarativeSecurity(SecurityAction,PermissionSet)
   fullName: System.Reflection.Emit.MethodBuilder.AddDeclarativeSecurity(SecurityAction,PermissionSet)
-- uid: System.Void
-  parent: System
-  isExternal: false
-  name: Void
-  nameWithType: Void
-  fullName: System.Void
 - uid: System.Security.Permissions.SecurityAction
   parent: System.Security.Permissions
   isExternal: false
@@ -1366,12 +1619,12 @@ references:
   name: CreateMethodBody(Byte[],Int32)
   nameWithType: MethodBuilder.CreateMethodBody(Byte[],Int32)
   fullName: System.Reflection.Emit.MethodBuilder.CreateMethodBody(Byte[],Int32)
-- uid: System.Void
+- uid: System.Byte
   parent: System
   isExternal: false
-  name: Void
-  nameWithType: Void
-  fullName: System.Void
+  name: Byte
+  nameWithType: Byte
+  fullName: System.Byte[]
 - uid: System.Int32
   parent: System
   isExternal: false
@@ -1396,6 +1649,18 @@ references:
   name: DefineGenericParameters(String[])
   nameWithType: MethodBuilder.DefineGenericParameters(String[])
   fullName: System.Reflection.Emit.MethodBuilder.DefineGenericParameters(String[])
+- uid: System.Reflection.Emit.GenericTypeParameterBuilder
+  parent: System.Reflection.Emit
+  isExternal: false
+  name: GenericTypeParameterBuilder
+  nameWithType: GenericTypeParameterBuilder
+  fullName: System.Reflection.Emit.GenericTypeParameterBuilder[]
+- uid: System.String
+  parent: System
+  isExternal: false
+  name: String
+  nameWithType: String
+  fullName: System.String[]
 - uid: System.Reflection.Emit.MethodBuilder.DefineParameter(System.Int32,System.Reflection.ParameterAttributes,System.String)
   parent: System.Reflection.Emit.MethodBuilder
   isExternal: false
@@ -1462,6 +1727,12 @@ references:
   name: GetCustomAttributes(Boolean)
   nameWithType: MethodBuilder.GetCustomAttributes(Boolean)
   fullName: System.Reflection.Emit.MethodBuilder.GetCustomAttributes(Boolean)
+- uid: System.Object
+  parent: System
+  isExternal: false
+  name: Object
+  nameWithType: Object
+  fullName: System.Object[]
 - uid: System.Boolean
   parent: System
   isExternal: false
@@ -1474,6 +1745,12 @@ references:
   name: GetCustomAttributes(Type,Boolean)
   nameWithType: MethodBuilder.GetCustomAttributes(Type,Boolean)
   fullName: System.Reflection.Emit.MethodBuilder.GetCustomAttributes(Type,Boolean)
+- uid: System.Object
+  parent: System
+  isExternal: false
+  name: Object
+  nameWithType: Object
+  fullName: System.Object[]
 - uid: System.Type
   parent: System
   isExternal: false
@@ -1492,6 +1769,12 @@ references:
   name: GetGenericArguments()
   nameWithType: MethodBuilder.GetGenericArguments()
   fullName: System.Reflection.Emit.MethodBuilder.GetGenericArguments()
+- uid: System.Type
+  parent: System
+  isExternal: false
+  name: Type
+  nameWithType: Type
+  fullName: System.Type[]
 - uid: System.Reflection.Emit.MethodBuilder.GetGenericMethodDefinition
   parent: System.Reflection.Emit.MethodBuilder
   isExternal: false
@@ -1576,6 +1859,12 @@ references:
   name: GetParameters()
   nameWithType: MethodBuilder.GetParameters()
   fullName: System.Reflection.Emit.MethodBuilder.GetParameters()
+- uid: System.Reflection.ParameterInfo
+  parent: System.Reflection
+  isExternal: false
+  name: ParameterInfo
+  nameWithType: ParameterInfo
+  fullName: System.Reflection.ParameterInfo[]
 - uid: System.Reflection.Emit.MethodBuilder.GetToken
   parent: System.Reflection.Emit.MethodBuilder
   isExternal: false
@@ -1630,6 +1919,12 @@ references:
   name: Binder
   nameWithType: Binder
   fullName: System.Reflection.Binder
+- uid: System.Object
+  parent: System
+  isExternal: false
+  name: Object
+  nameWithType: Object
+  fullName: System.Object[]
 - uid: System.Globalization.CultureInfo
   parent: System.Globalization
   isExternal: false
@@ -1732,6 +2027,12 @@ references:
   name: MethodInfo
   nameWithType: MethodInfo
   fullName: System.Reflection.MethodInfo
+- uid: System.Type
+  parent: System
+  isExternal: false
+  name: Type
+  nameWithType: Type
+  fullName: System.Type[]
 - uid: System.Reflection.Emit.MethodBuilder.MethodHandle
   parent: System.Reflection.Emit.MethodBuilder
   isExternal: false
@@ -1822,12 +2123,6 @@ references:
   name: SetCustomAttribute(CustomAttributeBuilder)
   nameWithType: MethodBuilder.SetCustomAttribute(CustomAttributeBuilder)
   fullName: System.Reflection.Emit.MethodBuilder.SetCustomAttribute(CustomAttributeBuilder)
-- uid: System.Void
-  parent: System
-  isExternal: false
-  name: Void
-  nameWithType: Void
-  fullName: System.Void
 - uid: System.Reflection.Emit.CustomAttributeBuilder
   parent: System.Reflection.Emit
   isExternal: false
@@ -1840,30 +2135,24 @@ references:
   name: SetCustomAttribute(ConstructorInfo,Byte[])
   nameWithType: MethodBuilder.SetCustomAttribute(ConstructorInfo,Byte[])
   fullName: System.Reflection.Emit.MethodBuilder.SetCustomAttribute(ConstructorInfo,Byte[])
-- uid: System.Void
-  parent: System
-  isExternal: false
-  name: Void
-  nameWithType: Void
-  fullName: System.Void
 - uid: System.Reflection.ConstructorInfo
   parent: System.Reflection
   isExternal: false
   name: ConstructorInfo
   nameWithType: ConstructorInfo
   fullName: System.Reflection.ConstructorInfo
+- uid: System.Byte
+  parent: System
+  isExternal: false
+  name: Byte
+  nameWithType: Byte
+  fullName: System.Byte[]
 - uid: System.Reflection.Emit.MethodBuilder.SetImplementationFlags(System.Reflection.MethodImplAttributes)
   parent: System.Reflection.Emit.MethodBuilder
   isExternal: false
   name: SetImplementationFlags(MethodImplAttributes)
   nameWithType: MethodBuilder.SetImplementationFlags(MethodImplAttributes)
   fullName: System.Reflection.Emit.MethodBuilder.SetImplementationFlags(MethodImplAttributes)
-- uid: System.Void
-  parent: System
-  isExternal: false
-  name: Void
-  nameWithType: Void
-  fullName: System.Void
 - uid: System.Reflection.MethodImplAttributes
   parent: System.Reflection
   isExternal: false
@@ -1876,12 +2165,6 @@ references:
   name: SetMarshal(UnmanagedMarshal)
   nameWithType: MethodBuilder.SetMarshal(UnmanagedMarshal)
   fullName: System.Reflection.Emit.MethodBuilder.SetMarshal(UnmanagedMarshal)
-- uid: System.Void
-  parent: System
-  isExternal: false
-  name: Void
-  nameWithType: Void
-  fullName: System.Void
 - uid: System.Reflection.Emit.UnmanagedMarshal
   parent: System.Reflection.Emit
   isExternal: false
@@ -1891,45 +2174,57 @@ references:
 - uid: System.Reflection.Emit.MethodBuilder.SetMethodBody(System.Byte[],System.Int32,System.Byte[],System.Collections.Generic.IEnumerable{System.Reflection.Emit.ExceptionHandler},System.Collections.Generic.IEnumerable{System.Int32})
   parent: System.Reflection.Emit.MethodBuilder
   isExternal: false
-  name: SetMethodBody(Byte[],Int32,Byte[],IEnumerable,IEnumerable)
-  nameWithType: MethodBuilder.SetMethodBody(Byte[],Int32,Byte[],IEnumerable,IEnumerable)
-  fullName: System.Reflection.Emit.MethodBuilder.SetMethodBody(Byte[],Int32,Byte[],IEnumerable,IEnumerable)
-- uid: System.Void
+  name: SetMethodBody(Byte[],Int32,Byte[],IEnumerable<ExceptionHandler>,IEnumerable<Int32>)
+  nameWithType: MethodBuilder.SetMethodBody(Byte[],Int32,Byte[],IEnumerable<ExceptionHandler>,IEnumerable<Int32>)
+  fullName: System.Reflection.Emit.MethodBuilder.SetMethodBody(Byte[],Int32,Byte[],IEnumerable<ExceptionHandler>,IEnumerable<Int32>)
+- uid: System.Byte
   parent: System
   isExternal: false
-  name: Void
-  nameWithType: Void
-  fullName: System.Void
+  name: Byte
+  nameWithType: Byte
+  fullName: System.Byte[]
 - uid: System.Int32
   parent: System
   isExternal: false
   name: Int32
   nameWithType: Int32
   fullName: System.Int32
+- uid: System.Byte
+  parent: System
+  isExternal: false
+  name: Byte
+  nameWithType: Byte
+  fullName: System.Byte[]
+- uid: System.Collections.Generic.IEnumerable{System.Reflection.Emit.ExceptionHandler}
+  parent: System.Collections.Generic
+  isExternal: false
+  name: IEnumerable<ExceptionHandler>
+  nameWithType: IEnumerable<ExceptionHandler>
+  fullName: System.Collections.Generic.IEnumerable<System.Reflection.Emit.ExceptionHandler>
+- uid: System.Collections.Generic.IEnumerable{System.Int32}
+  parent: System.Collections.Generic
+  isExternal: false
+  name: IEnumerable<Int32>
+  nameWithType: IEnumerable<Int32>
+  fullName: System.Collections.Generic.IEnumerable<System.Int32>
 - uid: System.Reflection.Emit.MethodBuilder.SetParameters(System.Type[])
   parent: System.Reflection.Emit.MethodBuilder
   isExternal: false
   name: SetParameters(Type[])
   nameWithType: MethodBuilder.SetParameters(Type[])
   fullName: System.Reflection.Emit.MethodBuilder.SetParameters(Type[])
-- uid: System.Void
+- uid: System.Type
   parent: System
   isExternal: false
-  name: Void
-  nameWithType: Void
-  fullName: System.Void
+  name: Type
+  nameWithType: Type
+  fullName: System.Type[]
 - uid: System.Reflection.Emit.MethodBuilder.SetReturnType(System.Type)
   parent: System.Reflection.Emit.MethodBuilder
   isExternal: false
   name: SetReturnType(Type)
   nameWithType: MethodBuilder.SetReturnType(Type)
   fullName: System.Reflection.Emit.MethodBuilder.SetReturnType(Type)
-- uid: System.Void
-  parent: System
-  isExternal: false
-  name: Void
-  nameWithType: Void
-  fullName: System.Void
 - uid: System.Type
   parent: System
   isExternal: false
@@ -1942,36 +2237,60 @@ references:
   name: SetSignature(Type,Type[],Type[],Type[],Type[][],Type[][])
   nameWithType: MethodBuilder.SetSignature(Type,Type[],Type[],Type[],Type[][],Type[][])
   fullName: System.Reflection.Emit.MethodBuilder.SetSignature(Type,Type[],Type[],Type[],Type[][],Type[][])
-- uid: System.Void
-  parent: System
-  isExternal: false
-  name: Void
-  nameWithType: Void
-  fullName: System.Void
 - uid: System.Type
   parent: System
   isExternal: false
   name: Type
   nameWithType: Type
   fullName: System.Type
+- uid: System.Type
+  parent: System
+  isExternal: false
+  name: Type
+  nameWithType: Type
+  fullName: System.Type[]
+- uid: System.Type
+  parent: System
+  isExternal: false
+  name: Type
+  nameWithType: Type
+  fullName: System.Type[]
+- uid: System.Type
+  parent: System
+  isExternal: false
+  name: Type
+  nameWithType: Type
+  fullName: System.Type[]
+- uid: System.Type
+  parent: System
+  isExternal: false
+  name: Type
+  nameWithType: Type
+  fullName: System.Type[][]
+- uid: System.Type
+  parent: System
+  isExternal: false
+  name: Type
+  nameWithType: Type
+  fullName: System.Type[][]
 - uid: System.Reflection.Emit.MethodBuilder.SetSymCustomAttribute(System.String,System.Byte[])
   parent: System.Reflection.Emit.MethodBuilder
   isExternal: false
   name: SetSymCustomAttribute(String,Byte[])
   nameWithType: MethodBuilder.SetSymCustomAttribute(String,Byte[])
   fullName: System.Reflection.Emit.MethodBuilder.SetSymCustomAttribute(String,Byte[])
-- uid: System.Void
-  parent: System
-  isExternal: false
-  name: Void
-  nameWithType: Void
-  fullName: System.Void
 - uid: System.String
   parent: System
   isExternal: false
   name: String
   nameWithType: String
   fullName: System.String
+- uid: System.Byte
+  parent: System
+  isExternal: false
+  name: Byte
+  nameWithType: Byte
+  fullName: System.Byte[]
 - uid: System.Reflection.Emit.MethodBuilder.Signature
   parent: System.Reflection.Emit.MethodBuilder
   isExternal: false
@@ -1990,12 +2309,6 @@ references:
   name: System.Runtime.InteropServices._MethodBuilder.GetIDsOfNames(Guid,IntPtr,UInt32,UInt32,IntPtr)
   nameWithType: MethodBuilder.System.Runtime.InteropServices._MethodBuilder.GetIDsOfNames(Guid,IntPtr,UInt32,UInt32,IntPtr)
   fullName: System.Reflection.Emit.MethodBuilder.System.Runtime.InteropServices._MethodBuilder.GetIDsOfNames(Guid,IntPtr,UInt32,UInt32,IntPtr)
-- uid: System.Void
-  parent: System
-  isExternal: false
-  name: Void
-  nameWithType: Void
-  fullName: System.Void
 - uid: System.Guid
   parent: System
   isExternal: false
@@ -2032,12 +2345,6 @@ references:
   name: System.Runtime.InteropServices._MethodBuilder.GetTypeInfo(UInt32,UInt32,IntPtr)
   nameWithType: MethodBuilder.System.Runtime.InteropServices._MethodBuilder.GetTypeInfo(UInt32,UInt32,IntPtr)
   fullName: System.Reflection.Emit.MethodBuilder.System.Runtime.InteropServices._MethodBuilder.GetTypeInfo(UInt32,UInt32,IntPtr)
-- uid: System.Void
-  parent: System
-  isExternal: false
-  name: Void
-  nameWithType: Void
-  fullName: System.Void
 - uid: System.UInt32
   parent: System
   isExternal: false
@@ -2062,12 +2369,6 @@ references:
   name: System.Runtime.InteropServices._MethodBuilder.GetTypeInfoCount(UInt32)
   nameWithType: MethodBuilder.System.Runtime.InteropServices._MethodBuilder.GetTypeInfoCount(UInt32)
   fullName: System.Reflection.Emit.MethodBuilder.System.Runtime.InteropServices._MethodBuilder.GetTypeInfoCount(UInt32)
-- uid: System.Void
-  parent: System
-  isExternal: false
-  name: Void
-  nameWithType: Void
-  fullName: System.Void
 - uid: System.UInt32
   parent: System
   isExternal: false
@@ -2080,12 +2381,6 @@ references:
   name: System.Runtime.InteropServices._MethodBuilder.Invoke(UInt32,Guid,UInt32,Int16,IntPtr,IntPtr,IntPtr,IntPtr)
   nameWithType: MethodBuilder.System.Runtime.InteropServices._MethodBuilder.Invoke(UInt32,Guid,UInt32,Int16,IntPtr,IntPtr,IntPtr,IntPtr)
   fullName: System.Reflection.Emit.MethodBuilder.System.Runtime.InteropServices._MethodBuilder.Invoke(UInt32,Guid,UInt32,Int16,IntPtr,IntPtr,IntPtr,IntPtr)
-- uid: System.Void
-  parent: System
-  isExternal: false
-  name: Void
-  nameWithType: Void
-  fullName: System.Void
 - uid: System.UInt32
   parent: System
   isExternal: false

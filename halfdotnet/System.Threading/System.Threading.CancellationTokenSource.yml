@@ -18,11 +18,14 @@ items:
   - System.Threading.CancellationTokenSource.Token
   langs:
   - csharp
-  - vb
   name: CancellationTokenSource
   nameWithType: CancellationTokenSource
   fullName: System.Threading.CancellationTokenSource
   type: Class
+  summary: Signals to a <see cref="T:System.Threading.CancellationToken"> that it should be canceled.
+  remarks: "Starting with the [!INCLUDE[net_v40_long](../../add/includes/net-v40-long-md.md)], the .NET Framework uses a unified model for cooperative cancellation of asynchronous or long-running synchronous operations that involves two objects:  \n  \n-   A CancellationTokenSource object, which provides a cancellation token through its <xref:System.Threading.CancellationTokenSource.Token%2A> property and sends a cancellation message by calling its <xref:System.Threading.CancellationTokenSource.Cancel%2A> or <xref:System.Threading.CancellationTokenSource.CancelAfter%2A> method.  \n  \n-   A <xref:System.Threading.CancellationToken> object, which indicates whether cancellation is requested.  \n  \n The general pattern for implementing the cooperative cancellation model is:  \n  \n-   Instantiate a CancellationTokenSource object, which manages and sends cancellation notification to the individual cancellation tokens.  \n  \n-   Pass the token returned by the <xref:System.Threading.CancellationTokenSource.Token%2A?displayProperty=fullName> property to each task or thread that listens for cancellation.  \n  \n-   Call the <xref:System.Threading.CancellationToken.IsCancellationRequested%2A?displayProperty=fullName> method from operations that receive the cancellation token. Provide a mechanism for each task or thread to respond to a cancellation request. Whether you choose to cancel an operation, and exactly how you do it, depends on your application logic.  \n  \n-   Call the <xref:System.Threading.CancellationTokenSource.Cancel%2A?displayProperty=fullName> method to provide notification of cancellation. This sets the <xref:System.Threading.CancellationToken.IsCancellationRequested%2A?displayProperty=fullName> property on every copy of the cancellation token to `true`.  \n  \n-   Call the <xref:System.Threading.CancellationTokenSource.Dispose%2A> method when you are finished with the CancellationTokenSource object.  \n  \n For more information, see [Cancellation in Managed Threads](../Topic/Cancellation%20in%20Managed%20Threads.md).  \n  \n> [!IMPORTANT]\n>  This type implements the <xref:System.IDisposable> interface. When you have finished using an instance of the type, you should dispose of it either directly or indirectly. To dispose of the type directly, call its <xref:System.IDisposable.Dispose%2A> method in a `try`/`catch` block. To dispose of it indirectly, use a language construct such as `using` (in C#) or `Using` (in Visual Basic). For more information, see the “Using an Object that Implements IDisposable” section in the <xref:System.IDisposable> interface topic."
+  example:
+  - "The following example uses a random number generator to emulate a data collection application that reads 10 integral values from eleven different instruments. A value of zero indicates that the measurement has failed for one instrument, in which case the operation should be cancelled and no overall mean should be computed.  \n  \n To handle the possible cancellation of the operation, the example instantiates a CancellationTokenSource object that generates a cancellation token which is passed to a <xref:System.Threading.Tasks.TaskFactory> object. The <xref:System.Threading.Tasks.TaskFactory> object in turn passes the cancellation token to each of the tasks responsible for collecting readings for a particular instrument. The [TaskFactory.ContinueWhenAll\\<TAntecedentResult, TResult>(Task\\<TAntecedentResult>\\[\\], Func<Task\\<TAntecedentResult>\\[\\], TResult>, CancellationToken)](assetId:///M:System.Threading.Tasks.TaskFactory.ContinueWhenAll``2(System.Threading.Tasks.Task{``0}[],System.Func{System.Threading.Tasks.Task{``0}[],``1},System.Threading.CancellationToken)?qualifyHint=True&autoUpgrade=False) method is called to ensure that the mean is computed only after all readings have been gathered successfully. If a task has not because it has been cancelled, the call to the <xref:System.Threading.Tasks.TaskFactory.ContinueWhenAll%2A?displayProperty=fullName> method throws an exception.  \n  \n [!CODE [System.Threading.CancellationTokenSource.Class#1](../CodeSnippet/VS_Snippets_CLR_System/system.threading.cancellationtokensource.class#1)]"
   syntax:
     content: >-
       [System.Runtime.InteropServices.ComVisible(false)]
@@ -40,12 +43,15 @@ items:
   - System.Object.MemberwiseClone
   - System.Object.ReferenceEquals(System.Object,System.Object)
   - System.Object.ToString
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Threading.CancellationTokenSource.#ctor
   id: '#ctor'
   parent: System.Threading.CancellationTokenSource
   langs:
   - csharp
-  - vb
   name: CancellationTokenSource()
   nameWithType: CancellationTokenSource.CancellationTokenSource()
   fullName: System.Threading.CancellationTokenSource.CancellationTokenSource()
@@ -53,15 +59,20 @@ items:
   assemblies:
   - mscorlib
   namespace: System.Threading
+  summary: Initializes a new instance of the <see cref="T:System.Threading.CancellationTokenSource"> class.
+  remarks: To be added.
   syntax:
     content: public CancellationTokenSource ();
     parameters: []
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Threading.CancellationTokenSource.#ctor(System.Int32)
   id: '#ctor(System.Int32)'
   parent: System.Threading.CancellationTokenSource
   langs:
   - csharp
-  - vb
   name: CancellationTokenSource(Int32)
   nameWithType: CancellationTokenSource.CancellationTokenSource(Int32)
   fullName: System.Threading.CancellationTokenSource.CancellationTokenSource(Int32)
@@ -69,18 +80,23 @@ items:
   assemblies:
   - mscorlib
   namespace: System.Threading
+  summary: Initializes a new instance of the <see cref="T:System.Threading.CancellationTokenSource"> class that will be canceled after the specified delay in milliseconds.
+  remarks: "The countdown for the  starts during the call to the constructor.  When the  expires, the constructed <xref:System.Threading.CancellationTokenSource> is canceled (if it has not been canceled already).  \n  \n Subsequent calls to <xref:System.Threading.CancellationTokenSource.CancelAfter%2A> will reset the  for the constructed <xref:System.Threading.CancellationTokenSource>, if it has not been canceled already."
   syntax:
     content: public CancellationTokenSource (int millisecondsDelay);
     parameters:
     - id: millisecondsDelay
       type: System.Int32
-      description: Parameter description to be filled
+      description: The time interval in milliseconds to wait before canceling this <see cref="T:System.Threading.CancellationTokenSource">.
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Threading.CancellationTokenSource.#ctor(System.TimeSpan)
   id: '#ctor(System.TimeSpan)'
   parent: System.Threading.CancellationTokenSource
   langs:
   - csharp
-  - vb
   name: CancellationTokenSource(TimeSpan)
   nameWithType: CancellationTokenSource.CancellationTokenSource(TimeSpan)
   fullName: System.Threading.CancellationTokenSource.CancellationTokenSource(TimeSpan)
@@ -88,18 +104,23 @@ items:
   assemblies:
   - mscorlib
   namespace: System.Threading
+  summary: Initializes a new instance of the <see cref="T:System.Threading.CancellationTokenSource"> class that will be canceled after the specified time span.
+  remarks: "The countdown for the delay starts during the call to the constructor. When the delay expires, the constructed <xref:System.Threading.CancellationTokenSource> is canceled, if it has not been canceled already.  \n  \n Subsequent calls to <xref:System.Threading.CancellationTokenSource.CancelAfter%2A> will reset the delay for the constructed <xref:System.Threading.CancellationTokenSource>, if it has not been canceled already."
   syntax:
     content: public CancellationTokenSource (TimeSpan delay);
     parameters:
     - id: delay
       type: System.TimeSpan
-      description: Parameter description to be filled
+      description: The time interval to wait before canceling this <see cref="T:System.Threading.CancellationTokenSource">.
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Threading.CancellationTokenSource.Cancel
   id: Cancel
   parent: System.Threading.CancellationTokenSource
   langs:
   - csharp
-  - vb
   name: Cancel()
   nameWithType: CancellationTokenSource.Cancel()
   fullName: System.Threading.CancellationTokenSource.Cancel()
@@ -107,19 +128,23 @@ items:
   assemblies:
   - mscorlib
   namespace: System.Threading
+  summary: Communicates a request for cancellation.
+  remarks: "The associated <xref:System.Threading.CancellationToken> will be notified of the cancellation and will transition to a state where <xref:System.Threading.CancellationToken.IsCancellationRequested%2A> returns true.  \n  \n Any callbacks or cancelable operations registered with the <xref:System.Threading.CancellationToken> will be executed.  \n  \n Cancelable operations and callbacks registered with the token should not throw exceptions.  \n  \n However, this overload of Cancel will aggregate any exceptions thrown into an <xref:System.AggregateException>, such that one callback throwing an exception will not prevent other registered callbacks from being executed.  \n  \n The <xref:System.Threading.ExecutionContext> that was captured when each callback was registered will be reestablished when the callback is invoked."
+  example:
+  - "The following example uses a random number generator to emulate a data collection application that reads 10 integral values from eleven different instruments. A value of zero indicates that the measurement has failed for one instrument, in which case the operation should be cancelled and no overall mean should be computed.  \n  \n To handle the possible cancellation of the operation, the example instantiates a <xref:System.Threading.CancellationTokenSource> object that generates a cancellation token which is passed to a <xref:System.Threading.Tasks.TaskFactory> object. The <xref:System.Threading.Tasks.TaskFactory> object in turn passes the cancellation token to each of the tasks responsible for collecting readings for a particular instrument. The [TaskFactory.ContinueWhenAll\\<TAntecedentResult, TResult>(Task\\<TAntecedentResult>\\[\\], Func<Task\\<TAntecedentResult>\\[\\], TResult>, CancellationToken)](assetId:///M:System.Threading.Tasks.TaskFactory.ContinueWhenAll``2(System.Threading.Tasks.Task{``0}[],System.Func{System.Threading.Tasks.Task{``0}[],``1},System.Threading.CancellationToken)?qualifyHint=True&autoUpgrade=False) method is called to ensure that the mean is computed only after all readings have been gathered successfully. If a task has not because it has been cancelled, the call to the <xref:System.Threading.Tasks.TaskFactory.ContinueWhenAll%2A?displayProperty=fullName> method throws an exception.  \n  \n [!CODE [System.Threading.CancellationTokenSource.Class#1](../CodeSnippet/VS_Snippets_CLR_System/system.threading.cancellationtokensource.class#1)]"
   syntax:
     content: public void Cancel ();
     parameters: []
-    return:
-      type: System.Void
-      description: Return description to be filled
   overload: System.Threading.CancellationTokenSource.Cancel*
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Threading.CancellationTokenSource.Cancel(System.Boolean)
   id: Cancel(System.Boolean)
   parent: System.Threading.CancellationTokenSource
   langs:
   - csharp
-  - vb
   name: Cancel(Boolean)
   nameWithType: CancellationTokenSource.Cancel(Boolean)
   fullName: System.Threading.CancellationTokenSource.Cancel(Boolean)
@@ -127,22 +152,24 @@ items:
   assemblies:
   - mscorlib
   namespace: System.Threading
+  summary: Communicates a request for cancellation, and specifies whether remaining callbacks and cancelable operations should be processed.
+  remarks: "The associated <xref:System.Threading.CancellationToken> will be notified of the cancellation and will transition to a state where <xref:System.Threading.CancellationToken.IsCancellationRequested%2A> returns `true`.  \n  \n Any callbacks or cancelable operations registered with the <xref:System.Threading.CancellationToken> will be executed.  \n  \n Cancelable operations and callbacks registered with the token should not throw exceptions.  \n  \n If  is `true`, an exception will immediately propagate out of the call to Cancel, preventing the remaining callbacks and cancelable operations from being processed.  \n  \n If  is `false`, this overload will aggregate any exceptions thrown into an <xref:System.AggregateException>, such that one callback throwing an exception will not prevent other registered callbacks from being executed.  \n  \n The <xref:System.Threading.ExecutionContext> that was captured when each callback was registered will be reestablished when the callback is invoked."
   syntax:
     content: public void Cancel (bool throwOnFirstException);
     parameters:
     - id: throwOnFirstException
       type: System.Boolean
-      description: Parameter description to be filled
-    return:
-      type: System.Void
-      description: Return description to be filled
+      description: '`true` if exceptions should immediately propagate; otherwise, `false`.'
   overload: System.Threading.CancellationTokenSource.Cancel*
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Threading.CancellationTokenSource.CancelAfter(System.Int32)
   id: CancelAfter(System.Int32)
   parent: System.Threading.CancellationTokenSource
   langs:
   - csharp
-  - vb
   name: CancelAfter(Int32)
   nameWithType: CancellationTokenSource.CancelAfter(Int32)
   fullName: System.Threading.CancellationTokenSource.CancelAfter(Int32)
@@ -150,22 +177,24 @@ items:
   assemblies:
   - mscorlib
   namespace: System.Threading
+  summary: Schedules a cancel operation on this <see cref="T:System.Threading.CancellationTokenSource"> after the specified number of milliseconds.
+  remarks: "The countdown for the  starts during this call. When the  expires, this <xref:System.Threading.CancellationTokenSource> is canceled, if it has not been canceled already.  \n  \n Subsequent calls to CancelAfter will reset the  for this <xref:System.Threading.CancellationTokenSource>, if it has not been canceled already."
   syntax:
     content: public void CancelAfter (int millisecondsDelay);
     parameters:
     - id: millisecondsDelay
       type: System.Int32
-      description: Parameter description to be filled
-    return:
-      type: System.Void
-      description: Return description to be filled
+      description: The time span to wait before canceling this <see cref="T:System.Threading.CancellationTokenSource">.
   overload: System.Threading.CancellationTokenSource.CancelAfter*
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Threading.CancellationTokenSource.CancelAfter(System.TimeSpan)
   id: CancelAfter(System.TimeSpan)
   parent: System.Threading.CancellationTokenSource
   langs:
   - csharp
-  - vb
   name: CancelAfter(TimeSpan)
   nameWithType: CancellationTokenSource.CancelAfter(TimeSpan)
   fullName: System.Threading.CancellationTokenSource.CancelAfter(TimeSpan)
@@ -173,22 +202,24 @@ items:
   assemblies:
   - mscorlib
   namespace: System.Threading
+  summary: Schedules a cancel operation on this <see cref="T:System.Threading.CancellationTokenSource"> after the specified time span.
+  remarks: To be added.
   syntax:
     content: public void CancelAfter (TimeSpan delay);
     parameters:
     - id: delay
       type: System.TimeSpan
-      description: Parameter description to be filled
-    return:
-      type: System.Void
-      description: Return description to be filled
+      description: The time span to wait before canceling this <see cref="T:System.Threading.CancellationTokenSource">.
   overload: System.Threading.CancellationTokenSource.CancelAfter*
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Threading.CancellationTokenSource.CreateLinkedTokenSource(System.Threading.CancellationToken[])
   id: CreateLinkedTokenSource(System.Threading.CancellationToken[])
   parent: System.Threading.CancellationTokenSource
   langs:
   - csharp
-  - vb
   name: CreateLinkedTokenSource(CancellationToken[])
   nameWithType: CancellationTokenSource.CreateLinkedTokenSource(CancellationToken[])
   fullName: System.Threading.CancellationTokenSource.CreateLinkedTokenSource(CancellationToken[])
@@ -196,22 +227,27 @@ items:
   assemblies:
   - mscorlib
   namespace: System.Threading
+  summary: Creates a <see cref="T:System.Threading.CancellationTokenSource"> that will be in the canceled state when any of the source tokens in the specified array are in the canceled state.
+  remarks: To be added.
   syntax:
     content: public static System.Threading.CancellationTokenSource CreateLinkedTokenSource (System.Threading.CancellationToken[] tokens);
     parameters:
     - id: tokens
       type: System.Threading.CancellationToken[]
-      description: Parameter description to be filled
+      description: An array that contains the cancellation token instances to observe.
     return:
       type: System.Threading.CancellationTokenSource
-      description: Return description to be filled
+      description: A <see cref="T:System.Threading.CancellationTokenSource"> that is linked to the source tokens.
   overload: System.Threading.CancellationTokenSource.CreateLinkedTokenSource*
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Threading.CancellationTokenSource.CreateLinkedTokenSource(System.Threading.CancellationToken,System.Threading.CancellationToken)
   id: CreateLinkedTokenSource(System.Threading.CancellationToken,System.Threading.CancellationToken)
   parent: System.Threading.CancellationTokenSource
   langs:
   - csharp
-  - vb
   name: CreateLinkedTokenSource(CancellationToken,CancellationToken)
   nameWithType: CancellationTokenSource.CreateLinkedTokenSource(CancellationToken,CancellationToken)
   fullName: System.Threading.CancellationTokenSource.CreateLinkedTokenSource(CancellationToken,CancellationToken)
@@ -219,25 +255,30 @@ items:
   assemblies:
   - mscorlib
   namespace: System.Threading
+  summary: Creates a <see cref="T:System.Threading.CancellationTokenSource"> that will be in the canceled state when any of the source tokens are in the canceled state.
+  remarks: To be added.
   syntax:
     content: public static System.Threading.CancellationTokenSource CreateLinkedTokenSource (System.Threading.CancellationToken token1, System.Threading.CancellationToken token2);
     parameters:
     - id: token1
       type: System.Threading.CancellationToken
-      description: Parameter description to be filled
+      description: The first cancellation token to observe.
     - id: token2
       type: System.Threading.CancellationToken
-      description: Parameter description to be filled
+      description: The second cancellation token to observe.
     return:
       type: System.Threading.CancellationTokenSource
-      description: Return description to be filled
+      description: A <see cref="T:System.Threading.CancellationTokenSource"> that is linked to the source tokens.
   overload: System.Threading.CancellationTokenSource.CreateLinkedTokenSource*
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Threading.CancellationTokenSource.Dispose
   id: Dispose
   parent: System.Threading.CancellationTokenSource
   langs:
   - csharp
-  - vb
   name: Dispose()
   nameWithType: CancellationTokenSource.Dispose()
   fullName: System.Threading.CancellationTokenSource.Dispose()
@@ -245,19 +286,21 @@ items:
   assemblies:
   - mscorlib
   namespace: System.Threading
+  summary: Releases all resources used by the current instance of the <see cref="T:System.Threading.CancellationTokenSource"> class.
+  remarks: "Call `Dispose` when you are finished using the <xref:System.Threading.CancellationTokenSource>. The `Dispose` method leaves the <xref:System.Threading.CancellationTokenSource> in an unusable state. After calling `Dispose`, you must release all references to the <xref:System.Threading.CancellationTokenSource> so the garbage collector can reclaim the memory that the <xref:System.Threading.CancellationTokenSource> was occupying.  \n  \n For more information, see [Cleaning Up Unmanaged Resources](../Topic/Cleaning%20Up%20Unmanaged%20Resources.md) and [Implementing a Dispose Method](../Topic/Implementing%20a%20Dispose%20Method.md).  \n  \n> [!NOTE]\n>  Always call `Dispose` before you release your last reference to the <xref:System.Threading.CancellationTokenSource>. Otherwise, the resources it is using will not be freed until the garbage collector calls the <xref:System.Threading.CancellationTokenSource> object's `Finalize` method."
   syntax:
     content: public void Dispose ();
     parameters: []
-    return:
-      type: System.Void
-      description: Return description to be filled
   overload: System.Threading.CancellationTokenSource.Dispose*
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Threading.CancellationTokenSource.Dispose(System.Boolean)
   id: Dispose(System.Boolean)
   parent: System.Threading.CancellationTokenSource
   langs:
   - csharp
-  - vb
   name: Dispose(Boolean)
   nameWithType: CancellationTokenSource.Dispose(Boolean)
   fullName: System.Threading.CancellationTokenSource.Dispose(Boolean)
@@ -265,22 +308,24 @@ items:
   assemblies:
   - mscorlib
   namespace: System.Threading
+  summary: Releases the unmanaged resources used by the <see cref="T:System.Threading.CancellationTokenSource"> class and optionally releases the managed resources.
+  remarks: To be added.
   syntax:
     content: protected virtual void Dispose (bool disposing);
     parameters:
     - id: disposing
       type: System.Boolean
-      description: Parameter description to be filled
-    return:
-      type: System.Void
-      description: Return description to be filled
+      description: '`true` to release both managed and unmanaged resources; `false` to release only unmanaged resources.'
   overload: System.Threading.CancellationTokenSource.Dispose*
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Threading.CancellationTokenSource.IsCancellationRequested
   id: IsCancellationRequested
   parent: System.Threading.CancellationTokenSource
   langs:
   - csharp
-  - vb
   name: IsCancellationRequested
   nameWithType: CancellationTokenSource.IsCancellationRequested
   fullName: System.Threading.CancellationTokenSource.IsCancellationRequested
@@ -288,17 +333,22 @@ items:
   assemblies:
   - mscorlib
   namespace: System.Threading
+  summary: Gets whether cancellation has been requested for this <see cref="T:System.Threading.CancellationTokenSource">.
+  remarks: "This property indicates whether cancellation has been requested for this token source, such as due to a call to its <xref:System.Threading.CancellationTokenSource.Cancel%2A> method.  \n  \n If this property returns `true`, it only guarantees that cancellation has been requested. It does not guarantee that every handler registered with the corresponding token has finished executing, nor that cancellation requests have finished propagating to all registered handlers. Additional synchronization may be required, particularly in situations where related objects are being canceled concurrently."
   syntax:
     content: public bool IsCancellationRequested { get; }
     return:
       type: System.Boolean
-      description: Return description to be filled
+      description: To be added.
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Threading.CancellationTokenSource.Token
   id: Token
   parent: System.Threading.CancellationTokenSource
   langs:
   - csharp
-  - vb
   name: Token
   nameWithType: CancellationTokenSource.Token
   fullName: System.Threading.CancellationTokenSource.Token
@@ -306,11 +356,17 @@ items:
   assemblies:
   - mscorlib
   namespace: System.Threading
+  summary: Gets the <see cref="T:System.Threading.CancellationToken"> associated with this <xref:System.Threading.CancellationTokenSource>.
+  remarks: To be added.
   syntax:
     content: public System.Threading.CancellationToken Token { get; }
     return:
       type: System.Threading.CancellationToken
-      description: Return description to be filled
+      description: To be added.
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 references:
 - uid: System.Object
   isExternal: false
@@ -351,24 +407,12 @@ references:
   name: Cancel()
   nameWithType: CancellationTokenSource.Cancel()
   fullName: System.Threading.CancellationTokenSource.Cancel()
-- uid: System.Void
-  parent: System
-  isExternal: false
-  name: Void
-  nameWithType: Void
-  fullName: System.Void
 - uid: System.Threading.CancellationTokenSource.Cancel(System.Boolean)
   parent: System.Threading.CancellationTokenSource
   isExternal: false
   name: Cancel(Boolean)
   nameWithType: CancellationTokenSource.Cancel(Boolean)
   fullName: System.Threading.CancellationTokenSource.Cancel(Boolean)
-- uid: System.Void
-  parent: System
-  isExternal: false
-  name: Void
-  nameWithType: Void
-  fullName: System.Void
 - uid: System.Boolean
   parent: System
   isExternal: false
@@ -381,12 +425,6 @@ references:
   name: CancelAfter(Int32)
   nameWithType: CancellationTokenSource.CancelAfter(Int32)
   fullName: System.Threading.CancellationTokenSource.CancelAfter(Int32)
-- uid: System.Void
-  parent: System
-  isExternal: false
-  name: Void
-  nameWithType: Void
-  fullName: System.Void
 - uid: System.Int32
   parent: System
   isExternal: false
@@ -399,12 +437,6 @@ references:
   name: CancelAfter(TimeSpan)
   nameWithType: CancellationTokenSource.CancelAfter(TimeSpan)
   fullName: System.Threading.CancellationTokenSource.CancelAfter(TimeSpan)
-- uid: System.Void
-  parent: System
-  isExternal: false
-  name: Void
-  nameWithType: Void
-  fullName: System.Void
 - uid: System.TimeSpan
   parent: System
   isExternal: false
@@ -423,6 +455,12 @@ references:
   name: CancellationTokenSource
   nameWithType: CancellationTokenSource
   fullName: System.Threading.CancellationTokenSource
+- uid: System.Threading.CancellationToken
+  parent: System.Threading
+  isExternal: false
+  name: CancellationToken
+  nameWithType: CancellationToken
+  fullName: System.Threading.CancellationToken[]
 - uid: System.Threading.CancellationTokenSource.CreateLinkedTokenSource(System.Threading.CancellationToken,System.Threading.CancellationToken)
   parent: System.Threading.CancellationTokenSource
   isExternal: false
@@ -453,24 +491,12 @@ references:
   name: Dispose()
   nameWithType: CancellationTokenSource.Dispose()
   fullName: System.Threading.CancellationTokenSource.Dispose()
-- uid: System.Void
-  parent: System
-  isExternal: false
-  name: Void
-  nameWithType: Void
-  fullName: System.Void
 - uid: System.Threading.CancellationTokenSource.Dispose(System.Boolean)
   parent: System.Threading.CancellationTokenSource
   isExternal: false
   name: Dispose(Boolean)
   nameWithType: CancellationTokenSource.Dispose(Boolean)
   fullName: System.Threading.CancellationTokenSource.Dispose(Boolean)
-- uid: System.Void
-  parent: System
-  isExternal: false
-  name: Void
-  nameWithType: Void
-  fullName: System.Void
 - uid: System.Boolean
   parent: System
   isExternal: false

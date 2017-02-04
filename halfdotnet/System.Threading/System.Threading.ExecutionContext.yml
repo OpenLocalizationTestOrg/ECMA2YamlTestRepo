@@ -13,11 +13,12 @@ items:
   - System.Threading.ExecutionContext.SuppressFlow
   langs:
   - csharp
-  - vb
   name: ExecutionContext
   nameWithType: ExecutionContext
   fullName: System.Threading.ExecutionContext
   type: Class
+  summary: Manages the execution context for the current thread. This class cannot be inherited.
+  remarks: "The ExecutionContext class provides a single container for all information relevant to a logical thread of execution. This includes security context, call context, and synchronization context.  \n  \n The ExecutionContext class provides the functionality for user code to capture and transfer this context across user-defined asynchronous points. The common language runtime ensures that the ExecutionContext is consistently transferred across runtime-defined asynchronous points within the managed process.  \n  \n An execution context is the managed equivalent of a COM apartment. Within an application domain, the entire execution context must be transferred whenever a thread is transferred. This situation occurs during transfers made by the <xref:System.Threading.Thread.Start%2A?displayProperty=fullName> method, most thread pool operations, and Windows Forms thread marshaling through the Windows message pump. It does not occur in unsafe thread pool operations (such as the <xref:System.Threading.ThreadPool.UnsafeQueueUserWorkItem%2A> method), which do not transfer the compressed stack. Wherever the compressed stack flows, the managed principal, synchronization, locale, and user context also flow. The ExecutionContext class provides the <xref:System.Threading.ExecutionContext.Capture%2A> and <xref:System.Threading.ExecutionContext.CreateCopy%2A> methods to get the execution context and the <xref:System.Threading.ExecutionContext.Run%2A> method to set the execution context for the current thread.  \n  \n An ExecutionContext that is associated with a thread cannot be set on another thread. Attempting to do so will result in an exception being thrown. To propagate the ExecutionContext from one thread to another, make a copy of the ExecutionContext.  \n  \n Internally, the ExecutionContext stores all data that is associated with the <xref:System.Runtime.Remoting.Messaging.LogicalCallContext>. This allows the <xref:System.Runtime.Remoting.Messaging.LogicalCallContext> data to be propagated when the ExecutionContext is copied and transferred."
   syntax:
     content: 'public sealed class ExecutionContext : IDisposable, System.Runtime.Serialization.ISerializable'
   inheritance:
@@ -33,12 +34,15 @@ items:
   - System.Object.MemberwiseClone
   - System.Object.ReferenceEquals(System.Object,System.Object)
   - System.Object.ToString
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Threading.ExecutionContext.Capture
   id: Capture
   parent: System.Threading.ExecutionContext
   langs:
   - csharp
-  - vb
   name: Capture()
   nameWithType: ExecutionContext.Capture()
   fullName: System.Threading.ExecutionContext.Capture()
@@ -46,18 +50,23 @@ items:
   assemblies:
   - mscorlib
   namespace: System.Threading
+  summary: Captures the execution context from the current thread.
+  remarks: The captured execution context can be used as the  parameter for the <xref:System.Threading.ExecutionContext.Run%2A> method.
   syntax:
     content: public static System.Threading.ExecutionContext Capture ();
     parameters: []
     return:
       type: System.Threading.ExecutionContext
-      description: Return description to be filled
+      description: An <see cref="T:System.Threading.ExecutionContext"> object representing the execution context for the current thread.
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Threading.ExecutionContext.CreateCopy
   id: CreateCopy
   parent: System.Threading.ExecutionContext
   langs:
   - csharp
-  - vb
   name: CreateCopy()
   nameWithType: ExecutionContext.CreateCopy()
   fullName: System.Threading.ExecutionContext.CreateCopy()
@@ -65,18 +74,23 @@ items:
   assemblies:
   - mscorlib
   namespace: System.Threading
+  summary: Creates a copy of the current execution context.
+  remarks: This method is useful for propagating an execution context from one thread to another.
   syntax:
     content: public System.Threading.ExecutionContext CreateCopy ();
     parameters: []
     return:
       type: System.Threading.ExecutionContext
-      description: Return description to be filled
+      description: An <see cref="T:System.Threading.ExecutionContext"> object representing the current execution context.
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Threading.ExecutionContext.Dispose
   id: Dispose
   parent: System.Threading.ExecutionContext
   langs:
   - csharp
-  - vb
   name: Dispose()
   nameWithType: ExecutionContext.Dispose()
   fullName: System.Threading.ExecutionContext.Dispose()
@@ -84,18 +98,20 @@ items:
   assemblies:
   - mscorlib
   namespace: System.Threading
+  summary: Releases all resources used by the current instance of the <see cref="T:System.Threading.ExecutionContext"> class.
+  remarks: "Call `Dispose` when you are finished using the <xref:System.Threading.ExecutionContext>. The `Dispose` method leaves the <xref:System.Threading.ExecutionContext> in an unusable state. After calling `Dispose`, you must release all references to the <xref:System.Threading.ExecutionContext> so the garbage collector can reclaim the memory that the <xref:System.Threading.ExecutionContext> was occupying.  \n  \n For more information, see [Cleaning Up Unmanaged Resources](../Topic/Cleaning%20Up%20Unmanaged%20Resources.md) and [Implementing a Dispose Method](../Topic/Implementing%20a%20Dispose%20Method.md).  \n  \n> [!NOTE]\n>  Always call `Dispose` before you release your last reference to the <xref:System.Threading.ExecutionContext>. Otherwise, the resources it is using will not be freed until the garbage collector calls the <xref:System.Threading.ExecutionContext> object's `Finalize` method."
   syntax:
     content: public void Dispose ();
     parameters: []
-    return:
-      type: System.Void
-      description: Return description to be filled
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Threading.ExecutionContext.GetObjectData(System.Runtime.Serialization.SerializationInfo,System.Runtime.Serialization.StreamingContext)
   id: GetObjectData(System.Runtime.Serialization.SerializationInfo,System.Runtime.Serialization.StreamingContext)
   parent: System.Threading.ExecutionContext
   langs:
   - csharp
-  - vb
   name: GetObjectData(SerializationInfo,StreamingContext)
   nameWithType: ExecutionContext.GetObjectData(SerializationInfo,StreamingContext)
   fullName: System.Threading.ExecutionContext.GetObjectData(SerializationInfo,StreamingContext)
@@ -103,24 +119,26 @@ items:
   assemblies:
   - mscorlib
   namespace: System.Threading
+  summary: Sets the specified <see cref="T:System.Runtime.Serialization.SerializationInfo"> object with the logical context information needed to recreate an instance of the current execution context.
+  remarks: "GetObjectData sets a <xref:System.Runtime.Serialization.SerializationInfo> with the logical call context information. During deserialization, the execution context object is reconstituted from the <xref:System.Runtime.Serialization.SerializationInfo> transmitted over the stream.  \n  \n For more information, see <xref:System.Runtime.Serialization.SerializationInfo>."
   syntax:
     content: public void GetObjectData (System.Runtime.Serialization.SerializationInfo info, System.Runtime.Serialization.StreamingContext context);
     parameters:
     - id: info
       type: System.Runtime.Serialization.SerializationInfo
-      description: Parameter description to be filled
+      description: The <see cref="T:System.Runtime.Serialization.SerializationInfo"> object to be populated with serialization information.
     - id: context
       type: System.Runtime.Serialization.StreamingContext
-      description: Parameter description to be filled
-    return:
-      type: System.Void
-      description: Return description to be filled
+      description: The <see cref="T:System.Runtime.Serialization.StreamingContext"> structure representing the destination context of the serialization.
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Threading.ExecutionContext.IsFlowSuppressed
   id: IsFlowSuppressed
   parent: System.Threading.ExecutionContext
   langs:
   - csharp
-  - vb
   name: IsFlowSuppressed()
   nameWithType: ExecutionContext.IsFlowSuppressed()
   fullName: System.Threading.ExecutionContext.IsFlowSuppressed()
@@ -128,18 +146,23 @@ items:
   assemblies:
   - mscorlib
   namespace: System.Threading
+  summary: Indicates whether the flow of the execution context is currently suppressed.
+  remarks: The IsFlowSuppressed method is used by infrastructure components to determine whether to transfer the <xref:System.Threading.ExecutionContext> during asynchronous operations.
   syntax:
     content: public static bool IsFlowSuppressed ();
     parameters: []
     return:
       type: System.Boolean
-      description: Return description to be filled
+      description: '`true` if the flow is suppressed; otherwise, `false`.'
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Threading.ExecutionContext.RestoreFlow
   id: RestoreFlow
   parent: System.Threading.ExecutionContext
   langs:
   - csharp
-  - vb
   name: RestoreFlow()
   nameWithType: ExecutionContext.RestoreFlow()
   fullName: System.Threading.ExecutionContext.RestoreFlow()
@@ -147,18 +170,20 @@ items:
   assemblies:
   - mscorlib
   namespace: System.Threading
+  summary: Restores the flow of the execution context across asynchronous threads.
+  remarks: "RestoreFlow reverses the effect of a prior <xref:System.Threading.ExecutionContext.SuppressFlow%2A> method call.  \n  \n This method is called by the <xref:System.Threading.AsyncFlowControl.Undo%2A> method of the <xref:System.Threading.AsyncFlowControl> structure returned by the <xref:System.Threading.ExecutionContext.SuppressFlow%2A> method.  You should use the <xref:System.Threading.AsyncFlowControl.Undo%2A> method to restore the flow of the execution context, not the RestoreFlow method."
   syntax:
     content: public static void RestoreFlow ();
     parameters: []
-    return:
-      type: System.Void
-      description: Return description to be filled
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Threading.ExecutionContext.Run(System.Threading.ExecutionContext,System.Threading.ContextCallback,System.Object)
   id: Run(System.Threading.ExecutionContext,System.Threading.ContextCallback,System.Object)
   parent: System.Threading.ExecutionContext
   langs:
   - csharp
-  - vb
   name: Run(ExecutionContext,ContextCallback,Object)
   nameWithType: ExecutionContext.Run(ExecutionContext,ContextCallback,Object)
   fullName: System.Threading.ExecutionContext.Run(ExecutionContext,ContextCallback,Object)
@@ -166,27 +191,29 @@ items:
   assemblies:
   - mscorlib
   namespace: System.Threading
+  summary: Runs a method in a specified execution context on the current thread.
+  remarks: The execution context is returned to its previous state when the method completes.
   syntax:
     content: public static void Run (System.Threading.ExecutionContext executionContext, System.Threading.ContextCallback callback, object state);
     parameters:
     - id: executionContext
       type: System.Threading.ExecutionContext
-      description: Parameter description to be filled
+      description: The <see cref="T:System.Threading.ExecutionContext"> to set.
     - id: callback
       type: System.Threading.ContextCallback
-      description: Parameter description to be filled
+      description: A <see cref="T:System.Threading.ContextCallback"> delegate that represents the method to be run in the provided execution context.
     - id: state
       type: System.Object
-      description: Parameter description to be filled
-    return:
-      type: System.Void
-      description: Return description to be filled
+      description: The object to pass to the callback method.
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Threading.ExecutionContext.SuppressFlow
   id: SuppressFlow
   parent: System.Threading.ExecutionContext
   langs:
   - csharp
-  - vb
   name: SuppressFlow()
   nameWithType: ExecutionContext.SuppressFlow()
   fullName: System.Threading.ExecutionContext.SuppressFlow()
@@ -194,12 +221,18 @@ items:
   assemblies:
   - mscorlib
   namespace: System.Threading
+  summary: Suppresses the flow of the execution context across asynchronous threads.
+  remarks: "Use this method to suppress the flow of the <xref:System.Threading.ExecutionContext> on the current thread.  \n  \n You must use the <xref:System.Threading.AsyncFlowControl.Undo%2A> method on the returned <xref:System.Threading.AsyncFlowControl> structure to restore the flow of the <xref:System.Threading.ExecutionContext>.  \n  \n This method is protected with a <xref:System.Security.Permissions.SecurityAction?displayProperty=fullName> for <xref:System.Security.Permissions.SecurityPermissionFlag?displayProperty=fullName> permission. A fully trusted component can call this method to suppress the flow of the <xref:System.Threading.ExecutionContext> during asynchronous calls. While the flow is suppressed, the <xref:System.Security.SecurityContext.Capture%2A> method returns `null`."
   syntax:
     content: public static System.Threading.AsyncFlowControl SuppressFlow ();
     parameters: []
     return:
       type: System.Threading.AsyncFlowControl
-      description: Return description to be filled
+      description: An <see cref="T:System.Threading.AsyncFlowControl"> structure for restoring the flow.
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 references:
 - uid: System.Object
   isExternal: false
@@ -234,24 +267,12 @@ references:
   name: Dispose()
   nameWithType: ExecutionContext.Dispose()
   fullName: System.Threading.ExecutionContext.Dispose()
-- uid: System.Void
-  parent: System
-  isExternal: false
-  name: Void
-  nameWithType: Void
-  fullName: System.Void
 - uid: System.Threading.ExecutionContext.GetObjectData(System.Runtime.Serialization.SerializationInfo,System.Runtime.Serialization.StreamingContext)
   parent: System.Threading.ExecutionContext
   isExternal: false
   name: GetObjectData(SerializationInfo,StreamingContext)
   nameWithType: ExecutionContext.GetObjectData(SerializationInfo,StreamingContext)
   fullName: System.Threading.ExecutionContext.GetObjectData(SerializationInfo,StreamingContext)
-- uid: System.Void
-  parent: System
-  isExternal: false
-  name: Void
-  nameWithType: Void
-  fullName: System.Void
 - uid: System.Runtime.Serialization.SerializationInfo
   parent: System.Runtime.Serialization
   isExternal: false
@@ -282,24 +303,12 @@ references:
   name: RestoreFlow()
   nameWithType: ExecutionContext.RestoreFlow()
   fullName: System.Threading.ExecutionContext.RestoreFlow()
-- uid: System.Void
-  parent: System
-  isExternal: false
-  name: Void
-  nameWithType: Void
-  fullName: System.Void
 - uid: System.Threading.ExecutionContext.Run(System.Threading.ExecutionContext,System.Threading.ContextCallback,System.Object)
   parent: System.Threading.ExecutionContext
   isExternal: false
   name: Run(ExecutionContext,ContextCallback,Object)
   nameWithType: ExecutionContext.Run(ExecutionContext,ContextCallback,Object)
   fullName: System.Threading.ExecutionContext.Run(ExecutionContext,ContextCallback,Object)
-- uid: System.Void
-  parent: System
-  isExternal: false
-  name: Void
-  nameWithType: Void
-  fullName: System.Void
 - uid: System.Threading.ExecutionContext
   parent: System.Threading
   isExternal: false

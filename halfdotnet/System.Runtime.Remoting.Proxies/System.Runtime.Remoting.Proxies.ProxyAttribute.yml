@@ -10,11 +10,14 @@ items:
   - System.Runtime.Remoting.Proxies.ProxyAttribute.IsContextOK(System.Runtime.Remoting.Contexts.Context,System.Runtime.Remoting.Activation.IConstructionCallMessage)
   langs:
   - csharp
-  - vb
   name: ProxyAttribute
   nameWithType: ProxyAttribute
   fullName: System.Runtime.Remoting.Proxies.ProxyAttribute
   type: Class
+  summary: Indicates that an object type requires a custom proxy.
+  remarks: "Apply the current attribute to types that need custom proxies. You can use the ProxyAttribute class to intercept the `new` (`New` in Visual Basic) statement by deriving from the ProxyAttribute and placing the attribute on a child of `ContextBoundObject`. (Placing the proxy attribute on a child of `MarshalByRefObject` is not supported.)  \n  \n> [!NOTE]\n>  This class makes a link demand and an inheritance demand at the class level. A <xref:System.Security.SecurityException> is thrown when either the immediate caller or the derived class does not have infrastructure permission. For details about security demands, see [Link Demands](../Topic/Link%20Demands.md) and [Inheritance Demands](http://msdn.microsoft.com/en-us/28b9adbb-8f08-4f10-b856-dbf59eb932d9)."
+  example:
+  - '[!CODE [CustomProxy_Attribute_RealProxy#11](../CodeSnippet/VS_Snippets_Remoting/CustomProxy_Attribute_RealProxy#11)]'
   syntax:
     content: >-
       [System.AttributeUsage(System.AttributeTargets.Class, AllowMultiple=false, Inherited=true)]
@@ -76,12 +79,15 @@ items:
   - System.Object.MemberwiseClone
   - System.Object.ReferenceEquals(System.Object,System.Object)
   - System.Object.ToString
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Runtime.Remoting.Proxies.ProxyAttribute.#ctor
   id: '#ctor'
   parent: System.Runtime.Remoting.Proxies.ProxyAttribute
   langs:
   - csharp
-  - vb
   name: ProxyAttribute()
   nameWithType: ProxyAttribute.ProxyAttribute()
   fullName: System.Runtime.Remoting.Proxies.ProxyAttribute.ProxyAttribute()
@@ -89,15 +95,22 @@ items:
   assemblies:
   - mscorlib
   namespace: System.Runtime.Remoting.Proxies
+  summary: Initializes a new instance of the <see cref="T:System.Runtime.Remoting.Proxies.ProxyAttribute"> class with default values.
+  remarks: ''
+  example:
+  - '[!CODE [CustomProxy_Attribute_RealProxy#11](../CodeSnippet/VS_Snippets_Remoting/CustomProxy_Attribute_RealProxy#11)]'
   syntax:
     content: public ProxyAttribute ();
     parameters: []
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Runtime.Remoting.Proxies.ProxyAttribute.CreateInstance(System.Type)
   id: CreateInstance(System.Type)
   parent: System.Runtime.Remoting.Proxies.ProxyAttribute
   langs:
   - csharp
-  - vb
   name: CreateInstance(Type)
   nameWithType: ProxyAttribute.CreateInstance(Type)
   fullName: System.Runtime.Remoting.Proxies.ProxyAttribute.CreateInstance(Type)
@@ -105,21 +118,28 @@ items:
   assemblies:
   - mscorlib
   namespace: System.Runtime.Remoting.Proxies
+  summary: Creates either an uninitialized <see cref="T:System.MarshalByRefObject"> or a transparent proxy, depending on whether the specified type can exist in the current context.
+  remarks: ''
+  example:
+  - '[!CODE [CustomProxy_Attribute_RealProxy#1](../CodeSnippet/VS_Snippets_Remoting/CustomProxy_Attribute_RealProxy#1)]'
   syntax:
     content: public virtual MarshalByRefObject CreateInstance (Type serverType);
     parameters:
     - id: serverType
       type: System.Type
-      description: Parameter description to be filled
+      description: The object type to create an instance of.
     return:
       type: System.MarshalByRefObject
-      description: Return description to be filled
+      description: An uninitialized <see cref="T:System.MarshalByRefObject"> or a transparent proxy.
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Runtime.Remoting.Proxies.ProxyAttribute.CreateProxy(System.Runtime.Remoting.ObjRef,System.Type,System.Object,System.Runtime.Remoting.Contexts.Context)
   id: CreateProxy(System.Runtime.Remoting.ObjRef,System.Type,System.Object,System.Runtime.Remoting.Contexts.Context)
   parent: System.Runtime.Remoting.Proxies.ProxyAttribute
   langs:
   - csharp
-  - vb
   name: CreateProxy(ObjRef,Type,Object,Context)
   nameWithType: ProxyAttribute.CreateProxy(ObjRef,Type,Object,Context)
   fullName: System.Runtime.Remoting.Proxies.ProxyAttribute.CreateProxy(ObjRef,Type,Object,Context)
@@ -127,30 +147,40 @@ items:
   assemblies:
   - mscorlib
   namespace: System.Runtime.Remoting.Proxies
+  summary: Creates an instance of a remoting proxy for a remote object described by the specified <see cref="T:System.Runtime.Remoting.ObjRef">, and located on the server.
+  remarks: >-
+    > [!NOTE]
+
+    >  The current method is called when a proxy is created out of a<xref:System.Runtime.Remoting.ObjRef> instance that references a class that is marked with the <xref:System.Runtime.Remoting.Proxies.ProxyAttribute> attribute. Therefore, the method is used only when a <xref:System.Runtime.Remoting.ObjRef> is received from a return or parameter on a call, or during the activation of a client-activated object. The <xref:System.Runtime.Remoting.Proxies.ProxyAttribute> is not used for well-known object types.
+  example:
+  - '[!CODE [CustomProxy_Attribute_RealProxy#2](../CodeSnippet/VS_Snippets_Remoting/CustomProxy_Attribute_RealProxy#2)]'
   syntax:
     content: public virtual System.Runtime.Remoting.Proxies.RealProxy CreateProxy (System.Runtime.Remoting.ObjRef objRef, Type serverType, object serverObject, System.Runtime.Remoting.Contexts.Context serverContext);
     parameters:
     - id: objRef
       type: System.Runtime.Remoting.ObjRef
-      description: Parameter description to be filled
+      description: The object reference to the remote object for which to create a proxy.
     - id: serverType
       type: System.Type
-      description: Parameter description to be filled
+      description: The type of the server where the remote object is located.
     - id: serverObject
       type: System.Object
-      description: Parameter description to be filled
+      description: The server object.
     - id: serverContext
       type: System.Runtime.Remoting.Contexts.Context
-      description: Parameter description to be filled
+      description: The context in which the server object is located.
     return:
       type: System.Runtime.Remoting.Proxies.RealProxy
-      description: Return description to be filled
+      description: The new instance of remoting proxy for the remote object that is described in the specified <see cref="T:System.Runtime.Remoting.ObjRef">.
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Runtime.Remoting.Proxies.ProxyAttribute.GetPropertiesForNewContext(System.Runtime.Remoting.Activation.IConstructionCallMessage)
   id: GetPropertiesForNewContext(System.Runtime.Remoting.Activation.IConstructionCallMessage)
   parent: System.Runtime.Remoting.Proxies.ProxyAttribute
   langs:
   - csharp
-  - vb
   name: GetPropertiesForNewContext(IConstructionCallMessage)
   nameWithType: ProxyAttribute.GetPropertiesForNewContext(IConstructionCallMessage)
   fullName: System.Runtime.Remoting.Proxies.ProxyAttribute.GetPropertiesForNewContext(IConstructionCallMessage)
@@ -158,21 +188,23 @@ items:
   assemblies:
   - mscorlib
   namespace: System.Runtime.Remoting.Proxies
+  summary: Gets properties for a new context.
+  remarks: To be added.
   syntax:
     content: public void GetPropertiesForNewContext (System.Runtime.Remoting.Activation.IConstructionCallMessage msg);
     parameters:
     - id: msg
       type: System.Runtime.Remoting.Activation.IConstructionCallMessage
-      description: Parameter description to be filled
-    return:
-      type: System.Void
-      description: Return description to be filled
+      description: The message for which the context is to be retrieved.
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Runtime.Remoting.Proxies.ProxyAttribute.IsContextOK(System.Runtime.Remoting.Contexts.Context,System.Runtime.Remoting.Activation.IConstructionCallMessage)
   id: IsContextOK(System.Runtime.Remoting.Contexts.Context,System.Runtime.Remoting.Activation.IConstructionCallMessage)
   parent: System.Runtime.Remoting.Proxies.ProxyAttribute
   langs:
   - csharp
-  - vb
   name: IsContextOK(Context,IConstructionCallMessage)
   nameWithType: ProxyAttribute.IsContextOK(Context,IConstructionCallMessage)
   fullName: System.Runtime.Remoting.Proxies.ProxyAttribute.IsContextOK(Context,IConstructionCallMessage)
@@ -180,18 +212,24 @@ items:
   assemblies:
   - mscorlib
   namespace: System.Runtime.Remoting.Proxies
+  summary: Checks the specified context.
+  remarks: To be added.
   syntax:
     content: public bool IsContextOK (System.Runtime.Remoting.Contexts.Context ctx, System.Runtime.Remoting.Activation.IConstructionCallMessage msg);
     parameters:
     - id: ctx
       type: System.Runtime.Remoting.Contexts.Context
-      description: Parameter description to be filled
+      description: The context to be verified.
     - id: msg
       type: System.Runtime.Remoting.Activation.IConstructionCallMessage
-      description: Parameter description to be filled
+      description: The message for the remote call.
     return:
       type: System.Boolean
-      description: Return description to be filled
+      description: The specified context.
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 references:
 - uid: System.Attribute
   isExternal: false
@@ -262,12 +300,6 @@ references:
   name: GetPropertiesForNewContext(IConstructionCallMessage)
   nameWithType: ProxyAttribute.GetPropertiesForNewContext(IConstructionCallMessage)
   fullName: System.Runtime.Remoting.Proxies.ProxyAttribute.GetPropertiesForNewContext(IConstructionCallMessage)
-- uid: System.Void
-  parent: System
-  isExternal: false
-  name: Void
-  nameWithType: Void
-  fullName: System.Void
 - uid: System.Runtime.Remoting.Activation.IConstructionCallMessage
   parent: System.Runtime.Remoting.Activation
   isExternal: false

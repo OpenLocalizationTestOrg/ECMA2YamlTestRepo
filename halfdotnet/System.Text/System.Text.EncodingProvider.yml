@@ -10,11 +10,12 @@ items:
   - System.Text.EncodingProvider.GetEncoding(System.String,System.Text.EncoderFallback,System.Text.DecoderFallback)
   langs:
   - csharp
-  - vb
   name: EncodingProvider
   nameWithType: EncodingProvider
   fullName: System.Text.EncodingProvider
   type: Class
+  summary: Provides the base class for an encoding provider, which supplies encodings that are unavailable on a particular platform.
+  remarks: "An encoding provider supplies encodings that are not otherwise available on a particular target platform.  \n  \n The .NET Framework on the Windows desktop supports a large number of character encodings and code pages. You can get a complete list of encodings available in the .NET Framework on the Windows desktop by calling the <xref:System.Text.Encoding.GetEncodings%2A?displayProperty=fullName> method. [!INCLUDE[net_core](../../add/includes/net-core-md.md)], on the other hand, by default supports only the following encodings:  \n  \n-   ASCII (code page 20127), which is returned by the <xref:System.Text.Encoding.ASCII%2A?displayProperty=fullName> property.  \n  \n-   ISO-8859-1 (code page 28591).  \n  \n-   UTF-7 (code page 65000), which is returned by the <xref:System.Text.Encoding.UTF7%2A?displayProperty=fullName> property.  \n  \n-   UTF-8 (code page 65001), which is returned by the <xref:System.Text.Encoding.UTF8%2A?displayProperty=fullName> property.  \n  \n-   UTF-16 and UTF-16LE (code page 1200), which is returned by the <xref:System.Text.Encoding.Unicode%2A> property.  \n  \n-   UTF-16BE (code page 1201), which is instantiated by calling the <xref:System.Text.UnicodeEncoding.%23ctor%28System.Boolean%2CSystem.Boolean%29?displayProperty=fullName> or <xref:System.Text.UnicodeEncoding.%23ctor%28System.Boolean%2CSystem.Boolean%29?displayProperty=fullName> constructor with a  value of `true`.  \n  \n-   UTF-32 and UTF-32LE (code page 12000), which is returned by the <xref:System.Text.Encoding.UTF32%2A?displayProperty=fullName> property.  \n  \n-   UTF-32BE (code page 12001), which is instantiated by calling an <xref:System.Text.UTF32Encoding> constructor that has a  parameter and providing a value of `true` in the method call.  \n  \n In [!INCLUDE[net_v46](../../add/includes/net-v46-md.md)], EncodingProvider is the base class that makes otherwise unavailable encodings available to the .NET Framework. This involves the following steps:  \n  \n1.  Define a subclass of EncodingProvider that overrides the two abstract <xref:System.Text.EncodingProvider.GetEncoding%2A> overloads, <xref:System.Text.EncodingProvider.GetEncoding%28System.Int32%29> and <xref:System.Text.EncodingProvider.GetEncoding%28System.String%29>. These overloads return the otherwise unsupported encoding by code page identifier and by name.  \n  \n2.  Optionally, you can override the virtual <xref:System.Text.EncodingProvider.GetEncoding%28System.Int32%2CSystem.Text.EncoderFallback%2CSystem.Text.DecoderFallback%29> and <xref:System.Text.EncodingProvider.GetEncoding%28System.String%2CSystem.Text.EncoderFallback%2CSystem.Text.DecoderFallback%29> methods. In most cases, this is not necessary, since the base class provides a default implementation.  \n  \n3.  Pass the EncodingProvider instance to the <xref:System.Text.Encoding.RegisterProvider%2A?displayProperty=fullName> method to make the encodings supplied by the EncodingProvider object available to the common language runtime.  \n  \n4.  Call an <xref:System.Text.Encoding.GetEncoding%2A?displayProperty=fullName> overload to retrieve the encoding. The <xref:System.Text.Encoding.GetEncoding%2A?displayProperty=fullName> method will call the corresponding <xref:System.Text.EncodingProvider.GetEncoding%2A?displayProperty=fullName> to determine whether it can supply the requested encoding.  \n  \n The .NET Framework Class Library provides one static property, <xref:System.Text.CodePagesEncodingProvider.Instance%2A?displayProperty=fullName>, that returns an EncodingProvider object that makes the full set of encodings available on the desktop .NET Framework Class Library available to [!INCLUDE[net_core](../../add/includes/net-core-md.md)] applications. In addition, you can derive from the EncodingProvider class to make your own encodings available."
   syntax:
     content: >-
       [System.Runtime.InteropServices.ComVisible(true)]
@@ -31,12 +32,15 @@ items:
   - System.Object.MemberwiseClone
   - System.Object.ReferenceEquals(System.Object,System.Object)
   - System.Object.ToString
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Text.EncodingProvider.#ctor
   id: '#ctor'
   parent: System.Text.EncodingProvider
   langs:
   - csharp
-  - vb
   name: EncodingProvider()
   nameWithType: EncodingProvider.EncodingProvider()
   fullName: System.Text.EncodingProvider.EncodingProvider()
@@ -44,15 +48,20 @@ items:
   assemblies:
   - mscorlib
   namespace: System.Text
+  summary: Initializes a new instance of the <see cref="T:System.Text.EncodingProvider"> class.
+  remarks: To be added.
   syntax:
     content: public EncodingProvider ();
     parameters: []
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Text.EncodingProvider.GetEncoding(System.Int32)
   id: GetEncoding(System.Int32)
   parent: System.Text.EncodingProvider
   langs:
   - csharp
-  - vb
   name: GetEncoding(Int32)
   nameWithType: EncodingProvider.GetEncoding(Int32)
   fullName: System.Text.EncodingProvider.GetEncoding(Int32)
@@ -60,22 +69,27 @@ items:
   assemblies:
   - mscorlib
   namespace: System.Text
+  summary: Returns the encoding associated with the specified code page identifier.
+  remarks: To be added.
   syntax:
     content: public abstract System.Text.Encoding GetEncoding (int codepage);
     parameters:
     - id: codepage
       type: System.Int32
-      description: Parameter description to be filled
+      description: The code page identifier of the requested encoding.
     return:
       type: System.Text.Encoding
-      description: Return description to be filled
+      description: The encoding that is associated with the specified code page, or `null` if this <see cref="T:System.Text.EncodingProvider"> cannot return a valid encoding that corresponds to .
   overload: System.Text.EncodingProvider.GetEncoding*
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Text.EncodingProvider.GetEncoding(System.String)
   id: GetEncoding(System.String)
   parent: System.Text.EncodingProvider
   langs:
   - csharp
-  - vb
   name: GetEncoding(String)
   nameWithType: EncodingProvider.GetEncoding(String)
   fullName: System.Text.EncodingProvider.GetEncoding(String)
@@ -83,22 +97,27 @@ items:
   assemblies:
   - mscorlib
   namespace: System.Text
+  summary: Returns the encoding with the specified name.
+  remarks: To be added.
   syntax:
     content: public abstract System.Text.Encoding GetEncoding (string name);
     parameters:
     - id: name
       type: System.String
-      description: Parameter description to be filled
+      description: The name of the requested encoding.
     return:
       type: System.Text.Encoding
-      description: Return description to be filled
+      description: The encoding that is associated with the specified name, or `null` if this <see cref="T:System.Text.EncodingProvider"> cannot return a valid encoding that corresponds to .
   overload: System.Text.EncodingProvider.GetEncoding*
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Text.EncodingProvider.GetEncoding(System.Int32,System.Text.EncoderFallback,System.Text.DecoderFallback)
   id: GetEncoding(System.Int32,System.Text.EncoderFallback,System.Text.DecoderFallback)
   parent: System.Text.EncodingProvider
   langs:
   - csharp
-  - vb
   name: GetEncoding(Int32,EncoderFallback,DecoderFallback)
   nameWithType: EncodingProvider.GetEncoding(Int32,EncoderFallback,DecoderFallback)
   fullName: System.Text.EncodingProvider.GetEncoding(Int32,EncoderFallback,DecoderFallback)
@@ -106,28 +125,33 @@ items:
   assemblies:
   - mscorlib
   namespace: System.Text
+  summary: Returns the encoding associated with the specified code page identifier. Parameters specify an error handler for characters that cannot be encoded and byte sequences that cannot be decoded.
+  remarks: "The  and  parameters are objects that define the fallback strategy used in the event that an encoder cannot convert a character to a sequence of bytes or a decoder cannot convert a sequence of bytes to a character. The .NET Framework provides the following fallback mechanisms:  \n  \n-   Exception fallback. If the  argument is an instance of <xref:System.Text.EncoderExceptionFallback>, or the  argument is an instance of <xref:System.Text.DecoderExceptionFallback>, the encoding method throws an exception if characters cannot be encoded, and the decoding method throws an exception if a byte sequence cannot be decoded.  \n  \n-   Replacement fallback. If the  argument is an instance of <xref:System.Text.EncoderReplacementFallback>, or the  argument is an instance of <xref:System.Text.DecoderReplacementFallback>, the encoding and decoding methods substitute a replacement string for characters that cannot be encoded and byte sequences cannot be decoded. If you instantiated the replacement fallback object by calling the default constructor, the replacement character is a \"?\". If you call the <xref:System.Text.EncoderReplacementFallback.%23ctor%28System.String%29?displayProperty=fullName> or <xref:System.Text.DecoderReplacementFallback.%23ctor%28System.String%29?displayProperty=fullName> constructor, you can specify the replacement string.  \n  \n-   Best-fit fallback. You can derive from the <xref:System.Text.EncoderFallback> or <xref:System.Text.DecoderFallback> class to implement a best-fit replacement mechanism."
   syntax:
     content: public virtual System.Text.Encoding GetEncoding (int codepage, System.Text.EncoderFallback encoderFallback, System.Text.DecoderFallback decoderFallback);
     parameters:
     - id: codepage
       type: System.Int32
-      description: Parameter description to be filled
+      description: The code page identifier of the requested encoding.
     - id: encoderFallback
       type: System.Text.EncoderFallback
-      description: Parameter description to be filled
+      description: An object that provides an error-handling procedure when a character cannot be encoded with this encoding.
     - id: decoderFallback
       type: System.Text.DecoderFallback
-      description: Parameter description to be filled
+      description: An object that provides an error-handling procedure when a byte sequence cannot be decoded with this encoding.
     return:
       type: System.Text.Encoding
-      description: Return description to be filled
+      description: The encoding that is associated with the specified code page, or `null` if this <see cref="T:System.Text.EncodingProvider"> cannot return a valid encoding that corresponds to .
   overload: System.Text.EncodingProvider.GetEncoding*
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Text.EncodingProvider.GetEncoding(System.String,System.Text.EncoderFallback,System.Text.DecoderFallback)
   id: GetEncoding(System.String,System.Text.EncoderFallback,System.Text.DecoderFallback)
   parent: System.Text.EncodingProvider
   langs:
   - csharp
-  - vb
   name: GetEncoding(String,EncoderFallback,DecoderFallback)
   nameWithType: EncodingProvider.GetEncoding(String,EncoderFallback,DecoderFallback)
   fullName: System.Text.EncodingProvider.GetEncoding(String,EncoderFallback,DecoderFallback)
@@ -135,22 +159,28 @@ items:
   assemblies:
   - mscorlib
   namespace: System.Text
+  summary: Returns the encoding associated with the specified name. Parameters specify an error handler for characters that cannot be encoded and byte sequences that cannot be decoded.
+  remarks: "The  and  parameters are objects that define the fallback strategy used in the event that an encoder cannot convert a character to a sequence of bytes or a decoder cannot convert a sequence of bytes to a character. The .NET Framework provides the following fallback mechanisms:  \n  \n-   Exception fallback. If the  argument is an instance of <xref:System.Text.EncoderExceptionFallback>, or the  argument is an instance of <xref:System.Text.DecoderExceptionFallback>, the encoding method throws an exception if characters cannot be encoded, and the decoding method throws an exception if a byte sequence cannot be decoded.  \n  \n-   Replacement fallback. If the  argument is an instance of <xref:System.Text.EncoderReplacementFallback>, or the  argument is an instance of <xref:System.Text.DecoderReplacementFallback>, the encoding and decoding methods substitute a replacement string for characters that cannot be encoded and byte sequences cannot be decoded. If you instantiated the replacement fallback object by calling the default constructor, the replacement character is a \"?\". If you call the <xref:System.Text.EncoderReplacementFallback.%23ctor%28System.String%29?displayProperty=fullName> or <xref:System.Text.DecoderReplacementFallback.%23ctor%28System.String%29?displayProperty=fullName> constructor, you can specify the replacement string.  \n  \n-   Best-fit fallback. You can derive from the <xref:System.Text.EncoderFallback> or <xref:System.Text.DecoderFallback> class to implement a best-fit replacement mechanism."
   syntax:
     content: public virtual System.Text.Encoding GetEncoding (string name, System.Text.EncoderFallback encoderFallback, System.Text.DecoderFallback decoderFallback);
     parameters:
     - id: name
       type: System.String
-      description: Parameter description to be filled
+      description: The name of the preferred encoding.
     - id: encoderFallback
       type: System.Text.EncoderFallback
-      description: Parameter description to be filled
+      description: An object that provides an error-handling procedure when a character cannot be encoded with this encoding.
     - id: decoderFallback
       type: System.Text.DecoderFallback
-      description: Parameter description to be filled
+      description: An object that provides an error-handling procedure when a byte sequence cannot be decoded with the current encoding.
     return:
       type: System.Text.Encoding
-      description: Return description to be filled
+      description: The encoding that is associated with the specified name, or `null` if this <see cref="T:System.Text.EncodingProvider"> cannot return a valid encoding that corresponds to .
   overload: System.Text.EncodingProvider.GetEncoding*
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 references:
 - uid: System.Object
   isExternal: false

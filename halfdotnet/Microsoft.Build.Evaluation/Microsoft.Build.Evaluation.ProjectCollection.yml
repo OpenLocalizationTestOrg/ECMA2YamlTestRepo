@@ -55,11 +55,12 @@ items:
   - Microsoft.Build.Evaluation.ProjectCollection.Version
   langs:
   - csharp
-  - vb
   name: ProjectCollection
   nameWithType: ProjectCollection
   fullName: Microsoft.Build.Evaluation.ProjectCollection
   type: Class
+  summary: Encapsulates a set of related projects, their toolsets, a default set of global properties, and the loggers that should be used to build them. A global version of this class acts as the default project collection.
+  remarks: Multiple project collections can exist within an app domain. However, these must not build concurrently.
   syntax:
     content: 'public class ProjectCollection : IDisposable'
   inheritance:
@@ -74,12 +75,15 @@ items:
   - System.Object.MemberwiseClone
   - System.Object.ReferenceEquals(System.Object,System.Object)
   - System.Object.ToString
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: Microsoft.Build.Evaluation.ProjectCollection.#ctor
   id: '#ctor'
   parent: Microsoft.Build.Evaluation.ProjectCollection
   langs:
   - csharp
-  - vb
   name: ProjectCollection()
   nameWithType: ProjectCollection.ProjectCollection()
   fullName: Microsoft.Build.Evaluation.ProjectCollection.ProjectCollection()
@@ -87,15 +91,20 @@ items:
   assemblies:
   - Microsoft.Build
   namespace: Microsoft.Build.Evaluation
+  summary: Creates a project collection with no global properties or loggers. The project collection toolset is initialized from the configuration file and registry.
+  remarks: To be added.
   syntax:
     content: public ProjectCollection ();
     parameters: []
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: Microsoft.Build.Evaluation.ProjectCollection.#ctor(Microsoft.Build.Evaluation.ToolsetDefinitionLocations)
   id: '#ctor(Microsoft.Build.Evaluation.ToolsetDefinitionLocations)'
   parent: Microsoft.Build.Evaluation.ProjectCollection
   langs:
   - csharp
-  - vb
   name: ProjectCollection(ToolsetDefinitionLocations)
   nameWithType: ProjectCollection.ProjectCollection(ToolsetDefinitionLocations)
   fullName: Microsoft.Build.Evaluation.ProjectCollection.ProjectCollection(ToolsetDefinitionLocations)
@@ -103,96 +112,116 @@ items:
   assemblies:
   - Microsoft.Build
   namespace: Microsoft.Build.Evaluation
+  summary: Creates a project collection with no global properties or loggers. The project collection toolset is initialized from toolsets in the given locations.
+  remarks: To be added.
   syntax:
     content: public ProjectCollection (Microsoft.Build.Evaluation.ToolsetDefinitionLocations toolsetLocations);
     parameters:
     - id: toolsetLocations
       type: Microsoft.Build.Evaluation.ToolsetDefinitionLocations
-      description: Parameter description to be filled
+      description: The locations from which to load toolsets.
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: Microsoft.Build.Evaluation.ProjectCollection.#ctor(System.Collections.Generic.IDictionary{System.String,System.String})
   id: '#ctor(System.Collections.Generic.IDictionary{System.String,System.String})'
   parent: Microsoft.Build.Evaluation.ProjectCollection
   langs:
   - csharp
-  - vb
-  name: ProjectCollection(IDictionary)
-  nameWithType: ProjectCollection.ProjectCollection(IDictionary)
-  fullName: Microsoft.Build.Evaluation.ProjectCollection.ProjectCollection(IDictionary)
+  name: ProjectCollection(IDictionary<String,String>)
+  nameWithType: ProjectCollection.ProjectCollection(IDictionary<String,String>)
+  fullName: Microsoft.Build.Evaluation.ProjectCollection.ProjectCollection(IDictionary<String,String>)
   type: Constructor
   assemblies:
   - Microsoft.Build
   namespace: Microsoft.Build.Evaluation
+  summary: Instantiates a project collection with specified global properties, no loggers, and that reads toolset information from the configuration file and registry.
+  remarks: May throw InvalidToolsetDefinitionException.
   syntax:
     content: public ProjectCollection (System.Collections.Generic.IDictionary<string,string> globalProperties);
     parameters:
     - id: globalProperties
       type: System.Collections.Generic.IDictionary{System.String,System.String}
-      description: Parameter description to be filled
+      description: The default global properties to use. May be null.
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: Microsoft.Build.Evaluation.ProjectCollection.#ctor(System.Collections.Generic.IDictionary{System.String,System.String},System.Collections.Generic.IEnumerable{Microsoft.Build.Framework.ILogger},Microsoft.Build.Evaluation.ToolsetDefinitionLocations)
   id: '#ctor(System.Collections.Generic.IDictionary{System.String,System.String},System.Collections.Generic.IEnumerable{Microsoft.Build.Framework.ILogger},Microsoft.Build.Evaluation.ToolsetDefinitionLocations)'
   parent: Microsoft.Build.Evaluation.ProjectCollection
   langs:
   - csharp
-  - vb
-  name: ProjectCollection(IDictionary,IEnumerable,ToolsetDefinitionLocations)
-  nameWithType: ProjectCollection.ProjectCollection(IDictionary,IEnumerable,ToolsetDefinitionLocations)
-  fullName: Microsoft.Build.Evaluation.ProjectCollection.ProjectCollection(IDictionary,IEnumerable,ToolsetDefinitionLocations)
+  name: ProjectCollection(IDictionary<String,String>,IEnumerable<ILogger>,ToolsetDefinitionLocations)
+  nameWithType: ProjectCollection.ProjectCollection(IDictionary<String,String>,IEnumerable<ILogger>,ToolsetDefinitionLocations)
+  fullName: Microsoft.Build.Evaluation.ProjectCollection.ProjectCollection(IDictionary<String,String>,IEnumerable<ILogger>,ToolsetDefinitionLocations)
   type: Constructor
   assemblies:
   - Microsoft.Build
   namespace: Microsoft.Build.Evaluation
+  summary: Instantiates a project collection with specified global properties and loggers and using the specified toolset locations.
+  remarks: May throw InvalidToolsetDefinitionException.
   syntax:
     content: public ProjectCollection (System.Collections.Generic.IDictionary<string,string> globalProperties, System.Collections.Generic.IEnumerable<Microsoft.Build.Framework.ILogger> loggers, Microsoft.Build.Evaluation.ToolsetDefinitionLocations toolsetDefinitionLocations);
     parameters:
     - id: globalProperties
       type: System.Collections.Generic.IDictionary{System.String,System.String}
-      description: Parameter description to be filled
+      description: The default global properties to use. May be null.
     - id: loggers
       type: System.Collections.Generic.IEnumerable{Microsoft.Build.Framework.ILogger}
-      description: Parameter description to be filled
+      description: The loggers to register. May be null.
     - id: toolsetDefinitionLocations
       type: Microsoft.Build.Evaluation.ToolsetDefinitionLocations
-      description: Parameter description to be filled
+      description: The locations from which to load toolsets.
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: Microsoft.Build.Evaluation.ProjectCollection.#ctor(System.Collections.Generic.IDictionary{System.String,System.String},System.Collections.Generic.IEnumerable{Microsoft.Build.Framework.ILogger},System.Collections.Generic.IEnumerable{Microsoft.Build.Logging.ForwardingLoggerRecord},Microsoft.Build.Evaluation.ToolsetDefinitionLocations,System.Int32,System.Boolean)
   id: '#ctor(System.Collections.Generic.IDictionary{System.String,System.String},System.Collections.Generic.IEnumerable{Microsoft.Build.Framework.ILogger},System.Collections.Generic.IEnumerable{Microsoft.Build.Logging.ForwardingLoggerRecord},Microsoft.Build.Evaluation.ToolsetDefinitionLocations,System.Int32,System.Boolean)'
   parent: Microsoft.Build.Evaluation.ProjectCollection
   langs:
   - csharp
-  - vb
-  name: ProjectCollection(IDictionary,IEnumerable,IEnumerable,ToolsetDefinitionLocations,Int32,Boolean)
-  nameWithType: ProjectCollection.ProjectCollection(IDictionary,IEnumerable,IEnumerable,ToolsetDefinitionLocations,Int32,Boolean)
-  fullName: Microsoft.Build.Evaluation.ProjectCollection.ProjectCollection(IDictionary,IEnumerable,IEnumerable,ToolsetDefinitionLocations,Int32,Boolean)
+  name: ProjectCollection(IDictionary<String,String>,IEnumerable<ILogger>,IEnumerable<ForwardingLoggerRecord>,ToolsetDefinitionLocations,Int32,Boolean)
+  nameWithType: ProjectCollection.ProjectCollection(IDictionary<String,String>,IEnumerable<ILogger>,IEnumerable<ForwardingLoggerRecord>,ToolsetDefinitionLocations,Int32,Boolean)
+  fullName: Microsoft.Build.Evaluation.ProjectCollection.ProjectCollection(IDictionary<String,String>,IEnumerable<ILogger>,IEnumerable<ForwardingLoggerRecord>,ToolsetDefinitionLocations,Int32,Boolean)
   type: Constructor
   assemblies:
   - Microsoft.Build
   namespace: Microsoft.Build.Evaluation
+  summary: Creates a project collection with specified global properties, loggers, node count, and onlyLogCriticalEvents value. The project collection toolset is initialized from toolsets in the given locations.
+  remarks: Throws InvalidProjectFileException if any of the global properties are reserved.
   syntax:
     content: public ProjectCollection (System.Collections.Generic.IDictionary<string,string> globalProperties, System.Collections.Generic.IEnumerable<Microsoft.Build.Framework.ILogger> loggers, System.Collections.Generic.IEnumerable<Microsoft.Build.Logging.ForwardingLoggerRecord> remoteLoggers, Microsoft.Build.Evaluation.ToolsetDefinitionLocations toolsetDefinitionLocations, int maxNodeCount, bool onlyLogCriticalEvents);
     parameters:
     - id: globalProperties
       type: System.Collections.Generic.IDictionary{System.String,System.String}
-      description: Parameter description to be filled
+      description: The default global properties to use. May be null.
     - id: loggers
       type: System.Collections.Generic.IEnumerable{Microsoft.Build.Framework.ILogger}
-      description: Parameter description to be filled
+      description: The loggers to register. May be null and specified to any build instead.
     - id: remoteLoggers
       type: System.Collections.Generic.IEnumerable{Microsoft.Build.Logging.ForwardingLoggerRecord}
-      description: Parameter description to be filled
+      description: Any remote loggers to register. May be null and specified to any build instead.
     - id: toolsetDefinitionLocations
       type: Microsoft.Build.Evaluation.ToolsetDefinitionLocations
-      description: Parameter description to be filled
+      description: The locations from which to load toolsets.
     - id: maxNodeCount
       type: System.Int32
-      description: Parameter description to be filled
+      description: The maximum number of nodes to use for building.
     - id: onlyLogCriticalEvents
       type: System.Boolean
-      description: Parameter description to be filled
+      description: If set to true, only critical events will be logged.
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: Microsoft.Build.Evaluation.ProjectCollection.AddToolset(Microsoft.Build.Evaluation.Toolset)
   id: AddToolset(Microsoft.Build.Evaluation.Toolset)
   parent: Microsoft.Build.Evaluation.ProjectCollection
   langs:
   - csharp
-  - vb
   name: AddToolset(Toolset)
   nameWithType: ProjectCollection.AddToolset(Toolset)
   fullName: Microsoft.Build.Evaluation.ProjectCollection.AddToolset(Toolset)
@@ -200,21 +229,23 @@ items:
   assemblies:
   - Microsoft.Build
   namespace: Microsoft.Build.Evaluation
+  summary: Adds a new toolset to the project collection. Replaces any existing toolset with the same tools version.
+  remarks: To be added.
   syntax:
     content: public void AddToolset (Microsoft.Build.Evaluation.Toolset toolset);
     parameters:
     - id: toolset
       type: Microsoft.Build.Evaluation.Toolset
-      description: Parameter description to be filled
-    return:
-      type: System.Void
-      description: Return description to be filled
+      description: The toolset to be added.
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: Microsoft.Build.Evaluation.ProjectCollection.ContainsToolset(System.String)
   id: ContainsToolset(System.String)
   parent: Microsoft.Build.Evaluation.ProjectCollection
   langs:
   - csharp
-  - vb
   name: ContainsToolset(String)
   nameWithType: ProjectCollection.ContainsToolset(String)
   fullName: Microsoft.Build.Evaluation.ProjectCollection.ContainsToolset(String)
@@ -222,21 +253,26 @@ items:
   assemblies:
   - Microsoft.Build
   namespace: Microsoft.Build.Evaluation
+  summary: Determines whether a toolset is defined for the given tools version.
+  remarks: To be added.
   syntax:
     content: public bool ContainsToolset (string toolsVersion);
     parameters:
     - id: toolsVersion
       type: System.String
-      description: Parameter description to be filled
+      description: The tools version to search for.
     return:
       type: System.Boolean
-      description: Return description to be filled
+      description: Returns true if there is a toolset defined for the given tools version; false otherwise.
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: Microsoft.Build.Evaluation.ProjectCollection.Count
   id: Count
   parent: Microsoft.Build.Evaluation.ProjectCollection
   langs:
   - csharp
-  - vb
   name: Count
   nameWithType: ProjectCollection.Count
   fullName: Microsoft.Build.Evaluation.ProjectCollection.Count
@@ -244,17 +280,22 @@ items:
   assemblies:
   - Microsoft.Build
   namespace: Microsoft.Build.Evaluation
+  summary: Gets the number of projects currently loaded into this collection.
+  remarks: To be added.
   syntax:
     content: public int Count { get; }
     return:
       type: System.Int32
-      description: Return description to be filled
+      description: To be added.
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: Microsoft.Build.Evaluation.ProjectCollection.DefaultToolsVersion
   id: DefaultToolsVersion
   parent: Microsoft.Build.Evaluation.ProjectCollection
   langs:
   - csharp
-  - vb
   name: DefaultToolsVersion
   nameWithType: ProjectCollection.DefaultToolsVersion
   fullName: Microsoft.Build.Evaluation.ProjectCollection.DefaultToolsVersion
@@ -262,17 +303,22 @@ items:
   assemblies:
   - Microsoft.Build
   namespace: Microsoft.Build.Evaluation
+  summary: Gets the default tools version of this project collection.
+  remarks: "This default value is obtained from the .exe.config file, from the system registry, or if neither is present, from the hard-coded tools version \"2.0\".  \n  \n The set method throws InvalidOperationException if a toolset with the provided tools version has not been defined."
   syntax:
     content: public string DefaultToolsVersion { get; set; }
     return:
       type: System.String
-      description: Return description to be filled
+      description: To be added.
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: Microsoft.Build.Evaluation.ProjectCollection.DisableMarkDirty
   id: DisableMarkDirty
   parent: Microsoft.Build.Evaluation.ProjectCollection
   langs:
   - csharp
-  - vb
   name: DisableMarkDirty
   nameWithType: ProjectCollection.DisableMarkDirty
   fullName: Microsoft.Build.Evaluation.ProjectCollection.DisableMarkDirty
@@ -280,17 +326,22 @@ items:
   assemblies:
   - Microsoft.Build
   namespace: Microsoft.Build.Evaluation
+  summary: Gets or sets a flag that determines whether <xref:Microsoft.Build.Evaluation.Project.MarkDirty%2A> is temporarily disabled on projects in this collection. This allows, for example, a global properties to be set without projects getting marked dirty for reevaluation as a consequence.
+  remarks: To be added.
   syntax:
     content: public bool DisableMarkDirty { get; set; }
     return:
       type: System.Boolean
-      description: Return description to be filled
+      description: To be added.
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: Microsoft.Build.Evaluation.ProjectCollection.Dispose
   id: Dispose
   parent: Microsoft.Build.Evaluation.ProjectCollection
   langs:
   - csharp
-  - vb
   name: Dispose()
   nameWithType: ProjectCollection.Dispose()
   fullName: Microsoft.Build.Evaluation.ProjectCollection.Dispose()
@@ -298,19 +349,21 @@ items:
   assemblies:
   - Microsoft.Build
   namespace: Microsoft.Build.Evaluation
+  summary: Releases both managed and unmanaged resources.  Called when a host no longer needs the project collection.
+  remarks: In the MSBuild versions that were delivered with .Net 4.5 and Visual Studio 12.0, you must call UnloadProject() before the ProjectCollection goes out of scope.”
   syntax:
     content: public void Dispose ();
     parameters: []
-    return:
-      type: System.Void
-      description: Return description to be filled
   overload: Microsoft.Build.Evaluation.ProjectCollection.Dispose*
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: Microsoft.Build.Evaluation.ProjectCollection.Dispose(System.Boolean)
   id: Dispose(System.Boolean)
   parent: Microsoft.Build.Evaluation.ProjectCollection
   langs:
   - csharp
-  - vb
   name: Dispose(Boolean)
   nameWithType: ProjectCollection.Dispose(Boolean)
   fullName: Microsoft.Build.Evaluation.ProjectCollection.Dispose(Boolean)
@@ -318,22 +371,24 @@ items:
   assemblies:
   - Microsoft.Build
   namespace: Microsoft.Build.Evaluation
+  summary: Releases both managed and unmanaged resources.  Called when a host no longer needs the project collection.. Shuts down any logging services that the project collection owns and releases the logger thread.
+  remarks: Follows the garbage disposal guidelines of .NET.
   syntax:
     content: protected virtual void Dispose (bool disposing);
     parameters:
     - id: disposing
       type: System.Boolean
-      description: Parameter description to be filled
-    return:
-      type: System.Void
-      description: Return description to be filled
+      description: If true, releases both managed and unmanaged resources; otherwise releases only unmanaged resources..
   overload: Microsoft.Build.Evaluation.ProjectCollection.Dispose*
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: Microsoft.Build.Evaluation.ProjectCollection.Escape(System.String)
   id: Escape(System.String)
   parent: Microsoft.Build.Evaluation.ProjectCollection
   langs:
   - csharp
-  - vb
   name: Escape(String)
   nameWithType: ProjectCollection.Escape(String)
   fullName: Microsoft.Build.Evaluation.ProjectCollection.Escape(String)
@@ -341,21 +396,26 @@ items:
   assemblies:
   - Microsoft.Build
   namespace: Microsoft.Build.Evaluation
+  summary: Converts special characters in a string to MSBuild escape format.
+  remarks: For example, "%3b" for ";". Only characters that are especially significant to MSBuild parsing are converted. Callers can use this method to make a string safe to be parsed by other methods that would otherwise expand it. Callers can also use this method to make a string safe to be written to a project file.
   syntax:
     content: public static string Escape (string unescapedString);
     parameters:
     - id: unescapedString
       type: System.String
-      description: Parameter description to be filled
+      description: The string to be converted.
     return:
       type: System.String
-      description: Return description to be filled
+      description: Returns the converted string.
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: Microsoft.Build.Evaluation.ProjectCollection.GetGlobalProperty(System.String)
   id: GetGlobalProperty(System.String)
   parent: Microsoft.Build.Evaluation.ProjectCollection
   langs:
   - csharp
-  - vb
   name: GetGlobalProperty(String)
   nameWithType: ProjectCollection.GetGlobalProperty(String)
   fullName: Microsoft.Build.Evaluation.ProjectCollection.GetGlobalProperty(String)
@@ -363,21 +423,26 @@ items:
   assemblies:
   - Microsoft.Build
   namespace: Microsoft.Build.Evaluation
+  summary: Get any global property on the project collection that has the specified name.
+  remarks: To be added.
   syntax:
     content: public Microsoft.Build.Execution.ProjectPropertyInstance GetGlobalProperty (string name);
     parameters:
     - id: name
       type: System.String
-      description: Parameter description to be filled
+      description: The name of the property to be retrieved.
     return:
       type: Microsoft.Build.Execution.ProjectPropertyInstance
-      description: Return description to be filled
+      description: Returns any global property on the project collection that has the specified name; otherwise returns null.
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: Microsoft.Build.Evaluation.ProjectCollection.GetLoadedProjects(System.String)
   id: GetLoadedProjects(System.String)
   parent: Microsoft.Build.Evaluation.ProjectCollection
   langs:
   - csharp
-  - vb
   name: GetLoadedProjects(String)
   nameWithType: ProjectCollection.GetLoadedProjects(String)
   fullName: Microsoft.Build.Evaluation.ProjectCollection.GetLoadedProjects(String)
@@ -385,21 +450,26 @@ items:
   assemblies:
   - Microsoft.Build
   namespace: Microsoft.Build.Evaluation
+  summary: Gets all projects whose project path matches the given path.
+  remarks: There may be more than one project with the given path because projects are also distinguished by global properties and/or tools version.
   syntax:
     content: public System.Collections.Generic.ICollection<Microsoft.Build.Evaluation.Project> GetLoadedProjects (string fullPath);
     parameters:
     - id: fullPath
       type: System.String
-      description: Parameter description to be filled
+      description: The path to a project file to be matched.
     return:
       type: System.Collections.Generic.ICollection{Microsoft.Build.Evaluation.Project}
-      description: Return description to be filled
+      description: Returns all projects whose project path matches the given path.
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: Microsoft.Build.Evaluation.ProjectCollection.GetToolset(System.String)
   id: GetToolset(System.String)
   parent: Microsoft.Build.Evaluation.ProjectCollection
   langs:
   - csharp
-  - vb
   name: GetToolset(String)
   nameWithType: ProjectCollection.GetToolset(String)
   fullName: Microsoft.Build.Evaluation.ProjectCollection.GetToolset(String)
@@ -407,21 +477,26 @@ items:
   assemblies:
   - Microsoft.Build
   namespace: Microsoft.Build.Evaluation
+  summary: Get the toolset with the specified tools version.
+  remarks: To be added.
   syntax:
     content: public Microsoft.Build.Evaluation.Toolset GetToolset (string toolsVersion);
     parameters:
     - id: toolsVersion
       type: System.String
-      description: Parameter description to be filled
+      description: The tools version to match.
     return:
       type: Microsoft.Build.Evaluation.Toolset
-      description: Return description to be filled
+      description: Returns the toolset with the specified tools version. Returns null if no toolset matching this tools version exists.
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: Microsoft.Build.Evaluation.ProjectCollection.GlobalProjectCollection
   id: GlobalProjectCollection
   parent: Microsoft.Build.Evaluation.ProjectCollection
   langs:
   - csharp
-  - vb
   name: GlobalProjectCollection
   nameWithType: ProjectCollection.GlobalProjectCollection
   fullName: Microsoft.Build.Evaluation.ProjectCollection.GlobalProjectCollection
@@ -429,17 +504,22 @@ items:
   assemblies:
   - Microsoft.Build
   namespace: Microsoft.Build.Evaluation
+  summary: Gets the global project collection object.
+  remarks: Thread safe.
   syntax:
     content: public static Microsoft.Build.Evaluation.ProjectCollection GlobalProjectCollection { get; }
     return:
       type: Microsoft.Build.Evaluation.ProjectCollection
-      description: Return description to be filled
+      description: To be added.
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: Microsoft.Build.Evaluation.ProjectCollection.GlobalProperties
   id: GlobalProperties
   parent: Microsoft.Build.Evaluation.ProjectCollection
   langs:
   - csharp
-  - vb
   name: GlobalProperties
   nameWithType: ProjectCollection.GlobalProperties
   fullName: Microsoft.Build.Evaluation.ProjectCollection.GlobalProperties
@@ -447,17 +527,22 @@ items:
   assemblies:
   - Microsoft.Build
   namespace: Microsoft.Build.Evaluation
+  summary: Gets the read-only default global properties for all projects in this collection.
+  remarks: Use <xref:Microsoft.Build.Evaluation.ProjectCollection.SetGlobalProperty%2A> and <xref:Microsoft.Build.Evaluation.ProjectCollection.RemoveGlobalProperty%2A> to add, set, and remove global properties.
   syntax:
     content: public System.Collections.Generic.IDictionary<string,string> GlobalProperties { get; }
     return:
       type: System.Collections.Generic.IDictionary{System.String,System.String}
-      description: Return description to be filled
+      description: To be added.
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: Microsoft.Build.Evaluation.ProjectCollection.HostServices
   id: HostServices
   parent: Microsoft.Build.Evaluation.ProjectCollection
   langs:
   - csharp
-  - vb
   name: HostServices
   nameWithType: ProjectCollection.HostServices
   fullName: Microsoft.Build.Evaluation.ProjectCollection.HostServices
@@ -465,17 +550,22 @@ items:
   assemblies:
   - Microsoft.Build
   namespace: Microsoft.Build.Evaluation
+  summary: Gets or sets an object that provides host services to tasks during builds of projects contained in the project collection.
+  remarks: By default, returns HostServices, which may be null.
   syntax:
     content: public Microsoft.Build.Execution.HostServices HostServices { get; set; }
     return:
       type: Microsoft.Build.Execution.HostServices
-      description: Return description to be filled
+      description: To be added.
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: Microsoft.Build.Evaluation.ProjectCollection.IsBuildEnabled
   id: IsBuildEnabled
   parent: Microsoft.Build.Evaluation.ProjectCollection
   langs:
   - csharp
-  - vb
   name: IsBuildEnabled
   nameWithType: ProjectCollection.IsBuildEnabled
   fullName: Microsoft.Build.Evaluation.ProjectCollection.IsBuildEnabled
@@ -483,17 +573,22 @@ items:
   assemblies:
   - Microsoft.Build
   namespace: Microsoft.Build.Evaluation
+  summary: Gets or sets a property that selects by default whether the targets and tasks of projects in the project collection can be built.
+  remarks: Can be used for security purposes. By default, a new project has the same IsBuildEnabled setting as the parent project collection that contains it. When IsBuildEnabled is false, the Build method on this project fails.
   syntax:
     content: public bool IsBuildEnabled { get; set; }
     return:
       type: System.Boolean
-      description: Return description to be filled
+      description: To be added.
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: Microsoft.Build.Evaluation.ProjectCollection.LoadedProjects
   id: LoadedProjects
   parent: Microsoft.Build.Evaluation.ProjectCollection
   langs:
   - csharp
-  - vb
   name: LoadedProjects
   nameWithType: ProjectCollection.LoadedProjects
   fullName: Microsoft.Build.Evaluation.ProjectCollection.LoadedProjects
@@ -501,17 +596,22 @@ items:
   assemblies:
   - Microsoft.Build
   namespace: Microsoft.Build.Evaluation
+  summary: Gets all the projects currently loaded into this collection.
+  remarks: Each project has a unique combination of path, global properties, and tools version.
   syntax:
     content: public System.Collections.Generic.ICollection<Microsoft.Build.Evaluation.Project> LoadedProjects { get; }
     return:
       type: System.Collections.Generic.ICollection{Microsoft.Build.Evaluation.Project}
-      description: Return description to be filled
+      description: To be added.
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: Microsoft.Build.Evaluation.ProjectCollection.LoadProject(System.String)
   id: LoadProject(System.String)
   parent: Microsoft.Build.Evaluation.ProjectCollection
   langs:
   - csharp
-  - vb
   name: LoadProject(String)
   nameWithType: ProjectCollection.LoadProject(String)
   fullName: Microsoft.Build.Evaluation.ProjectCollection.LoadProject(String)
@@ -519,22 +619,27 @@ items:
   assemblies:
   - Microsoft.Build
   namespace: Microsoft.Build.Evaluation
+  summary: Evaluates a project from the source code in the given project file. The source code is evaluated with the global properties and tools version of this project collection.
+  remarks: In the MSBuild versions that were delivered with .Net 4.5 and Visual Studio 12.0, you must call UnloadProject before the ProjectCollection goes out of scope.
   syntax:
     content: public Microsoft.Build.Evaluation.Project LoadProject (string fileName);
     parameters:
     - id: fileName
       type: System.String
-      description: Parameter description to be filled
+      description: The project file to evaluate.
     return:
       type: Microsoft.Build.Evaluation.Project
-      description: Return description to be filled
+      description: If an existing project in the collection has already been evaluated from the given project file, the existing project is returned. Otherwise, a new project is created, evaluated, added to the project collection, and returned.
   overload: Microsoft.Build.Evaluation.ProjectCollection.LoadProject*
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: Microsoft.Build.Evaluation.ProjectCollection.LoadProject(System.Xml.XmlReader)
   id: LoadProject(System.Xml.XmlReader)
   parent: Microsoft.Build.Evaluation.ProjectCollection
   langs:
   - csharp
-  - vb
   name: LoadProject(XmlReader)
   nameWithType: ProjectCollection.LoadProject(XmlReader)
   fullName: Microsoft.Build.Evaluation.ProjectCollection.LoadProject(XmlReader)
@@ -542,22 +647,27 @@ items:
   assemblies:
   - Microsoft.Build
   namespace: Microsoft.Build.Evaluation
+  summary: Evaluates a project from the source code read from the given XML reader. The source code is evaluated with the global properties and tools version of this project collection.
+  remarks: "The project is added to this project collection when either this project or the given project root is given the full path to a project file.  \n  \n In the MSBuild versions that were delivered with .Net 4.5 and Visual Studio 12.0, you must call UnloadProject before the ProjectCollection goes out of scope."
   syntax:
     content: public Microsoft.Build.Evaluation.Project LoadProject (System.Xml.XmlReader xmlReader);
     parameters:
     - id: xmlReader
       type: System.Xml.XmlReader
-      description: Parameter description to be filled
+      description: Xml reader to read project source code from.
     return:
       type: Microsoft.Build.Evaluation.Project
-      description: Return description to be filled
+      description: Returns the new project.
   overload: Microsoft.Build.Evaluation.ProjectCollection.LoadProject*
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: Microsoft.Build.Evaluation.ProjectCollection.LoadProject(System.String,System.String)
   id: LoadProject(System.String,System.String)
   parent: Microsoft.Build.Evaluation.ProjectCollection
   langs:
   - csharp
-  - vb
   name: LoadProject(String,String)
   nameWithType: ProjectCollection.LoadProject(String,String)
   fullName: Microsoft.Build.Evaluation.ProjectCollection.LoadProject(String,String)
@@ -565,25 +675,30 @@ items:
   assemblies:
   - Microsoft.Build
   namespace: Microsoft.Build.Evaluation
+  summary: Evaluates a project from the source code read from the given project file. The source code is evaluated with the global properties of this project collection and the given tools version.
+  remarks: In the MSBuild versions that were delivered with .Net 4.5 and Visual Studio 12.0, you must call UnloadProject before the ProjectCollection goes out of scope.
   syntax:
     content: public Microsoft.Build.Evaluation.Project LoadProject (string fileName, string toolsVersion);
     parameters:
     - id: fileName
       type: System.String
-      description: Parameter description to be filled
+      description: The project file to evaluate.
     - id: toolsVersion
       type: System.String
-      description: Parameter description to be filled
+      description: The tools version to use. May be null.
     return:
       type: Microsoft.Build.Evaluation.Project
-      description: Return description to be filled
+      description: If an existing project in the collection has already been evaluated from the given project file, and with the given tools version, then the existing project is returned. Otherwise, a new project is created, evaluated, added to the project collection, and returned.
   overload: Microsoft.Build.Evaluation.ProjectCollection.LoadProject*
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: Microsoft.Build.Evaluation.ProjectCollection.LoadProject(System.Xml.XmlReader,System.String)
   id: LoadProject(System.Xml.XmlReader,System.String)
   parent: Microsoft.Build.Evaluation.ProjectCollection
   langs:
   - csharp
-  - vb
   name: LoadProject(XmlReader,String)
   nameWithType: ProjectCollection.LoadProject(XmlReader,String)
   fullName: Microsoft.Build.Evaluation.ProjectCollection.LoadProject(XmlReader,String)
@@ -591,83 +706,98 @@ items:
   assemblies:
   - Microsoft.Build
   namespace: Microsoft.Build.Evaluation
+  summary: Evaluates a project from the source code read from the given XML reader. The source code is evaluated with the global properties of this project collection and the given tools version.
+  remarks: "The project is added to this project collection when either this project or the given project root is given the full path to a project file.  \n  \n In the MSBuild versions that were delivered with .Net 4.5 and Visual Studio 12.0, you must call UnloadProject before the ProjectCollection goes out of scope."
   syntax:
     content: public Microsoft.Build.Evaluation.Project LoadProject (System.Xml.XmlReader xmlReader, string toolsVersion);
     parameters:
     - id: xmlReader
       type: System.Xml.XmlReader
-      description: Parameter description to be filled
+      description: Xml reader to read project source code from.
     - id: toolsVersion
       type: System.String
-      description: Parameter description to be filled
+      description: The tools version to use. May be null.
     return:
       type: Microsoft.Build.Evaluation.Project
-      description: Return description to be filled
+      description: Returns the new project.
   overload: Microsoft.Build.Evaluation.ProjectCollection.LoadProject*
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: Microsoft.Build.Evaluation.ProjectCollection.LoadProject(System.String,System.Collections.Generic.IDictionary{System.String,System.String},System.String)
   id: LoadProject(System.String,System.Collections.Generic.IDictionary{System.String,System.String},System.String)
   parent: Microsoft.Build.Evaluation.ProjectCollection
   langs:
   - csharp
-  - vb
-  name: LoadProject(String,IDictionary,String)
-  nameWithType: ProjectCollection.LoadProject(String,IDictionary,String)
-  fullName: Microsoft.Build.Evaluation.ProjectCollection.LoadProject(String,IDictionary,String)
+  name: LoadProject(String,IDictionary<String,String>,String)
+  nameWithType: ProjectCollection.LoadProject(String,IDictionary<String,String>,String)
+  fullName: Microsoft.Build.Evaluation.ProjectCollection.LoadProject(String,IDictionary<String,String>,String)
   type: Method
   assemblies:
   - Microsoft.Build
   namespace: Microsoft.Build.Evaluation
+  summary: Evaluates a project from the source code read from the given project file. The source code is evaluated with the given global properties and tools version.
+  remarks: In the MSBuild versions that were delivered with .Net 4.5 and Visual Studio 12.0, you must call UnloadProject before the ProjectCollection goes out of scope.
   syntax:
     content: public Microsoft.Build.Evaluation.Project LoadProject (string fileName, System.Collections.Generic.IDictionary<string,string> globalProperties, string toolsVersion);
     parameters:
     - id: fileName
       type: System.String
-      description: Parameter description to be filled
+      description: The project file to be evaluated.
     - id: globalProperties
       type: System.Collections.Generic.IDictionary{System.String,System.String}
-      description: Parameter description to be filled
+      description: The global properties to use. May be null, in which case the containing project collection's global properties will be used.
     - id: toolsVersion
       type: System.String
-      description: Parameter description to be filled
+      description: The tools version. May be null.
     return:
       type: Microsoft.Build.Evaluation.Project
-      description: Return description to be filled
+      description: If an existing project in the collection has already been evaluated from the given project file, and with the given global properties and tools version, then the existing project is returned. Otherwise, a new project is created, evaluated, added to the project collection, and returned.
   overload: Microsoft.Build.Evaluation.ProjectCollection.LoadProject*
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: Microsoft.Build.Evaluation.ProjectCollection.LoadProject(System.Xml.XmlReader,System.Collections.Generic.IDictionary{System.String,System.String},System.String)
   id: LoadProject(System.Xml.XmlReader,System.Collections.Generic.IDictionary{System.String,System.String},System.String)
   parent: Microsoft.Build.Evaluation.ProjectCollection
   langs:
   - csharp
-  - vb
-  name: LoadProject(XmlReader,IDictionary,String)
-  nameWithType: ProjectCollection.LoadProject(XmlReader,IDictionary,String)
-  fullName: Microsoft.Build.Evaluation.ProjectCollection.LoadProject(XmlReader,IDictionary,String)
+  name: LoadProject(XmlReader,IDictionary<String,String>,String)
+  nameWithType: ProjectCollection.LoadProject(XmlReader,IDictionary<String,String>,String)
+  fullName: Microsoft.Build.Evaluation.ProjectCollection.LoadProject(XmlReader,IDictionary<String,String>,String)
   type: Method
   assemblies:
   - Microsoft.Build
   namespace: Microsoft.Build.Evaluation
+  summary: Evaluates a project from the source code read from the given XML reader. The source code is evaluated with the given global properties and tools version.
+  remarks: "The project is added to this project collection when either this project or the given project root is given the full path to a project file.  \n  \n In the MSBuild versions that were delivered with .Net 4.5 and Visual Studio 12.0, you must call UnloadProject before the ProjectCollection goes out of scope."
   syntax:
     content: public Microsoft.Build.Evaluation.Project LoadProject (System.Xml.XmlReader xmlReader, System.Collections.Generic.IDictionary<string,string> globalProperties, string toolsVersion);
     parameters:
     - id: xmlReader
       type: System.Xml.XmlReader
-      description: Parameter description to be filled
+      description: Xml reader to read project from
     - id: globalProperties
       type: System.Collections.Generic.IDictionary{System.String,System.String}
-      description: Parameter description to be filled
+      description: The global properties to use. May be null in which case the containing project collection's global properties will be used.
     - id: toolsVersion
       type: System.String
-      description: Parameter description to be filled
+      description: The tools version. May be null.
     return:
       type: Microsoft.Build.Evaluation.Project
-      description: Return description to be filled
+      description: Returns the new project.
   overload: Microsoft.Build.Evaluation.ProjectCollection.LoadProject*
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: Microsoft.Build.Evaluation.ProjectCollection.Loggers
   id: Loggers
   parent: Microsoft.Build.Evaluation.ProjectCollection
   langs:
   - csharp
-  - vb
   name: Loggers
   nameWithType: ProjectCollection.Loggers
   fullName: Microsoft.Build.Evaluation.ProjectCollection.Loggers
@@ -675,17 +805,22 @@ items:
   assemblies:
   - Microsoft.Build
   namespace: Microsoft.Build.Evaluation
+  summary: Gets all loggers that projects in this collection can use for their builds.
+  remarks: Loggers are added with the <xref:Microsoft.Build.Evaluation.ProjectCollection.RegisterLogger%2A> method.
   syntax:
     content: public System.Collections.Generic.ICollection<Microsoft.Build.Framework.ILogger> Loggers { get; }
     return:
       type: System.Collections.Generic.ICollection{Microsoft.Build.Framework.ILogger}
-      description: Return description to be filled
+      description: To be added.
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: Microsoft.Build.Evaluation.ProjectCollection.OnlyLogCriticalEvents
   id: OnlyLogCriticalEvents
   parent: Microsoft.Build.Evaluation.ProjectCollection
   langs:
   - csharp
-  - vb
   name: OnlyLogCriticalEvents
   nameWithType: ProjectCollection.OnlyLogCriticalEvents
   fullName: Microsoft.Build.Evaluation.ProjectCollection.OnlyLogCriticalEvents
@@ -693,17 +828,22 @@ items:
   assemblies:
   - Microsoft.Build
   namespace: Microsoft.Build.Evaluation
+  summary: Gets or sets a switch that determines whether only critical events such as warnings and errors are logged.
+  remarks: To be added.
   syntax:
     content: public bool OnlyLogCriticalEvents { get; set; }
     return:
       type: System.Boolean
-      description: Return description to be filled
+      description: To be added.
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: Microsoft.Build.Evaluation.ProjectCollection.ProjectAdded
   id: ProjectAdded
   parent: Microsoft.Build.Evaluation.ProjectCollection
   langs:
   - csharp
-  - vb
   name: ProjectAdded
   nameWithType: ProjectCollection.ProjectAdded
   fullName: Microsoft.Build.Evaluation.ProjectCollection.ProjectAdded
@@ -711,17 +851,22 @@ items:
   assemblies:
   - Microsoft.Build
   namespace: Microsoft.Build.Evaluation
+  summary: Event that is fired when a project is added to the ProjectRootElementCache of this project collection.
+  remarks: To be added.
   syntax:
     content: public event Microsoft.Build.Evaluation.ProjectCollection.ProjectAddedEventHandler ProjectAdded;
     return:
-      type: Microsoft.Build.Evaluation.ProjectCollection+ProjectAddedEventHandler
-      description: Return description to be filled
+      type: Microsoft.Build.Evaluation.ProjectCollection.ProjectAddedEventHandler
+      description: To be added.
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: Microsoft.Build.Evaluation.ProjectCollection.ProjectChanged
   id: ProjectChanged
   parent: Microsoft.Build.Evaluation.ProjectCollection
   langs:
   - csharp
-  - vb
   name: ProjectChanged
   nameWithType: ProjectCollection.ProjectChanged
   fullName: Microsoft.Build.Evaluation.ProjectCollection.ProjectChanged
@@ -729,17 +874,22 @@ items:
   assemblies:
   - Microsoft.Build
   namespace: Microsoft.Build.Evaluation
+  summary: Raised when a <see cref="T:Microsoft.Build.Evaluation.Project"> contained by this instance is directly changed.
+  remarks: This event is NOT raised for direct project XML changes via the construction model.
   syntax:
     content: public event EventHandler<Microsoft.Build.Evaluation.ProjectChangedEventArgs> ProjectChanged;
     return:
       type: System.EventHandler{Microsoft.Build.Evaluation.ProjectChangedEventArgs}
-      description: Return description to be filled
+      description: To be added.
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: Microsoft.Build.Evaluation.ProjectCollection.ProjectCollectionChanged
   id: ProjectCollectionChanged
   parent: Microsoft.Build.Evaluation.ProjectCollection
   langs:
   - csharp
-  - vb
   name: ProjectCollectionChanged
   nameWithType: ProjectCollection.ProjectCollectionChanged
   fullName: Microsoft.Build.Evaluation.ProjectCollection.ProjectCollectionChanged
@@ -747,17 +897,22 @@ items:
   assemblies:
   - Microsoft.Build
   namespace: Microsoft.Build.Evaluation
+  summary: Raised when state is changed on this instance.
+  remarks: This event is NOT raised for changes in individual projects.
   syntax:
     content: public event EventHandler<Microsoft.Build.Evaluation.ProjectCollectionChangedEventArgs> ProjectCollectionChanged;
     return:
       type: System.EventHandler{Microsoft.Build.Evaluation.ProjectCollectionChangedEventArgs}
-      description: Return description to be filled
+      description: To be added.
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: Microsoft.Build.Evaluation.ProjectCollection.ProjectXmlChanged
   id: ProjectXmlChanged
   parent: Microsoft.Build.Evaluation.ProjectCollection
   langs:
   - csharp
-  - vb
   name: ProjectXmlChanged
   nameWithType: ProjectCollection.ProjectXmlChanged
   fullName: Microsoft.Build.Evaluation.ProjectCollection.ProjectXmlChanged
@@ -765,39 +920,46 @@ items:
   assemblies:
   - Microsoft.Build
   namespace: Microsoft.Build.Evaluation
+  summary: Raised when a <see cref="T:Microsoft.Build.Construction.ProjectRootElement"> contained by this instance is changed.
+  remarks: This event is NOT raised for changes to global properties, or any other change that doesn't actually dirty the XML.
   syntax:
     content: public event EventHandler<Microsoft.Build.Evaluation.ProjectXmlChangedEventArgs> ProjectXmlChanged;
     return:
       type: System.EventHandler{Microsoft.Build.Evaluation.ProjectXmlChangedEventArgs}
-      description: Return description to be filled
+      description: To be added.
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: Microsoft.Build.Evaluation.ProjectCollection.RegisterForwardingLoggers(System.Collections.Generic.IEnumerable{Microsoft.Build.Logging.ForwardingLoggerRecord})
   id: RegisterForwardingLoggers(System.Collections.Generic.IEnumerable{Microsoft.Build.Logging.ForwardingLoggerRecord})
   parent: Microsoft.Build.Evaluation.ProjectCollection
   langs:
   - csharp
-  - vb
-  name: RegisterForwardingLoggers(IEnumerable)
-  nameWithType: ProjectCollection.RegisterForwardingLoggers(IEnumerable)
-  fullName: Microsoft.Build.Evaluation.ProjectCollection.RegisterForwardingLoggers(IEnumerable)
+  name: RegisterForwardingLoggers(IEnumerable<ForwardingLoggerRecord>)
+  nameWithType: ProjectCollection.RegisterForwardingLoggers(IEnumerable<ForwardingLoggerRecord>)
+  fullName: Microsoft.Build.Evaluation.ProjectCollection.RegisterForwardingLoggers(IEnumerable<ForwardingLoggerRecord>)
   type: Method
   assemblies:
   - Microsoft.Build
   namespace: Microsoft.Build.Evaluation
+  summary: Adds the given remote loggers to the collection of remote loggers used for builds of projects in this collection.
+  remarks: To be added.
   syntax:
     content: public void RegisterForwardingLoggers (System.Collections.Generic.IEnumerable<Microsoft.Build.Logging.ForwardingLoggerRecord> remoteLoggers);
     parameters:
     - id: remoteLoggers
       type: System.Collections.Generic.IEnumerable{Microsoft.Build.Logging.ForwardingLoggerRecord}
-      description: Parameter description to be filled
-    return:
-      type: System.Void
-      description: Return description to be filled
+      description: The remote loggers to add. May be null.
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: Microsoft.Build.Evaluation.ProjectCollection.RegisterLogger(Microsoft.Build.Framework.ILogger)
   id: RegisterLogger(Microsoft.Build.Framework.ILogger)
   parent: Microsoft.Build.Evaluation.ProjectCollection
   langs:
   - csharp
-  - vb
   name: RegisterLogger(ILogger)
   nameWithType: ProjectCollection.RegisterLogger(ILogger)
   fullName: Microsoft.Build.Evaluation.ProjectCollection.RegisterLogger(ILogger)
@@ -805,43 +967,47 @@ items:
   assemblies:
   - Microsoft.Build
   namespace: Microsoft.Build.Evaluation
+  summary: Adds the given logger to the collection of loggers used for builds of projects in this collection.
+  remarks: If the logger object is already in the collection, does nothing.
   syntax:
     content: public void RegisterLogger (Microsoft.Build.Framework.ILogger logger);
     parameters:
     - id: logger
       type: Microsoft.Build.Framework.ILogger
-      description: Parameter description to be filled
-    return:
-      type: System.Void
-      description: Return description to be filled
+      description: The logger to add.
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: Microsoft.Build.Evaluation.ProjectCollection.RegisterLoggers(System.Collections.Generic.IEnumerable{Microsoft.Build.Framework.ILogger})
   id: RegisterLoggers(System.Collections.Generic.IEnumerable{Microsoft.Build.Framework.ILogger})
   parent: Microsoft.Build.Evaluation.ProjectCollection
   langs:
   - csharp
-  - vb
-  name: RegisterLoggers(IEnumerable)
-  nameWithType: ProjectCollection.RegisterLoggers(IEnumerable)
-  fullName: Microsoft.Build.Evaluation.ProjectCollection.RegisterLoggers(IEnumerable)
+  name: RegisterLoggers(IEnumerable<ILogger>)
+  nameWithType: ProjectCollection.RegisterLoggers(IEnumerable<ILogger>)
+  fullName: Microsoft.Build.Evaluation.ProjectCollection.RegisterLoggers(IEnumerable<ILogger>)
   type: Method
   assemblies:
   - Microsoft.Build
   namespace: Microsoft.Build.Evaluation
+  summary: Adds the given loggers to the collection of loggers used for builds of projects in this collection.
+  remarks: Skips any logger objects that are already in the collection.
   syntax:
     content: public void RegisterLoggers (System.Collections.Generic.IEnumerable<Microsoft.Build.Framework.ILogger> loggers);
     parameters:
     - id: loggers
       type: System.Collections.Generic.IEnumerable{Microsoft.Build.Framework.ILogger}
-      description: Parameter description to be filled
-    return:
-      type: System.Void
-      description: Return description to be filled
+      description: The loggers to be added. May be null.
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: Microsoft.Build.Evaluation.ProjectCollection.RemoveAllToolsets
   id: RemoveAllToolsets
   parent: Microsoft.Build.Evaluation.ProjectCollection
   langs:
   - csharp
-  - vb
   name: RemoveAllToolsets()
   nameWithType: ProjectCollection.RemoveAllToolsets()
   fullName: Microsoft.Build.Evaluation.ProjectCollection.RemoveAllToolsets()
@@ -849,18 +1015,20 @@ items:
   assemblies:
   - Microsoft.Build
   namespace: Microsoft.Build.Evaluation
+  summary: Removes all toolsets from the project collection.
+  remarks: To be added.
   syntax:
     content: public void RemoveAllToolsets ();
     parameters: []
-    return:
-      type: System.Void
-      description: Return description to be filled
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: Microsoft.Build.Evaluation.ProjectCollection.RemoveGlobalProperty(System.String)
   id: RemoveGlobalProperty(System.String)
   parent: Microsoft.Build.Evaluation.ProjectCollection
   langs:
   - csharp
-  - vb
   name: RemoveGlobalProperty(String)
   nameWithType: ProjectCollection.RemoveGlobalProperty(String)
   fullName: Microsoft.Build.Evaluation.ProjectCollection.RemoveGlobalProperty(String)
@@ -868,21 +1036,26 @@ items:
   assemblies:
   - Microsoft.Build
   namespace: Microsoft.Build.Evaluation
+  summary: Removes a global property from the set of default global properties.
+  remarks: To be added.
   syntax:
     content: public bool RemoveGlobalProperty (string name);
     parameters:
     - id: name
       type: System.String
-      description: Parameter description to be filled
+      description: The name of the default global property to remove.
     return:
       type: System.Boolean
-      description: Return description to be filled
+      description: Returns true if the global property is present before removal; false otherwise.
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: Microsoft.Build.Evaluation.ProjectCollection.RemoveToolset(System.String)
   id: RemoveToolset(System.String)
   parent: Microsoft.Build.Evaluation.ProjectCollection
   langs:
   - csharp
-  - vb
   name: RemoveToolset(String)
   nameWithType: ProjectCollection.RemoveToolset(String)
   fullName: Microsoft.Build.Evaluation.ProjectCollection.RemoveToolset(String)
@@ -890,21 +1063,26 @@ items:
   assemblies:
   - Microsoft.Build
   namespace: Microsoft.Build.Evaluation
+  summary: Removes a toolset from the project collection.
+  remarks: To be added.
   syntax:
     content: public bool RemoveToolset (string toolsVersion);
     parameters:
     - id: toolsVersion
       type: System.String
-      description: Parameter description to be filled
+      description: The toolset to be removed.
     return:
       type: System.Boolean
-      description: Return description to be filled
+      description: Returns true if the toolset is present before removal; false otherwise.
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: Microsoft.Build.Evaluation.ProjectCollection.SetGlobalProperty(System.String,System.String)
   id: SetGlobalProperty(System.String,System.String)
   parent: Microsoft.Build.Evaluation.ProjectCollection
   langs:
   - csharp
-  - vb
   name: SetGlobalProperty(String,String)
   nameWithType: ProjectCollection.SetGlobalProperty(String,String)
   fullName: Microsoft.Build.Evaluation.ProjectCollection.SetGlobalProperty(String,String)
@@ -912,24 +1090,26 @@ items:
   assemblies:
   - Microsoft.Build
   namespace: Microsoft.Build.Evaluation
+  summary: Sets the value of a property in the default set of global properties.
+  remarks: If no matching property is found, the property is created and initialized with the given value.
   syntax:
     content: public void SetGlobalProperty (string name, string value);
     parameters:
     - id: name
       type: System.String
-      description: Parameter description to be filled
+      description: The name of the default global property to be added or set.
     - id: value
       type: System.String
-      description: Parameter description to be filled
-    return:
-      type: System.Void
-      description: Return description to be filled
+      description: The new value of the default global property.
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: Microsoft.Build.Evaluation.ProjectCollection.SkipEvaluation
   id: SkipEvaluation
   parent: Microsoft.Build.Evaluation.ProjectCollection
   langs:
   - csharp
-  - vb
   name: SkipEvaluation
   nameWithType: ProjectCollection.SkipEvaluation
   fullName: Microsoft.Build.Evaluation.ProjectCollection.SkipEvaluation
@@ -937,17 +1117,22 @@ items:
   assemblies:
   - Microsoft.Build
   namespace: Microsoft.Build.Evaluation
+  summary: Gets or sets a flag the determines whether ReevaluateIfNecessary is temporarily disabled on projects in this collection. This is useful when the host expects to make a number of reads and writes to projects, and wants to temporarily sacrifice correctness for performance.
+  remarks: To be added.
   syntax:
     content: public bool SkipEvaluation { get; set; }
     return:
       type: System.Boolean
-      description: Return description to be filled
+      description: To be added.
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: Microsoft.Build.Evaluation.ProjectCollection.ToolsetLocations
   id: ToolsetLocations
   parent: Microsoft.Build.Evaluation.ProjectCollection
   langs:
   - csharp
-  - vb
   name: ToolsetLocations
   nameWithType: ProjectCollection.ToolsetLocations
   fullName: Microsoft.Build.Evaluation.ProjectCollection.ToolsetLocations
@@ -955,17 +1140,22 @@ items:
   assemblies:
   - Microsoft.Build
   namespace: Microsoft.Build.Evaluation
+  summary: Gets the locations used to find the toolsets.
+  remarks: To be added.
   syntax:
     content: public Microsoft.Build.Evaluation.ToolsetDefinitionLocations ToolsetLocations { get; }
     return:
       type: Microsoft.Build.Evaluation.ToolsetDefinitionLocations
-      description: Return description to be filled
+      description: To be added.
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: Microsoft.Build.Evaluation.ProjectCollection.Toolsets
   id: Toolsets
   parent: Microsoft.Build.Evaluation.ProjectCollection
   langs:
   - csharp
-  - vb
   name: Toolsets
   nameWithType: ProjectCollection.Toolsets
   fullName: Microsoft.Build.Evaluation.ProjectCollection.Toolsets
@@ -973,17 +1163,22 @@ items:
   assemblies:
   - Microsoft.Build
   namespace: Microsoft.Build.Evaluation
+  summary: Gets the toolsets available to this project collection.
+  remarks: To be added.
   syntax:
     content: public System.Collections.Generic.ICollection<Microsoft.Build.Evaluation.Toolset> Toolsets { get; }
     return:
       type: System.Collections.Generic.ICollection{Microsoft.Build.Evaluation.Toolset}
-      description: Return description to be filled
+      description: To be added.
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: Microsoft.Build.Evaluation.ProjectCollection.TryUnloadProject(Microsoft.Build.Construction.ProjectRootElement)
   id: TryUnloadProject(Microsoft.Build.Construction.ProjectRootElement)
   parent: Microsoft.Build.Evaluation.ProjectCollection
   langs:
   - csharp
-  - vb
   name: TryUnloadProject(ProjectRootElement)
   nameWithType: ProjectCollection.TryUnloadProject(ProjectRootElement)
   fullName: Microsoft.Build.Evaluation.ProjectCollection.TryUnloadProject(ProjectRootElement)
@@ -991,21 +1186,26 @@ items:
   assemblies:
   - Microsoft.Build
   namespace: Microsoft.Build.Evaluation
+  summary: Attempts to remove a project from the collection.
+  remarks: To be added.
   syntax:
     content: public bool TryUnloadProject (Microsoft.Build.Construction.ProjectRootElement projectRootElement);
     parameters:
     - id: projectRootElement
       type: Microsoft.Build.Construction.ProjectRootElement
-      description: Parameter description to be filled
+      description: The root element of the project to unload.
     return:
       type: System.Boolean
-      description: Return description to be filled
+      description: Returns true if the project was unloaded.
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: Microsoft.Build.Evaluation.ProjectCollection.Unescape(System.String)
   id: Unescape(System.String)
   parent: Microsoft.Build.Evaluation.ProjectCollection
   langs:
   - csharp
-  - vb
   name: Unescape(String)
   nameWithType: ProjectCollection.Unescape(String)
   fullName: Microsoft.Build.Evaluation.ProjectCollection.Unescape(String)
@@ -1013,21 +1213,26 @@ items:
   assemblies:
   - Microsoft.Build
   namespace: Microsoft.Build.Evaluation
+  summary: Converts escaped characters in a string to MSBuild characters with special meaning.
+  remarks: For example, "%3b" is converted to ";".
   syntax:
     content: public static string Unescape (string escapedString);
     parameters:
     - id: escapedString
       type: System.String
-      description: Parameter description to be filled
+      description: The string to be converted.
     return:
       type: System.String
-      description: Return description to be filled
+      description: Returns the converted string.
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: Microsoft.Build.Evaluation.ProjectCollection.UnloadAllProjects
   id: UnloadAllProjects
   parent: Microsoft.Build.Evaluation.ProjectCollection
   langs:
   - csharp
-  - vb
   name: UnloadAllProjects()
   nameWithType: ProjectCollection.UnloadAllProjects()
   fullName: Microsoft.Build.Evaluation.ProjectCollection.UnloadAllProjects()
@@ -1035,18 +1240,20 @@ items:
   assemblies:
   - Microsoft.Build
   namespace: Microsoft.Build.Evaluation
+  summary: Removes all projects in this project collection.
+  remarks: The host should call this method when it no longer needs the projects.
   syntax:
     content: public void UnloadAllProjects ();
     parameters: []
-    return:
-      type: System.Void
-      description: Return description to be filled
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: Microsoft.Build.Evaluation.ProjectCollection.UnloadProject(Microsoft.Build.Construction.ProjectRootElement)
   id: UnloadProject(Microsoft.Build.Construction.ProjectRootElement)
   parent: Microsoft.Build.Evaluation.ProjectCollection
   langs:
   - csharp
-  - vb
   name: UnloadProject(ProjectRootElement)
   nameWithType: ProjectCollection.UnloadProject(ProjectRootElement)
   fullName: Microsoft.Build.Evaluation.ProjectCollection.UnloadProject(ProjectRootElement)
@@ -1054,22 +1261,24 @@ items:
   assemblies:
   - Microsoft.Build
   namespace: Microsoft.Build.Evaluation
+  summary: Removes a project root element from the project root cache.
+  remarks: This method is useful for the case where the host knows that all projects using this root element have been removed, and that any unsaved changes should be discarded.
   syntax:
     content: public void UnloadProject (Microsoft.Build.Construction.ProjectRootElement projectRootElement);
     parameters:
     - id: projectRootElement
       type: Microsoft.Build.Construction.ProjectRootElement
-      description: Parameter description to be filled
-    return:
-      type: System.Void
-      description: Return description to be filled
+      description: The project root element to unload.
   overload: Microsoft.Build.Evaluation.ProjectCollection.UnloadProject*
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: Microsoft.Build.Evaluation.ProjectCollection.UnloadProject(Microsoft.Build.Evaluation.Project)
   id: UnloadProject(Microsoft.Build.Evaluation.Project)
   parent: Microsoft.Build.Evaluation.ProjectCollection
   langs:
   - csharp
-  - vb
   name: UnloadProject(Project)
   nameWithType: ProjectCollection.UnloadProject(Project)
   fullName: Microsoft.Build.Evaluation.ProjectCollection.UnloadProject(Project)
@@ -1077,22 +1286,24 @@ items:
   assemblies:
   - Microsoft.Build
   namespace: Microsoft.Build.Evaluation
+  summary: Removes the given project from the project collection.
+  remarks: "The host should call this method when it no longer needs the project.  \n  \n Throws InvalidOperationException if the given project is not present in the project collection."
   syntax:
     content: public void UnloadProject (Microsoft.Build.Evaluation.Project project);
     parameters:
     - id: project
       type: Microsoft.Build.Evaluation.Project
-      description: Parameter description to be filled
-    return:
-      type: System.Void
-      description: Return description to be filled
+      description: The project to remove.
   overload: Microsoft.Build.Evaluation.ProjectCollection.UnloadProject*
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: Microsoft.Build.Evaluation.ProjectCollection.UnregisterAllLoggers
   id: UnregisterAllLoggers
   parent: Microsoft.Build.Evaluation.ProjectCollection
   langs:
   - csharp
-  - vb
   name: UnregisterAllLoggers()
   nameWithType: ProjectCollection.UnregisterAllLoggers()
   fullName: Microsoft.Build.Evaluation.ProjectCollection.UnregisterAllLoggers()
@@ -1100,18 +1311,20 @@ items:
   assemblies:
   - Microsoft.Build
   namespace: Microsoft.Build.Evaluation
+  summary: Removes all loggers from the collection of loggers used by project builds in this collection.
+  remarks: To be added.
   syntax:
     content: public void UnregisterAllLoggers ();
     parameters: []
-    return:
-      type: System.Void
-      description: Return description to be filled
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: Microsoft.Build.Evaluation.ProjectCollection.Version
   id: Version
   parent: Microsoft.Build.Evaluation.ProjectCollection
   langs:
   - csharp
-  - vb
   name: Version
   nameWithType: ProjectCollection.Version
   fullName: Microsoft.Build.Evaluation.ProjectCollection.Version
@@ -1119,11 +1332,17 @@ items:
   assemblies:
   - Microsoft.Build
   namespace: Microsoft.Build.Evaluation
+  summary: Gets the file version of the assembly file that contains the MSBuild engine.
+  remarks: "This is the Windows file version (specifically the value of the ProductVersion resource), which is not necessarily the assembly version. To obtain the assembly version, use Constants.AssemblyVersion.  \n  \n See also the <xref:Microsoft.Build.Evaluation.ProjectCollection.ToolsetsVersion%2A>."
   syntax:
     content: public static Version Version { get; }
     return:
       type: System.Version
-      description: Return description to be filled
+      description: To be added.
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 references:
 - uid: System.Object
   isExternal: false
@@ -1149,15 +1368,33 @@ references:
 - uid: Microsoft.Build.Evaluation.ProjectCollection.#ctor(System.Collections.Generic.IDictionary{System.String,System.String})
   parent: Microsoft.Build.Evaluation.ProjectCollection
   isExternal: false
-  name: ProjectCollection(IDictionary)
-  nameWithType: ProjectCollection.ProjectCollection(IDictionary)
-  fullName: Microsoft.Build.Evaluation.ProjectCollection.ProjectCollection(IDictionary)
+  name: ProjectCollection(IDictionary<String,String>)
+  nameWithType: ProjectCollection.ProjectCollection(IDictionary<String,String>)
+  fullName: Microsoft.Build.Evaluation.ProjectCollection.ProjectCollection(IDictionary<String,String>)
+- uid: System.Collections.Generic.IDictionary{System.String,System.String}
+  parent: System.Collections.Generic
+  isExternal: false
+  name: IDictionary<String,String>
+  nameWithType: IDictionary<String,String>
+  fullName: System.Collections.Generic.IDictionary<System.String,System.String>
 - uid: Microsoft.Build.Evaluation.ProjectCollection.#ctor(System.Collections.Generic.IDictionary{System.String,System.String},System.Collections.Generic.IEnumerable{Microsoft.Build.Framework.ILogger},Microsoft.Build.Evaluation.ToolsetDefinitionLocations)
   parent: Microsoft.Build.Evaluation.ProjectCollection
   isExternal: false
-  name: ProjectCollection(IDictionary,IEnumerable,ToolsetDefinitionLocations)
-  nameWithType: ProjectCollection.ProjectCollection(IDictionary,IEnumerable,ToolsetDefinitionLocations)
-  fullName: Microsoft.Build.Evaluation.ProjectCollection.ProjectCollection(IDictionary,IEnumerable,ToolsetDefinitionLocations)
+  name: ProjectCollection(IDictionary<String,String>,IEnumerable<ILogger>,ToolsetDefinitionLocations)
+  nameWithType: ProjectCollection.ProjectCollection(IDictionary<String,String>,IEnumerable<ILogger>,ToolsetDefinitionLocations)
+  fullName: Microsoft.Build.Evaluation.ProjectCollection.ProjectCollection(IDictionary<String,String>,IEnumerable<ILogger>,ToolsetDefinitionLocations)
+- uid: System.Collections.Generic.IDictionary{System.String,System.String}
+  parent: System.Collections.Generic
+  isExternal: false
+  name: IDictionary<String,String>
+  nameWithType: IDictionary<String,String>
+  fullName: System.Collections.Generic.IDictionary<System.String,System.String>
+- uid: System.Collections.Generic.IEnumerable{Microsoft.Build.Framework.ILogger}
+  parent: System.Collections.Generic
+  isExternal: false
+  name: IEnumerable<ILogger>
+  nameWithType: IEnumerable<ILogger>
+  fullName: System.Collections.Generic.IEnumerable<Microsoft.Build.Framework.ILogger>
 - uid: Microsoft.Build.Evaluation.ToolsetDefinitionLocations
   parent: Microsoft.Build.Evaluation
   isExternal: false
@@ -1167,9 +1404,27 @@ references:
 - uid: Microsoft.Build.Evaluation.ProjectCollection.#ctor(System.Collections.Generic.IDictionary{System.String,System.String},System.Collections.Generic.IEnumerable{Microsoft.Build.Framework.ILogger},System.Collections.Generic.IEnumerable{Microsoft.Build.Logging.ForwardingLoggerRecord},Microsoft.Build.Evaluation.ToolsetDefinitionLocations,System.Int32,System.Boolean)
   parent: Microsoft.Build.Evaluation.ProjectCollection
   isExternal: false
-  name: ProjectCollection(IDictionary,IEnumerable,IEnumerable,ToolsetDefinitionLocations,Int32,Boolean)
-  nameWithType: ProjectCollection.ProjectCollection(IDictionary,IEnumerable,IEnumerable,ToolsetDefinitionLocations,Int32,Boolean)
-  fullName: Microsoft.Build.Evaluation.ProjectCollection.ProjectCollection(IDictionary,IEnumerable,IEnumerable,ToolsetDefinitionLocations,Int32,Boolean)
+  name: ProjectCollection(IDictionary<String,String>,IEnumerable<ILogger>,IEnumerable<ForwardingLoggerRecord>,ToolsetDefinitionLocations,Int32,Boolean)
+  nameWithType: ProjectCollection.ProjectCollection(IDictionary<String,String>,IEnumerable<ILogger>,IEnumerable<ForwardingLoggerRecord>,ToolsetDefinitionLocations,Int32,Boolean)
+  fullName: Microsoft.Build.Evaluation.ProjectCollection.ProjectCollection(IDictionary<String,String>,IEnumerable<ILogger>,IEnumerable<ForwardingLoggerRecord>,ToolsetDefinitionLocations,Int32,Boolean)
+- uid: System.Collections.Generic.IDictionary{System.String,System.String}
+  parent: System.Collections.Generic
+  isExternal: false
+  name: IDictionary<String,String>
+  nameWithType: IDictionary<String,String>
+  fullName: System.Collections.Generic.IDictionary<System.String,System.String>
+- uid: System.Collections.Generic.IEnumerable{Microsoft.Build.Framework.ILogger}
+  parent: System.Collections.Generic
+  isExternal: false
+  name: IEnumerable<ILogger>
+  nameWithType: IEnumerable<ILogger>
+  fullName: System.Collections.Generic.IEnumerable<Microsoft.Build.Framework.ILogger>
+- uid: System.Collections.Generic.IEnumerable{Microsoft.Build.Logging.ForwardingLoggerRecord}
+  parent: System.Collections.Generic
+  isExternal: false
+  name: IEnumerable<ForwardingLoggerRecord>
+  nameWithType: IEnumerable<ForwardingLoggerRecord>
+  fullName: System.Collections.Generic.IEnumerable<Microsoft.Build.Logging.ForwardingLoggerRecord>
 - uid: Microsoft.Build.Evaluation.ToolsetDefinitionLocations
   parent: Microsoft.Build.Evaluation
   isExternal: false
@@ -1194,12 +1449,6 @@ references:
   name: AddToolset(Toolset)
   nameWithType: ProjectCollection.AddToolset(Toolset)
   fullName: Microsoft.Build.Evaluation.ProjectCollection.AddToolset(Toolset)
-- uid: System.Void
-  parent: System
-  isExternal: false
-  name: Void
-  nameWithType: Void
-  fullName: System.Void
 - uid: Microsoft.Build.Evaluation.Toolset
   parent: Microsoft.Build.Evaluation
   isExternal: false
@@ -1266,24 +1515,12 @@ references:
   name: Dispose()
   nameWithType: ProjectCollection.Dispose()
   fullName: Microsoft.Build.Evaluation.ProjectCollection.Dispose()
-- uid: System.Void
-  parent: System
-  isExternal: false
-  name: Void
-  nameWithType: Void
-  fullName: System.Void
 - uid: Microsoft.Build.Evaluation.ProjectCollection.Dispose(System.Boolean)
   parent: Microsoft.Build.Evaluation.ProjectCollection
   isExternal: false
   name: Dispose(Boolean)
   nameWithType: ProjectCollection.Dispose(Boolean)
   fullName: Microsoft.Build.Evaluation.ProjectCollection.Dispose(Boolean)
-- uid: System.Void
-  parent: System
-  isExternal: false
-  name: Void
-  nameWithType: Void
-  fullName: System.Void
 - uid: System.Boolean
   parent: System
   isExternal: false
@@ -1332,6 +1569,12 @@ references:
   name: GetLoadedProjects(String)
   nameWithType: ProjectCollection.GetLoadedProjects(String)
   fullName: Microsoft.Build.Evaluation.ProjectCollection.GetLoadedProjects(String)
+- uid: System.Collections.Generic.ICollection{Microsoft.Build.Evaluation.Project}
+  parent: System.Collections.Generic
+  isExternal: false
+  name: ICollection<Project>
+  nameWithType: ICollection<Project>
+  fullName: System.Collections.Generic.ICollection<Microsoft.Build.Evaluation.Project>
 - uid: System.String
   parent: System
   isExternal: false
@@ -1374,6 +1617,12 @@ references:
   name: GlobalProperties
   nameWithType: ProjectCollection.GlobalProperties
   fullName: Microsoft.Build.Evaluation.ProjectCollection.GlobalProperties
+- uid: System.Collections.Generic.IDictionary{System.String,System.String}
+  parent: System.Collections.Generic
+  isExternal: false
+  name: IDictionary<String,String>
+  nameWithType: IDictionary<String,String>
+  fullName: System.Collections.Generic.IDictionary<System.String,System.String>
 - uid: Microsoft.Build.Evaluation.ProjectCollection.HostServices
   parent: Microsoft.Build.Evaluation.ProjectCollection
   isExternal: false
@@ -1404,6 +1653,12 @@ references:
   name: LoadedProjects
   nameWithType: ProjectCollection.LoadedProjects
   fullName: Microsoft.Build.Evaluation.ProjectCollection.LoadedProjects
+- uid: System.Collections.Generic.ICollection{Microsoft.Build.Evaluation.Project}
+  parent: System.Collections.Generic
+  isExternal: false
+  name: ICollection<Project>
+  nameWithType: ICollection<Project>
+  fullName: System.Collections.Generic.ICollection<Microsoft.Build.Evaluation.Project>
 - uid: Microsoft.Build.Evaluation.ProjectCollection.LoadProject(System.String)
   parent: Microsoft.Build.Evaluation.ProjectCollection
   isExternal: false
@@ -1434,6 +1689,12 @@ references:
   name: Project
   nameWithType: Project
   fullName: Microsoft.Build.Evaluation.Project
+- uid: System.Xml.XmlReader
+  parent: System.Xml
+  isExternal: true
+  name: XmlReader
+  nameWithType: XmlReader
+  fullName: System.Xml.XmlReader
 - uid: Microsoft.Build.Evaluation.ProjectCollection.LoadProject(System.String,System.String)
   parent: Microsoft.Build.Evaluation.ProjectCollection
   isExternal: false
@@ -1470,6 +1731,12 @@ references:
   name: Project
   nameWithType: Project
   fullName: Microsoft.Build.Evaluation.Project
+- uid: System.Xml.XmlReader
+  parent: System.Xml
+  isExternal: true
+  name: XmlReader
+  nameWithType: XmlReader
+  fullName: System.Xml.XmlReader
 - uid: System.String
   parent: System
   isExternal: false
@@ -1479,9 +1746,9 @@ references:
 - uid: Microsoft.Build.Evaluation.ProjectCollection.LoadProject(System.String,System.Collections.Generic.IDictionary{System.String,System.String},System.String)
   parent: Microsoft.Build.Evaluation.ProjectCollection
   isExternal: false
-  name: LoadProject(String,IDictionary,String)
-  nameWithType: ProjectCollection.LoadProject(String,IDictionary,String)
-  fullName: Microsoft.Build.Evaluation.ProjectCollection.LoadProject(String,IDictionary,String)
+  name: LoadProject(String,IDictionary<String,String>,String)
+  nameWithType: ProjectCollection.LoadProject(String,IDictionary<String,String>,String)
+  fullName: Microsoft.Build.Evaluation.ProjectCollection.LoadProject(String,IDictionary<String,String>,String)
 - uid: Microsoft.Build.Evaluation.Project
   parent: Microsoft.Build.Evaluation
   isExternal: false
@@ -1494,6 +1761,12 @@ references:
   name: String
   nameWithType: String
   fullName: System.String
+- uid: System.Collections.Generic.IDictionary{System.String,System.String}
+  parent: System.Collections.Generic
+  isExternal: false
+  name: IDictionary<String,String>
+  nameWithType: IDictionary<String,String>
+  fullName: System.Collections.Generic.IDictionary<System.String,System.String>
 - uid: System.String
   parent: System
   isExternal: false
@@ -1503,15 +1776,27 @@ references:
 - uid: Microsoft.Build.Evaluation.ProjectCollection.LoadProject(System.Xml.XmlReader,System.Collections.Generic.IDictionary{System.String,System.String},System.String)
   parent: Microsoft.Build.Evaluation.ProjectCollection
   isExternal: false
-  name: LoadProject(XmlReader,IDictionary,String)
-  nameWithType: ProjectCollection.LoadProject(XmlReader,IDictionary,String)
-  fullName: Microsoft.Build.Evaluation.ProjectCollection.LoadProject(XmlReader,IDictionary,String)
+  name: LoadProject(XmlReader,IDictionary<String,String>,String)
+  nameWithType: ProjectCollection.LoadProject(XmlReader,IDictionary<String,String>,String)
+  fullName: Microsoft.Build.Evaluation.ProjectCollection.LoadProject(XmlReader,IDictionary<String,String>,String)
 - uid: Microsoft.Build.Evaluation.Project
   parent: Microsoft.Build.Evaluation
   isExternal: false
   name: Project
   nameWithType: Project
   fullName: Microsoft.Build.Evaluation.Project
+- uid: System.Xml.XmlReader
+  parent: System.Xml
+  isExternal: true
+  name: XmlReader
+  nameWithType: XmlReader
+  fullName: System.Xml.XmlReader
+- uid: System.Collections.Generic.IDictionary{System.String,System.String}
+  parent: System.Collections.Generic
+  isExternal: false
+  name: IDictionary<String,String>
+  nameWithType: IDictionary<String,String>
+  fullName: System.Collections.Generic.IDictionary<System.String,System.String>
 - uid: System.String
   parent: System
   isExternal: false
@@ -1524,6 +1809,12 @@ references:
   name: Loggers
   nameWithType: ProjectCollection.Loggers
   fullName: Microsoft.Build.Evaluation.ProjectCollection.Loggers
+- uid: System.Collections.Generic.ICollection{Microsoft.Build.Framework.ILogger}
+  parent: System.Collections.Generic
+  isExternal: false
+  name: ICollection<ILogger>
+  nameWithType: ICollection<ILogger>
+  fullName: System.Collections.Generic.ICollection<Microsoft.Build.Framework.ILogger>
 - uid: Microsoft.Build.Evaluation.ProjectCollection.OnlyLogCriticalEvents
   parent: Microsoft.Build.Evaluation.ProjectCollection
   isExternal: false
@@ -1554,42 +1845,54 @@ references:
   name: ProjectChanged
   nameWithType: ProjectCollection.ProjectChanged
   fullName: Microsoft.Build.Evaluation.ProjectCollection.ProjectChanged
+- uid: System.EventHandler{Microsoft.Build.Evaluation.ProjectChangedEventArgs}
+  parent: System
+  isExternal: false
+  name: EventHandler<ProjectChangedEventArgs>
+  nameWithType: EventHandler<ProjectChangedEventArgs>
+  fullName: System.EventHandler<Microsoft.Build.Evaluation.ProjectChangedEventArgs>
 - uid: Microsoft.Build.Evaluation.ProjectCollection.ProjectCollectionChanged
   parent: Microsoft.Build.Evaluation.ProjectCollection
   isExternal: false
   name: ProjectCollectionChanged
   nameWithType: ProjectCollection.ProjectCollectionChanged
   fullName: Microsoft.Build.Evaluation.ProjectCollection.ProjectCollectionChanged
+- uid: System.EventHandler{Microsoft.Build.Evaluation.ProjectCollectionChangedEventArgs}
+  parent: System
+  isExternal: false
+  name: EventHandler<ProjectCollectionChangedEventArgs>
+  nameWithType: EventHandler<ProjectCollectionChangedEventArgs>
+  fullName: System.EventHandler<Microsoft.Build.Evaluation.ProjectCollectionChangedEventArgs>
 - uid: Microsoft.Build.Evaluation.ProjectCollection.ProjectXmlChanged
   parent: Microsoft.Build.Evaluation.ProjectCollection
   isExternal: false
   name: ProjectXmlChanged
   nameWithType: ProjectCollection.ProjectXmlChanged
   fullName: Microsoft.Build.Evaluation.ProjectCollection.ProjectXmlChanged
+- uid: System.EventHandler{Microsoft.Build.Evaluation.ProjectXmlChangedEventArgs}
+  parent: System
+  isExternal: false
+  name: EventHandler<ProjectXmlChangedEventArgs>
+  nameWithType: EventHandler<ProjectXmlChangedEventArgs>
+  fullName: System.EventHandler<Microsoft.Build.Evaluation.ProjectXmlChangedEventArgs>
 - uid: Microsoft.Build.Evaluation.ProjectCollection.RegisterForwardingLoggers(System.Collections.Generic.IEnumerable{Microsoft.Build.Logging.ForwardingLoggerRecord})
   parent: Microsoft.Build.Evaluation.ProjectCollection
   isExternal: false
-  name: RegisterForwardingLoggers(IEnumerable)
-  nameWithType: ProjectCollection.RegisterForwardingLoggers(IEnumerable)
-  fullName: Microsoft.Build.Evaluation.ProjectCollection.RegisterForwardingLoggers(IEnumerable)
-- uid: System.Void
-  parent: System
+  name: RegisterForwardingLoggers(IEnumerable<ForwardingLoggerRecord>)
+  nameWithType: ProjectCollection.RegisterForwardingLoggers(IEnumerable<ForwardingLoggerRecord>)
+  fullName: Microsoft.Build.Evaluation.ProjectCollection.RegisterForwardingLoggers(IEnumerable<ForwardingLoggerRecord>)
+- uid: System.Collections.Generic.IEnumerable{Microsoft.Build.Logging.ForwardingLoggerRecord}
+  parent: System.Collections.Generic
   isExternal: false
-  name: Void
-  nameWithType: Void
-  fullName: System.Void
+  name: IEnumerable<ForwardingLoggerRecord>
+  nameWithType: IEnumerable<ForwardingLoggerRecord>
+  fullName: System.Collections.Generic.IEnumerable<Microsoft.Build.Logging.ForwardingLoggerRecord>
 - uid: Microsoft.Build.Evaluation.ProjectCollection.RegisterLogger(Microsoft.Build.Framework.ILogger)
   parent: Microsoft.Build.Evaluation.ProjectCollection
   isExternal: false
   name: RegisterLogger(ILogger)
   nameWithType: ProjectCollection.RegisterLogger(ILogger)
   fullName: Microsoft.Build.Evaluation.ProjectCollection.RegisterLogger(ILogger)
-- uid: System.Void
-  parent: System
-  isExternal: false
-  name: Void
-  nameWithType: Void
-  fullName: System.Void
 - uid: Microsoft.Build.Framework.ILogger
   parent: Microsoft.Build.Framework
   isExternal: false
@@ -1599,27 +1902,21 @@ references:
 - uid: Microsoft.Build.Evaluation.ProjectCollection.RegisterLoggers(System.Collections.Generic.IEnumerable{Microsoft.Build.Framework.ILogger})
   parent: Microsoft.Build.Evaluation.ProjectCollection
   isExternal: false
-  name: RegisterLoggers(IEnumerable)
-  nameWithType: ProjectCollection.RegisterLoggers(IEnumerable)
-  fullName: Microsoft.Build.Evaluation.ProjectCollection.RegisterLoggers(IEnumerable)
-- uid: System.Void
-  parent: System
+  name: RegisterLoggers(IEnumerable<ILogger>)
+  nameWithType: ProjectCollection.RegisterLoggers(IEnumerable<ILogger>)
+  fullName: Microsoft.Build.Evaluation.ProjectCollection.RegisterLoggers(IEnumerable<ILogger>)
+- uid: System.Collections.Generic.IEnumerable{Microsoft.Build.Framework.ILogger}
+  parent: System.Collections.Generic
   isExternal: false
-  name: Void
-  nameWithType: Void
-  fullName: System.Void
+  name: IEnumerable<ILogger>
+  nameWithType: IEnumerable<ILogger>
+  fullName: System.Collections.Generic.IEnumerable<Microsoft.Build.Framework.ILogger>
 - uid: Microsoft.Build.Evaluation.ProjectCollection.RemoveAllToolsets
   parent: Microsoft.Build.Evaluation.ProjectCollection
   isExternal: false
   name: RemoveAllToolsets()
   nameWithType: ProjectCollection.RemoveAllToolsets()
   fullName: Microsoft.Build.Evaluation.ProjectCollection.RemoveAllToolsets()
-- uid: System.Void
-  parent: System
-  isExternal: false
-  name: Void
-  nameWithType: Void
-  fullName: System.Void
 - uid: Microsoft.Build.Evaluation.ProjectCollection.RemoveGlobalProperty(System.String)
   parent: Microsoft.Build.Evaluation.ProjectCollection
   isExternal: false
@@ -1662,12 +1959,6 @@ references:
   name: SetGlobalProperty(String,String)
   nameWithType: ProjectCollection.SetGlobalProperty(String,String)
   fullName: Microsoft.Build.Evaluation.ProjectCollection.SetGlobalProperty(String,String)
-- uid: System.Void
-  parent: System
-  isExternal: false
-  name: Void
-  nameWithType: Void
-  fullName: System.Void
 - uid: System.String
   parent: System
   isExternal: false
@@ -1710,6 +2001,12 @@ references:
   name: Toolsets
   nameWithType: ProjectCollection.Toolsets
   fullName: Microsoft.Build.Evaluation.ProjectCollection.Toolsets
+- uid: System.Collections.Generic.ICollection{Microsoft.Build.Evaluation.Toolset}
+  parent: System.Collections.Generic
+  isExternal: false
+  name: ICollection<Toolset>
+  nameWithType: ICollection<Toolset>
+  fullName: System.Collections.Generic.ICollection<Microsoft.Build.Evaluation.Toolset>
 - uid: Microsoft.Build.Evaluation.ProjectCollection.TryUnloadProject(Microsoft.Build.Construction.ProjectRootElement)
   parent: Microsoft.Build.Evaluation.ProjectCollection
   isExternal: false
@@ -1752,24 +2049,12 @@ references:
   name: UnloadAllProjects()
   nameWithType: ProjectCollection.UnloadAllProjects()
   fullName: Microsoft.Build.Evaluation.ProjectCollection.UnloadAllProjects()
-- uid: System.Void
-  parent: System
-  isExternal: false
-  name: Void
-  nameWithType: Void
-  fullName: System.Void
 - uid: Microsoft.Build.Evaluation.ProjectCollection.UnloadProject(Microsoft.Build.Construction.ProjectRootElement)
   parent: Microsoft.Build.Evaluation.ProjectCollection
   isExternal: false
   name: UnloadProject(ProjectRootElement)
   nameWithType: ProjectCollection.UnloadProject(ProjectRootElement)
   fullName: Microsoft.Build.Evaluation.ProjectCollection.UnloadProject(ProjectRootElement)
-- uid: System.Void
-  parent: System
-  isExternal: false
-  name: Void
-  nameWithType: Void
-  fullName: System.Void
 - uid: Microsoft.Build.Construction.ProjectRootElement
   parent: Microsoft.Build.Construction
   isExternal: false
@@ -1782,12 +2067,6 @@ references:
   name: UnloadProject(Project)
   nameWithType: ProjectCollection.UnloadProject(Project)
   fullName: Microsoft.Build.Evaluation.ProjectCollection.UnloadProject(Project)
-- uid: System.Void
-  parent: System
-  isExternal: false
-  name: Void
-  nameWithType: Void
-  fullName: System.Void
 - uid: Microsoft.Build.Evaluation.Project
   parent: Microsoft.Build.Evaluation
   isExternal: false
@@ -1800,12 +2079,6 @@ references:
   name: UnregisterAllLoggers()
   nameWithType: ProjectCollection.UnregisterAllLoggers()
   fullName: Microsoft.Build.Evaluation.ProjectCollection.UnregisterAllLoggers()
-- uid: System.Void
-  parent: System
-  isExternal: false
-  name: Void
-  nameWithType: Void
-  fullName: System.Void
 - uid: Microsoft.Build.Evaluation.ProjectCollection.Version
   parent: Microsoft.Build.Evaluation.ProjectCollection
   isExternal: false

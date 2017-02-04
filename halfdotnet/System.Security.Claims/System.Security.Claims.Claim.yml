@@ -27,11 +27,14 @@ items:
   - System.Security.Claims.Claim.WriteTo(System.IO.BinaryWriter,System.Byte[])
   langs:
   - csharp
-  - vb
   name: Claim
   nameWithType: Claim
   fullName: System.Security.Claims.Claim
   type: Class
+  summary: Represents a claim.
+  remarks: "A claim is a statement about a subject by an issuer. Claims represent attributes of the subject that are useful in the context of authentication and authorization operations. Subjects and issuers are both entities that are part of an identity scenario. Some typical examples of a subject are: a user, an application or service, a device, or a computer. Some typical examples of an issuer are: the operating system, an application. a service, a role provider, an identity provider, or a federation provider. An issuer delivers claims by issuing security tokens, typically through a Security Token Service (STS). (In WIF, you can build an STS by deriving from the <xref:System.IdentityModel.SecurityTokenService> class.) On occasion, the collection of claims received from an issuer can be extended by subject attributes stored directly at the resource. A claim can be evaluated to determine access rights to data and other secured resources during the process of authorization and can also be used to make or express authentication decisions about a subject.  \n  \n Beginning with .NET 4.5, the Windows Identity Foundation (WIF) classes, which implement claims-based identity, have been fully integrated into the .NET Framework. The claims concept is implemented by the Claim class.  \n  \n The following describes important properties of the Claim class:  \n  \n-   The <xref:System.Security.Claims.Claim.Type%2A> property is a string (typically a URI) that contains the semantic information about the claim; it tells you what the value of the claim means. For example, a claim with a claim type of <xref:System.Security.Claims.ClaimTypes.GivenName> (“http://schemas.xmlsoap.org/ws/2005/05/identity/claims/givenname”) represents a user’s first name. The value of the <xref:System.Security.Claims.Claim.Type%2A> property can be one of the well-known claim types defined in the <xref:System.Security.Claims.ClaimTypes> class, or it can be an arbitrary URI as defined by the issuer. For example, a claim type of “urn:spendinglimit” might represent a user attribute which makes sense within the business context of the issuer.  \n  \n-   The <xref:System.Security.Claims.Claim.Value%2A> property contains the value of the claim. In order to reduce dependencies and simplify administration, in WIF the value of a claim is represented only as a string. For more complex value types, it is recommended that you use standard XML schema types to indicate how the value is meant to be serialized into and deserialized from a string.  \n  \n-   The <xref:System.Security.Claims.Claim.ValueType%2A> property contains a string that identifies the type information for the value. This property should be used to understand the format of the value and to provide information about how to deserialize it. If your solution requires complex value types, it is recommended that you use standard XML schema types in the <xref:System.Security.Claims.Claim.ValueType%2A> property to indicate how the <xref:System.Security.Claims.Claim.Value%2A> property is meant to be serialized into and deserialized from a string.  \n  \n-   The <xref:System.Security.Claims.Claim.Subject%2A> property is a <xref:System.Security.Claims.ClaimsIdentity> object that represents the subject of the claim. The subject of the claim is the entity (typically the user who is requesting access to a resource) about which the claim is asserted. The <xref:System.Security.Claims.ClaimsIdentity> contains, among its properties, a collection of claims that describe the properties and attributes of the subject as attested to by one or more issuers.  \n  \n-   The <xref:System.Security.Claims.Claim.Issuer%2A> property contains the name of the entity that issued the claim. The issuer of a claim is represented in WIF by a string that contains a name taken from a list of well-known issuers that is maintained by the issuer name registry. The issuer name registry is an instance of a class that derives from the <xref:System.IdentityModel.Tokens.IssuerNameRegistry> class. The issuer name registry associates a mnemonic name to the cryptographic material needed to verify the signatures of tokens produced by the corresponding issuer. For example, the <xref:System.IdentityModel.Tokens.ConfigurationBasedIssuerNameRegistry> class, available out of the box with .NET 4.5, associates the mnemonic name for each issuer with its corresponding X.509 certificate. The list of well-known issuers is typically built at startup time by the issuer name registry. The list used by the <xref:System.IdentityModel.Tokens.ConfigurationBasedIssuerNameRegistry> is specified in the application configuration file.  \n  \n-   The <xref:System.Security.Claims.Claim.OriginalIssuer%2A> property contains the name of the entity that originally issued the claim. This property is designed to facilitate scenarios where a claim may pass through multiple issuers before it is presented by the client to the RP application; such as federation scenarios. You can examine the <xref:System.Security.Claims.Claim.OriginalIssuer%2A> property to determine the entity that originally issued the claim. The name is taken from the list of well-known issuers maintained by the issuer name registry, as in the case of the <xref:System.Security.Claims.Claim.Issuer%2A> property."
+  example:
+  - "The following example extracts the claims associated to the authenticated user performing an HTTP request and writes them in the HTTP response. The current user is read from the <xref:System.Web.HttpContext> as a <xref:System.Security.Claims.ClaimsPrincipal> and the claims are read from it. The claims are then written to HTTP the response.  \n  \n```c#  \nClaimsPrincipal principal = HttpContext.Current.User as ClaimsPrincipal;  \nif (null != principal)  \n{  \n   foreach (Claim claim in principal.Claims)  \n   {  \n      Response.Write(\"CLAIM TYPE: \" + claim.Type + \"; CLAIM VALUE: \" + claim.Value + \"</br>\");  \n   }  \n  \n}  \n  \n```"
   syntax:
     content: public class Claim
   inheritance:
@@ -44,12 +47,15 @@ items:
   - System.Object.GetType
   - System.Object.MemberwiseClone
   - System.Object.ReferenceEquals(System.Object,System.Object)
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Security.Claims.Claim.#ctor(System.IO.BinaryReader)
   id: '#ctor(System.IO.BinaryReader)'
   parent: System.Security.Claims.Claim
   langs:
   - csharp
-  - vb
   name: Claim(BinaryReader)
   nameWithType: Claim.Claim(BinaryReader)
   fullName: System.Security.Claims.Claim.Claim(BinaryReader)
@@ -57,18 +63,23 @@ items:
   assemblies:
   - mscorlib
   namespace: System.Security.Claims
+  summary: To be added.
+  remarks: To be added.
   syntax:
     content: public Claim (System.IO.BinaryReader reader);
     parameters:
     - id: reader
       type: System.IO.BinaryReader
-      description: Parameter description to be filled
+      description: ''
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Security.Claims.Claim.#ctor(System.Security.Claims.Claim)
   id: '#ctor(System.Security.Claims.Claim)'
   parent: System.Security.Claims.Claim
   langs:
   - csharp
-  - vb
   name: Claim(Claim)
   nameWithType: Claim.Claim(Claim)
   fullName: System.Security.Claims.Claim.Claim(Claim)
@@ -76,18 +87,23 @@ items:
   assemblies:
   - mscorlib
   namespace: System.Security.Claims
+  summary: Initializes a new instance of the <see cref="T:System.Security.Claims.Claim"> class.
+  remarks: To be added.
   syntax:
     content: protected Claim (System.Security.Claims.Claim other);
     parameters:
     - id: other
       type: System.Security.Claims.Claim
-      description: Parameter description to be filled
+      description: The security claim.
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Security.Claims.Claim.#ctor(System.IO.BinaryReader,System.Security.Claims.ClaimsIdentity)
   id: '#ctor(System.IO.BinaryReader,System.Security.Claims.ClaimsIdentity)'
   parent: System.Security.Claims.Claim
   langs:
   - csharp
-  - vb
   name: Claim(BinaryReader,ClaimsIdentity)
   nameWithType: Claim.Claim(BinaryReader,ClaimsIdentity)
   fullName: System.Security.Claims.Claim.Claim(BinaryReader,ClaimsIdentity)
@@ -95,21 +111,26 @@ items:
   assemblies:
   - mscorlib
   namespace: System.Security.Claims
+  summary: Initializes a new instance of the <see cref="T:System.Security.Claims.Claim"> class with the specified reader, and subject.
+  remarks: To be added.
   syntax:
     content: public Claim (System.IO.BinaryReader reader, System.Security.Claims.ClaimsIdentity subject);
     parameters:
     - id: reader
       type: System.IO.BinaryReader
-      description: Parameter description to be filled
+      description: The binary reader.
     - id: subject
       type: System.Security.Claims.ClaimsIdentity
-      description: Parameter description to be filled
+      description: The subject that this claim describes.
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Security.Claims.Claim.#ctor(System.Security.Claims.Claim,System.Security.Claims.ClaimsIdentity)
   id: '#ctor(System.Security.Claims.Claim,System.Security.Claims.ClaimsIdentity)'
   parent: System.Security.Claims.Claim
   langs:
   - csharp
-  - vb
   name: Claim(Claim,ClaimsIdentity)
   nameWithType: Claim.Claim(Claim,ClaimsIdentity)
   fullName: System.Security.Claims.Claim.Claim(Claim,ClaimsIdentity)
@@ -117,21 +138,26 @@ items:
   assemblies:
   - mscorlib
   namespace: System.Security.Claims
+  summary: Initializes a new instance of the <see cref="T:System.Security.Claims.Claim"> class with the specified security claim, and subject.
+  remarks: To be added.
   syntax:
     content: protected Claim (System.Security.Claims.Claim other, System.Security.Claims.ClaimsIdentity subject);
     parameters:
     - id: other
       type: System.Security.Claims.Claim
-      description: Parameter description to be filled
+      description: The security claim.
     - id: subject
       type: System.Security.Claims.ClaimsIdentity
-      description: Parameter description to be filled
+      description: The subject that this claim describes.
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Security.Claims.Claim.#ctor(System.String,System.String)
   id: '#ctor(System.String,System.String)'
   parent: System.Security.Claims.Claim
   langs:
   - csharp
-  - vb
   name: Claim(String,String)
   nameWithType: Claim.Claim(String,String)
   fullName: System.Security.Claims.Claim.Claim(String,String)
@@ -139,21 +165,26 @@ items:
   assemblies:
   - mscorlib
   namespace: System.Security.Claims
+  summary: Initializes a new instance of the <see cref="T:System.Security.Claims.Claim"> class with the specified claim type, and value.
+  remarks: The <xref:System.Security.Claims.Claim.Subject%2A> property is set to `null`. The <xref:System.Security.Claims.Claim.Issuer%2A> and <xref:System.Security.Claims.Claim.OriginalIssuer%2A> properties are set to <xref:System.Security.Claims.ClaimsIdentity.DefaultIssuer>. The <xref:System.Security.Claims.Claim.ValueType%2A> property is set to <xref:System.Security.Claims.ClaimValueTypes.String?displayProperty=fullName>
   syntax:
     content: public Claim (string type, string value);
     parameters:
     - id: type
       type: System.String
-      description: Parameter description to be filled
+      description: The claim type.
     - id: value
       type: System.String
-      description: Parameter description to be filled
+      description: The claim value.
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Security.Claims.Claim.#ctor(System.String,System.String,System.String)
   id: '#ctor(System.String,System.String,System.String)'
   parent: System.Security.Claims.Claim
   langs:
   - csharp
-  - vb
   name: Claim(String,String,String)
   nameWithType: Claim.Claim(String,String,String)
   fullName: System.Security.Claims.Claim.Claim(String,String,String)
@@ -161,24 +192,29 @@ items:
   assemblies:
   - mscorlib
   namespace: System.Security.Claims
+  summary: Initializes a new instance of the <see cref="T:System.Security.Claims.Claim"> class with the specified claim type, value, and value type.
+  remarks: The <xref:System.Security.Claims.Claim.Subject%2A> property is set to `null`. The <xref:System.Security.Claims.Claim.Issuer%2A> and <xref:System.Security.Claims.Claim.OriginalIssuer%2A> properties are set to <xref:System.Security.Claims.ClaimsIdentity.DefaultIssuer>.
   syntax:
     content: public Claim (string type, string value, string valueType);
     parameters:
     - id: type
       type: System.String
-      description: Parameter description to be filled
+      description: The claim type.
     - id: value
       type: System.String
-      description: Parameter description to be filled
+      description: The claim value.
     - id: valueType
       type: System.String
-      description: Parameter description to be filled
+      description: The claim value type. If this parameter is `null`, then <xref:System.Security.Claims.ClaimValueTypes.String?displayProperty=fullName> is used.
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Security.Claims.Claim.#ctor(System.String,System.String,System.String,System.String)
   id: '#ctor(System.String,System.String,System.String,System.String)'
   parent: System.Security.Claims.Claim
   langs:
   - csharp
-  - vb
   name: Claim(String,String,String,String)
   nameWithType: Claim.Claim(String,String,String,String)
   fullName: System.Security.Claims.Claim.Claim(String,String,String,String)
@@ -186,27 +222,32 @@ items:
   assemblies:
   - mscorlib
   namespace: System.Security.Claims
+  summary: Initializes a new instance of the <see cref="T:System.Security.Claims.Claim"> class with the specified claim type, value, value type, and issuer.
+  remarks: The <xref:System.Security.Claims.Claim.Subject%2A> property is set to `null`. The <xref:System.Security.Claims.Claim.OriginalIssuer%2A> property is set according to the value of the  parameter.
   syntax:
     content: public Claim (string type, string value, string valueType, string issuer);
     parameters:
     - id: type
       type: System.String
-      description: Parameter description to be filled
+      description: The claim type.
     - id: value
       type: System.String
-      description: Parameter description to be filled
+      description: The claim value.
     - id: valueType
       type: System.String
-      description: Parameter description to be filled
+      description: The claim value type. If this parameter is `null`, then <xref:System.Security.Claims.ClaimValueTypes.String?displayProperty=fullName> is used.
     - id: issuer
       type: System.String
-      description: Parameter description to be filled
+      description: The claim issuer. If this parameter is empty or `null`, then <see cref="F:System.Security.Claims.ClaimsIdentity.DefaultIssuer"> is used.
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Security.Claims.Claim.#ctor(System.String,System.String,System.String,System.String,System.String)
   id: '#ctor(System.String,System.String,System.String,System.String,System.String)'
   parent: System.Security.Claims.Claim
   langs:
   - csharp
-  - vb
   name: Claim(String,String,String,String,String)
   nameWithType: Claim.Claim(String,String,String,String,String)
   fullName: System.Security.Claims.Claim.Claim(String,String,String,String,String)
@@ -214,30 +255,35 @@ items:
   assemblies:
   - mscorlib
   namespace: System.Security.Claims
+  summary: Initializes a new instance of the <see cref="T:System.Security.Claims.Claim"> class with the specified claim type, value, value type, issuer,  and original issuer.
+  remarks: The <xref:System.Security.Claims.Claim.Subject%2A> property is set to `null`.
   syntax:
     content: public Claim (string type, string value, string valueType, string issuer, string originalIssuer);
     parameters:
     - id: type
       type: System.String
-      description: Parameter description to be filled
+      description: The claim type.
     - id: value
       type: System.String
-      description: Parameter description to be filled
+      description: The claim value.
     - id: valueType
       type: System.String
-      description: Parameter description to be filled
+      description: The claim value type. If this parameter is `null`, then <xref:System.Security.Claims.ClaimValueTypes.String?displayProperty=fullName> is used.
     - id: issuer
       type: System.String
-      description: Parameter description to be filled
+      description: The claim issuer. If this parameter is empty or `null`, then <see cref="F:System.Security.Claims.ClaimsIdentity.DefaultIssuer"> is used.
     - id: originalIssuer
       type: System.String
-      description: Parameter description to be filled
+      description: The original issuer of the claim. If this parameter is empty or `null`, then the <xref:System.Security.Claims.Claim.OriginalIssuer%2A> property is set to the value of the <xref:System.Security.Claims.Claim.Issuer%2A> property.
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Security.Claims.Claim.#ctor(System.String,System.String,System.String,System.String,System.String,System.Security.Claims.ClaimsIdentity)
   id: '#ctor(System.String,System.String,System.String,System.String,System.String,System.Security.Claims.ClaimsIdentity)'
   parent: System.Security.Claims.Claim
   langs:
   - csharp
-  - vb
   name: Claim(String,String,String,String,String,ClaimsIdentity)
   nameWithType: Claim.Claim(String,String,String,String,String,ClaimsIdentity)
   fullName: System.Security.Claims.Claim.Claim(String,String,String,String,String,ClaimsIdentity)
@@ -245,33 +291,38 @@ items:
   assemblies:
   - mscorlib
   namespace: System.Security.Claims
+  summary: Initializes a new instance of the <see cref="T:System.Security.Claims.Claim"> class with the specified claim type, value, value type, issuer, original issuer and subject.
+  remarks: To be added.
   syntax:
     content: public Claim (string type, string value, string valueType, string issuer, string originalIssuer, System.Security.Claims.ClaimsIdentity subject);
     parameters:
     - id: type
       type: System.String
-      description: Parameter description to be filled
+      description: The claim type.
     - id: value
       type: System.String
-      description: Parameter description to be filled
+      description: The claim value.
     - id: valueType
       type: System.String
-      description: Parameter description to be filled
+      description: The claim value type. If this parameter is `null`, then <xref:System.Security.Claims.ClaimValueTypes.String?displayProperty=fullName> is used.
     - id: issuer
       type: System.String
-      description: Parameter description to be filled
+      description: The claim issuer. If this parameter is empty or `null`, then <see cref="F:System.Security.Claims.ClaimsIdentity.DefaultIssuer"> is used.
     - id: originalIssuer
       type: System.String
-      description: Parameter description to be filled
+      description: The original issuer of the claim. If this parameter is empty or `null`, then the <xref:System.Security.Claims.Claim.OriginalIssuer%2A> property is set to the value of the <xref:System.Security.Claims.Claim.Issuer%2A> property.
     - id: subject
       type: System.Security.Claims.ClaimsIdentity
-      description: Parameter description to be filled
+      description: The subject that this claim describes.
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Security.Claims.Claim.Clone
   id: Clone
   parent: System.Security.Claims.Claim
   langs:
   - csharp
-  - vb
   name: Clone()
   nameWithType: Claim.Clone()
   fullName: System.Security.Claims.Claim.Clone()
@@ -279,19 +330,24 @@ items:
   assemblies:
   - mscorlib
   namespace: System.Security.Claims
+  summary: Returns a new <see cref="T:System.Security.Claims.Claim"> object copied from this object. The new claim does not have a subject.
+  remarks: This is a shallow copy operation. The <xref:System.Security.Claims.Claim.Subject%2A> property of the new <xref:System.Security.Claims.Claim> object is set to `null`.
   syntax:
     content: public virtual System.Security.Claims.Claim Clone ();
     parameters: []
     return:
       type: System.Security.Claims.Claim
-      description: Return description to be filled
+      description: The new claim object.
   overload: System.Security.Claims.Claim.Clone*
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Security.Claims.Claim.Clone(System.Security.Claims.ClaimsIdentity)
   id: Clone(System.Security.Claims.ClaimsIdentity)
   parent: System.Security.Claims.Claim
   langs:
   - csharp
-  - vb
   name: Clone(ClaimsIdentity)
   nameWithType: Claim.Clone(ClaimsIdentity)
   fullName: System.Security.Claims.Claim.Clone(ClaimsIdentity)
@@ -299,22 +355,27 @@ items:
   assemblies:
   - mscorlib
   namespace: System.Security.Claims
+  summary: Returns a new <see cref="T:System.Security.Claims.Claim"> object copied from this object. The subject of the new claim is set to the specified ClaimsIdentity.
+  remarks: This is a shallow copy operation. The <xref:System.Security.Claims.Claim.Subject%2A> property of the new <xref:System.Security.Claims.Claim> object is set to the value of the  parameter.
   syntax:
     content: public virtual System.Security.Claims.Claim Clone (System.Security.Claims.ClaimsIdentity identity);
     parameters:
     - id: identity
       type: System.Security.Claims.ClaimsIdentity
-      description: Parameter description to be filled
+      description: The intended subject of the new claim.
     return:
       type: System.Security.Claims.Claim
-      description: Return description to be filled
+      description: The new claim object.
   overload: System.Security.Claims.Claim.Clone*
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Security.Claims.Claim.CustomSerializationData
   id: CustomSerializationData
   parent: System.Security.Claims.Claim
   langs:
   - csharp
-  - vb
   name: CustomSerializationData
   nameWithType: Claim.CustomSerializationData
   fullName: System.Security.Claims.Claim.CustomSerializationData
@@ -322,17 +383,22 @@ items:
   assemblies:
   - mscorlib
   namespace: System.Security.Claims
+  summary: To be added.
+  remarks: To be added.
   syntax:
     content: protected virtual byte[] CustomSerializationData { get; }
     return:
       type: System.Byte[]
-      description: Return description to be filled
+      description: To be added.
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Security.Claims.Claim.Issuer
   id: Issuer
   parent: System.Security.Claims.Claim
   langs:
   - csharp
-  - vb
   name: Issuer
   nameWithType: Claim.Issuer
   fullName: System.Security.Claims.Claim.Issuer
@@ -340,17 +406,22 @@ items:
   assemblies:
   - mscorlib
   namespace: System.Security.Claims
+  summary: Gets the issuer of the claim.
+  remarks: The value of the Issuer property is a name that is taken from a list of well-known issuers maintained by the issuer name registry. The issuer name registry is an instance of a class that derives from the <xref:System.IdentityModel.Tokens.IssuerNameRegistry> class. The issuer name registry associates a mnemonic name (the issuer name) with the cryptographic material that is needed to verify signatures of tokens produced by the issuer; for example, an X.509 certificate.
   syntax:
     content: public string Issuer { get; }
     return:
       type: System.String
-      description: Return description to be filled
+      description: To be added.
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Security.Claims.Claim.OriginalIssuer
   id: OriginalIssuer
   parent: System.Security.Claims.Claim
   langs:
   - csharp
-  - vb
   name: OriginalIssuer
   nameWithType: Claim.OriginalIssuer
   fullName: System.Security.Claims.Claim.OriginalIssuer
@@ -358,17 +429,22 @@ items:
   assemblies:
   - mscorlib
   namespace: System.Security.Claims
+  summary: Gets the original issuer of the claim.
+  remarks: "Contains the name of the entity that originally issued the claim. This property is designed to facilitate scenarios where a claim may pass through multiple issuers before it is presented by the client to the RP application; such as federation scenarios.  \n  \n The value of the OriginalIssuer property is a name that is taken from a list of well-known issuers maintained by the issuer name registry. The issuer name registry is an instance of a class that derives from the <xref:System.IdentityModel.Tokens.IssuerNameRegistry> class. The issuer name registry associates a mnemonic name (the issuer name) with the cryptographic material that is needed to verify signatures of tokens produced by the issuer; for example, an X.509 certificate.  \n  \n Except for delegation and federation scenarios, the <xref:System.Security.Claims.Claim.Issuer%2A> property and the OriginalIssuer property will usually have the same value. If the value of the OriginalIssuer property differs from the value of the <xref:System.Security.Claims.Claim.Issuer%2A> property, the claim was first issued by the original issuer and was subsequently re-issued by the issuer."
   syntax:
     content: public string OriginalIssuer { get; }
     return:
       type: System.String
-      description: Return description to be filled
+      description: To be added.
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Security.Claims.Claim.Properties
   id: Properties
   parent: System.Security.Claims.Claim
   langs:
   - csharp
-  - vb
   name: Properties
   nameWithType: Claim.Properties
   fullName: System.Security.Claims.Claim.Properties
@@ -376,17 +452,22 @@ items:
   assemblies:
   - mscorlib
   namespace: System.Security.Claims
+  summary: Gets a dictionary that contains additional properties associated with this claim.
+  remarks: The Properties property provides a dictionary of name-value pairs that allows metadata or other information about the claim to be associated with it. For claims generated from SAML tokens, this dictionary may contain keys given by the constants in the <xref:System.Security.Claims.ClaimProperties> class.
   syntax:
     content: public System.Collections.Generic.IDictionary<string,string> Properties { get; }
     return:
       type: System.Collections.Generic.IDictionary{System.String,System.String}
-      description: Return description to be filled
+      description: To be added.
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Security.Claims.Claim.Subject
   id: Subject
   parent: System.Security.Claims.Claim
   langs:
   - csharp
-  - vb
   name: Subject
   nameWithType: Claim.Subject
   fullName: System.Security.Claims.Claim.Subject
@@ -394,17 +475,22 @@ items:
   assemblies:
   - mscorlib
   namespace: System.Security.Claims
+  summary: Gets the subject of the claim.
+  remarks: The subject is the entity about which the claim is asserted. Some typical examples are a user, an application or service, a device, or a computer. The subject is represented by a <xref:System.Security.Claims.ClaimsIdentity>, which contains a collection of claims that describe it.
   syntax:
     content: public System.Security.Claims.ClaimsIdentity Subject { get; }
     return:
       type: System.Security.Claims.ClaimsIdentity
-      description: Return description to be filled
+      description: To be added.
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Security.Claims.Claim.ToString
   id: ToString
   parent: System.Security.Claims.Claim
   langs:
   - csharp
-  - vb
   name: ToString()
   nameWithType: Claim.ToString()
   fullName: System.Security.Claims.Claim.ToString()
@@ -412,18 +498,23 @@ items:
   assemblies:
   - mscorlib
   namespace: System.Security.Claims
+  summary: Returns a string representation of this <see cref="T:System.Security.Claims.Claim"> object.
+  remarks: 'The string that is returned contains the values of the <xref:System.Security.Claims.Claim.Type%2A> and <xref:System.Security.Claims.Claim.Value%2A> properties in the following format:.”Type: Value”.'
   syntax:
     content: public override string ToString ();
     parameters: []
     return:
       type: System.String
-      description: Return description to be filled
+      description: The string representation of this <see cref="T:System.Security.Claims.Claim"> object.
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Security.Claims.Claim.Type
   id: Type
   parent: System.Security.Claims.Claim
   langs:
   - csharp
-  - vb
   name: Type
   nameWithType: Claim.Type
   fullName: System.Security.Claims.Claim.Type
@@ -431,17 +522,22 @@ items:
   assemblies:
   - mscorlib
   namespace: System.Security.Claims
+  summary: Gets the claim type of the claim.
+  remarks: The Type property provides the semantic content of the claim, that is, it states what the claim is about. For example, a claim with a claim type of <xref:System.Security.Claims.ClaimTypes.GivenName> (“http://schemas.xmlsoap.org/ws/2005/05/identity/claims/givenname”) represents a user’s first name. The claim type is typically a URI; however, you are not limited to any specific format other than that it must be representable as a string. The only general requirement is that the claim issuer and the claim consumer must agree about the meaning of the claim. Constants for the well-known claim types used by Windows Identity Foundation (WIF) are available through the <xref:System.Security.Claims.ClaimTypes> class. The claim value is provided by the <xref:System.Security.Claims.Claim.Value%2A> property.
   syntax:
     content: public string Type { get; }
     return:
       type: System.String
-      description: Return description to be filled
+      description: To be added.
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Security.Claims.Claim.Value
   id: Value
   parent: System.Security.Claims.Claim
   langs:
   - csharp
-  - vb
   name: Value
   nameWithType: Claim.Value
   fullName: System.Security.Claims.Claim.Value
@@ -449,17 +545,22 @@ items:
   assemblies:
   - mscorlib
   namespace: System.Security.Claims
+  summary: Gets the value of the claim.
+  remarks: "The value of a claim is represented only as a string. For more complex value types, it is recommended that you use standard XML schema types to indicate how the value is meant to be serialized and deserialized to and from a string.  \n  \n The <xref:System.Security.Claims.Claim.ValueType%2A> property provides the underlying syntactic type information about the value. The <xref:System.Security.Claims.Claim.Type%2A> property provides the semantic information about the value; that is, it provides the meaning of the value and tells a claim consumer how to interpret it."
   syntax:
     content: public string Value { get; }
     return:
       type: System.String
-      description: Return description to be filled
+      description: To be added.
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Security.Claims.Claim.ValueType
   id: ValueType
   parent: System.Security.Claims.Claim
   langs:
   - csharp
-  - vb
   name: ValueType
   nameWithType: Claim.ValueType
   fullName: System.Security.Claims.Claim.ValueType
@@ -467,17 +568,22 @@ items:
   assemblies:
   - mscorlib
   namespace: System.Security.Claims
+  summary: Gets the value type of the claim.
+  remarks: The ValueType property contains a string that identifies the type information of the value. This property can be used to understand the format of the value and to provide information about how to serialize and deserialize the value. If your solution requires complex value types, it is recommended that you use standard XML schema types in the ValueType property to indicate how the <xref:System.Security.Claims.Claim.Value%2A> property is meant to be serialized and deserialized from a string.
   syntax:
     content: public string ValueType { get; }
     return:
       type: System.String
-      description: Return description to be filled
+      description: To be added.
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Security.Claims.Claim.WriteTo(System.IO.BinaryWriter)
   id: WriteTo(System.IO.BinaryWriter)
   parent: System.Security.Claims.Claim
   langs:
   - csharp
-  - vb
   name: WriteTo(BinaryWriter)
   nameWithType: Claim.WriteTo(BinaryWriter)
   fullName: System.Security.Claims.Claim.WriteTo(BinaryWriter)
@@ -485,22 +591,24 @@ items:
   assemblies:
   - mscorlib
   namespace: System.Security.Claims
+  summary: To be added.
+  remarks: To be added.
   syntax:
     content: public virtual void WriteTo (System.IO.BinaryWriter writer);
     parameters:
     - id: writer
       type: System.IO.BinaryWriter
-      description: Parameter description to be filled
-    return:
-      type: System.Void
-      description: Return description to be filled
+      description: ''
   overload: System.Security.Claims.Claim.WriteTo*
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Security.Claims.Claim.WriteTo(System.IO.BinaryWriter,System.Byte[])
   id: WriteTo(System.IO.BinaryWriter,System.Byte[])
   parent: System.Security.Claims.Claim
   langs:
   - csharp
-  - vb
   name: WriteTo(BinaryWriter,Byte[])
   nameWithType: Claim.WriteTo(BinaryWriter,Byte[])
   fullName: System.Security.Claims.Claim.WriteTo(BinaryWriter,Byte[])
@@ -508,19 +616,22 @@ items:
   assemblies:
   - mscorlib
   namespace: System.Security.Claims
+  summary: Writes this <see cref="T:System.Security.Claims.Claim"> to the writer.
+  remarks: To be added.
   syntax:
     content: protected virtual void WriteTo (System.IO.BinaryWriter writer, byte[] userData);
     parameters:
     - id: writer
       type: System.IO.BinaryWriter
-      description: Parameter description to be filled
+      description: The writer to write this claim
     - id: userData
       type: System.Byte[]
-      description: Parameter description to be filled
-    return:
-      type: System.Void
-      description: Return description to be filled
+      description: The user data to claim
   overload: System.Security.Claims.Claim.WriteTo*
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 references:
 - uid: System.Object
   isExternal: false
@@ -771,6 +882,12 @@ references:
   name: CustomSerializationData
   nameWithType: Claim.CustomSerializationData
   fullName: System.Security.Claims.Claim.CustomSerializationData
+- uid: System.Byte
+  parent: System
+  isExternal: false
+  name: Byte
+  nameWithType: Byte
+  fullName: System.Byte[]
 - uid: System.Security.Claims.Claim.Issuer
   parent: System.Security.Claims.Claim
   isExternal: false
@@ -801,6 +918,12 @@ references:
   name: Properties
   nameWithType: Claim.Properties
   fullName: System.Security.Claims.Claim.Properties
+- uid: System.Collections.Generic.IDictionary{System.String,System.String}
+  parent: System.Collections.Generic
+  isExternal: false
+  name: IDictionary<String,String>
+  nameWithType: IDictionary<String,String>
+  fullName: System.Collections.Generic.IDictionary<System.String,System.String>
 - uid: System.Security.Claims.Claim.Subject
   parent: System.Security.Claims.Claim
   isExternal: false
@@ -867,12 +990,6 @@ references:
   name: WriteTo(BinaryWriter)
   nameWithType: Claim.WriteTo(BinaryWriter)
   fullName: System.Security.Claims.Claim.WriteTo(BinaryWriter)
-- uid: System.Void
-  parent: System
-  isExternal: false
-  name: Void
-  nameWithType: Void
-  fullName: System.Void
 - uid: System.IO.BinaryWriter
   parent: System.IO
   isExternal: false
@@ -885,18 +1002,18 @@ references:
   name: WriteTo(BinaryWriter,Byte[])
   nameWithType: Claim.WriteTo(BinaryWriter,Byte[])
   fullName: System.Security.Claims.Claim.WriteTo(BinaryWriter,Byte[])
-- uid: System.Void
-  parent: System
-  isExternal: false
-  name: Void
-  nameWithType: Void
-  fullName: System.Void
 - uid: System.IO.BinaryWriter
   parent: System.IO
   isExternal: false
   name: BinaryWriter
   nameWithType: BinaryWriter
   fullName: System.IO.BinaryWriter
+- uid: System.Byte
+  parent: System
+  isExternal: false
+  name: Byte
+  nameWithType: Byte
+  fullName: System.Byte[]
 - uid: System.Security.Claims.Claim.Clone*
   parent: System.Security.Claims.Claim
   isExternal: false

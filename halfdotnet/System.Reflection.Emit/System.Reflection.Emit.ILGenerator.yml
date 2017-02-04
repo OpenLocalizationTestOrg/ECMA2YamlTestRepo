@@ -48,11 +48,12 @@ items:
   - System.Reflection.Emit.ILGenerator.UsingNamespace(System.String)
   langs:
   - csharp
-  - vb
   name: ILGenerator
   nameWithType: ILGenerator
   fullName: System.Reflection.Emit.ILGenerator
   type: Class
+  summary: Generates Microsoft intermediate language (MSIL) instructions.
+  remarks: "ILGenerator is used to generate method bodies for methods and constructors in dynamic assemblies (represented by the <xref:System.Reflection.Emit.MethodBuilder> and <xref:System.Reflection.Emit.ConstructorBuilder> classes) and for standalone dynamic methods (represented by the <xref:System.Reflection.Emit.DynamicMethod> class). To obtain an ILGenerator, use the <xref:System.Reflection.Emit.ConstructorBuilder.GetILGenerator%2A?displayProperty=fullName>, <xref:System.Reflection.Emit.DynamicMethod.GetILGenerator%2A?displayProperty=fullName>, and <xref:System.Reflection.Emit.MethodBuilder.GetILGenerator%2A?displayProperty=fullName> methods.  \n  \n MSIL is used as input to a just-in-time (JIT) compiler."
   syntax:
     content: >-
       [System.Runtime.InteropServices.ClassInterface(System.Runtime.InteropServices.ClassInterfaceType.None)]
@@ -74,12 +75,15 @@ items:
   - System.Object.MemberwiseClone
   - System.Object.ReferenceEquals(System.Object,System.Object)
   - System.Object.ToString
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Reflection.Emit.ILGenerator.BeginCatchBlock(System.Type)
   id: BeginCatchBlock(System.Type)
   parent: System.Reflection.Emit.ILGenerator
   langs:
   - csharp
-  - vb
   name: BeginCatchBlock(Type)
   nameWithType: ILGenerator.BeginCatchBlock(Type)
   fullName: System.Reflection.Emit.ILGenerator.BeginCatchBlock(Type)
@@ -87,21 +91,25 @@ items:
   assemblies:
   - mscorlib
   namespace: System.Reflection.Emit
+  summary: Begins a catch block.
+  remarks: "Emits a branch instruction to the end of the current exception block.  \n  \n> [!NOTE]\n>  If the filter exception block returns the `constant exception_execute_handler` (see the documentation for the Common Language Infrastructure Instruction Set), the argument to the `BeginCatchBlock` is not checked."
+  example:
+  - "The code sample below demonstrates the contextual usage of the `BeginCatchBlock` method.  \n  \n [!CODE [System.Reflection.Emit.ILGenerator.ThrowException Example#1](../CodeSnippet/VS_Snippets_CLR_System/system.Reflection.Emit.ILGenerator.ThrowException Example#1)]"
   syntax:
     content: public virtual void BeginCatchBlock (Type exceptionType);
     parameters:
     - id: exceptionType
       type: System.Type
-      description: Parameter description to be filled
-    return:
-      type: System.Void
-      description: Return description to be filled
+      description: The <see cref="T:System.Type"> object that represents the exception.
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Reflection.Emit.ILGenerator.BeginExceptFilterBlock
   id: BeginExceptFilterBlock
   parent: System.Reflection.Emit.ILGenerator
   langs:
   - csharp
-  - vb
   name: BeginExceptFilterBlock()
   nameWithType: ILGenerator.BeginExceptFilterBlock()
   fullName: System.Reflection.Emit.ILGenerator.BeginExceptFilterBlock()
@@ -109,18 +117,20 @@ items:
   assemblies:
   - mscorlib
   namespace: System.Reflection.Emit
+  summary: Begins an exception block for a filtered exception.
+  remarks: "Emits a branch instruction to the end of the current exception block.  \n  \n If the current <xref:System.Reflection.Emit.ILGenerator> is associated with a <xref:System.Reflection.Emit.DynamicMethod> object, emitting filtered exception blocks is not supported. <xref:System.Reflection.Emit.DynamicILInfo> can be used to construct a dynamic method that uses filtered exception blocks."
   syntax:
     content: public virtual void BeginExceptFilterBlock ();
     parameters: []
-    return:
-      type: System.Void
-      description: Return description to be filled
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Reflection.Emit.ILGenerator.BeginExceptionBlock
   id: BeginExceptionBlock
   parent: System.Reflection.Emit.ILGenerator
   langs:
   - csharp
-  - vb
   name: BeginExceptionBlock()
   nameWithType: ILGenerator.BeginExceptionBlock()
   fullName: System.Reflection.Emit.ILGenerator.BeginExceptionBlock()
@@ -128,18 +138,25 @@ items:
   assemblies:
   - mscorlib
   namespace: System.Reflection.Emit
+  summary: Begins an exception block for a non-filtered exception.
+  remarks: Creating an exception block records some information, but does not actually emit any Microsoft intermediate language (MSIL) onto the stream.
+  example:
+  - "The code sample below demonstrates the contextual usage of the `BeginExceptionBlock` method.  \n  \n [!CODE [System.Reflection.Emit.ILGenerator.ThrowException Example#1](../CodeSnippet/VS_Snippets_CLR_System/system.Reflection.Emit.ILGenerator.ThrowException Example#1)]"
   syntax:
     content: public virtual System.Reflection.Emit.Label BeginExceptionBlock ();
     parameters: []
     return:
       type: System.Reflection.Emit.Label
-      description: Return description to be filled
+      description: The label for the end of the block. This will leave you in the correct place to execute finally blocks or to finish the try.
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Reflection.Emit.ILGenerator.BeginFaultBlock
   id: BeginFaultBlock
   parent: System.Reflection.Emit.ILGenerator
   langs:
   - csharp
-  - vb
   name: BeginFaultBlock()
   nameWithType: ILGenerator.BeginFaultBlock()
   fullName: System.Reflection.Emit.ILGenerator.BeginFaultBlock()
@@ -147,18 +164,22 @@ items:
   assemblies:
   - mscorlib
   namespace: System.Reflection.Emit
+  summary: Begins an exception fault block in the Microsoft intermediate language (MSIL) stream.
+  remarks: If the current <xref:System.Reflection.Emit.ILGenerator> is associated with a <xref:System.Reflection.Emit.DynamicMethod> object, emitting exception fault blocks is not supported. <xref:System.Reflection.Emit.DynamicILInfo> can be used to construct a dynamic method that uses exception fault blocks.
+  example:
+  - "The following code sample illustrates the use of `BeginFaultBlock`.  \n  \n [!CODE [ILGenerator_BeginFaultBlock#1](../CodeSnippet/VS_Snippets_CLR/ILGenerator_BeginFaultBlock#1)]"
   syntax:
     content: public virtual void BeginFaultBlock ();
     parameters: []
-    return:
-      type: System.Void
-      description: Return description to be filled
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Reflection.Emit.ILGenerator.BeginFinallyBlock
   id: BeginFinallyBlock
   parent: System.Reflection.Emit.ILGenerator
   langs:
   - csharp
-  - vb
   name: BeginFinallyBlock()
   nameWithType: ILGenerator.BeginFinallyBlock()
   fullName: System.Reflection.Emit.ILGenerator.BeginFinallyBlock()
@@ -166,18 +187,22 @@ items:
   assemblies:
   - mscorlib
   namespace: System.Reflection.Emit
+  summary: Begins a finally block in the Microsoft intermediate language (MSIL) instruction stream.
+  remarks: ''
+  example:
+  - "The following code sample illustrates the use of `BeginFinallyBlock`.  \n  \n [!CODE [ILGenerator_BeginFinallyBlock_2#2](../CodeSnippet/VS_Snippets_CLR/ILGenerator_BeginFinallyBlock_2#2)]"
   syntax:
     content: public virtual void BeginFinallyBlock ();
     parameters: []
-    return:
-      type: System.Void
-      description: Return description to be filled
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Reflection.Emit.ILGenerator.BeginScope
   id: BeginScope
   parent: System.Reflection.Emit.ILGenerator
   langs:
   - csharp
-  - vb
   name: BeginScope()
   nameWithType: ILGenerator.BeginScope()
   fullName: System.Reflection.Emit.ILGenerator.BeginScope()
@@ -185,18 +210,22 @@ items:
   assemblies:
   - mscorlib
   namespace: System.Reflection.Emit
+  summary: Begins a lexical scope.
+  remarks: "This method is used to emit symbolic information. Local variables declared after BeginScope are scoped until the corresponding <xref:System.Reflection.Emit.ILGenerator.EndScope%2A> is called.  \n  \n If the current <xref:System.Reflection.Emit.ILGenerator> is associated with a <xref:System.Reflection.Emit.DynamicMethod> object, it does not support symbolic information."
+  example:
+  - "The following code sample illustrates the use of `BeginScope` and `EndScope`.  \n  \n [!CODE [ILGenerator_Begin_EndScope#2](../CodeSnippet/VS_Snippets_CLR/ILGenerator_Begin_EndScope#2)]"
   syntax:
     content: public virtual void BeginScope ();
     parameters: []
-    return:
-      type: System.Void
-      description: Return description to be filled
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Reflection.Emit.ILGenerator.DeclareLocal(System.Type)
   id: DeclareLocal(System.Type)
   parent: System.Reflection.Emit.ILGenerator
   langs:
   - csharp
-  - vb
   name: DeclareLocal(Type)
   nameWithType: ILGenerator.DeclareLocal(Type)
   fullName: System.Reflection.Emit.ILGenerator.DeclareLocal(Type)
@@ -204,22 +233,29 @@ items:
   assemblies:
   - mscorlib
   namespace: System.Reflection.Emit
+  summary: Declares a local variable of the specified type.
+  remarks: "The local variable is created in the current lexical scope; for example, if code is being emitted in a `for` loop (`For` loop in Visual Basic), the scope of the variable is the loop.  \n  \n A local variable created with this overload is not pinned. To create a pinned variable for use with unmanaged pointers, use the <xref:System.Reflection.Emit.ILGenerator.DeclareLocal%28System.Type%2CSystem.Boolean%29> method overload."
+  example:
+  - "The following code example demonstrates the use of the `DeclareLocal` method. This code is part of a larger code example for the <xref:System.Reflection.Emit.LocalBuilder> class.  \n  \n [!CODE [LocalBuilder_Sample_SetLocalSymInfo#2](../CodeSnippet/VS_Snippets_CLR/LocalBuilder_Sample_SetLocalSymInfo#2)]"
   syntax:
     content: public virtual System.Reflection.Emit.LocalBuilder DeclareLocal (Type localType);
     parameters:
     - id: localType
       type: System.Type
-      description: Parameter description to be filled
+      description: A <see cref="T:System.Type"> object that represents the type of the local variable.
     return:
       type: System.Reflection.Emit.LocalBuilder
-      description: Return description to be filled
+      description: The declared local variable.
   overload: System.Reflection.Emit.ILGenerator.DeclareLocal*
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Reflection.Emit.ILGenerator.DeclareLocal(System.Type,System.Boolean)
   id: DeclareLocal(System.Type,System.Boolean)
   parent: System.Reflection.Emit.ILGenerator
   langs:
   - csharp
-  - vb
   name: DeclareLocal(Type,Boolean)
   nameWithType: ILGenerator.DeclareLocal(Type,Boolean)
   fullName: System.Reflection.Emit.ILGenerator.DeclareLocal(Type,Boolean)
@@ -227,25 +263,30 @@ items:
   assemblies:
   - mscorlib
   namespace: System.Reflection.Emit
+  summary: Declares a local variable of the specified type, optionally pinning the object referred to by the variable.
+  remarks: "The local variable is created in the current lexical scope; for example, if code is being emitted in a `for` loop (`For` loop in Visual Basic), the scope of the variable is the loop.  \n  \n In unsafe code, an object must be pinned before it can be referred to by an unmanaged pointer. While the referenced object is pinned, it cannot be moved by garbage collection."
   syntax:
     content: public virtual System.Reflection.Emit.LocalBuilder DeclareLocal (Type localType, bool pinned);
     parameters:
     - id: localType
       type: System.Type
-      description: Parameter description to be filled
+      description: A <see cref="T:System.Type"> object that represents the type of the local variable.
     - id: pinned
       type: System.Boolean
-      description: Parameter description to be filled
+      description: '`true` to pin the object in memory; otherwise, `false`.'
     return:
       type: System.Reflection.Emit.LocalBuilder
-      description: Return description to be filled
+      description: A <see cref="T:System.Reflection.Emit.LocalBuilder"> object that represents the local variable.
   overload: System.Reflection.Emit.ILGenerator.DeclareLocal*
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Reflection.Emit.ILGenerator.DefineLabel
   id: DefineLabel
   parent: System.Reflection.Emit.ILGenerator
   langs:
   - csharp
-  - vb
   name: DefineLabel()
   nameWithType: ILGenerator.DefineLabel()
   fullName: System.Reflection.Emit.ILGenerator.DefineLabel()
@@ -253,18 +294,25 @@ items:
   assemblies:
   - mscorlib
   namespace: System.Reflection.Emit
+  summary: Declares a new label.
+  remarks: "To set the position of the label within the stream, you must call <xref:System.Reflection.Emit.ILGenerator.MarkLabel%2A>.  \n  \n This is just a token and does not yet represent any particular location within the stream."
+  example:
+  - "The code sample below demonstrates the contextual usage of the `DefineLabel` method.  \n  \n [!CODE [System.Reflection.Emit.Label Example#1](../CodeSnippet/VS_Snippets_CLR_System/system.Reflection.Emit.Label Example#1)]"
   syntax:
     content: public virtual System.Reflection.Emit.Label DefineLabel ();
     parameters: []
     return:
       type: System.Reflection.Emit.Label
-      description: Return description to be filled
+      description: Returns a new label that can be used as a token for branching.
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Reflection.Emit.ILGenerator.Emit(System.Reflection.Emit.OpCode)
   id: Emit(System.Reflection.Emit.OpCode)
   parent: System.Reflection.Emit.ILGenerator
   langs:
   - csharp
-  - vb
   name: Emit(OpCode)
   nameWithType: ILGenerator.Emit(OpCode)
   fullName: System.Reflection.Emit.ILGenerator.Emit(OpCode)
@@ -272,22 +320,26 @@ items:
   assemblies:
   - mscorlib
   namespace: System.Reflection.Emit
+  summary: Puts the specified instruction onto the stream of instructions.
+  remarks: "If the  parameter requires an argument, the caller must ensure that the argument length matches the length of the declared parameter. Otherwise, results will be unpredictable. For example, if the Emit instruction requires a 2-byte operand and the caller supplies a 4-byte operand, the runtime will emit two additional bytes to the instruction stream. These extra bytes will be <xref:System.Reflection.Emit.OpCodes.Nop> instructions.  \n  \n The instruction values are defined in <xref:System.Reflection.Emit.OpCodes>."
+  example:
+  - "The code sample below demonstrates the use of `Emit` to generate MSIL output via an instance of <xref:System.Reflection.Emit.ILGenerator>.  \n  \n [!CODE [System.Reflection.Emit.ILGenerator.Emit Example 2#1](../CodeSnippet/VS_Snippets_CLR_System/system.Reflection.Emit.ILGenerator.Emit Example 2#1)]"
   syntax:
     content: public virtual void Emit (System.Reflection.Emit.OpCode opcode);
     parameters:
     - id: opcode
       type: System.Reflection.Emit.OpCode
-      description: Parameter description to be filled
-    return:
-      type: System.Void
-      description: Return description to be filled
+      description: The Microsoft Intermediate Language (MSIL) instruction to be put onto the stream.
   overload: System.Reflection.Emit.ILGenerator.Emit*
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Reflection.Emit.ILGenerator.Emit(System.Reflection.Emit.OpCode,System.Byte)
   id: Emit(System.Reflection.Emit.OpCode,System.Byte)
   parent: System.Reflection.Emit.ILGenerator
   langs:
   - csharp
-  - vb
   name: Emit(OpCode,Byte)
   nameWithType: ILGenerator.Emit(OpCode,Byte)
   fullName: System.Reflection.Emit.ILGenerator.Emit(OpCode,Byte)
@@ -295,25 +347,27 @@ items:
   assemblies:
   - mscorlib
   namespace: System.Reflection.Emit
+  summary: Puts the specified instruction and character argument onto the Microsoft intermediate language (MSIL) stream of instructions.
+  remarks: The instruction values are defined in the `OpCodes` enumeration.
   syntax:
     content: public virtual void Emit (System.Reflection.Emit.OpCode opcode, byte arg);
     parameters:
     - id: opcode
       type: System.Reflection.Emit.OpCode
-      description: Parameter description to be filled
+      description: The MSIL instruction to be put onto the stream.
     - id: arg
       type: System.Byte
-      description: Parameter description to be filled
-    return:
-      type: System.Void
-      description: Return description to be filled
+      description: The character argument pushed onto the stream immediately after the instruction.
   overload: System.Reflection.Emit.ILGenerator.Emit*
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Reflection.Emit.ILGenerator.Emit(System.Reflection.Emit.OpCode,System.Double)
   id: Emit(System.Reflection.Emit.OpCode,System.Double)
   parent: System.Reflection.Emit.ILGenerator
   langs:
   - csharp
-  - vb
   name: Emit(OpCode,Double)
   nameWithType: ILGenerator.Emit(OpCode,Double)
   fullName: System.Reflection.Emit.ILGenerator.Emit(OpCode,Double)
@@ -321,25 +375,27 @@ items:
   assemblies:
   - mscorlib
   namespace: System.Reflection.Emit
+  summary: Puts the specified instruction and numerical argument onto the Microsoft intermediate language (MSIL) stream of instructions.
+  remarks: The instruction values are defined in the `OpCodes` enumeration.
   syntax:
     content: public virtual void Emit (System.Reflection.Emit.OpCode opcode, double arg);
     parameters:
     - id: opcode
       type: System.Reflection.Emit.OpCode
-      description: Parameter description to be filled
+      description: The MSIL instruction to be put onto the stream. Defined in the `OpCodes` enumeration.
     - id: arg
       type: System.Double
-      description: Parameter description to be filled
-    return:
-      type: System.Void
-      description: Return description to be filled
+      description: The numerical argument pushed onto the stream immediately after the instruction.
   overload: System.Reflection.Emit.ILGenerator.Emit*
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Reflection.Emit.ILGenerator.Emit(System.Reflection.Emit.OpCode,System.Int16)
   id: Emit(System.Reflection.Emit.OpCode,System.Int16)
   parent: System.Reflection.Emit.ILGenerator
   langs:
   - csharp
-  - vb
   name: Emit(OpCode,Int16)
   nameWithType: ILGenerator.Emit(OpCode,Int16)
   fullName: System.Reflection.Emit.ILGenerator.Emit(OpCode,Int16)
@@ -347,25 +403,27 @@ items:
   assemblies:
   - mscorlib
   namespace: System.Reflection.Emit
+  summary: Puts the specified instruction and numerical argument onto the Microsoft intermediate language (MSIL) stream of instructions.
+  remarks: The instruction values are defined in the `OpCodes` enumeration.
   syntax:
     content: public virtual void Emit (System.Reflection.Emit.OpCode opcode, short arg);
     parameters:
     - id: opcode
       type: System.Reflection.Emit.OpCode
-      description: Parameter description to be filled
+      description: The MSIL instruction to be emitted onto the stream.
     - id: arg
       type: System.Int16
-      description: Parameter description to be filled
-    return:
-      type: System.Void
-      description: Return description to be filled
+      description: The `Int` argument pushed onto the stream immediately after the instruction.
   overload: System.Reflection.Emit.ILGenerator.Emit*
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Reflection.Emit.ILGenerator.Emit(System.Reflection.Emit.OpCode,System.Int32)
   id: Emit(System.Reflection.Emit.OpCode,System.Int32)
   parent: System.Reflection.Emit.ILGenerator
   langs:
   - csharp
-  - vb
   name: Emit(OpCode,Int32)
   nameWithType: ILGenerator.Emit(OpCode,Int32)
   fullName: System.Reflection.Emit.ILGenerator.Emit(OpCode,Int32)
@@ -373,25 +431,27 @@ items:
   assemblies:
   - mscorlib
   namespace: System.Reflection.Emit
+  summary: Puts the specified instruction and numerical argument onto the Microsoft intermediate language (MSIL) stream of instructions.
+  remarks: The instruction values are defined in the `OpCodes` enumeration.
   syntax:
     content: public virtual void Emit (System.Reflection.Emit.OpCode opcode, int arg);
     parameters:
     - id: opcode
       type: System.Reflection.Emit.OpCode
-      description: Parameter description to be filled
+      description: The MSIL instruction to be put onto the stream.
     - id: arg
       type: System.Int32
-      description: Parameter description to be filled
-    return:
-      type: System.Void
-      description: Return description to be filled
+      description: The numerical argument pushed onto the stream immediately after the instruction.
   overload: System.Reflection.Emit.ILGenerator.Emit*
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Reflection.Emit.ILGenerator.Emit(System.Reflection.Emit.OpCode,System.Int64)
   id: Emit(System.Reflection.Emit.OpCode,System.Int64)
   parent: System.Reflection.Emit.ILGenerator
   langs:
   - csharp
-  - vb
   name: Emit(OpCode,Int64)
   nameWithType: ILGenerator.Emit(OpCode,Int64)
   fullName: System.Reflection.Emit.ILGenerator.Emit(OpCode,Int64)
@@ -399,25 +459,27 @@ items:
   assemblies:
   - mscorlib
   namespace: System.Reflection.Emit
+  summary: Puts the specified instruction and numerical argument onto the Microsoft intermediate language (MSIL) stream of instructions.
+  remarks: The instruction values are defined in the `OpCodes` enumeration.
   syntax:
     content: public virtual void Emit (System.Reflection.Emit.OpCode opcode, long arg);
     parameters:
     - id: opcode
       type: System.Reflection.Emit.OpCode
-      description: Parameter description to be filled
+      description: The MSIL instruction to be put onto the stream.
     - id: arg
       type: System.Int64
-      description: Parameter description to be filled
-    return:
-      type: System.Void
-      description: Return description to be filled
+      description: The numerical argument pushed onto the stream immediately after the instruction.
   overload: System.Reflection.Emit.ILGenerator.Emit*
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Reflection.Emit.ILGenerator.Emit(System.Reflection.Emit.OpCode,System.Reflection.ConstructorInfo)
   id: Emit(System.Reflection.Emit.OpCode,System.Reflection.ConstructorInfo)
   parent: System.Reflection.Emit.ILGenerator
   langs:
   - csharp
-  - vb
   name: Emit(OpCode,ConstructorInfo)
   nameWithType: ILGenerator.Emit(OpCode,ConstructorInfo)
   fullName: System.Reflection.Emit.ILGenerator.Emit(OpCode,ConstructorInfo)
@@ -425,25 +487,27 @@ items:
   assemblies:
   - mscorlib
   namespace: System.Reflection.Emit
+  summary: Puts the specified instruction and metadata token for the specified constructor onto the Microsoft intermediate language (MSIL) stream of instructions.
+  remarks: "The instruction values are defined in the `OpCodes` enumeration.  \n  \n The location of  is recorded so that the instruction stream can be patched if necessary when persisting the module to a portable executable (PE) file."
   syntax:
     content: public virtual void Emit (System.Reflection.Emit.OpCode opcode, System.Reflection.ConstructorInfo con);
     parameters:
     - id: opcode
       type: System.Reflection.Emit.OpCode
-      description: Parameter description to be filled
+      description: The MSIL instruction to be emitted onto the stream.
     - id: con
       type: System.Reflection.ConstructorInfo
-      description: Parameter description to be filled
-    return:
-      type: System.Void
-      description: Return description to be filled
+      description: A `ConstructorInfo` representing a constructor.
   overload: System.Reflection.Emit.ILGenerator.Emit*
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Reflection.Emit.ILGenerator.Emit(System.Reflection.Emit.OpCode,System.Reflection.Emit.Label)
   id: Emit(System.Reflection.Emit.OpCode,System.Reflection.Emit.Label)
   parent: System.Reflection.Emit.ILGenerator
   langs:
   - csharp
-  - vb
   name: Emit(OpCode,Label)
   nameWithType: ILGenerator.Emit(OpCode,Label)
   fullName: System.Reflection.Emit.ILGenerator.Emit(OpCode,Label)
@@ -451,25 +515,29 @@ items:
   assemblies:
   - mscorlib
   namespace: System.Reflection.Emit
+  summary: Puts the specified instruction onto the Microsoft intermediate language (MSIL) stream and leaves space to include a label when fixes are done.
+  remarks: "The instruction values are defined in the `OpCodes` enumeration.  \n  \n Labels are created using <xref:System.Reflection.Emit.ILGenerator.DefineLabel%2A>, and their location within the stream is fixed by using <xref:System.Reflection.Emit.ILGenerator.MarkLabel%2A>. If a single-byte instruction is used, the label can represent a jump of at most 127 bytes along the stream.  must represent a branch instruction. Because branches are relative instructions,  will be replaced with the correct offset to branch during the fixup process."
+  example:
+  - "The code sample below illustrates the creation of a dynamic method with a jump table. The jump table is built using an array of <xref:System.Reflection.Emit.Label>.  \n  \n [!CODE [System.Reflection.Emit.ILGenerator.Emit Example 2#1](../CodeSnippet/VS_Snippets_CLR_System/system.Reflection.Emit.ILGenerator.Emit Example 2#1)]"
   syntax:
     content: public virtual void Emit (System.Reflection.Emit.OpCode opcode, System.Reflection.Emit.Label label);
     parameters:
     - id: opcode
       type: System.Reflection.Emit.OpCode
-      description: Parameter description to be filled
+      description: The MSIL instruction to be emitted onto the stream.
     - id: label
       type: System.Reflection.Emit.Label
-      description: Parameter description to be filled
-    return:
-      type: System.Void
-      description: Return description to be filled
+      description: The label to which to branch from this location.
   overload: System.Reflection.Emit.ILGenerator.Emit*
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Reflection.Emit.ILGenerator.Emit(System.Reflection.Emit.OpCode,System.Reflection.Emit.Label[])
   id: Emit(System.Reflection.Emit.OpCode,System.Reflection.Emit.Label[])
   parent: System.Reflection.Emit.ILGenerator
   langs:
   - csharp
-  - vb
   name: Emit(OpCode,Label[])
   nameWithType: ILGenerator.Emit(OpCode,Label[])
   fullName: System.Reflection.Emit.ILGenerator.Emit(OpCode,Label[])
@@ -477,25 +545,29 @@ items:
   assemblies:
   - mscorlib
   namespace: System.Reflection.Emit
+  summary: Puts the specified instruction onto the Microsoft intermediate language (MSIL) stream and leaves space to include a label when fixes are done.
+  remarks: "Emits a switch table.  \n  \n The instruction values are defined in the `OpCodes` enumeration.  \n  \n Labels are created using <xref:System.Reflection.Emit.ILGenerator.DefineLabel%2A> and their location within the stream is fixed by using <xref:System.Reflection.Emit.ILGenerator.MarkLabel%2A>. If a single-byte instruction is used, the label can represent a jump of at most 127 bytes along the stream.  must represent a branch instruction. Because branches are relative instructions,  will be replaced with the correct offset to branch during the fixup process."
+  example:
+  - "The code sample below illustrates the creation of a dynamic method with a jump table. The jump table is built using an array of <xref:System.Reflection.Emit.Label>.  \n  \n [!CODE [System.Reflection.Emit.ILGenerator.Emit Example 2#1](../CodeSnippet/VS_Snippets_CLR_System/system.Reflection.Emit.ILGenerator.Emit Example 2#1)]"
   syntax:
     content: public virtual void Emit (System.Reflection.Emit.OpCode opcode, System.Reflection.Emit.Label[] labels);
     parameters:
     - id: opcode
       type: System.Reflection.Emit.OpCode
-      description: Parameter description to be filled
+      description: The MSIL instruction to be emitted onto the stream.
     - id: labels
       type: System.Reflection.Emit.Label[]
-      description: Parameter description to be filled
-    return:
-      type: System.Void
-      description: Return description to be filled
+      description: The array of label objects to which to branch from this location. All of the labels will be used.
   overload: System.Reflection.Emit.ILGenerator.Emit*
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Reflection.Emit.ILGenerator.Emit(System.Reflection.Emit.OpCode,System.Reflection.Emit.LocalBuilder)
   id: Emit(System.Reflection.Emit.OpCode,System.Reflection.Emit.LocalBuilder)
   parent: System.Reflection.Emit.ILGenerator
   langs:
   - csharp
-  - vb
   name: Emit(OpCode,LocalBuilder)
   nameWithType: ILGenerator.Emit(OpCode,LocalBuilder)
   fullName: System.Reflection.Emit.ILGenerator.Emit(OpCode,LocalBuilder)
@@ -503,25 +575,27 @@ items:
   assemblies:
   - mscorlib
   namespace: System.Reflection.Emit
+  summary: Puts the specified instruction onto the Microsoft intermediate language (MSIL) stream followed by the index of the given local variable.
+  remarks: The instruction values are defined in the `OpCodes` enumeration.
   syntax:
     content: public virtual void Emit (System.Reflection.Emit.OpCode opcode, System.Reflection.Emit.LocalBuilder local);
     parameters:
     - id: opcode
       type: System.Reflection.Emit.OpCode
-      description: Parameter description to be filled
+      description: The MSIL instruction to be emitted onto the stream.
     - id: local
       type: System.Reflection.Emit.LocalBuilder
-      description: Parameter description to be filled
-    return:
-      type: System.Void
-      description: Return description to be filled
+      description: A local variable.
   overload: System.Reflection.Emit.ILGenerator.Emit*
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Reflection.Emit.ILGenerator.Emit(System.Reflection.Emit.OpCode,System.Reflection.Emit.SignatureHelper)
   id: Emit(System.Reflection.Emit.OpCode,System.Reflection.Emit.SignatureHelper)
   parent: System.Reflection.Emit.ILGenerator
   langs:
   - csharp
-  - vb
   name: Emit(OpCode,SignatureHelper)
   nameWithType: ILGenerator.Emit(OpCode,SignatureHelper)
   fullName: System.Reflection.Emit.ILGenerator.Emit(OpCode,SignatureHelper)
@@ -529,25 +603,27 @@ items:
   assemblies:
   - mscorlib
   namespace: System.Reflection.Emit
+  summary: Puts the specified instruction and a signature token onto the Microsoft intermediate language (MSIL) stream of instructions.
+  remarks: The instruction values are defined in the `OpCodes` enumeration.
   syntax:
     content: public virtual void Emit (System.Reflection.Emit.OpCode opcode, System.Reflection.Emit.SignatureHelper signature);
     parameters:
     - id: opcode
       type: System.Reflection.Emit.OpCode
-      description: Parameter description to be filled
+      description: The MSIL instruction to be emitted onto the stream.
     - id: signature
       type: System.Reflection.Emit.SignatureHelper
-      description: Parameter description to be filled
-    return:
-      type: System.Void
-      description: Return description to be filled
+      description: A helper for constructing a signature token.
   overload: System.Reflection.Emit.ILGenerator.Emit*
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Reflection.Emit.ILGenerator.Emit(System.Reflection.Emit.OpCode,System.Reflection.FieldInfo)
   id: Emit(System.Reflection.Emit.OpCode,System.Reflection.FieldInfo)
   parent: System.Reflection.Emit.ILGenerator
   langs:
   - csharp
-  - vb
   name: Emit(OpCode,FieldInfo)
   nameWithType: ILGenerator.Emit(OpCode,FieldInfo)
   fullName: System.Reflection.Emit.ILGenerator.Emit(OpCode,FieldInfo)
@@ -555,25 +631,27 @@ items:
   assemblies:
   - mscorlib
   namespace: System.Reflection.Emit
+  summary: Puts the specified instruction and metadata token for the specified field onto the Microsoft intermediate language (MSIL) stream of instructions.
+  remarks: The instruction values are defined in the `OpCodes` enumeration. The location of  is recorded so that the instruction stream can be patched if necessary when persisting the module to a portable executable (PE) file.
   syntax:
     content: public virtual void Emit (System.Reflection.Emit.OpCode opcode, System.Reflection.FieldInfo field);
     parameters:
     - id: opcode
       type: System.Reflection.Emit.OpCode
-      description: Parameter description to be filled
+      description: The MSIL instruction to be emitted onto the stream.
     - id: field
       type: System.Reflection.FieldInfo
-      description: Parameter description to be filled
-    return:
-      type: System.Void
-      description: Return description to be filled
+      description: A `FieldInfo` representing a field.
   overload: System.Reflection.Emit.ILGenerator.Emit*
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Reflection.Emit.ILGenerator.Emit(System.Reflection.Emit.OpCode,System.Reflection.MethodInfo)
   id: Emit(System.Reflection.Emit.OpCode,System.Reflection.MethodInfo)
   parent: System.Reflection.Emit.ILGenerator
   langs:
   - csharp
-  - vb
   name: Emit(OpCode,MethodInfo)
   nameWithType: ILGenerator.Emit(OpCode,MethodInfo)
   fullName: System.Reflection.Emit.ILGenerator.Emit(OpCode,MethodInfo)
@@ -581,25 +659,27 @@ items:
   assemblies:
   - mscorlib
   namespace: System.Reflection.Emit
+  summary: Puts the specified instruction onto the Microsoft intermediate language (MSIL) stream followed by the metadata token for the given method.
+  remarks: "The instruction values are defined in the `OpCodes` enumeration.  \n  \n The location of  is recorded so that the instruction stream can be patched if necessary when persisting the module to a portable executable (PE) file.  \n  \n If  represents a generic method, it must be a generic method definition. That is, its <xref:System.Reflection.MethodInfo.IsGenericMethodDefinition%2A?displayProperty=fullName> property must be `true`."
   syntax:
     content: public virtual void Emit (System.Reflection.Emit.OpCode opcode, System.Reflection.MethodInfo meth);
     parameters:
     - id: opcode
       type: System.Reflection.Emit.OpCode
-      description: Parameter description to be filled
+      description: The MSIL instruction to be emitted onto the stream.
     - id: meth
       type: System.Reflection.MethodInfo
-      description: Parameter description to be filled
-    return:
-      type: System.Void
-      description: Return description to be filled
+      description: A `MethodInfo` representing a method.
   overload: System.Reflection.Emit.ILGenerator.Emit*
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Reflection.Emit.ILGenerator.Emit(System.Reflection.Emit.OpCode,System.SByte)
   id: Emit(System.Reflection.Emit.OpCode,System.SByte)
   parent: System.Reflection.Emit.ILGenerator
   langs:
   - csharp
-  - vb
   name: Emit(OpCode,SByte)
   nameWithType: ILGenerator.Emit(OpCode,SByte)
   fullName: System.Reflection.Emit.ILGenerator.Emit(OpCode,SByte)
@@ -607,25 +687,27 @@ items:
   assemblies:
   - mscorlib
   namespace: System.Reflection.Emit
+  summary: Puts the specified instruction and character argument onto the Microsoft intermediate language (MSIL) stream of instructions.
+  remarks: The instruction values are defined in the `OpCodes` enumeration.
   syntax:
     content: public void Emit (System.Reflection.Emit.OpCode opcode, sbyte arg);
     parameters:
     - id: opcode
       type: System.Reflection.Emit.OpCode
-      description: Parameter description to be filled
+      description: The MSIL instruction to be put onto the stream.
     - id: arg
       type: System.SByte
-      description: Parameter description to be filled
-    return:
-      type: System.Void
-      description: Return description to be filled
+      description: The character argument pushed onto the stream immediately after the instruction.
   overload: System.Reflection.Emit.ILGenerator.Emit*
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Reflection.Emit.ILGenerator.Emit(System.Reflection.Emit.OpCode,System.Single)
   id: Emit(System.Reflection.Emit.OpCode,System.Single)
   parent: System.Reflection.Emit.ILGenerator
   langs:
   - csharp
-  - vb
   name: Emit(OpCode,Single)
   nameWithType: ILGenerator.Emit(OpCode,Single)
   fullName: System.Reflection.Emit.ILGenerator.Emit(OpCode,Single)
@@ -633,25 +715,27 @@ items:
   assemblies:
   - mscorlib
   namespace: System.Reflection.Emit
+  summary: Puts the specified instruction and numerical argument onto the Microsoft intermediate language (MSIL) stream of instructions.
+  remarks: The instruction values are defined in the `OpCodes` enumeration.
   syntax:
     content: public virtual void Emit (System.Reflection.Emit.OpCode opcode, float arg);
     parameters:
     - id: opcode
       type: System.Reflection.Emit.OpCode
-      description: Parameter description to be filled
+      description: The MSIL instruction to be put onto the stream.
     - id: arg
       type: System.Single
-      description: Parameter description to be filled
-    return:
-      type: System.Void
-      description: Return description to be filled
+      description: The `Single` argument pushed onto the stream immediately after the instruction.
   overload: System.Reflection.Emit.ILGenerator.Emit*
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Reflection.Emit.ILGenerator.Emit(System.Reflection.Emit.OpCode,System.String)
   id: Emit(System.Reflection.Emit.OpCode,System.String)
   parent: System.Reflection.Emit.ILGenerator
   langs:
   - csharp
-  - vb
   name: Emit(OpCode,String)
   nameWithType: ILGenerator.Emit(OpCode,String)
   fullName: System.Reflection.Emit.ILGenerator.Emit(OpCode,String)
@@ -659,25 +743,27 @@ items:
   assemblies:
   - mscorlib
   namespace: System.Reflection.Emit
+  summary: Puts the specified instruction onto the Microsoft intermediate language (MSIL) stream followed by the metadata token for the given string.
+  remarks: The instruction values are defined in the `OpCodes` enumeration. The location of  is recorded for future fixups if the module is persisted to a portable executable (PE) file.
   syntax:
     content: public virtual void Emit (System.Reflection.Emit.OpCode opcode, string str);
     parameters:
     - id: opcode
       type: System.Reflection.Emit.OpCode
-      description: Parameter description to be filled
+      description: The MSIL instruction to be emitted onto the stream.
     - id: str
       type: System.String
-      description: Parameter description to be filled
-    return:
-      type: System.Void
-      description: Return description to be filled
+      description: The `String` to be emitted.
   overload: System.Reflection.Emit.ILGenerator.Emit*
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Reflection.Emit.ILGenerator.Emit(System.Reflection.Emit.OpCode,System.Type)
   id: Emit(System.Reflection.Emit.OpCode,System.Type)
   parent: System.Reflection.Emit.ILGenerator
   langs:
   - csharp
-  - vb
   name: Emit(OpCode,Type)
   nameWithType: ILGenerator.Emit(OpCode,Type)
   fullName: System.Reflection.Emit.ILGenerator.Emit(OpCode,Type)
@@ -685,25 +771,27 @@ items:
   assemblies:
   - mscorlib
   namespace: System.Reflection.Emit
+  summary: Puts the specified instruction onto the Microsoft intermediate language (MSIL) stream followed by the metadata token for the given type.
+  remarks: The instruction values are defined in the `OpCodes` enumeration. The location of  is recorded so that the token can be patched if necessary when persisting the module to a portable executable (PE) file.
   syntax:
     content: public virtual void Emit (System.Reflection.Emit.OpCode opcode, Type cls);
     parameters:
     - id: opcode
       type: System.Reflection.Emit.OpCode
-      description: Parameter description to be filled
+      description: The MSIL instruction to be put onto the stream.
     - id: cls
       type: System.Type
-      description: Parameter description to be filled
-    return:
-      type: System.Void
-      description: Return description to be filled
+      description: A `Type`.
   overload: System.Reflection.Emit.ILGenerator.Emit*
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Reflection.Emit.ILGenerator.EmitCall(System.Reflection.Emit.OpCode,System.Reflection.MethodInfo,System.Type[])
   id: EmitCall(System.Reflection.Emit.OpCode,System.Reflection.MethodInfo,System.Type[])
   parent: System.Reflection.Emit.ILGenerator
   langs:
   - csharp
-  - vb
   name: EmitCall(OpCode,MethodInfo,Type[])
   nameWithType: ILGenerator.EmitCall(OpCode,MethodInfo,Type[])
   fullName: System.Reflection.Emit.ILGenerator.EmitCall(OpCode,MethodInfo,Type[])
@@ -711,27 +799,31 @@ items:
   assemblies:
   - mscorlib
   namespace: System.Reflection.Emit
+  summary: Puts a `call` or `callvirt` instruction onto the Microsoft intermediate language (MSIL) stream to call a `varargs` method.
+  remarks: "The EmitCall method is used to emit calls to `varargs` methods because there is no overload of the <xref:System.Reflection.Emit.ILGenerator.Emit%2A> method that specifies the parameter types of the variable arguments.  \n  \n To emit calls to methods that do not use the <xref:System.Reflection.CallingConventions> calling convention, use the <xref:System.Reflection.Emit.ILGenerator.Emit%28System.Reflection.Emit.OpCode%2CSystem.Reflection.MethodInfo%29> method overload.  \n  \n## Version Information  \n Beginning with the .NET Framework version 2.0, the EmitCall method does not throw an exception when optional parameter types are specified for a method that is not `varargs`. <xref:System.InvalidProgramException> is thrown when the call is executed."
+  example:
+  - "The following code example emits two methods, a `varargs` method and a method that calls the `varargs` method. The `EmitCall` method is used to emit the call to the `varargs` method.  \n  \n [!CODE [Emit.ArgIterator#1](../CodeSnippet/VS_Snippets_CLR/Emit.ArgIterator#1)]"
   syntax:
     content: public virtual void EmitCall (System.Reflection.Emit.OpCode opcode, System.Reflection.MethodInfo methodInfo, Type[] optionalParameterTypes);
     parameters:
     - id: opcode
       type: System.Reflection.Emit.OpCode
-      description: Parameter description to be filled
+      description: The MSIL instruction to be emitted onto the stream. Must be <xref:System.Reflection.Emit.OpCodes.Call?displayProperty=fullName>, <xref:System.Reflection.Emit.OpCodes.Callvirt?displayProperty=fullName>, or <xref:System.Reflection.Emit.OpCodes.Newobj?displayProperty=fullName>.
     - id: methodInfo
       type: System.Reflection.MethodInfo
-      description: Parameter description to be filled
+      description: The `varargs` method to be called.
     - id: optionalParameterTypes
       type: System.Type[]
-      description: Parameter description to be filled
-    return:
-      type: System.Void
-      description: Return description to be filled
+      description: The types of the optional arguments if the method is a `varargs` method; otherwise, `null`.
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Reflection.Emit.ILGenerator.EmitCalli(System.Reflection.Emit.OpCode,System.Runtime.InteropServices.CallingConvention,System.Type,System.Type[])
   id: EmitCalli(System.Reflection.Emit.OpCode,System.Runtime.InteropServices.CallingConvention,System.Type,System.Type[])
   parent: System.Reflection.Emit.ILGenerator
   langs:
   - csharp
-  - vb
   name: EmitCalli(OpCode,CallingConvention,Type,Type[])
   nameWithType: ILGenerator.EmitCalli(OpCode,CallingConvention,Type,Type[])
   fullName: System.Reflection.Emit.ILGenerator.EmitCalli(OpCode,CallingConvention,Type,Type[])
@@ -739,31 +831,35 @@ items:
   assemblies:
   - mscorlib
   namespace: System.Reflection.Emit
+  summary: Puts a <see cref="F:System.Reflection.Emit.OpCodes.Calli"> instruction onto the Microsoft intermediate language (MSIL) stream, specifying an unmanaged calling convention for the indirect call.
+  remarks: Use<xref:System.Reflection.Emit.ILGenerator.EmitCalli%2A> to put a <xref:System.Reflection.Emit.OpCodes.Calli> instruction onto the stream. Do not use <xref:System.Reflection.Emit.ILGenerator.Emit%2A>.
+  example:
+  - "The following code sample demonstrates the contextual usage of the <xref:System.Reflection.Emit.ILGenerator.EmitCalli%2A> method to call an unmanaged type method external to the dynamic class.  \n  \n [!CODE [System.Reflection.Emit.ILGenerator.EmitCalli Example#1](../CodeSnippet/VS_Snippets_CLR_System/system.Reflection.Emit.ILGenerator.EmitCalli Example#1)]"
   syntax:
     content: public virtual void EmitCalli (System.Reflection.Emit.OpCode opcode, System.Runtime.InteropServices.CallingConvention unmanagedCallConv, Type returnType, Type[] parameterTypes);
     parameters:
     - id: opcode
       type: System.Reflection.Emit.OpCode
-      description: Parameter description to be filled
+      description: The MSIL instruction to be emitted onto the stream. Must be <xref:System.Reflection.Emit.OpCodes.Calli?displayProperty=fullName>.
     - id: unmanagedCallConv
       type: System.Runtime.InteropServices.CallingConvention
-      description: Parameter description to be filled
+      description: The unmanaged calling convention to be used.
     - id: returnType
       type: System.Type
-      description: Parameter description to be filled
+      description: The <see cref="T:System.Type"> of the result.
     - id: parameterTypes
       type: System.Type[]
-      description: Parameter description to be filled
-    return:
-      type: System.Void
-      description: Return description to be filled
+      description: The types of the required arguments to the instruction.
   overload: System.Reflection.Emit.ILGenerator.EmitCalli*
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Reflection.Emit.ILGenerator.EmitCalli(System.Reflection.Emit.OpCode,System.Reflection.CallingConventions,System.Type,System.Type[],System.Type[])
   id: EmitCalli(System.Reflection.Emit.OpCode,System.Reflection.CallingConventions,System.Type,System.Type[],System.Type[])
   parent: System.Reflection.Emit.ILGenerator
   langs:
   - csharp
-  - vb
   name: EmitCalli(OpCode,CallingConventions,Type,Type[],Type[])
   nameWithType: ILGenerator.EmitCalli(OpCode,CallingConventions,Type,Type[],Type[])
   fullName: System.Reflection.Emit.ILGenerator.EmitCalli(OpCode,CallingConventions,Type,Type[],Type[])
@@ -771,34 +867,36 @@ items:
   assemblies:
   - mscorlib
   namespace: System.Reflection.Emit
+  summary: Puts a <see cref="F:System.Reflection.Emit.OpCodes.Calli"> instruction onto the Microsoft intermediate language (MSIL) stream, specifying a managed calling convention for the indirect call.
+  remarks: "Use EmitCalli to put a <xref:System.Reflection.Emit.OpCodes.Calli> instruction onto the stream. Do not use <xref:System.Reflection.Emit.ILGenerator.Emit%2A>.  \n  \n If  specifies optional arguments,  must include the <xref:System.Reflection.CallingConventions?displayProperty=fullName> flag."
   syntax:
     content: public virtual void EmitCalli (System.Reflection.Emit.OpCode opcode, System.Reflection.CallingConventions callingConvention, Type returnType, Type[] parameterTypes, Type[] optionalParameterTypes);
     parameters:
     - id: opcode
       type: System.Reflection.Emit.OpCode
-      description: Parameter description to be filled
+      description: The MSIL instruction to be emitted onto the stream. Must be <xref:System.Reflection.Emit.OpCodes.Calli?displayProperty=fullName>.
     - id: callingConvention
       type: System.Reflection.CallingConventions
-      description: Parameter description to be filled
+      description: The managed calling convention to be used.
     - id: returnType
       type: System.Type
-      description: Parameter description to be filled
+      description: The <see cref="T:System.Type"> of the result.
     - id: parameterTypes
       type: System.Type[]
-      description: Parameter description to be filled
+      description: The types of the required arguments to the instruction.
     - id: optionalParameterTypes
       type: System.Type[]
-      description: Parameter description to be filled
-    return:
-      type: System.Void
-      description: Return description to be filled
+      description: The types of the optional arguments for `varargs` calls.
   overload: System.Reflection.Emit.ILGenerator.EmitCalli*
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Reflection.Emit.ILGenerator.EmitWriteLine(System.Reflection.Emit.LocalBuilder)
   id: EmitWriteLine(System.Reflection.Emit.LocalBuilder)
   parent: System.Reflection.Emit.ILGenerator
   langs:
   - csharp
-  - vb
   name: EmitWriteLine(LocalBuilder)
   nameWithType: ILGenerator.EmitWriteLine(LocalBuilder)
   fullName: System.Reflection.Emit.ILGenerator.EmitWriteLine(LocalBuilder)
@@ -806,22 +904,26 @@ items:
   assemblies:
   - mscorlib
   namespace: System.Reflection.Emit
+  summary: Emits the Microsoft intermediate language (MSIL) necessary to call <xref:System.Console.WriteLine%2A?displayProperty=fullName> with the given local variable.
+  remarks: The type of  must match the parameter type of an overload of the <xref:System.Console.WriteLine%2A?displayProperty=fullName> method.
+  example:
+  - "The code sample below demonstrates the contextual usage of the EmitWriteLine method to write a string to the console in a dynamic method.  \n  \n [!CODE [System.Reflection.Emit.ILGenerator.OpCodes Example#1](../CodeSnippet/VS_Snippets_CLR_System/system.Reflection.Emit.ILGenerator.OpCodes Example#1)]"
   syntax:
     content: public virtual void EmitWriteLine (System.Reflection.Emit.LocalBuilder localBuilder);
     parameters:
     - id: localBuilder
       type: System.Reflection.Emit.LocalBuilder
-      description: Parameter description to be filled
-    return:
-      type: System.Void
-      description: Return description to be filled
+      description: The local variable whose value is to be written to the console.
   overload: System.Reflection.Emit.ILGenerator.EmitWriteLine*
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Reflection.Emit.ILGenerator.EmitWriteLine(System.Reflection.FieldInfo)
   id: EmitWriteLine(System.Reflection.FieldInfo)
   parent: System.Reflection.Emit.ILGenerator
   langs:
   - csharp
-  - vb
   name: EmitWriteLine(FieldInfo)
   nameWithType: ILGenerator.EmitWriteLine(FieldInfo)
   fullName: System.Reflection.Emit.ILGenerator.EmitWriteLine(FieldInfo)
@@ -829,22 +931,26 @@ items:
   assemblies:
   - mscorlib
   namespace: System.Reflection.Emit
+  summary: Emits the Microsoft intermediate language (MSIL) necessary to call <xref:System.Console.WriteLine%2A?displayProperty=fullName> with the given field.
+  remarks: The type of  must match the parameter type of an overload of the <xref:System.Console.WriteLine%2A?displayProperty=fullName> method.
+  example:
+  - "The following code sample demonstrates the use of the EmitWriteLine method to write a string to the console in a dynamic method.  \n  \n [!CODE [System.Reflection.Emit.ILGenerator.OpCodes Example#1](../CodeSnippet/VS_Snippets_CLR_System/system.Reflection.Emit.ILGenerator.OpCodes Example#1)]"
   syntax:
     content: public virtual void EmitWriteLine (System.Reflection.FieldInfo fld);
     parameters:
     - id: fld
       type: System.Reflection.FieldInfo
-      description: Parameter description to be filled
-    return:
-      type: System.Void
-      description: Return description to be filled
+      description: The field whose value is to be written to the console.
   overload: System.Reflection.Emit.ILGenerator.EmitWriteLine*
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Reflection.Emit.ILGenerator.EmitWriteLine(System.String)
   id: EmitWriteLine(System.String)
   parent: System.Reflection.Emit.ILGenerator
   langs:
   - csharp
-  - vb
   name: EmitWriteLine(String)
   nameWithType: ILGenerator.EmitWriteLine(String)
   fullName: System.Reflection.Emit.ILGenerator.EmitWriteLine(String)
@@ -852,22 +958,26 @@ items:
   assemblies:
   - mscorlib
   namespace: System.Reflection.Emit
+  summary: Emits the Microsoft intermediate language (MSIL) to call <xref:System.Console.WriteLine%2A?displayProperty=fullName> with a string.
+  remarks: The string must have already been defined.
+  example:
+  - "The code sample below demonstrates the contextual usage of the `EmitWriteLine` method to write a string to the console in a dynamic method.  \n  \n [!CODE [System.Reflection.Emit.ILGenerator.OpCodes Example#1](../CodeSnippet/VS_Snippets_CLR_System/system.Reflection.Emit.ILGenerator.OpCodes Example#1)]"
   syntax:
     content: public virtual void EmitWriteLine (string value);
     parameters:
     - id: value
       type: System.String
-      description: Parameter description to be filled
-    return:
-      type: System.Void
-      description: Return description to be filled
+      description: The string to be printed.
   overload: System.Reflection.Emit.ILGenerator.EmitWriteLine*
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Reflection.Emit.ILGenerator.EndExceptionBlock
   id: EndExceptionBlock
   parent: System.Reflection.Emit.ILGenerator
   langs:
   - csharp
-  - vb
   name: EndExceptionBlock()
   nameWithType: ILGenerator.EndExceptionBlock()
   fullName: System.Reflection.Emit.ILGenerator.EndExceptionBlock()
@@ -875,18 +985,22 @@ items:
   assemblies:
   - mscorlib
   namespace: System.Reflection.Emit
+  summary: Ends an exception block.
+  remarks: ''
+  example:
+  - "The code sample below demonstrates the contextual usage of the `EndExceptionBlock` method.  \n  \n [!CODE [System.Reflection.Emit.ILGenerator.ThrowException Example#1](../CodeSnippet/VS_Snippets_CLR_System/system.Reflection.Emit.ILGenerator.ThrowException Example#1)]"
   syntax:
     content: public virtual void EndExceptionBlock ();
     parameters: []
-    return:
-      type: System.Void
-      description: Return description to be filled
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Reflection.Emit.ILGenerator.EndScope
   id: EndScope
   parent: System.Reflection.Emit.ILGenerator
   langs:
   - csharp
-  - vb
   name: EndScope()
   nameWithType: ILGenerator.EndScope()
   fullName: System.Reflection.Emit.ILGenerator.EndScope()
@@ -894,18 +1008,22 @@ items:
   assemblies:
   - mscorlib
   namespace: System.Reflection.Emit
+  summary: Ends a lexical scope.
+  remarks: "This method is used to emit symbolic information. It is used with <xref:System.Reflection.Emit.ILGenerator.BeginScope%2A>.  \n  \n If the current <xref:System.Reflection.Emit.ILGenerator> is associated with a <xref:System.Reflection.Emit.DynamicMethod> object, it does not support symbolic information."
+  example:
+  - "The following code sample illustrates the use of `BeginScope` and `EndScope`.  \n  \n [!CODE [ILGenerator_Begin_EndScope#2](../CodeSnippet/VS_Snippets_CLR/ILGenerator_Begin_EndScope#2)]"
   syntax:
     content: public virtual void EndScope ();
     parameters: []
-    return:
-      type: System.Void
-      description: Return description to be filled
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Reflection.Emit.ILGenerator.ILOffset
   id: ILOffset
   parent: System.Reflection.Emit.ILGenerator
   langs:
   - csharp
-  - vb
   name: ILOffset
   nameWithType: ILGenerator.ILOffset
   fullName: System.Reflection.Emit.ILGenerator.ILOffset
@@ -913,17 +1031,22 @@ items:
   assemblies:
   - mscorlib
   namespace: System.Reflection.Emit
+  summary: Gets the current offset, in bytes, in the Microsoft intermediate language (MSIL) stream that is being emitted by the <see cref="T:System.Reflection.Emit.ILGenerator">.
+  remarks: "This method is transparent, and can be called from partially trusted code.  \n  \n If the ILOffset property is accessed before any MSIL instructions have been emitted, it returns 0 (zero).  \n  \n When MSIL is generated for dynamic languages, this property can be used to map offsets in the MSIL stream to source code line numbers. The resulting information can be used to provide stack traces when exceptions are thrown."
   syntax:
     content: public virtual int ILOffset { get; }
     return:
       type: System.Int32
-      description: Return description to be filled
+      description: To be added.
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Reflection.Emit.ILGenerator.MarkLabel(System.Reflection.Emit.Label)
   id: MarkLabel(System.Reflection.Emit.Label)
   parent: System.Reflection.Emit.ILGenerator
   langs:
   - csharp
-  - vb
   name: MarkLabel(Label)
   nameWithType: ILGenerator.MarkLabel(Label)
   fullName: System.Reflection.Emit.ILGenerator.MarkLabel(Label)
@@ -931,21 +1054,25 @@ items:
   assemblies:
   - mscorlib
   namespace: System.Reflection.Emit
+  summary: Marks the Microsoft intermediate language (MSIL) stream's current position with the given label.
+  remarks: A label cannot be defined more than once.
+  example:
+  - "The code sample below demonstrates the contextual usage of `MarkLabel` to implement MSIL branching in a dynamic method.  \n  \n [!CODE [System.Reflection.Emit.ILGenerator.Emit Example 2#1](../CodeSnippet/VS_Snippets_CLR_System/system.Reflection.Emit.ILGenerator.Emit Example 2#1)]"
   syntax:
     content: public virtual void MarkLabel (System.Reflection.Emit.Label loc);
     parameters:
     - id: loc
       type: System.Reflection.Emit.Label
-      description: Parameter description to be filled
-    return:
-      type: System.Void
-      description: Return description to be filled
+      description: The label for which to set an index.
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Reflection.Emit.ILGenerator.MarkSequencePoint(System.Diagnostics.SymbolStore.ISymbolDocumentWriter,System.Int32,System.Int32,System.Int32,System.Int32)
   id: MarkSequencePoint(System.Diagnostics.SymbolStore.ISymbolDocumentWriter,System.Int32,System.Int32,System.Int32,System.Int32)
   parent: System.Reflection.Emit.ILGenerator
   langs:
   - csharp
-  - vb
   name: MarkSequencePoint(ISymbolDocumentWriter,Int32,Int32,Int32,Int32)
   nameWithType: ILGenerator.MarkSequencePoint(ISymbolDocumentWriter,Int32,Int32,Int32,Int32)
   fullName: System.Reflection.Emit.ILGenerator.MarkSequencePoint(ISymbolDocumentWriter,Int32,Int32,Int32,Int32)
@@ -953,34 +1080,36 @@ items:
   assemblies:
   - mscorlib
   namespace: System.Reflection.Emit
+  summary: Marks a sequence point in the Microsoft intermediate language (MSIL) stream.
+  remarks: "Line numbers are indexed from 1. Columns are indexed from 0.  \n  \n The symbolic information normally includes at least one MSIL offset for each source line. When the just-in-time (JIT) compiler is about to compile a method, it asks the profiling services for a list of MSIL offsets that should be preserved. These MSIL offsets are called *sequence points*.  \n  \n If the current <xref:System.Reflection.Emit.ILGenerator> is associated with a <xref:System.Reflection.Emit.DynamicMethod> object, it does not support symbolic information."
   syntax:
     content: public virtual void MarkSequencePoint (System.Diagnostics.SymbolStore.ISymbolDocumentWriter document, int startLine, int startColumn, int endLine, int endColumn);
     parameters:
     - id: document
       type: System.Diagnostics.SymbolStore.ISymbolDocumentWriter
-      description: Parameter description to be filled
+      description: The document for which the sequence point is being defined.
     - id: startLine
       type: System.Int32
-      description: Parameter description to be filled
+      description: The line where the sequence point begins.
     - id: startColumn
       type: System.Int32
-      description: Parameter description to be filled
+      description: The column in the line where the sequence point begins.
     - id: endLine
       type: System.Int32
-      description: Parameter description to be filled
+      description: The line where the sequence point ends.
     - id: endColumn
       type: System.Int32
-      description: Parameter description to be filled
-    return:
-      type: System.Void
-      description: Return description to be filled
+      description: The column in the line where the sequence point ends.
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Reflection.Emit.ILGenerator.System#Runtime#InteropServices#_ILGenerator#GetIDsOfNames(System.Guid@,System.IntPtr,System.UInt32,System.UInt32,System.IntPtr)
   id: System#Runtime#InteropServices#_ILGenerator#GetIDsOfNames(System.Guid@,System.IntPtr,System.UInt32,System.UInt32,System.IntPtr)
   isEii: true
   parent: System.Reflection.Emit.ILGenerator
   langs:
   - csharp
-  - vb
   name: System.Runtime.InteropServices._ILGenerator.GetIDsOfNames(Guid,IntPtr,UInt32,UInt32,IntPtr)
   nameWithType: ILGenerator.System.Runtime.InteropServices._ILGenerator.GetIDsOfNames(Guid,IntPtr,UInt32,UInt32,IntPtr)
   fullName: System.Reflection.Emit.ILGenerator.System.Runtime.InteropServices._ILGenerator.GetIDsOfNames(Guid,IntPtr,UInt32,UInt32,IntPtr)
@@ -988,34 +1117,36 @@ items:
   assemblies:
   - mscorlib
   namespace: System.Reflection.Emit
+  summary: Maps a set of names to a corresponding set of dispatch identifiers.
+  remarks: This method is for accessing managed classes from unmanaged code, and should not be called from managed code. For more information about `IDispatch::GetIDsOfNames`, see the MSDN Library.
   syntax:
     content: void _ILGenerator.GetIDsOfNames (ref Guid riid, IntPtr rgszNames, uint cNames, uint lcid, IntPtr rgDispId);
     parameters:
     - id: riid
       type: System.Guid
-      description: Parameter description to be filled
+      description: Reserved for future use. Must be IID_NULL.
     - id: rgszNames
       type: System.IntPtr
-      description: Parameter description to be filled
+      description: Passed-in array of names to be mapped.
     - id: cNames
       type: System.UInt32
-      description: Parameter description to be filled
+      description: Count of the names to be mapped.
     - id: lcid
       type: System.UInt32
-      description: Parameter description to be filled
+      description: The locale context in which to interpret the names.
     - id: rgDispId
       type: System.IntPtr
-      description: Parameter description to be filled
-    return:
-      type: System.Void
-      description: Return description to be filled
+      description: Caller-allocated array that receives the IDs corresponding to the names.
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Reflection.Emit.ILGenerator.System#Runtime#InteropServices#_ILGenerator#GetTypeInfo(System.UInt32,System.UInt32,System.IntPtr)
   id: System#Runtime#InteropServices#_ILGenerator#GetTypeInfo(System.UInt32,System.UInt32,System.IntPtr)
   isEii: true
   parent: System.Reflection.Emit.ILGenerator
   langs:
   - csharp
-  - vb
   name: System.Runtime.InteropServices._ILGenerator.GetTypeInfo(UInt32,UInt32,IntPtr)
   nameWithType: ILGenerator.System.Runtime.InteropServices._ILGenerator.GetTypeInfo(UInt32,UInt32,IntPtr)
   fullName: System.Reflection.Emit.ILGenerator.System.Runtime.InteropServices._ILGenerator.GetTypeInfo(UInt32,UInt32,IntPtr)
@@ -1023,28 +1154,30 @@ items:
   assemblies:
   - mscorlib
   namespace: System.Reflection.Emit
+  summary: Retrieves the type information for an object, which can then be used to get the type information for an interface.
+  remarks: This method is for accessing managed classes from unmanaged code, and should not be called from managed code. For more information about `IDispatch::GetTypeInfo`, see the MSDN Library.
   syntax:
     content: void _ILGenerator.GetTypeInfo (uint iTInfo, uint lcid, IntPtr ppTInfo);
     parameters:
     - id: iTInfo
       type: System.UInt32
-      description: Parameter description to be filled
+      description: The type information to return.
     - id: lcid
       type: System.UInt32
-      description: Parameter description to be filled
+      description: The locale identifier for the type information.
     - id: ppTInfo
       type: System.IntPtr
-      description: Parameter description to be filled
-    return:
-      type: System.Void
-      description: Return description to be filled
+      description: Receives a pointer to the requested type information object.
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Reflection.Emit.ILGenerator.System#Runtime#InteropServices#_ILGenerator#GetTypeInfoCount(System.UInt32@)
   id: System#Runtime#InteropServices#_ILGenerator#GetTypeInfoCount(System.UInt32@)
   isEii: true
   parent: System.Reflection.Emit.ILGenerator
   langs:
   - csharp
-  - vb
   name: System.Runtime.InteropServices._ILGenerator.GetTypeInfoCount(UInt32)
   nameWithType: ILGenerator.System.Runtime.InteropServices._ILGenerator.GetTypeInfoCount(UInt32)
   fullName: System.Reflection.Emit.ILGenerator.System.Runtime.InteropServices._ILGenerator.GetTypeInfoCount(UInt32)
@@ -1052,22 +1185,24 @@ items:
   assemblies:
   - mscorlib
   namespace: System.Reflection.Emit
+  summary: Retrieves the number of type information interfaces that an object provides (either 0 or 1).
+  remarks: This method is for accessing managed classes from unmanaged code, and should not be called from managed code. For more information about `IDispatch::GetTypeInfoCount`, see the MSDN Library.
   syntax:
     content: void _ILGenerator.GetTypeInfoCount (out uint pcTInfo);
     parameters:
     - id: pcTInfo
       type: System.UInt32
-      description: Parameter description to be filled
-    return:
-      type: System.Void
-      description: Return description to be filled
+      description: Points to a location that receives the number of type information interfaces provided by the object.
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Reflection.Emit.ILGenerator.System#Runtime#InteropServices#_ILGenerator#Invoke(System.UInt32,System.Guid@,System.UInt32,System.Int16,System.IntPtr,System.IntPtr,System.IntPtr,System.IntPtr)
   id: System#Runtime#InteropServices#_ILGenerator#Invoke(System.UInt32,System.Guid@,System.UInt32,System.Int16,System.IntPtr,System.IntPtr,System.IntPtr,System.IntPtr)
   isEii: true
   parent: System.Reflection.Emit.ILGenerator
   langs:
   - csharp
-  - vb
   name: System.Runtime.InteropServices._ILGenerator.Invoke(UInt32,Guid,UInt32,Int16,IntPtr,IntPtr,IntPtr,IntPtr)
   nameWithType: ILGenerator.System.Runtime.InteropServices._ILGenerator.Invoke(UInt32,Guid,UInt32,Int16,IntPtr,IntPtr,IntPtr,IntPtr)
   fullName: System.Reflection.Emit.ILGenerator.System.Runtime.InteropServices._ILGenerator.Invoke(UInt32,Guid,UInt32,Int16,IntPtr,IntPtr,IntPtr,IntPtr)
@@ -1075,42 +1210,44 @@ items:
   assemblies:
   - mscorlib
   namespace: System.Reflection.Emit
+  summary: Provides access to properties and methods exposed by an object.
+  remarks: This method is for accessing managed classes from unmanaged code, and should not be called from managed code. For more information about `IDispatch::Invoke`, see the MSDN Library.
   syntax:
     content: void _ILGenerator.Invoke (uint dispIdMember, ref Guid riid, uint lcid, short wFlags, IntPtr pDispParams, IntPtr pVarResult, IntPtr pExcepInfo, IntPtr puArgErr);
     parameters:
     - id: dispIdMember
       type: System.UInt32
-      description: Parameter description to be filled
+      description: Identifies the member.
     - id: riid
       type: System.Guid
-      description: Parameter description to be filled
+      description: Reserved for future use. Must be IID_NULL.
     - id: lcid
       type: System.UInt32
-      description: Parameter description to be filled
+      description: The locale context in which to interpret arguments.
     - id: wFlags
       type: System.Int16
-      description: Parameter description to be filled
+      description: Flags describing the context of the call.
     - id: pDispParams
       type: System.IntPtr
-      description: Parameter description to be filled
+      description: Pointer to a structure containing an array of arguments, an array of argument DISPIDs for named arguments, and counts for the number of elements in the arrays.
     - id: pVarResult
       type: System.IntPtr
-      description: Parameter description to be filled
+      description: Pointer to the location where the result is to be stored.
     - id: pExcepInfo
       type: System.IntPtr
-      description: Parameter description to be filled
+      description: Pointer to a structure that contains exception information.
     - id: puArgErr
       type: System.IntPtr
-      description: Parameter description to be filled
-    return:
-      type: System.Void
-      description: Return description to be filled
+      description: The index of the first argument that has an error.
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Reflection.Emit.ILGenerator.ThrowException(System.Type)
   id: ThrowException(System.Type)
   parent: System.Reflection.Emit.ILGenerator
   langs:
   - csharp
-  - vb
   name: ThrowException(Type)
   nameWithType: ILGenerator.ThrowException(Type)
   fullName: System.Reflection.Emit.ILGenerator.ThrowException(Type)
@@ -1118,21 +1255,25 @@ items:
   assemblies:
   - mscorlib
   namespace: System.Reflection.Emit
+  summary: Emits an instruction to throw an exception.
+  remarks: ''
+  example:
+  - "The following code sample demonstrates the contextual usage of `ThrowException` to throw an exception inside the MSIL of a dynamic method.  \n  \n [!CODE [System.Reflection.Emit.ILGenerator.ThrowException Example#1](../CodeSnippet/VS_Snippets_CLR_System/system.Reflection.Emit.ILGenerator.ThrowException Example#1)]"
   syntax:
     content: public virtual void ThrowException (Type excType);
     parameters:
     - id: excType
       type: System.Type
-      description: Parameter description to be filled
-    return:
-      type: System.Void
-      description: Return description to be filled
+      description: The class of the type of exception to throw.
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Reflection.Emit.ILGenerator.UsingNamespace(System.String)
   id: UsingNamespace(System.String)
   parent: System.Reflection.Emit.ILGenerator
   langs:
   - csharp
-  - vb
   name: UsingNamespace(String)
   nameWithType: ILGenerator.UsingNamespace(String)
   fullName: System.Reflection.Emit.ILGenerator.UsingNamespace(String)
@@ -1140,15 +1281,18 @@ items:
   assemblies:
   - mscorlib
   namespace: System.Reflection.Emit
+  summary: Specifies the namespace to be used in evaluating locals and watches for the current active lexical scope.
+  remarks: If the current <xref:System.Reflection.Emit.ILGenerator> is associated with a <xref:System.Reflection.Emit.DynamicMethod> object, this method is not supported.
   syntax:
     content: public virtual void UsingNamespace (string usingNamespace);
     parameters:
     - id: usingNamespace
       type: System.String
-      description: Parameter description to be filled
-    return:
-      type: System.Void
-      description: Return description to be filled
+      description: The namespace to be used in evaluating locals and watches for the current active lexical scope
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 references:
 - uid: System.Object
   isExternal: false
@@ -1159,12 +1303,6 @@ references:
   name: BeginCatchBlock(Type)
   nameWithType: ILGenerator.BeginCatchBlock(Type)
   fullName: System.Reflection.Emit.ILGenerator.BeginCatchBlock(Type)
-- uid: System.Void
-  parent: System
-  isExternal: false
-  name: Void
-  nameWithType: Void
-  fullName: System.Void
 - uid: System.Type
   parent: System
   isExternal: false
@@ -1177,12 +1315,6 @@ references:
   name: BeginExceptFilterBlock()
   nameWithType: ILGenerator.BeginExceptFilterBlock()
   fullName: System.Reflection.Emit.ILGenerator.BeginExceptFilterBlock()
-- uid: System.Void
-  parent: System
-  isExternal: false
-  name: Void
-  nameWithType: Void
-  fullName: System.Void
 - uid: System.Reflection.Emit.ILGenerator.BeginExceptionBlock
   parent: System.Reflection.Emit.ILGenerator
   isExternal: false
@@ -1201,36 +1333,18 @@ references:
   name: BeginFaultBlock()
   nameWithType: ILGenerator.BeginFaultBlock()
   fullName: System.Reflection.Emit.ILGenerator.BeginFaultBlock()
-- uid: System.Void
-  parent: System
-  isExternal: false
-  name: Void
-  nameWithType: Void
-  fullName: System.Void
 - uid: System.Reflection.Emit.ILGenerator.BeginFinallyBlock
   parent: System.Reflection.Emit.ILGenerator
   isExternal: false
   name: BeginFinallyBlock()
   nameWithType: ILGenerator.BeginFinallyBlock()
   fullName: System.Reflection.Emit.ILGenerator.BeginFinallyBlock()
-- uid: System.Void
-  parent: System
-  isExternal: false
-  name: Void
-  nameWithType: Void
-  fullName: System.Void
 - uid: System.Reflection.Emit.ILGenerator.BeginScope
   parent: System.Reflection.Emit.ILGenerator
   isExternal: false
   name: BeginScope()
   nameWithType: ILGenerator.BeginScope()
   fullName: System.Reflection.Emit.ILGenerator.BeginScope()
-- uid: System.Void
-  parent: System
-  isExternal: false
-  name: Void
-  nameWithType: Void
-  fullName: System.Void
 - uid: System.Reflection.Emit.ILGenerator.DeclareLocal(System.Type)
   parent: System.Reflection.Emit.ILGenerator
   isExternal: false
@@ -1291,12 +1405,6 @@ references:
   name: Emit(OpCode)
   nameWithType: ILGenerator.Emit(OpCode)
   fullName: System.Reflection.Emit.ILGenerator.Emit(OpCode)
-- uid: System.Void
-  parent: System
-  isExternal: false
-  name: Void
-  nameWithType: Void
-  fullName: System.Void
 - uid: System.Reflection.Emit.OpCode
   parent: System.Reflection.Emit
   isExternal: false
@@ -1309,12 +1417,6 @@ references:
   name: Emit(OpCode,Byte)
   nameWithType: ILGenerator.Emit(OpCode,Byte)
   fullName: System.Reflection.Emit.ILGenerator.Emit(OpCode,Byte)
-- uid: System.Void
-  parent: System
-  isExternal: false
-  name: Void
-  nameWithType: Void
-  fullName: System.Void
 - uid: System.Reflection.Emit.OpCode
   parent: System.Reflection.Emit
   isExternal: false
@@ -1333,12 +1435,6 @@ references:
   name: Emit(OpCode,Double)
   nameWithType: ILGenerator.Emit(OpCode,Double)
   fullName: System.Reflection.Emit.ILGenerator.Emit(OpCode,Double)
-- uid: System.Void
-  parent: System
-  isExternal: false
-  name: Void
-  nameWithType: Void
-  fullName: System.Void
 - uid: System.Reflection.Emit.OpCode
   parent: System.Reflection.Emit
   isExternal: false
@@ -1357,12 +1453,6 @@ references:
   name: Emit(OpCode,Int16)
   nameWithType: ILGenerator.Emit(OpCode,Int16)
   fullName: System.Reflection.Emit.ILGenerator.Emit(OpCode,Int16)
-- uid: System.Void
-  parent: System
-  isExternal: false
-  name: Void
-  nameWithType: Void
-  fullName: System.Void
 - uid: System.Reflection.Emit.OpCode
   parent: System.Reflection.Emit
   isExternal: false
@@ -1381,12 +1471,6 @@ references:
   name: Emit(OpCode,Int32)
   nameWithType: ILGenerator.Emit(OpCode,Int32)
   fullName: System.Reflection.Emit.ILGenerator.Emit(OpCode,Int32)
-- uid: System.Void
-  parent: System
-  isExternal: false
-  name: Void
-  nameWithType: Void
-  fullName: System.Void
 - uid: System.Reflection.Emit.OpCode
   parent: System.Reflection.Emit
   isExternal: false
@@ -1405,12 +1489,6 @@ references:
   name: Emit(OpCode,Int64)
   nameWithType: ILGenerator.Emit(OpCode,Int64)
   fullName: System.Reflection.Emit.ILGenerator.Emit(OpCode,Int64)
-- uid: System.Void
-  parent: System
-  isExternal: false
-  name: Void
-  nameWithType: Void
-  fullName: System.Void
 - uid: System.Reflection.Emit.OpCode
   parent: System.Reflection.Emit
   isExternal: false
@@ -1429,12 +1507,6 @@ references:
   name: Emit(OpCode,ConstructorInfo)
   nameWithType: ILGenerator.Emit(OpCode,ConstructorInfo)
   fullName: System.Reflection.Emit.ILGenerator.Emit(OpCode,ConstructorInfo)
-- uid: System.Void
-  parent: System
-  isExternal: false
-  name: Void
-  nameWithType: Void
-  fullName: System.Void
 - uid: System.Reflection.Emit.OpCode
   parent: System.Reflection.Emit
   isExternal: false
@@ -1453,12 +1525,6 @@ references:
   name: Emit(OpCode,Label)
   nameWithType: ILGenerator.Emit(OpCode,Label)
   fullName: System.Reflection.Emit.ILGenerator.Emit(OpCode,Label)
-- uid: System.Void
-  parent: System
-  isExternal: false
-  name: Void
-  nameWithType: Void
-  fullName: System.Void
 - uid: System.Reflection.Emit.OpCode
   parent: System.Reflection.Emit
   isExternal: false
@@ -1477,30 +1543,24 @@ references:
   name: Emit(OpCode,Label[])
   nameWithType: ILGenerator.Emit(OpCode,Label[])
   fullName: System.Reflection.Emit.ILGenerator.Emit(OpCode,Label[])
-- uid: System.Void
-  parent: System
-  isExternal: false
-  name: Void
-  nameWithType: Void
-  fullName: System.Void
 - uid: System.Reflection.Emit.OpCode
   parent: System.Reflection.Emit
   isExternal: false
   name: OpCode
   nameWithType: OpCode
   fullName: System.Reflection.Emit.OpCode
+- uid: System.Reflection.Emit.Label
+  parent: System.Reflection.Emit
+  isExternal: false
+  name: Label
+  nameWithType: Label
+  fullName: System.Reflection.Emit.Label[]
 - uid: System.Reflection.Emit.ILGenerator.Emit(System.Reflection.Emit.OpCode,System.Reflection.Emit.LocalBuilder)
   parent: System.Reflection.Emit.ILGenerator
   isExternal: false
   name: Emit(OpCode,LocalBuilder)
   nameWithType: ILGenerator.Emit(OpCode,LocalBuilder)
   fullName: System.Reflection.Emit.ILGenerator.Emit(OpCode,LocalBuilder)
-- uid: System.Void
-  parent: System
-  isExternal: false
-  name: Void
-  nameWithType: Void
-  fullName: System.Void
 - uid: System.Reflection.Emit.OpCode
   parent: System.Reflection.Emit
   isExternal: false
@@ -1519,12 +1579,6 @@ references:
   name: Emit(OpCode,SignatureHelper)
   nameWithType: ILGenerator.Emit(OpCode,SignatureHelper)
   fullName: System.Reflection.Emit.ILGenerator.Emit(OpCode,SignatureHelper)
-- uid: System.Void
-  parent: System
-  isExternal: false
-  name: Void
-  nameWithType: Void
-  fullName: System.Void
 - uid: System.Reflection.Emit.OpCode
   parent: System.Reflection.Emit
   isExternal: false
@@ -1543,12 +1597,6 @@ references:
   name: Emit(OpCode,FieldInfo)
   nameWithType: ILGenerator.Emit(OpCode,FieldInfo)
   fullName: System.Reflection.Emit.ILGenerator.Emit(OpCode,FieldInfo)
-- uid: System.Void
-  parent: System
-  isExternal: false
-  name: Void
-  nameWithType: Void
-  fullName: System.Void
 - uid: System.Reflection.Emit.OpCode
   parent: System.Reflection.Emit
   isExternal: false
@@ -1567,12 +1615,6 @@ references:
   name: Emit(OpCode,MethodInfo)
   nameWithType: ILGenerator.Emit(OpCode,MethodInfo)
   fullName: System.Reflection.Emit.ILGenerator.Emit(OpCode,MethodInfo)
-- uid: System.Void
-  parent: System
-  isExternal: false
-  name: Void
-  nameWithType: Void
-  fullName: System.Void
 - uid: System.Reflection.Emit.OpCode
   parent: System.Reflection.Emit
   isExternal: false
@@ -1591,12 +1633,6 @@ references:
   name: Emit(OpCode,SByte)
   nameWithType: ILGenerator.Emit(OpCode,SByte)
   fullName: System.Reflection.Emit.ILGenerator.Emit(OpCode,SByte)
-- uid: System.Void
-  parent: System
-  isExternal: false
-  name: Void
-  nameWithType: Void
-  fullName: System.Void
 - uid: System.Reflection.Emit.OpCode
   parent: System.Reflection.Emit
   isExternal: false
@@ -1615,12 +1651,6 @@ references:
   name: Emit(OpCode,Single)
   nameWithType: ILGenerator.Emit(OpCode,Single)
   fullName: System.Reflection.Emit.ILGenerator.Emit(OpCode,Single)
-- uid: System.Void
-  parent: System
-  isExternal: false
-  name: Void
-  nameWithType: Void
-  fullName: System.Void
 - uid: System.Reflection.Emit.OpCode
   parent: System.Reflection.Emit
   isExternal: false
@@ -1639,12 +1669,6 @@ references:
   name: Emit(OpCode,String)
   nameWithType: ILGenerator.Emit(OpCode,String)
   fullName: System.Reflection.Emit.ILGenerator.Emit(OpCode,String)
-- uid: System.Void
-  parent: System
-  isExternal: false
-  name: Void
-  nameWithType: Void
-  fullName: System.Void
 - uid: System.Reflection.Emit.OpCode
   parent: System.Reflection.Emit
   isExternal: false
@@ -1663,12 +1687,6 @@ references:
   name: Emit(OpCode,Type)
   nameWithType: ILGenerator.Emit(OpCode,Type)
   fullName: System.Reflection.Emit.ILGenerator.Emit(OpCode,Type)
-- uid: System.Void
-  parent: System
-  isExternal: false
-  name: Void
-  nameWithType: Void
-  fullName: System.Void
 - uid: System.Reflection.Emit.OpCode
   parent: System.Reflection.Emit
   isExternal: false
@@ -1687,12 +1705,6 @@ references:
   name: EmitCall(OpCode,MethodInfo,Type[])
   nameWithType: ILGenerator.EmitCall(OpCode,MethodInfo,Type[])
   fullName: System.Reflection.Emit.ILGenerator.EmitCall(OpCode,MethodInfo,Type[])
-- uid: System.Void
-  parent: System
-  isExternal: false
-  name: Void
-  nameWithType: Void
-  fullName: System.Void
 - uid: System.Reflection.Emit.OpCode
   parent: System.Reflection.Emit
   isExternal: false
@@ -1705,18 +1717,18 @@ references:
   name: MethodInfo
   nameWithType: MethodInfo
   fullName: System.Reflection.MethodInfo
+- uid: System.Type
+  parent: System
+  isExternal: false
+  name: Type
+  nameWithType: Type
+  fullName: System.Type[]
 - uid: System.Reflection.Emit.ILGenerator.EmitCalli(System.Reflection.Emit.OpCode,System.Runtime.InteropServices.CallingConvention,System.Type,System.Type[])
   parent: System.Reflection.Emit.ILGenerator
   isExternal: false
   name: EmitCalli(OpCode,CallingConvention,Type,Type[])
   nameWithType: ILGenerator.EmitCalli(OpCode,CallingConvention,Type,Type[])
   fullName: System.Reflection.Emit.ILGenerator.EmitCalli(OpCode,CallingConvention,Type,Type[])
-- uid: System.Void
-  parent: System
-  isExternal: false
-  name: Void
-  nameWithType: Void
-  fullName: System.Void
 - uid: System.Reflection.Emit.OpCode
   parent: System.Reflection.Emit
   isExternal: false
@@ -1735,18 +1747,18 @@ references:
   name: Type
   nameWithType: Type
   fullName: System.Type
+- uid: System.Type
+  parent: System
+  isExternal: false
+  name: Type
+  nameWithType: Type
+  fullName: System.Type[]
 - uid: System.Reflection.Emit.ILGenerator.EmitCalli(System.Reflection.Emit.OpCode,System.Reflection.CallingConventions,System.Type,System.Type[],System.Type[])
   parent: System.Reflection.Emit.ILGenerator
   isExternal: false
   name: EmitCalli(OpCode,CallingConventions,Type,Type[],Type[])
   nameWithType: ILGenerator.EmitCalli(OpCode,CallingConventions,Type,Type[],Type[])
   fullName: System.Reflection.Emit.ILGenerator.EmitCalli(OpCode,CallingConventions,Type,Type[],Type[])
-- uid: System.Void
-  parent: System
-  isExternal: false
-  name: Void
-  nameWithType: Void
-  fullName: System.Void
 - uid: System.Reflection.Emit.OpCode
   parent: System.Reflection.Emit
   isExternal: false
@@ -1765,18 +1777,24 @@ references:
   name: Type
   nameWithType: Type
   fullName: System.Type
+- uid: System.Type
+  parent: System
+  isExternal: false
+  name: Type
+  nameWithType: Type
+  fullName: System.Type[]
+- uid: System.Type
+  parent: System
+  isExternal: false
+  name: Type
+  nameWithType: Type
+  fullName: System.Type[]
 - uid: System.Reflection.Emit.ILGenerator.EmitWriteLine(System.Reflection.Emit.LocalBuilder)
   parent: System.Reflection.Emit.ILGenerator
   isExternal: false
   name: EmitWriteLine(LocalBuilder)
   nameWithType: ILGenerator.EmitWriteLine(LocalBuilder)
   fullName: System.Reflection.Emit.ILGenerator.EmitWriteLine(LocalBuilder)
-- uid: System.Void
-  parent: System
-  isExternal: false
-  name: Void
-  nameWithType: Void
-  fullName: System.Void
 - uid: System.Reflection.Emit.LocalBuilder
   parent: System.Reflection.Emit
   isExternal: false
@@ -1789,12 +1807,6 @@ references:
   name: EmitWriteLine(FieldInfo)
   nameWithType: ILGenerator.EmitWriteLine(FieldInfo)
   fullName: System.Reflection.Emit.ILGenerator.EmitWriteLine(FieldInfo)
-- uid: System.Void
-  parent: System
-  isExternal: false
-  name: Void
-  nameWithType: Void
-  fullName: System.Void
 - uid: System.Reflection.FieldInfo
   parent: System.Reflection
   isExternal: false
@@ -1807,12 +1819,6 @@ references:
   name: EmitWriteLine(String)
   nameWithType: ILGenerator.EmitWriteLine(String)
   fullName: System.Reflection.Emit.ILGenerator.EmitWriteLine(String)
-- uid: System.Void
-  parent: System
-  isExternal: false
-  name: Void
-  nameWithType: Void
-  fullName: System.Void
 - uid: System.String
   parent: System
   isExternal: false
@@ -1825,24 +1831,12 @@ references:
   name: EndExceptionBlock()
   nameWithType: ILGenerator.EndExceptionBlock()
   fullName: System.Reflection.Emit.ILGenerator.EndExceptionBlock()
-- uid: System.Void
-  parent: System
-  isExternal: false
-  name: Void
-  nameWithType: Void
-  fullName: System.Void
 - uid: System.Reflection.Emit.ILGenerator.EndScope
   parent: System.Reflection.Emit.ILGenerator
   isExternal: false
   name: EndScope()
   nameWithType: ILGenerator.EndScope()
   fullName: System.Reflection.Emit.ILGenerator.EndScope()
-- uid: System.Void
-  parent: System
-  isExternal: false
-  name: Void
-  nameWithType: Void
-  fullName: System.Void
 - uid: System.Reflection.Emit.ILGenerator.ILOffset
   parent: System.Reflection.Emit.ILGenerator
   isExternal: false
@@ -1861,12 +1855,6 @@ references:
   name: MarkLabel(Label)
   nameWithType: ILGenerator.MarkLabel(Label)
   fullName: System.Reflection.Emit.ILGenerator.MarkLabel(Label)
-- uid: System.Void
-  parent: System
-  isExternal: false
-  name: Void
-  nameWithType: Void
-  fullName: System.Void
 - uid: System.Reflection.Emit.Label
   parent: System.Reflection.Emit
   isExternal: false
@@ -1879,12 +1867,6 @@ references:
   name: MarkSequencePoint(ISymbolDocumentWriter,Int32,Int32,Int32,Int32)
   nameWithType: ILGenerator.MarkSequencePoint(ISymbolDocumentWriter,Int32,Int32,Int32,Int32)
   fullName: System.Reflection.Emit.ILGenerator.MarkSequencePoint(ISymbolDocumentWriter,Int32,Int32,Int32,Int32)
-- uid: System.Void
-  parent: System
-  isExternal: false
-  name: Void
-  nameWithType: Void
-  fullName: System.Void
 - uid: System.Diagnostics.SymbolStore.ISymbolDocumentWriter
   parent: System.Diagnostics.SymbolStore
   isExternal: false
@@ -1921,12 +1903,6 @@ references:
   name: System.Runtime.InteropServices._ILGenerator.GetIDsOfNames(Guid,IntPtr,UInt32,UInt32,IntPtr)
   nameWithType: ILGenerator.System.Runtime.InteropServices._ILGenerator.GetIDsOfNames(Guid,IntPtr,UInt32,UInt32,IntPtr)
   fullName: System.Reflection.Emit.ILGenerator.System.Runtime.InteropServices._ILGenerator.GetIDsOfNames(Guid,IntPtr,UInt32,UInt32,IntPtr)
-- uid: System.Void
-  parent: System
-  isExternal: false
-  name: Void
-  nameWithType: Void
-  fullName: System.Void
 - uid: System.Guid
   parent: System
   isExternal: false
@@ -1963,12 +1939,6 @@ references:
   name: System.Runtime.InteropServices._ILGenerator.GetTypeInfo(UInt32,UInt32,IntPtr)
   nameWithType: ILGenerator.System.Runtime.InteropServices._ILGenerator.GetTypeInfo(UInt32,UInt32,IntPtr)
   fullName: System.Reflection.Emit.ILGenerator.System.Runtime.InteropServices._ILGenerator.GetTypeInfo(UInt32,UInt32,IntPtr)
-- uid: System.Void
-  parent: System
-  isExternal: false
-  name: Void
-  nameWithType: Void
-  fullName: System.Void
 - uid: System.UInt32
   parent: System
   isExternal: false
@@ -1993,12 +1963,6 @@ references:
   name: System.Runtime.InteropServices._ILGenerator.GetTypeInfoCount(UInt32)
   nameWithType: ILGenerator.System.Runtime.InteropServices._ILGenerator.GetTypeInfoCount(UInt32)
   fullName: System.Reflection.Emit.ILGenerator.System.Runtime.InteropServices._ILGenerator.GetTypeInfoCount(UInt32)
-- uid: System.Void
-  parent: System
-  isExternal: false
-  name: Void
-  nameWithType: Void
-  fullName: System.Void
 - uid: System.UInt32
   parent: System
   isExternal: false
@@ -2011,12 +1975,6 @@ references:
   name: System.Runtime.InteropServices._ILGenerator.Invoke(UInt32,Guid,UInt32,Int16,IntPtr,IntPtr,IntPtr,IntPtr)
   nameWithType: ILGenerator.System.Runtime.InteropServices._ILGenerator.Invoke(UInt32,Guid,UInt32,Int16,IntPtr,IntPtr,IntPtr,IntPtr)
   fullName: System.Reflection.Emit.ILGenerator.System.Runtime.InteropServices._ILGenerator.Invoke(UInt32,Guid,UInt32,Int16,IntPtr,IntPtr,IntPtr,IntPtr)
-- uid: System.Void
-  parent: System
-  isExternal: false
-  name: Void
-  nameWithType: Void
-  fullName: System.Void
 - uid: System.UInt32
   parent: System
   isExternal: false
@@ -2071,12 +2029,6 @@ references:
   name: ThrowException(Type)
   nameWithType: ILGenerator.ThrowException(Type)
   fullName: System.Reflection.Emit.ILGenerator.ThrowException(Type)
-- uid: System.Void
-  parent: System
-  isExternal: false
-  name: Void
-  nameWithType: Void
-  fullName: System.Void
 - uid: System.Type
   parent: System
   isExternal: false
@@ -2089,12 +2041,6 @@ references:
   name: UsingNamespace(String)
   nameWithType: ILGenerator.UsingNamespace(String)
   fullName: System.Reflection.Emit.ILGenerator.UsingNamespace(String)
-- uid: System.Void
-  parent: System
-  isExternal: false
-  name: Void
-  nameWithType: Void
-  fullName: System.Void
 - uid: System.String
   parent: System
   isExternal: false

@@ -15,11 +15,14 @@ items:
   - System.Activities.Presentation.ActivityDesigner.OnPreviewMouseDown(System.Windows.Input.MouseButtonEventArgs)
   langs:
   - csharp
-  - vb
   name: ActivityDesigner
   nameWithType: ActivityDesigner
   fullName: System.Activities.Presentation.ActivityDesigner
   type: Class
+  summary: Provides a base class for all activity designer components.
+  remarks: "This type provides the basic look-and-feel functionality for other activity designers and allows a developer to add additional capabilities to an activity designer surface. This is typically done in order to either display additional interesting information to the user of the activity, create a better on canvas editing experience  (for example, using the  on an  activity designer), or to allow contained elements to be edited (again, consider the <xref:System.Activities.Statements.If.Then%2A> and <xref:System.Activities.Statements.If.Else%2A> properties of the <xref:System.Activities.Statements.If> activity).  \n  \n The ActivityDesigner inherits from <xref:System.Activities.Presentation.WorkflowViewElement> and primarily adds the default styling, as well as the ability to customize the icon via the <xref:System.Activities.Presentation.ActivityDesigner.Icon%2A> property. It should be used whenever you are creating a designer for a type which derives from <xref:System.Activities.Activity>. When associated with an <xref:System.Activities.Activity> type, the <xref:System.Activities.Presentation.WorkflowViewElement.ModelItem%2A> property will point to the ModelItem hierarchy describing the instance of that type being edited."
+  example:
+  - "In the sample code below, a `First2of3` activity is defined first, then the code for the First2of3 designer is shown, and finally it is shown how to use the Designer attribute to associate the activity with the designer is provided.  \n  \n```  \n  \n//The First2of3 activity  \nusing System.Activities;  \nusing System.Collections.Generic;  \nusing System.Linq;  \n  \nnamespace Microsoft.Activities.Documentation.ActivityTypes  \n{  \n  \n    public sealed class First2of3 : NativeActivity  \n    {  \n        public Activity Activity1 { get; set; }  \n        public Activity Activity2 { get; set; }  \n        public Activity Activity3 { get; set; }  \n  \n        Variable<List<ActivityInstance>> ExecutingActivities { get; set; }  \n  \n        public First2of3()  \n        {  \n            ExecutingActivities = new Variable<List<ActivityInstance>>();  \n        }  \n  \n        // If your activity returns a value, derive from CodeActivity<TResult>  \n        // and return the value from the Execute method.  \n        protected override void Execute(NativeActivityContext context)  \n        {  \n            // Obtain the runtime value of the Text input argument  \n            var l = new List<ActivityInstance>();  \n            ExecutingActivities.Set(context, l);  \n            l.Add(context.ScheduleActivity(Activity1, onComplete));  \n            l.Add(context.ScheduleActivity(Activity2, onComplete));  \n            l.Add(context.ScheduleActivity(Activity3, onComplete));  \n        }  \n  \n        protected override void CacheMetadata(NativeActivityMetadata metadata)  \n        {  \n            metadata.AddImplementationVariable(ExecutingActivities);  \n            metadata.AddChild(Activity1);  \n            metadata.AddChild(Activity2);  \n            metadata.AddChild(Activity3);  \n        }  \n  \n        private void onComplete(NativeActivityContext context, ActivityInstance completedInstance)  \n        {  \n            var l = ExecutingActivities.Get(context);  \n            l.Remove(completedInstance);  \n            if (l.Count == 1)  \n            {  \n                context.CancelChild(l.Single());  \n            }  \n        }  \n    }  \n}  \n  \n//’Code for the First2of3 Designer:  \n<sap:ActivityDesigner x:Class=\"Microsoft.Activites.Documentation.First2of3Designer\"  \n    xmlns=\"http://schemas.microsoft.com/winfx/2006/xaml/presentation\"  \n    xmlns:x=\"http://schemas.microsoft.com/winfx/2006/xaml\"  \n    xmlns:sap=\"clr-namespace:System.Activities.Presentation;assembly=System.Activities.Presentation\"  \n    xmlns:sapv=\"clr-namespace:System.Activities.Presentation.View;assembly=System.Activities.Presentation\">  \n    <StackPanel>  \n        <Label Content=\"2 of 3 activity\">  \n            <Label.ToolTip>  \n                This activity has 3 child activities which will be scheduled in parallel.    \n                Upon completion of any 2, the third will be cancelled  \n            </Label.ToolTip>  \n        </Label>  \n        <StackPanel Orientation=\"Horizontal\">  \n            <Border BorderBrush=\"Blue\" BorderThickness=\"2\" CornerRadius=\"2\" Margin=\"2\" Padding=\"2\">  \n                <sap:WorkflowItemPresenter HintText=\"Drop Activity1 Here\" Item=\"{Binding Path=ModelItem.Activity1, Mode=TwoWay}\" />  \n            </Border>  \n            <Border BorderBrush=\"Blue\" BorderThickness=\"2\" CornerRadius=\"2\" Margin=\"2\" Padding=\"2\">  \n                <sap:WorkflowItemPresenter HintText=\"Drop Activity2 Here\" Item=\"{Binding Path=ModelItem.Activity2, Mode=TwoWay}\" />  \n  \n            </Border>  \n            <Border BorderBrush=\"Blue\" BorderThickness=\"2\" CornerRadius=\"2\" Margin=\"2\" Padding=\"2\">  \n                <sap:WorkflowItemPresenter HintText=\"Drop Activity3 Here\" Item=\"{Binding Path=ModelItem.Activity3, Mode=TwoWay}\" />  \n  \n            </Border>  \n        </StackPanel>  \n    </StackPanel>  \n</sap:ActivityDesigner>  \n  \n//Code for associating the activity with the designer using the Designer attribute.  \n[Designer(typeof(First2of3Designer))]  \npublic sealed class First2of3 : NativeActivity  \n  \n```"
   syntax:
     content: 'public class ActivityDesigner : System.Activities.Presentation.WorkflowViewElement'
   inheritance:
@@ -665,12 +668,15 @@ items:
   - System.Windows.UIElement.UpdateLayout
   - System.Windows.UIElement.Visibility
   - System.Windows.UIElement.VisibilityProperty
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Activities.Presentation.ActivityDesigner.#ctor
   id: '#ctor'
   parent: System.Activities.Presentation.ActivityDesigner
   langs:
   - csharp
-  - vb
   name: ActivityDesigner()
   nameWithType: ActivityDesigner.ActivityDesigner()
   fullName: System.Activities.Presentation.ActivityDesigner.ActivityDesigner()
@@ -678,15 +684,20 @@ items:
   assemblies:
   - System.Activities.Presentation
   namespace: System.Activities.Presentation
+  summary: Initializes a new instance of the <see cref="T:System.Activities.Presentation.ActivityDesigner"> class.
+  remarks: To be added.
   syntax:
     content: public ActivityDesigner ();
     parameters: []
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Activities.Presentation.ActivityDesigner.GetAutomationIdMemberName
   id: GetAutomationIdMemberName
   parent: System.Activities.Presentation.ActivityDesigner
   langs:
   - csharp
-  - vb
   name: GetAutomationIdMemberName()
   nameWithType: ActivityDesigner.GetAutomationIdMemberName()
   fullName: System.Activities.Presentation.ActivityDesigner.GetAutomationIdMemberName()
@@ -694,18 +705,23 @@ items:
   assemblies:
   - System.Activities.Presentation
   namespace: System.Activities.Presentation
+  summary: Returns the string “DisplayName” in this overridden method implementation.
+  remarks: To be added.
   syntax:
     content: protected override string GetAutomationIdMemberName ();
     parameters: []
     return:
       type: System.String
-      description: Return description to be filled
+      description: The string “DisplayName” in this overridden method implementation.
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Activities.Presentation.ActivityDesigner.GetAutomationItemStatus
   id: GetAutomationItemStatus
   parent: System.Activities.Presentation.ActivityDesigner
   langs:
   - csharp
-  - vb
   name: GetAutomationItemStatus()
   nameWithType: ActivityDesigner.GetAutomationItemStatus()
   fullName: System.Activities.Presentation.ActivityDesigner.GetAutomationItemStatus()
@@ -713,18 +729,23 @@ items:
   assemblies:
   - System.Activities.Presentation
   namespace: System.Activities.Presentation
+  summary: Returns the status of the automation item.
+  remarks: To be added.
   syntax:
     content: protected override string GetAutomationItemStatus ();
     parameters: []
     return:
       type: System.String
-      description: Return description to be filled
+      description: The status of the automation item.
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Activities.Presentation.ActivityDesigner.Icon
   id: Icon
   parent: System.Activities.Presentation.ActivityDesigner
   langs:
   - csharp
-  - vb
   name: Icon
   nameWithType: ActivityDesigner.Icon
   fullName: System.Activities.Presentation.ActivityDesigner.Icon
@@ -732,17 +753,22 @@ items:
   assemblies:
   - System.Activities.Presentation
   namespace: System.Activities.Presentation
+  summary: Gets or sets the icon associated with this <see cref="T:System.Activities.Presentation.ActivityDesigner">.
+  remarks: To be added.
   syntax:
     content: public System.Windows.Media.DrawingBrush Icon { get; set; }
     return:
       type: System.Windows.Media.DrawingBrush
-      description: Return description to be filled
+      description: To be added.
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Activities.Presentation.ActivityDesigner.IconProperty
   id: IconProperty
   parent: System.Activities.Presentation.ActivityDesigner
   langs:
   - csharp
-  - vb
   name: IconProperty
   nameWithType: ActivityDesigner.IconProperty
   fullName: System.Activities.Presentation.ActivityDesigner.IconProperty
@@ -750,17 +776,22 @@ items:
   assemblies:
   - System.Activities.Presentation
   namespace: System.Activities.Presentation
+  summary: Identifies the IconProperty dependency property.
+  remarks: To be added.
   syntax:
     content: public static readonly System.Windows.DependencyProperty IconProperty;
     return:
       type: System.Windows.DependencyProperty
-      description: Return description to be filled
+      description: To be added.
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Activities.Presentation.ActivityDesigner.OnApplyTemplate
   id: OnApplyTemplate
   parent: System.Activities.Presentation.ActivityDesigner
   langs:
   - csharp
-  - vb
   name: OnApplyTemplate()
   nameWithType: ActivityDesigner.OnApplyTemplate()
   fullName: System.Activities.Presentation.ActivityDesigner.OnApplyTemplate()
@@ -768,18 +799,20 @@ items:
   assemblies:
   - System.Activities.Presentation
   namespace: System.Activities.Presentation
+  summary: Begins the process of applying a template to create an <see cref="T:System.Activities.Presentation.ActivityDesigner">.
+  remarks: To be added.
   syntax:
     content: public override void OnApplyTemplate ();
     parameters: []
-    return:
-      type: System.Void
-      description: Return description to be filled
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Activities.Presentation.ActivityDesigner.OnEditAnnotation
   id: OnEditAnnotation
   parent: System.Activities.Presentation.ActivityDesigner
   langs:
   - csharp
-  - vb
   name: OnEditAnnotation()
   nameWithType: ActivityDesigner.OnEditAnnotation()
   fullName: System.Activities.Presentation.ActivityDesigner.OnEditAnnotation()
@@ -787,18 +820,20 @@ items:
   assemblies:
   - System.Activities.Presentation
   namespace: System.Activities.Presentation
+  summary: Begins the processing that occurs when editing annotation.
+  remarks: To be added.
   syntax:
     content: protected override void OnEditAnnotation ();
     parameters: []
-    return:
-      type: System.Void
-      description: Return description to be filled
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Activities.Presentation.ActivityDesigner.OnModelItemChanged(System.Object)
   id: OnModelItemChanged(System.Object)
   parent: System.Activities.Presentation.ActivityDesigner
   langs:
   - csharp
-  - vb
   name: OnModelItemChanged(Object)
   nameWithType: ActivityDesigner.OnModelItemChanged(Object)
   fullName: System.Activities.Presentation.ActivityDesigner.OnModelItemChanged(Object)
@@ -806,21 +841,23 @@ items:
   assemblies:
   - System.Activities.Presentation
   namespace: System.Activities.Presentation
+  summary: Begins the processing that occurs when the model item is changed..
+  remarks: To be added.
   syntax:
     content: protected override void OnModelItemChanged (object newItem);
     parameters:
     - id: newItem
       type: System.Object
-      description: Parameter description to be filled
-    return:
-      type: System.Void
-      description: Return description to be filled
+      description: The new item.
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Activities.Presentation.ActivityDesigner.OnMouseUp(System.Windows.Input.MouseButtonEventArgs)
   id: OnMouseUp(System.Windows.Input.MouseButtonEventArgs)
   parent: System.Activities.Presentation.ActivityDesigner
   langs:
   - csharp
-  - vb
   name: OnMouseUp(MouseButtonEventArgs)
   nameWithType: ActivityDesigner.OnMouseUp(MouseButtonEventArgs)
   fullName: System.Activities.Presentation.ActivityDesigner.OnMouseUp(MouseButtonEventArgs)
@@ -828,21 +865,23 @@ items:
   assemblies:
   - System.Activities.Presentation
   namespace: System.Activities.Presentation
+  summary: Begins the processing that occurs when any mouse button is released.
+  remarks: To be added.
   syntax:
     content: protected override void OnMouseUp (System.Windows.Input.MouseButtonEventArgs e);
     parameters:
     - id: e
       type: System.Windows.Input.MouseButtonEventArgs
-      description: Parameter description to be filled
-    return:
-      type: System.Void
-      description: Return description to be filled
+      description: A <xref:System.Windows.Forms.DragEventArgs> that contains the event data.
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Activities.Presentation.ActivityDesigner.OnPreviewMouseDown(System.Windows.Input.MouseButtonEventArgs)
   id: OnPreviewMouseDown(System.Windows.Input.MouseButtonEventArgs)
   parent: System.Activities.Presentation.ActivityDesigner
   langs:
   - csharp
-  - vb
   name: OnPreviewMouseDown(MouseButtonEventArgs)
   nameWithType: ActivityDesigner.OnPreviewMouseDown(MouseButtonEventArgs)
   fullName: System.Activities.Presentation.ActivityDesigner.OnPreviewMouseDown(MouseButtonEventArgs)
@@ -850,15 +889,18 @@ items:
   assemblies:
   - System.Activities.Presentation
   namespace: System.Activities.Presentation
+  summary: Begins the processing that occurs when an unhandled <xref:System.Windows.Input.Mouse.PreviewMouseDown> attached routed event reaches an element in its route that is derived from this class.
+  remarks: To be added.
   syntax:
     content: protected override void OnPreviewMouseDown (System.Windows.Input.MouseButtonEventArgs e);
     parameters:
     - id: e
       type: System.Windows.Input.MouseButtonEventArgs
-      description: Parameter description to be filled
-    return:
-      type: System.Void
-      description: Return description to be filled
+      description: A <xref:System.Windows.Forms.DragEventArgs> that contains the event data.
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 references:
 - uid: System.Activities.Presentation.WorkflowViewElement
   isExternal: false
@@ -911,42 +953,30 @@ references:
   name: IconProperty
   nameWithType: ActivityDesigner.IconProperty
   fullName: System.Activities.Presentation.ActivityDesigner.IconProperty
+- uid: System.Windows.DependencyProperty
+  parent: System.Windows
+  isExternal: true
+  name: DependencyProperty
+  nameWithType: DependencyProperty
+  fullName: System.Windows.DependencyProperty
 - uid: System.Activities.Presentation.ActivityDesigner.OnApplyTemplate
   parent: System.Activities.Presentation.ActivityDesigner
   isExternal: false
   name: OnApplyTemplate()
   nameWithType: ActivityDesigner.OnApplyTemplate()
   fullName: System.Activities.Presentation.ActivityDesigner.OnApplyTemplate()
-- uid: System.Void
-  parent: System
-  isExternal: false
-  name: Void
-  nameWithType: Void
-  fullName: System.Void
 - uid: System.Activities.Presentation.ActivityDesigner.OnEditAnnotation
   parent: System.Activities.Presentation.ActivityDesigner
   isExternal: false
   name: OnEditAnnotation()
   nameWithType: ActivityDesigner.OnEditAnnotation()
   fullName: System.Activities.Presentation.ActivityDesigner.OnEditAnnotation()
-- uid: System.Void
-  parent: System
-  isExternal: false
-  name: Void
-  nameWithType: Void
-  fullName: System.Void
 - uid: System.Activities.Presentation.ActivityDesigner.OnModelItemChanged(System.Object)
   parent: System.Activities.Presentation.ActivityDesigner
   isExternal: false
   name: OnModelItemChanged(Object)
   nameWithType: ActivityDesigner.OnModelItemChanged(Object)
   fullName: System.Activities.Presentation.ActivityDesigner.OnModelItemChanged(Object)
-- uid: System.Void
-  parent: System
-  isExternal: false
-  name: Void
-  nameWithType: Void
-  fullName: System.Void
 - uid: System.Object
   parent: System
   isExternal: false
@@ -959,12 +989,6 @@ references:
   name: OnMouseUp(MouseButtonEventArgs)
   nameWithType: ActivityDesigner.OnMouseUp(MouseButtonEventArgs)
   fullName: System.Activities.Presentation.ActivityDesigner.OnMouseUp(MouseButtonEventArgs)
-- uid: System.Void
-  parent: System
-  isExternal: false
-  name: Void
-  nameWithType: Void
-  fullName: System.Void
 - uid: System.Windows.Input.MouseButtonEventArgs
   parent: System.Windows.Input
   isExternal: false
@@ -977,12 +1001,6 @@ references:
   name: OnPreviewMouseDown(MouseButtonEventArgs)
   nameWithType: ActivityDesigner.OnPreviewMouseDown(MouseButtonEventArgs)
   fullName: System.Activities.Presentation.ActivityDesigner.OnPreviewMouseDown(MouseButtonEventArgs)
-- uid: System.Void
-  parent: System
-  isExternal: false
-  name: Void
-  nameWithType: Void
-  fullName: System.Void
 - uid: System.Windows.Input.MouseButtonEventArgs
   parent: System.Windows.Input
   isExternal: false

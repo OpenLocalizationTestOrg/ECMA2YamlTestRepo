@@ -55,11 +55,12 @@ items:
   - Microsoft.Build.Execution.ProjectInstance.UpdateStateFrom(Microsoft.Build.Execution.ProjectInstance)
   langs:
   - csharp
-  - vb
   name: ProjectInstance
   nameWithType: ProjectInstance
   fullName: Microsoft.Build.Execution.ProjectInstance
   type: Class
+  summary: Represents a project instance.
+  remarks: "Instances of this class result when a project is cloned. Constructors are internal in order to require users to create project instances from existing projects.  \n  \n New project instances are immutable, except that instance items can be added to them and instance properties set on them. Project instances are useful because they can be modified and built several times without disturbing the original project.  \n  \n Neither this class nor any of its constituents is allowed to have references to <xref:Microsoft.Build.Construction> or <xref:Microsoft.Build.Evaluation> objects.  \n  \n Project instance targets, host services, and the task registry are not exposed."
   syntax:
     content: >-
       [System.Diagnostics.DebuggerDisplay("{FullPath} #Targets={TargetsCount} DefaultTargets={(DefaultTargets == null) ? System.String.Empty : System.String.Join(";", DefaultTargets.ToArray())} ToolsVersion={Toolset.ToolsVersion} InitialTargets={(InitialTargets == null) ? System.String.Empty : System.String.Join(";", InitialTargets.ToArray())} #GlobalProperties={globalProperties.Count} #Properties={properties.Count} #ItemTypes={items.ItemTypes.Count} #Items={items.Count}")]
@@ -76,12 +77,15 @@ items:
   - System.Object.MemberwiseClone
   - System.Object.ReferenceEquals(System.Object,System.Object)
   - System.Object.ToString
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: Microsoft.Build.Execution.ProjectInstance.#ctor(Microsoft.Build.Construction.ProjectRootElement)
   id: '#ctor(Microsoft.Build.Construction.ProjectRootElement)'
   parent: Microsoft.Build.Execution.ProjectInstance
   langs:
   - csharp
-  - vb
   name: ProjectInstance(ProjectRootElement)
   nameWithType: ProjectInstance.ProjectInstance(ProjectRootElement)
   fullName: Microsoft.Build.Execution.ProjectInstance.ProjectInstance(ProjectRootElement)
@@ -89,18 +93,23 @@ items:
   assemblies:
   - Microsoft.Build
   namespace: Microsoft.Build.Execution
+  summary: Creates a new project instance and initializes it from the given project root, using the default project collection.
+  remarks: No intermediate <xref:Microsoft.Build.Evaluation.Project> object is created. This is useful if a project is going to be built, but not displayed or edited.
   syntax:
     content: public ProjectInstance (Microsoft.Build.Construction.ProjectRootElement xml);
     parameters:
     - id: xml
       type: Microsoft.Build.Construction.ProjectRootElement
-      description: Parameter description to be filled
+      description: The project root element.
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: Microsoft.Build.Execution.ProjectInstance.#ctor(System.String)
   id: '#ctor(System.String)'
   parent: Microsoft.Build.Execution.ProjectInstance
   langs:
   - csharp
-  - vb
   name: ProjectInstance(String)
   nameWithType: ProjectInstance.ProjectInstance(String)
   fullName: Microsoft.Build.Execution.ProjectInstance.ProjectInstance(String)
@@ -108,161 +117,191 @@ items:
   assemblies:
   - Microsoft.Build
   namespace: Microsoft.Build.Execution
+  summary: Creates a new project instance and initializes it from the given project file, using the default project collection.
+  remarks: No intermediate <xref:Microsoft.Build.Evaluation.Project> object is created. This is useful if a project is going to be built, but not displayed or edited.
   syntax:
     content: public ProjectInstance (string projectFile);
     parameters:
     - id: projectFile
       type: System.String
-      description: Parameter description to be filled
+      description: The name of the project file.
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: Microsoft.Build.Execution.ProjectInstance.#ctor(System.String,System.Collections.Generic.IDictionary{System.String,System.String},System.String)
   id: '#ctor(System.String,System.Collections.Generic.IDictionary{System.String,System.String},System.String)'
   parent: Microsoft.Build.Execution.ProjectInstance
   langs:
   - csharp
-  - vb
-  name: ProjectInstance(String,IDictionary,String)
-  nameWithType: ProjectInstance.ProjectInstance(String,IDictionary,String)
-  fullName: Microsoft.Build.Execution.ProjectInstance.ProjectInstance(String,IDictionary,String)
+  name: ProjectInstance(String,IDictionary<String,String>,String)
+  nameWithType: ProjectInstance.ProjectInstance(String,IDictionary<String,String>,String)
+  fullName: Microsoft.Build.Execution.ProjectInstance.ProjectInstance(String,IDictionary<String,String>,String)
   type: Constructor
   assemblies:
   - Microsoft.Build
   namespace: Microsoft.Build.Execution
+  summary: Creates a new project instance and initializes it from the given project file, using the given global properties, tools version, and the default project collection.
+  remarks: No intermediate <xref:Microsoft.Build.Evaluation.Project> object is created. This is useful if a project is going to be built, but not displayed or edited.
   syntax:
     content: public ProjectInstance (string projectFile, System.Collections.Generic.IDictionary<string,string> globalProperties, string toolsVersion);
     parameters:
     - id: projectFile
       type: System.String
-      description: Parameter description to be filled
+      description: The name of the project file.
     - id: globalProperties
       type: System.Collections.Generic.IDictionary{System.String,System.String}
-      description: Parameter description to be filled
+      description: The global properties to use.
     - id: toolsVersion
       type: System.String
-      description: Parameter description to be filled
+      description: The tools version.
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: Microsoft.Build.Execution.ProjectInstance.#ctor(Microsoft.Build.Construction.ProjectRootElement,System.Collections.Generic.IDictionary{System.String,System.String},System.String,Microsoft.Build.Evaluation.ProjectCollection)
   id: '#ctor(Microsoft.Build.Construction.ProjectRootElement,System.Collections.Generic.IDictionary{System.String,System.String},System.String,Microsoft.Build.Evaluation.ProjectCollection)'
   parent: Microsoft.Build.Execution.ProjectInstance
   langs:
   - csharp
-  - vb
-  name: ProjectInstance(ProjectRootElement,IDictionary,String,ProjectCollection)
-  nameWithType: ProjectInstance.ProjectInstance(ProjectRootElement,IDictionary,String,ProjectCollection)
-  fullName: Microsoft.Build.Execution.ProjectInstance.ProjectInstance(ProjectRootElement,IDictionary,String,ProjectCollection)
+  name: ProjectInstance(ProjectRootElement,IDictionary<String,String>,String,ProjectCollection)
+  nameWithType: ProjectInstance.ProjectInstance(ProjectRootElement,IDictionary<String,String>,String,ProjectCollection)
+  fullName: Microsoft.Build.Execution.ProjectInstance.ProjectInstance(ProjectRootElement,IDictionary<String,String>,String,ProjectCollection)
   type: Constructor
   assemblies:
   - Microsoft.Build
   namespace: Microsoft.Build.Execution
+  summary: Creates a new project instance and initializes it from the given project root, using the given global properties, tools version, and project collection.
+  remarks: No intermediate <xref:Microsoft.Build.Evaluation.Project> object is created. This is useful if a project is going to be built, but not displayed or edited.
   syntax:
     content: public ProjectInstance (Microsoft.Build.Construction.ProjectRootElement xml, System.Collections.Generic.IDictionary<string,string> globalProperties, string toolsVersion, Microsoft.Build.Evaluation.ProjectCollection projectCollection);
     parameters:
     - id: xml
       type: Microsoft.Build.Construction.ProjectRootElement
-      description: Parameter description to be filled
+      description: The project root element
     - id: globalProperties
       type: System.Collections.Generic.IDictionary{System.String,System.String}
-      description: Parameter description to be filled
+      description: The global properties to use. May be null.
     - id: toolsVersion
       type: System.String
-      description: Parameter description to be filled
+      description: The tools version. May be null.
     - id: projectCollection
       type: Microsoft.Build.Evaluation.ProjectCollection
-      description: Parameter description to be filled
+      description: Project collection
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: Microsoft.Build.Execution.ProjectInstance.#ctor(System.String,System.Collections.Generic.IDictionary{System.String,System.String},System.String,Microsoft.Build.Evaluation.ProjectCollection)
   id: '#ctor(System.String,System.Collections.Generic.IDictionary{System.String,System.String},System.String,Microsoft.Build.Evaluation.ProjectCollection)'
   parent: Microsoft.Build.Execution.ProjectInstance
   langs:
   - csharp
-  - vb
-  name: ProjectInstance(String,IDictionary,String,ProjectCollection)
-  nameWithType: ProjectInstance.ProjectInstance(String,IDictionary,String,ProjectCollection)
-  fullName: Microsoft.Build.Execution.ProjectInstance.ProjectInstance(String,IDictionary,String,ProjectCollection)
+  name: ProjectInstance(String,IDictionary<String,String>,String,ProjectCollection)
+  nameWithType: ProjectInstance.ProjectInstance(String,IDictionary<String,String>,String,ProjectCollection)
+  fullName: Microsoft.Build.Execution.ProjectInstance.ProjectInstance(String,IDictionary<String,String>,String,ProjectCollection)
   type: Constructor
   assemblies:
   - Microsoft.Build
   namespace: Microsoft.Build.Execution
+  summary: Creates a new project instance and initializes it from the given project file, using the given global properties, tools version, and project collection.
+  remarks: No intermediate <xref:Microsoft.Build.Evaluation.Project> object is created. This is useful if a project is going to be built, but not displayed or edited.
   syntax:
     content: public ProjectInstance (string projectFile, System.Collections.Generic.IDictionary<string,string> globalProperties, string toolsVersion, Microsoft.Build.Evaluation.ProjectCollection projectCollection);
     parameters:
     - id: projectFile
       type: System.String
-      description: Parameter description to be filled
+      description: The name of the project file.
     - id: globalProperties
       type: System.Collections.Generic.IDictionary{System.String,System.String}
-      description: Parameter description to be filled
+      description: The global properties to use. May be null.
     - id: toolsVersion
       type: System.String
-      description: Parameter description to be filled
+      description: The tools version. May be null.
     - id: projectCollection
       type: Microsoft.Build.Evaluation.ProjectCollection
-      description: Parameter description to be filled
+      description: Project collection
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: Microsoft.Build.Execution.ProjectInstance.#ctor(Microsoft.Build.Construction.ProjectRootElement,System.Collections.Generic.IDictionary{System.String,System.String},System.String,System.String,Microsoft.Build.Evaluation.ProjectCollection)
   id: '#ctor(Microsoft.Build.Construction.ProjectRootElement,System.Collections.Generic.IDictionary{System.String,System.String},System.String,System.String,Microsoft.Build.Evaluation.ProjectCollection)'
   parent: Microsoft.Build.Execution.ProjectInstance
   langs:
   - csharp
-  - vb
-  name: ProjectInstance(ProjectRootElement,IDictionary,String,String,ProjectCollection)
-  nameWithType: ProjectInstance.ProjectInstance(ProjectRootElement,IDictionary,String,String,ProjectCollection)
-  fullName: Microsoft.Build.Execution.ProjectInstance.ProjectInstance(ProjectRootElement,IDictionary,String,String,ProjectCollection)
+  name: ProjectInstance(ProjectRootElement,IDictionary<String,String>,String,String,ProjectCollection)
+  nameWithType: ProjectInstance.ProjectInstance(ProjectRootElement,IDictionary<String,String>,String,String,ProjectCollection)
+  fullName: Microsoft.Build.Execution.ProjectInstance.ProjectInstance(ProjectRootElement,IDictionary<String,String>,String,String,ProjectCollection)
   type: Constructor
   assemblies:
   - Microsoft.Build
   namespace: Microsoft.Build.Execution
+  summary: Creates a new project instance and initializes it from the given project root, using the given global properties, tools version, and project collection
+  remarks: No intermediate <xref:Microsoft.Build.Evaluation.Project> object is created. This is useful if a project is going to be built, but not displayed or edited.
   syntax:
     content: public ProjectInstance (Microsoft.Build.Construction.ProjectRootElement xml, System.Collections.Generic.IDictionary<string,string> globalProperties, string toolsVersion, string subToolsetVersion, Microsoft.Build.Evaluation.ProjectCollection projectCollection);
     parameters:
     - id: xml
       type: Microsoft.Build.Construction.ProjectRootElement
-      description: Parameter description to be filled
+      description: The project root element.
     - id: globalProperties
       type: System.Collections.Generic.IDictionary{System.String,System.String}
-      description: Parameter description to be filled
+      description: The global properties to use. May be null.
     - id: toolsVersion
       type: System.String
-      description: Parameter description to be filled
+      description: The tools version. May be null.
     - id: subToolsetVersion
       type: System.String
-      description: Parameter description to be filled
+      description: The sub toolset version. May be null.
     - id: projectCollection
       type: Microsoft.Build.Evaluation.ProjectCollection
-      description: Parameter description to be filled
+      description: Project collection.
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: Microsoft.Build.Execution.ProjectInstance.#ctor(System.String,System.Collections.Generic.IDictionary{System.String,System.String},System.String,System.String,Microsoft.Build.Evaluation.ProjectCollection)
   id: '#ctor(System.String,System.Collections.Generic.IDictionary{System.String,System.String},System.String,System.String,Microsoft.Build.Evaluation.ProjectCollection)'
   parent: Microsoft.Build.Execution.ProjectInstance
   langs:
   - csharp
-  - vb
-  name: ProjectInstance(String,IDictionary,String,String,ProjectCollection)
-  nameWithType: ProjectInstance.ProjectInstance(String,IDictionary,String,String,ProjectCollection)
-  fullName: Microsoft.Build.Execution.ProjectInstance.ProjectInstance(String,IDictionary,String,String,ProjectCollection)
+  name: ProjectInstance(String,IDictionary<String,String>,String,String,ProjectCollection)
+  nameWithType: ProjectInstance.ProjectInstance(String,IDictionary<String,String>,String,String,ProjectCollection)
+  fullName: Microsoft.Build.Execution.ProjectInstance.ProjectInstance(String,IDictionary<String,String>,String,String,ProjectCollection)
   type: Constructor
   assemblies:
   - Microsoft.Build
   namespace: Microsoft.Build.Execution
+  summary: Creates a new project instance and initializes it from the given project file, using the given global properties, tools version, sub toolset version, and project collection.
+  remarks: No intermediate <xref:Microsoft.Build.Evaluation.Project> object is created. This is useful if a project is going to be built, but not displayed or edited.
   syntax:
     content: public ProjectInstance (string projectFile, System.Collections.Generic.IDictionary<string,string> globalProperties, string toolsVersion, string subToolsetVersion, Microsoft.Build.Evaluation.ProjectCollection projectCollection);
     parameters:
     - id: projectFile
       type: System.String
-      description: Parameter description to be filled
+      description: The name of the project file.
     - id: globalProperties
       type: System.Collections.Generic.IDictionary{System.String,System.String}
-      description: Parameter description to be filled
+      description: The global properties to use. May be null.
     - id: toolsVersion
       type: System.String
-      description: Parameter description to be filled
+      description: The tools version. May be null.
     - id: subToolsetVersion
       type: System.String
-      description: Parameter description to be filled
+      description: The sub toolset version. May be null.
     - id: projectCollection
       type: Microsoft.Build.Evaluation.ProjectCollection
-      description: Parameter description to be filled
+      description: Project collection.
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: Microsoft.Build.Execution.ProjectInstance.AddItem(System.String,System.String)
   id: AddItem(System.String,System.String)
   parent: Microsoft.Build.Execution.ProjectInstance
   langs:
   - csharp
-  - vb
   name: AddItem(String,String)
   nameWithType: ProjectInstance.AddItem(String,String)
   fullName: Microsoft.Build.Execution.ProjectInstance.AddItem(String,String)
@@ -270,54 +309,64 @@ items:
   assemblies:
   - Microsoft.Build
   namespace: Microsoft.Build.Execution
+  summary: Adds an item with no metadata to the project.
+  remarks: We don't take a ProjectItemInstance to make sure we don't have one that's already in use by another ProjectInstance.
   syntax:
     content: public Microsoft.Build.Execution.ProjectItemInstance AddItem (string itemType, string evaluatedInclude);
     parameters:
     - id: itemType
       type: System.String
-      description: Parameter description to be filled
+      description: The item type of the item to be added.
     - id: evaluatedInclude
       type: System.String
-      description: Parameter description to be filled
+      description: The evaluated Include attribute of the item.
     return:
       type: Microsoft.Build.Execution.ProjectItemInstance
-      description: Return description to be filled
+      description: Returns the new item.
   overload: Microsoft.Build.Execution.ProjectInstance.AddItem*
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: Microsoft.Build.Execution.ProjectInstance.AddItem(System.String,System.String,System.Collections.Generic.IEnumerable{System.Collections.Generic.KeyValuePair{System.String,System.String}})
   id: AddItem(System.String,System.String,System.Collections.Generic.IEnumerable{System.Collections.Generic.KeyValuePair{System.String,System.String}})
   parent: Microsoft.Build.Execution.ProjectInstance
   langs:
   - csharp
-  - vb
-  name: AddItem(String,String,IEnumerable)
-  nameWithType: ProjectInstance.AddItem(String,String,IEnumerable)
-  fullName: Microsoft.Build.Execution.ProjectInstance.AddItem(String,String,IEnumerable)
+  name: AddItem(String,String,IEnumerable<KeyValuePair<String,String>>)
+  nameWithType: ProjectInstance.AddItem(String,String,IEnumerable<KeyValuePair<String,String>>)
+  fullName: Microsoft.Build.Execution.ProjectInstance.AddItem(String,String,IEnumerable<KeyValuePair<String,String>>)
   type: Method
   assemblies:
   - Microsoft.Build
   namespace: Microsoft.Build.Execution
+  summary: Adds an item with the given metadata to the project.
+  remarks: We don't take a ProjectItemInstance to make sure we don't have one that's already in use by another ProjectInstance.
   syntax:
     content: public Microsoft.Build.Execution.ProjectItemInstance AddItem (string itemType, string evaluatedInclude, System.Collections.Generic.IEnumerable<System.Collections.Generic.KeyValuePair<string,string>> metadata);
     parameters:
     - id: itemType
       type: System.String
-      description: Parameter description to be filled
+      description: The item type of the item to be added.
     - id: evaluatedInclude
       type: System.String
-      description: Parameter description to be filled
+      description: The evaluated Include attribute of the item.
     - id: metadata
       type: System.Collections.Generic.IEnumerable{System.Collections.Generic.KeyValuePair{System.String,System.String}}
-      description: Parameter description to be filled
+      description: The metadata of the item.
     return:
       type: Microsoft.Build.Execution.ProjectItemInstance
-      description: Return description to be filled
+      description: Return the new item.
   overload: Microsoft.Build.Execution.ProjectInstance.AddItem*
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: Microsoft.Build.Execution.ProjectInstance.Build
   id: Build
   parent: Microsoft.Build.Execution.ProjectInstance
   langs:
   - csharp
-  - vb
   name: Build()
   nameWithType: ProjectInstance.Build()
   fullName: Microsoft.Build.Execution.ProjectInstance.Build()
@@ -325,239 +374,284 @@ items:
   assemblies:
   - Microsoft.Build
   namespace: Microsoft.Build.Execution
+  summary: Builds the default targets of the project with loggers of the project collection.
+  remarks: To be added.
   syntax:
     content: public bool Build ();
     parameters: []
     return:
       type: System.Boolean
-      description: Return description to be filled
+      description: Returns true if the build succeeds; false otherwise.
   overload: Microsoft.Build.Execution.ProjectInstance.Build*
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: Microsoft.Build.Execution.ProjectInstance.Build(System.Collections.Generic.IEnumerable{Microsoft.Build.Framework.ILogger})
   id: Build(System.Collections.Generic.IEnumerable{Microsoft.Build.Framework.ILogger})
   parent: Microsoft.Build.Execution.ProjectInstance
   langs:
   - csharp
-  - vb
-  name: Build(IEnumerable)
-  nameWithType: ProjectInstance.Build(IEnumerable)
-  fullName: Microsoft.Build.Execution.ProjectInstance.Build(IEnumerable)
+  name: Build(IEnumerable<ILogger>)
+  nameWithType: ProjectInstance.Build(IEnumerable<ILogger>)
+  fullName: Microsoft.Build.Execution.ProjectInstance.Build(IEnumerable<ILogger>)
   type: Method
   assemblies:
   - Microsoft.Build
   namespace: Microsoft.Build.Execution
+  summary: Builds the default targets of the project with the given loggers.
+  remarks: Throws InvalidOperationException if any of the loggers supplied are already attached to the logging service.
   syntax:
     content: public bool Build (System.Collections.Generic.IEnumerable<Microsoft.Build.Framework.ILogger> loggers);
     parameters:
     - id: loggers
       type: System.Collections.Generic.IEnumerable{Microsoft.Build.Framework.ILogger}
-      description: Parameter description to be filled
+      description: The loggers to use for the build. May be null.
     return:
       type: System.Boolean
-      description: Return description to be filled
+      description: Returns true if the build succeeds; false otherwise.
   overload: Microsoft.Build.Execution.ProjectInstance.Build*
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: Microsoft.Build.Execution.ProjectInstance.Build(System.Collections.Generic.IEnumerable{Microsoft.Build.Framework.ILogger},System.Collections.Generic.IEnumerable{Microsoft.Build.Logging.ForwardingLoggerRecord})
   id: Build(System.Collections.Generic.IEnumerable{Microsoft.Build.Framework.ILogger},System.Collections.Generic.IEnumerable{Microsoft.Build.Logging.ForwardingLoggerRecord})
   parent: Microsoft.Build.Execution.ProjectInstance
   langs:
   - csharp
-  - vb
-  name: Build(IEnumerable,IEnumerable)
-  nameWithType: ProjectInstance.Build(IEnumerable,IEnumerable)
-  fullName: Microsoft.Build.Execution.ProjectInstance.Build(IEnumerable,IEnumerable)
+  name: Build(IEnumerable<ILogger>,IEnumerable<ForwardingLoggerRecord>)
+  nameWithType: ProjectInstance.Build(IEnumerable<ILogger>,IEnumerable<ForwardingLoggerRecord>)
+  fullName: Microsoft.Build.Execution.ProjectInstance.Build(IEnumerable<ILogger>,IEnumerable<ForwardingLoggerRecord>)
   type: Method
   assemblies:
   - Microsoft.Build
   namespace: Microsoft.Build.Execution
+  summary: Builds the default targets of the project with the given loggers and remote loggers.
+  remarks: Throws InvalidOperationException if any of the loggers supplied are already attached to the logging service.
   syntax:
     content: public bool Build (System.Collections.Generic.IEnumerable<Microsoft.Build.Framework.ILogger> loggers, System.Collections.Generic.IEnumerable<Microsoft.Build.Logging.ForwardingLoggerRecord> remoteLoggers);
     parameters:
     - id: loggers
       type: System.Collections.Generic.IEnumerable{Microsoft.Build.Framework.ILogger}
-      description: Parameter description to be filled
+      description: The loggers to use for the build. May be null.
     - id: remoteLoggers
       type: System.Collections.Generic.IEnumerable{Microsoft.Build.Logging.ForwardingLoggerRecord}
-      description: Parameter description to be filled
+      description: The remote loggers to use for the build. May be null.
     return:
       type: System.Boolean
-      description: Return description to be filled
+      description: Returns true if the build succeeds; false otherwise.
   overload: Microsoft.Build.Execution.ProjectInstance.Build*
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: Microsoft.Build.Execution.ProjectInstance.Build(System.String,System.Collections.Generic.IEnumerable{Microsoft.Build.Framework.ILogger})
   id: Build(System.String,System.Collections.Generic.IEnumerable{Microsoft.Build.Framework.ILogger})
   parent: Microsoft.Build.Execution.ProjectInstance
   langs:
   - csharp
-  - vb
-  name: Build(String,IEnumerable)
-  nameWithType: ProjectInstance.Build(String,IEnumerable)
-  fullName: Microsoft.Build.Execution.ProjectInstance.Build(String,IEnumerable)
+  name: Build(String,IEnumerable<ILogger>)
+  nameWithType: ProjectInstance.Build(String,IEnumerable<ILogger>)
+  fullName: Microsoft.Build.Execution.ProjectInstance.Build(String,IEnumerable<ILogger>)
   type: Method
   assemblies:
   - Microsoft.Build
   namespace: Microsoft.Build.Execution
+  summary: Builds the given target of the project with the given loggers.
+  remarks: Throws InvalidOperationException if any of the loggers supplied are already attached to the logging service.
   syntax:
     content: public bool Build (string target, System.Collections.Generic.IEnumerable<Microsoft.Build.Framework.ILogger> loggers);
     parameters:
     - id: target
       type: System.String
-      description: Parameter description to be filled
+      description: The target to build. May be null.
     - id: loggers
       type: System.Collections.Generic.IEnumerable{Microsoft.Build.Framework.ILogger}
-      description: Parameter description to be filled
+      description: The loggers to use for the build. May be null.
     return:
       type: System.Boolean
-      description: Return description to be filled
+      description: Returns true if the build succeeds; false otherwise.
   overload: Microsoft.Build.Execution.ProjectInstance.Build*
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: Microsoft.Build.Execution.ProjectInstance.Build(System.String[],System.Collections.Generic.IEnumerable{Microsoft.Build.Framework.ILogger})
   id: Build(System.String[],System.Collections.Generic.IEnumerable{Microsoft.Build.Framework.ILogger})
   parent: Microsoft.Build.Execution.ProjectInstance
   langs:
   - csharp
-  - vb
-  name: Build(String[],IEnumerable)
-  nameWithType: ProjectInstance.Build(String[],IEnumerable)
-  fullName: Microsoft.Build.Execution.ProjectInstance.Build(String[],IEnumerable)
+  name: Build(String[],IEnumerable<ILogger>)
+  nameWithType: ProjectInstance.Build(String[],IEnumerable<ILogger>)
+  fullName: Microsoft.Build.Execution.ProjectInstance.Build(String[],IEnumerable<ILogger>)
   type: Method
   assemblies:
   - Microsoft.Build
   namespace: Microsoft.Build.Execution
+  summary: Builds the given targets of the project with the given loggers.
+  remarks: Throws InvalidOperationException if any of the loggers supplied are already attached to the logging service.
   syntax:
     content: public bool Build (string[] targets, System.Collections.Generic.IEnumerable<Microsoft.Build.Framework.ILogger> loggers);
     parameters:
     - id: targets
       type: System.String[]
-      description: Parameter description to be filled
+      description: The targets to build. May be null.
     - id: loggers
       type: System.Collections.Generic.IEnumerable{Microsoft.Build.Framework.ILogger}
-      description: Parameter description to be filled
+      description: The loggers to use for the build. May be null.
     return:
       type: System.Boolean
-      description: Return description to be filled
+      description: Returns true if the build succeeds; false otherwise.
   overload: Microsoft.Build.Execution.ProjectInstance.Build*
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: Microsoft.Build.Execution.ProjectInstance.Build(System.String,System.Collections.Generic.IEnumerable{Microsoft.Build.Framework.ILogger},System.Collections.Generic.IEnumerable{Microsoft.Build.Logging.ForwardingLoggerRecord})
   id: Build(System.String,System.Collections.Generic.IEnumerable{Microsoft.Build.Framework.ILogger},System.Collections.Generic.IEnumerable{Microsoft.Build.Logging.ForwardingLoggerRecord})
   parent: Microsoft.Build.Execution.ProjectInstance
   langs:
   - csharp
-  - vb
-  name: Build(String,IEnumerable,IEnumerable)
-  nameWithType: ProjectInstance.Build(String,IEnumerable,IEnumerable)
-  fullName: Microsoft.Build.Execution.ProjectInstance.Build(String,IEnumerable,IEnumerable)
+  name: Build(String,IEnumerable<ILogger>,IEnumerable<ForwardingLoggerRecord>)
+  nameWithType: ProjectInstance.Build(String,IEnumerable<ILogger>,IEnumerable<ForwardingLoggerRecord>)
+  fullName: Microsoft.Build.Execution.ProjectInstance.Build(String,IEnumerable<ILogger>,IEnumerable<ForwardingLoggerRecord>)
   type: Method
   assemblies:
   - Microsoft.Build
   namespace: Microsoft.Build.Execution
+  summary: Builds the given target of the project with the given loggers and remote loggers.
+  remarks: Throws InvalidOperationException if any of the loggers supplied are already attached to the logging service.
   syntax:
     content: public bool Build (string target, System.Collections.Generic.IEnumerable<Microsoft.Build.Framework.ILogger> loggers, System.Collections.Generic.IEnumerable<Microsoft.Build.Logging.ForwardingLoggerRecord> remoteLoggers);
     parameters:
     - id: target
       type: System.String
-      description: Parameter description to be filled
+      description: The target to build. May be null.
     - id: loggers
       type: System.Collections.Generic.IEnumerable{Microsoft.Build.Framework.ILogger}
-      description: Parameter description to be filled
+      description: The loggers to use for the build. May be null.
     - id: remoteLoggers
       type: System.Collections.Generic.IEnumerable{Microsoft.Build.Logging.ForwardingLoggerRecord}
-      description: Parameter description to be filled
+      description: The remote loggers to use for the build. May be null.
     return:
       type: System.Boolean
-      description: Return description to be filled
+      description: Returns true if the build succeeds; false otherwise.
   overload: Microsoft.Build.Execution.ProjectInstance.Build*
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: Microsoft.Build.Execution.ProjectInstance.Build(System.String[],System.Collections.Generic.IEnumerable{Microsoft.Build.Framework.ILogger},System.Collections.Generic.IDictionary{System.String,Microsoft.Build.Execution.TargetResult}@)
   id: Build(System.String[],System.Collections.Generic.IEnumerable{Microsoft.Build.Framework.ILogger},System.Collections.Generic.IDictionary{System.String,Microsoft.Build.Execution.TargetResult}@)
   parent: Microsoft.Build.Execution.ProjectInstance
   langs:
   - csharp
-  - vb
-  name: Build(String[],IEnumerable,IDictionary)
-  nameWithType: ProjectInstance.Build(String[],IEnumerable,IDictionary)
-  fullName: Microsoft.Build.Execution.ProjectInstance.Build(String[],IEnumerable,IDictionary)
+  name: Build(String[],IEnumerable<ILogger>,IDictionary<String,TargetResult>)
+  nameWithType: ProjectInstance.Build(String[],IEnumerable<ILogger>,IDictionary<String,TargetResult>)
+  fullName: Microsoft.Build.Execution.ProjectInstance.Build(String[],IEnumerable<ILogger>,IDictionary<String,TargetResult>)
   type: Method
   assemblies:
   - Microsoft.Build
   namespace: Microsoft.Build.Execution
+  summary: Build a list of targets with specified loggers. Targets may be null. Loggers may be null.
+  remarks: If any of the loggers supplied are already attached to the logging service we were passed, throws InvalidOperationException.
   syntax:
     content: public bool Build (string[] targets, System.Collections.Generic.IEnumerable<Microsoft.Build.Framework.ILogger> loggers, out System.Collections.Generic.IDictionary<string,Microsoft.Build.Execution.TargetResult> targetOutputs);
     parameters:
     - id: targets
       type: System.String[]
-      description: Parameter description to be filled
+      description: List of targets to build. May be null.
     - id: loggers
       type: System.Collections.Generic.IEnumerable{Microsoft.Build.Framework.ILogger}
-      description: Parameter description to be filled
+      description: Enumerated list of loggers to use for building targets.
     - id: targetOutputs
       type: System.Collections.Generic.IDictionary{System.String,Microsoft.Build.Execution.TargetResult}
-      description: Parameter description to be filled
+      description: Outputs of target builds.
     return:
       type: System.Boolean
-      description: Return description to be filled
+      description: Returns true on success, false on failure.
   overload: Microsoft.Build.Execution.ProjectInstance.Build*
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: Microsoft.Build.Execution.ProjectInstance.Build(System.String[],System.Collections.Generic.IEnumerable{Microsoft.Build.Framework.ILogger},System.Collections.Generic.IEnumerable{Microsoft.Build.Logging.ForwardingLoggerRecord})
   id: Build(System.String[],System.Collections.Generic.IEnumerable{Microsoft.Build.Framework.ILogger},System.Collections.Generic.IEnumerable{Microsoft.Build.Logging.ForwardingLoggerRecord})
   parent: Microsoft.Build.Execution.ProjectInstance
   langs:
   - csharp
-  - vb
-  name: Build(String[],IEnumerable,IEnumerable)
-  nameWithType: ProjectInstance.Build(String[],IEnumerable,IEnumerable)
-  fullName: Microsoft.Build.Execution.ProjectInstance.Build(String[],IEnumerable,IEnumerable)
+  name: Build(String[],IEnumerable<ILogger>,IEnumerable<ForwardingLoggerRecord>)
+  nameWithType: ProjectInstance.Build(String[],IEnumerable<ILogger>,IEnumerable<ForwardingLoggerRecord>)
+  fullName: Microsoft.Build.Execution.ProjectInstance.Build(String[],IEnumerable<ILogger>,IEnumerable<ForwardingLoggerRecord>)
   type: Method
   assemblies:
   - Microsoft.Build
   namespace: Microsoft.Build.Execution
+  summary: Builds the given targets of the project with the given loggers and remote loggers.
+  remarks: Throws InvalidOperationException if any of the loggers supplied are already attached to the logging service.
   syntax:
     content: public bool Build (string[] targets, System.Collections.Generic.IEnumerable<Microsoft.Build.Framework.ILogger> loggers, System.Collections.Generic.IEnumerable<Microsoft.Build.Logging.ForwardingLoggerRecord> remoteLoggers);
     parameters:
     - id: targets
       type: System.String[]
-      description: Parameter description to be filled
+      description: The targets to build. May be null.
     - id: loggers
       type: System.Collections.Generic.IEnumerable{Microsoft.Build.Framework.ILogger}
-      description: Parameter description to be filled
+      description: The loggers to use for the build. May be null.
     - id: remoteLoggers
       type: System.Collections.Generic.IEnumerable{Microsoft.Build.Logging.ForwardingLoggerRecord}
-      description: Parameter description to be filled
+      description: The remote loggers to use for the build. May be null.
     return:
       type: System.Boolean
-      description: Return description to be filled
+      description: Returns true if the build succeeds; false otherwise.
   overload: Microsoft.Build.Execution.ProjectInstance.Build*
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: Microsoft.Build.Execution.ProjectInstance.Build(System.String[],System.Collections.Generic.IEnumerable{Microsoft.Build.Framework.ILogger},System.Collections.Generic.IEnumerable{Microsoft.Build.Logging.ForwardingLoggerRecord},System.Collections.Generic.IDictionary{System.String,Microsoft.Build.Execution.TargetResult}@)
   id: Build(System.String[],System.Collections.Generic.IEnumerable{Microsoft.Build.Framework.ILogger},System.Collections.Generic.IEnumerable{Microsoft.Build.Logging.ForwardingLoggerRecord},System.Collections.Generic.IDictionary{System.String,Microsoft.Build.Execution.TargetResult}@)
   parent: Microsoft.Build.Execution.ProjectInstance
   langs:
   - csharp
-  - vb
-  name: Build(String[],IEnumerable,IEnumerable,IDictionary)
-  nameWithType: ProjectInstance.Build(String[],IEnumerable,IEnumerable,IDictionary)
-  fullName: Microsoft.Build.Execution.ProjectInstance.Build(String[],IEnumerable,IEnumerable,IDictionary)
+  name: Build(String[],IEnumerable<ILogger>,IEnumerable<ForwardingLoggerRecord>,IDictionary<String,TargetResult>)
+  nameWithType: ProjectInstance.Build(String[],IEnumerable<ILogger>,IEnumerable<ForwardingLoggerRecord>,IDictionary<String,TargetResult>)
+  fullName: Microsoft.Build.Execution.ProjectInstance.Build(String[],IEnumerable<ILogger>,IEnumerable<ForwardingLoggerRecord>,IDictionary<String,TargetResult>)
   type: Method
   assemblies:
   - Microsoft.Build
   namespace: Microsoft.Build.Execution
+  summary: Builds the given targets with the given target outputs and with the given loggers and remote loggers.
+  remarks: Throws InvalidOperationException if any of the loggers supplied are already attached to the logging service.
   syntax:
     content: public bool Build (string[] targets, System.Collections.Generic.IEnumerable<Microsoft.Build.Framework.ILogger> loggers, System.Collections.Generic.IEnumerable<Microsoft.Build.Logging.ForwardingLoggerRecord> remoteLoggers, out System.Collections.Generic.IDictionary<string,Microsoft.Build.Execution.TargetResult> targetOutputs);
     parameters:
     - id: targets
       type: System.String[]
-      description: Parameter description to be filled
+      description: The targets to build. May be null.
     - id: loggers
       type: System.Collections.Generic.IEnumerable{Microsoft.Build.Framework.ILogger}
-      description: Parameter description to be filled
+      description: The loggers to use for the build. May be null.
     - id: remoteLoggers
       type: System.Collections.Generic.IEnumerable{Microsoft.Build.Logging.ForwardingLoggerRecord}
-      description: Parameter description to be filled
+      description: The remote loggers to use for the build. May be null.
     - id: targetOutputs
       type: System.Collections.Generic.IDictionary{System.String,Microsoft.Build.Execution.TargetResult}
-      description: Parameter description to be filled
+      description: The target outputs.
     return:
       type: System.Boolean
-      description: Return description to be filled
+      description: Returns true if the build succeeds; false otherwise.
   overload: Microsoft.Build.Execution.ProjectInstance.Build*
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: Microsoft.Build.Execution.ProjectInstance.DeepCopy
   id: DeepCopy
   parent: Microsoft.Build.Execution.ProjectInstance
   langs:
   - csharp
-  - vb
   name: DeepCopy()
   nameWithType: ProjectInstance.DeepCopy()
   fullName: Microsoft.Build.Execution.ProjectInstance.DeepCopy()
@@ -565,19 +659,24 @@ items:
   assemblies:
   - Microsoft.Build
   namespace: Microsoft.Build.Execution
+  summary: Creates an independent, deep clone of this project and everything in it. Clone has the same mutability as the original. Useful for compiling a single file or for keeping build results between builds.
+  remarks: To be added.
   syntax:
     content: public Microsoft.Build.Execution.ProjectInstance DeepCopy ();
     parameters: []
     return:
       type: Microsoft.Build.Execution.ProjectInstance
-      description: Return description to be filled
+      description: Creates an independent, deep clone of this project.
   overload: Microsoft.Build.Execution.ProjectInstance.DeepCopy*
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: Microsoft.Build.Execution.ProjectInstance.DeepCopy(System.Boolean)
   id: DeepCopy(System.Boolean)
   parent: Microsoft.Build.Execution.ProjectInstance
   langs:
   - csharp
-  - vb
   name: DeepCopy(Boolean)
   nameWithType: ProjectInstance.DeepCopy(Boolean)
   fullName: Microsoft.Build.Execution.ProjectInstance.DeepCopy(Boolean)
@@ -585,22 +684,27 @@ items:
   assemblies:
   - Microsoft.Build
   namespace: Microsoft.Build.Execution
+  summary: Creates an independent, deep clone of this project and everything in it, with specified mutability. Useful for compiling a single file or for keeping build results between builds.
+  remarks: To be added.
   syntax:
     content: public Microsoft.Build.Execution.ProjectInstance DeepCopy (bool isImmutable);
     parameters:
     - id: isImmutable
       type: System.Boolean
-      description: Parameter description to be filled
+      description: Flag indicating clone mutability.
     return:
       type: Microsoft.Build.Execution.ProjectInstance
-      description: Return description to be filled
+      description: Returns an independent, deep clone of this project, with specified mutability.
   overload: Microsoft.Build.Execution.ProjectInstance.DeepCopy*
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: Microsoft.Build.Execution.ProjectInstance.DefaultTargets
   id: DefaultTargets
   parent: Microsoft.Build.Execution.ProjectInstance
   langs:
   - csharp
-  - vb
   name: DefaultTargets
   nameWithType: ProjectInstance.DefaultTargets
   fullName: Microsoft.Build.Execution.ProjectInstance.DefaultTargets
@@ -608,17 +712,22 @@ items:
   assemblies:
   - Microsoft.Build
   namespace: Microsoft.Build.Execution
+  summary: Gets or sets the list of default targets for this project.
+  remarks: Default targets are built if no targets are explicitly specified.
   syntax:
     content: public System.Collections.Generic.List<string> DefaultTargets { get; }
     return:
       type: System.Collections.Generic.List{System.String}
-      description: Return description to be filled
+      description: To be added.
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: Microsoft.Build.Execution.ProjectInstance.Directory
   id: Directory
   parent: Microsoft.Build.Execution.ProjectInstance
   langs:
   - csharp
-  - vb
   name: Directory
   nameWithType: ProjectInstance.Directory
   fullName: Microsoft.Build.Execution.ProjectInstance.Directory
@@ -626,17 +735,22 @@ items:
   assemblies:
   - Microsoft.Build
   namespace: Microsoft.Build.Execution
+  summary: 'Gets the project root directory. Used for evaluation of relative paths and setting the current directory during build. Is never null: projects not loaded from disk use the current directory from the time the build started.'
+  remarks: To be added.
   syntax:
     content: public string Directory { get; }
     return:
       type: System.String
-      description: Return description to be filled
+      description: To be added.
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: Microsoft.Build.Execution.ProjectInstance.EvaluateCondition(System.String)
   id: EvaluateCondition(System.String)
   parent: Microsoft.Build.Execution.ProjectInstance
   langs:
   - csharp
-  - vb
   name: EvaluateCondition(String)
   nameWithType: ProjectInstance.EvaluateCondition(String)
   fullName: Microsoft.Build.Execution.ProjectInstance.EvaluateCondition(String)
@@ -644,21 +758,26 @@ items:
   assemblies:
   - Microsoft.Build
   namespace: Microsoft.Build.Execution
+  summary: Evaluates the provided string as a condition by expanding items and properties, using the current items and properties available, then doing a logical evaluation.
+  remarks: "This is useful for the immediate window.  \n  \n Does not expand bare metadata expressions."
   syntax:
     content: public bool EvaluateCondition (string condition);
     parameters:
     - id: condition
       type: System.String
-      description: Parameter description to be filled
+      description: The string to be expanded.
     return:
       type: System.Boolean
-      description: Return description to be filled
+      description: Returns true if the string evaluates to true; false otherwise.
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: Microsoft.Build.Execution.ProjectInstance.ExpandString(System.String)
   id: ExpandString(System.String)
   parent: Microsoft.Build.Execution.ProjectInstance
   langs:
   - csharp
-  - vb
   name: ExpandString(String)
   nameWithType: ProjectInstance.ExpandString(String)
   fullName: Microsoft.Build.Execution.ProjectInstance.ExpandString(String)
@@ -666,21 +785,26 @@ items:
   assemblies:
   - Microsoft.Build
   namespace: Microsoft.Build.Execution
+  summary: Evaluates the provided string by expanding items and properties, using the current items and properties available.
+  remarks: "This is useful for some hosts, or for the debugger immediate window.  \n  \n Does not expand bare metadata expressions."
   syntax:
     content: public string ExpandString (string unexpandedValue);
     parameters:
     - id: unexpandedValue
       type: System.String
-      description: Parameter description to be filled
+      description: The string to be expanded.
     return:
       type: System.String
-      description: Return description to be filled
+      description: Returns the expanded string value.
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: Microsoft.Build.Execution.ProjectInstance.FullPath
   id: FullPath
   parent: Microsoft.Build.Execution.ProjectInstance
   langs:
   - csharp
-  - vb
   name: FullPath
   nameWithType: ProjectInstance.FullPath
   fullName: Microsoft.Build.Execution.ProjectInstance.FullPath
@@ -688,17 +812,22 @@ items:
   assemblies:
   - Microsoft.Build
   namespace: Microsoft.Build.Execution
+  summary: Gets the full path to the project file. Used for logging.
+  remarks: To be added.
   syntax:
     content: public string FullPath { get; }
     return:
       type: System.String
-      description: Return description to be filled
+      description: To be added.
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: Microsoft.Build.Execution.ProjectInstance.GetEvaluatedItemIncludeEscaped(Microsoft.Build.Execution.ProjectItemDefinitionInstance)
   id: GetEvaluatedItemIncludeEscaped(Microsoft.Build.Execution.ProjectItemDefinitionInstance)
   parent: Microsoft.Build.Execution.ProjectInstance
   langs:
   - csharp
-  - vb
   name: GetEvaluatedItemIncludeEscaped(ProjectItemDefinitionInstance)
   nameWithType: ProjectInstance.GetEvaluatedItemIncludeEscaped(ProjectItemDefinitionInstance)
   fullName: Microsoft.Build.Execution.ProjectInstance.GetEvaluatedItemIncludeEscaped(ProjectItemDefinitionInstance)
@@ -706,22 +835,27 @@ items:
   assemblies:
   - Microsoft.Build
   namespace: Microsoft.Build.Execution
+  summary: Gets the evaluated, escaped value of the Include attribute of the provided item definition.
+  remarks: To be added.
   syntax:
     content: public static string GetEvaluatedItemIncludeEscaped (Microsoft.Build.Execution.ProjectItemDefinitionInstance item);
     parameters:
     - id: item
       type: Microsoft.Build.Execution.ProjectItemDefinitionInstance
-      description: Parameter description to be filled
+      description: The item definition to be evaluated and escaped.
     return:
       type: System.String
-      description: Return description to be filled
+      description: Returns the evaluated, escaped value of the Include attribute of the provided item definition.
   overload: Microsoft.Build.Execution.ProjectInstance.GetEvaluatedItemIncludeEscaped*
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: Microsoft.Build.Execution.ProjectInstance.GetEvaluatedItemIncludeEscaped(Microsoft.Build.Execution.ProjectItemInstance)
   id: GetEvaluatedItemIncludeEscaped(Microsoft.Build.Execution.ProjectItemInstance)
   parent: Microsoft.Build.Execution.ProjectInstance
   langs:
   - csharp
-  - vb
   name: GetEvaluatedItemIncludeEscaped(ProjectItemInstance)
   nameWithType: ProjectInstance.GetEvaluatedItemIncludeEscaped(ProjectItemInstance)
   fullName: Microsoft.Build.Execution.ProjectInstance.GetEvaluatedItemIncludeEscaped(ProjectItemInstance)
@@ -729,22 +863,27 @@ items:
   assemblies:
   - Microsoft.Build
   namespace: Microsoft.Build.Execution
+  summary: Gets the evaluated, escaped value of the Include attribute of the provided item.
+  remarks: To be added.
   syntax:
     content: public static string GetEvaluatedItemIncludeEscaped (Microsoft.Build.Execution.ProjectItemInstance item);
     parameters:
     - id: item
       type: Microsoft.Build.Execution.ProjectItemInstance
-      description: Parameter description to be filled
+      description: The item to be evaluated and escaped.
     return:
       type: System.String
-      description: Return description to be filled
+      description: Returns the evaluated, escaped value of the Include attribute of the provided item.
   overload: Microsoft.Build.Execution.ProjectInstance.GetEvaluatedItemIncludeEscaped*
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: Microsoft.Build.Execution.ProjectInstance.GetItems(System.String)
   id: GetItems(System.String)
   parent: Microsoft.Build.Execution.ProjectInstance
   langs:
   - csharp
-  - vb
   name: GetItems(String)
   nameWithType: ProjectInstance.GetItems(String)
   fullName: Microsoft.Build.Execution.ProjectInstance.GetItems(String)
@@ -752,21 +891,26 @@ items:
   assemblies:
   - Microsoft.Build
   namespace: Microsoft.Build.Execution
+  summary: Gets all the items in this project of the specified type. This is a read-only list.
+  remarks: To be added.
   syntax:
     content: public System.Collections.Generic.ICollection<Microsoft.Build.Execution.ProjectItemInstance> GetItems (string itemType);
     parameters:
     - id: itemType
       type: System.String
-      description: Parameter description to be filled
+      description: The item type of the items to be retrieved.
     return:
       type: System.Collections.Generic.ICollection{Microsoft.Build.Execution.ProjectItemInstance}
-      description: Return description to be filled
+      description: Returns all the items in this project of the specified type. Returns an empty list if there are none.
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: Microsoft.Build.Execution.ProjectInstance.GetItemsByItemTypeAndEvaluatedInclude(System.String,System.String)
   id: GetItemsByItemTypeAndEvaluatedInclude(System.String,System.String)
   parent: Microsoft.Build.Execution.ProjectInstance
   langs:
   - csharp
-  - vb
   name: GetItemsByItemTypeAndEvaluatedInclude(String,String)
   nameWithType: ProjectInstance.GetItemsByItemTypeAndEvaluatedInclude(String,String)
   fullName: Microsoft.Build.Execution.ProjectInstance.GetItemsByItemTypeAndEvaluatedInclude(String,String)
@@ -774,24 +918,29 @@ items:
   assemblies:
   - Microsoft.Build
   namespace: Microsoft.Build.Execution
+  summary: Gets all the items in this project of the specified type and evaluated include value. This is a read-only list.
+  remarks: To be added.
   syntax:
     content: public System.Collections.Generic.IEnumerable<Microsoft.Build.Execution.ProjectItemInstance> GetItemsByItemTypeAndEvaluatedInclude (string itemType, string evaluatedInclude);
     parameters:
     - id: itemType
       type: System.String
-      description: Parameter description to be filled
+      description: The item type of the items to be retrieved.
     - id: evaluatedInclude
       type: System.String
-      description: Parameter description to be filled
+      description: The evaluated include value of the items to be retrieved
     return:
       type: System.Collections.Generic.IEnumerable{Microsoft.Build.Execution.ProjectItemInstance}
-      description: Return description to be filled
+      description: Returns all the items in this project of the specified type and evaluated include value. Returns an empty collection if there are none.
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: Microsoft.Build.Execution.ProjectInstance.GetMetadataValueEscaped(Microsoft.Build.Execution.ProjectMetadataInstance)
   id: GetMetadataValueEscaped(Microsoft.Build.Execution.ProjectMetadataInstance)
   parent: Microsoft.Build.Execution.ProjectInstance
   langs:
   - csharp
-  - vb
   name: GetMetadataValueEscaped(ProjectMetadataInstance)
   nameWithType: ProjectInstance.GetMetadataValueEscaped(ProjectMetadataInstance)
   fullName: Microsoft.Build.Execution.ProjectInstance.GetMetadataValueEscaped(ProjectMetadataInstance)
@@ -799,22 +948,27 @@ items:
   assemblies:
   - Microsoft.Build
   namespace: Microsoft.Build.Execution
+  summary: Gets the escaped value of the provided metadatum.
+  remarks: To be added.
   syntax:
     content: public static string GetMetadataValueEscaped (Microsoft.Build.Execution.ProjectMetadataInstance metadatum);
     parameters:
     - id: metadatum
       type: Microsoft.Build.Execution.ProjectMetadataInstance
-      description: Parameter description to be filled
+      description: The metadatum to be escaped.
     return:
       type: System.String
-      description: Return description to be filled
+      description: Returns the escaped value of the provided metadatum.
   overload: Microsoft.Build.Execution.ProjectInstance.GetMetadataValueEscaped*
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: Microsoft.Build.Execution.ProjectInstance.GetMetadataValueEscaped(Microsoft.Build.Execution.ProjectItemDefinitionInstance,System.String)
   id: GetMetadataValueEscaped(Microsoft.Build.Execution.ProjectItemDefinitionInstance,System.String)
   parent: Microsoft.Build.Execution.ProjectInstance
   langs:
   - csharp
-  - vb
   name: GetMetadataValueEscaped(ProjectItemDefinitionInstance,String)
   nameWithType: ProjectInstance.GetMetadataValueEscaped(ProjectItemDefinitionInstance,String)
   fullName: Microsoft.Build.Execution.ProjectInstance.GetMetadataValueEscaped(ProjectItemDefinitionInstance,String)
@@ -822,25 +976,30 @@ items:
   assemblies:
   - Microsoft.Build
   namespace: Microsoft.Build.Execution
+  summary: Gets the escaped value of the metadatum with the provided name of the provided item definition.
+  remarks: To be added.
   syntax:
     content: public static string GetMetadataValueEscaped (Microsoft.Build.Execution.ProjectItemDefinitionInstance item, string name);
     parameters:
     - id: item
       type: Microsoft.Build.Execution.ProjectItemDefinitionInstance
-      description: Parameter description to be filled
+      description: The item definition to provide the metadatum value.
     - id: name
       type: System.String
-      description: Parameter description to be filled
+      description: The name of the metadatum.
     return:
       type: System.String
-      description: Return description to be filled
+      description: Returns the escaped value of the metadatum with the provided name of the provided item definition.
   overload: Microsoft.Build.Execution.ProjectInstance.GetMetadataValueEscaped*
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: Microsoft.Build.Execution.ProjectInstance.GetMetadataValueEscaped(Microsoft.Build.Execution.ProjectItemInstance,System.String)
   id: GetMetadataValueEscaped(Microsoft.Build.Execution.ProjectItemInstance,System.String)
   parent: Microsoft.Build.Execution.ProjectInstance
   langs:
   - csharp
-  - vb
   name: GetMetadataValueEscaped(ProjectItemInstance,String)
   nameWithType: ProjectInstance.GetMetadataValueEscaped(ProjectItemInstance,String)
   fullName: Microsoft.Build.Execution.ProjectInstance.GetMetadataValueEscaped(ProjectItemInstance,String)
@@ -848,25 +1007,30 @@ items:
   assemblies:
   - Microsoft.Build
   namespace: Microsoft.Build.Execution
+  summary: Gets the escaped value of the metadatum with the provided name on the provided item.
+  remarks: To be added.
   syntax:
     content: public static string GetMetadataValueEscaped (Microsoft.Build.Execution.ProjectItemInstance item, string name);
     parameters:
     - id: item
       type: Microsoft.Build.Execution.ProjectItemInstance
-      description: Parameter description to be filled
+      description: The item to provide the metadatum value.
     - id: name
       type: System.String
-      description: Parameter description to be filled
+      description: The name of the metadatum.
     return:
       type: System.String
-      description: Return description to be filled
+      description: Returns the escaped value of the metadatum with the provided name on the provided item.
   overload: Microsoft.Build.Execution.ProjectInstance.GetMetadataValueEscaped*
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: Microsoft.Build.Execution.ProjectInstance.GetProperty(System.String)
   id: GetProperty(System.String)
   parent: Microsoft.Build.Execution.ProjectInstance
   langs:
   - csharp
-  - vb
   name: GetProperty(String)
   nameWithType: ProjectInstance.GetProperty(String)
   fullName: Microsoft.Build.Execution.ProjectInstance.GetProperty(String)
@@ -874,21 +1038,26 @@ items:
   assemblies:
   - Microsoft.Build
   namespace: Microsoft.Build.Execution
+  summary: Get the property with the given name.
+  remarks: To be added.
   syntax:
     content: public Microsoft.Build.Execution.ProjectPropertyInstance GetProperty (string name);
     parameters:
     - id: name
       type: System.String
-      description: Parameter description to be filled
+      description: The name of the property to retrieve.
     return:
       type: Microsoft.Build.Execution.ProjectPropertyInstance
-      description: Return description to be filled
+      description: Returns the property with the given name. Returns null if no property exists with that name.
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: Microsoft.Build.Execution.ProjectInstance.GetPropertyValue(System.String)
   id: GetPropertyValue(System.String)
   parent: Microsoft.Build.Execution.ProjectInstance
   langs:
   - csharp
-  - vb
   name: GetPropertyValue(String)
   nameWithType: ProjectInstance.GetPropertyValue(String)
   fullName: Microsoft.Build.Execution.ProjectInstance.GetPropertyValue(String)
@@ -896,21 +1065,26 @@ items:
   assemblies:
   - Microsoft.Build
   namespace: Microsoft.Build.Execution
+  summary: Get the value of the property with the given name.
+  remarks: This method does not distinguish between a property with a value of empty string and no property with the given name.
   syntax:
     content: public string GetPropertyValue (string name);
     parameters:
     - id: name
       type: System.String
-      description: Parameter description to be filled
+      description: The name of the property whose value is to be retrieved.
     return:
       type: System.String
-      description: Return description to be filled
+      description: Returns the value of the property with the given name. Returns an empty string if no property exists with that name. The value returned has no escaped character sequences.
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: Microsoft.Build.Execution.ProjectInstance.GetPropertyValueEscaped(Microsoft.Build.Execution.ProjectPropertyInstance)
   id: GetPropertyValueEscaped(Microsoft.Build.Execution.ProjectPropertyInstance)
   parent: Microsoft.Build.Execution.ProjectInstance
   langs:
   - csharp
-  - vb
   name: GetPropertyValueEscaped(ProjectPropertyInstance)
   nameWithType: ProjectInstance.GetPropertyValueEscaped(ProjectPropertyInstance)
   fullName: Microsoft.Build.Execution.ProjectInstance.GetPropertyValueEscaped(ProjectPropertyInstance)
@@ -918,21 +1092,26 @@ items:
   assemblies:
   - Microsoft.Build
   namespace: Microsoft.Build.Execution
+  summary: Get the escaped value of the provided property.
+  remarks: To be added.
   syntax:
     content: public static string GetPropertyValueEscaped (Microsoft.Build.Execution.ProjectPropertyInstance property);
     parameters:
     - id: property
       type: Microsoft.Build.Execution.ProjectPropertyInstance
-      description: Parameter description to be filled
+      description: The property to be escaped.
     return:
       type: System.String
-      description: Return description to be filled
+      description: Returns the escaped value of the provided property.
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: Microsoft.Build.Execution.ProjectInstance.GlobalProperties
   id: GlobalProperties
   parent: Microsoft.Build.Execution.ProjectInstance
   langs:
   - csharp
-  - vb
   name: GlobalProperties
   nameWithType: ProjectInstance.GlobalProperties
   fullName: Microsoft.Build.Execution.ProjectInstance.GlobalProperties
@@ -940,17 +1119,22 @@ items:
   assemblies:
   - Microsoft.Build
   namespace: Microsoft.Build.Execution
+  summary: Gets the dictionary of global properties this project was evaluated with, if any.
+  remarks: "Read only collection.  \n  \n Traverses project references.  \n  \n This is the publicly exposed getter, that translates into a read-only dead IDictionary\\<string, string>."
   syntax:
     content: public System.Collections.Generic.IDictionary<string,string> GlobalProperties { get; }
     return:
       type: System.Collections.Generic.IDictionary{System.String,System.String}
-      description: Return description to be filled
+      description: To be added.
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: Microsoft.Build.Execution.ProjectInstance.InitialTargets
   id: InitialTargets
   parent: Microsoft.Build.Execution.ProjectInstance
   langs:
   - csharp
-  - vb
   name: InitialTargets
   nameWithType: ProjectInstance.InitialTargets
   fullName: Microsoft.Build.Execution.ProjectInstance.InitialTargets
@@ -958,17 +1142,22 @@ items:
   assemblies:
   - Microsoft.Build
   namespace: Microsoft.Build.Execution
+  summary: Gets the list of initial targets for the project and all its imports, depth-first. These targets are built before any other targets.
+  remarks: To be added.
   syntax:
     content: public System.Collections.Generic.List<string> InitialTargets { get; }
     return:
       type: System.Collections.Generic.List{System.String}
-      description: Return description to be filled
+      description: To be added.
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: Microsoft.Build.Execution.ProjectInstance.IsImmutable
   id: IsImmutable
   parent: Microsoft.Build.Execution.ProjectInstance
   langs:
   - csharp
-  - vb
   name: IsImmutable
   nameWithType: ProjectInstance.IsImmutable
   fullName: Microsoft.Build.Execution.ProjectInstance.IsImmutable
@@ -976,17 +1165,22 @@ items:
   assemblies:
   - Microsoft.Build
   namespace: Microsoft.Build.Execution
+  summary: Gets a flag indicating that the project instance is immutable. This flag is set permanently when the instance is created.
+  remarks: To be added.
   syntax:
     content: public bool IsImmutable { get; }
     return:
       type: System.Boolean
-      description: Return description to be filled
+      description: To be added.
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: Microsoft.Build.Execution.ProjectInstance.ItemDefinitions
   id: ItemDefinitions
   parent: Microsoft.Build.Execution.ProjectInstance
   langs:
   - csharp
-  - vb
   name: ItemDefinitions
   nameWithType: ProjectInstance.ItemDefinitions
   fullName: Microsoft.Build.Execution.ProjectInstance.ItemDefinitions
@@ -994,17 +1188,22 @@ items:
   assemblies:
   - Microsoft.Build
   namespace: Microsoft.Build.Execution
+  summary: Gets a read-only dictionary of the item definitions in the project, keyed by item type.
+  remarks: To be added.
   syntax:
     content: public System.Collections.Generic.IDictionary<string,Microsoft.Build.Execution.ProjectItemDefinitionInstance> ItemDefinitions { get; }
     return:
       type: System.Collections.Generic.IDictionary{System.String,Microsoft.Build.Execution.ProjectItemDefinitionInstance}
-      description: Return description to be filled
+      description: To be added.
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: Microsoft.Build.Execution.ProjectInstance.Items
   id: Items
   parent: Microsoft.Build.Execution.ProjectInstance
   langs:
   - csharp
-  - vb
   name: Items
   nameWithType: ProjectInstance.Items
   fullName: Microsoft.Build.Execution.ProjectInstance.Items
@@ -1012,17 +1211,22 @@ items:
   assemblies:
   - Microsoft.Build
   namespace: Microsoft.Build.Execution
+  summary: Gets all items in this project.
+  remarks: To be added.
   syntax:
     content: public System.Collections.Generic.ICollection<Microsoft.Build.Execution.ProjectItemInstance> Items { get; }
     return:
       type: System.Collections.Generic.ICollection{Microsoft.Build.Execution.ProjectItemInstance}
-      description: Return description to be filled
+      description: To be added.
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: Microsoft.Build.Execution.ProjectInstance.ItemTypes
   id: ItemTypes
   parent: Microsoft.Build.Execution.ProjectInstance
   langs:
   - csharp
-  - vb
   name: ItemTypes
   nameWithType: ProjectInstance.ItemTypes
   fullName: Microsoft.Build.Execution.ProjectInstance.ItemTypes
@@ -1030,17 +1234,22 @@ items:
   assemblies:
   - Microsoft.Build
   namespace: Microsoft.Build.Execution
+  summary: Gets all item types in this project.
+  remarks: To be added.
   syntax:
     content: public System.Collections.Generic.ICollection<string> ItemTypes { get; }
     return:
       type: System.Collections.Generic.ICollection{System.String}
-      description: Return description to be filled
+      description: To be added.
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: Microsoft.Build.Execution.ProjectInstance.ProjectFileLocation
   id: ProjectFileLocation
   parent: Microsoft.Build.Execution.ProjectInstance
   langs:
   - csharp
-  - vb
   name: ProjectFileLocation
   nameWithType: ProjectInstance.ProjectFileLocation
   fullName: Microsoft.Build.Execution.ProjectInstance.ProjectFileLocation
@@ -1048,17 +1257,22 @@ items:
   assemblies:
   - Microsoft.Build
   namespace: Microsoft.Build.Execution
+  summary: Gets the location of the originating file itself. Never null.
+  remarks: To be added.
   syntax:
     content: public Microsoft.Build.Construction.ElementLocation ProjectFileLocation { get; }
     return:
       type: Microsoft.Build.Construction.ElementLocation
-      description: Return description to be filled
+      description: To be added.
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: Microsoft.Build.Execution.ProjectInstance.Properties
   id: Properties
   parent: Microsoft.Build.Execution.ProjectInstance
   langs:
   - csharp
-  - vb
   name: Properties
   nameWithType: ProjectInstance.Properties
   fullName: Microsoft.Build.Execution.ProjectInstance.Properties
@@ -1066,17 +1280,22 @@ items:
   assemblies:
   - Microsoft.Build
   namespace: Microsoft.Build.Execution
+  summary: Gets all properties in this project.
+  remarks: To be added.
   syntax:
     content: public System.Collections.Generic.ICollection<Microsoft.Build.Execution.ProjectPropertyInstance> Properties { get; }
     return:
       type: System.Collections.Generic.ICollection{Microsoft.Build.Execution.ProjectPropertyInstance}
-      description: Return description to be filled
+      description: To be added.
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: Microsoft.Build.Execution.ProjectInstance.RemoveItem(Microsoft.Build.Execution.ProjectItemInstance)
   id: RemoveItem(Microsoft.Build.Execution.ProjectItemInstance)
   parent: Microsoft.Build.Execution.ProjectInstance
   langs:
   - csharp
-  - vb
   name: RemoveItem(ProjectItemInstance)
   nameWithType: ProjectInstance.RemoveItem(ProjectItemInstance)
   fullName: Microsoft.Build.Execution.ProjectInstance.RemoveItem(ProjectItemInstance)
@@ -1084,21 +1303,26 @@ items:
   assemblies:
   - Microsoft.Build
   namespace: Microsoft.Build.Execution
+  summary: Removes an item from the project, if present. Returns true if it was present, false otherwise.
+  remarks: To be added.
   syntax:
     content: public bool RemoveItem (Microsoft.Build.Execution.ProjectItemInstance item);
     parameters:
     - id: item
       type: Microsoft.Build.Execution.ProjectItemInstance
-      description: Parameter description to be filled
+      description: The item to be removed.
     return:
       type: System.Boolean
-      description: Return description to be filled
+      description: Returns true if the item was present before removal; false otherwise.
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: Microsoft.Build.Execution.ProjectInstance.RemoveProperty(System.String)
   id: RemoveProperty(System.String)
   parent: Microsoft.Build.Execution.ProjectInstance
   langs:
   - csharp
-  - vb
   name: RemoveProperty(String)
   nameWithType: ProjectInstance.RemoveProperty(String)
   fullName: Microsoft.Build.Execution.ProjectInstance.RemoveProperty(String)
@@ -1106,21 +1330,26 @@ items:
   assemblies:
   - Microsoft.Build
   namespace: Microsoft.Build.Execution
+  summary: Removes a property with the given name. Returns true if the property had a value (possibly empty string), otherwise false.
+  remarks: To be added.
   syntax:
     content: public bool RemoveProperty (string name);
     parameters:
     - id: name
       type: System.String
-      description: Parameter description to be filled
+      description: The name of the property to be removed.
     return:
       type: System.Boolean
-      description: Return description to be filled
+      description: Returns true if the property had a value (possibly an empty string) before removal; false otherwise.
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: Microsoft.Build.Execution.ProjectInstance.SetProperty(System.String,System.String)
   id: SetProperty(System.String,System.String)
   parent: Microsoft.Build.Execution.ProjectInstance
   langs:
   - csharp
-  - vb
   name: SetProperty(String,String)
   nameWithType: ProjectInstance.SetProperty(String,String)
   fullName: Microsoft.Build.Execution.ProjectInstance.SetProperty(String,String)
@@ -1128,24 +1357,29 @@ items:
   assemblies:
   - Microsoft.Build
   namespace: Microsoft.Build.Execution
+  summary: Add a property with the specified name and value to the project. Overwrites any property with the same name already in the property collection.
+  remarks: We don't take a ProjectPropertyInstance to make sure we don't have one that's already in use by another ProjectPropertyInstance.
   syntax:
     content: public Microsoft.Build.Execution.ProjectPropertyInstance SetProperty (string name, string evaluatedValue);
     parameters:
     - id: name
       type: System.String
-      description: Parameter description to be filled
+      description: The name of the property to add.
     - id: evaluatedValue
       type: System.String
-      description: Parameter description to be filled
+      description: The evaluated value of the property to add.
     return:
       type: Microsoft.Build.Execution.ProjectPropertyInstance
-      description: Return description to be filled
+      description: Returns the new property.
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: Microsoft.Build.Execution.ProjectInstance.Targets
   id: Targets
   parent: Microsoft.Build.Execution.ProjectInstance
   langs:
   - csharp
-  - vb
   name: Targets
   nameWithType: ProjectInstance.Targets
   fullName: Microsoft.Build.Execution.ProjectInstance.Targets
@@ -1153,17 +1387,22 @@ items:
   assemblies:
   - Microsoft.Build
   namespace: Microsoft.Build.Execution
+  summary: Gets an enumerator over all targets in this project. This collection is read-only.
+  remarks: To be added.
   syntax:
     content: public System.Collections.Generic.IDictionary<string,Microsoft.Build.Execution.ProjectTargetInstance> Targets { get; }
     return:
       type: System.Collections.Generic.IDictionary{System.String,Microsoft.Build.Execution.ProjectTargetInstance}
-      description: Return description to be filled
+      description: To be added.
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: Microsoft.Build.Execution.ProjectInstance.ToolsVersion
   id: ToolsVersion
   parent: Microsoft.Build.Execution.ProjectInstance
   langs:
   - csharp
-  - vb
   name: ToolsVersion
   nameWithType: ProjectInstance.ToolsVersion
   fullName: Microsoft.Build.Execution.ProjectInstance.ToolsVersion
@@ -1171,17 +1410,22 @@ items:
   assemblies:
   - Microsoft.Build
   namespace: Microsoft.Build.Execution
+  summary: Gets the tools version this project was evaluated with, if any.
+  remarks: The result is not necessarily the same as the tools version on the Project tag, if any; it may have been externally specified, for example with a /tv switch.
   syntax:
     content: public string ToolsVersion { get; }
     return:
       type: System.String
-      description: Return description to be filled
+      description: To be added.
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: Microsoft.Build.Execution.ProjectInstance.ToProjectRootElement
   id: ToProjectRootElement
   parent: Microsoft.Build.Execution.ProjectInstance
   langs:
   - csharp
-  - vb
   name: ToProjectRootElement()
   nameWithType: ProjectInstance.ToProjectRootElement()
   fullName: Microsoft.Build.Execution.ProjectInstance.ToProjectRootElement()
@@ -1189,18 +1433,23 @@ items:
   assemblies:
   - Microsoft.Build
   namespace: Microsoft.Build.Execution
+  summary: Creates a ProjectRootElement from the contents of this ProjectInstance.
+  remarks: To be added.
   syntax:
     content: public Microsoft.Build.Construction.ProjectRootElement ToProjectRootElement ();
     parameters: []
     return:
       type: Microsoft.Build.Construction.ProjectRootElement
-      description: Return description to be filled
+      description: Returns a ProjectRootElement which represents this instance.
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: Microsoft.Build.Execution.ProjectInstance.UpdateStateFrom(Microsoft.Build.Execution.ProjectInstance)
   id: UpdateStateFrom(Microsoft.Build.Execution.ProjectInstance)
   parent: Microsoft.Build.Execution.ProjectInstance
   langs:
   - csharp
-  - vb
   name: UpdateStateFrom(ProjectInstance)
   nameWithType: ProjectInstance.UpdateStateFrom(ProjectInstance)
   fullName: Microsoft.Build.Execution.ProjectInstance.UpdateStateFrom(ProjectInstance)
@@ -1208,15 +1457,18 @@ items:
   assemblies:
   - Microsoft.Build
   namespace: Microsoft.Build.Execution
+  summary: Replaces the project state <xref:Microsoft.Build.Execution.ProjectInstance.GlobalProperties%2A>, <xref:Microsoft.Build.Execution.ProjectInstance.Properties%2A> and <xref:Microsoft.Build.Execution.ProjectInstance.Items%2A> with those from the specified <xref:Microsoft.Build.Execution.ProjectInstance>.
+  remarks: To be added.
   syntax:
     content: public void UpdateStateFrom (Microsoft.Build.Execution.ProjectInstance projectState);
     parameters:
     - id: projectState
       type: Microsoft.Build.Execution.ProjectInstance
-      description: Parameter description to be filled
-    return:
-      type: System.Void
-      description: Return description to be filled
+      description: The `ProjectInstance` to update from.
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 references:
 - uid: System.Object
   isExternal: false
@@ -1248,15 +1500,21 @@ references:
 - uid: Microsoft.Build.Execution.ProjectInstance.#ctor(System.String,System.Collections.Generic.IDictionary{System.String,System.String},System.String)
   parent: Microsoft.Build.Execution.ProjectInstance
   isExternal: false
-  name: ProjectInstance(String,IDictionary,String)
-  nameWithType: ProjectInstance.ProjectInstance(String,IDictionary,String)
-  fullName: Microsoft.Build.Execution.ProjectInstance.ProjectInstance(String,IDictionary,String)
+  name: ProjectInstance(String,IDictionary<String,String>,String)
+  nameWithType: ProjectInstance.ProjectInstance(String,IDictionary<String,String>,String)
+  fullName: Microsoft.Build.Execution.ProjectInstance.ProjectInstance(String,IDictionary<String,String>,String)
 - uid: System.String
   parent: System
   isExternal: false
   name: String
   nameWithType: String
   fullName: System.String
+- uid: System.Collections.Generic.IDictionary{System.String,System.String}
+  parent: System.Collections.Generic
+  isExternal: false
+  name: IDictionary<String,String>
+  nameWithType: IDictionary<String,String>
+  fullName: System.Collections.Generic.IDictionary<System.String,System.String>
 - uid: System.String
   parent: System
   isExternal: false
@@ -1266,15 +1524,21 @@ references:
 - uid: Microsoft.Build.Execution.ProjectInstance.#ctor(Microsoft.Build.Construction.ProjectRootElement,System.Collections.Generic.IDictionary{System.String,System.String},System.String,Microsoft.Build.Evaluation.ProjectCollection)
   parent: Microsoft.Build.Execution.ProjectInstance
   isExternal: false
-  name: ProjectInstance(ProjectRootElement,IDictionary,String,ProjectCollection)
-  nameWithType: ProjectInstance.ProjectInstance(ProjectRootElement,IDictionary,String,ProjectCollection)
-  fullName: Microsoft.Build.Execution.ProjectInstance.ProjectInstance(ProjectRootElement,IDictionary,String,ProjectCollection)
+  name: ProjectInstance(ProjectRootElement,IDictionary<String,String>,String,ProjectCollection)
+  nameWithType: ProjectInstance.ProjectInstance(ProjectRootElement,IDictionary<String,String>,String,ProjectCollection)
+  fullName: Microsoft.Build.Execution.ProjectInstance.ProjectInstance(ProjectRootElement,IDictionary<String,String>,String,ProjectCollection)
 - uid: Microsoft.Build.Construction.ProjectRootElement
   parent: Microsoft.Build.Construction
   isExternal: false
   name: ProjectRootElement
   nameWithType: ProjectRootElement
   fullName: Microsoft.Build.Construction.ProjectRootElement
+- uid: System.Collections.Generic.IDictionary{System.String,System.String}
+  parent: System.Collections.Generic
+  isExternal: false
+  name: IDictionary<String,String>
+  nameWithType: IDictionary<String,String>
+  fullName: System.Collections.Generic.IDictionary<System.String,System.String>
 - uid: System.String
   parent: System
   isExternal: false
@@ -1290,15 +1554,21 @@ references:
 - uid: Microsoft.Build.Execution.ProjectInstance.#ctor(System.String,System.Collections.Generic.IDictionary{System.String,System.String},System.String,Microsoft.Build.Evaluation.ProjectCollection)
   parent: Microsoft.Build.Execution.ProjectInstance
   isExternal: false
-  name: ProjectInstance(String,IDictionary,String,ProjectCollection)
-  nameWithType: ProjectInstance.ProjectInstance(String,IDictionary,String,ProjectCollection)
-  fullName: Microsoft.Build.Execution.ProjectInstance.ProjectInstance(String,IDictionary,String,ProjectCollection)
+  name: ProjectInstance(String,IDictionary<String,String>,String,ProjectCollection)
+  nameWithType: ProjectInstance.ProjectInstance(String,IDictionary<String,String>,String,ProjectCollection)
+  fullName: Microsoft.Build.Execution.ProjectInstance.ProjectInstance(String,IDictionary<String,String>,String,ProjectCollection)
 - uid: System.String
   parent: System
   isExternal: false
   name: String
   nameWithType: String
   fullName: System.String
+- uid: System.Collections.Generic.IDictionary{System.String,System.String}
+  parent: System.Collections.Generic
+  isExternal: false
+  name: IDictionary<String,String>
+  nameWithType: IDictionary<String,String>
+  fullName: System.Collections.Generic.IDictionary<System.String,System.String>
 - uid: System.String
   parent: System
   isExternal: false
@@ -1314,15 +1584,21 @@ references:
 - uid: Microsoft.Build.Execution.ProjectInstance.#ctor(Microsoft.Build.Construction.ProjectRootElement,System.Collections.Generic.IDictionary{System.String,System.String},System.String,System.String,Microsoft.Build.Evaluation.ProjectCollection)
   parent: Microsoft.Build.Execution.ProjectInstance
   isExternal: false
-  name: ProjectInstance(ProjectRootElement,IDictionary,String,String,ProjectCollection)
-  nameWithType: ProjectInstance.ProjectInstance(ProjectRootElement,IDictionary,String,String,ProjectCollection)
-  fullName: Microsoft.Build.Execution.ProjectInstance.ProjectInstance(ProjectRootElement,IDictionary,String,String,ProjectCollection)
+  name: ProjectInstance(ProjectRootElement,IDictionary<String,String>,String,String,ProjectCollection)
+  nameWithType: ProjectInstance.ProjectInstance(ProjectRootElement,IDictionary<String,String>,String,String,ProjectCollection)
+  fullName: Microsoft.Build.Execution.ProjectInstance.ProjectInstance(ProjectRootElement,IDictionary<String,String>,String,String,ProjectCollection)
 - uid: Microsoft.Build.Construction.ProjectRootElement
   parent: Microsoft.Build.Construction
   isExternal: false
   name: ProjectRootElement
   nameWithType: ProjectRootElement
   fullName: Microsoft.Build.Construction.ProjectRootElement
+- uid: System.Collections.Generic.IDictionary{System.String,System.String}
+  parent: System.Collections.Generic
+  isExternal: false
+  name: IDictionary<String,String>
+  nameWithType: IDictionary<String,String>
+  fullName: System.Collections.Generic.IDictionary<System.String,System.String>
 - uid: System.String
   parent: System
   isExternal: false
@@ -1344,15 +1620,21 @@ references:
 - uid: Microsoft.Build.Execution.ProjectInstance.#ctor(System.String,System.Collections.Generic.IDictionary{System.String,System.String},System.String,System.String,Microsoft.Build.Evaluation.ProjectCollection)
   parent: Microsoft.Build.Execution.ProjectInstance
   isExternal: false
-  name: ProjectInstance(String,IDictionary,String,String,ProjectCollection)
-  nameWithType: ProjectInstance.ProjectInstance(String,IDictionary,String,String,ProjectCollection)
-  fullName: Microsoft.Build.Execution.ProjectInstance.ProjectInstance(String,IDictionary,String,String,ProjectCollection)
+  name: ProjectInstance(String,IDictionary<String,String>,String,String,ProjectCollection)
+  nameWithType: ProjectInstance.ProjectInstance(String,IDictionary<String,String>,String,String,ProjectCollection)
+  fullName: Microsoft.Build.Execution.ProjectInstance.ProjectInstance(String,IDictionary<String,String>,String,String,ProjectCollection)
 - uid: System.String
   parent: System
   isExternal: false
   name: String
   nameWithType: String
   fullName: System.String
+- uid: System.Collections.Generic.IDictionary{System.String,System.String}
+  parent: System.Collections.Generic
+  isExternal: false
+  name: IDictionary<String,String>
+  nameWithType: IDictionary<String,String>
+  fullName: System.Collections.Generic.IDictionary<System.String,System.String>
 - uid: System.String
   parent: System
   isExternal: false
@@ -1398,9 +1680,9 @@ references:
 - uid: Microsoft.Build.Execution.ProjectInstance.AddItem(System.String,System.String,System.Collections.Generic.IEnumerable{System.Collections.Generic.KeyValuePair{System.String,System.String}})
   parent: Microsoft.Build.Execution.ProjectInstance
   isExternal: false
-  name: AddItem(String,String,IEnumerable)
-  nameWithType: ProjectInstance.AddItem(String,String,IEnumerable)
-  fullName: Microsoft.Build.Execution.ProjectInstance.AddItem(String,String,IEnumerable)
+  name: AddItem(String,String,IEnumerable<KeyValuePair<String,String>>)
+  nameWithType: ProjectInstance.AddItem(String,String,IEnumerable<KeyValuePair<String,String>>)
+  fullName: Microsoft.Build.Execution.ProjectInstance.AddItem(String,String,IEnumerable<KeyValuePair<String,String>>)
 - uid: Microsoft.Build.Execution.ProjectItemInstance
   parent: Microsoft.Build.Execution
   isExternal: false
@@ -1419,6 +1701,12 @@ references:
   name: String
   nameWithType: String
   fullName: System.String
+- uid: System.Collections.Generic.IEnumerable{System.Collections.Generic.KeyValuePair{System.String,System.String}}
+  parent: System.Collections.Generic
+  isExternal: false
+  name: IEnumerable<KeyValuePair<String,String>>
+  nameWithType: IEnumerable<KeyValuePair<String,String>>
+  fullName: System.Collections.Generic.IEnumerable<System.Collections.Generic.KeyValuePair<System.String,System.String>>
 - uid: Microsoft.Build.Execution.ProjectInstance.Build
   parent: Microsoft.Build.Execution.ProjectInstance
   isExternal: false
@@ -1434,33 +1722,51 @@ references:
 - uid: Microsoft.Build.Execution.ProjectInstance.Build(System.Collections.Generic.IEnumerable{Microsoft.Build.Framework.ILogger})
   parent: Microsoft.Build.Execution.ProjectInstance
   isExternal: false
-  name: Build(IEnumerable)
-  nameWithType: ProjectInstance.Build(IEnumerable)
-  fullName: Microsoft.Build.Execution.ProjectInstance.Build(IEnumerable)
+  name: Build(IEnumerable<ILogger>)
+  nameWithType: ProjectInstance.Build(IEnumerable<ILogger>)
+  fullName: Microsoft.Build.Execution.ProjectInstance.Build(IEnumerable<ILogger>)
 - uid: System.Boolean
   parent: System
   isExternal: false
   name: Boolean
   nameWithType: Boolean
   fullName: System.Boolean
+- uid: System.Collections.Generic.IEnumerable{Microsoft.Build.Framework.ILogger}
+  parent: System.Collections.Generic
+  isExternal: false
+  name: IEnumerable<ILogger>
+  nameWithType: IEnumerable<ILogger>
+  fullName: System.Collections.Generic.IEnumerable<Microsoft.Build.Framework.ILogger>
 - uid: Microsoft.Build.Execution.ProjectInstance.Build(System.Collections.Generic.IEnumerable{Microsoft.Build.Framework.ILogger},System.Collections.Generic.IEnumerable{Microsoft.Build.Logging.ForwardingLoggerRecord})
   parent: Microsoft.Build.Execution.ProjectInstance
   isExternal: false
-  name: Build(IEnumerable,IEnumerable)
-  nameWithType: ProjectInstance.Build(IEnumerable,IEnumerable)
-  fullName: Microsoft.Build.Execution.ProjectInstance.Build(IEnumerable,IEnumerable)
+  name: Build(IEnumerable<ILogger>,IEnumerable<ForwardingLoggerRecord>)
+  nameWithType: ProjectInstance.Build(IEnumerable<ILogger>,IEnumerable<ForwardingLoggerRecord>)
+  fullName: Microsoft.Build.Execution.ProjectInstance.Build(IEnumerable<ILogger>,IEnumerable<ForwardingLoggerRecord>)
 - uid: System.Boolean
   parent: System
   isExternal: false
   name: Boolean
   nameWithType: Boolean
   fullName: System.Boolean
+- uid: System.Collections.Generic.IEnumerable{Microsoft.Build.Framework.ILogger}
+  parent: System.Collections.Generic
+  isExternal: false
+  name: IEnumerable<ILogger>
+  nameWithType: IEnumerable<ILogger>
+  fullName: System.Collections.Generic.IEnumerable<Microsoft.Build.Framework.ILogger>
+- uid: System.Collections.Generic.IEnumerable{Microsoft.Build.Logging.ForwardingLoggerRecord}
+  parent: System.Collections.Generic
+  isExternal: false
+  name: IEnumerable<ForwardingLoggerRecord>
+  nameWithType: IEnumerable<ForwardingLoggerRecord>
+  fullName: System.Collections.Generic.IEnumerable<Microsoft.Build.Logging.ForwardingLoggerRecord>
 - uid: Microsoft.Build.Execution.ProjectInstance.Build(System.String,System.Collections.Generic.IEnumerable{Microsoft.Build.Framework.ILogger})
   parent: Microsoft.Build.Execution.ProjectInstance
   isExternal: false
-  name: Build(String,IEnumerable)
-  nameWithType: ProjectInstance.Build(String,IEnumerable)
-  fullName: Microsoft.Build.Execution.ProjectInstance.Build(String,IEnumerable)
+  name: Build(String,IEnumerable<ILogger>)
+  nameWithType: ProjectInstance.Build(String,IEnumerable<ILogger>)
+  fullName: Microsoft.Build.Execution.ProjectInstance.Build(String,IEnumerable<ILogger>)
 - uid: System.Boolean
   parent: System
   isExternal: false
@@ -1473,24 +1779,42 @@ references:
   name: String
   nameWithType: String
   fullName: System.String
+- uid: System.Collections.Generic.IEnumerable{Microsoft.Build.Framework.ILogger}
+  parent: System.Collections.Generic
+  isExternal: false
+  name: IEnumerable<ILogger>
+  nameWithType: IEnumerable<ILogger>
+  fullName: System.Collections.Generic.IEnumerable<Microsoft.Build.Framework.ILogger>
 - uid: Microsoft.Build.Execution.ProjectInstance.Build(System.String[],System.Collections.Generic.IEnumerable{Microsoft.Build.Framework.ILogger})
   parent: Microsoft.Build.Execution.ProjectInstance
   isExternal: false
-  name: Build(String[],IEnumerable)
-  nameWithType: ProjectInstance.Build(String[],IEnumerable)
-  fullName: Microsoft.Build.Execution.ProjectInstance.Build(String[],IEnumerable)
+  name: Build(String[],IEnumerable<ILogger>)
+  nameWithType: ProjectInstance.Build(String[],IEnumerable<ILogger>)
+  fullName: Microsoft.Build.Execution.ProjectInstance.Build(String[],IEnumerable<ILogger>)
 - uid: System.Boolean
   parent: System
   isExternal: false
   name: Boolean
   nameWithType: Boolean
   fullName: System.Boolean
+- uid: System.String
+  parent: System
+  isExternal: false
+  name: String
+  nameWithType: String
+  fullName: System.String[]
+- uid: System.Collections.Generic.IEnumerable{Microsoft.Build.Framework.ILogger}
+  parent: System.Collections.Generic
+  isExternal: false
+  name: IEnumerable<ILogger>
+  nameWithType: IEnumerable<ILogger>
+  fullName: System.Collections.Generic.IEnumerable<Microsoft.Build.Framework.ILogger>
 - uid: Microsoft.Build.Execution.ProjectInstance.Build(System.String,System.Collections.Generic.IEnumerable{Microsoft.Build.Framework.ILogger},System.Collections.Generic.IEnumerable{Microsoft.Build.Logging.ForwardingLoggerRecord})
   parent: Microsoft.Build.Execution.ProjectInstance
   isExternal: false
-  name: Build(String,IEnumerable,IEnumerable)
-  nameWithType: ProjectInstance.Build(String,IEnumerable,IEnumerable)
-  fullName: Microsoft.Build.Execution.ProjectInstance.Build(String,IEnumerable,IEnumerable)
+  name: Build(String,IEnumerable<ILogger>,IEnumerable<ForwardingLoggerRecord>)
+  nameWithType: ProjectInstance.Build(String,IEnumerable<ILogger>,IEnumerable<ForwardingLoggerRecord>)
+  fullName: Microsoft.Build.Execution.ProjectInstance.Build(String,IEnumerable<ILogger>,IEnumerable<ForwardingLoggerRecord>)
 - uid: System.Boolean
   parent: System
   isExternal: false
@@ -1503,42 +1827,114 @@ references:
   name: String
   nameWithType: String
   fullName: System.String
+- uid: System.Collections.Generic.IEnumerable{Microsoft.Build.Framework.ILogger}
+  parent: System.Collections.Generic
+  isExternal: false
+  name: IEnumerable<ILogger>
+  nameWithType: IEnumerable<ILogger>
+  fullName: System.Collections.Generic.IEnumerable<Microsoft.Build.Framework.ILogger>
+- uid: System.Collections.Generic.IEnumerable{Microsoft.Build.Logging.ForwardingLoggerRecord}
+  parent: System.Collections.Generic
+  isExternal: false
+  name: IEnumerable<ForwardingLoggerRecord>
+  nameWithType: IEnumerable<ForwardingLoggerRecord>
+  fullName: System.Collections.Generic.IEnumerable<Microsoft.Build.Logging.ForwardingLoggerRecord>
 - uid: Microsoft.Build.Execution.ProjectInstance.Build(System.String[],System.Collections.Generic.IEnumerable{Microsoft.Build.Framework.ILogger},System.Collections.Generic.IDictionary{System.String,Microsoft.Build.Execution.TargetResult}@)
   parent: Microsoft.Build.Execution.ProjectInstance
   isExternal: false
-  name: Build(String[],IEnumerable,IDictionary)
-  nameWithType: ProjectInstance.Build(String[],IEnumerable,IDictionary)
-  fullName: Microsoft.Build.Execution.ProjectInstance.Build(String[],IEnumerable,IDictionary)
+  name: Build(String[],IEnumerable<ILogger>,IDictionary<String,TargetResult>)
+  nameWithType: ProjectInstance.Build(String[],IEnumerable<ILogger>,IDictionary<String,TargetResult>)
+  fullName: Microsoft.Build.Execution.ProjectInstance.Build(String[],IEnumerable<ILogger>,IDictionary<String,TargetResult>)
 - uid: System.Boolean
   parent: System
   isExternal: false
   name: Boolean
   nameWithType: Boolean
   fullName: System.Boolean
+- uid: System.String
+  parent: System
+  isExternal: false
+  name: String
+  nameWithType: String
+  fullName: System.String[]
+- uid: System.Collections.Generic.IEnumerable{Microsoft.Build.Framework.ILogger}
+  parent: System.Collections.Generic
+  isExternal: false
+  name: IEnumerable<ILogger>
+  nameWithType: IEnumerable<ILogger>
+  fullName: System.Collections.Generic.IEnumerable<Microsoft.Build.Framework.ILogger>
+- uid: System.Collections.Generic.IDictionary{System.String,Microsoft.Build.Execution.TargetResult}
+  parent: System.Collections.Generic
+  isExternal: false
+  name: IDictionary<String,TargetResult>
+  nameWithType: IDictionary<String,TargetResult>
+  fullName: System.Collections.Generic.IDictionary<System.String,Microsoft.Build.Execution.TargetResult>
 - uid: Microsoft.Build.Execution.ProjectInstance.Build(System.String[],System.Collections.Generic.IEnumerable{Microsoft.Build.Framework.ILogger},System.Collections.Generic.IEnumerable{Microsoft.Build.Logging.ForwardingLoggerRecord})
   parent: Microsoft.Build.Execution.ProjectInstance
   isExternal: false
-  name: Build(String[],IEnumerable,IEnumerable)
-  nameWithType: ProjectInstance.Build(String[],IEnumerable,IEnumerable)
-  fullName: Microsoft.Build.Execution.ProjectInstance.Build(String[],IEnumerable,IEnumerable)
+  name: Build(String[],IEnumerable<ILogger>,IEnumerable<ForwardingLoggerRecord>)
+  nameWithType: ProjectInstance.Build(String[],IEnumerable<ILogger>,IEnumerable<ForwardingLoggerRecord>)
+  fullName: Microsoft.Build.Execution.ProjectInstance.Build(String[],IEnumerable<ILogger>,IEnumerable<ForwardingLoggerRecord>)
 - uid: System.Boolean
   parent: System
   isExternal: false
   name: Boolean
   nameWithType: Boolean
   fullName: System.Boolean
+- uid: System.String
+  parent: System
+  isExternal: false
+  name: String
+  nameWithType: String
+  fullName: System.String[]
+- uid: System.Collections.Generic.IEnumerable{Microsoft.Build.Framework.ILogger}
+  parent: System.Collections.Generic
+  isExternal: false
+  name: IEnumerable<ILogger>
+  nameWithType: IEnumerable<ILogger>
+  fullName: System.Collections.Generic.IEnumerable<Microsoft.Build.Framework.ILogger>
+- uid: System.Collections.Generic.IEnumerable{Microsoft.Build.Logging.ForwardingLoggerRecord}
+  parent: System.Collections.Generic
+  isExternal: false
+  name: IEnumerable<ForwardingLoggerRecord>
+  nameWithType: IEnumerable<ForwardingLoggerRecord>
+  fullName: System.Collections.Generic.IEnumerable<Microsoft.Build.Logging.ForwardingLoggerRecord>
 - uid: Microsoft.Build.Execution.ProjectInstance.Build(System.String[],System.Collections.Generic.IEnumerable{Microsoft.Build.Framework.ILogger},System.Collections.Generic.IEnumerable{Microsoft.Build.Logging.ForwardingLoggerRecord},System.Collections.Generic.IDictionary{System.String,Microsoft.Build.Execution.TargetResult}@)
   parent: Microsoft.Build.Execution.ProjectInstance
   isExternal: false
-  name: Build(String[],IEnumerable,IEnumerable,IDictionary)
-  nameWithType: ProjectInstance.Build(String[],IEnumerable,IEnumerable,IDictionary)
-  fullName: Microsoft.Build.Execution.ProjectInstance.Build(String[],IEnumerable,IEnumerable,IDictionary)
+  name: Build(String[],IEnumerable<ILogger>,IEnumerable<ForwardingLoggerRecord>,IDictionary<String,TargetResult>)
+  nameWithType: ProjectInstance.Build(String[],IEnumerable<ILogger>,IEnumerable<ForwardingLoggerRecord>,IDictionary<String,TargetResult>)
+  fullName: Microsoft.Build.Execution.ProjectInstance.Build(String[],IEnumerable<ILogger>,IEnumerable<ForwardingLoggerRecord>,IDictionary<String,TargetResult>)
 - uid: System.Boolean
   parent: System
   isExternal: false
   name: Boolean
   nameWithType: Boolean
   fullName: System.Boolean
+- uid: System.String
+  parent: System
+  isExternal: false
+  name: String
+  nameWithType: String
+  fullName: System.String[]
+- uid: System.Collections.Generic.IEnumerable{Microsoft.Build.Framework.ILogger}
+  parent: System.Collections.Generic
+  isExternal: false
+  name: IEnumerable<ILogger>
+  nameWithType: IEnumerable<ILogger>
+  fullName: System.Collections.Generic.IEnumerable<Microsoft.Build.Framework.ILogger>
+- uid: System.Collections.Generic.IEnumerable{Microsoft.Build.Logging.ForwardingLoggerRecord}
+  parent: System.Collections.Generic
+  isExternal: false
+  name: IEnumerable<ForwardingLoggerRecord>
+  nameWithType: IEnumerable<ForwardingLoggerRecord>
+  fullName: System.Collections.Generic.IEnumerable<Microsoft.Build.Logging.ForwardingLoggerRecord>
+- uid: System.Collections.Generic.IDictionary{System.String,Microsoft.Build.Execution.TargetResult}
+  parent: System.Collections.Generic
+  isExternal: false
+  name: IDictionary<String,TargetResult>
+  nameWithType: IDictionary<String,TargetResult>
+  fullName: System.Collections.Generic.IDictionary<System.String,Microsoft.Build.Execution.TargetResult>
 - uid: Microsoft.Build.Execution.ProjectInstance.DeepCopy
   parent: Microsoft.Build.Execution.ProjectInstance
   isExternal: false
@@ -1575,6 +1971,12 @@ references:
   name: DefaultTargets
   nameWithType: ProjectInstance.DefaultTargets
   fullName: Microsoft.Build.Execution.ProjectInstance.DefaultTargets
+- uid: System.Collections.Generic.List{System.String}
+  parent: System.Collections.Generic
+  isExternal: false
+  name: List<String>
+  nameWithType: List<String>
+  fullName: System.Collections.Generic.List<System.String>
 - uid: Microsoft.Build.Execution.ProjectInstance.Directory
   parent: Microsoft.Build.Execution.ProjectInstance
   isExternal: false
@@ -1677,6 +2079,12 @@ references:
   name: GetItems(String)
   nameWithType: ProjectInstance.GetItems(String)
   fullName: Microsoft.Build.Execution.ProjectInstance.GetItems(String)
+- uid: System.Collections.Generic.ICollection{Microsoft.Build.Execution.ProjectItemInstance}
+  parent: System.Collections.Generic
+  isExternal: false
+  name: ICollection<ProjectItemInstance>
+  nameWithType: ICollection<ProjectItemInstance>
+  fullName: System.Collections.Generic.ICollection<Microsoft.Build.Execution.ProjectItemInstance>
 - uid: System.String
   parent: System
   isExternal: false
@@ -1689,6 +2097,12 @@ references:
   name: GetItemsByItemTypeAndEvaluatedInclude(String,String)
   nameWithType: ProjectInstance.GetItemsByItemTypeAndEvaluatedInclude(String,String)
   fullName: Microsoft.Build.Execution.ProjectInstance.GetItemsByItemTypeAndEvaluatedInclude(String,String)
+- uid: System.Collections.Generic.IEnumerable{Microsoft.Build.Execution.ProjectItemInstance}
+  parent: System.Collections.Generic
+  isExternal: false
+  name: IEnumerable<ProjectItemInstance>
+  nameWithType: IEnumerable<ProjectItemInstance>
+  fullName: System.Collections.Generic.IEnumerable<Microsoft.Build.Execution.ProjectItemInstance>
 - uid: System.String
   parent: System
   isExternal: false
@@ -1827,12 +2241,24 @@ references:
   name: GlobalProperties
   nameWithType: ProjectInstance.GlobalProperties
   fullName: Microsoft.Build.Execution.ProjectInstance.GlobalProperties
+- uid: System.Collections.Generic.IDictionary{System.String,System.String}
+  parent: System.Collections.Generic
+  isExternal: false
+  name: IDictionary<String,String>
+  nameWithType: IDictionary<String,String>
+  fullName: System.Collections.Generic.IDictionary<System.String,System.String>
 - uid: Microsoft.Build.Execution.ProjectInstance.InitialTargets
   parent: Microsoft.Build.Execution.ProjectInstance
   isExternal: false
   name: InitialTargets
   nameWithType: ProjectInstance.InitialTargets
   fullName: Microsoft.Build.Execution.ProjectInstance.InitialTargets
+- uid: System.Collections.Generic.List{System.String}
+  parent: System.Collections.Generic
+  isExternal: false
+  name: List<String>
+  nameWithType: List<String>
+  fullName: System.Collections.Generic.List<System.String>
 - uid: Microsoft.Build.Execution.ProjectInstance.IsImmutable
   parent: Microsoft.Build.Execution.ProjectInstance
   isExternal: false
@@ -1851,18 +2277,36 @@ references:
   name: ItemDefinitions
   nameWithType: ProjectInstance.ItemDefinitions
   fullName: Microsoft.Build.Execution.ProjectInstance.ItemDefinitions
+- uid: System.Collections.Generic.IDictionary{System.String,Microsoft.Build.Execution.ProjectItemDefinitionInstance}
+  parent: System.Collections.Generic
+  isExternal: false
+  name: IDictionary<String,ProjectItemDefinitionInstance>
+  nameWithType: IDictionary<String,ProjectItemDefinitionInstance>
+  fullName: System.Collections.Generic.IDictionary<System.String,Microsoft.Build.Execution.ProjectItemDefinitionInstance>
 - uid: Microsoft.Build.Execution.ProjectInstance.Items
   parent: Microsoft.Build.Execution.ProjectInstance
   isExternal: false
   name: Items
   nameWithType: ProjectInstance.Items
   fullName: Microsoft.Build.Execution.ProjectInstance.Items
+- uid: System.Collections.Generic.ICollection{Microsoft.Build.Execution.ProjectItemInstance}
+  parent: System.Collections.Generic
+  isExternal: false
+  name: ICollection<ProjectItemInstance>
+  nameWithType: ICollection<ProjectItemInstance>
+  fullName: System.Collections.Generic.ICollection<Microsoft.Build.Execution.ProjectItemInstance>
 - uid: Microsoft.Build.Execution.ProjectInstance.ItemTypes
   parent: Microsoft.Build.Execution.ProjectInstance
   isExternal: false
   name: ItemTypes
   nameWithType: ProjectInstance.ItemTypes
   fullName: Microsoft.Build.Execution.ProjectInstance.ItemTypes
+- uid: System.Collections.Generic.ICollection{System.String}
+  parent: System.Collections.Generic
+  isExternal: false
+  name: ICollection<String>
+  nameWithType: ICollection<String>
+  fullName: System.Collections.Generic.ICollection<System.String>
 - uid: Microsoft.Build.Execution.ProjectInstance.ProjectFileLocation
   parent: Microsoft.Build.Execution.ProjectInstance
   isExternal: false
@@ -1881,6 +2325,12 @@ references:
   name: Properties
   nameWithType: ProjectInstance.Properties
   fullName: Microsoft.Build.Execution.ProjectInstance.Properties
+- uid: System.Collections.Generic.ICollection{Microsoft.Build.Execution.ProjectPropertyInstance}
+  parent: System.Collections.Generic
+  isExternal: false
+  name: ICollection<ProjectPropertyInstance>
+  nameWithType: ICollection<ProjectPropertyInstance>
+  fullName: System.Collections.Generic.ICollection<Microsoft.Build.Execution.ProjectPropertyInstance>
 - uid: Microsoft.Build.Execution.ProjectInstance.RemoveItem(Microsoft.Build.Execution.ProjectItemInstance)
   parent: Microsoft.Build.Execution.ProjectInstance
   isExternal: false
@@ -1947,6 +2397,12 @@ references:
   name: Targets
   nameWithType: ProjectInstance.Targets
   fullName: Microsoft.Build.Execution.ProjectInstance.Targets
+- uid: System.Collections.Generic.IDictionary{System.String,Microsoft.Build.Execution.ProjectTargetInstance}
+  parent: System.Collections.Generic
+  isExternal: false
+  name: IDictionary<String,ProjectTargetInstance>
+  nameWithType: IDictionary<String,ProjectTargetInstance>
+  fullName: System.Collections.Generic.IDictionary<System.String,Microsoft.Build.Execution.ProjectTargetInstance>
 - uid: Microsoft.Build.Execution.ProjectInstance.ToolsVersion
   parent: Microsoft.Build.Execution.ProjectInstance
   isExternal: false
@@ -1977,12 +2433,6 @@ references:
   name: UpdateStateFrom(ProjectInstance)
   nameWithType: ProjectInstance.UpdateStateFrom(ProjectInstance)
   fullName: Microsoft.Build.Execution.ProjectInstance.UpdateStateFrom(ProjectInstance)
-- uid: System.Void
-  parent: System
-  isExternal: false
-  name: Void
-  nameWithType: Void
-  fullName: System.Void
 - uid: Microsoft.Build.Execution.ProjectInstance
   parent: Microsoft.Build.Execution
   isExternal: false

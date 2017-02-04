@@ -8,11 +8,14 @@ items:
   - System.Runtime.InteropServices.BestFitMappingAttribute.ThrowOnUnmappableChar
   langs:
   - csharp
-  - vb
   name: BestFitMappingAttribute
   nameWithType: BestFitMappingAttribute
   fullName: System.Runtime.InteropServices.BestFitMappingAttribute
   type: Class
+  summary: Controls whether Unicode characters are converted to the closest matching ANSI characters.
+  remarks: "You can apply this attribute to an assembly, interface, class, or structure.  \n  \n By default, the common language runtime converts to ANSI characters any managed Unicode characters passed to an unmanaged method executing on Windows 98 or Windows Me. Best-fit mapping enables the interop marshaler to select a close-matching character when no exact match exists. For example, the marshaler converts the Unicode copyright character to 'c' for unmanaged methods that accept ANSI characters.  \n  \n> [!CAUTION]\n>  Some characters lack a best-fit representation; these characters are called unmappable. Unmappable characters are usually converted to the default '?' ANSI character. Certain Unicode characters are converted to dangerous characters, such as the backslash '\\\\' character, which can inadvertently change a path.  \n  \n BestFitMappingAttribute provides two parameters to control aspects of best-fit mapping. You use the first parameter to toggle best-fit mapping on and off. The default value is `true`, which enables best-fit mapping on the assembly, interface, and class levels. An attribute applied to an interface or class overrides an assembly-level attribute. You can likewise enable or disable best-fit mapping for platform invoke calls by using the <xref:System.Runtime.InteropServices.DllImportAttribute.BestFitMapping?displayProperty=fullName> field. A value set by the platform invoke field overrides all levels of BestFitMappingAttribute.  \n  \n You can use the second parameter to control throwing an exception on unmappable characters. The default value for the <xref:System.Runtime.InteropServices.BestFitMappingAttribute.ThrowOnUnmappableChar> field is `false`, which disables throwing an exception each time the runtime encounters a Unicode character that has to be converted to the '?' ANSI character. Even if best-fit mapping is `true`, unmappable characters generate an exception when the <xref:System.Runtime.InteropServices.BestFitMappingAttribute.ThrowOnUnmappableChar> field is `true`. To tighten security, you can toggle the first parameter to `false` and the second parameter to `true`. This combination of parameter settings turns best-fit mapping off, but enables the exception-throwing mechanism as a safety precaution.  \n  \n> [!CAUTION]\n>  You cannot change the default values provided by BestFitMappingAttribute when passing a managed array whose elements are ANSI Chars or LPSTRs to an unmanaged safe array. Best-fit mapping is always enabled and no exception can be thrown. Be aware that this combination can compromise your security model."
+  example:
+  - "The following example shows how to disable best fit mapping and to throw an exception on the conversion of Unicode characters to the '?' ANSI character. Setting BestFitMappingAttribute parameters in this manner provides an added measure of security.  \n  \n [!CODE [System.Runtime.InteropServices.BestFitMappingAttribute#1](../CodeSnippet/VS_Snippets_CLR_System/system.runtime.interopservices.bestfitmappingattribute#1)]"
   syntax:
     content: >-
       [System.AttributeUsage(System.AttributeTargets.Assembly | System.AttributeTargets.Class | System.AttributeTargets.Struct | System.AttributeTargets.Interface, Inherited=false)]
@@ -71,12 +74,15 @@ items:
   - System.Object.MemberwiseClone
   - System.Object.ReferenceEquals(System.Object,System.Object)
   - System.Object.ToString
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Runtime.InteropServices.BestFitMappingAttribute.#ctor(System.Boolean)
   id: '#ctor(System.Boolean)'
   parent: System.Runtime.InteropServices.BestFitMappingAttribute
   langs:
   - csharp
-  - vb
   name: BestFitMappingAttribute(Boolean)
   nameWithType: BestFitMappingAttribute.BestFitMappingAttribute(Boolean)
   fullName: System.Runtime.InteropServices.BestFitMappingAttribute.BestFitMappingAttribute(Boolean)
@@ -84,18 +90,23 @@ items:
   assemblies:
   - mscorlib
   namespace: System.Runtime.InteropServices
+  summary: Initializes a new instance of the <see cref="T:System.Runtime.InteropServices.BestFitMappingAttribute"> class set to the value of the <xref:System.Runtime.InteropServices.BestFitMappingAttribute.BestFitMapping%2A> property.
+  remarks: To be added.
   syntax:
     content: public BestFitMappingAttribute (bool BestFitMapping);
     parameters:
     - id: BestFitMapping
       type: System.Boolean
-      description: Parameter description to be filled
+      description: '`true` to indicate that best-fit mapping is enabled; otherwise, `false`. The default is `true`.'
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Runtime.InteropServices.BestFitMappingAttribute.BestFitMapping
   id: BestFitMapping
   parent: System.Runtime.InteropServices.BestFitMappingAttribute
   langs:
   - csharp
-  - vb
   name: BestFitMapping
   nameWithType: BestFitMappingAttribute.BestFitMapping
   fullName: System.Runtime.InteropServices.BestFitMappingAttribute.BestFitMapping
@@ -103,17 +114,22 @@ items:
   assemblies:
   - mscorlib
   namespace: System.Runtime.InteropServices
+  summary: Gets the best-fit mapping behavior when converting Unicode characters to ANSI characters.
+  remarks: "If best-fit mapping is `false` and <xref:System.Runtime.InteropServices.BestFitMappingAttribute.ThrowOnUnmappableChar> is `true`, all Unicode characters that require conversion to ANSI format will generate an exception when passed to unmanaged code. Some characters are unmappable, even when best-fit mapping is `true`. Some characters lack a best-fit representation; these characters are called unmappable. Unmappable characters are usually converted to the default '?' ANSI character.  \n  \n> [!CAUTION]\n>  Certain Unicode characters are converted to dangerous characters, such as the backslash '\\\\' character, which can inadvertently change a path."
   syntax:
     content: public bool BestFitMapping { get; }
     return:
       type: System.Boolean
-      description: Return description to be filled
+      description: To be added.
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Runtime.InteropServices.BestFitMappingAttribute.ThrowOnUnmappableChar
   id: ThrowOnUnmappableChar
   parent: System.Runtime.InteropServices.BestFitMappingAttribute
   langs:
   - csharp
-  - vb
   name: ThrowOnUnmappableChar
   nameWithType: BestFitMappingAttribute.ThrowOnUnmappableChar
   fullName: System.Runtime.InteropServices.BestFitMappingAttribute.ThrowOnUnmappableChar
@@ -121,11 +137,17 @@ items:
   assemblies:
   - mscorlib
   namespace: System.Runtime.InteropServices
+  summary: Enables or disables the throwing of an exception on an unmappable Unicode character that is converted to an ANSI '?' character.
+  remarks: If `false`, the ThrowOnUnmappableChar field is disabled; otherwise, an exception is thrown each time the interop marshaler encounters an unmappable character. The default `false`.
   syntax:
     content: public bool ThrowOnUnmappableChar;
     return:
       type: System.Boolean
-      description: Return description to be filled
+      description: To be added.
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 references:
 - uid: System.Attribute
   isExternal: false

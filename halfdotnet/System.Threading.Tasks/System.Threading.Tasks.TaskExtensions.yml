@@ -7,11 +7,12 @@ items:
   - System.Threading.Tasks.TaskExtensions.Unwrap``1(System.Threading.Tasks.Task{System.Threading.Tasks.Task{``0}}@)
   langs:
   - csharp
-  - vb
   name: TaskExtensions
   nameWithType: TaskExtensions
   fullName: System.Threading.Tasks.TaskExtensions
   type: Class
+  summary: Provides a set of static (Shared in Visual Basic) methods for working with specific kinds of <see cref="T:System.Threading.Tasks.Task"> instances.
+  remarks: To be added.
   syntax:
     content: public static class TaskExtensions
   inheritance:
@@ -25,50 +26,66 @@ items:
   - System.Object.MemberwiseClone
   - System.Object.ReferenceEquals(System.Object,System.Object)
   - System.Object.ToString
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Threading.Tasks.TaskExtensions.Unwrap(System.Threading.Tasks.Task{System.Threading.Tasks.Task}@)
   id: Unwrap(System.Threading.Tasks.Task{System.Threading.Tasks.Task}@)
   parent: System.Threading.Tasks.TaskExtensions
   langs:
   - csharp
-  - vb
-  name: Unwrap(Task)
-  nameWithType: TaskExtensions.Unwrap(Task)
-  fullName: System.Threading.Tasks.TaskExtensions.Unwrap(Task)
+  name: Unwrap(Task<Task>)
+  nameWithType: TaskExtensions.Unwrap(Task<Task>)
+  fullName: System.Threading.Tasks.TaskExtensions.Unwrap(Task<Task>)
   type: Method
   assemblies:
   - System.Core
   namespace: System.Threading.Tasks
+  summary: Creates a proxy <see cref="T:System.Threading.Tasks.Task"> that represents the asynchronous operation of a <xref:System.Threading.Tasks.TaskScheduler.TryExecuteTaskInline%2A>.
+  remarks: It is often useful to be able to return a Task from a <xref:System.Threading.Tasks.Task%601>, where the inner Task represents work done as part of the outer <xref:System.Threading.Tasks.Task%601>. However, doing so results in a `Task<Task>` (C#) or `Task (Of Task)` (Visual Basic), which, if not dealt with carefully, could produce unexpected behavior. Unwrap solves this problem by creating a proxy Task that represents the entire asynchronous operation of such a task.
+  example:
+  - "The following example shows how to unwrap a task:  \n  \n [!CODE [System.Threading.Tasks.TaskExtensions#01](../CodeSnippet/VS_Snippets_CLR_System/system.threading.tasks.taskextensions#01)]"
   syntax:
     content: public static System.Threading.Tasks.Task Unwrap (this System.Threading.Tasks.Task<System.Threading.Tasks.Task> task);
     parameters:
     - id: task
       type: System.Threading.Tasks.Task{System.Threading.Tasks.Task}
-      description: Parameter description to be filled
+      description: The `Task<Task>` (C#) or `Task (Of Task)` (Visual Basic) to unwrap.
     return:
       type: System.Threading.Tasks.Task
-      description: Return description to be filled
+      description: A Task that represents the asynchronous operation of the provided `System.Threading.Tasks.Task(Of Task)`.
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Threading.Tasks.TaskExtensions.Unwrap``1(System.Threading.Tasks.Task{System.Threading.Tasks.Task{``0}}@)
   id: Unwrap``1(System.Threading.Tasks.Task{System.Threading.Tasks.Task{``0}}@)
   parent: System.Threading.Tasks.TaskExtensions
   langs:
   - csharp
-  - vb
-  name: Unwrap(Task)
-  nameWithType: TaskExtensions.Unwrap(Task)
-  fullName: System.Threading.Tasks.TaskExtensions.Unwrap(Task)
+  name: Unwrap(Task<Task<TResult>>)
+  nameWithType: TaskExtensions.Unwrap(Task<Task<TResult>>)
+  fullName: System.Threading.Tasks.TaskExtensions.Unwrap(Task<Task<TResult>>)
   type: Method
   assemblies:
   - System.Core
   namespace: System.Threading.Tasks
+  summary: To be added.
+  remarks: To be added.
   syntax:
     content: public static System.Threading.Tasks.Task<TResult> Unwrap<TResult> (this System.Threading.Tasks.Task<System.Threading.Tasks.Task<TResult>> task);
     parameters:
     - id: task
       type: System.Threading.Tasks.Task{System.Threading.Tasks.Task{TResult}}
-      description: Parameter description to be filled
+      description: To be added.
     return:
-      type: System.Threading.Tasks.Task{TResult}
-      description: Return description to be filled
+      type: System.Threading.Tasks.Task`1
+      description: To be added.
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 references:
 - uid: System.Object
   isExternal: false
@@ -76,24 +93,36 @@ references:
 - uid: System.Threading.Tasks.TaskExtensions.Unwrap(System.Threading.Tasks.Task{System.Threading.Tasks.Task}@)
   parent: System.Threading.Tasks.TaskExtensions
   isExternal: false
-  name: Unwrap(Task)
-  nameWithType: TaskExtensions.Unwrap(Task)
-  fullName: System.Threading.Tasks.TaskExtensions.Unwrap(Task)
+  name: Unwrap(Task<Task>)
+  nameWithType: TaskExtensions.Unwrap(Task<Task>)
+  fullName: System.Threading.Tasks.TaskExtensions.Unwrap(Task<Task>)
 - uid: System.Threading.Tasks.Task
   parent: System.Threading.Tasks
   isExternal: false
   name: Task
   nameWithType: Task
   fullName: System.Threading.Tasks.Task
+- uid: System.Threading.Tasks.Task{System.Threading.Tasks.Task}
+  parent: System.Threading.Tasks
+  isExternal: false
+  name: Task<Task>
+  nameWithType: Task<Task>
+  fullName: System.Threading.Tasks.Task<System.Threading.Tasks.Task>
 - uid: System.Threading.Tasks.TaskExtensions.Unwrap``1(System.Threading.Tasks.Task{System.Threading.Tasks.Task{``0}}@)
   parent: System.Threading.Tasks.TaskExtensions
   isExternal: false
-  name: Unwrap(Task)
-  nameWithType: TaskExtensions.Unwrap(Task)
-  fullName: System.Threading.Tasks.TaskExtensions.Unwrap(Task)
+  name: Unwrap(Task<Task<TResult>>)
+  nameWithType: TaskExtensions.Unwrap(Task<Task<TResult>>)
+  fullName: System.Threading.Tasks.TaskExtensions.Unwrap(Task<Task<TResult>>)
 - uid: System.Threading.Tasks.Task`1
   parent: System.Threading.Tasks
   isExternal: false
   name: Task<TResult>
   nameWithType: Task<TResult>
   fullName: System.Threading.Tasks.Task<TResult>
+- uid: System.Threading.Tasks.Task{System.Threading.Tasks.Task{TResult}}
+  parent: System.Threading.Tasks
+  isExternal: false
+  name: Task<Task<TResult>>
+  nameWithType: Task<Task<TResult>>
+  fullName: System.Threading.Tasks.Task<System.Threading.Tasks.Task<TResult>>

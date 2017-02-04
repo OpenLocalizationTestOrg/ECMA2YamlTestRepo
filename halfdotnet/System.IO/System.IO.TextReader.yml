@@ -21,11 +21,14 @@ items:
   - System.IO.TextReader.Synchronized(System.IO.TextReader)
   langs:
   - csharp
-  - vb
   name: TextReader
   nameWithType: TextReader
   fullName: System.IO.TextReader
   type: Class
+  summary: Represents a reader that can read a sequential series of characters.
+  remarks: "TextReader is the abstract base class of <xref:System.IO.StreamReader> and <xref:System.IO.StringReader>, which read characters from streams and strings, respectively. Use these derived classes to open a text file for reading a specified range of characters, or to create a reader based on an existing stream.  \n  \n> [!IMPORTANT]\n>  This type implements the <xref:System.IDisposable> interface. When you have finished using any type that derives from this type, you should dispose of it either directly or indirectly. To dispose of the type directly, call its <xref:System.IO.TextReader.Dispose%2A> method in a `try`/`catch` block. To dispose of it indirectly, use a language construct such as `using` (in C#) or `Using` (in Visual Basic). For more information, see Dispose and the “Using an Object that Implements IDisposable” section in the <xref:System.IDisposable> interface topic."
+  example:
+  - "The TextReader class is an abstract class. Therefore, you do not instantiate it in your code. The <xref:System.IO.StreamReader> class derives from TextReader and provides implementations of the members for reading from a stream. The following example shows how to read all the characters in a file by using the [StreamReader.ReadAsync(Char\\[\\], Int32, Int32)](assetId:///M:System.IO.StreamReader.ReadAsync(System.Char[],System.Int32,System.Int32)?qualifyHint=True&autoUpgrade=False) method. It checks whether each character is a letter, digit, or white space before adding the character to an instance of the <xref:System.Text.StringBuilder> class.  \n  \n [!CODE [System.IO.StreamReader#42](../CodeSnippet/VS_Snippets_CLR_System/system.IO.StreamReader#42)]"
   syntax:
     content: >-
       [System.Runtime.InteropServices.ComVisible(true)]
@@ -48,12 +51,15 @@ items:
   - System.Object.MemberwiseClone
   - System.Object.ReferenceEquals(System.Object,System.Object)
   - System.Object.ToString
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.IO.TextReader.#ctor
   id: '#ctor'
   parent: System.IO.TextReader
   langs:
   - csharp
-  - vb
   name: TextReader()
   nameWithType: TextReader.TextReader()
   fullName: System.IO.TextReader.TextReader()
@@ -61,15 +67,20 @@ items:
   assemblies:
   - mscorlib
   namespace: System.IO
+  summary: Initializes a new instance of the <see cref="T:System.IO.TextReader"> class.
+  remarks: Use this constructor for derived classes.
   syntax:
     content: protected TextReader ();
     parameters: []
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.IO.TextReader.Close
   id: Close
   parent: System.IO.TextReader
   langs:
   - csharp
-  - vb
   name: Close()
   nameWithType: TextReader.Close()
   fullName: System.IO.TextReader.Close()
@@ -77,18 +88,20 @@ items:
   assemblies:
   - mscorlib
   namespace: System.IO
+  summary: Closes the <see cref="T:System.IO.TextReader"> and releases any system resources associated with the `TextReader`.
+  remarks: "This implementation of `Close` calls the <xref:System.IO.StringReader.Dispose%28System.Boolean%29?displayProperty=fullName> method and passes it a `true` value.  \n  \n Flushing the text reader will not flush its underlying encoder unless you explicitly call `Close`. Setting the <xref:System.IO.StreamWriter.AutoFlush%2A?displayProperty=fullName> property to `true` means that data will be flushed from the buffer to the stream, but the encoder state will not be flushed. This allows the encoder to keep its state (partial characters) so that it can encode the next block of characters correctly. This scenario affects UTF8 and UTF7 where certain characters can be encoded only after the encoder receives the adjacent character or characters.  \n  \n> [!NOTE]\n>  In derived classes, do not override the Close method. Instead, override the <xref:System.IO.TextReader.Dispose%28System.Boolean%29?displayProperty=fullName> method to add code for releasing resources."
   syntax:
     content: public virtual void Close ();
     parameters: []
-    return:
-      type: System.Void
-      description: Return description to be filled
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.IO.TextReader.Dispose
   id: Dispose
   parent: System.IO.TextReader
   langs:
   - csharp
-  - vb
   name: Dispose()
   nameWithType: TextReader.Dispose()
   fullName: System.IO.TextReader.Dispose()
@@ -96,19 +109,21 @@ items:
   assemblies:
   - mscorlib
   namespace: System.IO
+  summary: Releases all resources used by the <see cref="T:System.IO.TextReader"> object.
+  remarks: "Call Dispose when you are finished using the <xref:System.IO.TextReader>. The Dispose method leaves the <xref:System.IO.TextReader> in an unusable state. After calling Dispose, you must release all references to the <xref:System.IO.TextReader> so the garbage collector can reclaim the memory that the <xref:System.IO.TextReader> was occupying.  \n  \n For more information, see [Cleaning Up Unmanaged Resources](../Topic/Cleaning%20Up%20Unmanaged%20Resources.md) and [Implementing a Dispose Method](../Topic/Implementing%20a%20Dispose%20Method.md).  \n  \n> [!NOTE]\n>  Always call Dispose before you release your last reference to the <xref:System.IO.TextReader>. Otherwise, the resources it is using will not be freed until the garbage collector calls the <xref:System.IO.TextReader> object's <xref:System.Object.Finalize%2A> method."
   syntax:
     content: public void Dispose ();
     parameters: []
-    return:
-      type: System.Void
-      description: Return description to be filled
   overload: System.IO.TextReader.Dispose*
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.IO.TextReader.Dispose(System.Boolean)
   id: Dispose(System.Boolean)
   parent: System.IO.TextReader
   langs:
   - csharp
-  - vb
   name: Dispose(Boolean)
   nameWithType: TextReader.Dispose(Boolean)
   fullName: System.IO.TextReader.Dispose(Boolean)
@@ -116,22 +131,24 @@ items:
   assemblies:
   - mscorlib
   namespace: System.IO
+  summary: Releases the unmanaged resources used by the <see cref="T:System.IO.TextReader"> and optionally releases the managed resources.
+  remarks: "This method is called by the public `Dispose` method and the <xref:System.Object.Finalize%2A> method. By default, this method specifies the  parameter as `true`. <xref:System.Object.Finalize%2A> specifies the  parameter as `false`.  \n  \n When the  parameter is `true`, this method releases all resources held by any managed objects that this <xref:System.IO.TextReader> references. This method invokes the `Dispose` method of each referenced object."
   syntax:
     content: protected virtual void Dispose (bool disposing);
     parameters:
     - id: disposing
       type: System.Boolean
-      description: Parameter description to be filled
-    return:
-      type: System.Void
-      description: Return description to be filled
+      description: '`true` to release both managed and unmanaged resources; `false` to release only unmanaged resources.'
   overload: System.IO.TextReader.Dispose*
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.IO.TextReader.Null
   id: Null
   parent: System.IO.TextReader
   langs:
   - csharp
-  - vb
   name: Null
   nameWithType: TextReader.Null
   fullName: System.IO.TextReader.Null
@@ -139,17 +156,22 @@ items:
   assemblies:
   - mscorlib
   namespace: System.IO
+  summary: Provides a `TextReader` with no data to read from.
+  remarks: "Reading from the Null text reader is similar to reading from the end of a stream:  \n  \n-   The <xref:System.IO.TextReader.Read%2A> and <xref:System.IO.TextReader.Peek%2A> methods return -1.  \n  \n-   The <xref:System.IO.TextReader.ReadBlock%2A> method returns zero.  \n  \n-   The <xref:System.IO.TextReader.ReadLine%2A> method returns `null`.  \n  \n-   The <xref:System.IO.TextReader.ReadToEnd%2A> method returns an empty string."
   syntax:
     content: public static readonly System.IO.TextReader Null;
     return:
       type: System.IO.TextReader
-      description: Return description to be filled
+      description: To be added.
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.IO.TextReader.Peek
   id: Peek
   parent: System.IO.TextReader
   langs:
   - csharp
-  - vb
   name: Peek()
   nameWithType: TextReader.Peek()
   fullName: System.IO.TextReader.Peek()
@@ -157,18 +179,23 @@ items:
   assemblies:
   - mscorlib
   namespace: System.IO
+  summary: Reads the next character without changing the state of the reader or the character source. Returns the next available character without actually reading it from the reader.
+  remarks: "The Peek method returns an integer value in order to determine whether the end of the file, or another error has occurred. This allows a user to first check if the returned value is -1 before casting it to a <xref:System.Char> type.  \n  \n The current position of the <xref:System.IO.TextReader> is not changed by this operation. The returned value is -1 if no more characters are available. The default implementation returns -1.  \n  \n The <xref:System.IO.TextReader> class is an abstract class. Therefore, you do not instantiate it in your code. For an example of using the Peek method, see the <xref:System.IO.StreamReader.Peek%2A?displayProperty=fullName> method."
   syntax:
     content: public virtual int Peek ();
     parameters: []
     return:
       type: System.Int32
-      description: Return description to be filled
+      description: An integer representing the next character to be read, or -1 if no more characters are available or the reader does not support seeking.
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.IO.TextReader.Read
   id: Read
   parent: System.IO.TextReader
   langs:
   - csharp
-  - vb
   name: Read()
   nameWithType: TextReader.Read()
   fullName: System.IO.TextReader.Read()
@@ -176,19 +203,24 @@ items:
   assemblies:
   - mscorlib
   namespace: System.IO
+  summary: Reads the next character from the text reader and advances the character position by one character.
+  remarks: The <xref:System.IO.TextReader> class is an abstract class. Therefore, you do not instantiate it in your code. For an example of using the Read method, see the <xref:System.IO.StreamReader.Read%2A?displayProperty=fullName> method.
   syntax:
     content: public virtual int Read ();
     parameters: []
     return:
       type: System.Int32
-      description: Return description to be filled
+      description: The next character from the text reader, or -1 if no more characters are available. The default implementation returns -1.
   overload: System.IO.TextReader.Read*
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.IO.TextReader.Read(System.Char[],System.Int32,System.Int32)
   id: Read(System.Char[],System.Int32,System.Int32)
   parent: System.IO.TextReader
   langs:
   - csharp
-  - vb
   name: Read(Char[],Int32,Int32)
   nameWithType: TextReader.Read(Char[],Int32,Int32)
   fullName: System.IO.TextReader.Read(Char[],Int32,Int32)
@@ -196,28 +228,33 @@ items:
   assemblies:
   - mscorlib
   namespace: System.IO
+  summary: Reads a specified maximum number of characters from the current reader and writes the data to a buffer, beginning at the specified index.
+  remarks: "This method returns after either  characters are read or the end of the file is reached. <xref:System.IO.TextReader.ReadBlock%2A> is a blocking version of this method.  \n  \n The <xref:System.IO.TextReader> class is an abstract class. Therefore, you do not instantiate it in your code. For an example of using the Read method, see the <xref:System.IO.StreamReader.Read%2A?displayProperty=fullName> method."
   syntax:
     content: public virtual int Read (char[] buffer, int index, int count);
     parameters:
     - id: buffer
       type: System.Char[]
-      description: Parameter description to be filled
+      description: When this method returns, contains the specified character array with the values between  and ( +  - 1) replaced by the characters read from the current source.
     - id: index
       type: System.Int32
-      description: Parameter description to be filled
+      description: The position in  at which to begin writing.
     - id: count
       type: System.Int32
-      description: Parameter description to be filled
+      description: The maximum number of characters to read. If the end of the reader is reached before the specified number of characters is read into the buffer, the method returns.
     return:
       type: System.Int32
-      description: Return description to be filled
+      description: The number of characters that have been read. The number will be less than or equal to , depending on whether the data is available within the reader. This method returns 0 (zero) if it is called when no more characters are left to read.
   overload: System.IO.TextReader.Read*
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.IO.TextReader.ReadAsync(System.Char[],System.Int32,System.Int32)
   id: ReadAsync(System.Char[],System.Int32,System.Int32)
   parent: System.IO.TextReader
   langs:
   - csharp
-  - vb
   name: ReadAsync(Char[],Int32,Int32)
   nameWithType: TextReader.ReadAsync(Char[],Int32,Int32)
   fullName: System.IO.TextReader.ReadAsync(Char[],Int32,Int32)
@@ -225,27 +262,32 @@ items:
   assemblies:
   - mscorlib
   namespace: System.IO
+  summary: Reads a specified maximum number of characters from the current text reader asynchronously and writes the data to a buffer, beginning at the specified index.
+  remarks: "The task completes after either the number of characters specified by the  parameter are read or the end of the file is reached.  \n  \n The <xref:System.IO.TextReader> class is an abstract class. Therefore, you do not instantiate it in your code. For an example of using the ReadAsync method, see the <xref:System.IO.StreamReader.ReadAsync%2A?displayProperty=fullName> method."
   syntax:
     content: public virtual System.Threading.Tasks.Task<int> ReadAsync (char[] buffer, int index, int count);
     parameters:
     - id: buffer
       type: System.Char[]
-      description: Parameter description to be filled
+      description: When this method returns, contains the specified character array with the values between  and ( +  - 1) replaced by the characters read from the current source.
     - id: index
       type: System.Int32
-      description: Parameter description to be filled
+      description: The position in  at which to begin writing.
     - id: count
       type: System.Int32
-      description: Parameter description to be filled
+      description: The maximum number of characters to read. If the end of the text is reached before the specified number of characters is read into the buffer, the current method returns.
     return:
       type: System.Threading.Tasks.Task{System.Int32}
-      description: Return description to be filled
+      description: A task that represents the asynchronous read operation. The value of the  parameter contains the total number of bytes read into the buffer. The result value can be less than the number of bytes requested if the number of bytes currently available is less than the requested number, or it can be 0 (zero) if the end of the text has been reached.
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.IO.TextReader.ReadBlock(System.Char[],System.Int32,System.Int32)
   id: ReadBlock(System.Char[],System.Int32,System.Int32)
   parent: System.IO.TextReader
   langs:
   - csharp
-  - vb
   name: ReadBlock(Char[],Int32,Int32)
   nameWithType: TextReader.ReadBlock(Char[],Int32,Int32)
   fullName: System.IO.TextReader.ReadBlock(Char[],Int32,Int32)
@@ -253,27 +295,32 @@ items:
   assemblies:
   - mscorlib
   namespace: System.IO
+  summary: Reads a specified maximum number of characters from the current text reader and writes the data to a buffer, beginning at the specified index.
+  remarks: "The position of the underlying text reader is advanced by the number of characters that were read into .  \n  \n The method blocks until either  characters are read, or all characters have been read. This is a blocking version of <xref:System.IO.TextReader.Read%2A>."
   syntax:
     content: public virtual int ReadBlock (char[] buffer, int index, int count);
     parameters:
     - id: buffer
       type: System.Char[]
-      description: Parameter description to be filled
+      description: When this method returns, this parameter contains the specified character array with the values between  and ( +  -1) replaced by the characters read from the current source.
     - id: index
       type: System.Int32
-      description: Parameter description to be filled
+      description: The position in  at which to begin writing.
     - id: count
       type: System.Int32
-      description: Parameter description to be filled
+      description: The maximum number of characters to read.
     return:
       type: System.Int32
-      description: Return description to be filled
+      description: The number of characters that have been read. The number will be less than or equal to , depending on whether all input characters have been read.
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.IO.TextReader.ReadBlockAsync(System.Char[],System.Int32,System.Int32)
   id: ReadBlockAsync(System.Char[],System.Int32,System.Int32)
   parent: System.IO.TextReader
   langs:
   - csharp
-  - vb
   name: ReadBlockAsync(Char[],Int32,Int32)
   nameWithType: TextReader.ReadBlockAsync(Char[],Int32,Int32)
   fullName: System.IO.TextReader.ReadBlockAsync(Char[],Int32,Int32)
@@ -281,27 +328,32 @@ items:
   assemblies:
   - mscorlib
   namespace: System.IO
+  summary: Reads a specified maximum number of characters from the current text reader asynchronously and writes the data to a buffer, beginning at the specified index.
+  remarks: The task does not complete until either the number of characters specified by the  parameter are read, or the end of the text has been reached.
   syntax:
     content: public virtual System.Threading.Tasks.Task<int> ReadBlockAsync (char[] buffer, int index, int count);
     parameters:
     - id: buffer
       type: System.Char[]
-      description: Parameter description to be filled
+      description: When this method returns, contains the specified character array with the values between  and ( +  - 1) replaced by the characters read from the current source.
     - id: index
       type: System.Int32
-      description: Parameter description to be filled
+      description: The position in  at which to begin writing.
     - id: count
       type: System.Int32
-      description: Parameter description to be filled
+      description: The maximum number of characters to read. If the end of the text is reached before the specified number of characters is read into the buffer, the current method returns.
     return:
       type: System.Threading.Tasks.Task{System.Int32}
-      description: Return description to be filled
+      description: A task that represents the asynchronous read operation. The value of the  parameter contains the total number of bytes read into the buffer. The result value can be less than the number of bytes requested if the number of bytes currently available is less than the requested number, or it can be 0 (zero) if the end of the text has been reached.
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.IO.TextReader.ReadLine
   id: ReadLine
   parent: System.IO.TextReader
   langs:
   - csharp
-  - vb
   name: ReadLine()
   nameWithType: TextReader.ReadLine()
   fullName: System.IO.TextReader.ReadLine()
@@ -309,18 +361,23 @@ items:
   assemblies:
   - mscorlib
   namespace: System.IO
+  summary: Reads a line of characters from the text reader and returns the data as a string.
+  remarks: "A line is defined as a sequence of characters followed by a carriage return (0x000d), a line feed (0x000a), a carriage return followed by a line feed, <xref:System.Environment.NewLine%2A?displayProperty=fullName>, or the end-of-stream marker. The string that is returned does not contain the terminating carriage return or line feed. The return value is `null` if the end of the input stream has been reached.  \n  \n If the method throws an <xref:System.OutOfMemoryException> exception, the reader's position in the underlying <xref:System.IO.Stream> is advanced by the number of characters the method was able to read, but the characters that were already read into the internal ReadLine buffer are discarded. Because the position of the reader in the stream cannot be changed, the characters that were already read are unrecoverable and can be accessed only by reinitializing the <xref:System.IO.TextReader> object. If the initial position within the stream is unknown or the stream does not support seeking, the underlying <xref:System.IO.Stream> also needs to be reinitialized.  \n  \n To avoid such a situation and produce robust code you should use the <xref:System.IO.TextReader.Read%2A> method and store the read characters in a preallocated buffer.  \n  \n The <xref:System.IO.TextReader> class is an abstract class. Therefore, you do not instantiate it in your code. For an example of using the ReadLine method, see the <xref:System.IO.StreamReader.ReadLine%2A?displayProperty=fullName> method."
   syntax:
     content: public virtual string ReadLine ();
     parameters: []
     return:
       type: System.String
-      description: Return description to be filled
+      description: The next line from the reader, or `null` if all characters have been read.
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.IO.TextReader.ReadLineAsync
   id: ReadLineAsync
   parent: System.IO.TextReader
   langs:
   - csharp
-  - vb
   name: ReadLineAsync()
   nameWithType: TextReader.ReadLineAsync()
   fullName: System.IO.TextReader.ReadLineAsync()
@@ -328,18 +385,23 @@ items:
   assemblies:
   - mscorlib
   namespace: System.IO
+  summary: Reads a line of characters asynchronously and returns the data as a string.
+  remarks: "The <xref:System.IO.TextReader> class is an abstract class. Therefore, you do not instantiate it in your code. For an example of using the ReadLineAsync method, see the <xref:System.IO.StreamReader.ReadLineAsync%2A?displayProperty=fullName> method.  \n  \n If the current <xref:System.IO.TextReader> represents the standard input stream returned by the <xref:System.Console.In%2A?displayProperty=fullName> property, the ReadLineAsync method executes synchronously rather than asynchronously."
   syntax:
     content: public virtual System.Threading.Tasks.Task<string> ReadLineAsync ();
     parameters: []
     return:
       type: System.Threading.Tasks.Task{System.String}
-      description: Return description to be filled
+      description: A task that represents the asynchronous read operation. The value of the  parameter contains the next line from the text reader, or is `null` if all of the characters have been read.
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.IO.TextReader.ReadToEnd
   id: ReadToEnd
   parent: System.IO.TextReader
   langs:
   - csharp
-  - vb
   name: ReadToEnd()
   nameWithType: TextReader.ReadToEnd()
   fullName: System.IO.TextReader.ReadToEnd()
@@ -347,18 +409,23 @@ items:
   assemblies:
   - mscorlib
   namespace: System.IO
+  summary: Reads all characters from the current position to the end of the text reader and returns them as one string.
+  remarks: "If the method throws an <xref:System.OutOfMemoryException> exception, the reader's position in the underlying <xref:System.IO.Stream> is advanced by the number of characters the method was able to read, but the characters that were already read into the internal ReadToEnd buffer are discarded. Because the position of the reader in the stream cannot be changed, the characters that were already read are unrecoverable and can be accessed only by reinitializing the <xref:System.IO.TextReader>. If the initial position within the stream is unknown or the stream does not support seeking, the underlying <xref:System.IO.Stream> also needs to be reinitialized.  \n  \n To avoid such a situation and produce robust code you should use the <xref:System.IO.TextReader.Read%2A> method and store the read characters in a preallocated buffer.  \n  \n The <xref:System.IO.TextReader> class is an abstract class. Therefore, you do not instantiate it in your code. For an example of using the ReadToEnd method, see the <xref:System.IO.StreamReader.ReadToEnd%2A?displayProperty=fullName> method."
   syntax:
     content: public virtual string ReadToEnd ();
     parameters: []
     return:
       type: System.String
-      description: Return description to be filled
+      description: A string that contains all characters from the current position to the end of the text reader.
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.IO.TextReader.ReadToEndAsync
   id: ReadToEndAsync
   parent: System.IO.TextReader
   langs:
   - csharp
-  - vb
   name: ReadToEndAsync()
   nameWithType: TextReader.ReadToEndAsync()
   fullName: System.IO.TextReader.ReadToEndAsync()
@@ -366,18 +433,23 @@ items:
   assemblies:
   - mscorlib
   namespace: System.IO
+  summary: Reads all characters from the current position to the end of the text reader asynchronously and returns them as one string.
+  remarks: The <xref:System.IO.TextReader> class is an abstract class. Therefore, you do not instantiate it in your code. For an example of using the ReadToEndAsync method, see the <xref:System.IO.StreamReader.ReadToEndAsync%2A?displayProperty=fullName> method.
   syntax:
     content: public virtual System.Threading.Tasks.Task<string> ReadToEndAsync ();
     parameters: []
     return:
       type: System.Threading.Tasks.Task{System.String}
-      description: Return description to be filled
+      description: A task that represents the asynchronous read operation. The value of the  parameter contains a string with the characters from the current position to the end of the text reader.
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.IO.TextReader.Synchronized(System.IO.TextReader)
   id: Synchronized(System.IO.TextReader)
   parent: System.IO.TextReader
   langs:
   - csharp
-  - vb
   name: Synchronized(TextReader)
   nameWithType: TextReader.Synchronized(TextReader)
   fullName: System.IO.TextReader.Synchronized(TextReader)
@@ -385,15 +457,21 @@ items:
   assemblies:
   - mscorlib
   namespace: System.IO
+  summary: Creates a thread-safe wrapper around the specified `TextReader`.
+  remarks: The current method returns a class that wraps around the specified <xref:System.IO.TextReader> instance and restricts access to it by multiple threads. All reads from the returned wrapper will be thread safe.
   syntax:
     content: public static System.IO.TextReader Synchronized (System.IO.TextReader reader);
     parameters:
     - id: reader
       type: System.IO.TextReader
-      description: Parameter description to be filled
+      description: The `TextReader` to synchronize.
     return:
       type: System.IO.TextReader
-      description: Return description to be filled
+      description: A thread-safe <see cref="T:System.IO.TextReader">.
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 references:
 - uid: System.MarshalByRefObject
   isExternal: false
@@ -410,36 +488,18 @@ references:
   name: Close()
   nameWithType: TextReader.Close()
   fullName: System.IO.TextReader.Close()
-- uid: System.Void
-  parent: System
-  isExternal: false
-  name: Void
-  nameWithType: Void
-  fullName: System.Void
 - uid: System.IO.TextReader.Dispose
   parent: System.IO.TextReader
   isExternal: false
   name: Dispose()
   nameWithType: TextReader.Dispose()
   fullName: System.IO.TextReader.Dispose()
-- uid: System.Void
-  parent: System
-  isExternal: false
-  name: Void
-  nameWithType: Void
-  fullName: System.Void
 - uid: System.IO.TextReader.Dispose(System.Boolean)
   parent: System.IO.TextReader
   isExternal: false
   name: Dispose(Boolean)
   nameWithType: TextReader.Dispose(Boolean)
   fullName: System.IO.TextReader.Dispose(Boolean)
-- uid: System.Void
-  parent: System
-  isExternal: false
-  name: Void
-  nameWithType: Void
-  fullName: System.Void
 - uid: System.Boolean
   parent: System
   isExternal: false
@@ -494,6 +554,12 @@ references:
   name: Int32
   nameWithType: Int32
   fullName: System.Int32
+- uid: System.Char
+  parent: System
+  isExternal: false
+  name: Char
+  nameWithType: Char
+  fullName: System.Char[]
 - uid: System.Int32
   parent: System
   isExternal: false
@@ -512,6 +578,18 @@ references:
   name: ReadAsync(Char[],Int32,Int32)
   nameWithType: TextReader.ReadAsync(Char[],Int32,Int32)
   fullName: System.IO.TextReader.ReadAsync(Char[],Int32,Int32)
+- uid: System.Threading.Tasks.Task{System.Int32}
+  parent: System.Threading.Tasks
+  isExternal: false
+  name: Task<Int32>
+  nameWithType: Task<Int32>
+  fullName: System.Threading.Tasks.Task<System.Int32>
+- uid: System.Char
+  parent: System
+  isExternal: false
+  name: Char
+  nameWithType: Char
+  fullName: System.Char[]
 - uid: System.Int32
   parent: System
   isExternal: false
@@ -536,6 +614,12 @@ references:
   name: Int32
   nameWithType: Int32
   fullName: System.Int32
+- uid: System.Char
+  parent: System
+  isExternal: false
+  name: Char
+  nameWithType: Char
+  fullName: System.Char[]
 - uid: System.Int32
   parent: System
   isExternal: false
@@ -554,6 +638,18 @@ references:
   name: ReadBlockAsync(Char[],Int32,Int32)
   nameWithType: TextReader.ReadBlockAsync(Char[],Int32,Int32)
   fullName: System.IO.TextReader.ReadBlockAsync(Char[],Int32,Int32)
+- uid: System.Threading.Tasks.Task{System.Int32}
+  parent: System.Threading.Tasks
+  isExternal: false
+  name: Task<Int32>
+  nameWithType: Task<Int32>
+  fullName: System.Threading.Tasks.Task<System.Int32>
+- uid: System.Char
+  parent: System
+  isExternal: false
+  name: Char
+  nameWithType: Char
+  fullName: System.Char[]
 - uid: System.Int32
   parent: System
   isExternal: false
@@ -584,6 +680,12 @@ references:
   name: ReadLineAsync()
   nameWithType: TextReader.ReadLineAsync()
   fullName: System.IO.TextReader.ReadLineAsync()
+- uid: System.Threading.Tasks.Task{System.String}
+  parent: System.Threading.Tasks
+  isExternal: false
+  name: Task<String>
+  nameWithType: Task<String>
+  fullName: System.Threading.Tasks.Task<System.String>
 - uid: System.IO.TextReader.ReadToEnd
   parent: System.IO.TextReader
   isExternal: false
@@ -602,6 +704,12 @@ references:
   name: ReadToEndAsync()
   nameWithType: TextReader.ReadToEndAsync()
   fullName: System.IO.TextReader.ReadToEndAsync()
+- uid: System.Threading.Tasks.Task{System.String}
+  parent: System.Threading.Tasks
+  isExternal: false
+  name: Task<String>
+  nameWithType: Task<String>
+  fullName: System.Threading.Tasks.Task<System.String>
 - uid: System.IO.TextReader.Synchronized(System.IO.TextReader)
   parent: System.IO.TextReader
   isExternal: false

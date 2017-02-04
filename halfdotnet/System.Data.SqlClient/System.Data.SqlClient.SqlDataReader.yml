@@ -73,11 +73,14 @@ items:
   - System.Data.SqlClient.SqlDataReader.VisibleFieldCount
   langs:
   - csharp
-  - vb
   name: SqlDataReader
   nameWithType: SqlDataReader
   fullName: System.Data.SqlClient.SqlDataReader
   type: Class
+  summary: Provides a way of reading a forward-only stream of rows from a SQL Server database. This class cannot be inherited.
+  remarks: "To create a SqlDataReader, you must call the <xref:System.Data.SqlClient.SqlCommand.ExecuteReader%2A> method of the <xref:System.Data.SqlClient.SqlCommand> object, instead of directly using a constructor.  \n  \n While the SqlDataReader is being used, the associated <xref:System.Data.SqlClient.SqlConnection> is busy serving the SqlDataReader, and no other operations can be performed on the <xref:System.Data.SqlClient.SqlConnection> other than closing it. This is the case until the <xref:System.Data.SqlClient.SqlDataReader.Close%2A> method of the SqlDataReader is called. For example, you cannot retrieve output parameters until after you call <xref:System.Data.SqlClient.SqlDataReader.Close%2A>.  \n  \n Changes made to a result set by another process or thread while data is being read may be visible to the user of the `SqlDataReader`. However, the precise behavior is timing dependent.  \n  \n <xref:System.Data.SqlClient.SqlDataReader.IsClosed%2A> and <xref:System.Data.SqlClient.SqlDataReader.RecordsAffected%2A> are the only properties that you can call after the SqlDataReader is closed. Although the <xref:System.Data.SqlClient.SqlDataReader.RecordsAffected%2A> property may be accessed while the SqlDataReader exists, always call <xref:System.Data.SqlClient.SqlDataReader.Close%2A> before returning the value of <xref:System.Data.SqlClient.SqlDataReader.RecordsAffected%2A> to guarantee an accurate return value.  \n  \n When using sequential access (<xref:System.Data.CommandBehavior?displayProperty=fullName>), an <xref:System.InvalidOperationException> will be raised if the SqlDataReader position is advanced and another read operation is attempted on the previous column.  \n  \n> [!NOTE]\n>  For optimal performance, SqlDataReader avoids creating unnecessary objects or making unnecessary copies of data. Therefore, multiple calls to methods such as <xref:System.Data.SqlClient.SqlDataReader.GetValue%2A> return a reference to the same object. Use caution if you are modifying the underlying value of the objects returned by methods such as <xref:System.Data.SqlClient.SqlDataReader.GetValue%2A>."
+  example:
+  - "The following example creates a <xref:System.Data.SqlClient.SqlConnection>, a <xref:System.Data.SqlClient.SqlCommand>, and a SqlDataReader. The example reads through the data, writing it out to the console window. The code then closes the SqlDataReader. The <xref:System.Data.SqlClient.SqlConnection> is closed automatically at the end of the `using` code block.  \n  \n [!CODE [Classic WebData SqlDataReader.Read Example#1](../CodeSnippet/VS_Snippets_ADO.NET/Classic WebData SqlDataReader.Read Example#1)]"
   syntax:
     content: 'public class SqlDataReader : System.Data.Common.DbDataReader, IDisposable'
   inheritance:
@@ -106,12 +109,15 @@ items:
   - System.Object.MemberwiseClone
   - System.Object.ReferenceEquals(System.Object,System.Object)
   - System.Object.ToString
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Data.SqlClient.SqlDataReader.Close
   id: Close
   parent: System.Data.SqlClient.SqlDataReader
   langs:
   - csharp
-  - vb
   name: Close()
   nameWithType: SqlDataReader.Close()
   fullName: System.Data.SqlClient.SqlDataReader.Close()
@@ -119,18 +125,22 @@ items:
   assemblies:
   - System.Data
   namespace: System.Data.SqlClient
+  summary: Closes the <see cref="T:System.Data.SqlClient.SqlDataReader"> object.
+  remarks: "You must explicitly call the Close method when you are through using the <xref:System.Data.SqlClient.SqlDataReader> to use the associated <xref:System.Data.SqlClient.SqlConnection> for any other purpose.  \n  \n The `Close` method fills in the values for output parameters, return values and `RecordsAffected`, increasing the time that it takes to close a `SqlDataReader` that was used to process a large or complex query. When the return values and the number of records affected by a query are not significant, the time that it takes to close the `SqlDataReader` can be reduced by calling the <xref:System.Data.SqlClient.SqlCommand.Cancel%2A> method of the associated <xref:System.Data.SqlClient.SqlCommand> object before calling the `Close` method.  \n  \n> [!CAUTION]\n>  Do not call `Close` or `Dispose` on a Connection, a DataReader, or any other managed object in the `Finalize` method of your class. In a finalizer, you should only release unmanaged resources that your class owns directly. If your class does not own any unmanaged resources, do not include a `Finalize` method in your class definition. For more information, see [Garbage Collection](../Topic/Garbage%20Collection.md)."
+  example:
+  - "The following example creates a <xref:System.Data.SqlClient.SqlConnection>, a `SqlCommand`, and a <xref:System.Data.SqlClient.SqlDataReader>. The example reads through the data, writing it out to the console window. The code then closes the <xref:System.Data.SqlClient.SqlDataReader>. The <xref:System.Data.SqlClient.SqlConnection> is closed automatically at the end of the `using` code block.  \n  \n [!CODE [Classic WebData SqlDataReader.Close Example#1](../CodeSnippet/VS_Snippets_ADO.NET/Classic WebData SqlDataReader.Close Example#1)]"
   syntax:
     content: public override void Close ();
     parameters: []
-    return:
-      type: System.Void
-      description: Return description to be filled
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Data.SqlClient.SqlDataReader.Connection
   id: Connection
   parent: System.Data.SqlClient.SqlDataReader
   langs:
   - csharp
-  - vb
   name: Connection
   nameWithType: SqlDataReader.Connection
   fullName: System.Data.SqlClient.SqlDataReader.Connection
@@ -138,17 +148,22 @@ items:
   assemblies:
   - System.Data
   namespace: System.Data.SqlClient
+  summary: Gets the <see cref="T:System.Data.SqlClient.SqlConnection"> associated with the <xref:System.Data.SqlClient.SqlDataReader>.
+  remarks: To be added.
   syntax:
     content: protected System.Data.SqlClient.SqlConnection Connection { get; }
     return:
       type: System.Data.SqlClient.SqlConnection
-      description: Return description to be filled
+      description: To be added.
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Data.SqlClient.SqlDataReader.Depth
   id: Depth
   parent: System.Data.SqlClient.SqlDataReader
   langs:
   - csharp
-  - vb
   name: Depth
   nameWithType: SqlDataReader.Depth
   fullName: System.Data.SqlClient.SqlDataReader.Depth
@@ -156,17 +171,22 @@ items:
   assemblies:
   - System.Data
   namespace: System.Data.SqlClient
+  summary: Gets a value that indicates the depth of nesting for the current row.
+  remarks: The outermost table has a depth of zero. The .NET Framework Data Provider for SQL Server does not support nesting and always returns zero.
   syntax:
     content: public override int Depth { get; }
     return:
       type: System.Int32
-      description: Return description to be filled
+      description: To be added.
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Data.SqlClient.SqlDataReader.FieldCount
   id: FieldCount
   parent: System.Data.SqlClient.SqlDataReader
   langs:
   - csharp
-  - vb
   name: FieldCount
   nameWithType: SqlDataReader.FieldCount
   fullName: System.Data.SqlClient.SqlDataReader.FieldCount
@@ -174,17 +194,22 @@ items:
   assemblies:
   - System.Data
   namespace: System.Data.SqlClient
+  summary: Gets the number of columns in the current row.
+  remarks: Executing a query that, by its nature, does not return rows (such as a DELETE query), sets FieldCount to 0. However. this should not be confused with a query that returns 0 rows (such as SELECT \* FROM *table* WHERE 1 = 2) in which case FieldCount returns the number of columns in the table, including hidden fields. Use <xref:System.Data.SqlClient.SqlDataReader.VisibleFieldCount%2A> to exclude hidden fields.
   syntax:
     content: public override int FieldCount { get; }
     return:
       type: System.Int32
-      description: Return description to be filled
+      description: To be added.
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Data.SqlClient.SqlDataReader.GetBoolean(System.Int32)
   id: GetBoolean(System.Int32)
   parent: System.Data.SqlClient.SqlDataReader
   langs:
   - csharp
-  - vb
   name: GetBoolean(Int32)
   nameWithType: SqlDataReader.GetBoolean(Int32)
   fullName: System.Data.SqlClient.SqlDataReader.GetBoolean(Int32)
@@ -192,21 +217,26 @@ items:
   assemblies:
   - System.Data
   namespace: System.Data.SqlClient
+  summary: Gets the value of the specified column as a Boolean.
+  remarks: "No conversions are performed; therefore, the data retrieved must already be a Boolean, or an exception is generated.  \n  \n Call <xref:System.Data.SqlClient.SqlDataReader.IsDBNull%2A> to check for null values before calling this method."
   syntax:
     content: public override bool GetBoolean (int i);
     parameters:
     - id: i
       type: System.Int32
-      description: Parameter description to be filled
+      description: The zero-based column ordinal.
     return:
       type: System.Boolean
-      description: Return description to be filled
+      description: The value of the column.
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Data.SqlClient.SqlDataReader.GetByte(System.Int32)
   id: GetByte(System.Int32)
   parent: System.Data.SqlClient.SqlDataReader
   langs:
   - csharp
-  - vb
   name: GetByte(Int32)
   nameWithType: SqlDataReader.GetByte(Int32)
   fullName: System.Data.SqlClient.SqlDataReader.GetByte(Int32)
@@ -214,21 +244,26 @@ items:
   assemblies:
   - System.Data
   namespace: System.Data.SqlClient
+  summary: Gets the value of the specified column as a byte.
+  remarks: "No conversions are performed; therefore, the data retrieved must already be a byte.  \n  \n Call <xref:System.Data.SqlClient.SqlDataReader.IsDBNull%2A> to check for null values before calling this method."
   syntax:
     content: public override byte GetByte (int i);
     parameters:
     - id: i
       type: System.Int32
-      description: Parameter description to be filled
+      description: The zero-based column ordinal.
     return:
       type: System.Byte
-      description: Return description to be filled
+      description: The value of the specified column as a byte.
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Data.SqlClient.SqlDataReader.GetBytes(System.Int32,System.Int64,System.Byte[],System.Int32,System.Int32)
   id: GetBytes(System.Int32,System.Int64,System.Byte[],System.Int32,System.Int32)
   parent: System.Data.SqlClient.SqlDataReader
   langs:
   - csharp
-  - vb
   name: GetBytes(Int32,Int64,Byte[],Int32,Int32)
   nameWithType: SqlDataReader.GetBytes(Int32,Int64,Byte[],Int32,Int32)
   fullName: System.Data.SqlClient.SqlDataReader.GetBytes(Int32,Int64,Byte[],Int32,Int32)
@@ -236,33 +271,38 @@ items:
   assemblies:
   - System.Data
   namespace: System.Data.SqlClient
+  summary: Reads a stream of bytes from the specified column offset into the buffer an array starting at the given buffer offset.
+  remarks: "GetBytes returns the number of available bytes in the field. Most of the time this is the exact length of the field. However, the number returned may be less than the true length of the field if `GetBytes` has already been used to obtain bytes from the field. This may be the case, for example, if the <xref:System.Data.SqlClient.SqlDataReader> is reading a large data structure into a buffer. For more information, see the `SequentialAccess` setting for <xref:System.Data.CommandBehavior>.  \n  \n If you pass a buffer that is `null`, GetBytes returns the length of the entire field in bytes, not the remaining size based on the buffer offset parameter.  \n  \n No conversions are performed; therefore, the data retrieved must already be a byte array."
   syntax:
     content: public override long GetBytes (int i, long dataIndex, byte[] buffer, int bufferIndex, int length);
     parameters:
     - id: i
       type: System.Int32
-      description: Parameter description to be filled
+      description: The zero-based column ordinal.
     - id: dataIndex
       type: System.Int64
-      description: Parameter description to be filled
+      description: The index within the field from which to begin the read operation.
     - id: buffer
       type: System.Byte[]
-      description: Parameter description to be filled
+      description: The buffer into which to read the stream of bytes.
     - id: bufferIndex
       type: System.Int32
-      description: Parameter description to be filled
+      description: The index within the  where the write operation is to start.
     - id: length
       type: System.Int32
-      description: Parameter description to be filled
+      description: The maximum length to copy into the buffer.
     return:
       type: System.Int64
-      description: Return description to be filled
+      description: The actual number of bytes read.
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Data.SqlClient.SqlDataReader.GetChar(System.Int32)
   id: GetChar(System.Int32)
   parent: System.Data.SqlClient.SqlDataReader
   langs:
   - csharp
-  - vb
   name: GetChar(Int32)
   nameWithType: SqlDataReader.GetChar(Int32)
   fullName: System.Data.SqlClient.SqlDataReader.GetChar(Int32)
@@ -270,21 +310,26 @@ items:
   assemblies:
   - System.Data
   namespace: System.Data.SqlClient
+  summary: Gets the value of the specified column as a single character.
+  remarks: Not supported for <xref:System.Data.SqlClient>.
   syntax:
     content: public override char GetChar (int i);
     parameters:
     - id: i
       type: System.Int32
-      description: Parameter description to be filled
+      description: The zero-based column ordinal.
     return:
       type: System.Char
-      description: Return description to be filled
+      description: The value of the specified column.
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Data.SqlClient.SqlDataReader.GetChars(System.Int32,System.Int64,System.Char[],System.Int32,System.Int32)
   id: GetChars(System.Int32,System.Int64,System.Char[],System.Int32,System.Int32)
   parent: System.Data.SqlClient.SqlDataReader
   langs:
   - csharp
-  - vb
   name: GetChars(Int32,Int64,Char[],Int32,Int32)
   nameWithType: SqlDataReader.GetChars(Int32,Int64,Char[],Int32,Int32)
   fullName: System.Data.SqlClient.SqlDataReader.GetChars(Int32,Int64,Char[],Int32,Int32)
@@ -292,33 +337,38 @@ items:
   assemblies:
   - System.Data
   namespace: System.Data.SqlClient
+  summary: Reads a stream of characters from the specified column offset into the buffer as an array starting at the given buffer offset.
+  remarks: "GetChars returns the number of available characters in the field. Frequently this is the exact length of the field. However, the number returned may be less than the true length of the field if `GetChars` has already been used to obtain characters from the field. This may be the case, for example, if the <xref:System.Data.SqlClient.SqlDataReader> is reading a large data structure into a buffer. For more information, see the `SequentialAccess` setting for <xref:System.Data.CommandBehavior>.  \n  \n The actual number of characters read can be less than the requested length, if the end of the field is reached. If you pass a buffer that is `null`, GetChars returns the length of the entire field in characters, not the remaining size based on the buffer offset parameter.  \n  \n No conversions are performed; therefore. the data retrieved must already be a character array.  \n  \n> [!NOTE]\n>  The GetChars method returns 0 when  is negative."
   syntax:
     content: public override long GetChars (int i, long dataIndex, char[] buffer, int bufferIndex, int length);
     parameters:
     - id: i
       type: System.Int32
-      description: Parameter description to be filled
+      description: The zero-based column ordinal.
     - id: dataIndex
       type: System.Int64
-      description: Parameter description to be filled
+      description: The index within the field from which to begin the read operation.
     - id: buffer
       type: System.Char[]
-      description: Parameter description to be filled
+      description: The buffer into which to read the stream of bytes.
     - id: bufferIndex
       type: System.Int32
-      description: Parameter description to be filled
+      description: The index within the  where the write operation is to start.
     - id: length
       type: System.Int32
-      description: Parameter description to be filled
+      description: The maximum length to copy into the buffer.
     return:
       type: System.Int64
-      description: Return description to be filled
+      description: The actual number of characters read.
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Data.SqlClient.SqlDataReader.GetDataTypeName(System.Int32)
   id: GetDataTypeName(System.Int32)
   parent: System.Data.SqlClient.SqlDataReader
   langs:
   - csharp
-  - vb
   name: GetDataTypeName(Int32)
   nameWithType: SqlDataReader.GetDataTypeName(Int32)
   fullName: System.Data.SqlClient.SqlDataReader.GetDataTypeName(Int32)
@@ -326,21 +376,26 @@ items:
   assemblies:
   - System.Data
   namespace: System.Data.SqlClient
+  summary: Gets a string representing the data type of the specified column.
+  remarks: "Returns the name of the back-end data type.  \n  \n `numeric` is a synonym in SQL Server for the `decimal` data type. `GetDataTypeName` will return \"decimal\" for a column defined as either decimal or numeric."
   syntax:
     content: public override string GetDataTypeName (int i);
     parameters:
     - id: i
       type: System.Int32
-      description: Parameter description to be filled
+      description: The zero-based ordinal position of the column to find.
     return:
       type: System.String
-      description: Return description to be filled
+      description: The string representing the data type of the specified column.
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Data.SqlClient.SqlDataReader.GetDateTime(System.Int32)
   id: GetDateTime(System.Int32)
   parent: System.Data.SqlClient.SqlDataReader
   langs:
   - csharp
-  - vb
   name: GetDateTime(Int32)
   nameWithType: SqlDataReader.GetDateTime(Int32)
   fullName: System.Data.SqlClient.SqlDataReader.GetDateTime(Int32)
@@ -348,21 +403,26 @@ items:
   assemblies:
   - System.Data
   namespace: System.Data.SqlClient
+  summary: Gets the value of the specified column as a <see cref="T:System.DateTime"> object.
+  remarks: "No conversions are performed; therefore, the data retrieved must already be a <xref:System.DateTime> object.  \n  \n Call <xref:System.Data.SqlClient.SqlDataReader.IsDBNull%2A> to check for null values before calling this method."
   syntax:
     content: public override DateTime GetDateTime (int i);
     parameters:
     - id: i
       type: System.Int32
-      description: Parameter description to be filled
+      description: The zero-based column ordinal.
     return:
       type: System.DateTime
-      description: Return description to be filled
+      description: The value of the specified column.
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Data.SqlClient.SqlDataReader.GetDateTimeOffset(System.Int32)
   id: GetDateTimeOffset(System.Int32)
   parent: System.Data.SqlClient.SqlDataReader
   langs:
   - csharp
-  - vb
   name: GetDateTimeOffset(Int32)
   nameWithType: SqlDataReader.GetDateTimeOffset(Int32)
   fullName: System.Data.SqlClient.SqlDataReader.GetDateTimeOffset(Int32)
@@ -370,21 +430,26 @@ items:
   assemblies:
   - System.Data
   namespace: System.Data.SqlClient
+  summary: Retrieves the value of the specified column as a <see cref="T:System.DateTimeOffset"> object.
+  remarks: "No conversions are performed; therefore, the data retrieved must already be a <xref:System.DateTimeOffset> object.  \n  \n Call <xref:System.Data.SqlClient.SqlDataReader.IsDBNull%2A> to check for null values before calling this method."
   syntax:
     content: public virtual DateTimeOffset GetDateTimeOffset (int i);
     parameters:
     - id: i
       type: System.Int32
-      description: Parameter description to be filled
+      description: The zero-based column ordinal.
     return:
       type: System.DateTimeOffset
-      description: Return description to be filled
+      description: The value of the specified column.
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Data.SqlClient.SqlDataReader.GetDecimal(System.Int32)
   id: GetDecimal(System.Int32)
   parent: System.Data.SqlClient.SqlDataReader
   langs:
   - csharp
-  - vb
   name: GetDecimal(Int32)
   nameWithType: SqlDataReader.GetDecimal(Int32)
   fullName: System.Data.SqlClient.SqlDataReader.GetDecimal(Int32)
@@ -392,21 +457,26 @@ items:
   assemblies:
   - System.Data
   namespace: System.Data.SqlClient
+  summary: Gets the value of the specified column as a <see cref="T:System.Decimal"> object.
+  remarks: "No conversions are performed; therefore, the data retrieved must already be a <xref:System.Decimal> object.  \n  \n Call <xref:System.Data.SqlClient.SqlDataReader.IsDBNull%2A> to check for null values before calling this method."
   syntax:
     content: public override decimal GetDecimal (int i);
     parameters:
     - id: i
       type: System.Int32
-      description: Parameter description to be filled
+      description: The zero-based column ordinal.
     return:
       type: System.Decimal
-      description: Return description to be filled
+      description: The value of the specified column.
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Data.SqlClient.SqlDataReader.GetDouble(System.Int32)
   id: GetDouble(System.Int32)
   parent: System.Data.SqlClient.SqlDataReader
   langs:
   - csharp
-  - vb
   name: GetDouble(Int32)
   nameWithType: SqlDataReader.GetDouble(Int32)
   fullName: System.Data.SqlClient.SqlDataReader.GetDouble(Int32)
@@ -414,21 +484,26 @@ items:
   assemblies:
   - System.Data
   namespace: System.Data.SqlClient
+  summary: Gets the value of the specified column as a double-precision floating point number.
+  remarks: "No conversions are performed. Therefore, the data retrieved must already be a double-precision floating point number.  \n  \n Call <xref:System.Data.SqlClient.SqlDataReader.IsDBNull%2A> to check for null values before calling this method."
   syntax:
     content: public override double GetDouble (int i);
     parameters:
     - id: i
       type: System.Int32
-      description: Parameter description to be filled
+      description: The zero-based column ordinal.
     return:
       type: System.Double
-      description: Return description to be filled
+      description: The value of the specified column.
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Data.SqlClient.SqlDataReader.GetEnumerator
   id: GetEnumerator
   parent: System.Data.SqlClient.SqlDataReader
   langs:
   - csharp
-  - vb
   name: GetEnumerator()
   nameWithType: SqlDataReader.GetEnumerator()
   fullName: System.Data.SqlClient.SqlDataReader.GetEnumerator()
@@ -436,18 +511,23 @@ items:
   assemblies:
   - System.Data
   namespace: System.Data.SqlClient
+  summary: Returns an <see cref="T:System.Collections.IEnumerator"> that iterates through the <xref:System.Data.SqlClient.SqlDataReader>.
+  remarks: Although you can use this method to retrieve an explicit enumerator, in languages that support a `foreach` construct, it is simpler to use the looping construct directly in order to iterate through the rows in the data reader.
   syntax:
     content: public override System.Collections.IEnumerator GetEnumerator ();
     parameters: []
     return:
       type: System.Collections.IEnumerator
-      description: Return description to be filled
+      description: An <see cref="T:System.Collections.IEnumerator"> for the <xref:System.Data.SqlClient.SqlDataReader>.
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Data.SqlClient.SqlDataReader.GetFieldType(System.Int32)
   id: GetFieldType(System.Int32)
   parent: System.Data.SqlClient.SqlDataReader
   langs:
   - csharp
-  - vb
   name: GetFieldType(Int32)
   nameWithType: SqlDataReader.GetFieldType(Int32)
   fullName: System.Data.SqlClient.SqlDataReader.GetFieldType(Int32)
@@ -455,21 +535,26 @@ items:
   assemblies:
   - System.Data
   namespace: System.Data.SqlClient
+  summary: Gets the <see cref="T:System.Type"> that is the data type of the object.
+  remarks: To be added.
   syntax:
     content: public override Type GetFieldType (int i);
     parameters:
     - id: i
       type: System.Int32
-      description: Parameter description to be filled
+      description: The zero-based column ordinal.
     return:
       type: System.Type
-      description: Return description to be filled
+      description: The <see cref="T:System.Type"> that is the data type of the object. If the type does not exist on the client, in the case of a User-Defined Type (UDT) returned from the database, **GetFieldType** returns null.
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Data.SqlClient.SqlDataReader.GetFieldValue``1(System.Int32)
   id: GetFieldValue``1(System.Int32)
   parent: System.Data.SqlClient.SqlDataReader
   langs:
   - csharp
-  - vb
   name: GetFieldValue(Int32)
   nameWithType: SqlDataReader.GetFieldValue(Int32)
   fullName: System.Data.SqlClient.SqlDataReader.GetFieldValue(Int32)
@@ -477,21 +562,26 @@ items:
   assemblies:
   - System.Data
   namespace: System.Data.SqlClient
+  summary: To be added.
+  remarks: To be added.
   syntax:
     content: public override T GetFieldValue<T> (int i);
     parameters:
     - id: i
       type: System.Int32
-      description: Parameter description to be filled
+      description: To be added.
     return:
       type: T
-      description: Return description to be filled
+      description: To be added.
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Data.SqlClient.SqlDataReader.GetFieldValueAsync``1(System.Int32,System.``0hreading.Cancellation``0oken)
   id: GetFieldValueAsync``1(System.Int32,System.``0hreading.Cancellation``0oken)
   parent: System.Data.SqlClient.SqlDataReader
   langs:
   - csharp
-  - vb
   name: GetFieldValueAsync(Int32,CancellationToken)
   nameWithType: SqlDataReader.GetFieldValueAsync(Int32,CancellationToken)
   fullName: System.Data.SqlClient.SqlDataReader.GetFieldValueAsync(Int32,CancellationToken)
@@ -499,24 +589,29 @@ items:
   assemblies:
   - System.Data
   namespace: System.Data.SqlClient
+  summary: To be added.
+  remarks: To be added.
   syntax:
     content: public override System.Threading.Tasks.Task<T> GetFieldValueAsync<T> (int i, System.Threading.CancellationToken cancellationToken);
     parameters:
     - id: i
       type: System.Int32
-      description: Parameter description to be filled
+      description: To be added.
     - id: cancellationToken
       type: System.Threading.CancellationToken
-      description: Parameter description to be filled
+      description: To be added.
     return:
       type: System.Threading.Tasks.Task{T}
-      description: Return description to be filled
+      description: To be added.
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Data.SqlClient.SqlDataReader.GetFloat(System.Int32)
   id: GetFloat(System.Int32)
   parent: System.Data.SqlClient.SqlDataReader
   langs:
   - csharp
-  - vb
   name: GetFloat(Int32)
   nameWithType: SqlDataReader.GetFloat(Int32)
   fullName: System.Data.SqlClient.SqlDataReader.GetFloat(Int32)
@@ -524,21 +619,26 @@ items:
   assemblies:
   - System.Data
   namespace: System.Data.SqlClient
+  summary: Gets the value of the specified column as a single-precision floating point number.
+  remarks: "No conversions are performed. Therefore, the data retrieved must already be a single-precision floating point number.  \n  \n Call <xref:System.Data.SqlClient.SqlDataReader.IsDBNull%2A> to check for null values before calling this method."
   syntax:
     content: public override float GetFloat (int i);
     parameters:
     - id: i
       type: System.Int32
-      description: Parameter description to be filled
+      description: The zero-based column ordinal.
     return:
       type: System.Single
-      description: Return description to be filled
+      description: The value of the specified column.
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Data.SqlClient.SqlDataReader.GetGuid(System.Int32)
   id: GetGuid(System.Int32)
   parent: System.Data.SqlClient.SqlDataReader
   langs:
   - csharp
-  - vb
   name: GetGuid(Int32)
   nameWithType: SqlDataReader.GetGuid(Int32)
   fullName: System.Data.SqlClient.SqlDataReader.GetGuid(Int32)
@@ -546,21 +646,26 @@ items:
   assemblies:
   - System.Data
   namespace: System.Data.SqlClient
+  summary: Gets the value of the specified column as a globally unique identifier (GUID).
+  remarks: "No conversions are performed; therefore, the data retrieved must already be a GUID.  \n  \n Call <xref:System.Data.SqlClient.SqlDataReader.IsDBNull%2A> to check for null values before calling this method."
   syntax:
     content: public override Guid GetGuid (int i);
     parameters:
     - id: i
       type: System.Int32
-      description: Parameter description to be filled
+      description: The zero-based column ordinal.
     return:
       type: System.Guid
-      description: Return description to be filled
+      description: The value of the specified column.
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Data.SqlClient.SqlDataReader.GetInt16(System.Int32)
   id: GetInt16(System.Int32)
   parent: System.Data.SqlClient.SqlDataReader
   langs:
   - csharp
-  - vb
   name: GetInt16(Int32)
   nameWithType: SqlDataReader.GetInt16(Int32)
   fullName: System.Data.SqlClient.SqlDataReader.GetInt16(Int32)
@@ -568,21 +673,26 @@ items:
   assemblies:
   - System.Data
   namespace: System.Data.SqlClient
+  summary: Gets the value of the specified column as a 16-bit signed integer.
+  remarks: "No conversions are performed; therefore, the data retrieved must already be a 16-bit signed integer.  \n  \n Call <xref:System.Data.SqlClient.SqlDataReader.IsDBNull%2A> to check for null values before calling this method."
   syntax:
     content: public override short GetInt16 (int i);
     parameters:
     - id: i
       type: System.Int32
-      description: Parameter description to be filled
+      description: The zero-based column ordinal.
     return:
       type: System.Int16
-      description: Return description to be filled
+      description: The value of the specified column.
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Data.SqlClient.SqlDataReader.GetInt32(System.Int32)
   id: GetInt32(System.Int32)
   parent: System.Data.SqlClient.SqlDataReader
   langs:
   - csharp
-  - vb
   name: GetInt32(Int32)
   nameWithType: SqlDataReader.GetInt32(Int32)
   fullName: System.Data.SqlClient.SqlDataReader.GetInt32(Int32)
@@ -590,21 +700,26 @@ items:
   assemblies:
   - System.Data
   namespace: System.Data.SqlClient
+  summary: Gets the value of the specified column as a 32-bit signed integer.
+  remarks: "No conversions are performed; therefore, the data retrieved must already be a 32-bit signed integer.  \n  \n Call <xref:System.Data.SqlClient.SqlDataReader.IsDBNull%2A> to check for null values before calling this method."
   syntax:
     content: public override int GetInt32 (int i);
     parameters:
     - id: i
       type: System.Int32
-      description: Parameter description to be filled
+      description: The zero-based column ordinal.
     return:
       type: System.Int32
-      description: Return description to be filled
+      description: The value of the specified column.
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Data.SqlClient.SqlDataReader.GetInt64(System.Int32)
   id: GetInt64(System.Int32)
   parent: System.Data.SqlClient.SqlDataReader
   langs:
   - csharp
-  - vb
   name: GetInt64(Int32)
   nameWithType: SqlDataReader.GetInt64(Int32)
   fullName: System.Data.SqlClient.SqlDataReader.GetInt64(Int32)
@@ -612,21 +727,26 @@ items:
   assemblies:
   - System.Data
   namespace: System.Data.SqlClient
+  summary: Gets the value of the specified column as a 64-bit signed integer.
+  remarks: "No conversions are performed; therefore, the data retrieved must already be a 64-bit signed integer.  \n  \n Call <xref:System.Data.SqlClient.SqlDataReader.IsDBNull%2A> to check for null values before calling this method."
   syntax:
     content: public override long GetInt64 (int i);
     parameters:
     - id: i
       type: System.Int32
-      description: Parameter description to be filled
+      description: The zero-based column ordinal.
     return:
       type: System.Int64
-      description: Return description to be filled
+      description: The value of the specified column.
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Data.SqlClient.SqlDataReader.GetName(System.Int32)
   id: GetName(System.Int32)
   parent: System.Data.SqlClient.SqlDataReader
   langs:
   - csharp
-  - vb
   name: GetName(Int32)
   nameWithType: SqlDataReader.GetName(Int32)
   fullName: System.Data.SqlClient.SqlDataReader.GetName(Int32)
@@ -634,21 +754,26 @@ items:
   assemblies:
   - System.Data
   namespace: System.Data.SqlClient
+  summary: Gets the name of the specified column.
+  remarks: To be added.
   syntax:
     content: public override string GetName (int i);
     parameters:
     - id: i
       type: System.Int32
-      description: Parameter description to be filled
+      description: The zero-based column ordinal.
     return:
       type: System.String
-      description: Return description to be filled
+      description: The name of the specified column.
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Data.SqlClient.SqlDataReader.GetOrdinal(System.String)
   id: GetOrdinal(System.String)
   parent: System.Data.SqlClient.SqlDataReader
   langs:
   - csharp
-  - vb
   name: GetOrdinal(String)
   nameWithType: SqlDataReader.GetOrdinal(String)
   fullName: System.Data.SqlClient.SqlDataReader.GetOrdinal(String)
@@ -656,21 +781,28 @@ items:
   assemblies:
   - System.Data
   namespace: System.Data.SqlClient
+  summary: Gets the column ordinal, given the name of the column.
+  remarks: "`GetOrdinal` performs a case-sensitive lookup first. If it fails, a second, case-insensitive search occurs (a case-insensitive comparison is done using the database collation). Unexpected results can occur when comparisons are affected by culture-specific casing rules. For example, in Turkish, the following example yields the wrong results because the file system in Turkish does not use linguistic casing rules for the letter 'i' in \"file\". The method throws an `IndexOutOfRange` exception if the zero-based column ordinal is not found.  \n  \n `GetOrdinal` is kana-width insensitive.  \n  \n Because ordinal-based lookups are more efficient than named lookups, it is inefficient to call `GetOrdinal` within a loop. Save time by calling `GetOrdinal` once and assigning the results to an integer variable for use within the loop."
+  example:
+  - "The following example demonstrates how to use the GetOrdinal method.  \n  \n [!CODE [Classic WebData SqlDataReader.GetOrdinal#1](../CodeSnippet/VS_Snippets_ADO.NET/Classic WebData SqlDataReader.GetOrdinal#1)]"
   syntax:
     content: public override int GetOrdinal (string name);
     parameters:
     - id: name
       type: System.String
-      description: Parameter description to be filled
+      description: The name of the column.
     return:
       type: System.Int32
-      description: Return description to be filled
+      description: The zero-based column ordinal.
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Data.SqlClient.SqlDataReader.GetProviderSpecificFieldType(System.Int32)
   id: GetProviderSpecificFieldType(System.Int32)
   parent: System.Data.SqlClient.SqlDataReader
   langs:
   - csharp
-  - vb
   name: GetProviderSpecificFieldType(Int32)
   nameWithType: SqlDataReader.GetProviderSpecificFieldType(Int32)
   fullName: System.Data.SqlClient.SqlDataReader.GetProviderSpecificFieldType(Int32)
@@ -678,21 +810,26 @@ items:
   assemblies:
   - System.Data
   namespace: System.Data.SqlClient
+  summary: Gets an `Object` that is a representation of the underlying provider-specific field type.
+  remarks: To be added.
   syntax:
     content: public override Type GetProviderSpecificFieldType (int i);
     parameters:
     - id: i
       type: System.Int32
-      description: Parameter description to be filled
+      description: An <see cref="T:System.Int32"> representing the column ordinal.
     return:
       type: System.Type
-      description: Return description to be filled
+      description: Gets an <see cref="T:System.Object"> that is a representation of the underlying provider-specific field type.
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Data.SqlClient.SqlDataReader.GetProviderSpecificValue(System.Int32)
   id: GetProviderSpecificValue(System.Int32)
   parent: System.Data.SqlClient.SqlDataReader
   langs:
   - csharp
-  - vb
   name: GetProviderSpecificValue(Int32)
   nameWithType: SqlDataReader.GetProviderSpecificValue(Int32)
   fullName: System.Data.SqlClient.SqlDataReader.GetProviderSpecificValue(Int32)
@@ -700,21 +837,26 @@ items:
   assemblies:
   - System.Data
   namespace: System.Data.SqlClient
+  summary: Gets an `Object` that is a representation of the underlying provider specific value.
+  remarks: To be added.
   syntax:
     content: public override object GetProviderSpecificValue (int i);
     parameters:
     - id: i
       type: System.Int32
-      description: Parameter description to be filled
+      description: An <see cref="T:System.Int32"> representing the column ordinal.
     return:
       type: System.Object
-      description: Return description to be filled
+      description: An <see cref="T:System.Object"> that is a representation of the underlying provider specific value.
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Data.SqlClient.SqlDataReader.GetProviderSpecificValues(System.Object[])
   id: GetProviderSpecificValues(System.Object[])
   parent: System.Data.SqlClient.SqlDataReader
   langs:
   - csharp
-  - vb
   name: GetProviderSpecificValues(Object[])
   nameWithType: SqlDataReader.GetProviderSpecificValues(Object[])
   fullName: System.Data.SqlClient.SqlDataReader.GetProviderSpecificValues(Object[])
@@ -722,21 +864,26 @@ items:
   assemblies:
   - System.Data
   namespace: System.Data.SqlClient
+  summary: Gets an array of objects that are a representation of the underlying provider specific values.
+  remarks: To be added.
   syntax:
     content: public override int GetProviderSpecificValues (object[] values);
     parameters:
     - id: values
       type: System.Object[]
-      description: Parameter description to be filled
+      description: An array of <see cref="T:System.Object"> into which to copy the column values.
     return:
       type: System.Int32
-      description: Return description to be filled
+      description: The array of objects that are a representation of the underlying provider specific values.
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Data.SqlClient.SqlDataReader.GetSchemaTable
   id: GetSchemaTable
   parent: System.Data.SqlClient.SqlDataReader
   langs:
   - csharp
-  - vb
   name: GetSchemaTable()
   nameWithType: SqlDataReader.GetSchemaTable()
   fullName: System.Data.SqlClient.SqlDataReader.GetSchemaTable()
@@ -744,18 +891,23 @@ items:
   assemblies:
   - System.Data
   namespace: System.Data.SqlClient
+  summary: Returns a <see cref="T:System.Data.DataTable"> that describes the column metadata of the <xref:System.Data.SqlClient.SqlDataReader>.
+  remarks: "For the GetSchemaTable method returns metadata about each column in the following order:  \n  \n|DataReader column|Description|  \n|-----------------------|-----------------|  \n|AllowDBNull|Set if the consumer can set the column to a null value or if the provider cannot determine whether the consumer can set the column to a null value. Otherwise, not set. A column may contain null values, even if it cannot be set to a null value.|  \n|BaseCatalogName|The name of the catalog in the data store that contains the column. NULL if the base catalog name cannot be determined. The default of this column is a null value.|  \n|BaseColumnName|The name of the column in the data store. This might be different than the column name returned in the ColumnName column if an alias was used. A null value if the base column name cannot be determined or if the rowset column is derived, but not identical to, a column in the data store. The default of this column is a null value.|  \n|BaseSchemaName|The name of the schema in the data store that contains the column. A null value if the base schema name cannot be determined. The default of this column is a null value.|  \n|BaseServerName|The name of the instance of Microsoft SQL Server used by the <xref:System.Data.SqlClient.SqlDataReader>.|  \n|BaseTableName|The name of the table or view in the data store that contains the column. A null value if the base table name cannot be determined. The default of this column is a null value.|  \n|ColumnName|The name of the column; this might not be unique. If this cannot be determined, a null value is returned. This name always reflects the most recent renaming of the column in the current view or command text.|  \n|ColumnOrdinal|The zero-based ordinal of the column. This column cannot contain a null value.|  \n|ColumnSize|The maximum possible length of a value in the column. For columns that use a fixed-length data type, this is the size of the data type. For `nvarchar(MAX)`, `varchar(MAX)`, and `varbinary(MAX)` columns stored in a SQL Server database, the maximum size is 2GB. If these columns are stored and accessed as files, the limit on maximum size is imposed by the file system. This value changes when using the `Type System Version` keyword in the connection string.  For new types they are represented as downlevel types. The MAX data types return the normal 4k for `nvarchar` and 8000 for `varchar`. For more information, see the Transact-SQL reference in SQL Server Books Online.|  \n|DataTypeName|Returns a string representing the data type of the specified column.|  \n|IsAliased|`true`: The column name is an alias.<br /><br /> `false`: The column name is not an alias.|  \n|IsAutoIncrement|`true`: The column assigns values to new rows in fixed increments.<br /><br /> `false`: The column does not assign values to new rows in fixed increments. The default of this column is `false`.|  \n|IsColumnSet|`true`: The column is a sparse column that is a member of a column set.|  \n|IsExpression|`true`: The column is an expression.<br /><br /> `false`: The column is not an expression.|  \n|IsHidden|`true`: The column is hidden.<br /><br /> `false`: The column is not hidden.|  \n|IsIdentity|`true`: The column is an identity column.<br /><br /> `false`: The column is not an identity column.|  \n|IsKey|`true`: The column is one of a set of columns in the rowset that, taken together, uniquely identify the row. The set of columns with `IsKey` set to `true` must uniquely identify a row in the rowset. There is no requirement that this set of columns is a minimal set of columns. This set of columns may be generated from a base table primary key, a unique constraint or a unique index.<br /><br /> `false`: The column is not required to uniquely identify the row.|  \n|IsLong|`true`: The column contains a Binary Long Object (BLOB) that contains very long data. The definition of very long data is provider-specific.<br /><br /> `false`: The column does not contain a Binary Long Object (BLOB) that contains very long data.|  \n|IsReadOnly|`true`: The column cannot be modified.<br /><br /> `false`: The column can be modified.|  \n|IsRowVersion|`true`: The column contains a persistent row identifier that cannot be written to, and has no meaningful value except to identity the row.<br /><br /> `false`: The column does not contain a persistent row identifier that cannot be written to, and has no meaningful value except to identity the row.|  \n|IsUnique|`true`: Column is of type `timestamp`.<br /><br /> `false`: Column is not of type `timestamp`.|  \n|NonVersionedProviderType|The type of the column irrespective of the current `Type System Version` specified in the connection string. The returned value is from the <xref:System.Data.SqlDbType> enumeration.|  \n|NumericPrecision|If `ProviderType` is a numeric data type, this is the maximum precision of the column. The precision depends on the definition of the column. If `ProviderType` is not a numeric data type, this is 255.|  \n|NumericScale|If `ProviderType` is DBTYPE_DECIMAL or DBTYPE_NUMERIC, the number of digits to the right of the decimal point. Otherwise, this is 255.|  \n|ProviderSpecificDataType|Returns the provider-specific data type of the column based on the `Type System Version` keyword in the connection string.|  \n|ProviderType|The indicator of the column's data type. If the data type of the column varies from row to row, this must be Object. This column cannot contain a null value.|  \n|UdtAssemblyQualifiedName|If the column is a user-defined type (UDT), this is the qualified name of the UDT's assembly as per <xref:System.Type.AssemblyQualifiedName%2A>. If the column is not a UDT, this is null.|  \n|XmlSchemaCollectionDatabase|The name of the database where the schema collection for this XML instance is located, if the row contains information about an XML column. This value is `null` (`Nothing` in Visual Basic) if the collection is defined within the current database. It is also null if there is no schema collection, in which case the `XmlSchemaCollectionName` and `XmlSchemaCollectionOwningSchema` columns are also null.|  \n|XmlSchemaCollectionName|The name of the schema collection for this XML instance, if the row contains information about an XML column. This value is `null` (`Nothing` in Visual Basic) if there is no associated schema collection. If the value is null, the `XmlSchemaCollectionDatabase` and `XmlSchemaCollectionOwningSchema` columns are also null.|  \n|XmlSchemaCollectionOwningSchema|The owning relational schema where the schema collection for this XML instance is located, if the row contains information about an XML column. This value is `null` (`Nothing` in Visual Basic) if the collection is defined within the current database. It is also null if there is no schema collection, in which case the `XmlSchemaCollectionDatabase` and `XmlSchemaCollectionName` columns are also null.|  \n  \n> [!NOTE]\n>  To make sure that metadata columns return the correct information, you must call <xref:System.Data.SqlClient.SqlCommand.ExecuteReader%2A> with the  parameter set to `KeyInfo`. Otherwise, some of the columns in the schema table may return default, null, or incorrect data."
   syntax:
     content: public override System.Data.DataTable GetSchemaTable ();
     parameters: []
     return:
       type: System.Data.DataTable
-      description: Return description to be filled
+      description: A <see cref="T:System.Data.DataTable"> that describes the column metadata.
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Data.SqlClient.SqlDataReader.GetSqlBinary(System.Int32)
   id: GetSqlBinary(System.Int32)
   parent: System.Data.SqlClient.SqlDataReader
   langs:
   - csharp
-  - vb
   name: GetSqlBinary(Int32)
   nameWithType: SqlDataReader.GetSqlBinary(Int32)
   fullName: System.Data.SqlClient.SqlDataReader.GetSqlBinary(Int32)
@@ -763,21 +915,26 @@ items:
   assemblies:
   - System.Data
   namespace: System.Data.SqlClient
+  summary: Gets the value of the specified column as a <see cref="T:System.Data.SqlTypes.SqlBinary">.
+  remarks: No conversions are performed; therefore the data retrieved must already be a binary structure or an exception is generated.
   syntax:
     content: public virtual System.Data.SqlTypes.SqlBinary GetSqlBinary (int i);
     parameters:
     - id: i
       type: System.Int32
-      description: Parameter description to be filled
+      description: The zero-based column ordinal.
     return:
       type: System.Data.SqlTypes.SqlBinary
-      description: Return description to be filled
+      description: The value of the column expressed as a <see cref="T:System.Data.SqlTypes.SqlBinary">.
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Data.SqlClient.SqlDataReader.GetSqlBoolean(System.Int32)
   id: GetSqlBoolean(System.Int32)
   parent: System.Data.SqlClient.SqlDataReader
   langs:
   - csharp
-  - vb
   name: GetSqlBoolean(Int32)
   nameWithType: SqlDataReader.GetSqlBoolean(Int32)
   fullName: System.Data.SqlClient.SqlDataReader.GetSqlBoolean(Int32)
@@ -785,21 +942,26 @@ items:
   assemblies:
   - System.Data
   namespace: System.Data.SqlClient
+  summary: Gets the value of the specified column as a <see cref="T:System.Data.SqlTypes.SqlBoolean">.
+  remarks: No conversions are performed; therefore, the data retrieved must already be a Boolean or an exception is generated.
   syntax:
     content: public virtual System.Data.SqlTypes.SqlBoolean GetSqlBoolean (int i);
     parameters:
     - id: i
       type: System.Int32
-      description: Parameter description to be filled
+      description: The zero-based column ordinal.
     return:
       type: System.Data.SqlTypes.SqlBoolean
-      description: Return description to be filled
+      description: The value of the column.
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Data.SqlClient.SqlDataReader.GetSqlByte(System.Int32)
   id: GetSqlByte(System.Int32)
   parent: System.Data.SqlClient.SqlDataReader
   langs:
   - csharp
-  - vb
   name: GetSqlByte(Int32)
   nameWithType: SqlDataReader.GetSqlByte(Int32)
   fullName: System.Data.SqlClient.SqlDataReader.GetSqlByte(Int32)
@@ -807,21 +969,26 @@ items:
   assemblies:
   - System.Data
   namespace: System.Data.SqlClient
+  summary: Gets the value of the specified column as a <see cref="T:System.Data.SqlTypes.SqlByte">.
+  remarks: No conversions are performed; therefore the data retrieved must already be a byte, or an exception is generated.
   syntax:
     content: public virtual System.Data.SqlTypes.SqlByte GetSqlByte (int i);
     parameters:
     - id: i
       type: System.Int32
-      description: Parameter description to be filled
+      description: The zero-based column ordinal.
     return:
       type: System.Data.SqlTypes.SqlByte
-      description: Return description to be filled
+      description: The value of the column expressed as a  <see cref="T:System.Data.SqlTypes.SqlByte">.
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Data.SqlClient.SqlDataReader.GetSqlBytes(System.Int32)
   id: GetSqlBytes(System.Int32)
   parent: System.Data.SqlClient.SqlDataReader
   langs:
   - csharp
-  - vb
   name: GetSqlBytes(Int32)
   nameWithType: SqlDataReader.GetSqlBytes(Int32)
   fullName: System.Data.SqlClient.SqlDataReader.GetSqlBytes(Int32)
@@ -829,21 +996,26 @@ items:
   assemblies:
   - System.Data
   namespace: System.Data.SqlClient
+  summary: Gets the value of the specified column as <see cref="T:System.Data.SqlTypes.SqlBytes">.
+  remarks: To be added.
   syntax:
     content: public virtual System.Data.SqlTypes.SqlBytes GetSqlBytes (int i);
     parameters:
     - id: i
       type: System.Int32
-      description: Parameter description to be filled
+      description: The zero-based column ordinal.
     return:
       type: System.Data.SqlTypes.SqlBytes
-      description: Return description to be filled
+      description: The value of the column expressed as a <see cref="T:System.Data.SqlTypes.SqlBytes">.
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Data.SqlClient.SqlDataReader.GetSqlChars(System.Int32)
   id: GetSqlChars(System.Int32)
   parent: System.Data.SqlClient.SqlDataReader
   langs:
   - csharp
-  - vb
   name: GetSqlChars(Int32)
   nameWithType: SqlDataReader.GetSqlChars(Int32)
   fullName: System.Data.SqlClient.SqlDataReader.GetSqlChars(Int32)
@@ -851,21 +1023,26 @@ items:
   assemblies:
   - System.Data
   namespace: System.Data.SqlClient
+  summary: Gets the value of the specified column as <see cref="T:System.Data.SqlTypes.SqlChars">.
+  remarks: To be added.
   syntax:
     content: public virtual System.Data.SqlTypes.SqlChars GetSqlChars (int i);
     parameters:
     - id: i
       type: System.Int32
-      description: Parameter description to be filled
+      description: The zero-based column ordinal.
     return:
       type: System.Data.SqlTypes.SqlChars
-      description: Return description to be filled
+      description: The value of the column expressed as a  <see cref="T:System.Data.SqlTypes.SqlChars">.
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Data.SqlClient.SqlDataReader.GetSqlDateTime(System.Int32)
   id: GetSqlDateTime(System.Int32)
   parent: System.Data.SqlClient.SqlDataReader
   langs:
   - csharp
-  - vb
   name: GetSqlDateTime(Int32)
   nameWithType: SqlDataReader.GetSqlDateTime(Int32)
   fullName: System.Data.SqlClient.SqlDataReader.GetSqlDateTime(Int32)
@@ -873,21 +1050,26 @@ items:
   assemblies:
   - System.Data
   namespace: System.Data.SqlClient
+  summary: Gets the value of the specified column as a <see cref="T:System.Data.SqlTypes.SqlDateTime">.
+  remarks: No conversions are performed; therefore, the data retrieved must already be a date/time value, or an exception is generated.
   syntax:
     content: public virtual System.Data.SqlTypes.SqlDateTime GetSqlDateTime (int i);
     parameters:
     - id: i
       type: System.Int32
-      description: Parameter description to be filled
+      description: The zero-based column ordinal.
     return:
       type: System.Data.SqlTypes.SqlDateTime
-      description: Return description to be filled
+      description: The value of the column expressed as a  <see cref="T:System.Data.SqlTypes.SqlDateTime">.
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Data.SqlClient.SqlDataReader.GetSqlDecimal(System.Int32)
   id: GetSqlDecimal(System.Int32)
   parent: System.Data.SqlClient.SqlDataReader
   langs:
   - csharp
-  - vb
   name: GetSqlDecimal(Int32)
   nameWithType: SqlDataReader.GetSqlDecimal(Int32)
   fullName: System.Data.SqlClient.SqlDataReader.GetSqlDecimal(Int32)
@@ -895,21 +1077,26 @@ items:
   assemblies:
   - System.Data
   namespace: System.Data.SqlClient
+  summary: Gets the value of the specified column as a <see cref="T:System.Data.SqlTypes.SqlDecimal">.
+  remarks: No conversions are performed; therefore, the data retrieved must already be a decimal value, or an exception is generated.
   syntax:
     content: public virtual System.Data.SqlTypes.SqlDecimal GetSqlDecimal (int i);
     parameters:
     - id: i
       type: System.Int32
-      description: Parameter description to be filled
+      description: The zero-based column ordinal.
     return:
       type: System.Data.SqlTypes.SqlDecimal
-      description: Return description to be filled
+      description: The value of the column expressed as a <see cref="T:System.Data.SqlTypes.SqlDecimal">.
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Data.SqlClient.SqlDataReader.GetSqlDouble(System.Int32)
   id: GetSqlDouble(System.Int32)
   parent: System.Data.SqlClient.SqlDataReader
   langs:
   - csharp
-  - vb
   name: GetSqlDouble(Int32)
   nameWithType: SqlDataReader.GetSqlDouble(Int32)
   fullName: System.Data.SqlClient.SqlDataReader.GetSqlDouble(Int32)
@@ -917,21 +1104,26 @@ items:
   assemblies:
   - System.Data
   namespace: System.Data.SqlClient
+  summary: Gets the value of the specified column as a <see cref="T:System.Data.SqlTypes.SqlDouble">.
+  remarks: No conversions are performed; therefore, the data retrieved must already be a double-precision floating-point number, or an exception is generated.
   syntax:
     content: public virtual System.Data.SqlTypes.SqlDouble GetSqlDouble (int i);
     parameters:
     - id: i
       type: System.Int32
-      description: Parameter description to be filled
+      description: The zero-based column ordinal.
     return:
       type: System.Data.SqlTypes.SqlDouble
-      description: Return description to be filled
+      description: The value of the column expressed as a  <see cref="T:System.Data.SqlTypes.SqlDouble">.
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Data.SqlClient.SqlDataReader.GetSqlGuid(System.Int32)
   id: GetSqlGuid(System.Int32)
   parent: System.Data.SqlClient.SqlDataReader
   langs:
   - csharp
-  - vb
   name: GetSqlGuid(Int32)
   nameWithType: SqlDataReader.GetSqlGuid(Int32)
   fullName: System.Data.SqlClient.SqlDataReader.GetSqlGuid(Int32)
@@ -939,21 +1131,26 @@ items:
   assemblies:
   - System.Data
   namespace: System.Data.SqlClient
+  summary: Gets the value of the specified column as a <see cref="T:System.Data.SqlTypes.SqlGuid">.
+  remarks: No conversions are performed; therefore, the data retrieved must already be a GUID, or an exception is generated.
   syntax:
     content: public virtual System.Data.SqlTypes.SqlGuid GetSqlGuid (int i);
     parameters:
     - id: i
       type: System.Int32
-      description: Parameter description to be filled
+      description: The zero-based column ordinal.
     return:
       type: System.Data.SqlTypes.SqlGuid
-      description: Return description to be filled
+      description: The value of the column expressed as a  <see cref="T:System.Data.SqlTypes.SqlGuid">.
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Data.SqlClient.SqlDataReader.GetSqlInt16(System.Int32)
   id: GetSqlInt16(System.Int32)
   parent: System.Data.SqlClient.SqlDataReader
   langs:
   - csharp
-  - vb
   name: GetSqlInt16(Int32)
   nameWithType: SqlDataReader.GetSqlInt16(Int32)
   fullName: System.Data.SqlClient.SqlDataReader.GetSqlInt16(Int32)
@@ -961,21 +1158,26 @@ items:
   assemblies:
   - System.Data
   namespace: System.Data.SqlClient
+  summary: Gets the value of the specified column as a <see cref="T:System.Data.SqlTypes.SqlInt16">.
+  remarks: No conversions are performed; therefore, the data retrieved must already be a 16-bit signed integer, or an exception is generated.
   syntax:
     content: public virtual System.Data.SqlTypes.SqlInt16 GetSqlInt16 (int i);
     parameters:
     - id: i
       type: System.Int32
-      description: Parameter description to be filled
+      description: The zero-based column ordinal.
     return:
       type: System.Data.SqlTypes.SqlInt16
-      description: Return description to be filled
+      description: The value of the column expressed as a <see cref="T:System.Data.SqlTypes.SqlInt16">.
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Data.SqlClient.SqlDataReader.GetSqlInt32(System.Int32)
   id: GetSqlInt32(System.Int32)
   parent: System.Data.SqlClient.SqlDataReader
   langs:
   - csharp
-  - vb
   name: GetSqlInt32(Int32)
   nameWithType: SqlDataReader.GetSqlInt32(Int32)
   fullName: System.Data.SqlClient.SqlDataReader.GetSqlInt32(Int32)
@@ -983,21 +1185,26 @@ items:
   assemblies:
   - System.Data
   namespace: System.Data.SqlClient
+  summary: Gets the value of the specified column as a <see cref="T:System.Data.SqlTypes.SqlInt32">.
+  remarks: No conversions are performed; therefore the data retrieved must already be a 32-bit signed integer, or an exception is generated.
   syntax:
     content: public virtual System.Data.SqlTypes.SqlInt32 GetSqlInt32 (int i);
     parameters:
     - id: i
       type: System.Int32
-      description: Parameter description to be filled
+      description: The zero-based column ordinal.
     return:
       type: System.Data.SqlTypes.SqlInt32
-      description: Return description to be filled
+      description: The value of the column expressed as a <see cref="T:System.Data.SqlTypes.SqlInt32">.
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Data.SqlClient.SqlDataReader.GetSqlInt64(System.Int32)
   id: GetSqlInt64(System.Int32)
   parent: System.Data.SqlClient.SqlDataReader
   langs:
   - csharp
-  - vb
   name: GetSqlInt64(Int32)
   nameWithType: SqlDataReader.GetSqlInt64(Int32)
   fullName: System.Data.SqlClient.SqlDataReader.GetSqlInt64(Int32)
@@ -1005,21 +1212,26 @@ items:
   assemblies:
   - System.Data
   namespace: System.Data.SqlClient
+  summary: Gets the value of the specified column as a <see cref="T:System.Data.SqlTypes.SqlInt64">.
+  remarks: No conversions are performed; therefore, the data retrieved must already be a 64-bit signed integer, or an exception is generated.
   syntax:
     content: public virtual System.Data.SqlTypes.SqlInt64 GetSqlInt64 (int i);
     parameters:
     - id: i
       type: System.Int32
-      description: Parameter description to be filled
+      description: The zero-based column ordinal.
     return:
       type: System.Data.SqlTypes.SqlInt64
-      description: Return description to be filled
+      description: The value of the column expressed as a <see cref="T:System.Data.SqlTypes.SqlInt64">.
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Data.SqlClient.SqlDataReader.GetSqlMoney(System.Int32)
   id: GetSqlMoney(System.Int32)
   parent: System.Data.SqlClient.SqlDataReader
   langs:
   - csharp
-  - vb
   name: GetSqlMoney(Int32)
   nameWithType: SqlDataReader.GetSqlMoney(Int32)
   fullName: System.Data.SqlClient.SqlDataReader.GetSqlMoney(Int32)
@@ -1027,21 +1239,26 @@ items:
   assemblies:
   - System.Data
   namespace: System.Data.SqlClient
+  summary: Gets the value of the specified column as a <see cref="T:System.Data.SqlTypes.SqlMoney">.
+  remarks: No conversions are performed; therefore, the data retrieved must already be a decimal value, or an exception is generated.
   syntax:
     content: public virtual System.Data.SqlTypes.SqlMoney GetSqlMoney (int i);
     parameters:
     - id: i
       type: System.Int32
-      description: Parameter description to be filled
+      description: The zero-based column ordinal.
     return:
       type: System.Data.SqlTypes.SqlMoney
-      description: Return description to be filled
+      description: The value of the column expressed as a <see cref="T:System.Data.SqlTypes.SqlMoney">.
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Data.SqlClient.SqlDataReader.GetSqlSingle(System.Int32)
   id: GetSqlSingle(System.Int32)
   parent: System.Data.SqlClient.SqlDataReader
   langs:
   - csharp
-  - vb
   name: GetSqlSingle(Int32)
   nameWithType: SqlDataReader.GetSqlSingle(Int32)
   fullName: System.Data.SqlClient.SqlDataReader.GetSqlSingle(Int32)
@@ -1049,21 +1266,26 @@ items:
   assemblies:
   - System.Data
   namespace: System.Data.SqlClient
+  summary: Gets the value of the specified column as a <see cref="T:System.Data.SqlTypes.SqlSingle">.
+  remarks: No conversions are performed; therefore, the data retrieved must already be a single precision floating point number, or an exception is generated.
   syntax:
     content: public virtual System.Data.SqlTypes.SqlSingle GetSqlSingle (int i);
     parameters:
     - id: i
       type: System.Int32
-      description: Parameter description to be filled
+      description: The zero-based column ordinal.
     return:
       type: System.Data.SqlTypes.SqlSingle
-      description: Return description to be filled
+      description: The value of the column expressed as a <see cref="T:System.Data.SqlTypes.SqlSingle">.
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Data.SqlClient.SqlDataReader.GetSqlString(System.Int32)
   id: GetSqlString(System.Int32)
   parent: System.Data.SqlClient.SqlDataReader
   langs:
   - csharp
-  - vb
   name: GetSqlString(Int32)
   nameWithType: SqlDataReader.GetSqlString(Int32)
   fullName: System.Data.SqlClient.SqlDataReader.GetSqlString(Int32)
@@ -1071,21 +1293,26 @@ items:
   assemblies:
   - System.Data
   namespace: System.Data.SqlClient
+  summary: Gets the value of the specified column as a <see cref="T:System.Data.SqlTypes.SqlString">.
+  remarks: No conversions are performed; therefore, the data retrieved must already be a string, or an exception is generated.
   syntax:
     content: public virtual System.Data.SqlTypes.SqlString GetSqlString (int i);
     parameters:
     - id: i
       type: System.Int32
-      description: Parameter description to be filled
+      description: The zero-based column ordinal.
     return:
       type: System.Data.SqlTypes.SqlString
-      description: Return description to be filled
+      description: The value of the column expressed as a <see cref="T:System.Data.SqlTypes.SqlString">.
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Data.SqlClient.SqlDataReader.GetSqlValue(System.Int32)
   id: GetSqlValue(System.Int32)
   parent: System.Data.SqlClient.SqlDataReader
   langs:
   - csharp
-  - vb
   name: GetSqlValue(Int32)
   nameWithType: SqlDataReader.GetSqlValue(Int32)
   fullName: System.Data.SqlClient.SqlDataReader.GetSqlValue(Int32)
@@ -1093,21 +1320,26 @@ items:
   assemblies:
   - System.Data
   namespace: System.Data.SqlClient
+  summary: Returns the data value in the specified column as a SQL Server type.
+  remarks: GetSqlValue returns data using the native SQL Server types. To retrieve data using the .NET Framework types, see <xref:System.Data.SqlClient.SqlDataReader.GetValue%2A>.
   syntax:
     content: public virtual object GetSqlValue (int i);
     parameters:
     - id: i
       type: System.Int32
-      description: Parameter description to be filled
+      description: The zero-based column ordinal.
     return:
       type: System.Object
-      description: Return description to be filled
+      description: The value of the column expressed as a <see cref="T:System.Data.SqlDbType">.
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Data.SqlClient.SqlDataReader.GetSqlValues(System.Object[])
   id: GetSqlValues(System.Object[])
   parent: System.Data.SqlClient.SqlDataReader
   langs:
   - csharp
-  - vb
   name: GetSqlValues(Object[])
   nameWithType: SqlDataReader.GetSqlValues(Object[])
   fullName: System.Data.SqlClient.SqlDataReader.GetSqlValues(Object[])
@@ -1115,21 +1347,26 @@ items:
   assemblies:
   - System.Data
   namespace: System.Data.SqlClient
+  summary: Fills an array of <see cref="T:System.Object"> that contains the values for all the columns in the record, expressed as SQL Server types.
+  remarks: Returns the values for all the columns in the record in a single call, using the SQL type system instead of the CLR type system. The length of the <xref:System.Object> array does not need to match the number of columns in the record. You can pass an <xref:System.Object> array that contains fewer than the number of columns contained in the record. Only the amount of data the <xref:System.Object> array holds is copied to the array, starting at the column with ordinal 0. You can also pass an <xref:System.Object> array whose length is more than the number of columns contained in the resulting row. Any remaining columns are untouched.
   syntax:
     content: public virtual int GetSqlValues (object[] values);
     parameters:
     - id: values
       type: System.Object[]
-      description: Parameter description to be filled
+      description: An array of <see cref="T:System.Object"> into which to copy the values. The column values are expressed as SQL Server types.
     return:
       type: System.Int32
-      description: Return description to be filled
+      description: An integer indicating the number of columns copied.
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Data.SqlClient.SqlDataReader.GetSqlXml(System.Int32)
   id: GetSqlXml(System.Int32)
   parent: System.Data.SqlClient.SqlDataReader
   langs:
   - csharp
-  - vb
   name: GetSqlXml(Int32)
   nameWithType: SqlDataReader.GetSqlXml(Int32)
   fullName: System.Data.SqlClient.SqlDataReader.GetSqlXml(Int32)
@@ -1137,21 +1374,26 @@ items:
   assemblies:
   - System.Data
   namespace: System.Data.SqlClient
+  summary: Gets the value of the specified column as an XML value.
+  remarks: "No conversions are performed; therefore, the data retrieved must already be an XML value.  \n  \n Call <xref:System.Data.SqlClient.SqlDataReader.IsDBNull%2A> to check for null values before calling this method."
   syntax:
     content: public virtual System.Data.SqlTypes.SqlXml GetSqlXml (int i);
     parameters:
     - id: i
       type: System.Int32
-      description: Parameter description to be filled
+      description: The zero-based column ordinal.
     return:
       type: System.Data.SqlTypes.SqlXml
-      description: Return description to be filled
+      description: A <see cref="T:System.Data.SqlTypes.SqlXml"> value that contains the XML stored within the corresponding field.
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Data.SqlClient.SqlDataReader.GetStream(System.Int32)
   id: GetStream(System.Int32)
   parent: System.Data.SqlClient.SqlDataReader
   langs:
   - csharp
-  - vb
   name: GetStream(Int32)
   nameWithType: SqlDataReader.GetStream(Int32)
   fullName: System.Data.SqlClient.SqlDataReader.GetStream(Int32)
@@ -1159,21 +1401,26 @@ items:
   assemblies:
   - System.Data
   namespace: System.Data.SqlClient
+  summary: Retrieves binary, image, varbinary, UDT, and variant data types as a <see cref="T:System.IO.Stream">.
+  remarks: "<xref:System.IO.Stream.ReadTimeout%2A> defaults to the value of <xref:System.Data.SqlClient.SqlCommand.CommandTimeout%2A>; but you can modify <xref:System.IO.Stream.ReadTimeout%2A> via GetStream.  \n  \n Null values will be returned as an empty (zero bytes) <xref:System.IO.Stream>.  \n  \n <xref:System.Data.SqlClient.SqlDataReader.GetBytes%2A> will raise an <xref:System.InvalidOperationException> exception when used on an object returned by GetStream when <xref:System.Data.CommandBehavior> is in effect.  \n  \n <xref:System.Data.SqlClient.SqlException> exceptions raised from <xref:System.IO.Stream> are thrown as <xref:System.IO.IOException> exceptions; check the inner exception for the <xref:System.Data.SqlClient.SqlException>.  \n  \n The following <xref:System.IO.Stream> members are not available for objects returned by GetStream:  \n  \n-   BeginWrite  \n  \n-   EndWrite  \n  \n-   Length  \n  \n-   Position  \n  \n-   Seek  \n  \n-   SetLength  \n  \n-   Write  \n  \n-   WriteByte  \n  \n-   WriteTimeout  \n  \n When the connection property `ContextConnection=true`, GetStream only supports synchronous data retrieval for both sequential (<xref:System.Data.CommandBehavior>) and non-sequential (<xref:System.Data.CommandBehavior>) access.  \n  \n For more information, see [SqlClient Streaming Support](../Topic/SqlClient%20Streaming%20Support.md)."
   syntax:
     content: public override System.IO.Stream GetStream (int i);
     parameters:
     - id: i
       type: System.Int32
-      description: Parameter description to be filled
+      description: The zero-based column ordinal.
     return:
       type: System.IO.Stream
-      description: Return description to be filled
+      description: A stream object.
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Data.SqlClient.SqlDataReader.GetString(System.Int32)
   id: GetString(System.Int32)
   parent: System.Data.SqlClient.SqlDataReader
   langs:
   - csharp
-  - vb
   name: GetString(Int32)
   nameWithType: SqlDataReader.GetString(Int32)
   fullName: System.Data.SqlClient.SqlDataReader.GetString(Int32)
@@ -1181,21 +1428,26 @@ items:
   assemblies:
   - System.Data
   namespace: System.Data.SqlClient
+  summary: Gets the value of the specified column as a string.
+  remarks: "No conversions are performed; therefore, the data retrieved must already be a string.  \n  \n Call <xref:System.Data.SqlClient.SqlDataReader.IsDBNull%2A> to check for null values before calling this method."
   syntax:
     content: public override string GetString (int i);
     parameters:
     - id: i
       type: System.Int32
-      description: Parameter description to be filled
+      description: The zero-based column ordinal.
     return:
       type: System.String
-      description: Return description to be filled
+      description: The value of the specified column.
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Data.SqlClient.SqlDataReader.GetTextReader(System.Int32)
   id: GetTextReader(System.Int32)
   parent: System.Data.SqlClient.SqlDataReader
   langs:
   - csharp
-  - vb
   name: GetTextReader(Int32)
   nameWithType: SqlDataReader.GetTextReader(Int32)
   fullName: System.Data.SqlClient.SqlDataReader.GetTextReader(Int32)
@@ -1203,21 +1455,26 @@ items:
   assemblies:
   - System.Data
   namespace: System.Data.SqlClient
+  summary: Retrieves Char, NChar, NText, NVarChar, text, varChar, and Variant data types as a <see cref="T:System.IO.TextReader">.
+  remarks: "<xref:System.Data.SqlClient.SqlException> exceptions raised from <xref:System.IO.TextReader> are thrown as <xref:System.IO.IOException> exceptions; check the inner exception for the <xref:System.Data.SqlClient.SqlException>.  \n  \n Null values will be returned as an empty (zero bytes) <xref:System.IO.TextReader>.  \n  \n <xref:System.Data.SqlClient.SqlDataReader.GetChars%2A> will raise an <xref:System.InvalidOperationException> exception when used on an object returned by GetTextReader when <xref:System.Data.CommandBehavior> is in effect.  \n  \n When the connection property `ContextConnection=true`, GetTextReader only supports synchronous data retrieval for both sequential (<xref:System.Data.CommandBehavior>) and non-sequential (<xref:System.Data.CommandBehavior>) access.  \n  \n For more information, see [SqlClient Streaming Support](../Topic/SqlClient%20Streaming%20Support.md)."
   syntax:
     content: public override System.IO.TextReader GetTextReader (int i);
     parameters:
     - id: i
       type: System.Int32
-      description: Parameter description to be filled
+      description: The column to be retrieved.
     return:
       type: System.IO.TextReader
-      description: Return description to be filled
+      description: The returned object.
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Data.SqlClient.SqlDataReader.GetTimeSpan(System.Int32)
   id: GetTimeSpan(System.Int32)
   parent: System.Data.SqlClient.SqlDataReader
   langs:
   - csharp
-  - vb
   name: GetTimeSpan(Int32)
   nameWithType: SqlDataReader.GetTimeSpan(Int32)
   fullName: System.Data.SqlClient.SqlDataReader.GetTimeSpan(Int32)
@@ -1225,21 +1482,26 @@ items:
   assemblies:
   - System.Data
   namespace: System.Data.SqlClient
+  summary: Retrieves the value of the specified column as a <see cref="T:System.TimeSpan"> object.
+  remarks: "No conversions are performed; therefore, the data retrieved must already be a <xref:System.TimeSpan> object.  \n  \n Call <xref:System.Data.SqlClient.SqlDataReader.IsDBNull%2A> to check for null values before calling this method."
   syntax:
     content: public virtual TimeSpan GetTimeSpan (int i);
     parameters:
     - id: i
       type: System.Int32
-      description: Parameter description to be filled
+      description: The zero-based column ordinal.
     return:
       type: System.TimeSpan
-      description: Return description to be filled
+      description: The value of the specified column.
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Data.SqlClient.SqlDataReader.GetValue(System.Int32)
   id: GetValue(System.Int32)
   parent: System.Data.SqlClient.SqlDataReader
   langs:
   - csharp
-  - vb
   name: GetValue(Int32)
   nameWithType: SqlDataReader.GetValue(Int32)
   fullName: System.Data.SqlClient.SqlDataReader.GetValue(Int32)
@@ -1247,21 +1509,26 @@ items:
   assemblies:
   - System.Data
   namespace: System.Data.SqlClient
+  summary: Gets the value of the specified column in its native format.
+  remarks: GetValue returns data using the .NET Framework types.
   syntax:
     content: public override object GetValue (int i);
     parameters:
     - id: i
       type: System.Int32
-      description: Parameter description to be filled
+      description: The zero-based column ordinal.
     return:
       type: System.Object
-      description: Return description to be filled
+      description: This method returns <see cref="T:System.DBNull"> for null database columns.
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Data.SqlClient.SqlDataReader.GetValues(System.Object[])
   id: GetValues(System.Object[])
   parent: System.Data.SqlClient.SqlDataReader
   langs:
   - csharp
-  - vb
   name: GetValues(Object[])
   nameWithType: SqlDataReader.GetValues(Object[])
   fullName: System.Data.SqlClient.SqlDataReader.GetValues(Object[])
@@ -1269,21 +1536,28 @@ items:
   assemblies:
   - System.Data
   namespace: System.Data.SqlClient
+  summary: Populates an array of objects with the column values of the current row.
+  remarks: "For most applications, this method provides an efficient means for retrieving all columns, instead of retrieving each column individually.  \n  \n You can pass an <xref:System.Object> array that contains fewer than the number of columns contained in the resulting row. Only the amount of data the <xref:System.Object> array holds is copied to the array. You can also pass an <xref:System.Object> array whose length is more than the number of columns contained in the resulting row.  \n  \n This method returns <xref:System.DBNull> for null database columns."
+  example:
+  - "The following example demonstrates using a correctly sized  array  to read all values from the current row in the supplied <xref:System.Data.SqlClient.SqlDataReader>. In addition, the sample demonstrates using a fixed-sized array that could be either smaller or larger than the number of available columns.  \n  \n [!CODE [DataWorks DataTableReader.GetValueObject#2](../CodeSnippet/VS_Snippets_ADO.NET/DataWorks DataTableReader.GetValueObject#2)]"
   syntax:
     content: public override int GetValues (object[] values);
     parameters:
     - id: values
       type: System.Object[]
-      description: Parameter description to be filled
+      description: An array of <see cref="T:System.Object"> into which to copy the attribute columns.
     return:
       type: System.Int32
-      description: Return description to be filled
+      description: The number of instances of <see cref="T:System.Object"> in the array.
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Data.SqlClient.SqlDataReader.GetXmlReader(System.Int32)
   id: GetXmlReader(System.Int32)
   parent: System.Data.SqlClient.SqlDataReader
   langs:
   - csharp
-  - vb
   name: GetXmlReader(Int32)
   nameWithType: SqlDataReader.GetXmlReader(Int32)
   fullName: System.Data.SqlClient.SqlDataReader.GetXmlReader(Int32)
@@ -1291,21 +1565,26 @@ items:
   assemblies:
   - System.Data
   namespace: System.Data.SqlClient
+  summary: Retrieves data of type XML as an <xref:System.Xml.XmlReader>.
+  remarks: "The <xref:System.Xml.XmlReader> object returned by GetXmlReader does not support asynchronous operations. If you require asynchronous operations on an <xref:System.Xml.XmlReader>, cast the XML column to an NVARCHAR(MAX) on the server and use <xref:System.Data.SqlClient.SqlDataReader.GetTextReader%2A> with <xref:System.Xml.XmlReader.Create%2A>.  \n  \n <xref:System.Data.SqlClient.SqlException> exceptions raised from <xref:System.Xml.XmlReader> are thrown as <xref:System.Xml.XmlException> exceptions; check the inner exception for the <xref:System.Data.SqlClient.SqlException>.  \n  \n <xref:System.Data.SqlClient.SqlDataReader.GetChars%2A> will raise an <xref:System.InvalidOperationException> exception when used on an object returned by GetXmlReader when <xref:System.Data.CommandBehavior> is in effect.  \n  \n For more information, see [SqlClient Streaming Support](../Topic/SqlClient%20Streaming%20Support.md)."
   syntax:
     content: public virtual System.Xml.XmlReader GetXmlReader (int i);
     parameters:
     - id: i
       type: System.Int32
-      description: Parameter description to be filled
+      description: The value of the specified column.
     return:
       type: System.Xml.XmlReader
-      description: Return description to be filled
+      description: The returned object.
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Data.SqlClient.SqlDataReader.HasRows
   id: HasRows
   parent: System.Data.SqlClient.SqlDataReader
   langs:
   - csharp
-  - vb
   name: HasRows
   nameWithType: SqlDataReader.HasRows
   fullName: System.Data.SqlClient.SqlDataReader.HasRows
@@ -1313,17 +1592,22 @@ items:
   assemblies:
   - System.Data
   namespace: System.Data.SqlClient
+  summary: Gets a value that indicates whether the <see cref="T:System.Data.SqlClient.SqlDataReader"> contains one or more rows.
+  remarks: To be added.
   syntax:
     content: public override bool HasRows { get; }
     return:
       type: System.Boolean
-      description: Return description to be filled
+      description: To be added.
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Data.SqlClient.SqlDataReader.IsClosed
   id: IsClosed
   parent: System.Data.SqlClient.SqlDataReader
   langs:
   - csharp
-  - vb
   name: IsClosed
   nameWithType: SqlDataReader.IsClosed
   fullName: System.Data.SqlClient.SqlDataReader.IsClosed
@@ -1331,17 +1615,22 @@ items:
   assemblies:
   - System.Data
   namespace: System.Data.SqlClient
+  summary: Retrieves a Boolean value that indicates whether the specified <see cref="T:System.Data.SqlClient.SqlDataReader"> instance has been closed.
+  remarks: It is not possible to read from a <xref:System.Data.SqlClient.SqlDataReader> instance that is closed.
   syntax:
     content: public override bool IsClosed { get; }
     return:
       type: System.Boolean
-      description: Return description to be filled
+      description: To be added.
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Data.SqlClient.SqlDataReader.IsCommandBehavior(System.Data.CommandBehavior)
   id: IsCommandBehavior(System.Data.CommandBehavior)
   parent: System.Data.SqlClient.SqlDataReader
   langs:
   - csharp
-  - vb
   name: IsCommandBehavior(CommandBehavior)
   nameWithType: SqlDataReader.IsCommandBehavior(CommandBehavior)
   fullName: System.Data.SqlClient.SqlDataReader.IsCommandBehavior(CommandBehavior)
@@ -1349,21 +1638,26 @@ items:
   assemblies:
   - System.Data
   namespace: System.Data.SqlClient
+  summary: Determines whether the specified <see cref="T:System.Data.CommandBehavior"> matches that of the <xref:System.Data.SqlClient.SqlDataReader> .
+  remarks: This member supports the .NET Framework infrastructure and is not intended to be used directly from your code.
   syntax:
     content: protected bool IsCommandBehavior (System.Data.CommandBehavior condition);
     parameters:
     - id: condition
       type: System.Data.CommandBehavior
-      description: Parameter description to be filled
+      description: A <see cref="T:System.Data.CommandBehavior"> enumeration.
     return:
       type: System.Boolean
-      description: Return description to be filled
+      description: '`true` if the specified <see cref="T:System.Data.CommandBehavior"> is true, `false` otherwise.'
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Data.SqlClient.SqlDataReader.IsDBNull(System.Int32)
   id: IsDBNull(System.Int32)
   parent: System.Data.SqlClient.SqlDataReader
   langs:
   - csharp
-  - vb
   name: IsDBNull(Int32)
   nameWithType: SqlDataReader.IsDBNull(Int32)
   fullName: System.Data.SqlClient.SqlDataReader.IsDBNull(Int32)
@@ -1371,21 +1665,26 @@ items:
   assemblies:
   - System.Data
   namespace: System.Data.SqlClient
+  summary: Gets a value that indicates whether the column contains non-existent or missing values.
+  remarks: "Call this method to check for null column values before calling the typed get methods (for example, <xref:System.Data.SqlClient.SqlDataReader.GetByte%2A>, <xref:System.Data.SqlClient.SqlDataReader.GetChar%2A>, and so on) to avoid raising an error.  \n  \n [!CODE [SqlDataReader_IsDbNull#1](../CodeSnippet/VS_Snippets_ADO.NET/sqldatareader_isdbnull#1)]"
   syntax:
     content: public override bool IsDBNull (int i);
     parameters:
     - id: i
       type: System.Int32
-      description: Parameter description to be filled
+      description: The zero-based column ordinal.
     return:
       type: System.Boolean
-      description: Return description to be filled
+      description: '`true` if the specified column value is equivalent to <see cref="T:System.DBNull">; otherwise `false`.'
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Data.SqlClient.SqlDataReader.IsDBNullAsync(System.Int32,System.Threading.CancellationToken)
   id: IsDBNullAsync(System.Int32,System.Threading.CancellationToken)
   parent: System.Data.SqlClient.SqlDataReader
   langs:
   - csharp
-  - vb
   name: IsDBNullAsync(Int32,CancellationToken)
   nameWithType: SqlDataReader.IsDBNullAsync(Int32,CancellationToken)
   fullName: System.Data.SqlClient.SqlDataReader.IsDBNullAsync(Int32,CancellationToken)
@@ -1393,24 +1692,29 @@ items:
   assemblies:
   - System.Data
   namespace: System.Data.SqlClient
+  summary: "An asynchronous version of <xref:System.Data.SqlClient.SqlDataReader.IsDBNull%2A>, which gets a value that indicates whether the column contains non-existent or missing values.  \n  \n The cancellation token can be used to request that the operation be abandoned before the command timeout elapses. Exceptions will be reported via the returned Task object."
+  remarks: For more information, see [SqlClient Streaming Support](../Topic/SqlClient%20Streaming%20Support.md).
   syntax:
     content: public override System.Threading.Tasks.Task<bool> IsDBNullAsync (int i, System.Threading.CancellationToken cancellationToken);
     parameters:
     - id: i
       type: System.Int32
-      description: Parameter description to be filled
+      description: The zero-based column to be retrieved.
     - id: cancellationToken
       type: System.Threading.CancellationToken
-      description: Parameter description to be filled
+      description: The cancellation instruction, which propagates a notification that operations should be canceled. This does not guarantee the cancellation. A setting of `CancellationToken.None` makes this method equivalent to <xref:System.Data.SqlClient.SqlDataReader.IsDBNull%2A>. The returned task must be marked as cancelled.
     return:
       type: System.Threading.Tasks.Task{System.Boolean}
-      description: Return description to be filled
+      description: '`true` if the specified column value is equivalent to `DBNull` otherwise `false`.'
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Data.SqlClient.SqlDataReader.Item(System.Int32)
   id: Item(System.Int32)
   parent: System.Data.SqlClient.SqlDataReader
   langs:
   - csharp
-  - vb
   name: Item(Int32)
   nameWithType: SqlDataReader.Item(Int32)
   fullName: System.Data.SqlClient.SqlDataReader.Item(Int32)
@@ -1418,21 +1722,26 @@ items:
   assemblies:
   - System.Data
   namespace: System.Data.SqlClient
+  summary: Gets the value of the specified column in its native format given the column ordinal.
+  remarks: To be added.
   syntax:
     content: public override object this[int i] { get; }
     parameters:
     - id: i
       type: System.Int32
-      description: Parameter description to be filled
+      description: The zero-based column ordinal.
     return:
       type: System.Object
-      description: Return description to be filled
+      description: To be added.
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Data.SqlClient.SqlDataReader.Item(System.String)
   id: Item(System.String)
   parent: System.Data.SqlClient.SqlDataReader
   langs:
   - csharp
-  - vb
   name: Item(String)
   nameWithType: SqlDataReader.Item(String)
   fullName: System.Data.SqlClient.SqlDataReader.Item(String)
@@ -1440,21 +1749,26 @@ items:
   assemblies:
   - System.Data
   namespace: System.Data.SqlClient
+  summary: Gets the value of the specified column in its native format given the column name.
+  remarks: "A case-sensitive lookup is performed first. If it fails, a second case-insensitive search is made (a case-insensitive comparison is done using the database collation). Unexpected results can occur when comparisons are affected by culture-specific casing rules. For example, in Turkish, the following example yields the wrong results because the file system in Turkish does not use linguistic casing rules for the letter 'i' in \"file\".  \n  \n This method is kana-width insensitive."
   syntax:
     content: public override object this[string name] { get; }
     parameters:
     - id: name
       type: System.String
-      description: Parameter description to be filled
+      description: The column name.
     return:
       type: System.Object
-      description: Return description to be filled
+      description: To be added.
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Data.SqlClient.SqlDataReader.NextResult
   id: NextResult
   parent: System.Data.SqlClient.SqlDataReader
   langs:
   - csharp
-  - vb
   name: NextResult()
   nameWithType: SqlDataReader.NextResult()
   fullName: System.Data.SqlClient.SqlDataReader.NextResult()
@@ -1462,18 +1776,23 @@ items:
   assemblies:
   - System.Data
   namespace: System.Data.SqlClient
+  summary: Advances the data reader to the next result, when reading the results of batch Transact-SQL statements.
+  remarks: "Used to process multiple results, which can be generated by executing batch Transact-SQL statements.  \n  \n By default, the data reader is positioned on the first result."
   syntax:
     content: public override bool NextResult ();
     parameters: []
     return:
       type: System.Boolean
-      description: Return description to be filled
+      description: '`true` if there are more result sets; otherwise `false`.'
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Data.SqlClient.SqlDataReader.NextResultAsync(System.Threading.CancellationToken)
   id: NextResultAsync(System.Threading.CancellationToken)
   parent: System.Data.SqlClient.SqlDataReader
   langs:
   - csharp
-  - vb
   name: NextResultAsync(CancellationToken)
   nameWithType: SqlDataReader.NextResultAsync(CancellationToken)
   fullName: System.Data.SqlClient.SqlDataReader.NextResultAsync(CancellationToken)
@@ -1481,21 +1800,26 @@ items:
   assemblies:
   - System.Data
   namespace: System.Data.SqlClient
+  summary: "An asynchronous version of <xref:System.Data.SqlClient.SqlDataReader.NextResult%2A>, which advances the data reader to the next result, when reading the results of batch [!INCLUDE[tsql](../../add/includes/tsql-md.md)] statements.  \n  \n The cancellation token can be used to request that the operation be abandoned before the command timeout elapses.  Exceptions will be reported via the returned Task object."
+  remarks: For more information about asynchronous programming in the [!INCLUDE[dnprdnshort](../../add/includes/dnprdnshort-md.md)] Data Provider for [!INCLUDE[ssNoVersion](../../add/includes/ssnoversion-md.md)], see [Asynchronous Programming](../Topic/Asynchronous%20Programming.md).
   syntax:
     content: public override System.Threading.Tasks.Task<bool> NextResultAsync (System.Threading.CancellationToken cancellationToken);
     parameters:
     - id: cancellationToken
       type: System.Threading.CancellationToken
-      description: Parameter description to be filled
+      description: The cancellation instruction.
     return:
       type: System.Threading.Tasks.Task{System.Boolean}
-      description: Return description to be filled
+      description: A task representing the asynchronous operation.
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Data.SqlClient.SqlDataReader.Read
   id: Read
   parent: System.Data.SqlClient.SqlDataReader
   langs:
   - csharp
-  - vb
   name: Read()
   nameWithType: SqlDataReader.Read()
   fullName: System.Data.SqlClient.SqlDataReader.Read()
@@ -1503,18 +1827,25 @@ items:
   assemblies:
   - System.Data
   namespace: System.Data.SqlClient
+  summary: Advances the <see cref="T:System.Data.SqlClient.SqlDataReader"> to the next record.
+  remarks: "The default position of the <xref:System.Data.SqlClient.SqlDataReader> is before the first record. Therefore, you must call Read to begin accessing any data.  \n  \n Only one `SqlDataReader` per associated <xref:System.Data.SqlClient.SqlConnection> may be open at a time, and any attempt to open another will fail until the first one is closed. Similarly, while the `SqlDataReader` is being used, the associated `SqlConnection` is busy serving it until you call <xref:System.Data.SqlClient.SqlDataReader.Close%2A>."
+  example:
+  - "The following example creates a <xref:System.Data.SqlClient.SqlConnection>, a <xref:System.Data.SqlClient.SqlCommand>, and a <xref:System.Data.SqlClient.SqlDataReader>. The example reads through the data, writing it out to the console window. The code then closes the <xref:System.Data.SqlClient.SqlDataReader>. The <xref:System.Data.SqlClient.SqlConnection> is closed automatically at the end of the `using` code block.  \n  \n [!CODE [Classic WebData SqlDataReader.Read Example#1](../CodeSnippet/VS_Snippets_ADO.NET/Classic WebData SqlDataReader.Read Example#1)]"
   syntax:
     content: public override bool Read ();
     parameters: []
     return:
       type: System.Boolean
-      description: Return description to be filled
+      description: '`true` if there are more rows; otherwise `false`.'
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Data.SqlClient.SqlDataReader.ReadAsync(System.Threading.CancellationToken)
   id: ReadAsync(System.Threading.CancellationToken)
   parent: System.Data.SqlClient.SqlDataReader
   langs:
   - csharp
-  - vb
   name: ReadAsync(CancellationToken)
   nameWithType: SqlDataReader.ReadAsync(CancellationToken)
   fullName: System.Data.SqlClient.SqlDataReader.ReadAsync(CancellationToken)
@@ -1522,21 +1853,26 @@ items:
   assemblies:
   - System.Data
   namespace: System.Data.SqlClient
+  summary: "An asynchronous version of <xref:System.Data.SqlClient.SqlDataReader.Read%2A>, which advances the <xref:System.Data.SqlClient.SqlDataReader> to the next record.  \n  \n The cancellation token can be used to request that the operation be abandoned before the command timeout elapses. Exceptions will be reported via the returned Task object."
+  remarks: "If the  parameter of <xref:System.Data.SqlClient.SqlCommand.ExecuteReaderAsync%2A> is set to `Default`, ReadAsync reads the entire row before returning the Task.  \n  \n For more information, including code samples, about asynchronous programming in the [!INCLUDE[dnprdnshort](../../add/includes/dnprdnshort-md.md)] Data Provider for [!INCLUDE[ssNoVersion](../../add/includes/ssnoversion-md.md)], see [Asynchronous Programming](../Topic/Asynchronous%20Programming.md)."
   syntax:
     content: public override System.Threading.Tasks.Task<bool> ReadAsync (System.Threading.CancellationToken cancellationToken);
     parameters:
     - id: cancellationToken
       type: System.Threading.CancellationToken
-      description: Parameter description to be filled
+      description: The cancellation instruction.
     return:
       type: System.Threading.Tasks.Task{System.Boolean}
-      description: Return description to be filled
+      description: A task representing the asynchronous operation.
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Data.SqlClient.SqlDataReader.RecordsAffected
   id: RecordsAffected
   parent: System.Data.SqlClient.SqlDataReader
   langs:
   - csharp
-  - vb
   name: RecordsAffected
   nameWithType: SqlDataReader.RecordsAffected
   fullName: System.Data.SqlClient.SqlDataReader.RecordsAffected
@@ -1544,18 +1880,23 @@ items:
   assemblies:
   - System.Data
   namespace: System.Data.SqlClient
+  summary: Gets the number of rows changed, inserted, or deleted by execution of the Transact-SQL statement.
+  remarks: "The RecordsAffected property is not set until all rows are read and you close the <xref:System.Data.SqlClient.SqlDataReader>.  \n  \n The value of this property is cumulative. For example, if two records are inserted in batch mode, the value of `RecordsAffected` will be two.  \n  \n <xref:System.Data.SqlClient.SqlDataReader.IsClosed%2A> and RecordsAffected are the only properties that you can call after the <xref:System.Data.SqlClient.SqlDataReader> is closed."
   syntax:
     content: public override int RecordsAffected { get; }
     return:
       type: System.Int32
-      description: Return description to be filled
+      description: To be added.
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Data.SqlClient.SqlDataReader.System#Data#IDataRecord#GetData(System.Int32)
   id: System#Data#IDataRecord#GetData(System.Int32)
   isEii: true
   parent: System.Data.SqlClient.SqlDataReader
   langs:
   - csharp
-  - vb
   name: System.Data.IDataRecord.GetData(Int32)
   nameWithType: SqlDataReader.System.Data.IDataRecord.GetData(Int32)
   fullName: System.Data.SqlClient.SqlDataReader.System.Data.IDataRecord.GetData(Int32)
@@ -1563,21 +1904,26 @@ items:
   assemblies:
   - System.Data
   namespace: System.Data.SqlClient
+  summary: Returns an <see cref="T:System.Data.IDataReader"> for the specified column ordinal.
+  remarks: This member is an explicit interface member implementation. It can be used only when the <xref:System.Data.SqlClient.SqlDataReader> instance is cast to an <xref:System.IDataRecord> interface.
   syntax:
     content: System.Data.IDataReader IDataRecord.GetData (int i);
     parameters:
     - id: i
       type: System.Int32
-      description: Parameter description to be filled
+      description: A column ordinal.
     return:
       type: System.Data.IDataReader
-      description: Return description to be filled
+      description: The <see cref="T:System.Data.IDataReader"> instance for the specified column ordinal.
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Data.SqlClient.SqlDataReader.VisibleFieldCount
   id: VisibleFieldCount
   parent: System.Data.SqlClient.SqlDataReader
   langs:
   - csharp
-  - vb
   name: VisibleFieldCount
   nameWithType: SqlDataReader.VisibleFieldCount
   fullName: System.Data.SqlClient.SqlDataReader.VisibleFieldCount
@@ -1585,11 +1931,17 @@ items:
   assemblies:
   - System.Data
   namespace: System.Data.SqlClient
+  summary: Gets the number of fields in the <see cref="T:System.Data.SqlClient.SqlDataReader"> that are not hidden.
+  remarks: This value is used to determine how many fields in the <xref:System.Data.SqlClient.SqlDataReader> are visible. For example, a SELECT on a partial primary key returns the remaining parts of the key as hidden fields. The hidden fields are always appended behind the visible fields.
   syntax:
     content: public override int VisibleFieldCount { get; }
     return:
       type: System.Int32
-      description: Return description to be filled
+      description: To be added.
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 references:
 - uid: System.Data.Common.DbDataReader
   isExternal: false
@@ -1600,12 +1952,6 @@ references:
   name: Close()
   nameWithType: SqlDataReader.Close()
   fullName: System.Data.SqlClient.SqlDataReader.Close()
-- uid: System.Void
-  parent: System
-  isExternal: false
-  name: Void
-  nameWithType: Void
-  fullName: System.Void
 - uid: System.Data.SqlClient.SqlDataReader.Connection
   parent: System.Data.SqlClient.SqlDataReader
   isExternal: false
@@ -1702,6 +2048,12 @@ references:
   name: Int64
   nameWithType: Int64
   fullName: System.Int64
+- uid: System.Byte
+  parent: System
+  isExternal: false
+  name: Byte
+  nameWithType: Byte
+  fullName: System.Byte[]
 - uid: System.Int32
   parent: System
   isExternal: false
@@ -1756,6 +2108,12 @@ references:
   name: Int64
   nameWithType: Int64
   fullName: System.Int64
+- uid: System.Char
+  parent: System
+  isExternal: false
+  name: Char
+  nameWithType: Char
+  fullName: System.Char[]
 - uid: System.Int32
   parent: System
   isExternal: false
@@ -1894,6 +2252,12 @@ references:
   name: GetFieldValue(Int32)
   nameWithType: SqlDataReader.GetFieldValue(Int32)
   fullName: System.Data.SqlClient.SqlDataReader.GetFieldValue(Int32)
+- uid: T
+  parent: ''
+  isExternal: true
+  name: T
+  nameWithType: T
+  fullName: T
 - uid: System.Int32
   parent: System
   isExternal: false
@@ -1906,6 +2270,12 @@ references:
   name: GetFieldValueAsync(Int32,CancellationToken)
   nameWithType: SqlDataReader.GetFieldValueAsync(Int32,CancellationToken)
   fullName: System.Data.SqlClient.SqlDataReader.GetFieldValueAsync(Int32,CancellationToken)
+- uid: System.Threading.Tasks.Task{T}
+  parent: System.Threading.Tasks
+  isExternal: false
+  name: Task<T>
+  nameWithType: Task<T>
+  fullName: System.Threading.Tasks.Task<T>
 - uid: System.Int32
   parent: System
   isExternal: false
@@ -2092,6 +2462,12 @@ references:
   name: Int32
   nameWithType: Int32
   fullName: System.Int32
+- uid: System.Object
+  parent: System
+  isExternal: false
+  name: Object
+  nameWithType: Object
+  fullName: System.Object[]
 - uid: System.Data.SqlClient.SqlDataReader.GetSchemaTable
   parent: System.Data.SqlClient.SqlDataReader
   isExternal: false
@@ -2404,6 +2780,12 @@ references:
   name: Int32
   nameWithType: Int32
   fullName: System.Int32
+- uid: System.Object
+  parent: System
+  isExternal: false
+  name: Object
+  nameWithType: Object
+  fullName: System.Object[]
 - uid: System.Data.SqlClient.SqlDataReader.GetSqlXml(System.Int32)
   parent: System.Data.SqlClient.SqlDataReader
   isExternal: false
@@ -2524,12 +2906,24 @@ references:
   name: Int32
   nameWithType: Int32
   fullName: System.Int32
+- uid: System.Object
+  parent: System
+  isExternal: false
+  name: Object
+  nameWithType: Object
+  fullName: System.Object[]
 - uid: System.Data.SqlClient.SqlDataReader.GetXmlReader(System.Int32)
   parent: System.Data.SqlClient.SqlDataReader
   isExternal: false
   name: GetXmlReader(Int32)
   nameWithType: SqlDataReader.GetXmlReader(Int32)
   fullName: System.Data.SqlClient.SqlDataReader.GetXmlReader(Int32)
+- uid: System.Xml.XmlReader
+  parent: System.Xml
+  isExternal: true
+  name: XmlReader
+  nameWithType: XmlReader
+  fullName: System.Xml.XmlReader
 - uid: System.Int32
   parent: System
   isExternal: false
@@ -2602,6 +2996,12 @@ references:
   name: IsDBNullAsync(Int32,CancellationToken)
   nameWithType: SqlDataReader.IsDBNullAsync(Int32,CancellationToken)
   fullName: System.Data.SqlClient.SqlDataReader.IsDBNullAsync(Int32,CancellationToken)
+- uid: System.Threading.Tasks.Task{System.Boolean}
+  parent: System.Threading.Tasks
+  isExternal: false
+  name: Task<Boolean>
+  nameWithType: Task<Boolean>
+  fullName: System.Threading.Tasks.Task<System.Boolean>
 - uid: System.Int32
   parent: System
   isExternal: false
@@ -2668,6 +3068,12 @@ references:
   name: NextResultAsync(CancellationToken)
   nameWithType: SqlDataReader.NextResultAsync(CancellationToken)
   fullName: System.Data.SqlClient.SqlDataReader.NextResultAsync(CancellationToken)
+- uid: System.Threading.Tasks.Task{System.Boolean}
+  parent: System.Threading.Tasks
+  isExternal: false
+  name: Task<Boolean>
+  nameWithType: Task<Boolean>
+  fullName: System.Threading.Tasks.Task<System.Boolean>
 - uid: System.Threading.CancellationToken
   parent: System.Threading
   isExternal: false
@@ -2692,6 +3098,12 @@ references:
   name: ReadAsync(CancellationToken)
   nameWithType: SqlDataReader.ReadAsync(CancellationToken)
   fullName: System.Data.SqlClient.SqlDataReader.ReadAsync(CancellationToken)
+- uid: System.Threading.Tasks.Task{System.Boolean}
+  parent: System.Threading.Tasks
+  isExternal: false
+  name: Task<Boolean>
+  nameWithType: Task<Boolean>
+  fullName: System.Threading.Tasks.Task<System.Boolean>
 - uid: System.Threading.CancellationToken
   parent: System.Threading
   isExternal: false

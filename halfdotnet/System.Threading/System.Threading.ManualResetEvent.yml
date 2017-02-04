@@ -6,11 +6,14 @@ items:
   - System.Threading.ManualResetEvent.#ctor(System.Boolean)
   langs:
   - csharp
-  - vb
   name: ManualResetEvent
   nameWithType: ManualResetEvent
   fullName: System.Threading.ManualResetEvent
   type: Class
+  summary: Notifies one or more waiting threads that an event has occurred. This class cannot be inherited.
+  remarks: "In the .NET Framework version 2.0, ManualResetEvent derives from the new <xref:System.Threading.EventWaitHandle> class. A ManualResetEvent is functionally equivalent to an <xref:System.Threading.EventWaitHandle> created with <xref:System.Threading.EventResetMode?displayProperty=fullName>.  \n  \n> [!NOTE]\n>  Unlike the ManualResetEvent class, the <xref:System.Threading.EventWaitHandle> class provides access to named system synchronization events.  \n  \n ManualResetEvent allows threads to communicate with each other by signaling. Typically, this communication concerns a task which one thread must complete before other threads can proceed.  \n  \n When a thread begins an activity that must complete before other threads proceed, it calls <xref:System.Threading.EventWaitHandle.Reset%2A> to put `ManualResetEvent` in the non-signaled state. This thread can be thought of as controlling the `ManualResetEvent`. Threads that call <xref:System.Threading.WaitHandle.WaitOne%2A> on the `ManualResetEvent` will block, awaiting the signal. When the controlling thread completes the activity, it calls <xref:System.Threading.EventWaitHandle.Set%2A> to signal that the waiting threads can proceed. All waiting threads are released.  \n  \n Once it has been signaled, `ManualResetEvent` remains signaled until it is manually reset. That is, calls to `WaitOne` return immediately.  \n  \n You can control the initial state of a `ManualResetEvent` by passing a Boolean value to the constructor, `true` if the initial state is signaled and `false` otherwise.  \n  \n `ManualResetEvent` can also be used with the `static`<xref:System.Threading.WaitHandle.WaitAll%2A> and <xref:System.Threading.WaitHandle.WaitAny%2A> methods.  \n  \n For more information about thread synchronization mechanisms, see [ManualResetEvent and ManualResetEventSlim](../Topic/ManualResetEvent%20and%20ManualResetEventSlim.md) in the conceptual documentation."
+  example:
+  - "The following example demonstrates how ManualResetEvent works. The example starts with a ManualResetEvent in the unsignaled state (that is, `false` is passed to the constructor). The example creates three threads, each of which blocks on the ManualResetEvent by calling its <xref:System.Threading.WaitHandle.WaitOne%2A> method. When the user presses the **Enter** key, the example calls the <xref:System.Threading.EventWaitHandle.Set%2A> method, which releases all three threads. Contrast this with the behavior of the <xref:System.Threading.AutoResetEvent> class, which releases threads one at a time, resetting automatically after each release.  \n  \n Pressing the **Enter** key again demonstrates that the ManualResetEvent remains in the signaled state until its <xref:System.Threading.EventWaitHandle.Reset%2A> method is called: The example starts two more threads. These threads do not block when they call the <xref:System.Threading.WaitHandle.WaitOne%2A> method, but instead run to completion.  \n  \n Pressing the **Enter** key again causes the example to call the <xref:System.Threading.EventWaitHandle.Reset%2A> method and to start one more thread, which blocks when it calls <xref:System.Threading.WaitHandle.WaitOne%2A>. Pressing the **Enter** key one final time calls <xref:System.Threading.EventWaitHandle.Set%2A> to release the last thread, and the program ends.  \n  \n [!CODE [System.Threading.ManualResetEvent#1](../CodeSnippet/VS_Snippets_CLR_System/system.Threading.ManualResetEvent#1)]"
   syntax:
     content: >-
       [System.Runtime.InteropServices.ComVisible(true)]
@@ -67,12 +70,15 @@ items:
   - System.Threading.WaitHandle.WaitOne(System.TimeSpan)
   - System.Threading.WaitHandle.WaitOne(System.TimeSpan,System.Boolean)
   - System.Threading.WaitHandle.WaitTimeout
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Threading.ManualResetEvent.#ctor(System.Boolean)
   id: '#ctor(System.Boolean)'
   parent: System.Threading.ManualResetEvent
   langs:
   - csharp
-  - vb
   name: ManualResetEvent(Boolean)
   nameWithType: ManualResetEvent.ManualResetEvent(Boolean)
   fullName: System.Threading.ManualResetEvent.ManualResetEvent(Boolean)
@@ -80,12 +86,18 @@ items:
   assemblies:
   - mscorlib
   namespace: System.Threading
+  summary: Initializes a new instance of the <see cref="T:System.Threading.ManualResetEvent"> class with a Boolean value indicating whether to set the initial state to signaled.
+  remarks: If the initial state of a <xref:System.Threading.ManualResetEvent> is signaled (that is, if it is created by passing `true` for ), threads that wait on the <xref:System.Threading.ManualResetEvent> do not block. If the initial state is nonsignaled, threads block until the <xref:System.Threading.EventWaitHandle.Set%2A> method is called.
   syntax:
     content: public ManualResetEvent (bool initialState);
     parameters:
     - id: initialState
       type: System.Boolean
-      description: Parameter description to be filled
+      description: '`true` to set the initial state signaled; `false` to set the initial state to nonsignaled.'
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 references:
 - uid: System.Threading.EventWaitHandle
   isExternal: false

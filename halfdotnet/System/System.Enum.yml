@@ -49,11 +49,14 @@ items:
   - System.Enum.TryParse``1(System.String,System.Boolean,``0@)
   langs:
   - csharp
-  - vb
   name: Enum
   nameWithType: Enum
   fullName: System.Enum
   type: Class
+  summary: Provides the base class for enumerations.
+  remarks: "An enumeration is a set of named constants whose underlying type is any integral type. If no underlying type is explicitly declared, <xref:System.Int32> is used. Enum is the base class for all enumerations in the .NET Framework. Enumeration types are defined by the `enum` keyword in C# and the `Enum`...`End Enum` construct in Visual Basic.  \n  \n Enum provides methods for comparing instances of this class, converting the value of an instance to its string representation, converting the string representation of a number to an instance of this class, and creating an instance of a specified enumeration and value.  \n  \n You can also treat an enumeration as a bit field. For more information, see the [Non-Exclusive Members and the Flags Attribute](#Flags) section and the <xref:System.FlagsAttribute> topic.  \n  \n In this topic:  \n  \n [Creating an enumeration type](#Creating)   \n [Instantiating an enumeration type](#Instantiating)   \n [Enumeration best practices](#BestPractices)   \n [Performing operations with enumerations](#Operations)   \n [Performing conversions](#conversions)  \n [Parsing enumeration values](#parsing)  \n [Formatting enumeration values](#formatting)  \n[Iterating enumeration members](#iterating)  \n[Non-exclusive members and the Flags attribute](#Flags)  \n[Adding enumeration methods](#methods)  \n  \n<a name=\"Creating\"></a>   \n## Creating an enumeration type  \n Programming languages typically provide syntax to declare an enumeration that consists of a set of named constants and their values. The following example illustrates the syntax used by C# and Visual Basic to define an enumeration. It creates an enumeration named `ArrivalStatus` that has three members: `ArrivalStatus.Early`, `ArrivalStatus.OnTime`, and `ArrivalStatus.Late`. Note that in both cases, the enumeration does not explicitly inherit from Enum; the inheritance relationship is handled implicitly by the compiler.  \n  \n [!CODE [System.Enum.Class#1](../CodeSnippet/VS_Snippets_CLR_System/system.enum.class#1)]  \n  \n> [!WARNING]\n>  You should never create an enumeration type whose underlying type is non-integral or <xref:System.Char>. Although you can create such an enumeration type by using reflection, method calls that use the resulting type are unreliable and may also throw additional exceptions.  \n  \n<a name=\"Instantiating\"></a>   \n## Instantiating an enumeration type  \n You can instantiate an enumeration type just as you instantiate any other value type: by declaring a variable and assigning one of the enumeration's constants to it. The following example instantiates an `ArrivalStatus` whose value is `ArrivalStatus.OnTime`.  \n  \n [!CODE [System.Enum.Class#2](../CodeSnippet/VS_Snippets_CLR_System/system.enum.class#2)]  \n  \n You can also instantiate an enumeration value in the following ways:  \n  \n-   By using a particular programming language's features to cast (as in C#) or convert (as in Visual Basic) an integer value to an enumeration value. The following example creates an `ArrivalStatus` object whose value is `ArrivalStatus.Early` in this way.  \n  \n     [!CODE [System.Enum.Class#4](../CodeSnippet/VS_Snippets_CLR_System/system.enum.class#4)]  \n  \n-   By calling its implicit default constructor. As the following example shows, in this case the underlying value of the enumeration instance is 0. However, this is not necessarily the value of a valid constant in the enumeration.  \n  \n     [!CODE [System.Enum.Class#3](../CodeSnippet/VS_Snippets_CLR_System/system.enum.class#3)]  \n  \n-   By calling the <xref:System.Enum.Parse%2A> or <xref:System.Enum.TryParse%2A> method to parse a string that contains the name of a constant in the enumeration. For more information, see the [Parsing Enumeration Values](#parsing) section.  \n  \n-   By calling the <xref:System.Enum.ToObject%2A> method to convert an integral value to an enumeration type. For more information, see the [Performing Conversions](#conversions) section.  \n  \n<a name=\"BestPractices\"></a>   \n## Enumeration best practices  \n We recommend that you use the following best practices when you define enumeration types:  \n  \n-   If you have not defined an enumeration member whose value is 0, consider creating a `None` enumerated constant. By default, the memory used for the enumeration is initialized to zero by the common language runtime. Consequently, if you do not define a constant whose value is zero, the enumeration will contain an illegal value when it is created.  \n  \n-   If there is an obvious default case that your application has to represent, consider using an enumerated constant whose value is zero to represent it. If there is no default case, consider using an enumerated constant whose value is zero to specify the case that is not represented by any of the other enumerated constants.  \n  \n-   Do not specify enumerated constants that are reserved for future use.  \n  \n-   When you define a method or property that takes an enumerated constant as a value, consider validating the value. The reason is that you can cast a numeric value to the enumeration type even if that numeric value is not defined in the enumeration.  \n  \n Additional best practices for enumeration types whose constants are bit fields are listed in the [Non-Exclusive Members and the Flags Attribute](#Flags) section.  \n  \n<a name=\"Operations\"></a>   \n## Performing operations with enumerations  \n You cannot define new methods when you are creating an enumeration. However, an enumeration type inherits a complete set of static and instance methods from the Enum class. The following sections survey most of these methods, in addition to several other methods that are commonly used when working with enumeration values.  \n  \n<a name=\"conversions\"></a>   \n### Performing conversions  \n You can convert between an enumeration member and its underlying type by using a casting (in C#) or conversion (in Visual Basic) operator. The following example uses casting or conversion operators to perform conversions both from an integer to an enumeration value and from an enumeration value to an integer.  \n  \n [!CODE [System.Enum.Class#5](../CodeSnippet/VS_Snippets_CLR_System/system.enum.class#5)]  \n  \n The Enum class also includes a <xref:System.Enum.ToObject%2A> method that converts a value of any integral type to an enumeration value. The following example uses the <xref:System.Enum.ToObject%28System.Type%2CSystem.Int32%29> method to convert an <xref:System.Int32> to an `ArrivalStatus` value. Note that, because the <xref:System.Enum.ToObject%2A> returns a value of type <xref:System.Object>, the use of a casting or conversion operator may still be necessary to cast the object to the enumeration type.  \n  \n [!CODE [System.Enum.Class#6](../CodeSnippet/VS_Snippets_CLR_System/system.enum.class#6)]  \n  \n When converting an integer to an enumeration value, it is possible to assign a value that is not actually a member of the enumeration. To prevent this, you can pass the integer to the <xref:System.Enum.IsDefined%2A> method before performing the conversion. The following example uses this method to determine whether the elements in an array of integer values can be converted to `ArrivalStatus` values.  \n  \n [!CODE [System.Enum.Class#7](../CodeSnippet/VS_Snippets_CLR_System/system.enum.class#7)]  \n  \n Although the Enum class provides explicit interface implementations of the <xref:System.IConvertible> interface for converting from an enumeration value to an integral type, you should use the methods of the <xref:System.Convert> class, such as <xref:System.Convert.ToInt32%2A>, to perform these conversions. The following example illustrates how you can use the <xref:System.Enum.GetUnderlyingType%2A> method along with the <xref:System.Convert.ChangeType%2A?displayProperty=fullName> method to convert an enumeration value to its underlying type. Note that this example does not require the underlying type of the enumeration to be known at compile time.  \n  \n [!CODE [System.Enum.Class#8](../CodeSnippet/VS_Snippets_CLR_System/system.enum.class#8)]  \n  \n<a name=\"parsing\"></a>   \n### Parsing enumeration values  \n The <xref:System.Enum.Parse%2A> and <xref:System.Enum.TryParse%2A> methods allow you to convert the string representation of an enumeration value to that value. The string representation can be either the name or the underlying value of an enumeration constant. Note that the parsing methods will successfully convert string representations of numbers that are not members of a particular enumeration if the strings can be converted to a value of the enumeration's underlying type. To prevent this, the <xref:System.Enum.IsDefined%2A> method can be called to ensure that the result of the parsing method is a valid enumeration value. The example illustrates this approach and demonstrates calls to both the <xref:System.Enum.Parse%28System.Type%2CSystem.String%29> and <xref:System.Enum.TryParse%60%601%28System.String%2C%60%600%40%29?displayProperty=fullName> methods. Note that the non-generic parsing method returns an object that you may have to cast (in C#) or convert (in Visual Basic) to the appropriate enumeration type.  \n  \n [!CODE [System.Enum.Class#9](../CodeSnippet/VS_Snippets_CLR_System/system.enum.class#9)]  \n  \n<a name=\"formatting\"></a>   \n### Formatting enumeration values  \n You can convert enumeration values to their string representations by calling the static <xref:System.Enum.Format%2A> method, as well as the overloads of the instance <xref:System.Enum.ToString%2A> method. You can use a format string to control the precise way in which an enumeration value is represented as a string. For more information, see [Enumeration Format Strings](../Topic/Enumeration%20Format%20Strings.md). The following example uses each of the supported enumeration format strings (\"G\" or \"g\", \"D\" or \"d\", \"X\" or \"x\", and \"F\" or \"f\" ) to convert a member of the `ArrivalStatus` enumeration to its string representations.  \n  \n [!CODE [System.Enum.Class#10](../CodeSnippet/VS_Snippets_CLR_System/system.enum.class#10)]  \n  \n<a name=\"iterating\"></a>   \n### Iterating enumeration members  \n The Enum type does not implement the <xref:System.Collections.IEnumerable> or <xref:System.Collections.Generic.IEnumerable%601> interface, which would enable you to iterate members of a collection by using a `foreach` (in C#) or `For Each` (in Visual Basic) construct. However, you can enumerate members in either of two ways.  \n  \n-   You can call the <xref:System.Enum.GetNames%2A> method to retrieve a string array containing the names of the enumeration members. Next, for each element of the string array, you can call the <xref:System.Enum.Parse%2A> method to convert the string to its equivalent enumeration value. The following example illustrates this approach.  \n  \n     [!CODE [System.Enum.Class#11](../CodeSnippet/VS_Snippets_CLR_System/system.enum.class#11)]  \n  \n-   You can call the <xref:System.Enum.GetValues%2A> method to retrieve an array that contains the underlying values in the enumeration. Next, for each element of the array, you can call the <xref:System.Enum.ToObject%2A> method to convert the integer to its equivalent enumeration value. The following example illustrates this approach.  \n  \n     [!CODE [System.Enum.Class#12](../CodeSnippet/VS_Snippets_CLR_System/system.enum.class#12)]  \n  \n<a name=\"Flags\"></a>   \n## Non-exclusive members and the Flags attribute  \n One common use of an enumeration is to represent a set of mutually exclusive values. For example, an `ArrivalStatus` instance can have a value of `Early`, `OnTime`, or `Late`. It makes no sense for the value of an `ArrivalStatus` instance to reflect more than one enumeration constant.  \n  \n In other cases, however, the value of an enumeration object can include multiple enumeration members, and each member represents a bit field in the enumeration value. The <xref:System.FlagsAttribute> attribute can be used to indicate that the enumeration consists of bit fields. For example, an enumeration named `Pets` might be used to indicate the kinds of pets in a household. It can be defined as follows.  \n  \n [!CODE [System.Enum.Class#13](../CodeSnippet/VS_Snippets_CLR_System/system.enum.class#13)]  \n  \n The `Pets` enumeration can then be used as shown in the following example.  \n  \n [!CODE [System.Enum.Class#14](../CodeSnippet/VS_Snippets_CLR_System/system.enum.class#14)]  \n  \n The following best practices should be used when defining a bitwise enumeration and applying the <xref:System.FlagsAttribute> attribute.  \n  \n-   Use the <xref:System.FlagsAttribute> custom attribute for an enumeration only if a bitwise operation (AND, OR, EXCLUSIVE OR) is to be performed on a numeric value.  \n  \n-   Define enumeration constants in powers of two, that is, 1, 2, 4, 8, and so on. This means the individual flags in combined enumeration constants do not overlap.  \n  \n-   Consider creating an enumerated constant for commonly used flag combinations. For example, if you have an enumeration used for file I/O operations that contains the enumerated constants `Read = 1` and `Write = 2`, consider creating the enumerated constant `ReadWrite = Read OR Write`, which combines the `Read` and `Write` flags. In addition, the bitwise OR operation used to combine the flags might be considered an advanced concept in some circumstances that should not be required for simple tasks.  \n  \n-   Use caution if you define a negative number as a flag enumerated constant because many flag positions might be set to 1, which might make your code confusing and encourage coding errors.  \n  \n-   A convenient way to test whether a flag is set in a numeric value is to call the instance <xref:System.Enum.HasFlag%2A> method, as shown in the following example.  \n  \n     [!CODE [System.Enum.Class#15](../CodeSnippet/VS_Snippets_CLR_System/system.enum.class#15)]  \n  \n     It is equivalent to performing a bitwise AND operation between the numeric value and the flag enumerated constant, which sets all bits in the numeric value to zero that do not correspond to the flag, and then testing whether the result of that operation is equal to the flag enumerated constant. This is illustrated in the following example.  \n  \n     [!CODE [System.Enum.Class#16](../CodeSnippet/VS_Snippets_CLR_System/system.enum.class#16)]  \n  \n-   Use `None` as the name of the flag enumerated constant whose value is zero. You cannot use the `None` enumerated constant in a bitwise AND operation to test for a flag because the result is always zero. However, you can perform a logical, not a bitwise, comparison between the numeric value and the `None` enumerated constant to determine whether any bits in the numeric value are set. This is illustrated in the following example.  \n  \n     [!CODE [System.Enum.Class#17](../CodeSnippet/VS_Snippets_CLR_System/system.enum.class#17)]  \n  \n-   Do not define an enumeration value solely to mirror the state of the enumeration itself. For example, do not define an enumerated constant that merely marks the end of the enumeration. If you need to determine the last value of the enumeration, check for that value explicitly. In addition, you can perform a range check for the first and last enumerated constant if all values within the range are valid.  \n  \n<a name=\"methods\"></a>   \n## Adding enumeration methods  \n Because enumeration types are defined by language structures, such as `enum` (C#) and `Enum` (Visual Basic), you cannot define custom methods for an enumeration type other than those methods inherited from the Enum class.  However, you can use extension methods to add functionality to a particular enumeration type.  \n  \n In the following example, the `Grades` enumeration represents the possible letter grades that a student may receive in a class. An extension method named `Passing` is added to the `Grades` type so that each instance of that type now \"knows\" whether it represents a passing grade or not.       The `Extensions` class also contains a static read-write variable that defines the minimum passing grade. The return value of the `Passing` extension method reflects the current value of that variable.  \n  \n [!CODE [System.Enum.Class#18](../CodeSnippet/VS_Snippets_CLR_System/system.enum.class#18)]"
+  example:
+  - "The following example demonstrates using an enumeration to represent named values and another enumeration to represent named bit fields.  \n  \n [!CODE [enummain#1](../CodeSnippet/VS_Snippets_CLR/enummain#1)]"
   syntax:
     content: >-
       [System.Runtime.InteropServices.ComVisible(true)]
@@ -71,12 +74,15 @@ items:
   - System.Object.GetType
   - System.Object.MemberwiseClone
   - System.Object.ReferenceEquals(System.Object,System.Object)
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Enum.#ctor
   id: '#ctor'
   parent: System.Enum
   langs:
   - csharp
-  - vb
   name: Enum()
   nameWithType: Enum.Enum()
   fullName: System.Enum.Enum()
@@ -84,15 +90,20 @@ items:
   assemblies:
   - mscorlib
   namespace: System
+  summary: Initializes a new instance of the <see cref="T:System.Enum"> class.
+  remarks: To be added.
   syntax:
     content: protected Enum ();
     parameters: []
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Enum.CompareTo(System.Object)
   id: CompareTo(System.Object)
   parent: System.Enum
   langs:
   - csharp
-  - vb
   name: CompareTo(Object)
   nameWithType: Enum.CompareTo(Object)
   fullName: System.Enum.CompareTo(Object)
@@ -100,21 +111,28 @@ items:
   assemblies:
   - mscorlib
   namespace: System
+  summary: Compares this instance to a specified object and returns an indication of their relative values.
+  remarks: ''
+  example:
+  - "The following example illustrates the use of `CompareTo` in the context of `Enum`.  \n  \n [!CODE [enumcompareto#1](../CodeSnippet/VS_Snippets_CLR/enumcompareto#1)]"
   syntax:
     content: public int CompareTo (object target);
     parameters:
     - id: target
       type: System.Object
-      description: Parameter description to be filled
+      description: An object to compare, or `null`.
     return:
       type: System.Int32
-      description: Return description to be filled
+      description: "A signed number that indicates the relative values of this instance and .  \n  \n|Value|Meaning|  \n|-----------|-------------|  \n|Less than zero|The value of this instance is less than the value of .|  \n|Zero|The value of this instance is equal to the value of .|  \n|Greater than zero|The value of this instance is greater than the value of .<br /><br /> -or-<br /><br /> is `null`.|"
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Enum.Equals(System.Object)
   id: Equals(System.Object)
   parent: System.Enum
   langs:
   - csharp
-  - vb
   name: Equals(Object)
   nameWithType: Enum.Equals(Object)
   fullName: System.Enum.Equals(Object)
@@ -122,21 +140,28 @@ items:
   assemblies:
   - mscorlib
   namespace: System
+  summary: Returns a value indicating whether this instance is equal to a specified object.
+  remarks: The Equals method overrides <xref:System.ValueType.Equals%28System.Object%29?displayProperty=fullName> to define how enumeration members are evaluated for equality.
+  example:
+  - "The following example illustrates the use of the Equals method.  \n  \n [!CODE [enumequals#1](../CodeSnippet/VS_Snippets_CLR/enumequals#1)]  \n  \n The following example defines two enumeration types, `SledDog` and `WorkDog`. The `SledDog` enumeration has two members, `SledDog.AlaskanMalamute` and `SledDog.Malamute`, that have the same underlying value. The call to the Equals method indicates that these values are equal because their underlying values are the same. The `SledDog.Malamute` and `WorkDog.Newfoundland` members have the same underlying value, although they represent different enumeration types. A call to the Equals method indicates that these values are not equal.  \n  \n [!CODE [System.Enum.Equals#1](../CodeSnippet/VS_Snippets_CLR_System/system.enum.equals#1)]"
   syntax:
     content: public override bool Equals (object obj);
     parameters:
     - id: obj
       type: System.Object
-      description: Parameter description to be filled
+      description: An object to compare with this instance, or `null`.
     return:
       type: System.Boolean
-      description: Return description to be filled
+      description: '`true` if  is an enumeration value of the same type and with the same underlying value as this instance; otherwise, `false`.'
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Enum.Format(System.Type,System.Object,System.String)
   id: Format(System.Type,System.Object,System.String)
   parent: System.Enum
   langs:
   - csharp
-  - vb
   name: Format(Type,Object,String)
   nameWithType: Enum.Format(Type,Object,String)
   fullName: System.Enum.Format(Type,Object,String)
@@ -144,27 +169,34 @@ items:
   assemblies:
   - mscorlib
   namespace: System
+  summary: Converts the specified value of a specified enumerated type to its equivalent string representation according to the specified format.
+  remarks: "The following table shows the valid values for the  parameter.  \n  \n|Format|Description|  \n|------------|-----------------|  \n|\"G\" or \"g\"|If  is equal to a named enumerated constant, the name of that constant is returned; otherwise, the decimal equivalent of  is returned.<br /><br /> For example, suppose the only enumerated constant is named Red, and its value is 1. If  is specified as 1, this format returns \"Red\". However, if  is specified as 2, this format returns \"2\".<br /><br /> -or-<br /><br /> If the <xref:System.FlagsAttribute> custom attribute is applied to the enumeration,  is treated as a bit field that contains one or more flags that consist of one or more bits.<br /><br /> If  is equal to a combination of named enumerated constants, a delimiter-separated list of the names of those constants is returned.  is searched for flags, going from the flag with the largest value to the smallest value. For each flag that corresponds to a bit field in , the name of the constant is concatenated to the delimiter-separated list. The value of that flag is then excluded from further consideration, and the search continues for the next flag.<br /><br /> If  is not equal to a combination of named enumerated constants, the decimal equivalent of  is returned.|  \n|\"X\" or \"x\"|Represents  in hexadecimal format without a leading \"0x\".|  \n|\"D\" or \"d\"|Represents  in decimal form.|  \n|\"F\" or \"f\"|Behaves identically to \"G\" or \"g\", except that the <xref:System.FlagsAttribute> is not required to be present on the <xref:System.Enum> declaration.|"
+  example:
+  - "The following example illustrates the use of `Format` in the context of `Enum`.  \n  \n [!CODE [enumformat#1](../CodeSnippet/VS_Snippets_CLR/enumformat#1)]"
   syntax:
     content: public static string Format (Type enumType, object value, string format);
     parameters:
     - id: enumType
       type: System.Type
-      description: Parameter description to be filled
+      description: The enumeration type of the value to convert.
     - id: value
       type: System.Object
-      description: Parameter description to be filled
+      description: The value to convert.
     - id: format
       type: System.String
-      description: Parameter description to be filled
+      description: The output format to use.
     return:
       type: System.String
-      description: Return description to be filled
+      description: A string representation of .
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Enum.GetHashCode
   id: GetHashCode
   parent: System.Enum
   langs:
   - csharp
-  - vb
   name: GetHashCode()
   nameWithType: Enum.GetHashCode()
   fullName: System.Enum.GetHashCode()
@@ -172,18 +204,23 @@ items:
   assemblies:
   - mscorlib
   namespace: System
+  summary: Returns the hash code for the value of this instance.
+  remarks: To be added.
   syntax:
     content: public override int GetHashCode ();
     parameters: []
     return:
       type: System.Int32
-      description: Return description to be filled
+      description: A 32-bit signed integer hash code.
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Enum.GetName(System.Type,System.Object)
   id: GetName(System.Type,System.Object)
   parent: System.Enum
   langs:
   - csharp
-  - vb
   name: GetName(Type,Object)
   nameWithType: Enum.GetName(Type,Object)
   fullName: System.Enum.GetName(Type,Object)
@@ -191,24 +228,31 @@ items:
   assemblies:
   - mscorlib
   namespace: System
+  summary: Retrieves the name of the constant in the specified enumeration that has the specified value.
+  remarks: If multiple enumeration members have the same underlying value, the GetName method guarantees that it will return the name of one of those enumeration members. However, it does not guarantee that it will always return the name of the same enumeration member. As a result, when multiple enumeration members have the same value, your application code should never depend on the method returning a particular member's name.
+  example:
+  - "The following example illustrates the use of `GetName`.  \n  \n [!CODE [enumgetname#1](../CodeSnippet/VS_Snippets_CLR/enumgetname#1)]"
   syntax:
     content: public static string GetName (Type enumType, object value);
     parameters:
     - id: enumType
       type: System.Type
-      description: Parameter description to be filled
+      description: An enumeration type.
     - id: value
       type: System.Object
-      description: Parameter description to be filled
+      description: The value of a particular enumerated constant in terms of its underlying type.
     return:
       type: System.String
-      description: Return description to be filled
+      description: A string containing the name of the enumerated constant in  whose value is ; or `null` if no such constant is found.
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Enum.GetNames(System.Type)
   id: GetNames(System.Type)
   parent: System.Enum
   langs:
   - csharp
-  - vb
   name: GetNames(Type)
   nameWithType: Enum.GetNames(Type)
   fullName: System.Enum.GetNames(Type)
@@ -216,21 +260,28 @@ items:
   assemblies:
   - mscorlib
   namespace: System
+  summary: Retrieves an array of the names of the constants in a specified enumeration.
+  remarks: "The elements of the return value array are sorted by the binary values of the enumerated constants (that is, by their unsigned magnitude). The following example provides displays information about the array returned by the GetNames method for an enumeration that includes a negative, zero, and a positive value.  \n  \n [!CODE [System.Enum.GetNames#1](../CodeSnippet/VS_Snippets_CLR_System/system.enum.getnames#1)]  \n  \n If there are enumerated constants with same value, the order of their corresponding names is unspecified."
+  example:
+  - "The following example illustrates the use of the GetNames method.  \n  \n [!CODE [enumgetnames#1](../CodeSnippet/VS_Snippets_CLR/enumgetnames#1)]"
   syntax:
     content: public static string[] GetNames (Type enumType);
     parameters:
     - id: enumType
       type: System.Type
-      description: Parameter description to be filled
+      description: An enumeration type.
     return:
       type: System.String[]
-      description: Return description to be filled
+      description: A string array of the names of the constants in .
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Enum.GetTypeCode
   id: GetTypeCode
   parent: System.Enum
   langs:
   - csharp
-  - vb
   name: GetTypeCode()
   nameWithType: Enum.GetTypeCode()
   fullName: System.Enum.GetTypeCode()
@@ -238,18 +289,23 @@ items:
   assemblies:
   - mscorlib
   namespace: System
+  summary: Returns the type code of the underlying type of this enumeration member.
+  remarks: To be added.
   syntax:
     content: public TypeCode GetTypeCode ();
     parameters: []
     return:
       type: System.TypeCode
-      description: Return description to be filled
+      description: The type code of the underlying type of this instance.
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Enum.GetUnderlyingType(System.Type)
   id: GetUnderlyingType(System.Type)
   parent: System.Enum
   langs:
   - csharp
-  - vb
   name: GetUnderlyingType(Type)
   nameWithType: Enum.GetUnderlyingType(Type)
   fullName: System.Enum.GetUnderlyingType(Type)
@@ -257,21 +313,28 @@ items:
   assemblies:
   - mscorlib
   namespace: System
+  summary: Returns the underlying type of the specified enumeration.
+  remarks: The <xref:System.Enum> structure enables values to be represented as named constants. The data type of the enumeration's values is known as its underlying type. For example, the underlying type of the <xref:System.DayOfWeek> enumeration, which consists of constants that represent each day of the week (<xref:System.DayOfWeek?displayProperty=fullName>, <xref:System.DayOfWeek?displayProperty=fullName>, and so on), is <xref:System.Int32>.
+  example:
+  - "The following example calls the GetUnderlyingType method to display the underlying type of some enumeration members.  \n  \n [!CODE [System.Enum.GetUnderlyingType#1](../CodeSnippet/VS_Snippets_CLR_System/system.enum.getunderlyingtype#1)]"
   syntax:
     content: public static Type GetUnderlyingType (Type enumType);
     parameters:
     - id: enumType
       type: System.Type
-      description: Parameter description to be filled
+      description: The enumeration whose underlying type will be retrieved.
     return:
       type: System.Type
-      description: Return description to be filled
+      description: The underlying type of .
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Enum.GetValues(System.Type)
   id: GetValues(System.Type)
   parent: System.Enum
   langs:
   - csharp
-  - vb
   name: GetValues(Type)
   nameWithType: Enum.GetValues(Type)
   fullName: System.Enum.GetValues(Type)
@@ -279,21 +342,28 @@ items:
   assemblies:
   - mscorlib
   namespace: System
+  summary: Retrieves an array of the values of the constants in a specified enumeration.
+  remarks: "The elements of the array are sorted by the binary values of the enumeration constants (that is, by their unsigned magnitude). The following example displays information about the array returned by the GetValues method for an enumeration that includes a negative value, zero, and a positive value.  \n  \n [!CODE [System.Enum.GetValues#1](../CodeSnippet/VS_Snippets_CLR_System/system.enum.getvalues#1)]  \n  \n The GetValues method returns an array that contains a value for each member of the  enumeration. If multiple members have the same value, the returned array includes duplicate values. In this case, calling the <xref:System.Enum.GetName%2A> method with each value in the returned array does not restore the unique names assigned to members that have duplicate values. To retrieve all the names of enumeration members successfully, call the <xref:System.Enum.GetNames%2A> method.  \n  \n TheGetValues method cannot be invoked by using reflection in a reflection-only context. Instead, you can retrieve the value of all enumeration members by using the <xref:System.Type.GetFields%2A?displayProperty=fullName> method to get an array of <xref:System.Reflection.FieldInfo> objects that represent enumeration members and then call the <xref:System.Reflection.FieldInfo.GetRawConstantValue%2A?displayProperty=fullName> method on each element of the array. The following example illustrates this technique. It requires that you define the following enumeration in an assembly named Enumerations.dll:  \n  \n [!CODE [System.Enum.GetValues#2](../CodeSnippet/VS_Snippets_CLR_System/system.enum.getvalues#2)]  \n  \n The assembly is loaded in a reflection-only context, a <xref:System.Type> object that represents the `Pets` enumeration is instantiated, an array of <xref:System.Reflection.FieldInfo> objects is retrieved, and the field values are displayed to the console.  \n  \n [!CODE [System.Enum.GetValues#3](../CodeSnippet/VS_Snippets_CLR_System/system.enum.getvalues#3)]"
+  example:
+  - "The following example illustrates the use of GetValues.  \n  \n [!CODE [enumgetvalues#1](../CodeSnippet/VS_Snippets_CLR/enumgetvalues#1)]"
   syntax:
     content: public static Array GetValues (Type enumType);
     parameters:
     - id: enumType
       type: System.Type
-      description: Parameter description to be filled
+      description: An enumeration type.
     return:
       type: System.Array
-      description: Return description to be filled
+      description: An array that contains the values of the constants in .
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Enum.HasFlag(System.Enum)
   id: HasFlag(System.Enum)
   parent: System.Enum
   langs:
   - csharp
-  - vb
   name: HasFlag(Enum)
   nameWithType: Enum.HasFlag(Enum)
   fullName: System.Enum.HasFlag(Enum)
@@ -301,21 +371,28 @@ items:
   assemblies:
   - mscorlib
   namespace: System
+  summary: Determines whether one or more bit fields are set in the current instance.
+  remarks: "The HasFlag method returns the result of the following Boolean expression.  \n  \n```  \nthisInstance And flag = flag   \n```  \n  \n If the underlying value of  is zero, the method returns `true`. If this behavior is not desirable, you can use the <xref:System.Enum.Equals%2A> method to test for equality with zero and call HasFlag only if the underlying value of  is non-zero, as the following example illustrates.  \n  \n [!CODE [System.Enum.HasFlag#1](../CodeSnippet/VS_Snippets_CLR_System/system.enum.hasflag#1)]  \n  \n The HasFlag method is designed to be used with enumeration types that are marked with the <xref:System.FlagsAttribute> attribute and can be used to determine whether multiple bit fields are set. For enumeration types that are not marked with the <xref:System.FlagsAttribute> attribute, call either the <xref:System.Enum.Equals%2A> method or the <xref:System.Enum.CompareTo%2A> method."
+  example:
+  - "The following example defines an `ItemsOrdered` enumeration that reflects categories of items that a customer can order in a restaurant. The example tests whether the customer has ordered both an entrée and a beverage.  \n  \n [!CODE [System.Enum.HasFlag#2](../CodeSnippet/VS_Snippets_CLR_System/system.enum.hasflag#2)]"
   syntax:
     content: public bool HasFlag (Enum flag);
     parameters:
     - id: flag
       type: System.Enum
-      description: Parameter description to be filled
+      description: An enumeration value.
     return:
       type: System.Boolean
-      description: Return description to be filled
+      description: '`true` if the bit field or bit fields that are set in  are also set in the current instance; otherwise, `false`.'
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Enum.IsDefined(System.Type,System.Object)
   id: IsDefined(System.Type,System.Object)
   parent: System.Enum
   langs:
   - csharp
-  - vb
   name: IsDefined(Type,Object)
   nameWithType: Enum.IsDefined(Type,Object)
   fullName: System.Enum.IsDefined(Type,Object)
@@ -323,24 +400,31 @@ items:
   assemblies:
   - mscorlib
   namespace: System
+  summary: Returns an indication whether a constant with a specified value exists in a specified enumeration.
+  remarks: "The  parameter can be any of the following:  \n  \n-   Any member of type .  \n  \n-   A variable whose value is an enumeration member of type .  \n  \n-   The string representation of the name of an enumeration member. The characters in the string must have the same case as the enumeration member name.  \n  \n-   A value of the underlying type of .  \n  \n If the constants in  define a set of bit fields and  contains the values, names, or underlying values of multiple bit fields, the IsDefined method returns `false`. In other words, for enumerations that define a set of bit fields, the method determines only whether a single bit field belongs to the enumeration. To determine whether multiple bit fields are set in an enumeration type that is tagged with the <xref:System.FlagsAttribute> attribute, you can call the <xref:System.Enum.HasFlag%2A> method."
+  example:
+  - "The following example defines an enumeration named `PetType` that consists of individual bit fields. It then calls the IsDefined method with possible underlying enumeration values, string names, and composite values that result from setting multiple bit fields.  \n  \n [!CODE [System.Enum.IsDefined#1](../CodeSnippet/VS_Snippets_CLR_System/system.Enum.IsDefined#1)]"
   syntax:
     content: public static bool IsDefined (Type enumType, object value);
     parameters:
     - id: enumType
       type: System.Type
-      description: Parameter description to be filled
+      description: An enumeration type.
     - id: value
       type: System.Object
-      description: Parameter description to be filled
+      description: The value or name of a constant in .
     return:
       type: System.Boolean
-      description: Return description to be filled
+      description: '`true` if a constant in  has a value equal to ; otherwise, `false`.'
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Enum.Parse(System.Type,System.String)
   id: Parse(System.Type,System.String)
   parent: System.Enum
   langs:
   - csharp
-  - vb
   name: Parse(Type,String)
   nameWithType: Enum.Parse(Type,String)
   fullName: System.Enum.Parse(Type,String)
@@ -348,25 +432,32 @@ items:
   assemblies:
   - mscorlib
   namespace: System
+  summary: Converts the string representation of the name or numeric value of one or more enumerated constants to an equivalent enumerated object.
+  remarks: "The  parameter contains the string representation of an enumeration member's underlying value or named constant, or a list of named constants delimited by commas (,). One or more blank spaces can precede or follow each value, name, or comma in . If  is a list, the return value is the value of the specified names combined with a bitwise `OR` operation.  \n  \n If  is a name that does not correspond to a named constant of , the method throws an <xref:System.ArgumentException>. If  is the string representation of an integer that does not represent an underlying value of the  enumeration, the method returns an enumeration member whose underlying value is  converted to an integral type. If this behavior is undesirable, call the <xref:System.Enum.IsDefined%2A> method to ensure that a particular string representation of an integer is actually a member of . The following example defines a `Colors` enumeration, calls the Parse method to convert strings to their corresponding enumeration values, and calls the <xref:System.Enum.IsDefined%2A> method to ensure that particular integral values are underlying values in the `Colors` enumeration.  \n  \n [!CODE [System.Enum.Parse#1](../CodeSnippet/VS_Snippets_CLR_System/system.Enum.Parse#1)]  \n  \n This operation is case-sensitive."
+  example:
+  - "The following example uses the Parse method to parse an array of strings that are created by calling the <xref:System.Enum.GetNames%2A> method. It also uses the Parse method to parse an enumeration value that consists of a bit field.  \n  \n [!CODE [enumparse#1](../CodeSnippet/VS_Snippets_CLR/enumparse#1)]"
   syntax:
     content: public static object Parse (Type enumType, string value);
     parameters:
     - id: enumType
       type: System.Type
-      description: Parameter description to be filled
+      description: An enumeration type.
     - id: value
       type: System.String
-      description: Parameter description to be filled
+      description: A string containing the name or value to convert.
     return:
       type: System.Object
-      description: Return description to be filled
+      description: An object of type  whose value is represented by .
   overload: System.Enum.Parse*
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Enum.Parse(System.Type,System.String,System.Boolean)
   id: Parse(System.Type,System.String,System.Boolean)
   parent: System.Enum
   langs:
   - csharp
-  - vb
   name: Parse(Type,String,Boolean)
   nameWithType: Enum.Parse(Type,String,Boolean)
   fullName: System.Enum.Parse(Type,String,Boolean)
@@ -374,29 +465,36 @@ items:
   assemblies:
   - mscorlib
   namespace: System
+  summary: Converts the string representation of the name or numeric value of one or more enumerated constants to an equivalent enumerated object. A parameter specifies whether the operation is case-insensitive.
+  remarks: "The  parameter contains the string representation of an enumeration member's underlying value or named constant, or a list of named constants delimited by commas (,). One or more blank spaces can precede or follow each value, name, or comma in . If  is a list, the return value is the value of the specified names combined with a bitwise `OR` operation.  \n  \n If  is a name that does not correspond to a named constant of , the method throws an <xref:System.ArgumentException>. If  is the string representation of an integer that does not represent an underlying value of the  enumeration, the method returns an enumeration member whose underlying value is  converted to an integral type. If this behavior is undesirable, call the <xref:System.Enum.IsDefined%2A> method to ensure that a particular string representation of an integer is actually a member of . The following example defines a `Colors` enumeration, calls the Parse method to convert strings to their corresponding enumeration values, and calls the <xref:System.Enum.IsDefined%2A> method to ensure that particular integral values are underlying values in the `Colors` enumeration.  \n  \n [!CODE [System.Enum.Parse#2](../CodeSnippet/VS_Snippets_CLR_System/system.Enum.Parse#2)]  \n  \n The  parameter specifies whether this operation is case-sensitive."
+  example:
+  - "The following example uses the Parse method to parse an array of strings that are created by calling the <xref:System.Enum.GetNames%2A> method. It also uses the <xref:System.Enum.Parse%28System.Type%2CSystem.String%29> method to parse an enumeration value that consists of a bit field.  \n  \n [!CODE [System.Enum.Parse#2](../CodeSnippet/VS_Snippets_CLR_System/system.Enum.Parse#2)]"
   syntax:
     content: public static object Parse (Type enumType, string value, bool ignoreCase);
     parameters:
     - id: enumType
       type: System.Type
-      description: Parameter description to be filled
+      description: An enumeration type.
     - id: value
       type: System.String
-      description: Parameter description to be filled
+      description: A string containing the name or value to convert.
     - id: ignoreCase
       type: System.Boolean
-      description: Parameter description to be filled
+      description: '`true` to ignore case; `false` to regard case.'
     return:
       type: System.Object
-      description: Return description to be filled
+      description: An object of type  whose value is represented by .
   overload: System.Enum.Parse*
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Enum.System#IConvertible#ToBoolean(System.IFormatProvider)
   id: System#IConvertible#ToBoolean(System.IFormatProvider)
   isEii: true
   parent: System.Enum
   langs:
   - csharp
-  - vb
   name: System.IConvertible.ToBoolean(IFormatProvider)
   nameWithType: Enum.System.IConvertible.ToBoolean(IFormatProvider)
   fullName: System.Enum.System.IConvertible.ToBoolean(IFormatProvider)
@@ -404,22 +502,27 @@ items:
   assemblies:
   - mscorlib
   namespace: System
+  summary: Converts the current value to a Boolean value based on the underlying type.
+  remarks: Currently not implemented. Always throws an exception.
   syntax:
     content: bool IConvertible.ToBoolean (IFormatProvider provider);
     parameters:
     - id: provider
       type: System.IFormatProvider
-      description: Parameter description to be filled
+      description: An object that supplies culture-specific formatting information.
     return:
       type: System.Boolean
-      description: Return description to be filled
+      description: This member always throws an exception.
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Enum.System#IConvertible#ToByte(System.IFormatProvider)
   id: System#IConvertible#ToByte(System.IFormatProvider)
   isEii: true
   parent: System.Enum
   langs:
   - csharp
-  - vb
   name: System.IConvertible.ToByte(IFormatProvider)
   nameWithType: Enum.System.IConvertible.ToByte(IFormatProvider)
   fullName: System.Enum.System.IConvertible.ToByte(IFormatProvider)
@@ -427,22 +530,27 @@ items:
   assemblies:
   - mscorlib
   namespace: System
+  summary: Converts the current value to an 8-bit unsigned integer based on the underlying type.
+  remarks: Uses <xref:System.Convert> to perform the conversion.
   syntax:
     content: byte IConvertible.ToByte (IFormatProvider provider);
     parameters:
     - id: provider
       type: System.IFormatProvider
-      description: Parameter description to be filled
+      description: An object that supplies culture-specific formatting information.
     return:
       type: System.Byte
-      description: Return description to be filled
+      description: The converted value.
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Enum.System#IConvertible#ToChar(System.IFormatProvider)
   id: System#IConvertible#ToChar(System.IFormatProvider)
   isEii: true
   parent: System.Enum
   langs:
   - csharp
-  - vb
   name: System.IConvertible.ToChar(IFormatProvider)
   nameWithType: Enum.System.IConvertible.ToChar(IFormatProvider)
   fullName: System.Enum.System.IConvertible.ToChar(IFormatProvider)
@@ -450,22 +558,27 @@ items:
   assemblies:
   - mscorlib
   namespace: System
+  summary: Converts the current value to a Unicode character based on the underlying type.
+  remarks: Currently not implemented. Always throws an exception.
   syntax:
     content: char IConvertible.ToChar (IFormatProvider provider);
     parameters:
     - id: provider
       type: System.IFormatProvider
-      description: Parameter description to be filled
+      description: An object that supplies culture-specific formatting information.
     return:
       type: System.Char
-      description: Return description to be filled
+      description: This member always throws an exception.
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Enum.System#IConvertible#ToDateTime(System.IFormatProvider)
   id: System#IConvertible#ToDateTime(System.IFormatProvider)
   isEii: true
   parent: System.Enum
   langs:
   - csharp
-  - vb
   name: System.IConvertible.ToDateTime(IFormatProvider)
   nameWithType: Enum.System.IConvertible.ToDateTime(IFormatProvider)
   fullName: System.Enum.System.IConvertible.ToDateTime(IFormatProvider)
@@ -473,22 +586,27 @@ items:
   assemblies:
   - mscorlib
   namespace: System
+  summary: Converts the current value to a <see cref="T:System.DateTime"> based on the underlying type.
+  remarks: Currently not implemented. Always throws an exception.
   syntax:
     content: DateTime IConvertible.ToDateTime (IFormatProvider provider);
     parameters:
     - id: provider
       type: System.IFormatProvider
-      description: Parameter description to be filled
+      description: An object that supplies culture-specific formatting information.
     return:
       type: System.DateTime
-      description: Return description to be filled
+      description: This member always throws an exception.
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Enum.System#IConvertible#ToDecimal(System.IFormatProvider)
   id: System#IConvertible#ToDecimal(System.IFormatProvider)
   isEii: true
   parent: System.Enum
   langs:
   - csharp
-  - vb
   name: System.IConvertible.ToDecimal(IFormatProvider)
   nameWithType: Enum.System.IConvertible.ToDecimal(IFormatProvider)
   fullName: System.Enum.System.IConvertible.ToDecimal(IFormatProvider)
@@ -496,22 +614,27 @@ items:
   assemblies:
   - mscorlib
   namespace: System
+  summary: Converts the current value to a <see cref="T:System.Decimal"> based on the underlying type.
+  remarks: Currently not implemented. Always throws an exception.
   syntax:
     content: decimal IConvertible.ToDecimal (IFormatProvider provider);
     parameters:
     - id: provider
       type: System.IFormatProvider
-      description: Parameter description to be filled
+      description: An object that supplies culture-specific formatting information.
     return:
       type: System.Decimal
-      description: Return description to be filled
+      description: This member always throws an exception.
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Enum.System#IConvertible#ToDouble(System.IFormatProvider)
   id: System#IConvertible#ToDouble(System.IFormatProvider)
   isEii: true
   parent: System.Enum
   langs:
   - csharp
-  - vb
   name: System.IConvertible.ToDouble(IFormatProvider)
   nameWithType: Enum.System.IConvertible.ToDouble(IFormatProvider)
   fullName: System.Enum.System.IConvertible.ToDouble(IFormatProvider)
@@ -519,22 +642,27 @@ items:
   assemblies:
   - mscorlib
   namespace: System
+  summary: Converts the current value to a double-precision floating point number based on the underlying type.
+  remarks: Currently not implemented. Always throws an exception.
   syntax:
     content: double IConvertible.ToDouble (IFormatProvider provider);
     parameters:
     - id: provider
       type: System.IFormatProvider
-      description: Parameter description to be filled
+      description: An object that supplies culture-specific formatting information.
     return:
       type: System.Double
-      description: Return description to be filled
+      description: This member always throws an exception.
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Enum.System#IConvertible#ToInt16(System.IFormatProvider)
   id: System#IConvertible#ToInt16(System.IFormatProvider)
   isEii: true
   parent: System.Enum
   langs:
   - csharp
-  - vb
   name: System.IConvertible.ToInt16(IFormatProvider)
   nameWithType: Enum.System.IConvertible.ToInt16(IFormatProvider)
   fullName: System.Enum.System.IConvertible.ToInt16(IFormatProvider)
@@ -542,22 +670,27 @@ items:
   assemblies:
   - mscorlib
   namespace: System
+  summary: Converts the current value to a 16-bit signed integer based on the underlying type.
+  remarks: Uses <xref:System.Convert> to perform the conversion.
   syntax:
     content: short IConvertible.ToInt16 (IFormatProvider provider);
     parameters:
     - id: provider
       type: System.IFormatProvider
-      description: Parameter description to be filled
+      description: An object that supplies culture-specific formatting information.
     return:
       type: System.Int16
-      description: Return description to be filled
+      description: The converted value.
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Enum.System#IConvertible#ToInt32(System.IFormatProvider)
   id: System#IConvertible#ToInt32(System.IFormatProvider)
   isEii: true
   parent: System.Enum
   langs:
   - csharp
-  - vb
   name: System.IConvertible.ToInt32(IFormatProvider)
   nameWithType: Enum.System.IConvertible.ToInt32(IFormatProvider)
   fullName: System.Enum.System.IConvertible.ToInt32(IFormatProvider)
@@ -565,22 +698,27 @@ items:
   assemblies:
   - mscorlib
   namespace: System
+  summary: Converts the current value to a 32-bit signed integer based on the underlying type.
+  remarks: Uses <xref:System.Convert> to perform the conversion.
   syntax:
     content: int IConvertible.ToInt32 (IFormatProvider provider);
     parameters:
     - id: provider
       type: System.IFormatProvider
-      description: Parameter description to be filled
+      description: An object that supplies culture-specific formatting information.
     return:
       type: System.Int32
-      description: Return description to be filled
+      description: The converted value.
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Enum.System#IConvertible#ToInt64(System.IFormatProvider)
   id: System#IConvertible#ToInt64(System.IFormatProvider)
   isEii: true
   parent: System.Enum
   langs:
   - csharp
-  - vb
   name: System.IConvertible.ToInt64(IFormatProvider)
   nameWithType: Enum.System.IConvertible.ToInt64(IFormatProvider)
   fullName: System.Enum.System.IConvertible.ToInt64(IFormatProvider)
@@ -588,22 +726,27 @@ items:
   assemblies:
   - mscorlib
   namespace: System
+  summary: Converts the current value to a 64-bit signed integer based on the underlying type.
+  remarks: Uses <xref:System.Convert> to perform the conversion.
   syntax:
     content: long IConvertible.ToInt64 (IFormatProvider provider);
     parameters:
     - id: provider
       type: System.IFormatProvider
-      description: Parameter description to be filled
+      description: An object that supplies culture-specific formatting information.
     return:
       type: System.Int64
-      description: Return description to be filled
+      description: The converted value.
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Enum.System#IConvertible#ToSByte(System.IFormatProvider)
   id: System#IConvertible#ToSByte(System.IFormatProvider)
   isEii: true
   parent: System.Enum
   langs:
   - csharp
-  - vb
   name: System.IConvertible.ToSByte(IFormatProvider)
   nameWithType: Enum.System.IConvertible.ToSByte(IFormatProvider)
   fullName: System.Enum.System.IConvertible.ToSByte(IFormatProvider)
@@ -611,22 +754,27 @@ items:
   assemblies:
   - mscorlib
   namespace: System
+  summary: Converts the current value to an 8-bit signed integer based on the underlying type.
+  remarks: Uses <xref:System.Convert> to perform the conversion.
   syntax:
     content: sbyte IConvertible.ToSByte (IFormatProvider provider);
     parameters:
     - id: provider
       type: System.IFormatProvider
-      description: Parameter description to be filled
+      description: An object that supplies culture-specific formatting information.
     return:
       type: System.SByte
-      description: Return description to be filled
+      description: The converted value.
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Enum.System#IConvertible#ToSingle(System.IFormatProvider)
   id: System#IConvertible#ToSingle(System.IFormatProvider)
   isEii: true
   parent: System.Enum
   langs:
   - csharp
-  - vb
   name: System.IConvertible.ToSingle(IFormatProvider)
   nameWithType: Enum.System.IConvertible.ToSingle(IFormatProvider)
   fullName: System.Enum.System.IConvertible.ToSingle(IFormatProvider)
@@ -634,22 +782,27 @@ items:
   assemblies:
   - mscorlib
   namespace: System
+  summary: Converts the current value to a single-precision floating-point number based on the underlying type.
+  remarks: Currently not implemented. Always throws an exception.
   syntax:
     content: float IConvertible.ToSingle (IFormatProvider provider);
     parameters:
     - id: provider
       type: System.IFormatProvider
-      description: Parameter description to be filled
+      description: An object that supplies culture-specific formatting information.
     return:
       type: System.Single
-      description: Return description to be filled
+      description: This member always throws an exception.
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Enum.System#IConvertible#ToType(System.Type,System.IFormatProvider)
   id: System#IConvertible#ToType(System.Type,System.IFormatProvider)
   isEii: true
   parent: System.Enum
   langs:
   - csharp
-  - vb
   name: System.IConvertible.ToType(Type,IFormatProvider)
   nameWithType: Enum.System.IConvertible.ToType(Type,IFormatProvider)
   fullName: System.Enum.System.IConvertible.ToType(Type,IFormatProvider)
@@ -657,25 +810,30 @@ items:
   assemblies:
   - mscorlib
   namespace: System
+  summary: Converts the current value to a specified type based on the underlying type.
+  remarks: Uses <xref:System.Convert> to perform the conversion.
   syntax:
     content: object IConvertible.ToType (Type type, IFormatProvider provider);
     parameters:
     - id: type
       type: System.Type
-      description: Parameter description to be filled
+      description: The type to convert to.
     - id: provider
       type: System.IFormatProvider
-      description: Parameter description to be filled
+      description: An object that supplies culture-specific formatting information.
     return:
       type: System.Object
-      description: Return description to be filled
+      description: The converted value.
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Enum.System#IConvertible#ToUInt16(System.IFormatProvider)
   id: System#IConvertible#ToUInt16(System.IFormatProvider)
   isEii: true
   parent: System.Enum
   langs:
   - csharp
-  - vb
   name: System.IConvertible.ToUInt16(IFormatProvider)
   nameWithType: Enum.System.IConvertible.ToUInt16(IFormatProvider)
   fullName: System.Enum.System.IConvertible.ToUInt16(IFormatProvider)
@@ -683,22 +841,27 @@ items:
   assemblies:
   - mscorlib
   namespace: System
+  summary: Converts the current value to a 16-bit unsigned integer based on the underlying type.
+  remarks: Uses <xref:System.Convert> to perform the conversion.
   syntax:
     content: ushort IConvertible.ToUInt16 (IFormatProvider provider);
     parameters:
     - id: provider
       type: System.IFormatProvider
-      description: Parameter description to be filled
+      description: An object that supplies culture-specific formatting information.
     return:
       type: System.UInt16
-      description: Return description to be filled
+      description: The converted value.
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Enum.System#IConvertible#ToUInt32(System.IFormatProvider)
   id: System#IConvertible#ToUInt32(System.IFormatProvider)
   isEii: true
   parent: System.Enum
   langs:
   - csharp
-  - vb
   name: System.IConvertible.ToUInt32(IFormatProvider)
   nameWithType: Enum.System.IConvertible.ToUInt32(IFormatProvider)
   fullName: System.Enum.System.IConvertible.ToUInt32(IFormatProvider)
@@ -706,22 +869,27 @@ items:
   assemblies:
   - mscorlib
   namespace: System
+  summary: Converts the current value to a 32-bit unsigned integer based on the underlying type.
+  remarks: Uses <xref:System.Convert> to perform the conversion.
   syntax:
     content: uint IConvertible.ToUInt32 (IFormatProvider provider);
     parameters:
     - id: provider
       type: System.IFormatProvider
-      description: Parameter description to be filled
+      description: An object that supplies culture-specific formatting information.
     return:
       type: System.UInt32
-      description: Return description to be filled
+      description: The converted value.
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Enum.System#IConvertible#ToUInt64(System.IFormatProvider)
   id: System#IConvertible#ToUInt64(System.IFormatProvider)
   isEii: true
   parent: System.Enum
   langs:
   - csharp
-  - vb
   name: System.IConvertible.ToUInt64(IFormatProvider)
   nameWithType: Enum.System.IConvertible.ToUInt64(IFormatProvider)
   fullName: System.Enum.System.IConvertible.ToUInt64(IFormatProvider)
@@ -729,21 +897,26 @@ items:
   assemblies:
   - mscorlib
   namespace: System
+  summary: Converts the current value to a 64-bit unsigned integer based on the underlying type.
+  remarks: Uses <xref:System.Convert> to perform the conversion.
   syntax:
     content: ulong IConvertible.ToUInt64 (IFormatProvider provider);
     parameters:
     - id: provider
       type: System.IFormatProvider
-      description: Parameter description to be filled
+      description: An object that supplies culture-specific formatting information.
     return:
       type: System.UInt64
-      description: Return description to be filled
+      description: The converted value.
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Enum.ToObject(System.Type,System.Byte)
   id: ToObject(System.Type,System.Byte)
   parent: System.Enum
   langs:
   - csharp
-  - vb
   name: ToObject(Type,Byte)
   nameWithType: Enum.ToObject(Type,Byte)
   fullName: System.Enum.ToObject(Type,Byte)
@@ -751,25 +924,30 @@ items:
   assemblies:
   - mscorlib
   namespace: System
+  summary: Converts the specified 8-bit unsigned integer to an enumeration member.
+  remarks: "The ToObject method converts  to an enumeration member whose underlying value is . Note that the conversion succeeds even if value is outside the bounds of  members. To ensure that  is a valid underlying value of the  enumeration, pass it to the <xref:System.Enum.IsDefined%2A> method.  \n  \n This conversion method returns a value of type <xref:System.Object>. You can then cast it or convert it to an object of type ."
   syntax:
     content: public static object ToObject (Type enumType, byte value);
     parameters:
     - id: enumType
       type: System.Type
-      description: Parameter description to be filled
+      description: The enumeration type to return.
     - id: value
       type: System.Byte
-      description: Parameter description to be filled
+      description: The value to convert to an enumeration member.
     return:
       type: System.Object
-      description: Return description to be filled
+      description: An instance of the enumeration set to .
   overload: System.Enum.ToObject*
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Enum.ToObject(System.Type,System.Int16)
   id: ToObject(System.Type,System.Int16)
   parent: System.Enum
   langs:
   - csharp
-  - vb
   name: ToObject(Type,Int16)
   nameWithType: Enum.ToObject(Type,Int16)
   fullName: System.Enum.ToObject(Type,Int16)
@@ -777,25 +955,30 @@ items:
   assemblies:
   - mscorlib
   namespace: System
+  summary: Converts the specified 16-bit signed integer to an enumeration member.
+  remarks: "The ToObject method converts  to an enumeration member whose underlying value is . Note that the conversion succeeds even if value is outside the bounds of  members. To ensure that  is a valid underlying value of the  enumeration, pass it to the <xref:System.Enum.IsDefined%2A> method.  \n  \n This conversion method returns a value of type <xref:System.Object>. You can then cast it or convert it to an object of type ."
   syntax:
     content: public static object ToObject (Type enumType, short value);
     parameters:
     - id: enumType
       type: System.Type
-      description: Parameter description to be filled
+      description: The enumeration type to return.
     - id: value
       type: System.Int16
-      description: Parameter description to be filled
+      description: The value to convert to an enumeration member.
     return:
       type: System.Object
-      description: Return description to be filled
+      description: An instance of the enumeration set to .
   overload: System.Enum.ToObject*
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Enum.ToObject(System.Type,System.Int32)
   id: ToObject(System.Type,System.Int32)
   parent: System.Enum
   langs:
   - csharp
-  - vb
   name: ToObject(Type,Int32)
   nameWithType: Enum.ToObject(Type,Int32)
   fullName: System.Enum.ToObject(Type,Int32)
@@ -803,25 +986,30 @@ items:
   assemblies:
   - mscorlib
   namespace: System
+  summary: Converts the specified 32-bit signed integer to an enumeration member.
+  remarks: "The ToObject method converts  to an enumeration member whose underlying value is . Note that the conversion succeeds even if value is outside the bounds of  members. To ensure that  is a valid underlying value of the  enumeration, pass it to the <xref:System.Enum.IsDefined%2A> method.  \n  \n This conversion method returns a value of type <xref:System.Object>. You can then cast it or convert it to an object of type ."
   syntax:
     content: public static object ToObject (Type enumType, int value);
     parameters:
     - id: enumType
       type: System.Type
-      description: Parameter description to be filled
+      description: The enumeration type to return.
     - id: value
       type: System.Int32
-      description: Parameter description to be filled
+      description: The value to convert to an enumeration member.
     return:
       type: System.Object
-      description: Return description to be filled
+      description: An instance of the enumeration set to .
   overload: System.Enum.ToObject*
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Enum.ToObject(System.Type,System.Int64)
   id: ToObject(System.Type,System.Int64)
   parent: System.Enum
   langs:
   - csharp
-  - vb
   name: ToObject(Type,Int64)
   nameWithType: Enum.ToObject(Type,Int64)
   fullName: System.Enum.ToObject(Type,Int64)
@@ -829,25 +1017,30 @@ items:
   assemblies:
   - mscorlib
   namespace: System
+  summary: Converts the specified 64-bit signed integer to an enumeration member.
+  remarks: "The ToObject method converts  to an enumeration member whose underlying value is . Note that the conversion succeeds even if value is outside the bounds of  members. To ensure that  is a valid underlying value of the  enumeration, pass it to the <xref:System.Enum.IsDefined%2A> method.  \n  \n This conversion method returns a value of type <xref:System.Object>. You can then cast it or convert it to an object of type ."
   syntax:
     content: public static object ToObject (Type enumType, long value);
     parameters:
     - id: enumType
       type: System.Type
-      description: Parameter description to be filled
+      description: The enumeration type to return.
     - id: value
       type: System.Int64
-      description: Parameter description to be filled
+      description: The value to convert to an enumeration member.
     return:
       type: System.Object
-      description: Return description to be filled
+      description: An instance of the enumeration set to .
   overload: System.Enum.ToObject*
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Enum.ToObject(System.Type,System.Object)
   id: ToObject(System.Type,System.Object)
   parent: System.Enum
   langs:
   - csharp
-  - vb
   name: ToObject(Type,Object)
   nameWithType: Enum.ToObject(Type,Object)
   fullName: System.Enum.ToObject(Type,Object)
@@ -855,25 +1048,30 @@ items:
   assemblies:
   - mscorlib
   namespace: System
+  summary: Converts the specified object with an integer value to an enumeration member.
+  remarks: "The ToObject method converts the integral value  to an enumeration member whose underlying value is . Note that the conversion succeeds even if value is outside the bounds of  members. To ensure that  is a valid underlying value of the  enumeration, pass it to the <xref:System.Enum.IsDefined%2A> method.  \n  \n This conversion method returns a value of type <xref:System.Object>. You can then cast it or convert it to an object of type ."
   syntax:
     content: public static object ToObject (Type enumType, object value);
     parameters:
     - id: enumType
       type: System.Type
-      description: Parameter description to be filled
+      description: The enumeration type to return.
     - id: value
       type: System.Object
-      description: Parameter description to be filled
+      description: The value convert to an enumeration member.
     return:
       type: System.Object
-      description: Return description to be filled
+      description: An enumeration object whose value is .
   overload: System.Enum.ToObject*
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Enum.ToObject(System.Type,System.SByte)
   id: ToObject(System.Type,System.SByte)
   parent: System.Enum
   langs:
   - csharp
-  - vb
   name: ToObject(Type,SByte)
   nameWithType: Enum.ToObject(Type,SByte)
   fullName: System.Enum.ToObject(Type,SByte)
@@ -881,25 +1079,30 @@ items:
   assemblies:
   - mscorlib
   namespace: System
+  summary: Converts the specified 8-bit signed integer value to an enumeration member.
+  remarks: "The ToObject method converts  to an enumeration member whose underlying value is . Note that the conversion succeeds even if value is outside the bounds of  members. To ensure that  is a valid underlying value of the  enumeration, pass it to the <xref:System.Enum.IsDefined%2A> method.  \n  \n This conversion method returns a value of type <xref:System.Object>. You can then cast it or convert it to an object of type ."
   syntax:
     content: public static object ToObject (Type enumType, sbyte value);
     parameters:
     - id: enumType
       type: System.Type
-      description: Parameter description to be filled
+      description: The enumeration type to return.
     - id: value
       type: System.SByte
-      description: Parameter description to be filled
+      description: The value to convert to an enumeration member.
     return:
       type: System.Object
-      description: Return description to be filled
+      description: An instance of the enumeration set to .
   overload: System.Enum.ToObject*
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Enum.ToObject(System.Type,System.UInt16)
   id: ToObject(System.Type,System.UInt16)
   parent: System.Enum
   langs:
   - csharp
-  - vb
   name: ToObject(Type,UInt16)
   nameWithType: Enum.ToObject(Type,UInt16)
   fullName: System.Enum.ToObject(Type,UInt16)
@@ -907,25 +1110,30 @@ items:
   assemblies:
   - mscorlib
   namespace: System
+  summary: Converts the specified 16-bit unsigned integer value to an enumeration member.
+  remarks: "The ToObject method converts  to an enumeration member whose underlying value is . Note that the conversion succeeds even if value is outside the bounds of  members. To ensure that  is a valid underlying value of the  enumeration, pass it to the <xref:System.Enum.IsDefined%2A> method.  \n  \n This conversion method returns a value of type <xref:System.Object>. You can then cast it or convert it to an object of type ."
   syntax:
     content: public static object ToObject (Type enumType, ushort value);
     parameters:
     - id: enumType
       type: System.Type
-      description: Parameter description to be filled
+      description: The enumeration type to return.
     - id: value
       type: System.UInt16
-      description: Parameter description to be filled
+      description: The value to convert to an enumeration member.
     return:
       type: System.Object
-      description: Return description to be filled
+      description: An instance of the enumeration set to .
   overload: System.Enum.ToObject*
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Enum.ToObject(System.Type,System.UInt32)
   id: ToObject(System.Type,System.UInt32)
   parent: System.Enum
   langs:
   - csharp
-  - vb
   name: ToObject(Type,UInt32)
   nameWithType: Enum.ToObject(Type,UInt32)
   fullName: System.Enum.ToObject(Type,UInt32)
@@ -933,25 +1141,30 @@ items:
   assemblies:
   - mscorlib
   namespace: System
+  summary: Converts the specified 32-bit unsigned integer value to an enumeration member.
+  remarks: "The ToObject method converts  to an enumeration member whose underlying value is . Note that the conversion succeeds even if value is outside the bounds of  members. To ensure that  is a valid underlying value of the  enumeration, pass it to the <xref:System.Enum.IsDefined%2A> method.  \n  \n This conversion method returns a value of type <xref:System.Object>. You can then cast it or convert it to an object of type ."
   syntax:
     content: public static object ToObject (Type enumType, uint value);
     parameters:
     - id: enumType
       type: System.Type
-      description: Parameter description to be filled
+      description: The enumeration type to return.
     - id: value
       type: System.UInt32
-      description: Parameter description to be filled
+      description: The value to convert to an enumeration member.
     return:
       type: System.Object
-      description: Return description to be filled
+      description: An instance of the enumeration set to .
   overload: System.Enum.ToObject*
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Enum.ToObject(System.Type,System.UInt64)
   id: ToObject(System.Type,System.UInt64)
   parent: System.Enum
   langs:
   - csharp
-  - vb
   name: ToObject(Type,UInt64)
   nameWithType: Enum.ToObject(Type,UInt64)
   fullName: System.Enum.ToObject(Type,UInt64)
@@ -959,25 +1172,30 @@ items:
   assemblies:
   - mscorlib
   namespace: System
+  summary: Converts the specified 64-bit unsigned integer value to an enumeration member.
+  remarks: "The ToObject method converts  to an enumeration member whose underlying value is . Note that the conversion succeeds even if value is outside the bounds of  members. To ensure that  is a valid underlying value of the  enumeration, pass it to the <xref:System.Enum.IsDefined%2A> method.  \n  \n This conversion method returns a value of type <xref:System.Object>. You can then cast it or convert it to an object of type ."
   syntax:
     content: public static object ToObject (Type enumType, ulong value);
     parameters:
     - id: enumType
       type: System.Type
-      description: Parameter description to be filled
+      description: The enumeration type to return.
     - id: value
       type: System.UInt64
-      description: Parameter description to be filled
+      description: The value to convert to an enumeration member.
     return:
       type: System.Object
-      description: Return description to be filled
+      description: An instance of the enumeration set to .
   overload: System.Enum.ToObject*
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Enum.ToString
   id: ToString
   parent: System.Enum
   langs:
   - csharp
-  - vb
   name: ToString()
   nameWithType: Enum.ToString()
   fullName: System.Enum.ToString()
@@ -985,19 +1203,26 @@ items:
   assemblies:
   - mscorlib
   namespace: System
+  summary: Converts the value of this instance to its equivalent string representation.
+  remarks: The return value is formatted with the general format specifier ("G"). That is, if the <xref:System.FlagsAttribute> is not applied to this enumerated type and there is a named constant equal to the value of this instance, then the return value is a string containing the name of the constant. If the <xref:System.FlagsAttribute> is applied and there is a combination of one or more named constants equal to the value of this instance, then the return value is a string containing a delimiter-separated list of the names of the constants. Otherwise, the return value is the string representation of the numeric value of this instance. For more information about formatting enumeration values, see [Enumeration Format Strings](../Topic/Enumeration%20Format%20Strings.md). For more information about formatting in general, see [Formatting Types](../Topic/Formatting%20Types%20in%20the%20.NET%20Framework.md).
+  example:
+  - "The following example demonstrates converting an enumerated value to a string.  \n  \n [!CODE [Classic Enum.ToString2 Example#1](../CodeSnippet/VS_Snippets_CLR_Classic/classic Enum.ToString2 Example#1)]"
   syntax:
     content: public override string ToString ();
     parameters: []
     return:
       type: System.String
-      description: Return description to be filled
+      description: The string representation of the value of this instance.
   overload: System.Enum.ToString*
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Enum.ToString(System.IFormatProvider)
   id: ToString(System.IFormatProvider)
   parent: System.Enum
   langs:
   - csharp
-  - vb
   name: ToString(IFormatProvider)
   nameWithType: Enum.ToString(IFormatProvider)
   fullName: System.Enum.ToString(IFormatProvider)
@@ -1005,22 +1230,27 @@ items:
   assemblies:
   - mscorlib
   namespace: System
+  summary: This method overload is obsolete; use <xref:System.Enum.ToString?displayProperty=fullName>.
+  remarks: To be added.
   syntax:
     content: public string ToString (IFormatProvider provider);
     parameters:
     - id: provider
       type: System.IFormatProvider
-      description: Parameter description to be filled
+      description: (obsolete)
     return:
       type: System.String
-      description: Return description to be filled
+      description: The string representation of the value of this instance.
   overload: System.Enum.ToString*
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Enum.ToString(System.String)
   id: ToString(System.String)
   parent: System.Enum
   langs:
   - csharp
-  - vb
   name: ToString(String)
   nameWithType: Enum.ToString(String)
   fullName: System.Enum.ToString(String)
@@ -1028,22 +1258,29 @@ items:
   assemblies:
   - mscorlib
   namespace: System
+  summary: Converts the value of this instance to its equivalent string representation using the specified format.
+  remarks: The  parameter can contain the "G" or "g", "D" or "d", "X" or "x", and "F" or "f" format strings (the format string is not case-sensitive). If  is `null` or an empty string (""), the general format specifier ("G") is used. For more information about the enumeration format strings and formatting enumeration values, see [Enumeration Format Strings](../Topic/Enumeration%20Format%20Strings.md). For more information about formatting in general, see [Formatting Types](../Topic/Formatting%20Types%20in%20the%20.NET%20Framework.md).
+  example:
+  - "The following example demonstrates how to convert an enumerated value to a string.  \n  \n [!CODE [enum.tostring#1](../CodeSnippet/VS_Snippets_CLR/enum.tostring#1)]"
   syntax:
     content: public string ToString (string format);
     parameters:
     - id: format
       type: System.String
-      description: Parameter description to be filled
+      description: A format string.
     return:
       type: System.String
-      description: Return description to be filled
+      description: The string representation of the value of this instance as specified by .
   overload: System.Enum.ToString*
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Enum.ToString(System.String,System.IFormatProvider)
   id: ToString(System.String,System.IFormatProvider)
   parent: System.Enum
   langs:
   - csharp
-  - vb
   name: ToString(String,IFormatProvider)
   nameWithType: Enum.ToString(String,IFormatProvider)
   fullName: System.Enum.ToString(String,IFormatProvider)
@@ -1051,25 +1288,30 @@ items:
   assemblies:
   - mscorlib
   namespace: System
+  summary: This method overload is obsolete; use <xref:System.Enum.ToString%28System.String%29?displayProperty=fullName>.
+  remarks: "The  parameter can contain the \"G\" or \"g\", \"D\" or \"d\", \"X\" or \"x\", and \"F\" or \"f\" format strings (the format string is not case-sensitive). If  is `null` or an empty string (\"\"), the general format specifier (\"G\") is used. For more information about the enumeration format strings and formatting enumeration values, see [Enumeration Format Strings](../Topic/Enumeration%20Format%20Strings.md). For more information about formatting in general, see [Formatting Types](../Topic/Formatting%20Types%20in%20the%20.NET%20Framework.md).  \n  \n Specify only ; the  parameter is obsolete."
   syntax:
     content: public string ToString (string format, IFormatProvider provider);
     parameters:
     - id: format
       type: System.String
-      description: Parameter description to be filled
+      description: A format specification.
     - id: provider
       type: System.IFormatProvider
-      description: Parameter description to be filled
+      description: (Obsolete.)
     return:
       type: System.String
-      description: Return description to be filled
+      description: The string representation of the value of this instance as specified by .
   overload: System.Enum.ToString*
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Enum.TryParse``1(System.String,``0@)
   id: TryParse``1(System.String,``0@)
   parent: System.Enum
   langs:
   - csharp
-  - vb
   name: TryParse(String,TEnum)
   nameWithType: Enum.TryParse(String,TEnum)
   fullName: System.Enum.TryParse(String,TEnum)
@@ -1077,25 +1319,30 @@ items:
   assemblies:
   - mscorlib
   namespace: System
+  summary: To be added.
+  remarks: To be added.
   syntax:
     content: 'public static bool TryParse<TEnum> (string value, out TEnum result) where TEnum : struct;'
     parameters:
     - id: value
       type: System.String
-      description: Parameter description to be filled
+      description: To be added.
     - id: result
       type: TEnum
-      description: Parameter description to be filled
+      description: To be added.
     return:
       type: System.Boolean
-      description: Return description to be filled
+      description: To be added.
   overload: System.Enum.TryParse<TEnum>*
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Enum.TryParse``1(System.String,System.Boolean,``0@)
   id: TryParse``1(System.String,System.Boolean,``0@)
   parent: System.Enum
   langs:
   - csharp
-  - vb
   name: TryParse(String,Boolean,TEnum)
   nameWithType: Enum.TryParse(String,Boolean,TEnum)
   fullName: System.Enum.TryParse(String,Boolean,TEnum)
@@ -1103,22 +1350,28 @@ items:
   assemblies:
   - mscorlib
   namespace: System
+  summary: To be added.
+  remarks: To be added.
   syntax:
     content: 'public static bool TryParse<TEnum> (string value, bool ignoreCase, out TEnum result) where TEnum : struct;'
     parameters:
     - id: value
       type: System.String
-      description: Parameter description to be filled
+      description: To be added.
     - id: ignoreCase
       type: System.Boolean
-      description: Parameter description to be filled
+      description: To be added.
     - id: result
       type: TEnum
-      description: Parameter description to be filled
+      description: To be added.
     return:
       type: System.Boolean
-      description: Return description to be filled
+      description: To be added.
   overload: System.Enum.TryParse<TEnum>*
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 references:
 - uid: System.ValueType
   isExternal: false
@@ -1237,6 +1490,12 @@ references:
   name: GetNames(Type)
   nameWithType: Enum.GetNames(Type)
   fullName: System.Enum.GetNames(Type)
+- uid: System.String
+  parent: System
+  isExternal: false
+  name: String
+  nameWithType: String
+  fullName: System.String[]
 - uid: System.Type
   parent: System
   isExternal: false
@@ -1969,6 +2228,12 @@ references:
   name: String
   nameWithType: String
   fullName: System.String
+- uid: TEnum
+  parent: ''
+  isExternal: true
+  name: TEnum
+  nameWithType: TEnum
+  fullName: TEnum
 - uid: System.Enum.TryParse``1(System.String,System.Boolean,``0@)
   parent: System.Enum
   isExternal: false
@@ -1993,6 +2258,12 @@ references:
   name: Boolean
   nameWithType: Boolean
   fullName: System.Boolean
+- uid: TEnum
+  parent: ''
+  isExternal: true
+  name: TEnum
+  nameWithType: TEnum
+  fullName: TEnum
 - uid: System.Enum.Parse*
   parent: System.Enum
   isExternal: false

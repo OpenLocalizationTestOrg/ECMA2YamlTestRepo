@@ -32,11 +32,14 @@ items:
   - System.Version.TryParse(System.String,System.Version@)
   langs:
   - csharp
-  - vb
   name: Version
   nameWithType: Version
   fullName: System.Version
   type: Class
+  summary: Represents the version number of an assembly, operating system, or the common language runtime. This class cannot be inherited.
+  remarks: "Version numbers consist of two to four components: major, minor, build, and revision. The major and minor components are required; the build and revision components are optional, but the build component is required if the revision component is defined. All defined components must be integers greater than or equal to 0. The format of the version number is as follows (optional components are shown in square brackets ([ and ]):  \n  \n *major*.*minor*[.*build*[.*revision*]]  \n  \n The components are used by convention as follows:  \n  \n-   *Major*: Assemblies with the same name but different major versions are not interchangeable. A higher version number might indicate a major rewrite of a product where backward compatibility cannot be assumed.  \n  \n-   *Minor*: If the name and major version number on two assemblies are the same, but the minor version number is different, this indicates significant enhancement with the intention of backward compatibility. This higher minor version number might indicate a point release of a product or a fully backward-compatible new version of a product.  \n  \n-   *Build*: A difference in build number represents a recompilation of the same source. Different build numbers might be used when the processor, platform, or compiler changes.  \n  \n-   *Revision*: Assemblies with the same name, major, and minor version numbers but different revisions are intended to be fully interchangeable. A higher revision number might be used in a build that fixes a security hole in a previously released assembly.  \n  \n Subsequent versions of an assembly that differ only by build or revision numbers are considered to be Hotfix updates of the prior version.  \n  \n> [!IMPORTANT]\n>  The value of Version properties that have not been explicitly assigned a value is undefined (-1).  \n  \n Starting with .NET Framework 2.0, the <xref:System.Version.MajorRevision%2A> and <xref:System.Version.MinorRevision%2A> properties enable you to identify a temporary version of your application that, for example, corrects a problem until you can release a permanent solution.  Furthermore, the Windows NT operating system uses the <xref:System.Version.MajorRevision%2A> property to encode the service pack number.  \n  \n## Assigning Version Information to Assemblies  \n Ordinarily, the Version class is not used to assign a version number to an assembly. Instead, the <xref:System.Reflection.AssemblyVersionAttribute> class is used to define an assembly's version, as illustrated by the example in this topic.  \n  \n## Retrieving Version Information  \n Version objects are most frequently used to store version information about some system or application component (such as the operating system), the common language runtime, the current application's executable, or a particular assembly. The following examples illustrate some of the most common scenarios:  \n  \n-   Retrieving the operating system version. The following example uses the <xref:System.OperatingSystem.Version%2A?displayProperty=fullName> property to retrieve the version number of the operating system.  \n  \n     [!CODE [System.Version.Class#1](../CodeSnippet/VS_Snippets_CLR_System/system.Version.Class#1)]  \n  \n-   Retrieving the version of the common language runtime. The following example uses the <xref:System.Environment.Version%2A?displayProperty=fullName> property to retrieve version information about the common language runtime.  \n  \n     [!CODE [System.Version.Class#2](../CodeSnippet/VS_Snippets_CLR_System/system.Version.Class#2)]  \n  \n-   Retrieving the current application's assembly version. The following example uses the <xref:System.Reflection.Assembly.GetEntryAssembly%2A?displayProperty=fullName> method to obtain a reference to an <xref:System.Reflection.Assembly> object that represents the application executable and then retrieves its assembly version number.  \n  \n     [!CODE [System.Version.Class#5](../CodeSnippet/VS_Snippets_CLR_System/system.Version.Class#5)]  \n  \n-   Retrieving the current assembly's assembly version. The following example uses the <xref:System.Type.Assembly%2A?displayProperty=fullName> property to obtain a reference to an <xref:System.Reflection.Assembly> object that represents the assembly that contains the application entry point, and then retrieves its version information.  \n  \n     [!CODE [System.Version.Class#4](../CodeSnippet/VS_Snippets_CLR_System/system.Version.Class#4)]  \n  \n-   Retrieving the version of a specific assembly. The following example uses the <xref:System.Reflection.Assembly.ReflectionOnlyLoadFrom%2A?displayProperty=fullName> method to obtain a reference to an <xref:System.Reflection.Assembly> object that has a particular file name, and then retrieves its version information. Note that several other methods also exist to instantiate an <xref:System.Reflection.Assembly> object by file name or by strong name.  \n  \n     [!CODE [System.Version.Class#3](../CodeSnippet/VS_Snippets_CLR_System/system.Version.Class#3)]  \n  \n-   Retrieving the Publish Version of a ClickOnce application. The following example uses the <xref:System.Deployment.Application.ApplicationDeployment.CurrentVersion%2A?displayProperty=fullName> property to display an application's Publish Version. Note that its successful execution requires the example's application identity to be set. This is handled automatically by the Visual Studio Publish Wizard.  \n  \n     [!CODE [System.Version.Class#7](../CodeSnippet/VS_Snippets_CLR_System/system.Version.Class#7)]  \n  \n    > [!IMPORTANT]\n    >  The Publish Version of an application for ClickOnce deployment is completely independent of its assembly version.  \n  \n## Comparing Version Objects  \n You can use the <xref:System.Version.CompareTo%2A> method to determine whether one Version object is earlier than, the same as, or later than a second Version object. The following example indicates that Version 2.1 is later than Version 2.0.  \n  \n [!CODE [System.Version.Class.Comparing#1](../CodeSnippet/VS_Snippets_CLR_System/system.version.class.comparing#1)]  \n  \n For two versions to be equal, the major, minor, build, and revision numbers of the first Version object must be identical to those of the second Version object. If the build or revision number of a Version object is undefined, that Version object is considered to be earlier than a Version object whose build or revision number is equal to zero. The following example illustrates this by comparing three Version objects that have undefined version components.  \n  \n [!CODE [System.Version.Class.Comparing#2](../CodeSnippet/VS_Snippets_CLR_System/system.version.class.comparing#2)]"
+  example:
+  - "The following example uses the <xref:System.Reflection.AssemblyVersionAttribute> attribute to assign a version number to an assembly. At compile time, this version information is stored with the assembly's metadata. At run time, the example retrieves the value of the <xref:System.Type.Assembly%2A?displayProperty=fullName> property on a type found in the assembly to get a reference to the executing assembly, and it retrieves the assembly's version information from the <xref:System.Reflection.AssemblyName.Version%2A> property of the <xref:System.Reflection.AssemblyName> object returned by the <xref:System.Reflection.Assembly.GetName%2A?displayProperty=fullName> method.  \n  \n [!CODE [System.Version.Class#6](../CodeSnippet/VS_Snippets_CLR_System/system.Version.Class#6)]"
   syntax:
     content: >-
       [System.Runtime.InteropServices.ComVisible(true)]
@@ -54,12 +57,15 @@ items:
   - System.Object.GetType
   - System.Object.MemberwiseClone
   - System.Object.ReferenceEquals(System.Object,System.Object)
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Version.#ctor
   id: '#ctor'
   parent: System.Version
   langs:
   - csharp
-  - vb
   name: Version()
   nameWithType: Version.Version()
   fullName: System.Version.Version()
@@ -67,15 +73,20 @@ items:
   assemblies:
   - mscorlib
   namespace: System
+  summary: Initializes a new instance of the <see cref="T:System.Version"> class.
+  remarks: "This constructor creates a <xref:System.Version> object with the following property values.  \n  \n|Property|Value|  \n|--------------|-----------|  \n|<xref:System.Version.Major%2A>|0|  \n|<xref:System.Version.Minor%2A>|0|  \n|<xref:System.Version.Build%2A>|undefined (-1)|  \n|<xref:System.Version.Revision%2A>|undefined (-1)|"
   syntax:
     content: public Version ();
     parameters: []
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Version.#ctor(System.String)
   id: '#ctor(System.String)'
   parent: System.Version
   langs:
   - csharp
-  - vb
   name: Version(String)
   nameWithType: Version.Version(String)
   fullName: System.Version.Version(String)
@@ -83,18 +94,23 @@ items:
   assemblies:
   - mscorlib
   namespace: System
+  summary: Initializes a new instance of the <see cref="T:System.Version"> class using the specified string.
+  remarks: "The  parameter can contain only the components major, minor, build, and revision, in that order, and all separated by periods. There must be at least two components, and at most four. The first two components are assumed to be major and minor. The value of unspecified components is undefined.  \n  \n The format of the version number is as follows. Optional components are shown in square brackets ('[' and ']'):  \n  \n major.minor[.build[.revision]]  \n  \n All defined components must be integers greater than or equal to 0. For example, if the major number is 6, the minor number is 2, the build number is 1, and the revision number is 3, then  should be \"6.2.1.3\"."
   syntax:
     content: public Version (string version);
     parameters:
     - id: version
       type: System.String
-      description: Parameter description to be filled
+      description: A string containing the major, minor, build, and revision numbers, where each number is delimited with a period character ('.').
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Version.#ctor(System.Int32,System.Int32)
   id: '#ctor(System.Int32,System.Int32)'
   parent: System.Version
   langs:
   - csharp
-  - vb
   name: Version(Int32,Int32)
   nameWithType: Version.Version(Int32,Int32)
   fullName: System.Version.Version(Int32,Int32)
@@ -102,21 +118,26 @@ items:
   assemblies:
   - mscorlib
   namespace: System
+  summary: Initializes a new instance of the <see cref="T:System.Version"> class using the specified major and minor values.
+  remarks: "This constructor creates a <xref:System.Version> object with the following property values.  \n  \n|Property|Value|  \n|--------------|-----------|  \n|<xref:System.Version.Major%2A>||  \n|<xref:System.Version.Minor%2A>||  \n|<xref:System.Version.Build%2A>|undefined (-1)|  \n|<xref:System.Version.Revision%2A>|undefined (-1)|"
   syntax:
     content: public Version (int major, int minor);
     parameters:
     - id: major
       type: System.Int32
-      description: Parameter description to be filled
+      description: The major version number.
     - id: minor
       type: System.Int32
-      description: Parameter description to be filled
+      description: The minor version number.
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Version.#ctor(System.Int32,System.Int32,System.Int32)
   id: '#ctor(System.Int32,System.Int32,System.Int32)'
   parent: System.Version
   langs:
   - csharp
-  - vb
   name: Version(Int32,Int32,Int32)
   nameWithType: Version.Version(Int32,Int32,Int32)
   fullName: System.Version.Version(Int32,Int32,Int32)
@@ -124,24 +145,29 @@ items:
   assemblies:
   - mscorlib
   namespace: System
+  summary: Initializes a new instance of the <see cref="T:System.Version"> class using the specified major, minor, and build values.
+  remarks: "This constructor creates a <xref:System.Version> object with the following property values.  \n  \n|Property|Value|  \n|--------------|-----------|  \n|<xref:System.Version.Major%2A>||  \n|<xref:System.Version.Minor%2A>||  \n|<xref:System.Version.Build%2A>||  \n|<xref:System.Version.Revision%2A>|undefined (-1)|"
   syntax:
     content: public Version (int major, int minor, int build);
     parameters:
     - id: major
       type: System.Int32
-      description: Parameter description to be filled
+      description: The major version number.
     - id: minor
       type: System.Int32
-      description: Parameter description to be filled
+      description: The minor version number.
     - id: build
       type: System.Int32
-      description: Parameter description to be filled
+      description: The build number.
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Version.#ctor(System.Int32,System.Int32,System.Int32,System.Int32)
   id: '#ctor(System.Int32,System.Int32,System.Int32,System.Int32)'
   parent: System.Version
   langs:
   - csharp
-  - vb
   name: Version(Int32,Int32,Int32,Int32)
   nameWithType: Version.Version(Int32,Int32,Int32,Int32)
   fullName: System.Version.Version(Int32,Int32,Int32,Int32)
@@ -149,27 +175,34 @@ items:
   assemblies:
   - mscorlib
   namespace: System
+  summary: Initializes a new instance of the <see cref="T:System.Version"> class with the specified major, minor, build, and revision numbers.
+  remarks: "This constructor creates a <xref:System.Version> object with the following property values.  \n  \n|Property|Value|  \n|--------------|-----------|  \n|<xref:System.Version.Major%2A>||  \n|<xref:System.Version.Minor%2A>||  \n|<xref:System.Version.Build%2A>||  \n|<xref:System.Version.Revision%2A>||"
+  example:
+  - "The following code example demonstrates the Version constructor, and <xref:System.Version.Major%2A>, <xref:System.Version.Minor%2A>, <xref:System.Version.Build%2A>, <xref:System.Version.Revision%2A>, <xref:System.Version.MajorRevision%2A>, and <xref:System.Version.MinorRevision%2A> properties.  \n  \n [!CODE [system.version.revision#1](../CodeSnippet/VS_Snippets_CLR_System/system.version.revision#1)]"
   syntax:
     content: public Version (int major, int minor, int build, int revision);
     parameters:
     - id: major
       type: System.Int32
-      description: Parameter description to be filled
+      description: The major version number.
     - id: minor
       type: System.Int32
-      description: Parameter description to be filled
+      description: The minor version number.
     - id: build
       type: System.Int32
-      description: Parameter description to be filled
+      description: The build number.
     - id: revision
       type: System.Int32
-      description: Parameter description to be filled
+      description: The revision number.
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Version.Build
   id: Build
   parent: System.Version
   langs:
   - csharp
-  - vb
   name: Build
   nameWithType: Version.Build
   fullName: System.Version.Build
@@ -177,17 +210,24 @@ items:
   assemblies:
   - mscorlib
   namespace: System
+  summary: Gets the value of the build component of the version number for the current <see cref="T:System.Version"> object.
+  remarks: For example, if the version number is 6.2.1.3, the build number is 1. If the version number is 6.2, the build number is undefined.
+  example:
+  - "The following code example demonstrates the <xref:System.Version.%23ctor%2A> constructor, and <xref:System.Version.Major%2A>, <xref:System.Version.Minor%2A>, Build, <xref:System.Version.Revision%2A>, <xref:System.Version.MajorRevision%2A>, and <xref:System.Version.MinorRevision%2A> properties.  \n  \n [!CODE [system.version.revision#1](../CodeSnippet/VS_Snippets_CLR_System/system.version.revision#1)]"
   syntax:
     content: public int Build { get; }
     return:
       type: System.Int32
-      description: Return description to be filled
+      description: To be added.
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Version.Clone
   id: Clone
   parent: System.Version
   langs:
   - csharp
-  - vb
   name: Clone()
   nameWithType: Version.Clone()
   fullName: System.Version.Clone()
@@ -195,18 +235,23 @@ items:
   assemblies:
   - mscorlib
   namespace: System
+  summary: Returns a new <see cref="T:System.Version"> object whose value is the same as the current <see cref="T:System.Version"> object.
+  remarks: If the type of the return value is important, cast the <xref:System.Object> instance that is returned by this method to a <xref:System.Version> object.
   syntax:
     content: public object Clone ();
     parameters: []
     return:
       type: System.Object
-      description: Return description to be filled
+      description: A new <see cref="T:System.Object"> whose values are a copy of the current <xref:System.Version> object.
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Version.CompareTo(System.Object)
   id: CompareTo(System.Object)
   parent: System.Version
   langs:
   - csharp
-  - vb
   name: CompareTo(Object)
   nameWithType: Version.CompareTo(Object)
   fullName: System.Version.CompareTo(Object)
@@ -214,22 +259,27 @@ items:
   assemblies:
   - mscorlib
   namespace: System
+  summary: Compares the current <see cref="T:System.Version"> object to a specified object and returns an indication of their relative values.
+  remarks: "The components of `Version` in decreasing order of importance are: major, minor, build, and revision. An unknown component is assumed to be older than any known component.  \n  \n For example:  \n  \n-   Version 1.1 is older than version 1.1.0  \n  \n-   Version 1.1 is older than version 1.1.1  \n  \n-   Version 1.1 is older than version 1.1.2.3  \n  \n-   Version 1.1.2 is older than version 1.1.2.4  \n  \n-   Version 1.2.5 is newer than version 1.2.3.4"
   syntax:
     content: public int CompareTo (object version);
     parameters:
     - id: version
       type: System.Object
-      description: Parameter description to be filled
+      description: An object to compare, or `null`.
     return:
       type: System.Int32
-      description: Return description to be filled
+      description: "A signed integer that indicates the relative values of the two objects, as shown in the following table.  \n  \n|Return value|Meaning|  \n|------------------|-------------|  \n|Less than zero|The current <see cref=\"T:System.Version\"> object is a version before .|  \n|Zero|The current <see cref=\"T:System.Version\"> object is the same version as .|  \n|Greater than zero|The current <see cref=\"T:System.Version\"> object is a version subsequent to .<br /><br /> -or-<br /><br /> is `null`.|"
   overload: System.Version.CompareTo*
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Version.CompareTo(System.Version)
   id: CompareTo(System.Version)
   parent: System.Version
   langs:
   - csharp
-  - vb
   name: CompareTo(Version)
   nameWithType: Version.CompareTo(Version)
   fullName: System.Version.CompareTo(Version)
@@ -237,22 +287,29 @@ items:
   assemblies:
   - mscorlib
   namespace: System
+  summary: Compares the current <see cref="T:System.Version"> object to a specified <see cref="T:System.Version"> object and returns an indication of their relative values.
+  remarks: "This method implements the <xref:System.IComparable%601?displayProperty=fullName> interface, and performs slightly better than the <xref:System.Version.CompareTo%2A> method because it does not have to unbox the  parameter.  \n  \n The components of `Version` in decreasing order of importance are: major, minor, build, and revision. An unknown component is assumed to be older than any known component. For example:  \n  \n-   Version 1.1 is older than version 1.1.0.  \n  \n-   Version 1.1 is older than version 1.1.1.  \n  \n-   Version 1.1 is older than version 1.1.2.3.  \n  \n-   Version 1.1.2 is older than version 1.1.2.4.  \n  \n-   Version 1.2.5 is newer than version 1.2.3.4."
+  example:
+  - "The following code example demonstrates generic and nongeneric versions of the `CompareTo` method for several value and reference types.  \n  \n [!CODE [T.CompareTo#1](../CodeSnippet/VS_Snippets_CLR/T.CompareTo#1)]"
   syntax:
     content: public int CompareTo (Version value);
     parameters:
     - id: value
       type: System.Version
-      description: Parameter description to be filled
+      description: A <see cref="T:System.Version"> object to compare to the current <see cref="T:System.Version"> object, or `null`.
     return:
       type: System.Int32
-      description: Return description to be filled
+      description: "A signed integer that indicates the relative values of the two objects, as shown in the following table.  \n  \n|Return value|Meaning|  \n|------------------|-------------|  \n|Less than zero|The current <see cref=\"T:System.Version\"> object is a version before .|  \n|Zero|The current <see cref=\"T:System.Version\"> object is the same version as .|  \n|Greater than zero|The current <see cref=\"T:System.Version\"> object is a version subsequent to .<br /><br /> -or-<br /><br /> is `null`.|"
   overload: System.Version.CompareTo*
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Version.Equals(System.Object)
   id: Equals(System.Object)
   parent: System.Version
   langs:
   - csharp
-  - vb
   name: Equals(Object)
   nameWithType: Version.Equals(Object)
   fullName: System.Version.Equals(Object)
@@ -260,22 +317,27 @@ items:
   assemblies:
   - mscorlib
   namespace: System
+  summary: Returns a value indicating whether the current <see cref="T:System.Version"> object is equal to a specified object.
+  remarks: To be added.
   syntax:
     content: public override bool Equals (object obj);
     parameters:
     - id: obj
       type: System.Object
-      description: Parameter description to be filled
+      description: An object to compare with the current <see cref="T:System.Version"> object, or `null`.
     return:
       type: System.Boolean
-      description: Return description to be filled
+      description: '`true` if the current <see cref="T:System.Version"> object and  are both <see cref="T:System.Version"> objects, and every component of the current <see cref="T:System.Version"> object matches the corresponding component of ; otherwise, `false`.'
   overload: System.Version.Equals*
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Version.Equals(System.Version)
   id: Equals(System.Version)
   parent: System.Version
   langs:
   - csharp
-  - vb
   name: Equals(Version)
   nameWithType: Version.Equals(Version)
   fullName: System.Version.Equals(Version)
@@ -283,22 +345,27 @@ items:
   assemblies:
   - mscorlib
   namespace: System
+  summary: Returns a value indicating whether the current <see cref="T:System.Version"> object and a specified <see cref="T:System.Version"> object represent the same value.
+  remarks: This method implements the <xref:System.IEquatable%601> interface, and performs slightly better than the <xref:System.Version.Equals%2A> method because it does not have to unbox the  parameter.
   syntax:
     content: public bool Equals (Version obj);
     parameters:
     - id: obj
       type: System.Version
-      description: Parameter description to be filled
+      description: A <see cref="T:System.Version"> object to compare to the current <see cref="T:System.Version"> object, or `null`.
     return:
       type: System.Boolean
-      description: Return description to be filled
+      description: '`true` if every component of the current <see cref="T:System.Version"> object matches the corresponding component of the  parameter; otherwise, `false`.'
   overload: System.Version.Equals*
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Version.GetHashCode
   id: GetHashCode
   parent: System.Version
   langs:
   - csharp
-  - vb
   name: GetHashCode()
   nameWithType: Version.GetHashCode()
   fullName: System.Version.GetHashCode()
@@ -306,18 +373,25 @@ items:
   assemblies:
   - mscorlib
   namespace: System
+  summary: Returns a hash code for the current <see cref="T:System.Version"> object.
+  remarks: ''
+  example:
+  - "The following code example demonstrates the <xref:System.Version.%23ctor%2A> constructor, and <xref:System.Version.Major%2A>, <xref:System.Version.Minor%2A>, <xref:System.Version.Build%2A>, <xref:System.Version.Revision%2A>, <xref:System.Version.MajorRevision%2A>, and <xref:System.Version.MinorRevision%2A> properties.  \n  \n [!CODE [system.version.revision#1](../CodeSnippet/VS_Snippets_CLR_System/system.version.revision#1)]"
   syntax:
     content: public override int GetHashCode ();
     parameters: []
     return:
       type: System.Int32
-      description: Return description to be filled
+      description: A 32-bit signed integer hash code.
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Version.Major
   id: Major
   parent: System.Version
   langs:
   - csharp
-  - vb
   name: Major
   nameWithType: Version.Major
   fullName: System.Version.Major
@@ -325,17 +399,22 @@ items:
   assemblies:
   - mscorlib
   namespace: System
+  summary: Gets the value of the major component of the version number for the current <see cref="T:System.Version"> object.
+  remarks: For example, if the version number is 6.2, the major version is 6.
   syntax:
     content: public int Major { get; }
     return:
       type: System.Int32
-      description: Return description to be filled
+      description: To be added.
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Version.MajorRevision
   id: MajorRevision
   parent: System.Version
   langs:
   - csharp
-  - vb
   name: MajorRevision
   nameWithType: Version.MajorRevision
   fullName: System.Version.MajorRevision
@@ -343,17 +422,24 @@ items:
   assemblies:
   - mscorlib
   namespace: System
+  summary: Gets the high 16 bits of the revision number.
+  remarks: "Suppose you release an interim version of your application to temporarily correct a problem until you can release a permanent solution. The temporary version does not warrant a new revision number, but it does need to be identified as a different version. In this case, encode the identification information in the high and low 16-bit portions of the 32-bit revision number. Use the <xref:System.Version.Revision%2A> property to obtain the entire revision number, use the MajorRevision property to obtain the high 16 bits, and use the <xref:System.Version.MinorRevision%2A> property to obtain the low 16 bits.  \n  \n Starting in the .NET Framework version 2.0, the Windows NT operating system uses the MajorRevision property to encode the service pack number."
+  example:
+  - "The following code example demonstrates the <xref:System.Version.%23ctor%2A> constructor, and the <xref:System.Version.Major%2A>, <xref:System.Version.Minor%2A>, <xref:System.Version.Build%2A>, <xref:System.Version.Revision%2A>, MajorRevision, and <xref:System.Version.MinorRevision%2A> properties.  \n  \n [!CODE [system.version.revision#1](../CodeSnippet/VS_Snippets_CLR_System/system.version.revision#1)]"
   syntax:
     content: public short MajorRevision { get; }
     return:
       type: System.Int16
-      description: Return description to be filled
+      description: To be added.
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Version.Minor
   id: Minor
   parent: System.Version
   langs:
   - csharp
-  - vb
   name: Minor
   nameWithType: Version.Minor
   fullName: System.Version.Minor
@@ -361,17 +447,24 @@ items:
   assemblies:
   - mscorlib
   namespace: System
+  summary: Gets the value of the minor component of the version number for the current <see cref="T:System.Version"> object.
+  remarks: For example, if the version number is 6.2, the minor version is 2.
+  example:
+  - "The following code example demonstrates the <xref:System.Version.%23ctor%2A> constructor, and <xref:System.Version.Major%2A>, Minor, <xref:System.Version.Build%2A>, <xref:System.Version.Revision%2A>, <xref:System.Version.MajorRevision%2A>, and <xref:System.Version.MinorRevision%2A> properties.  \n  \n [!CODE [system.version.revision#1](../CodeSnippet/VS_Snippets_CLR_System/system.version.revision#1)]"
   syntax:
     content: public int Minor { get; }
     return:
       type: System.Int32
-      description: Return description to be filled
+      description: To be added.
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Version.MinorRevision
   id: MinorRevision
   parent: System.Version
   langs:
   - csharp
-  - vb
   name: MinorRevision
   nameWithType: Version.MinorRevision
   fullName: System.Version.MinorRevision
@@ -379,17 +472,24 @@ items:
   assemblies:
   - mscorlib
   namespace: System
+  summary: Gets the low 16 bits of the revision number.
+  remarks: Suppose you release an interim version of your application to temporarily correct a problem until you can release a permanent solution. The temporary version does not warrant a new revision number, but it does need to be identified as a different version. In this case, encode the identification information in the high and low 16-bit portions of the 32-bit revision number. Use the <xref:System.Version.Revision%2A> property to obtain the entire revision number, use the <xref:System.Version.MajorRevision%2A> property to obtain the high 16 bits, and use the MinorRevision property to obtain the low 16 bits.
+  example:
+  - "The following code example demonstrates the <xref:System.Version.%23ctor%2A> constructor, and the <xref:System.Version.Major%2A>, <xref:System.Version.Minor%2A>, <xref:System.Version.Build%2A>, <xref:System.Version.Revision%2A>, <xref:System.Version.MajorRevision%2A>, and MinorRevision properties.  \n  \n [!CODE [system.version.revision#1](../CodeSnippet/VS_Snippets_CLR_System/system.version.revision#1)]"
   syntax:
     content: public short MinorRevision { get; }
     return:
       type: System.Int16
-      description: Return description to be filled
+      description: To be added.
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Version.op_Equality(System.Version,System.Version)
   id: op_Equality(System.Version,System.Version)
   parent: System.Version
   langs:
   - csharp
-  - vb
   name: op_Equality(Version,Version)
   nameWithType: Version.op_Equality(Version,Version)
   fullName: System.Version.op_Equality(Version,Version)
@@ -397,24 +497,29 @@ items:
   assemblies:
   - mscorlib
   namespace: System
+  summary: Determines whether two specified <see cref="T:System.Version"> objects are equal.
+  remarks: To be added.
   syntax:
     content: public static bool op_Equality (Version v1, Version v2);
     parameters:
     - id: v1
       type: System.Version
-      description: Parameter description to be filled
+      description: The first <see cref="T:System.Version"> object.
     - id: v2
       type: System.Version
-      description: Parameter description to be filled
+      description: The second <see cref="T:System.Version"> object.
     return:
       type: System.Boolean
-      description: Return description to be filled
+      description: '`true` if  equals ; otherwise, `false`.'
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Version.op_GreaterThan(System.Version,System.Version)
   id: op_GreaterThan(System.Version,System.Version)
   parent: System.Version
   langs:
   - csharp
-  - vb
   name: op_GreaterThan(Version,Version)
   nameWithType: Version.op_GreaterThan(Version,Version)
   fullName: System.Version.op_GreaterThan(Version,Version)
@@ -422,24 +527,29 @@ items:
   assemblies:
   - mscorlib
   namespace: System
+  summary: Determines whether the first specified <see cref="T:System.Version"> object is greater than the second specified <see cref="T:System.Version"> object.
+  remarks: To be added.
   syntax:
     content: public static bool op_GreaterThan (Version v1, Version v2);
     parameters:
     - id: v1
       type: System.Version
-      description: Parameter description to be filled
+      description: The first <see cref="T:System.Version"> object.
     - id: v2
       type: System.Version
-      description: Parameter description to be filled
+      description: The second <see cref="T:System.Version"> object.
     return:
       type: System.Boolean
-      description: Return description to be filled
+      description: '`true` if  is greater than ; otherwise, `false`.'
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Version.op_GreaterThanOrEqual(System.Version,System.Version)
   id: op_GreaterThanOrEqual(System.Version,System.Version)
   parent: System.Version
   langs:
   - csharp
-  - vb
   name: op_GreaterThanOrEqual(Version,Version)
   nameWithType: Version.op_GreaterThanOrEqual(Version,Version)
   fullName: System.Version.op_GreaterThanOrEqual(Version,Version)
@@ -447,24 +557,29 @@ items:
   assemblies:
   - mscorlib
   namespace: System
+  summary: Determines whether the first specified <see cref="T:System.Version"> object is greater than or equal to the second specified <see cref="T:System.Version"> object.
+  remarks: To be added.
   syntax:
     content: public static bool op_GreaterThanOrEqual (Version v1, Version v2);
     parameters:
     - id: v1
       type: System.Version
-      description: Parameter description to be filled
+      description: The first <see cref="T:System.Version"> object.
     - id: v2
       type: System.Version
-      description: Parameter description to be filled
+      description: The second <see cref="T:System.Version"> object.
     return:
       type: System.Boolean
-      description: Return description to be filled
+      description: '`true` if  is greater than or equal to ; otherwise, `false`.'
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Version.op_Inequality(System.Version,System.Version)
   id: op_Inequality(System.Version,System.Version)
   parent: System.Version
   langs:
   - csharp
-  - vb
   name: op_Inequality(Version,Version)
   nameWithType: Version.op_Inequality(Version,Version)
   fullName: System.Version.op_Inequality(Version,Version)
@@ -472,24 +587,29 @@ items:
   assemblies:
   - mscorlib
   namespace: System
+  summary: Determines whether two specified <see cref="T:System.Version"> objects are not equal.
+  remarks: To be added.
   syntax:
     content: public static bool op_Inequality (Version v1, Version v2);
     parameters:
     - id: v1
       type: System.Version
-      description: Parameter description to be filled
+      description: The first <see cref="T:System.Version"> object.
     - id: v2
       type: System.Version
-      description: Parameter description to be filled
+      description: The second <see cref="T:System.Version"> object.
     return:
       type: System.Boolean
-      description: Return description to be filled
+      description: '`true` if  does not equal ; otherwise, `false`.'
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Version.op_LessThan(System.Version,System.Version)
   id: op_LessThan(System.Version,System.Version)
   parent: System.Version
   langs:
   - csharp
-  - vb
   name: op_LessThan(Version,Version)
   nameWithType: Version.op_LessThan(Version,Version)
   fullName: System.Version.op_LessThan(Version,Version)
@@ -497,24 +617,29 @@ items:
   assemblies:
   - mscorlib
   namespace: System
+  summary: Determines whether the first specified <see cref="T:System.Version"> object is less than the second specified <see cref="T:System.Version"> object.
+  remarks: To be added.
   syntax:
     content: public static bool op_LessThan (Version v1, Version v2);
     parameters:
     - id: v1
       type: System.Version
-      description: Parameter description to be filled
+      description: The first <see cref="T:System.Version"> object.
     - id: v2
       type: System.Version
-      description: Parameter description to be filled
+      description: The second <see cref="T:System.Version"> object.
     return:
       type: System.Boolean
-      description: Return description to be filled
+      description: '`true` if  is less than ; otherwise, `false`.'
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Version.op_LessThanOrEqual(System.Version,System.Version)
   id: op_LessThanOrEqual(System.Version,System.Version)
   parent: System.Version
   langs:
   - csharp
-  - vb
   name: op_LessThanOrEqual(Version,Version)
   nameWithType: Version.op_LessThanOrEqual(Version,Version)
   fullName: System.Version.op_LessThanOrEqual(Version,Version)
@@ -522,24 +647,29 @@ items:
   assemblies:
   - mscorlib
   namespace: System
+  summary: Determines whether the first specified <see cref="T:System.Version"> object is less than or equal to the second <see cref="T:System.Version"> object.
+  remarks: To be added.
   syntax:
     content: public static bool op_LessThanOrEqual (Version v1, Version v2);
     parameters:
     - id: v1
       type: System.Version
-      description: Parameter description to be filled
+      description: The first <see cref="T:System.Version"> object.
     - id: v2
       type: System.Version
-      description: Parameter description to be filled
+      description: The second <see cref="T:System.Version"> object.
     return:
       type: System.Boolean
-      description: Return description to be filled
+      description: '`true` if  is less than or equal to ; otherwise, `false`.'
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Version.Parse(System.String)
   id: Parse(System.String)
   parent: System.Version
   langs:
   - csharp
-  - vb
   name: Parse(String)
   nameWithType: Version.Parse(String)
   fullName: System.Version.Parse(String)
@@ -547,21 +677,28 @@ items:
   assemblies:
   - mscorlib
   namespace: System
+  summary: Converts the string representation of a version number to an equivalent <see cref="T:System.Version"> object.
+  remarks: "The  parameter must have the following format:  \n  \n```  \n  \nmajor.minor[.build[.revision]]  \n```  \n  \n where *major*, *minor*, *build*, and *revision* are the string representations of the version number's four components: major version number, minor version number, build number, and revision number. Optional components are shown in square brackets ([ and ]). The components must appear in the specified order, and must be separated by periods.  \n  \n> [!IMPORTANT]\n>  Because the string representation of a version number must conform to a recognized pattern, applications should always use exception handling when calling the Parse method to parse user input. Alternatively, you can call the <xref:System.Version.TryParse%2A> method to parse the string representation of a version number and return a value that indicates whether the parse operation succeeded.  \n  \n The Parse method is a convenience method; it is equivalent to calling the <xref:System.Version.%23ctor%28System.String%29> constructor."
+  example:
+  - "The following example uses the Parse method to parse a number of strings that contain version information.  \n  \n [!CODE [System.Version.Parse#1](../CodeSnippet/VS_Snippets_CLR_System/system.version.parse#1)]"
   syntax:
     content: public static Version Parse (string input);
     parameters:
     - id: input
       type: System.String
-      description: Parameter description to be filled
+      description: A string that contains a version number to convert.
     return:
       type: System.Version
-      description: Return description to be filled
+      description: An object that is equivalent to the version number specified in the  parameter.
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Version.Revision
   id: Revision
   parent: System.Version
   langs:
   - csharp
-  - vb
   name: Revision
   nameWithType: Version.Revision
   fullName: System.Version.Revision
@@ -569,17 +706,24 @@ items:
   assemblies:
   - mscorlib
   namespace: System
+  summary: Gets the value of the revision component of the version number for the current <see cref="T:System.Version"> object.
+  remarks: For example, if the version number is 6.2.1.3, the revision number is 3. If the version number is 6.2, the revision number is undefined.
+  example:
+  - "The following code example demonstrates the <xref:System.Version.%23ctor%2A> constructor, and <xref:System.Version.Major%2A>, <xref:System.Version.Minor%2A>, <xref:System.Version.Build%2A>, Revision, <xref:System.Version.MajorRevision%2A>, and <xref:System.Version.MinorRevision%2A> properties.  \n  \n [!CODE [system.version.revision#1](../CodeSnippet/VS_Snippets_CLR_System/system.version.revision#1)]"
   syntax:
     content: public int Revision { get; }
     return:
       type: System.Int32
-      description: Return description to be filled
+      description: To be added.
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Version.ToString
   id: ToString
   parent: System.Version
   langs:
   - csharp
-  - vb
   name: ToString()
   nameWithType: Version.ToString()
   fullName: System.Version.ToString()
@@ -587,19 +731,24 @@ items:
   assemblies:
   - mscorlib
   namespace: System
+  summary: Converts the value of the current <see cref="T:System.Version"> object to its equivalent <xref:System.String> representation.
+  remarks: To be added.
   syntax:
     content: public override string ToString ();
     parameters: []
     return:
       type: System.String
-      description: Return description to be filled
+      description: "The <see cref=\"T:System.String\"> representation of the values of the major, minor, build, and revision components of the current <xref:System.Version> object, as depicted in the following format. Each component is separated by a period character ('.'). Square brackets ('[' and ']') indicate a component that will not appear in the return value if the component is not defined:  \n  \n major.minor[.build[.revision]]  \n  \n For example, if you create a <xref:System.Version> object using the constructor `Version(1,1)`, the returned string is \"1.1\". If you create a <xref:System.Version> object using the constructor `Version(1,3,4,2)`, the returned string is \"1.3.4.2\"."
   overload: System.Version.ToString*
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Version.ToString(System.Int32)
   id: ToString(System.Int32)
   parent: System.Version
   langs:
   - csharp
-  - vb
   name: ToString(Int32)
   nameWithType: Version.ToString(Int32)
   fullName: System.Version.ToString(Int32)
@@ -607,22 +756,27 @@ items:
   assemblies:
   - mscorlib
   namespace: System
+  summary: Converts the value of the current <see cref="T:System.Version"> object to its equivalent <xref:System.String> representation. A specified count indicates the number of components to return.
+  remarks: To be added.
   syntax:
     content: public string ToString (int fieldCount);
     parameters:
     - id: fieldCount
       type: System.Int32
-      description: Parameter description to be filled
+      description: The number of components to return. The  ranges from 0 to 4.
     return:
       type: System.String
-      description: Return description to be filled
+      description: "The <see cref=\"T:System.String\"> representation of the values of the major, minor, build, and revision components of the current <xref:System.Version> object, each separated by a period character ('.'). The  parameter determines how many components are returned.  \n  \n|fieldCount|Return Value|  \n|----------------|------------------|  \n|0|An empty string (\"\").|  \n|1|major|  \n|2|major.minor|  \n|3|major.minor.build|  \n|4|major.minor.build.revision|  \n  \n For example, if you create <xref:System.Version> object using the constructor `Version(1,3,5)`, `ToString(2)` returns \"1.3\" and `ToString(4)` throws an exception."
   overload: System.Version.ToString*
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Version.TryParse(System.String,System.Version@)
   id: TryParse(System.String,System.Version@)
   parent: System.Version
   langs:
   - csharp
-  - vb
   name: TryParse(String,Version)
   nameWithType: Version.TryParse(String,Version)
   fullName: System.Version.TryParse(String,Version)
@@ -630,18 +784,26 @@ items:
   assemblies:
   - mscorlib
   namespace: System
+  summary: Tries to convert the string representation of a version number to an equivalent <see cref="T:System.Version"> object, and returns a value that indicates whether the conversion succeeded.
+  remarks: "The TryParse method is similar to the <xref:System.Version.Parse%2A> method, except that it does not throw an exception if the conversion fails. Instead, it returns `false` if  is null, has fewer than two or more than four components, has at least one component that is not an integer, has at least one component that is less than zero, or has at least one component that is greater than <xref:System.Int32.MaxValue?displayProperty=fullName>.  \n  \n For the parse operation to succeed, the  parameter must be in the following format:  \n  \n```  \n  \nmajor.minor[.build[.revision]]  \n```  \n  \n where *major*, *minor*, *build*, and *revision* are the string representations of the version number's four components: major version number, minor version number, build number, and revision number. Optional components are shown in square brackets ([ and ]). The components must appear in order, and must be separated by periods."
+  example:
+  - "The following example uses the TryParse method to parse a number of strings that contain version information.  \n  \n [!CODE [System.Version.TryParse#1](../CodeSnippet/VS_Snippets_CLR_System/system.version.tryparse#1)]"
   syntax:
     content: public static bool TryParse (string input, out Version result);
     parameters:
     - id: input
       type: System.String
-      description: Parameter description to be filled
+      description: A string that contains a version number to convert.
     - id: result
       type: System.Version
-      description: Parameter description to be filled
+      description: When this method returns, contains the <see cref="T:System.Version"> equivalent of the number that is contained in , if the conversion succeeded, or a <see cref="T:System.Version"> object whose major and minor version numbers are 0 if the conversion failed. If  is `null` or <xref:System.String.Empty?displayProperty=fullName>,  is `null` when the method returns.
     return:
       type: System.Boolean
-      description: Return description to be filled
+      description: '`true` if the  parameter was converted successfully; otherwise, `false`.'
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 references:
 - uid: System.Object
   isExternal: false

@@ -34,11 +34,14 @@ items:
   - System.Activities.WorkflowInvoker.InvokeCompleted
   langs:
   - csharp
-  - vb
   name: WorkflowInvoker
   nameWithType: WorkflowInvoker
   fullName: System.Activities.WorkflowInvoker
   type: Class
+  summary: Provides a means for invoking a workflow as if it were a method call.
+  remarks: "WorkflowInvoker contains both instance and static methods for invoking workflows synchronously, and instance methods for invoking workflows asynchronously.  \n  \n WorkflowInvoker does not allow instance control such as persisting, unloading, or resuming bookmarks. If instance control is desired, use <xref:System.Activities.WorkflowApplication> instead.  \n  \n To execute workflows synchronously with no instance control, call the <xref:System.Activities.WorkflowInvoker.Invoke%2A> method. To execute a workflow asynchronously with no instance control, use the <xref:System.Activities.WorkflowInvoker.BeginInvoke%2A> and <xref:System.Activities.WorkflowInvoker.EndInvoke%2A> method pairs, or the <xref:System.Activities.WorkflowInvoker.InvokeAsync%2A> method."
+  example:
+  - "The following example synchronously invokes a workflow consisting of a single <xref:System.Activities.Statements.WriteLine> activity using WorkflowInvoker.  \n  \n [!CODE [CFX_WorkflowInvokerExample#1](../CodeSnippet/VS_Snippets_CFX/cfx_workflowinvokerexample#1)]"
   syntax:
     content: public sealed class WorkflowInvoker
   inheritance:
@@ -52,12 +55,15 @@ items:
   - System.Object.MemberwiseClone
   - System.Object.ReferenceEquals(System.Object,System.Object)
   - System.Object.ToString
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Activities.WorkflowInvoker.#ctor(System.Activities.Activity)
   id: '#ctor(System.Activities.Activity)'
   parent: System.Activities.WorkflowInvoker
   langs:
   - csharp
-  - vb
   name: WorkflowInvoker(Activity)
   nameWithType: WorkflowInvoker.WorkflowInvoker(Activity)
   fullName: System.Activities.WorkflowInvoker.WorkflowInvoker(Activity)
@@ -65,18 +71,25 @@ items:
   assemblies:
   - System.Activities
   namespace: System.Activities
+  summary: Initializes a new instance of the <see cref="T:System.Activities.WorkflowInvoker"> class.
+  remarks: <xref:System.Activities.WorkflowInvoker> contains both instance and static methods for invoking workflows synchronously, and instance methods for invoking workflows asynchronously.
+  example:
+  - "The following example invokes a workflow consisting of a single <xref:System.Activities.Statements.WriteLine> activity.  \n  \n [!CODE [CFX_WorkflowInvokerExample#2](../CodeSnippet/VS_Snippets_CFX/cfx_workflowinvokerexample#2)]"
   syntax:
     content: public WorkflowInvoker (System.Activities.Activity workflow);
     parameters:
     - id: workflow
       type: System.Activities.Activity
-      description: Parameter description to be filled
+      description: The workflow definition of the workflow to be invoked by this instance of the <see cref="T:System.Activities.WorkflowInvoker"> class.
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Activities.WorkflowInvoker.BeginInvoke(System.AsyncCallback,System.Object)
   id: BeginInvoke(System.AsyncCallback,System.Object)
   parent: System.Activities.WorkflowInvoker
   langs:
   - csharp
-  - vb
   name: BeginInvoke(AsyncCallback,Object)
   nameWithType: WorkflowInvoker.BeginInvoke(AsyncCallback,Object)
   fullName: System.Activities.WorkflowInvoker.BeginInvoke(AsyncCallback,Object)
@@ -84,54 +97,68 @@ items:
   assemblies:
   - System.Activities
   namespace: System.Activities
+  summary: Invokes a workflow asynchronously using the specified <see cref="T:System.AsyncCallback"> and user-provided state.
+  remarks: "To be notified when the workflow is complete and retrieve the output parameters of the workflow, call <xref:System.Activities.WorkflowInvoker.EndInvoke%2A> from the  method. If <xref:System.Activities.WorkflowInvoker.EndInvoke%2A> is called before the workflow completes, it blocks until the workflow completes. To configure a time-out interval in which the workflow must complete, use one of the <xref:System.Activities.WorkflowInvoker.BeginInvoke%2A> overloads that take a <xref:System.TimeSpan>.  \n  \n This method invokes a workflow asynchronously using the <xref:System.IAsyncResult> asynchronous design pattern. [!INCLUDE[crdefault](../../add/includes/crdefault-md.md)][Asynchronous Programming Overview](http://go.microsoft.com/fwlink/?LinkId=141764)."
+  example:
+  - "The following example invokes a workflow consisting of a `LongRunningDiceRoll` activity. The `LongRunningDiceRoll` activity has two output arguments that represent the results of the dice roll operation. These are retrieved by calling <xref:System.Activities.WorkflowInvoker.EndInvoke%2A>. When the call to <xref:System.Activities.WorkflowInvoker.EndInvoke%2A> returns, each output argument is returned in the outputs dictionary, keyed by argument name.  \n  \n [!CODE [CFX_WorkflowInvokerExample#131](../CodeSnippet/VS_Snippets_CFX/cfx_workflowinvokerexample#131)]  \n  \n [!CODE [CFX_WorkflowInvokerExample#32](../CodeSnippet/VS_Snippets_CFX/cfx_workflowinvokerexample#32)]"
   syntax:
     content: public IAsyncResult BeginInvoke (AsyncCallback callback, object state);
     parameters:
     - id: callback
       type: System.AsyncCallback
-      description: Parameter description to be filled
+      description: The method to be called when the workflow has completed.
     - id: state
       type: System.Object
-      description: Parameter description to be filled
+      description: An optional application-specific object that contains information about the asynchronous operation.
     return:
       type: System.IAsyncResult
-      description: Return description to be filled
+      description: A reference to the asynchronous invoke operation.
   overload: System.Activities.WorkflowInvoker.BeginInvoke*
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Activities.WorkflowInvoker.BeginInvoke(System.Collections.Generic.IDictionary{System.String,System.Object},System.AsyncCallback,System.Object)
   id: BeginInvoke(System.Collections.Generic.IDictionary{System.String,System.Object},System.AsyncCallback,System.Object)
   parent: System.Activities.WorkflowInvoker
   langs:
   - csharp
-  - vb
-  name: BeginInvoke(IDictionary,AsyncCallback,Object)
-  nameWithType: WorkflowInvoker.BeginInvoke(IDictionary,AsyncCallback,Object)
-  fullName: System.Activities.WorkflowInvoker.BeginInvoke(IDictionary,AsyncCallback,Object)
+  name: BeginInvoke(IDictionary<String,Object>,AsyncCallback,Object)
+  nameWithType: WorkflowInvoker.BeginInvoke(IDictionary<String,Object>,AsyncCallback,Object)
+  fullName: System.Activities.WorkflowInvoker.BeginInvoke(IDictionary<String,Object>,AsyncCallback,Object)
   type: Method
   assemblies:
   - System.Activities
   namespace: System.Activities
+  summary: Invokes a workflow asynchronously using the specified <xref:System.Collections.Generic.IDictionary%602> of input parameters, <xref:System.AsyncCallback>, and user-provided state.
+  remarks: "To be notified when the workflow is complete and retrieve the output parameters of the workflow, call <xref:System.Activities.WorkflowInvoker.EndInvoke%2A> from the  method. If <xref:System.Activities.WorkflowInvoker.EndInvoke%2A> is called before the workflow completes, it blocks until the workflow completes.  To configure a time-out interval in which the workflow must complete, use one of the <xref:System.Activities.WorkflowInvoker.BeginInvoke%2A> overloads that take a <xref:System.TimeSpan>.  \n  \n This method invokes a workflow asynchronously using the <xref:System.IAsyncResult> asynchronous design pattern. [!INCLUDE[crdefault](../../add/includes/crdefault-md.md)][Asynchronous Programming Overview](http://go.microsoft.com/fwlink/?LinkId=141764)."
+  example:
+  - "The following example invokes a workflow consisting of a `LongRunningDiceRoll` activity. The `LongRunningDiceRoll` activity has two output arguments that represent the results of the dice roll operation. These are retrieved by calling <xref:System.Activities.WorkflowInvoker.EndInvoke%2A>. When the call to <xref:System.Activities.WorkflowInvoker.EndInvoke%2A> returns, each output argument is returned in the outputs dictionary, keyed by argument name.  \n  \n [!CODE [CFX_WorkflowInvokerExample#131](../CodeSnippet/VS_Snippets_CFX/cfx_workflowinvokerexample#131)]  \n  \n [!CODE [CFX_WorkflowInvokerExample#32](../CodeSnippet/VS_Snippets_CFX/cfx_workflowinvokerexample#32)]"
   syntax:
     content: public IAsyncResult BeginInvoke (System.Collections.Generic.IDictionary<string,object> inputs, AsyncCallback callback, object state);
     parameters:
     - id: inputs
       type: System.Collections.Generic.IDictionary{System.String,System.Object}
-      description: Parameter description to be filled
+      description: The dictionary of input parameters to the workflow, keyed by argument name.
     - id: callback
       type: System.AsyncCallback
-      description: Parameter description to be filled
+      description: The method to be called when the workflow has completed.
     - id: state
       type: System.Object
-      description: Parameter description to be filled
+      description: An optional application-specific object that contains information about the asynchronous operation.
     return:
       type: System.IAsyncResult
-      description: Return description to be filled
+      description: A reference to the asynchronous invoke operation.
   overload: System.Activities.WorkflowInvoker.BeginInvoke*
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Activities.WorkflowInvoker.BeginInvoke(System.TimeSpan,System.AsyncCallback,System.Object)
   id: BeginInvoke(System.TimeSpan,System.AsyncCallback,System.Object)
   parent: System.Activities.WorkflowInvoker
   langs:
   - csharp
-  - vb
   name: BeginInvoke(TimeSpan,AsyncCallback,Object)
   nameWithType: WorkflowInvoker.BeginInvoke(TimeSpan,AsyncCallback,Object)
   fullName: System.Activities.WorkflowInvoker.BeginInvoke(TimeSpan,AsyncCallback,Object)
@@ -139,60 +166,74 @@ items:
   assemblies:
   - System.Activities
   namespace: System.Activities
+  summary: Invokes a workflow asynchronously using the specified time-out interval, <see cref="T:System.AsyncCallback">, and user-provided state.
+  remarks: "To be notified when the workflow is complete and retrieve the output parameters of the workflow, call <xref:System.Activities.WorkflowInvoker.EndInvoke%2A> from the  method. If <xref:System.Activities.WorkflowInvoker.EndInvoke%2A> is called before the workflow completes, it blocks until the workflow completes. If the workflow does not complete within the specified time-out interval the workflow is aborted and a <xref:System.TimeoutException> is thrown when the <xref:System.Activities.WorkflowInvoker.EndInvoke%2A> method is called.  \n  \n> [!NOTE]\n>  The <xref:System.TimeoutException> is only thrown if the time-out interval elapses and the workflow becomes idle during execution. A workflow that takes longer than the specified time-out interval to complete completes successfully if the workflow does not become idle.  \n  \n This method invokes a workflow asynchronously using the <xref:System.IAsyncResult> asynchronous design pattern. [!INCLUDE[crdefault](../../add/includes/crdefault-md.md)][Asynchronous Programming Overview](http://go.microsoft.com/fwlink/?LinkId=141764)."
+  example:
+  - "The following example invokes a workflow consisting of a `LongRunningDiceRoll` activity. The `LongRunningDiceRoll` activity has two output arguments that represent the results of the dice roll operation. These are retrieved by calling <xref:System.Activities.WorkflowInvoker.EndInvoke%2A>. When the call to <xref:System.Activities.WorkflowInvoker.EndInvoke%2A> returns, each output argument is returned in the outputs dictionary, keyed by argument name.  \n  \n [!CODE [CFX_WorkflowInvokerExample#131](../CodeSnippet/VS_Snippets_CFX/cfx_workflowinvokerexample#131)]  \n  \n [!CODE [CFX_WorkflowInvokerExample#32](../CodeSnippet/VS_Snippets_CFX/cfx_workflowinvokerexample#32)]"
   syntax:
     content: public IAsyncResult BeginInvoke (TimeSpan timeout, AsyncCallback callback, object state);
     parameters:
     - id: timeout
       type: System.TimeSpan
-      description: Parameter description to be filled
+      description: The interval in which the workflow must complete before it is aborted and a <see cref="T:System.TimeoutException"> is thrown.
     - id: callback
       type: System.AsyncCallback
-      description: Parameter description to be filled
+      description: The method to be called when the workflow has completed.
     - id: state
       type: System.Object
-      description: Parameter description to be filled
+      description: An optional application-specific object that contains information about the asynchronous operation.
     return:
       type: System.IAsyncResult
-      description: Return description to be filled
+      description: A reference to the asynchronous invoke operation.
   overload: System.Activities.WorkflowInvoker.BeginInvoke*
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Activities.WorkflowInvoker.BeginInvoke(System.Collections.Generic.IDictionary{System.String,System.Object},System.TimeSpan,System.AsyncCallback,System.Object)
   id: BeginInvoke(System.Collections.Generic.IDictionary{System.String,System.Object},System.TimeSpan,System.AsyncCallback,System.Object)
   parent: System.Activities.WorkflowInvoker
   langs:
   - csharp
-  - vb
-  name: BeginInvoke(IDictionary,TimeSpan,AsyncCallback,Object)
-  nameWithType: WorkflowInvoker.BeginInvoke(IDictionary,TimeSpan,AsyncCallback,Object)
-  fullName: System.Activities.WorkflowInvoker.BeginInvoke(IDictionary,TimeSpan,AsyncCallback,Object)
+  name: BeginInvoke(IDictionary<String,Object>,TimeSpan,AsyncCallback,Object)
+  nameWithType: WorkflowInvoker.BeginInvoke(IDictionary<String,Object>,TimeSpan,AsyncCallback,Object)
+  fullName: System.Activities.WorkflowInvoker.BeginInvoke(IDictionary<String,Object>,TimeSpan,AsyncCallback,Object)
   type: Method
   assemblies:
   - System.Activities
   namespace: System.Activities
+  summary: Invokes a workflow asynchronously using the specified <xref:System.Collections.Generic.IDictionary%602> of input parameters, time-out interval, <xref:System.AsyncCallback>, and user-provided state.
+  remarks: "To be notified when the workflow is complete and retrieve the output parameters of the workflow, call <xref:System.Activities.WorkflowInvoker.EndInvoke%2A> from the  method. If <xref:System.Activities.WorkflowInvoker.EndInvoke%2A> is called before the workflow completes, it blocks until the workflow completes. If the workflow does not complete within the specified time-out interval the workflow is aborted and a <xref:System.TimeoutException> is thrown when <xref:System.Activities.WorkflowInvoker.EndInvoke%2A> is called.  \n  \n> [!NOTE]\n>  The <xref:System.TimeoutException> is only thrown if the time-out interval elapses and the workflow becomes idle during execution. A workflow that takes longer than the specified time-out interval to complete completes successfully if the workflow does not become idle.  \n  \n This method invokes a workflow asynchronously using the <xref:System.IAsyncResult> asynchronous design pattern. [!INCLUDE[crdefault](../../add/includes/crdefault-md.md)][Asynchronous Programming Overview](http://go.microsoft.com/fwlink/?LinkId=141764)."
+  example:
+  - "The following example invokes a workflow consisting of a `LongRunningDiceRoll` activity. The `LongRunningDiceRoll` activity has two output arguments that represent the results of the dice roll operation. These are retrieved by calling <xref:System.Activities.WorkflowInvoker.EndInvoke%2A>. When the call to <xref:System.Activities.WorkflowInvoker.EndInvoke%2A> returns, each output argument is returned in the outputs dictionary, keyed by argument name.  \n  \n [!CODE [CFX_WorkflowInvokerExample#131](../CodeSnippet/VS_Snippets_CFX/cfx_workflowinvokerexample#131)]  \n  \n [!CODE [CFX_WorkflowInvokerExample#32](../CodeSnippet/VS_Snippets_CFX/cfx_workflowinvokerexample#32)]"
   syntax:
     content: public IAsyncResult BeginInvoke (System.Collections.Generic.IDictionary<string,object> inputs, TimeSpan timeout, AsyncCallback callback, object state);
     parameters:
     - id: inputs
       type: System.Collections.Generic.IDictionary{System.String,System.Object}
-      description: Parameter description to be filled
+      description: The dictionary of input parameters to the workflow, keyed by argument name.
     - id: timeout
       type: System.TimeSpan
-      description: Parameter description to be filled
+      description: The interval in which the workflow must complete before it is aborted and a <see cref="T:System.TimeoutException"> is thrown.
     - id: callback
       type: System.AsyncCallback
-      description: Parameter description to be filled
+      description: The method to be called when the workflow has completed.
     - id: state
       type: System.Object
-      description: Parameter description to be filled
+      description: An optional application-specific object that contains information about the asynchronous operation.
     return:
       type: System.IAsyncResult
-      description: Return description to be filled
+      description: A reference to the asynchronous invoke operation.
   overload: System.Activities.WorkflowInvoker.BeginInvoke*
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Activities.WorkflowInvoker.CancelAsync(System.Object)
   id: CancelAsync(System.Object)
   parent: System.Activities.WorkflowInvoker
   langs:
   - csharp
-  - vb
   name: CancelAsync(Object)
   nameWithType: WorkflowInvoker.CancelAsync(Object)
   fullName: System.Activities.WorkflowInvoker.CancelAsync(Object)
@@ -200,21 +241,25 @@ items:
   assemblies:
   - System.Activities
   namespace: System.Activities
+  summary: Attempts to cancel the workflow that was invoked with the specified .
+  remarks: "Only a workflow invoked by one of the <xref:System.Activities.WorkflowInvoker.InvokeAsync%2A> overloads that takes a  parameter can be canceled.  \n  \n If the cancellation succeeds, the <xref:System.ComponentModel.Cancelled%2A> property of the <xref:System.Activities.InvokeCompletedEventArgs> passed to the <xref:System.Activities.WorkflowInvoker.InvokeCompleted> handler is set to `true`; otherwise, it is set to `false`."
+  example:
+  - "The following example invokes a workflow consisting of a `LongRunningDiceRoll` activity. The `LongRunningDiceRoll` activity has two output arguments that represent the results of the dice roll operation. Once the workflow is invoked, the host attempts to cancel the workflow.  \n  \n [!CODE [CFX_WorkflowInvokerExample#131](../CodeSnippet/VS_Snippets_CFX/cfx_workflowinvokerexample#131)]  \n  \n [!CODE [CFX_WorkflowInvokerExample#34](../CodeSnippet/VS_Snippets_CFX/cfx_workflowinvokerexample#34)]"
   syntax:
     content: public void CancelAsync (object userState);
     parameters:
     - id: userState
       type: System.Object
-      description: Parameter description to be filled
-    return:
-      type: System.Void
-      description: Return description to be filled
+      description: The token for the workflow to cancel.
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Activities.WorkflowInvoker.EndInvoke(System.IAsyncResult)
   id: EndInvoke(System.IAsyncResult)
   parent: System.Activities.WorkflowInvoker
   langs:
   - csharp
-  - vb
   name: EndInvoke(IAsyncResult)
   nameWithType: WorkflowInvoker.EndInvoke(IAsyncResult)
   fullName: System.Activities.WorkflowInvoker.EndInvoke(IAsyncResult)
@@ -222,21 +267,28 @@ items:
   assemblies:
   - System.Activities
   namespace: System.Activities
+  summary: Returns the results of a workflow that was invoked using one of the <xref:System.Activities.WorkflowInvoker.BeginInvoke%2A> overloads.
+  remarks: "To be notified when the workflow is complete and retrieve the output parameters of the workflow, call EndInvoke from the  method specified by <xref:System.Activities.WorkflowInvoker.BeginInvoke%2A>. If EndInvoke is called before the workflow completes, it blocks until the workflow completes.  \n  \n This method returns the result of a workflow invoked asynchronously using the <xref:System.IAsyncResult> asynchronous design pattern. [!INCLUDE[crdefault](../../add/includes/crdefault-md.md)][Asynchronous Programming Overview](http://go.microsoft.com/fwlink/?LinkId=141764)."
+  example:
+  - "The following example invokes a workflow consisting of a `LongRunningDiceRoll` activity. The `LongRunningDiceRoll` activity has two output arguments that represent the results of the dice roll operation. These are retrieved by calling EndInvoke. When the call to EndInvoke returns, each output argument is returned in the outputs dictionary, keyed by argument name.  \n  \n [!CODE [CFX_WorkflowInvokerExample#131](../CodeSnippet/VS_Snippets_CFX/cfx_workflowinvokerexample#131)]  \n  \n [!CODE [CFX_WorkflowInvokerExample#32](../CodeSnippet/VS_Snippets_CFX/cfx_workflowinvokerexample#32)]"
   syntax:
     content: public System.Collections.Generic.IDictionary<string,object> EndInvoke (IAsyncResult result);
     parameters:
     - id: result
       type: System.IAsyncResult
-      description: Parameter description to be filled
+      description: The <see cref="T:System.IAsyncResult"> that references the <xref:System.Activities.WorkflowInvoker.BeginInvoke%2A> operation that started the workflow.
     return:
       type: System.Collections.Generic.IDictionary{System.String,System.Object}
-      description: Return description to be filled
+      description: A dictionary of the root activity’s <see cref="T:System.Activities.OutArgument"> and <xref:System.Activities.InOutArgument> values keyed by argument name that represent the outputs of the workflow.
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Activities.WorkflowInvoker.Extensions
   id: Extensions
   parent: System.Activities.WorkflowInvoker
   langs:
   - csharp
-  - vb
   name: Extensions
   nameWithType: WorkflowInvoker.Extensions
   fullName: System.Activities.WorkflowInvoker.Extensions
@@ -244,17 +296,24 @@ items:
   assemblies:
   - System.Activities
   namespace: System.Activities
+  summary: Gets the <xref:System.Collections.ObjectModel.Collection%601> of extensions that are available to workflows invoked by a <xref:System.Activities.WorkflowInvoker> instance.
+  remarks: This property is used by workflow host authors to add extensions to the <xref:System.Activities.WorkflowInvoker> instance so they will be available to workflows invoked by it.
+  example:
+  - "The following example registers a custom <xref:System.Activities.Tracking.TrackingParticipant> with the Extensions collection of a <xref:System.Activities.WorkflowInvoker> instance. This code example is part of the [Custom Tracking](../Topic/Custom%20Tracking.md) sample.  \n  \n [!CODE [CFX_WorkflowInvokerExample#40](../CodeSnippet/VS_Snippets_CFX/cfx_workflowinvokerexample#40)]"
   syntax:
     content: public System.Activities.Hosting.WorkflowInstanceExtensionManager Extensions { get; }
     return:
       type: System.Activities.Hosting.WorkflowInstanceExtensionManager
-      description: Return description to be filled
+      description: To be added.
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Activities.WorkflowInvoker.Invoke
   id: Invoke
   parent: System.Activities.WorkflowInvoker
   langs:
   - csharp
-  - vb
   name: Invoke()
   nameWithType: WorkflowInvoker.Invoke()
   fullName: System.Activities.WorkflowInvoker.Invoke()
@@ -262,19 +321,26 @@ items:
   assemblies:
   - System.Activities
   namespace: System.Activities
+  summary: Invokes a workflow synchronously using the workflow definition passed to the <xref:System.Activities.WorkflowInvoker.%23ctor%2A> constructor.
+  remarks: This method blocks until the workflow has completed, including idle time. All workflow execution is guaranteed to execute on the invoking thread. To configure a time-out interval in which the workflow must complete, use one of the <xref:System.Activities.WorkflowInvoker.Invoke%2A> overloads that take a <xref:System.TimeSpan>.
+  example:
+  - "The following example invokes a workflow consisting of a single `DiceRoll` activity. The `DiceRoll` activity has two output arguments that represent the results of the dice roll operation. When the call to `Invoke` returns, each output argument is returned in the outputs dictionary, keyed by argument name. The workflow is invoked twice, using the workflow definition passed into to the `WorkflowInvoker` constructor.  \n  \n [!CODE [CFX_WorkflowInvokerExample#130](../CodeSnippet/VS_Snippets_CFX/cfx_workflowinvokerexample#130)]  \n  \n [!CODE [CFX_WorkflowInvokerExample#31](../CodeSnippet/VS_Snippets_CFX/cfx_workflowinvokerexample#31)]  \n  \n If the workflow's root activity has no output arguments or they are not needed by the host, they can be disregarded. The following example invokes a workflow consisting of a single <xref:System.Activities.Statements.WriteLine> activity that does not have any output arguments.  \n  \n [!CODE [CFX_WorkflowInvokerExample#2](../CodeSnippet/VS_Snippets_CFX/cfx_workflowinvokerexample#2)]"
   syntax:
     content: public System.Collections.Generic.IDictionary<string,object> Invoke ();
     parameters: []
     return:
       type: System.Collections.Generic.IDictionary{System.String,System.Object}
-      description: Return description to be filled
+      description: A dictionary of the root activity’s <see cref="T:System.Activities.OutArgument"> and <xref:System.Activities.InOutArgument> values keyed by argument name that represent the outputs of the workflow.
   overload: System.Activities.WorkflowInvoker.Invoke*
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Activities.WorkflowInvoker.Invoke(System.Activities.Activity)
   id: Invoke(System.Activities.Activity)
   parent: System.Activities.WorkflowInvoker
   langs:
   - csharp
-  - vb
   name: Invoke(Activity)
   nameWithType: WorkflowInvoker.Invoke(Activity)
   fullName: System.Activities.WorkflowInvoker.Invoke(Activity)
@@ -282,45 +348,59 @@ items:
   assemblies:
   - System.Activities
   namespace: System.Activities
+  summary: Invokes a workflow synchronously using the specified workflow definition.
+  remarks: This method blocks until the workflow has completed, including idle time. All workflow execution is guaranteed to execute on the invoking thread. To configure a time-out interval in which the workflow must complete, use one of the <xref:System.Activities.WorkflowInvoker.Invoke%2A> overloads that take a <xref:System.TimeSpan>.
+  example:
+  - "The following example invokes a workflow consisting of a single `DiceRoll` activity. The `DiceRoll` activity has two output arguments that represent the results of the dice roll operation. When the call to `Invoke` returns, each output argument is returned in the outputs dictionary, keyed by argument name.  \n  \n [!CODE [CFX_WorkflowInvokerExample#130](../CodeSnippet/VS_Snippets_CFX/cfx_workflowinvokerexample#130)]  \n  \n [!CODE [CFX_WorkflowInvokerExample#30](../CodeSnippet/VS_Snippets_CFX/cfx_workflowinvokerexample#30)]  \n  \n If the workflow's root activity has no output arguments or they are not needed by the host, they can be disregarded. The following example invokes a workflow consisting of a single <xref:System.Activities.Statements.WriteLine> activity that does not have any output arguments.  \n  \n [!CODE [CFX_WorkflowInvokerExample#1](../CodeSnippet/VS_Snippets_CFX/cfx_workflowinvokerexample#1)]"
   syntax:
     content: public static System.Collections.Generic.IDictionary<string,object> Invoke (System.Activities.Activity workflow);
     parameters:
     - id: workflow
       type: System.Activities.Activity
-      description: Parameter description to be filled
+      description: The workflow definition of the workflow to invoke.
     return:
       type: System.Collections.Generic.IDictionary{System.String,System.Object}
-      description: Return description to be filled
+      description: A dictionary of the root activity’s <see cref="T:System.Activities.OutArgument"> and <xref:System.Activities.InOutArgument> values keyed by argument name that represent the outputs of the workflow.
   overload: System.Activities.WorkflowInvoker.Invoke*
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Activities.WorkflowInvoker.Invoke(System.Collections.Generic.IDictionary{System.String,System.Object})
   id: Invoke(System.Collections.Generic.IDictionary{System.String,System.Object})
   parent: System.Activities.WorkflowInvoker
   langs:
   - csharp
-  - vb
-  name: Invoke(IDictionary)
-  nameWithType: WorkflowInvoker.Invoke(IDictionary)
-  fullName: System.Activities.WorkflowInvoker.Invoke(IDictionary)
+  name: Invoke(IDictionary<String,Object>)
+  nameWithType: WorkflowInvoker.Invoke(IDictionary<String,Object>)
+  fullName: System.Activities.WorkflowInvoker.Invoke(IDictionary<String,Object>)
   type: Method
   assemblies:
   - System.Activities
   namespace: System.Activities
+  summary: Invokes the activity passed to the <xref:System.Activities.WorkflowInvoker.%23ctor%2A> constructor synchronously with the specified <xref:System.Collections.Generic.IDictionary%602> of input parameters.
+  remarks: This method blocks until the workflow has completed, including idle time. All workflow execution is guaranteed to execute on the invoking thread. To configure a time-out interval in which the workflow must complete, use one of the <xref:System.Activities.WorkflowInvoker.Invoke%2A> overloads that take a <xref:System.TimeSpan>.
+  example:
+  - "The following example invokes a workflow consisting of a single `Divide` activity that has two input arguments and two output arguments. When the workflow is invoked, the `arguments` dictionary is passed which contains the values for each input argument, keyed by argument name. When the call to `Invoke` returns, each output argument is returned in the `outputs` dictionary, also keyed by argument name.  \n  \n [!CODE [CFX_WorkflowInvokerExample#120](../CodeSnippet/VS_Snippets_CFX/cfx_workflowinvokerexample#120)]  \n  \n [!CODE [CFX_WorkflowInvokerExample#22](../CodeSnippet/VS_Snippets_CFX/cfx_workflowinvokerexample#22)]  \n  \n If the workflow derives from <xref:System.Activities.ActivityWithResult>, such as `CodeActivity<TResult>` or `Activity<TResult>`, and there are output arguments in addition to the well-defined <xref:System.Activities.Activity%601.Result%2A> output argument, a non-generic overload of `Invoke`, such as this one, must be used in order to retrieve the additional arguments. To do this, the workflow definition passed into the `WorkflowInvoker` constructor must be of type <xref:System.Activities.Activity>. In this example the `Divide` activity derives from `CodeActivity<int>`, but is declared as <xref:System.Activities.Activity> so that this overload of `Invoke`, which returns a dictionary of arguments instead of a single return value, is used.  \n  \n [!CODE [CFX_WorkflowInvokerExample#121](../CodeSnippet/VS_Snippets_CFX/cfx_workflowinvokerexample#121)]  \n  \n [!CODE [CFX_WorkflowInvokerExample#23](../CodeSnippet/VS_Snippets_CFX/cfx_workflowinvokerexample#23)]"
   syntax:
     content: public System.Collections.Generic.IDictionary<string,object> Invoke (System.Collections.Generic.IDictionary<string,object> inputs);
     parameters:
     - id: inputs
       type: System.Collections.Generic.IDictionary{System.String,System.Object}
-      description: Parameter description to be filled
+      description: The dictionary of input parameters to the workflow, keyed by argument name.
     return:
       type: System.Collections.Generic.IDictionary{System.String,System.Object}
-      description: Return description to be filled
+      description: A dictionary of the root activity’s <see cref="T:System.Activities.OutArgument"> and <xref:System.Activities.InOutArgument> values keyed by argument name that represent the outputs of the workflow.
   overload: System.Activities.WorkflowInvoker.Invoke*
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Activities.WorkflowInvoker.Invoke(System.TimeSpan)
   id: Invoke(System.TimeSpan)
   parent: System.Activities.WorkflowInvoker
   langs:
   - csharp
-  - vb
   name: Invoke(TimeSpan)
   nameWithType: WorkflowInvoker.Invoke(TimeSpan)
   fullName: System.Activities.WorkflowInvoker.Invoke(TimeSpan)
@@ -328,48 +408,62 @@ items:
   assemblies:
   - System.Activities
   namespace: System.Activities
+  summary: Invokes a workflow synchronously with the specified time-out interval.
+  remarks: "This method blocks until the workflow has completed, including idle time. All workflow execution is guaranteed to execute on the invoking thread. If the workflow does not complete within the specified time-out interval the workflow is aborted and a <xref:System.TimeoutException> is thrown.  \n  \n> [!NOTE]\n>  The <xref:System.TimeoutException> is only thrown if the time-out interval elapses and the workflow becomes idle during execution. A workflow that takes longer than the specified time-out interval to complete completes successfully if the workflow does not become idle."
+  example:
+  - "The following example invokes a workflow that contains two <xref:System.Activities.Statements.WriteLine> activities and a <xref:System.Activities.Statements.Delay> activity configured with a <xref:System.Activities.Statements.Delay.Duration%2A> of one minute. This workflow is invoked twice; the first time with a time-out interval of two minutes, and the second time with a time-out interval of 30 seconds. The first workflow completes successfully, but the second one does not and a <xref:System.TimeoutException> is thrown and the following message is displayed.  \n  \n```Output  \nThe operation did not complete within the allotted timeout of 00:00:30.   \nThe time allotted to this operation may have been a portion of a longer timeout.  \n```  \n  \n [!CODE [CFX_WorkflowInvokerExample#51](../CodeSnippet/VS_Snippets_CFX/cfx_workflowinvokerexample#51)]  \n  \n For an example of using `Invoke` with output arguments, see the overload of <xref:System.Activities.WorkflowInvoker.Invoke%2A> with the same parameters as this overload without the time-out interval."
   syntax:
     content: public System.Collections.Generic.IDictionary<string,object> Invoke (TimeSpan timeout);
     parameters:
     - id: timeout
       type: System.TimeSpan
-      description: Parameter description to be filled
+      description: The interval in which the workflow must complete before it is aborted and a <see cref="T:System.TimeoutException"> is thrown.
     return:
       type: System.Collections.Generic.IDictionary{System.String,System.Object}
-      description: Return description to be filled
+      description: A dictionary of the root activity’s <see cref="T:System.Activities.OutArgument"> and <xref:System.Activities.InOutArgument> values keyed by argument name that represent the outputs of the workflow.
   overload: System.Activities.WorkflowInvoker.Invoke*
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Activities.WorkflowInvoker.Invoke(System.Activities.Activity,System.Collections.Generic.IDictionary{System.String,System.Object})
   id: Invoke(System.Activities.Activity,System.Collections.Generic.IDictionary{System.String,System.Object})
   parent: System.Activities.WorkflowInvoker
   langs:
   - csharp
-  - vb
-  name: Invoke(Activity,IDictionary)
-  nameWithType: WorkflowInvoker.Invoke(Activity,IDictionary)
-  fullName: System.Activities.WorkflowInvoker.Invoke(Activity,IDictionary)
+  name: Invoke(Activity,IDictionary<String,Object>)
+  nameWithType: WorkflowInvoker.Invoke(Activity,IDictionary<String,Object>)
+  fullName: System.Activities.WorkflowInvoker.Invoke(Activity,IDictionary<String,Object>)
   type: Method
   assemblies:
   - System.Activities
   namespace: System.Activities
+  summary: Invokes a workflow synchronously using the specified workflow definition and <xref:System.Collections.Generic.IDictionary%602> of input parameters.
+  remarks: This method blocks until the workflow has completed, including idle time. All workflow execution is guaranteed to execute on the invoking thread. To configure a time-out interval in which the workflow must complete, use one of the <xref:System.Activities.WorkflowInvoker.Invoke%2A> overloads that take a <xref:System.TimeSpan>.
+  example:
+  - "The following example invokes a workflow consisting of a single `Divide` activity that has two input arguments and two output arguments. When the workflow is invoked, the `arguments` dictionary is passed which contains the values for each input argument, keyed by argument name. When the call to `Invoke` returns, each output argument is returned in the `outputs` dictionary, also keyed by argument name.  \n  \n [!CODE [CFX_WorkflowInvokerExample#120](../CodeSnippet/VS_Snippets_CFX/cfx_workflowinvokerexample#120)]  \n  \n [!CODE [CFX_WorkflowInvokerExample#20](../CodeSnippet/VS_Snippets_CFX/cfx_workflowinvokerexample#20)]  \n  \n If the workflow derives from <xref:System.Activities.ActivityWithResult>, such as `CodeActivity<TResult>` or `Activity<TResult>`, and there are output arguments in addition to the well-defined <xref:System.Activities.Activity%601.Result%2A> output argument, a non-generic overload of `Invoke`, such as this one, must be used in order to retrieve the additional arguments. To do this, the workflow definition passed into `Invoke` must be of type <xref:System.Activities.Activity>. In this example the `Divide` activity derives from `CodeActivity<int>`, but is declared as <xref:System.Activities.Activity> so that this overload of `Invoke`, which returns a dictionary of arguments instead of a single return value, is used.  \n  \n [!CODE [CFX_WorkflowInvokerExample#121](../CodeSnippet/VS_Snippets_CFX/cfx_workflowinvokerexample#121)]  \n  \n [!CODE [CFX_WorkflowInvokerExample#21](../CodeSnippet/VS_Snippets_CFX/cfx_workflowinvokerexample#21)]"
   syntax:
     content: public static System.Collections.Generic.IDictionary<string,object> Invoke (System.Activities.Activity workflow, System.Collections.Generic.IDictionary<string,object> inputs);
     parameters:
     - id: workflow
       type: System.Activities.Activity
-      description: Parameter description to be filled
+      description: The workflow definition of the workflow to invoke.
     - id: inputs
       type: System.Collections.Generic.IDictionary{System.String,System.Object}
-      description: Parameter description to be filled
+      description: The dictionary of input parameters to the workflow, keyed by argument name.
     return:
       type: System.Collections.Generic.IDictionary{System.String,System.Object}
-      description: Return description to be filled
+      description: A dictionary of the root activity’s <see cref="T:System.Activities.OutArgument"> and <xref:System.Activities.InOutArgument> values keyed by argument name that represent the outputs of the workflow.
   overload: System.Activities.WorkflowInvoker.Invoke*
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Activities.WorkflowInvoker.Invoke(System.Activities.Activity,System.TimeSpan)
   id: Invoke(System.Activities.Activity,System.TimeSpan)
   parent: System.Activities.WorkflowInvoker
   langs:
   - csharp
-  - vb
   name: Invoke(Activity,TimeSpan)
   nameWithType: WorkflowInvoker.Invoke(Activity,TimeSpan)
   fullName: System.Activities.WorkflowInvoker.Invoke(Activity,TimeSpan)
@@ -377,190 +471,231 @@ items:
   assemblies:
   - System.Activities
   namespace: System.Activities
+  summary: Invokes a workflow synchronously using the specified workflow definition and time-out interval.
+  remarks: "This method blocks until the workflow has completed, including idle time. All workflow execution is guaranteed to execute on the invoking thread. If the workflow does not complete within the specified time-out interval the workflow is aborted and a <xref:System.TimeoutException> is thrown.  \n  \n> [!NOTE]\n>  The <xref:System.TimeoutException> is only thrown if the time-out interval elapses and the workflow becomes idle during execution. A workflow that takes longer than the specified time-out interval to complete completes successfully if the workflow does not become idle."
+  example:
+  - "The following example invokes a workflow that contains two <xref:System.Activities.Statements.WriteLine> activities and a <xref:System.Activities.Statements.Delay> activity configured with a <xref:System.Activities.Statements.Delay.Duration%2A> of one minute. This workflow is invoked twice; the first time with a time-out interval of two minutes, and the second time with a time-out interval of 30 seconds. The first workflow completes successfully, but the second one does not and a <xref:System.TimeoutException> is thrown.  \n  \n [!CODE [CFX_WorkflowInvokerExample#50](../CodeSnippet/VS_Snippets_CFX/cfx_workflowinvokerexample#50)]  \n  \n For an example of using `Invoke` with output arguments, see the overload of <xref:System.Activities.WorkflowInvoker.Invoke%2A> with the same parameters as this overload without the time-out interval."
   syntax:
     content: public static System.Collections.Generic.IDictionary<string,object> Invoke (System.Activities.Activity workflow, TimeSpan timeout);
     parameters:
     - id: workflow
       type: System.Activities.Activity
-      description: Parameter description to be filled
+      description: The workflow definition of the workflow to invoke.
     - id: timeout
       type: System.TimeSpan
-      description: Parameter description to be filled
+      description: The interval in which the workflow must complete before it is aborted and a <see cref="T:System.TimeoutException"> is thrown.
     return:
       type: System.Collections.Generic.IDictionary{System.String,System.Object}
-      description: Return description to be filled
+      description: A dictionary of the root activity’s <see cref="T:System.Activities.OutArgument"> and <xref:System.Activities.InOutArgument> values keyed by argument name that represent the outputs of the workflow.
   overload: System.Activities.WorkflowInvoker.Invoke*
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Activities.WorkflowInvoker.Invoke(System.Collections.Generic.IDictionary{System.String,System.Object},System.TimeSpan)
   id: Invoke(System.Collections.Generic.IDictionary{System.String,System.Object},System.TimeSpan)
   parent: System.Activities.WorkflowInvoker
   langs:
   - csharp
-  - vb
-  name: Invoke(IDictionary,TimeSpan)
-  nameWithType: WorkflowInvoker.Invoke(IDictionary,TimeSpan)
-  fullName: System.Activities.WorkflowInvoker.Invoke(IDictionary,TimeSpan)
+  name: Invoke(IDictionary<String,Object>,TimeSpan)
+  nameWithType: WorkflowInvoker.Invoke(IDictionary<String,Object>,TimeSpan)
+  fullName: System.Activities.WorkflowInvoker.Invoke(IDictionary<String,Object>,TimeSpan)
   type: Method
   assemblies:
   - System.Activities
   namespace: System.Activities
+  summary: Invokes the activity passed to the <xref:System.Activities.WorkflowInvoker.%23ctor%2A> constructor synchronously with the specified <xref:System.Collections.Generic.IDictionary%602> of input parameters and the specified time-out interval.
+  remarks: "This method blocks until the workflow has completed, including idle time. All workflow execution is guaranteed to execute on the invoking thread. If the workflow does not complete within the specified time-out interval the workflow is aborted and a <xref:System.TimeoutException> is thrown.  \n  \n> [!NOTE]\n>  The <xref:System.TimeoutException> is only thrown if the time-out interval elapses and the workflow becomes idle during execution. A workflow that takes longer than the specified time-out interval to complete completes successfully if the workflow does not become idle."
+  example:
+  - "The following example invokes a workflow that contains two <xref:System.Activities.Statements.WriteLine> activities and a <xref:System.Activities.Statements.Delay> activity configured with a <xref:System.Activities.Statements.Delay.Duration%2A> of one minute. This workflow is invoked twice; the first time with a time-out interval of two minutes, and the second time with a time-out interval of 30 seconds. The first workflow completes successfully, but the second one does not and a <xref:System.TimeoutException> is thrown and the following message is displayed.  \n  \n<CodeContentPlaceHolder>0</CodeContentPlaceHolder>  \n [!CODE [CFX_WorkflowInvokerExample#51](../CodeSnippet/VS_Snippets_CFX/cfx_workflowinvokerexample#51)]  \n  \n For an example of using `Invoke` with input and output arguments, see the overload of <xref:System.Activities.WorkflowInvoker.Invoke%2A> with the same parameters as this overload without the time-out interval."
   syntax:
     content: public System.Collections.Generic.IDictionary<string,object> Invoke (System.Collections.Generic.IDictionary<string,object> inputs, TimeSpan timeout);
     parameters:
     - id: inputs
       type: System.Collections.Generic.IDictionary{System.String,System.Object}
-      description: Parameter description to be filled
+      description: The dictionary of input parameters to the workflow, keyed by argument name.
     - id: timeout
       type: System.TimeSpan
-      description: Parameter description to be filled
+      description: The interval in which the workflow must complete before it is aborted and a <see cref="T:System.TimeoutException"> is thrown.
     return:
       type: System.Collections.Generic.IDictionary{System.String,System.Object}
-      description: Return description to be filled
+      description: A dictionary of the root activity’s <see cref="T:System.Activities.OutArgument"> and <xref:System.Activities.InOutArgument> values keyed by argument name that represent the outputs of the workflow.
   overload: System.Activities.WorkflowInvoker.Invoke*
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Activities.WorkflowInvoker.Invoke(System.Activities.Activity,System.Collections.Generic.IDictionary{System.String,System.Object},System.TimeSpan)
   id: Invoke(System.Activities.Activity,System.Collections.Generic.IDictionary{System.String,System.Object},System.TimeSpan)
   parent: System.Activities.WorkflowInvoker
   langs:
   - csharp
-  - vb
-  name: Invoke(Activity,IDictionary,TimeSpan)
-  nameWithType: WorkflowInvoker.Invoke(Activity,IDictionary,TimeSpan)
-  fullName: System.Activities.WorkflowInvoker.Invoke(Activity,IDictionary,TimeSpan)
+  name: Invoke(Activity,IDictionary<String,Object>,TimeSpan)
+  nameWithType: WorkflowInvoker.Invoke(Activity,IDictionary<String,Object>,TimeSpan)
+  fullName: System.Activities.WorkflowInvoker.Invoke(Activity,IDictionary<String,Object>,TimeSpan)
   type: Method
   assemblies:
   - System.Activities
   namespace: System.Activities
+  summary: Invokes a workflow synchronously using the specified workflow definition, <xref:System.Collections.Generic.IDictionary%602> of input parameters, and time-out interval.
+  remarks: "This method blocks until the workflow has completed, including idle time. All workflow execution is guaranteed to execute on the invoking thread. If the workflow does not complete within the specified time-out interval the workflow is aborted and a <xref:System.TimeoutException> is thrown.  \n  \n> [!NOTE]\n>  The <xref:System.TimeoutException> is only thrown if the time-out interval elapses and the workflow becomes idle during execution. A workflow that takes longer than the specified time-out interval to complete completes successfully if the workflow does not become idle."
+  example:
+  - "The following example invokes a workflow that contains two <xref:System.Activities.Statements.WriteLine> activities and a <xref:System.Activities.Statements.Delay> activity configured with a <xref:System.Activities.Statements.Delay.Duration%2A> of one minute. This workflow is invoked twice; the first time with a time-out interval of two minutes, and the second time with a time-out interval of 30 seconds. The first workflow completes successfully, but the second one does not and a <xref:System.TimeoutException> is thrown.  \n  \n [!CODE [CFX_WorkflowInvokerExample#50](../CodeSnippet/VS_Snippets_CFX/cfx_workflowinvokerexample#50)]  \n  \n For an example of using `Invoke` with input and output arguments, see the overload of <xref:System.Activities.WorkflowInvoker.Invoke%2A> with the same parameters as this overload without the time-out interval."
   syntax:
     content: public static System.Collections.Generic.IDictionary<string,object> Invoke (System.Activities.Activity workflow, System.Collections.Generic.IDictionary<string,object> inputs, TimeSpan timeout);
     parameters:
     - id: workflow
       type: System.Activities.Activity
-      description: Parameter description to be filled
+      description: The workflow definition of the workflow to invoke.
     - id: inputs
       type: System.Collections.Generic.IDictionary{System.String,System.Object}
-      description: Parameter description to be filled
+      description: The dictionary of input parameters to the workflow, keyed by argument name.
     - id: timeout
       type: System.TimeSpan
-      description: Parameter description to be filled
+      description: The interval in which the workflow must complete before it is aborted and a <see cref="T:System.TimeoutException"> is thrown.
     return:
       type: System.Collections.Generic.IDictionary{System.String,System.Object}
-      description: Return description to be filled
+      description: A dictionary of the root activity’s <see cref="T:System.Activities.OutArgument"> and <xref:System.Activities.InOutArgument> values keyed by argument name that represent the outputs of the workflow.
   overload: System.Activities.WorkflowInvoker.Invoke*
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Activities.WorkflowInvoker.Invoke``1(System.Activities.Activity`1)
   id: Invoke``1(System.Activities.Activity`1)
   parent: System.Activities.WorkflowInvoker
   langs:
   - csharp
-  - vb
-  name: Invoke(Activity)
-  nameWithType: WorkflowInvoker.Invoke(Activity)
-  fullName: System.Activities.WorkflowInvoker.Invoke(Activity)
+  name: Invoke(Activity<TResult>)
+  nameWithType: WorkflowInvoker.Invoke(Activity<TResult>)
+  fullName: System.Activities.WorkflowInvoker.Invoke(Activity<TResult>)
   type: Method
   assemblies:
   - System.Activities
   namespace: System.Activities
+  summary: To be added.
+  remarks: To be added.
   syntax:
     content: public static TResult Invoke<TResult> (System.Activities.Activity<TResult> workflow);
     parameters:
     - id: workflow
-      type: System.Activities.Activity{TResult}
-      description: Parameter description to be filled
+      type: System.Activities.Activity`1
+      description: To be added.
     return:
       type: TResult
-      description: Return description to be filled
+      description: To be added.
   overload: System.Activities.WorkflowInvoker.Invoke<TResult>*
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Activities.WorkflowInvoker.Invoke``1(System.Activities.Activity`1,System.Collections.Generic.IDictionary{System.String,System.Object})
   id: Invoke``1(System.Activities.Activity`1,System.Collections.Generic.IDictionary{System.String,System.Object})
   parent: System.Activities.WorkflowInvoker
   langs:
   - csharp
-  - vb
-  name: Invoke(Activity,IDictionary)
-  nameWithType: WorkflowInvoker.Invoke(Activity,IDictionary)
-  fullName: System.Activities.WorkflowInvoker.Invoke(Activity,IDictionary)
+  name: Invoke(Activity<TResult>,IDictionary<String,Object>)
+  nameWithType: WorkflowInvoker.Invoke(Activity<TResult>,IDictionary<String,Object>)
+  fullName: System.Activities.WorkflowInvoker.Invoke(Activity<TResult>,IDictionary<String,Object>)
   type: Method
   assemblies:
   - System.Activities
   namespace: System.Activities
+  summary: To be added.
+  remarks: To be added.
   syntax:
     content: public static TResult Invoke<TResult> (System.Activities.Activity<TResult> workflow, System.Collections.Generic.IDictionary<string,object> inputs);
     parameters:
     - id: workflow
-      type: System.Activities.Activity{TResult}
-      description: Parameter description to be filled
+      type: System.Activities.Activity`1
+      description: To be added.
     - id: inputs
       type: System.Collections.Generic.IDictionary{System.String,System.Object}
-      description: Parameter description to be filled
+      description: To be added.
     return:
       type: TResult
-      description: Return description to be filled
+      description: To be added.
   overload: System.Activities.WorkflowInvoker.Invoke<TResult>*
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Activities.WorkflowInvoker.Invoke``1(System.Activities.Activity`1,System.Collections.Generic.IDictionary{System.String,System.Object},System.TimeSpan)
   id: Invoke``1(System.Activities.Activity`1,System.Collections.Generic.IDictionary{System.String,System.Object},System.TimeSpan)
   parent: System.Activities.WorkflowInvoker
   langs:
   - csharp
-  - vb
-  name: Invoke(Activity,IDictionary,TimeSpan)
-  nameWithType: WorkflowInvoker.Invoke(Activity,IDictionary,TimeSpan)
-  fullName: System.Activities.WorkflowInvoker.Invoke(Activity,IDictionary,TimeSpan)
+  name: Invoke(Activity<TResult>,IDictionary<String,Object>,TimeSpan)
+  nameWithType: WorkflowInvoker.Invoke(Activity<TResult>,IDictionary<String,Object>,TimeSpan)
+  fullName: System.Activities.WorkflowInvoker.Invoke(Activity<TResult>,IDictionary<String,Object>,TimeSpan)
   type: Method
   assemblies:
   - System.Activities
   namespace: System.Activities
+  summary: To be added.
+  remarks: To be added.
   syntax:
     content: public static TResult Invoke<TResult> (System.Activities.Activity<TResult> workflow, System.Collections.Generic.IDictionary<string,object> inputs, TimeSpan timeout);
     parameters:
     - id: workflow
-      type: System.Activities.Activity{TResult}
-      description: Parameter description to be filled
+      type: System.Activities.Activity`1
+      description: To be added.
     - id: inputs
       type: System.Collections.Generic.IDictionary{System.String,System.Object}
-      description: Parameter description to be filled
+      description: To be added.
     - id: timeout
       type: System.TimeSpan
-      description: Parameter description to be filled
+      description: To be added.
     return:
       type: TResult
-      description: Return description to be filled
+      description: To be added.
   overload: System.Activities.WorkflowInvoker.Invoke<TResult>*
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Activities.WorkflowInvoker.Invoke``1(System.Activities.Activity`1,System.Collections.Generic.IDictionary{System.String,System.Object},System.Collections.Generic.IDictionary{System.String,System.Object}@,System.TimeSpan)
   id: Invoke``1(System.Activities.Activity`1,System.Collections.Generic.IDictionary{System.String,System.Object},System.Collections.Generic.IDictionary{System.String,System.Object}@,System.TimeSpan)
   parent: System.Activities.WorkflowInvoker
   langs:
   - csharp
-  - vb
-  name: Invoke(Activity,IDictionary,IDictionary,TimeSpan)
-  nameWithType: WorkflowInvoker.Invoke(Activity,IDictionary,IDictionary,TimeSpan)
-  fullName: System.Activities.WorkflowInvoker.Invoke(Activity,IDictionary,IDictionary,TimeSpan)
+  name: Invoke(Activity<TResult>,IDictionary<String,Object>,IDictionary<String,Object>,TimeSpan)
+  nameWithType: WorkflowInvoker.Invoke(Activity<TResult>,IDictionary<String,Object>,IDictionary<String,Object>,TimeSpan)
+  fullName: System.Activities.WorkflowInvoker.Invoke(Activity<TResult>,IDictionary<String,Object>,IDictionary<String,Object>,TimeSpan)
   type: Method
   assemblies:
   - System.Activities
   namespace: System.Activities
+  summary: To be added.
+  remarks: To be added.
   syntax:
     content: public static TResult Invoke<TResult> (System.Activities.Activity<TResult> workflow, System.Collections.Generic.IDictionary<string,object> inputs, out System.Collections.Generic.IDictionary<string,object> additionalOutputs, TimeSpan timeout);
     parameters:
     - id: workflow
-      type: System.Activities.Activity{TResult}
-      description: Parameter description to be filled
+      type: System.Activities.Activity`1
+      description: To be added.
     - id: inputs
       type: System.Collections.Generic.IDictionary{System.String,System.Object}
-      description: Parameter description to be filled
+      description: To be added.
     - id: additionalOutputs
       type: System.Collections.Generic.IDictionary{System.String,System.Object}
-      description: Parameter description to be filled
+      description: To be added.
     - id: timeout
       type: System.TimeSpan
-      description: Parameter description to be filled
+      description: To be added.
     return:
       type: TResult
-      description: Return description to be filled
+      description: To be added.
   overload: System.Activities.WorkflowInvoker.Invoke<TResult>*
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Activities.WorkflowInvoker.InvokeAsync
   id: InvokeAsync
   parent: System.Activities.WorkflowInvoker
   langs:
   - csharp
-  - vb
   name: InvokeAsync()
   nameWithType: WorkflowInvoker.InvokeAsync()
   fullName: System.Activities.WorkflowInvoker.InvokeAsync()
@@ -568,42 +703,50 @@ items:
   assemblies:
   - System.Activities
   namespace: System.Activities
+  summary: Invokes a workflow asynchronously.
+  remarks: "To be notified when the workflow is complete, handle <xref:System.Activities.WorkflowInvoker.InvokeCompleted>. To configure a time-out interval in which the workflow must complete, use one of the <xref:System.Activities.WorkflowInvoker.InvokeAsync%2A> overloads that take a <xref:System.TimeSpan>.  \n  \n This method invokes a workflow asynchronously using the event-based asynchronous design pattern. [!INCLUDE[crdefault](../../add/includes/crdefault-md.md)][Event-based Asynchronous Pattern Overview](http://go.microsoft.com/fwlink/?LinkId=141765)."
+  example:
+  - "The following example invokes a workflow consisting of a `LongRunningDiceRoll` activity. The `LongRunningDiceRoll` activity has two output arguments that represent the results of the dice roll operation. When the workflow completes these are retrieved in the <xref:System.Activities.WorkflowInvoker.InvokeCompleted> handler.  \n  \n [!CODE [CFX_WorkflowInvokerExample#131](../CodeSnippet/VS_Snippets_CFX/cfx_workflowinvokerexample#131)]  \n  \n [!CODE [CFX_WorkflowInvokerExample#33](../CodeSnippet/VS_Snippets_CFX/cfx_workflowinvokerexample#33)]"
   syntax:
     content: public void InvokeAsync ();
     parameters: []
-    return:
-      type: System.Void
-      description: Return description to be filled
   overload: System.Activities.WorkflowInvoker.InvokeAsync*
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Activities.WorkflowInvoker.InvokeAsync(System.Collections.Generic.IDictionary{System.String,System.Object})
   id: InvokeAsync(System.Collections.Generic.IDictionary{System.String,System.Object})
   parent: System.Activities.WorkflowInvoker
   langs:
   - csharp
-  - vb
-  name: InvokeAsync(IDictionary)
-  nameWithType: WorkflowInvoker.InvokeAsync(IDictionary)
-  fullName: System.Activities.WorkflowInvoker.InvokeAsync(IDictionary)
+  name: InvokeAsync(IDictionary<String,Object>)
+  nameWithType: WorkflowInvoker.InvokeAsync(IDictionary<String,Object>)
+  fullName: System.Activities.WorkflowInvoker.InvokeAsync(IDictionary<String,Object>)
   type: Method
   assemblies:
   - System.Activities
   namespace: System.Activities
+  summary: Invokes a workflow asynchronously using the specified <xref:System.Collections.Generic.IDictionary%602> of input parameters.
+  remarks: "To be notified when the workflow is complete, handle <xref:System.Activities.WorkflowInvoker.InvokeCompleted>. To configure a time-out interval in which the workflow must complete, use one of the <xref:System.Activities.WorkflowInvoker.InvokeAsync%2A> overloads that take a <xref:System.TimeSpan>.  \n  \n This method invokes a workflow asynchronously using the event-based asynchronous design pattern. [!INCLUDE[crdefault](../../add/includes/crdefault-md.md)][Event-based Asynchronous Pattern Overview](http://go.microsoft.com/fwlink/?LinkId=141765)."
+  example:
+  - "The following example invokes a workflow consisting of a `LongRunningDiceRoll` activity. The `LongRunningDiceRoll` activity has two output arguments that represent the results of the dice roll operation. When the workflow completes these are retrieved in the <xref:System.Activities.WorkflowInvoker.InvokeCompleted> handler.  \n  \n [!CODE [CFX_WorkflowInvokerExample#131](../CodeSnippet/VS_Snippets_CFX/cfx_workflowinvokerexample#131)]  \n  \n [!CODE [CFX_WorkflowInvokerExample#33](../CodeSnippet/VS_Snippets_CFX/cfx_workflowinvokerexample#33)]"
   syntax:
     content: public void InvokeAsync (System.Collections.Generic.IDictionary<string,object> inputs);
     parameters:
     - id: inputs
       type: System.Collections.Generic.IDictionary{System.String,System.Object}
-      description: Parameter description to be filled
-    return:
-      type: System.Void
-      description: Return description to be filled
+      description: The dictionary of input parameters to the workflow, keyed by argument name.
   overload: System.Activities.WorkflowInvoker.InvokeAsync*
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Activities.WorkflowInvoker.InvokeAsync(System.Object)
   id: InvokeAsync(System.Object)
   parent: System.Activities.WorkflowInvoker
   langs:
   - csharp
-  - vb
   name: InvokeAsync(Object)
   nameWithType: WorkflowInvoker.InvokeAsync(Object)
   fullName: System.Activities.WorkflowInvoker.InvokeAsync(Object)
@@ -611,22 +754,26 @@ items:
   assemblies:
   - System.Activities
   namespace: System.Activities
+  summary: Invokes a workflow asynchronously using the specified unique identifier.
+  remarks: "The  parameter must be unique across all currently running <xref:System.Activities.WorkflowInvoker.InvokeAsync%2A> operations for the current activity. If the  parameter is not unique, an <xref:System.ArgumentException> is thrown.  is used to identify the workflow in <xref:System.Activities.WorkflowInvoker.InvokeCompleted>, and to cancel the workflow using <xref:System.Activities.WorkflowInvoker.CancelAsync%2A>.  \n  \n To be notified when the workflow is complete, handle <xref:System.Activities.WorkflowInvoker.InvokeCompleted>. To configure a time-out interval in which the workflow must complete, use one of the <xref:System.Activities.WorkflowInvoker.InvokeAsync%2A> overloads that take a <xref:System.TimeSpan>.  \n  \n This method invokes a workflow asynchronously using the event-based asynchronous design pattern. [!INCLUDE[crdefault](../../add/includes/crdefault-md.md)][Event-based Asynchronous Pattern Overview](http://go.microsoft.com/fwlink/?LinkId=141765)."
+  example:
+  - "The following example invokes a workflow consisting of a `LongRunningDiceRoll` activity. The `LongRunningDiceRoll` activity has two output arguments that represent the results of the dice roll operation. When the workflow completes these are retrieved in the <xref:System.Activities.WorkflowInvoker.InvokeCompleted> handler.  \n  \n [!CODE [CFX_WorkflowInvokerExample#131](../CodeSnippet/VS_Snippets_CFX/cfx_workflowinvokerexample#131)]  \n  \n [!CODE [CFX_WorkflowInvokerExample#33](../CodeSnippet/VS_Snippets_CFX/cfx_workflowinvokerexample#33)]"
   syntax:
     content: public void InvokeAsync (object userState);
     parameters:
     - id: userState
       type: System.Object
-      description: Parameter description to be filled
-    return:
-      type: System.Void
-      description: Return description to be filled
+      description: A user-provided object used to distinguish this particular asynchronous invoke operation from other current asynchronous invoke operations.
   overload: System.Activities.WorkflowInvoker.InvokeAsync*
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Activities.WorkflowInvoker.InvokeAsync(System.TimeSpan)
   id: InvokeAsync(System.TimeSpan)
   parent: System.Activities.WorkflowInvoker
   langs:
   - csharp
-  - vb
   name: InvokeAsync(TimeSpan)
   nameWithType: WorkflowInvoker.InvokeAsync(TimeSpan)
   fullName: System.Activities.WorkflowInvoker.InvokeAsync(TimeSpan)
@@ -634,74 +781,86 @@ items:
   assemblies:
   - System.Activities
   namespace: System.Activities
+  summary: Invokes a workflow asynchronously with the specified time-out interval.
+  remarks: "To be notified when the workflow is complete, handle <xref:System.Activities.WorkflowInvoker.InvokeCompleted>. If the workflow does not complete within the specified time-out interval the workflow is aborted and a <xref:System.TimeoutException> is thrown.  \n  \n> [!NOTE]\n>  The <xref:System.TimeoutException> is only thrown if the time-out interval elapses and the workflow becomes idle during execution. A workflow that takes longer than the specified time-out interval to complete completes successfully if the workflow does not become idle.  \n  \n This method invokes a workflow asynchronously using the event-based asynchronous design pattern. [!INCLUDE[crdefault](../../add/includes/crdefault-md.md)][Event-based Asynchronous Pattern Overview](http://go.microsoft.com/fwlink/?LinkId=141765)."
+  example:
+  - "The following example invokes a workflow consisting of a `LongRunningDiceRoll` activity. The `LongRunningDiceRoll` activity has two output arguments that represent the results of the dice roll operation. When the workflow completes these are retrieved in the <xref:System.Activities.WorkflowInvoker.InvokeCompleted> handler.  \n  \n [!CODE [CFX_WorkflowInvokerExample#131](../CodeSnippet/VS_Snippets_CFX/cfx_workflowinvokerexample#131)]  \n  \n [!CODE [CFX_WorkflowInvokerExample#33](../CodeSnippet/VS_Snippets_CFX/cfx_workflowinvokerexample#33)]"
   syntax:
     content: public void InvokeAsync (TimeSpan timeout);
     parameters:
     - id: timeout
       type: System.TimeSpan
-      description: Parameter description to be filled
-    return:
-      type: System.Void
-      description: Return description to be filled
+      description: The interval in which the workflow must complete before it is aborted and a <see cref="T:System.TimeoutException"> is thrown.
   overload: System.Activities.WorkflowInvoker.InvokeAsync*
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Activities.WorkflowInvoker.InvokeAsync(System.Collections.Generic.IDictionary{System.String,System.Object},System.Object)
   id: InvokeAsync(System.Collections.Generic.IDictionary{System.String,System.Object},System.Object)
   parent: System.Activities.WorkflowInvoker
   langs:
   - csharp
-  - vb
-  name: InvokeAsync(IDictionary,Object)
-  nameWithType: WorkflowInvoker.InvokeAsync(IDictionary,Object)
-  fullName: System.Activities.WorkflowInvoker.InvokeAsync(IDictionary,Object)
+  name: InvokeAsync(IDictionary<String,Object>,Object)
+  nameWithType: WorkflowInvoker.InvokeAsync(IDictionary<String,Object>,Object)
+  fullName: System.Activities.WorkflowInvoker.InvokeAsync(IDictionary<String,Object>,Object)
   type: Method
   assemblies:
   - System.Activities
   namespace: System.Activities
+  summary: Invokes a workflow asynchronously using the specified <xref:System.Collections.Generic.IDictionary%602> of input parameters and a unique identifier.
+  remarks: "The  parameter must be unique across all currently running <xref:System.Activities.WorkflowInvoker.InvokeAsync%2A> operations for the current activity. If  is not unique, an <xref:System.ArgumentException> is thrown.  is used to identify the workflow in <xref:System.Activities.WorkflowInvoker.InvokeCompleted>, and to cancel the workflow using <xref:System.Activities.WorkflowInvoker.CancelAsync%2A>.  \n  \n To be notified when the workflow is complete, handle <xref:System.Activities.WorkflowInvoker.InvokeCompleted>. To configure a time-out interval in which the workflow must complete, use one of the <xref:System.Activities.WorkflowInvoker.InvokeAsync%2A> overloads that take a <xref:System.TimeSpan>.  \n  \n This method invokes a workflow asynchronously using the event-based asynchronous design pattern. [!INCLUDE[crdefault](../../add/includes/crdefault-md.md)][Event-based Asynchronous Pattern Overview](http://go.microsoft.com/fwlink/?LinkId=141765)."
+  example:
+  - "The following example invokes a workflow consisting of a `LongRunningDiceRoll` activity. The `LongRunningDiceRoll` activity has two output arguments that represent the results of the dice roll operation. When the workflow completes these are retrieved in the <xref:System.Activities.WorkflowInvoker.InvokeCompleted> handler.  \n  \n [!CODE [CFX_WorkflowInvokerExample#131](../CodeSnippet/VS_Snippets_CFX/cfx_workflowinvokerexample#131)]  \n  \n [!CODE [CFX_WorkflowInvokerExample#33](../CodeSnippet/VS_Snippets_CFX/cfx_workflowinvokerexample#33)]"
   syntax:
     content: public void InvokeAsync (System.Collections.Generic.IDictionary<string,object> inputs, object userState);
     parameters:
     - id: inputs
       type: System.Collections.Generic.IDictionary{System.String,System.Object}
-      description: Parameter description to be filled
+      description: The dictionary of input parameters to the workflow, keyed by argument name.
     - id: userState
       type: System.Object
-      description: Parameter description to be filled
-    return:
-      type: System.Void
-      description: Return description to be filled
+      description: A user-provided object used to distinguish this particular asynchronous invoke operation from other current asynchronous invoke operations.
   overload: System.Activities.WorkflowInvoker.InvokeAsync*
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Activities.WorkflowInvoker.InvokeAsync(System.Collections.Generic.IDictionary{System.String,System.Object},System.TimeSpan)
   id: InvokeAsync(System.Collections.Generic.IDictionary{System.String,System.Object},System.TimeSpan)
   parent: System.Activities.WorkflowInvoker
   langs:
   - csharp
-  - vb
-  name: InvokeAsync(IDictionary,TimeSpan)
-  nameWithType: WorkflowInvoker.InvokeAsync(IDictionary,TimeSpan)
-  fullName: System.Activities.WorkflowInvoker.InvokeAsync(IDictionary,TimeSpan)
+  name: InvokeAsync(IDictionary<String,Object>,TimeSpan)
+  nameWithType: WorkflowInvoker.InvokeAsync(IDictionary<String,Object>,TimeSpan)
+  fullName: System.Activities.WorkflowInvoker.InvokeAsync(IDictionary<String,Object>,TimeSpan)
   type: Method
   assemblies:
   - System.Activities
   namespace: System.Activities
+  summary: Invokes a workflow asynchronously with the specified <xref:System.Collections.Generic.IDictionary%602> of input parameters and the specified time-out interval.
+  remarks: "To be notified when the workflow is complete, handle <xref:System.Activities.WorkflowInvoker.InvokeCompleted>. If the workflow does not complete within the specified time-out interval the workflow is aborted and a <xref:System.TimeoutException> is thrown.  \n  \n> [!NOTE]\n>  The <xref:System.TimeoutException> is only thrown if the time-out interval elapses and the workflow becomes idle during execution. A workflow that takes longer than the specified time-out interval to complete completes successfully if the workflow does not become idle.  \n  \n This method invokes a workflow asynchronously using the event-based asynchronous design pattern. [!INCLUDE[crdefault](../../add/includes/crdefault-md.md)][Event-based Asynchronous Pattern Overview](http://go.microsoft.com/fwlink/?LinkId=141765)."
+  example:
+  - "The following example invokes a workflow consisting of a `LongRunningDiceRoll` activity. The `LongRunningDiceRoll` activity has two output arguments that represent the results of the dice roll operation. When the workflow completes these are retrieved in the <xref:System.Activities.WorkflowInvoker.InvokeCompleted> handler.  \n  \n [!CODE [CFX_WorkflowInvokerExample#131](../CodeSnippet/VS_Snippets_CFX/cfx_workflowinvokerexample#131)]  \n  \n [!CODE [CFX_WorkflowInvokerExample#33](../CodeSnippet/VS_Snippets_CFX/cfx_workflowinvokerexample#33)]"
   syntax:
     content: public void InvokeAsync (System.Collections.Generic.IDictionary<string,object> inputs, TimeSpan timeout);
     parameters:
     - id: inputs
       type: System.Collections.Generic.IDictionary{System.String,System.Object}
-      description: Parameter description to be filled
+      description: The dictionary of input parameters to the workflow, keyed by argument name.
     - id: timeout
       type: System.TimeSpan
-      description: Parameter description to be filled
-    return:
-      type: System.Void
-      description: Return description to be filled
+      description: The interval in which the workflow must complete before it is aborted and a <see cref="T:System.TimeoutException"> is thrown.
   overload: System.Activities.WorkflowInvoker.InvokeAsync*
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Activities.WorkflowInvoker.InvokeAsync(System.TimeSpan,System.Object)
   id: InvokeAsync(System.TimeSpan,System.Object)
   parent: System.Activities.WorkflowInvoker
   langs:
   - csharp
-  - vb
   name: InvokeAsync(TimeSpan,Object)
   nameWithType: WorkflowInvoker.InvokeAsync(TimeSpan,Object)
   fullName: System.Activities.WorkflowInvoker.InvokeAsync(TimeSpan,Object)
@@ -709,54 +868,62 @@ items:
   assemblies:
   - System.Activities
   namespace: System.Activities
+  summary: Invokes a workflow asynchronously with the specified time-out interval and a unique identifier.
+  remarks: "The  parameter must be unique across all currently running <xref:System.Activities.WorkflowInvoker.InvokeAsync%2A> operations for the current activity. If  is not unique, an <xref:System.ArgumentException> is thrown.  is used to identify the workflow in <xref:System.Activities.WorkflowInvoker.InvokeCompleted>, and to cancel the workflow using <xref:System.Activities.WorkflowInvoker.CancelAsync%2A>.  \n  \n To be notified when the workflow is complete, handle <xref:System.Activities.WorkflowInvoker.InvokeCompleted>. If the workflow does not complete within the specified time-out interval the workflow is aborted and a <xref:System.TimeoutException> is thrown.  \n  \n> [!NOTE]\n>  The <xref:System.TimeoutException> is only thrown if the time-out interval elapses and the workflow becomes idle during execution. A workflow that takes longer than the specified time-out interval to complete completes successfully if the workflow does not become idle.  \n  \n This method invokes a workflow asynchronously using the event-based asynchronous design pattern. [!INCLUDE[crdefault](../../add/includes/crdefault-md.md)][Event-based Asynchronous Pattern Overview](http://go.microsoft.com/fwlink/?LinkId=141765)."
+  example:
+  - "The following example invokes a workflow consisting of a `LongRunningDiceRoll` activity. The `LongRunningDiceRoll` activity has two output arguments that represent the results of the dice roll operation. When the workflow completes these are retrieved in the <xref:System.Activities.WorkflowInvoker.InvokeCompleted> handler.  \n  \n [!CODE [CFX_WorkflowInvokerExample#131](../CodeSnippet/VS_Snippets_CFX/cfx_workflowinvokerexample#131)]  \n  \n [!CODE [CFX_WorkflowInvokerExample#33](../CodeSnippet/VS_Snippets_CFX/cfx_workflowinvokerexample#33)]"
   syntax:
     content: public void InvokeAsync (TimeSpan timeout, object userState);
     parameters:
     - id: timeout
       type: System.TimeSpan
-      description: Parameter description to be filled
+      description: The interval in which the workflow must complete before it is aborted and a <see cref="T:System.TimeoutException"> is thrown.
     - id: userState
       type: System.Object
-      description: Parameter description to be filled
-    return:
-      type: System.Void
-      description: Return description to be filled
+      description: A user-provided object used to distinguish this particular asynchronous invoke operation from other current asynchronous invoke operations.
   overload: System.Activities.WorkflowInvoker.InvokeAsync*
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Activities.WorkflowInvoker.InvokeAsync(System.Collections.Generic.IDictionary{System.String,System.Object},System.TimeSpan,System.Object)
   id: InvokeAsync(System.Collections.Generic.IDictionary{System.String,System.Object},System.TimeSpan,System.Object)
   parent: System.Activities.WorkflowInvoker
   langs:
   - csharp
-  - vb
-  name: InvokeAsync(IDictionary,TimeSpan,Object)
-  nameWithType: WorkflowInvoker.InvokeAsync(IDictionary,TimeSpan,Object)
-  fullName: System.Activities.WorkflowInvoker.InvokeAsync(IDictionary,TimeSpan,Object)
+  name: InvokeAsync(IDictionary<String,Object>,TimeSpan,Object)
+  nameWithType: WorkflowInvoker.InvokeAsync(IDictionary<String,Object>,TimeSpan,Object)
+  fullName: System.Activities.WorkflowInvoker.InvokeAsync(IDictionary<String,Object>,TimeSpan,Object)
   type: Method
   assemblies:
   - System.Activities
   namespace: System.Activities
+  summary: Invokes a workflow asynchronously with the specified <xref:System.Collections.Generic.IDictionary%602> of input parameters, the specified time-out interval, and a unique identifier.
+  remarks: "The  parameter must be unique across all currently running <xref:System.Activities.WorkflowInvoker.InvokeAsync%2A> operations for the current activity. If  is not unique, an <xref:System.ArgumentException> is thrown.  is used to identify the workflow in <xref:System.Activities.WorkflowInvoker.InvokeCompleted>, and to cancel the workflow using <xref:System.Activities.WorkflowInvoker.CancelAsync%2A>.  \n  \n To be notified when the workflow is complete, handle <xref:System.Activities.WorkflowInvoker.InvokeCompleted>. If the workflow does not complete within the specified time-out interval the workflow is aborted and a <xref:System.TimeoutException> is thrown.  \n  \n> [!NOTE]\n>  The <xref:System.TimeoutException> is only thrown if the time-out interval elapses and the workflow becomes idle during execution. A workflow that takes longer than the specified time-out interval to complete completes successfully if the workflow does not become idle.  \n  \n This method invokes a workflow asynchronously using the event-based asynchronous design pattern. [!INCLUDE[crdefault](../../add/includes/crdefault-md.md)][Event-based Asynchronous Pattern Overview](http://go.microsoft.com/fwlink/?LinkId=141765)."
+  example:
+  - "The following example invokes a workflow consisting of a `LongRunningDiceRoll` activity. The `LongRunningDiceRoll` activity has two output arguments that represent the results of the dice roll operation. When the workflow completes these are retrieved in the <xref:System.Activities.WorkflowInvoker.InvokeCompleted> handler.  \n  \n [!CODE [CFX_WorkflowInvokerExample#131](../CodeSnippet/VS_Snippets_CFX/cfx_workflowinvokerexample#131)]  \n  \n [!CODE [CFX_WorkflowInvokerExample#33](../CodeSnippet/VS_Snippets_CFX/cfx_workflowinvokerexample#33)]"
   syntax:
     content: public void InvokeAsync (System.Collections.Generic.IDictionary<string,object> inputs, TimeSpan timeout, object userState);
     parameters:
     - id: inputs
       type: System.Collections.Generic.IDictionary{System.String,System.Object}
-      description: Parameter description to be filled
+      description: The dictionary of input parameters to the workflow, keyed by argument name.
     - id: timeout
       type: System.TimeSpan
-      description: Parameter description to be filled
+      description: The interval in which the workflow must complete before it is aborted and a <see cref="T:System.TimeoutException"> is thrown.
     - id: userState
       type: System.Object
-      description: Parameter description to be filled
-    return:
-      type: System.Void
-      description: Return description to be filled
+      description: A user-provided object used to distinguish this particular asynchronous invoke operation from other current asynchronous invoke operations.
   overload: System.Activities.WorkflowInvoker.InvokeAsync*
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Activities.WorkflowInvoker.InvokeCompleted
   id: InvokeCompleted
   parent: System.Activities.WorkflowInvoker
   langs:
   - csharp
-  - vb
   name: InvokeCompleted
   nameWithType: WorkflowInvoker.InvokeCompleted
   fullName: System.Activities.WorkflowInvoker.InvokeCompleted
@@ -764,11 +931,19 @@ items:
   assemblies:
   - System.Activities
   namespace: System.Activities
+  summary: Occurs when the workflow invoked by one of the <xref:System.Activities.WorkflowInvoker.InvokeAsync%2A> overloads is completed or canceled.
+  remarks: Handle this to determine whether a workflow invoked with one of the <xref:System.Activities.WorkflowInvoker.InvokeAsync%2A> overloads completed successfully and to retrieve the output arguments of the completed workflow.
+  example:
+  - "The following example invokes a workflow consisting of a `LongRunningDiceRoll` activity. The `LongRunningDiceRoll` activity has two output arguments that represent the results of the dice roll operation. When the workflow completes these are retrieved in the InvokeCompleted handler.  \n  \n [!CODE [CFX_WorkflowInvokerExample#131](../CodeSnippet/VS_Snippets_CFX/cfx_workflowinvokerexample#131)]  \n  \n [!CODE [CFX_WorkflowInvokerExample#33](../CodeSnippet/VS_Snippets_CFX/cfx_workflowinvokerexample#33)]"
   syntax:
     content: public event EventHandler<System.Activities.InvokeCompletedEventArgs> InvokeCompleted;
     return:
       type: System.EventHandler{System.Activities.InvokeCompletedEventArgs}
-      description: Return description to be filled
+      description: To be added.
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 references:
 - uid: System.Object
   isExternal: false
@@ -812,15 +987,21 @@ references:
 - uid: System.Activities.WorkflowInvoker.BeginInvoke(System.Collections.Generic.IDictionary{System.String,System.Object},System.AsyncCallback,System.Object)
   parent: System.Activities.WorkflowInvoker
   isExternal: false
-  name: BeginInvoke(IDictionary,AsyncCallback,Object)
-  nameWithType: WorkflowInvoker.BeginInvoke(IDictionary,AsyncCallback,Object)
-  fullName: System.Activities.WorkflowInvoker.BeginInvoke(IDictionary,AsyncCallback,Object)
+  name: BeginInvoke(IDictionary<String,Object>,AsyncCallback,Object)
+  nameWithType: WorkflowInvoker.BeginInvoke(IDictionary<String,Object>,AsyncCallback,Object)
+  fullName: System.Activities.WorkflowInvoker.BeginInvoke(IDictionary<String,Object>,AsyncCallback,Object)
 - uid: System.IAsyncResult
   parent: System
   isExternal: false
   name: IAsyncResult
   nameWithType: IAsyncResult
   fullName: System.IAsyncResult
+- uid: System.Collections.Generic.IDictionary{System.String,System.Object}
+  parent: System.Collections.Generic
+  isExternal: false
+  name: IDictionary<String,Object>
+  nameWithType: IDictionary<String,Object>
+  fullName: System.Collections.Generic.IDictionary<System.String,System.Object>
 - uid: System.AsyncCallback
   parent: System
   isExternal: false
@@ -866,15 +1047,21 @@ references:
 - uid: System.Activities.WorkflowInvoker.BeginInvoke(System.Collections.Generic.IDictionary{System.String,System.Object},System.TimeSpan,System.AsyncCallback,System.Object)
   parent: System.Activities.WorkflowInvoker
   isExternal: false
-  name: BeginInvoke(IDictionary,TimeSpan,AsyncCallback,Object)
-  nameWithType: WorkflowInvoker.BeginInvoke(IDictionary,TimeSpan,AsyncCallback,Object)
-  fullName: System.Activities.WorkflowInvoker.BeginInvoke(IDictionary,TimeSpan,AsyncCallback,Object)
+  name: BeginInvoke(IDictionary<String,Object>,TimeSpan,AsyncCallback,Object)
+  nameWithType: WorkflowInvoker.BeginInvoke(IDictionary<String,Object>,TimeSpan,AsyncCallback,Object)
+  fullName: System.Activities.WorkflowInvoker.BeginInvoke(IDictionary<String,Object>,TimeSpan,AsyncCallback,Object)
 - uid: System.IAsyncResult
   parent: System
   isExternal: false
   name: IAsyncResult
   nameWithType: IAsyncResult
   fullName: System.IAsyncResult
+- uid: System.Collections.Generic.IDictionary{System.String,System.Object}
+  parent: System.Collections.Generic
+  isExternal: false
+  name: IDictionary<String,Object>
+  nameWithType: IDictionary<String,Object>
+  fullName: System.Collections.Generic.IDictionary<System.String,System.Object>
 - uid: System.TimeSpan
   parent: System
   isExternal: false
@@ -899,12 +1086,6 @@ references:
   name: CancelAsync(Object)
   nameWithType: WorkflowInvoker.CancelAsync(Object)
   fullName: System.Activities.WorkflowInvoker.CancelAsync(Object)
-- uid: System.Void
-  parent: System
-  isExternal: false
-  name: Void
-  nameWithType: Void
-  fullName: System.Void
 - uid: System.Object
   parent: System
   isExternal: false
@@ -917,6 +1098,12 @@ references:
   name: EndInvoke(IAsyncResult)
   nameWithType: WorkflowInvoker.EndInvoke(IAsyncResult)
   fullName: System.Activities.WorkflowInvoker.EndInvoke(IAsyncResult)
+- uid: System.Collections.Generic.IDictionary{System.String,System.Object}
+  parent: System.Collections.Generic
+  isExternal: false
+  name: IDictionary<String,Object>
+  nameWithType: IDictionary<String,Object>
+  fullName: System.Collections.Generic.IDictionary<System.String,System.Object>
 - uid: System.IAsyncResult
   parent: System
   isExternal: false
@@ -941,12 +1128,24 @@ references:
   name: Invoke()
   nameWithType: WorkflowInvoker.Invoke()
   fullName: System.Activities.WorkflowInvoker.Invoke()
+- uid: System.Collections.Generic.IDictionary{System.String,System.Object}
+  parent: System.Collections.Generic
+  isExternal: false
+  name: IDictionary<String,Object>
+  nameWithType: IDictionary<String,Object>
+  fullName: System.Collections.Generic.IDictionary<System.String,System.Object>
 - uid: System.Activities.WorkflowInvoker.Invoke(System.Activities.Activity)
   parent: System.Activities.WorkflowInvoker
   isExternal: false
   name: Invoke(Activity)
   nameWithType: WorkflowInvoker.Invoke(Activity)
   fullName: System.Activities.WorkflowInvoker.Invoke(Activity)
+- uid: System.Collections.Generic.IDictionary{System.String,System.Object}
+  parent: System.Collections.Generic
+  isExternal: false
+  name: IDictionary<String,Object>
+  nameWithType: IDictionary<String,Object>
+  fullName: System.Collections.Generic.IDictionary<System.String,System.Object>
 - uid: System.Activities.Activity
   parent: System.Activities
   isExternal: false
@@ -956,15 +1155,33 @@ references:
 - uid: System.Activities.WorkflowInvoker.Invoke(System.Collections.Generic.IDictionary{System.String,System.Object})
   parent: System.Activities.WorkflowInvoker
   isExternal: false
-  name: Invoke(IDictionary)
-  nameWithType: WorkflowInvoker.Invoke(IDictionary)
-  fullName: System.Activities.WorkflowInvoker.Invoke(IDictionary)
+  name: Invoke(IDictionary<String,Object>)
+  nameWithType: WorkflowInvoker.Invoke(IDictionary<String,Object>)
+  fullName: System.Activities.WorkflowInvoker.Invoke(IDictionary<String,Object>)
+- uid: System.Collections.Generic.IDictionary{System.String,System.Object}
+  parent: System.Collections.Generic
+  isExternal: false
+  name: IDictionary<String,Object>
+  nameWithType: IDictionary<String,Object>
+  fullName: System.Collections.Generic.IDictionary<System.String,System.Object>
+- uid: System.Collections.Generic.IDictionary{System.String,System.Object}
+  parent: System.Collections.Generic
+  isExternal: false
+  name: IDictionary<String,Object>
+  nameWithType: IDictionary<String,Object>
+  fullName: System.Collections.Generic.IDictionary<System.String,System.Object>
 - uid: System.Activities.WorkflowInvoker.Invoke(System.TimeSpan)
   parent: System.Activities.WorkflowInvoker
   isExternal: false
   name: Invoke(TimeSpan)
   nameWithType: WorkflowInvoker.Invoke(TimeSpan)
   fullName: System.Activities.WorkflowInvoker.Invoke(TimeSpan)
+- uid: System.Collections.Generic.IDictionary{System.String,System.Object}
+  parent: System.Collections.Generic
+  isExternal: false
+  name: IDictionary<String,Object>
+  nameWithType: IDictionary<String,Object>
+  fullName: System.Collections.Generic.IDictionary<System.String,System.Object>
 - uid: System.TimeSpan
   parent: System
   isExternal: false
@@ -974,21 +1191,39 @@ references:
 - uid: System.Activities.WorkflowInvoker.Invoke(System.Activities.Activity,System.Collections.Generic.IDictionary{System.String,System.Object})
   parent: System.Activities.WorkflowInvoker
   isExternal: false
-  name: Invoke(Activity,IDictionary)
-  nameWithType: WorkflowInvoker.Invoke(Activity,IDictionary)
-  fullName: System.Activities.WorkflowInvoker.Invoke(Activity,IDictionary)
+  name: Invoke(Activity,IDictionary<String,Object>)
+  nameWithType: WorkflowInvoker.Invoke(Activity,IDictionary<String,Object>)
+  fullName: System.Activities.WorkflowInvoker.Invoke(Activity,IDictionary<String,Object>)
+- uid: System.Collections.Generic.IDictionary{System.String,System.Object}
+  parent: System.Collections.Generic
+  isExternal: false
+  name: IDictionary<String,Object>
+  nameWithType: IDictionary<String,Object>
+  fullName: System.Collections.Generic.IDictionary<System.String,System.Object>
 - uid: System.Activities.Activity
   parent: System.Activities
   isExternal: false
   name: Activity
   nameWithType: Activity
   fullName: System.Activities.Activity
+- uid: System.Collections.Generic.IDictionary{System.String,System.Object}
+  parent: System.Collections.Generic
+  isExternal: false
+  name: IDictionary<String,Object>
+  nameWithType: IDictionary<String,Object>
+  fullName: System.Collections.Generic.IDictionary<System.String,System.Object>
 - uid: System.Activities.WorkflowInvoker.Invoke(System.Activities.Activity,System.TimeSpan)
   parent: System.Activities.WorkflowInvoker
   isExternal: false
   name: Invoke(Activity,TimeSpan)
   nameWithType: WorkflowInvoker.Invoke(Activity,TimeSpan)
   fullName: System.Activities.WorkflowInvoker.Invoke(Activity,TimeSpan)
+- uid: System.Collections.Generic.IDictionary{System.String,System.Object}
+  parent: System.Collections.Generic
+  isExternal: false
+  name: IDictionary<String,Object>
+  nameWithType: IDictionary<String,Object>
+  fullName: System.Collections.Generic.IDictionary<System.String,System.Object>
 - uid: System.Activities.Activity
   parent: System.Activities
   isExternal: false
@@ -1004,9 +1239,21 @@ references:
 - uid: System.Activities.WorkflowInvoker.Invoke(System.Collections.Generic.IDictionary{System.String,System.Object},System.TimeSpan)
   parent: System.Activities.WorkflowInvoker
   isExternal: false
-  name: Invoke(IDictionary,TimeSpan)
-  nameWithType: WorkflowInvoker.Invoke(IDictionary,TimeSpan)
-  fullName: System.Activities.WorkflowInvoker.Invoke(IDictionary,TimeSpan)
+  name: Invoke(IDictionary<String,Object>,TimeSpan)
+  nameWithType: WorkflowInvoker.Invoke(IDictionary<String,Object>,TimeSpan)
+  fullName: System.Activities.WorkflowInvoker.Invoke(IDictionary<String,Object>,TimeSpan)
+- uid: System.Collections.Generic.IDictionary{System.String,System.Object}
+  parent: System.Collections.Generic
+  isExternal: false
+  name: IDictionary<String,Object>
+  nameWithType: IDictionary<String,Object>
+  fullName: System.Collections.Generic.IDictionary<System.String,System.Object>
+- uid: System.Collections.Generic.IDictionary{System.String,System.Object}
+  parent: System.Collections.Generic
+  isExternal: false
+  name: IDictionary<String,Object>
+  nameWithType: IDictionary<String,Object>
+  fullName: System.Collections.Generic.IDictionary<System.String,System.Object>
 - uid: System.TimeSpan
   parent: System
   isExternal: false
@@ -1016,15 +1263,27 @@ references:
 - uid: System.Activities.WorkflowInvoker.Invoke(System.Activities.Activity,System.Collections.Generic.IDictionary{System.String,System.Object},System.TimeSpan)
   parent: System.Activities.WorkflowInvoker
   isExternal: false
-  name: Invoke(Activity,IDictionary,TimeSpan)
-  nameWithType: WorkflowInvoker.Invoke(Activity,IDictionary,TimeSpan)
-  fullName: System.Activities.WorkflowInvoker.Invoke(Activity,IDictionary,TimeSpan)
+  name: Invoke(Activity,IDictionary<String,Object>,TimeSpan)
+  nameWithType: WorkflowInvoker.Invoke(Activity,IDictionary<String,Object>,TimeSpan)
+  fullName: System.Activities.WorkflowInvoker.Invoke(Activity,IDictionary<String,Object>,TimeSpan)
+- uid: System.Collections.Generic.IDictionary{System.String,System.Object}
+  parent: System.Collections.Generic
+  isExternal: false
+  name: IDictionary<String,Object>
+  nameWithType: IDictionary<String,Object>
+  fullName: System.Collections.Generic.IDictionary<System.String,System.Object>
 - uid: System.Activities.Activity
   parent: System.Activities
   isExternal: false
   name: Activity
   nameWithType: Activity
   fullName: System.Activities.Activity
+- uid: System.Collections.Generic.IDictionary{System.String,System.Object}
+  parent: System.Collections.Generic
+  isExternal: false
+  name: IDictionary<String,Object>
+  nameWithType: IDictionary<String,Object>
+  fullName: System.Collections.Generic.IDictionary<System.String,System.Object>
 - uid: System.TimeSpan
   parent: System
   isExternal: false
@@ -1034,9 +1293,15 @@ references:
 - uid: System.Activities.WorkflowInvoker.Invoke``1(System.Activities.Activity`1)
   parent: System.Activities.WorkflowInvoker
   isExternal: false
-  name: Invoke(Activity)
-  nameWithType: WorkflowInvoker.Invoke(Activity)
-  fullName: System.Activities.WorkflowInvoker.Invoke(Activity)
+  name: Invoke(Activity<TResult>)
+  nameWithType: WorkflowInvoker.Invoke(Activity<TResult>)
+  fullName: System.Activities.WorkflowInvoker.Invoke(Activity<TResult>)
+- uid: TResult
+  parent: ''
+  isExternal: true
+  name: TResult
+  nameWithType: TResult
+  fullName: TResult
 - uid: System.Activities.Activity`1
   parent: System.Activities
   isExternal: false
@@ -1046,27 +1311,51 @@ references:
 - uid: System.Activities.WorkflowInvoker.Invoke``1(System.Activities.Activity`1,System.Collections.Generic.IDictionary{System.String,System.Object})
   parent: System.Activities.WorkflowInvoker
   isExternal: false
-  name: Invoke(Activity,IDictionary)
-  nameWithType: WorkflowInvoker.Invoke(Activity,IDictionary)
-  fullName: System.Activities.WorkflowInvoker.Invoke(Activity,IDictionary)
+  name: Invoke(Activity<TResult>,IDictionary<String,Object>)
+  nameWithType: WorkflowInvoker.Invoke(Activity<TResult>,IDictionary<String,Object>)
+  fullName: System.Activities.WorkflowInvoker.Invoke(Activity<TResult>,IDictionary<String,Object>)
+- uid: TResult
+  parent: ''
+  isExternal: true
+  name: TResult
+  nameWithType: TResult
+  fullName: TResult
 - uid: System.Activities.Activity`1
   parent: System.Activities
   isExternal: false
   name: Activity<TResult>
   nameWithType: Activity<TResult>
   fullName: System.Activities.Activity<TResult>
+- uid: System.Collections.Generic.IDictionary{System.String,System.Object}
+  parent: System.Collections.Generic
+  isExternal: false
+  name: IDictionary<String,Object>
+  nameWithType: IDictionary<String,Object>
+  fullName: System.Collections.Generic.IDictionary<System.String,System.Object>
 - uid: System.Activities.WorkflowInvoker.Invoke``1(System.Activities.Activity`1,System.Collections.Generic.IDictionary{System.String,System.Object},System.TimeSpan)
   parent: System.Activities.WorkflowInvoker
   isExternal: false
-  name: Invoke(Activity,IDictionary,TimeSpan)
-  nameWithType: WorkflowInvoker.Invoke(Activity,IDictionary,TimeSpan)
-  fullName: System.Activities.WorkflowInvoker.Invoke(Activity,IDictionary,TimeSpan)
+  name: Invoke(Activity<TResult>,IDictionary<String,Object>,TimeSpan)
+  nameWithType: WorkflowInvoker.Invoke(Activity<TResult>,IDictionary<String,Object>,TimeSpan)
+  fullName: System.Activities.WorkflowInvoker.Invoke(Activity<TResult>,IDictionary<String,Object>,TimeSpan)
+- uid: TResult
+  parent: ''
+  isExternal: true
+  name: TResult
+  nameWithType: TResult
+  fullName: TResult
 - uid: System.Activities.Activity`1
   parent: System.Activities
   isExternal: false
   name: Activity<TResult>
   nameWithType: Activity<TResult>
   fullName: System.Activities.Activity<TResult>
+- uid: System.Collections.Generic.IDictionary{System.String,System.Object}
+  parent: System.Collections.Generic
+  isExternal: false
+  name: IDictionary<String,Object>
+  nameWithType: IDictionary<String,Object>
+  fullName: System.Collections.Generic.IDictionary<System.String,System.Object>
 - uid: System.TimeSpan
   parent: System
   isExternal: false
@@ -1076,15 +1365,33 @@ references:
 - uid: System.Activities.WorkflowInvoker.Invoke``1(System.Activities.Activity`1,System.Collections.Generic.IDictionary{System.String,System.Object},System.Collections.Generic.IDictionary{System.String,System.Object}@,System.TimeSpan)
   parent: System.Activities.WorkflowInvoker
   isExternal: false
-  name: Invoke(Activity,IDictionary,IDictionary,TimeSpan)
-  nameWithType: WorkflowInvoker.Invoke(Activity,IDictionary,IDictionary,TimeSpan)
-  fullName: System.Activities.WorkflowInvoker.Invoke(Activity,IDictionary,IDictionary,TimeSpan)
+  name: Invoke(Activity<TResult>,IDictionary<String,Object>,IDictionary<String,Object>,TimeSpan)
+  nameWithType: WorkflowInvoker.Invoke(Activity<TResult>,IDictionary<String,Object>,IDictionary<String,Object>,TimeSpan)
+  fullName: System.Activities.WorkflowInvoker.Invoke(Activity<TResult>,IDictionary<String,Object>,IDictionary<String,Object>,TimeSpan)
+- uid: TResult
+  parent: ''
+  isExternal: true
+  name: TResult
+  nameWithType: TResult
+  fullName: TResult
 - uid: System.Activities.Activity`1
   parent: System.Activities
   isExternal: false
   name: Activity<TResult>
   nameWithType: Activity<TResult>
   fullName: System.Activities.Activity<TResult>
+- uid: System.Collections.Generic.IDictionary{System.String,System.Object}
+  parent: System.Collections.Generic
+  isExternal: false
+  name: IDictionary<String,Object>
+  nameWithType: IDictionary<String,Object>
+  fullName: System.Collections.Generic.IDictionary<System.String,System.Object>
+- uid: System.Collections.Generic.IDictionary{System.String,System.Object}
+  parent: System.Collections.Generic
+  isExternal: false
+  name: IDictionary<String,Object>
+  nameWithType: IDictionary<String,Object>
+  fullName: System.Collections.Generic.IDictionary<System.String,System.Object>
 - uid: System.TimeSpan
   parent: System
   isExternal: false
@@ -1097,36 +1404,24 @@ references:
   name: InvokeAsync()
   nameWithType: WorkflowInvoker.InvokeAsync()
   fullName: System.Activities.WorkflowInvoker.InvokeAsync()
-- uid: System.Void
-  parent: System
-  isExternal: false
-  name: Void
-  nameWithType: Void
-  fullName: System.Void
 - uid: System.Activities.WorkflowInvoker.InvokeAsync(System.Collections.Generic.IDictionary{System.String,System.Object})
   parent: System.Activities.WorkflowInvoker
   isExternal: false
-  name: InvokeAsync(IDictionary)
-  nameWithType: WorkflowInvoker.InvokeAsync(IDictionary)
-  fullName: System.Activities.WorkflowInvoker.InvokeAsync(IDictionary)
-- uid: System.Void
-  parent: System
+  name: InvokeAsync(IDictionary<String,Object>)
+  nameWithType: WorkflowInvoker.InvokeAsync(IDictionary<String,Object>)
+  fullName: System.Activities.WorkflowInvoker.InvokeAsync(IDictionary<String,Object>)
+- uid: System.Collections.Generic.IDictionary{System.String,System.Object}
+  parent: System.Collections.Generic
   isExternal: false
-  name: Void
-  nameWithType: Void
-  fullName: System.Void
+  name: IDictionary<String,Object>
+  nameWithType: IDictionary<String,Object>
+  fullName: System.Collections.Generic.IDictionary<System.String,System.Object>
 - uid: System.Activities.WorkflowInvoker.InvokeAsync(System.Object)
   parent: System.Activities.WorkflowInvoker
   isExternal: false
   name: InvokeAsync(Object)
   nameWithType: WorkflowInvoker.InvokeAsync(Object)
   fullName: System.Activities.WorkflowInvoker.InvokeAsync(Object)
-- uid: System.Void
-  parent: System
-  isExternal: false
-  name: Void
-  nameWithType: Void
-  fullName: System.Void
 - uid: System.Object
   parent: System
   isExternal: false
@@ -1139,12 +1434,6 @@ references:
   name: InvokeAsync(TimeSpan)
   nameWithType: WorkflowInvoker.InvokeAsync(TimeSpan)
   fullName: System.Activities.WorkflowInvoker.InvokeAsync(TimeSpan)
-- uid: System.Void
-  parent: System
-  isExternal: false
-  name: Void
-  nameWithType: Void
-  fullName: System.Void
 - uid: System.TimeSpan
   parent: System
   isExternal: false
@@ -1154,15 +1443,15 @@ references:
 - uid: System.Activities.WorkflowInvoker.InvokeAsync(System.Collections.Generic.IDictionary{System.String,System.Object},System.Object)
   parent: System.Activities.WorkflowInvoker
   isExternal: false
-  name: InvokeAsync(IDictionary,Object)
-  nameWithType: WorkflowInvoker.InvokeAsync(IDictionary,Object)
-  fullName: System.Activities.WorkflowInvoker.InvokeAsync(IDictionary,Object)
-- uid: System.Void
-  parent: System
+  name: InvokeAsync(IDictionary<String,Object>,Object)
+  nameWithType: WorkflowInvoker.InvokeAsync(IDictionary<String,Object>,Object)
+  fullName: System.Activities.WorkflowInvoker.InvokeAsync(IDictionary<String,Object>,Object)
+- uid: System.Collections.Generic.IDictionary{System.String,System.Object}
+  parent: System.Collections.Generic
   isExternal: false
-  name: Void
-  nameWithType: Void
-  fullName: System.Void
+  name: IDictionary<String,Object>
+  nameWithType: IDictionary<String,Object>
+  fullName: System.Collections.Generic.IDictionary<System.String,System.Object>
 - uid: System.Object
   parent: System
   isExternal: false
@@ -1172,15 +1461,15 @@ references:
 - uid: System.Activities.WorkflowInvoker.InvokeAsync(System.Collections.Generic.IDictionary{System.String,System.Object},System.TimeSpan)
   parent: System.Activities.WorkflowInvoker
   isExternal: false
-  name: InvokeAsync(IDictionary,TimeSpan)
-  nameWithType: WorkflowInvoker.InvokeAsync(IDictionary,TimeSpan)
-  fullName: System.Activities.WorkflowInvoker.InvokeAsync(IDictionary,TimeSpan)
-- uid: System.Void
-  parent: System
+  name: InvokeAsync(IDictionary<String,Object>,TimeSpan)
+  nameWithType: WorkflowInvoker.InvokeAsync(IDictionary<String,Object>,TimeSpan)
+  fullName: System.Activities.WorkflowInvoker.InvokeAsync(IDictionary<String,Object>,TimeSpan)
+- uid: System.Collections.Generic.IDictionary{System.String,System.Object}
+  parent: System.Collections.Generic
   isExternal: false
-  name: Void
-  nameWithType: Void
-  fullName: System.Void
+  name: IDictionary<String,Object>
+  nameWithType: IDictionary<String,Object>
+  fullName: System.Collections.Generic.IDictionary<System.String,System.Object>
 - uid: System.TimeSpan
   parent: System
   isExternal: false
@@ -1193,12 +1482,6 @@ references:
   name: InvokeAsync(TimeSpan,Object)
   nameWithType: WorkflowInvoker.InvokeAsync(TimeSpan,Object)
   fullName: System.Activities.WorkflowInvoker.InvokeAsync(TimeSpan,Object)
-- uid: System.Void
-  parent: System
-  isExternal: false
-  name: Void
-  nameWithType: Void
-  fullName: System.Void
 - uid: System.TimeSpan
   parent: System
   isExternal: false
@@ -1214,15 +1497,15 @@ references:
 - uid: System.Activities.WorkflowInvoker.InvokeAsync(System.Collections.Generic.IDictionary{System.String,System.Object},System.TimeSpan,System.Object)
   parent: System.Activities.WorkflowInvoker
   isExternal: false
-  name: InvokeAsync(IDictionary,TimeSpan,Object)
-  nameWithType: WorkflowInvoker.InvokeAsync(IDictionary,TimeSpan,Object)
-  fullName: System.Activities.WorkflowInvoker.InvokeAsync(IDictionary,TimeSpan,Object)
-- uid: System.Void
-  parent: System
+  name: InvokeAsync(IDictionary<String,Object>,TimeSpan,Object)
+  nameWithType: WorkflowInvoker.InvokeAsync(IDictionary<String,Object>,TimeSpan,Object)
+  fullName: System.Activities.WorkflowInvoker.InvokeAsync(IDictionary<String,Object>,TimeSpan,Object)
+- uid: System.Collections.Generic.IDictionary{System.String,System.Object}
+  parent: System.Collections.Generic
   isExternal: false
-  name: Void
-  nameWithType: Void
-  fullName: System.Void
+  name: IDictionary<String,Object>
+  nameWithType: IDictionary<String,Object>
+  fullName: System.Collections.Generic.IDictionary<System.String,System.Object>
 - uid: System.TimeSpan
   parent: System
   isExternal: false
@@ -1241,6 +1524,12 @@ references:
   name: InvokeCompleted
   nameWithType: WorkflowInvoker.InvokeCompleted
   fullName: System.Activities.WorkflowInvoker.InvokeCompleted
+- uid: System.EventHandler{System.Activities.InvokeCompletedEventArgs}
+  parent: System
+  isExternal: false
+  name: EventHandler<InvokeCompletedEventArgs>
+  nameWithType: EventHandler<InvokeCompletedEventArgs>
+  fullName: System.EventHandler<System.Activities.InvokeCompletedEventArgs>
 - uid: System.Activities.WorkflowInvoker.BeginInvoke*
   parent: System.Activities.WorkflowInvoker
   isExternal: false

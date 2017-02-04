@@ -10,11 +10,12 @@ items:
   - System.InvalidCastException.#ctor(System.String,System.Int32)
   langs:
   - csharp
-  - vb
   name: InvalidCastException
   nameWithType: InvalidCastException
   fullName: System.InvalidCastException
   type: Class
+  summary: The exception that is thrown for invalid casting or explicit conversion.
+  remarks: "The .NET Framework supports automatic conversion from derived types to their base types and back to the derived type, as well as from types that present interfaces to interface objects and back. It also includes a variety of mechanisms that support custom conversions. For more information, see [Type Conversion in the .NET Framework](../Topic/Type%20Conversion%20in%20the%20.NET%20Framework.md).  \n  \n An InvalidCastException exception is thrown when the conversion of an instance of one type to another type is not supported. For example, attempting to convert a <xref:System.Char> value to a <xref:System.DateTime> value throws an InvalidCastException exception. It differs from an <xref:System.OverflowException> exception, which is thrown when a conversion of one type to another is supported, but the value of the source type is outside the range of the target type.  An InvalidCastException exception is caused by developer error and should not be handled in a `try/catch` block; instead, the cause of the exception should be eliminated.  \n  \n For information about conversions supported by the system, see the <xref:System.Convert> class. For errors that occur when the destination type can store source type values, but is not large enough to store a specific source value, see the <xref:System.OverflowException> exception.  \n  \n> [!NOTE]\n>  In many cases, your language compiler detects that no conversion exists between the source type and the target type and issues a compiler error.  \n  \n Some of the conditions under which an attempted conversion throws an InvalidCastException exception are discussed in the following sections:  \n  \n [Primitive types and IConvertible](#Primitive)   \n [The Convert.ChangeType method](#ChangeType)   \n [Narrowing conversions and IConvertible implementations](#Narrowing)   \n [Downcasting](#Downcasting)   \n [Conversion from an interface object](#Interface)   \n [String conversions](#String)   \n [Visual Basic 6.0 migration](#Migration)  \n  \n For an explicit reference conversion to be successful, the source value must be `null`, or the object type referenced by the source argument must be convertible to the destination type by an implicit reference conversion.  \n  \n The following intermediate language (IL) instructions throw an InvalidCastException exception:  \n  \n-  \n  \n-  \n  \n-  \n  \n InvalidCastException uses the HRESULT COR_E_INVALIDCAST, which has the value 0x80004002.  \n  \n For a list of initial property values for an instance of InvalidCastException, see the <xref:System.InvalidCastException.%23ctor%2A> constructors.  \n  \n<a name=\"Primitive\"></a>   \n## Primitive types and IConvertible  \n You directly or indirectly call a primitive type's <xref:System.IConvertible> implementation that does not support a particular conversion. For example, trying to convert a <xref:System.Boolean> value to a <xref:System.Char> or a <xref:System.DateTime> value to an <xref:System.Int32> throws an InvalidCastException exception. The following example calls both the <xref:System.Boolean.System%23IConvertible%23ToChar%2A?displayProperty=fullName> and <xref:System.Convert.ToChar%28System.Boolean%29?displayProperty=fullName> methods to convert a <xref:System.Boolean> value to a <xref:System.Char>. In both cases, the method call throws an InvalidCastException exception.  \n  \n [!CODE [System.InvalidCastException#2](../CodeSnippet/VS_Snippets_CLR_System/system.invalidcastexception#2)]  \n  \n Because the conversion is not supported, there is no workaround.  \n  \n<a name=\"ChangeType\"></a>   \n## The Convert.ChangeType method  \n You've called the <xref:System.Convert.ChangeType%2A?displayProperty=fullName> method to convert an object from one type to another, but one or both types don't implement the <xref:System.IConvertible> interface.  \n  \n In most cases, because the conversion is not supported, there is no workaround. In some cases, a possible workaround is to manually assign property values from the source type to similar properties of a the target type.  \n  \n<a name=\"Narrowing\"></a>   \n## Narrowing conversions and IConvertible implementations  \n Narrowing operators define the explicit conversions supported by a type.  A casting operator in C# or the `CType` conversion method in Visual Basic (if `Option Strict` is on)  is required to perform the conversion.  \n  \n However, if neither the source type nor the target type defines an explicit or narrowing conversion between the two types, and the <xref:System.IConvertible> implementation of one or both types doesn't support a conversion from the source type to the target type, an InvalidCastException exception is thrown.  \n  \n In most cases, because the conversion is not supported, there is no workaround.  \n  \n<a name=\"Downcasting\"></a>   \n## Downcasting  \n You are downcasting, that is, trying to convert an instance of a base type to one of its derived types. In the following example, trying to convert a `Person` object to a `PersonWithID` object fails.  \n  \n [!CODE [System.InvalidCastException#1](../CodeSnippet/VS_Snippets_CLR_System/system.invalidcastexception#1)]  \n  \n As the example shows, the downcast succeeds only if the `Person` object was created by an upcast from a `PersonWithId` object to a `Person` object, or if the `Person` object is `null`.  \n  \n<a name=\"Interface\"></a>   \n## Conversion from an interface object  \n You are attempting to convert an interface object to a type that  implements that interface, but the target type is not the same type or a base class of the type from which the interface object was originally derived. The following example throws an InvalidCastException exception when it attempts to convert an <xref:System.IFormatProvider> object  to a <xref:System.Globalization.DateTimeFormatInfo> object. The conversion fails because although the <xref:System.Globalization.DateTimeFormatInfo> class implements the <xref:System.IFormatProvider> interface, the <xref:System.Globalization.DateTimeFormatInfo> object is not related to the <xref:System.Globalization.CultureInfo> class from which  the interface object was derived.  \n  \n [!CODE [System.InvalidCastException#3](../CodeSnippet/VS_Snippets_CLR_System/system.invalidcastexception#3)]  \n  \n As the exception message indicates, the conversion would succeed only if the interface object is converted back to an instance of the original type, in this case a  <xref:System.Globalization.CultureInfo>. The conversion would also succeed if the interface object is converted to an instance of a base type of the original type.  \n  \n<a name=\"String\"></a>   \n## String conversions  \n You are trying to convert a value or an object to its string representation by using a casting operator in C#. In the following example, both the attempt to cast a <xref:System.Char> value to a string and the attempt to cast an integer to a string throw an InvalidCastException exception.  \n  \n [!CODE [System.InvalidCastException#4](../CodeSnippet/VS_Snippets_CLR_System/system.invalidcastexception#4)]  \n  \n> [!NOTE]\n>  Using the Visual Basic `CStr` operator to convert a value of a primitive type to a string succeeds. The operation does not throw an InvalidCastException exception.  \n  \n To successfully covert an instance of any type to its string representation, call its `ToString` method, as the following example does.  The `ToString` method is always present, since the <xref:System.Object.ToString%2A> method is defined by the <xref:System.Object> class and therefore is either inherited or overridden by all managed types.  \n  \n [!CODE [System.InvalidCastException#5](../CodeSnippet/VS_Snippets_CLR_System/system.invalidcastexception#5)]  \n  \n<a name=\"Migration\"></a>   \n## Visual Basic 6.0 migration  \n You're upgrading a Visual Basic 6.0 application with a call to a custom event in a user control to Visual Basic .NET, and an InvalidCastException exception is thrown with the message, \"Specified cast is not valid.\" To eliminate this exception, change the line of code in your form (such as `Form1`)  \n  \n```  \nCall UserControl11_MyCustomEvent(UserControl11, New UserControl1.MyCustomEventEventArgs(5))  \n```  \n  \n and replace it with the following line of code:  \n  \n```  \nCall UserControl11_MyCustomEvent(UserControl11(0), New UserControl1.MyCustomEventEventArgs(5))  \n```"
   syntax:
     content: >-
       [System.Runtime.InteropServices.ComVisible(true)]
@@ -44,12 +45,15 @@ items:
   - System.Object.GetHashCode
   - System.Object.MemberwiseClone
   - System.Object.ReferenceEquals(System.Object,System.Object)
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.InvalidCastException.#ctor
   id: '#ctor'
   parent: System.InvalidCastException
   langs:
   - csharp
-  - vb
   name: InvalidCastException()
   nameWithType: InvalidCastException.InvalidCastException()
   fullName: System.InvalidCastException.InvalidCastException()
@@ -57,15 +61,20 @@ items:
   assemblies:
   - mscorlib
   namespace: System
+  summary: Initializes a new instance of the <see cref="T:System.InvalidCastException"> class.
+  remarks: "This constructor initializes the <xref:System.Exception.Message%2A> property of the new instance to a system-supplied message that describes the error, such as \"Cannot cast from source type to destination type.\" This message takes into account the current system culture.  \n  \n The following table shows the initial property values for an instance of <xref:System.InvalidCastException>.  \n  \n|Property|Value|  \n|--------------|-----------|  \n|<xref:System.Exception.InnerException%2A>|A null reference (`Nothing` in Visual Basic).|  \n|<xref:System.Exception.Message%2A>|The localized error message string.|"
   syntax:
     content: public InvalidCastException ();
     parameters: []
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.InvalidCastException.#ctor(System.String)
   id: '#ctor(System.String)'
   parent: System.InvalidCastException
   langs:
   - csharp
-  - vb
   name: InvalidCastException(String)
   nameWithType: InvalidCastException.InvalidCastException(String)
   fullName: System.InvalidCastException.InvalidCastException(String)
@@ -73,18 +82,23 @@ items:
   assemblies:
   - mscorlib
   namespace: System
+  summary: Initializes a new instance of the <see cref="T:System.InvalidCastException"> class with a specified error message.
+  remarks: "This constructor initializes the <xref:System.Exception.Message%2A?displayProperty=fullName> property of the new exception using the  parameter. The content of  is intended to be understood by humans. The caller of this constructor is required to ensure that this string has been localized for the current system culture.  \n  \n The following table shows the initial property values for an instance of <xref:System.InvalidCastException>.  \n  \n|Property|Value|  \n|--------------|-----------|  \n|<xref:System.Exception.InnerException%2A>|A null reference (`Nothing` in Visual Basic).|  \n|<xref:System.Exception.Message%2A>|The error message string.|"
   syntax:
     content: public InvalidCastException (string message);
     parameters:
     - id: message
       type: System.String
-      description: Parameter description to be filled
+      description: The message that describes the error.
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.InvalidCastException.#ctor(System.Runtime.Serialization.SerializationInfo,System.Runtime.Serialization.StreamingContext)
   id: '#ctor(System.Runtime.Serialization.SerializationInfo,System.Runtime.Serialization.StreamingContext)'
   parent: System.InvalidCastException
   langs:
   - csharp
-  - vb
   name: InvalidCastException(SerializationInfo,StreamingContext)
   nameWithType: InvalidCastException.InvalidCastException(SerializationInfo,StreamingContext)
   fullName: System.InvalidCastException.InvalidCastException(SerializationInfo,StreamingContext)
@@ -92,21 +106,26 @@ items:
   assemblies:
   - mscorlib
   namespace: System
+  summary: Initializes a new instance of the <see cref="T:System.InvalidCastException"> class with serialized data.
+  remarks: This constructor is called during deserialization to reconstitute the exception object transmitted over a stream. For more information, see [XML and SOAP Serialization](../Topic/XML%20and%20SOAP%20Serialization.md).
   syntax:
     content: protected InvalidCastException (System.Runtime.Serialization.SerializationInfo info, System.Runtime.Serialization.StreamingContext context);
     parameters:
     - id: info
       type: System.Runtime.Serialization.SerializationInfo
-      description: Parameter description to be filled
+      description: The object that holds the serialized object data.
     - id: context
       type: System.Runtime.Serialization.StreamingContext
-      description: Parameter description to be filled
+      description: The contextual information about the source or destination.
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.InvalidCastException.#ctor(System.String,System.Exception)
   id: '#ctor(System.String,System.Exception)'
   parent: System.InvalidCastException
   langs:
   - csharp
-  - vb
   name: InvalidCastException(String,Exception)
   nameWithType: InvalidCastException.InvalidCastException(String,Exception)
   fullName: System.InvalidCastException.InvalidCastException(String,Exception)
@@ -114,21 +133,26 @@ items:
   assemblies:
   - mscorlib
   namespace: System
+  summary: Initializes a new instance of the <see cref="T:System.InvalidCastException"> class with a specified error message and a reference to the inner exception that is the cause of this exception.
+  remarks: "An exception that is thrown as a direct result of a previous exception should include a reference to the previous exception in the <xref:System.Exception.InnerException%2A> property. The <xref:System.Exception.InnerException%2A> property returns the same value that is passed into the constructor, or returns `null` if the <xref:System.Exception.InnerException%2A> property does not supply the inner exception value to the constructor.  \n  \n The following table shows the initial property values for an instance of <xref:System.InvalidCastException>.  \n  \n|Property|Value|  \n|--------------|-----------|  \n|<xref:System.Exception.InnerException%2A>|The inner exception reference.|  \n|<xref:System.Exception.Message%2A>|The error message string.|"
   syntax:
     content: public InvalidCastException (string message, Exception innerException);
     parameters:
     - id: message
       type: System.String
-      description: Parameter description to be filled
+      description: The error message that explains the reason for the exception.
     - id: innerException
       type: System.Exception
-      description: Parameter description to be filled
+      description: The exception that is the cause of the current exception. If the  parameter is not `null`, the current exception is raised in a `catch` block that handles the inner exception.
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.InvalidCastException.#ctor(System.String,System.Int32)
   id: '#ctor(System.String,System.Int32)'
   parent: System.InvalidCastException
   langs:
   - csharp
-  - vb
   name: InvalidCastException(String,Int32)
   nameWithType: InvalidCastException.InvalidCastException(String,Int32)
   fullName: System.InvalidCastException.InvalidCastException(String,Int32)
@@ -136,15 +160,21 @@ items:
   assemblies:
   - mscorlib
   namespace: System
+  summary: Initializes a new instance of the <see cref="T:System.InvalidCastException"> class with a specified message and error code.
+  remarks: "This constructor initializes the <xref:System.Exception.Message%2A?displayProperty=fullName> property of the new exception using the  parameter. The content of  is intended to be understood by humans. The caller of this constructor is required to ensure that this string has been localized for the current system culture.  \n  \n This constructor supplies an HRESULT value that is accessible to inheritors of the <xref:System.InvalidCastException> class, via the protected <xref:System.Exception.HResult%2A> property of the <xref:System.Exception> class.  \n  \n The following table shows the initial property values for an instance of <xref:System.InvalidCastException>.  \n  \n|Property|Value|  \n|--------------|-----------|  \n|<xref:System.Exception.InnerException%2A>|A null reference (`Nothing` in Visual Basic).|  \n|<xref:System.Exception.Message%2A>|The error message string.|"
   syntax:
     content: public InvalidCastException (string message, int errorCode);
     parameters:
     - id: message
       type: System.String
-      description: Parameter description to be filled
+      description: The message that indicates the reason the exception occurred.
     - id: errorCode
       type: System.Int32
-      description: Parameter description to be filled
+      description: The error code (HRESULT) value associated with the exception.
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 references:
 - uid: System.SystemException
   isExternal: false

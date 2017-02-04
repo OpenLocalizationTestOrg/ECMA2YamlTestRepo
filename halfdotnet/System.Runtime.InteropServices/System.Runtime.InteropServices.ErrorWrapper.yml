@@ -9,11 +9,14 @@ items:
   - System.Runtime.InteropServices.ErrorWrapper.ErrorCode
   langs:
   - csharp
-  - vb
   name: ErrorWrapper
   nameWithType: ErrorWrapper
   fullName: System.Runtime.InteropServices.ErrorWrapper
   type: Class
+  summary: Wraps objects the marshaler should marshal as a `VT_ERROR`.
+  remarks: "By default, <xref:System.Object> type arguments are marshaled as a `VARIANT` type, where the object type determines the `VARTYPE` value of the `VARIANT`.  \n  \n The ErrorWrapper type must to be passed as an <xref:System.Object> type to be marshaled as a `VARIANT` of type `VT_ERROR`, otherwise the ErrorWrapper type is marshaled as an integer.  \n  \n The following table illustrates marshaling in a managed call to a native function, using platform invoke.  \n  \n|Managed signature parameter|pArr value|Marshaled as|  \n|---------------------------------|----------------|------------------|  \n|ErrorWrapper[] pArr|ErrorWrapper[10] of ErrorWrapper(77)|`Int[10]`|  \n|Object[] pArr|ErrorWrapper[10] of ErrorWrapper(77)|`VARIANT[10]` of `VT_ERROR`|  \n|Object[] pArr|Object[10] of ErrorWrapper(77)|`VARIANT[10]` of `VT_ERROR`|  \n  \n The following table illustrates marshaling data in a managed call to a native function, using COM runtime callable wrappers (RCW).  \n  \n|Managed signature parameter|pArr value|Marshaled as|  \n|---------------------------------|----------------|------------------|  \n|ErrorWrapper[] pArr|ErrorWrapper[10] of ErrorWrapper(77)|`Int[10]`|  \n|Object[] pArr|ErrorWrapper[10] of ErrorWrapper(77)|`SafeArrayTypeMismatch` exception|  \n|Object[] pArr|Object[10] of ErrorWrapper(77)|`SAFEARRAY(VARIANT)`|  \n  \n Note that ErrorWrapper objects are not marshaled as type `VT_ERROR` after they are passed back from COM.  A single value is marshaled back from COM as type `VT_I4`, while arrays are marshaled back from COM as type `VT_UI4`.  \n  \n For more information on `VT_ERROR`, please see the existing documentation for `VARENUM::VT_ERROR` in the MSDN library."
+  example:
+  - "The following code example first demonstrates a lone <xref:System.Int32> object marshaled back from COM as an <xref:System.Int32> object. It then demonstrates an <xref:System.Int32> array marshaled back from COM as a <xref:System.UInt32> array.  \n  \n```  \n// Scenario 1:  \n// Pass a single value.  \nInt32 x = 3;  \nObject o = new ErrorWrapper(x);  \n// Pass 'o' to COM.  \n// On the return trip, 'o' has been unwrapped and is still an Int32 object.  \nInt32 y = (Int32)o;  \nScenario 2:  \n// Pass an array of values.  \nInt32[] arr = new Int32[3];  \nObject o = new ErrorWrapper(arr);  \n// Pass 'o' to COM.  \n// On the return trip, 'o' has been unwrapped and is now a UInt32[] array.  \nUInt32[ ] arr2 = (UInt32[])o;  \n```"
   syntax:
     content: >-
       [System.Runtime.InteropServices.ComVisible(true)]
@@ -30,12 +33,15 @@ items:
   - System.Object.MemberwiseClone
   - System.Object.ReferenceEquals(System.Object,System.Object)
   - System.Object.ToString
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Runtime.InteropServices.ErrorWrapper.#ctor(System.Exception)
   id: '#ctor(System.Exception)'
   parent: System.Runtime.InteropServices.ErrorWrapper
   langs:
   - csharp
-  - vb
   name: ErrorWrapper(Exception)
   nameWithType: ErrorWrapper.ErrorWrapper(Exception)
   fullName: System.Runtime.InteropServices.ErrorWrapper.ErrorWrapper(Exception)
@@ -43,18 +49,23 @@ items:
   assemblies:
   - mscorlib
   namespace: System.Runtime.InteropServices
+  summary: Initializes a new instance of the <see cref="T:System.Runtime.InteropServices.ErrorWrapper"> class with the HRESULT that corresponds to the exception supplied.
+  remarks: To be added.
   syntax:
     content: public ErrorWrapper (Exception e);
     parameters:
     - id: e
       type: System.Exception
-      description: Parameter description to be filled
+      description: The exception to be converted to an error code.
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Runtime.InteropServices.ErrorWrapper.#ctor(System.Int32)
   id: '#ctor(System.Int32)'
   parent: System.Runtime.InteropServices.ErrorWrapper
   langs:
   - csharp
-  - vb
   name: ErrorWrapper(Int32)
   nameWithType: ErrorWrapper.ErrorWrapper(Int32)
   fullName: System.Runtime.InteropServices.ErrorWrapper.ErrorWrapper(Int32)
@@ -62,18 +73,23 @@ items:
   assemblies:
   - mscorlib
   namespace: System.Runtime.InteropServices
+  summary: Initializes a new instance of the <see cref="T:System.Runtime.InteropServices.ErrorWrapper"> class with the HRESULT of the error.
+  remarks: To be added.
   syntax:
     content: public ErrorWrapper (int errorCode);
     parameters:
     - id: errorCode
       type: System.Int32
-      description: Parameter description to be filled
+      description: The HRESULT of the error.
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Runtime.InteropServices.ErrorWrapper.#ctor(System.Object)
   id: '#ctor(System.Object)'
   parent: System.Runtime.InteropServices.ErrorWrapper
   langs:
   - csharp
-  - vb
   name: ErrorWrapper(Object)
   nameWithType: ErrorWrapper.ErrorWrapper(Object)
   fullName: System.Runtime.InteropServices.ErrorWrapper.ErrorWrapper(Object)
@@ -81,18 +97,23 @@ items:
   assemblies:
   - mscorlib
   namespace: System.Runtime.InteropServices
+  summary: Initializes a new instance of the <see cref="T:System.Runtime.InteropServices.ErrorWrapper"> class with an object containing the HRESULT of the error.
+  remarks: To be added.
   syntax:
     content: public ErrorWrapper (object errorCode);
     parameters:
     - id: errorCode
       type: System.Object
-      description: Parameter description to be filled
+      description: The object containing the HRESULT of the error.
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Runtime.InteropServices.ErrorWrapper.ErrorCode
   id: ErrorCode
   parent: System.Runtime.InteropServices.ErrorWrapper
   langs:
   - csharp
-  - vb
   name: ErrorCode
   nameWithType: ErrorWrapper.ErrorCode
   fullName: System.Runtime.InteropServices.ErrorWrapper.ErrorCode
@@ -100,11 +121,17 @@ items:
   assemblies:
   - mscorlib
   namespace: System.Runtime.InteropServices
+  summary: Gets the error code of the wrapper.
+  remarks: To be added.
   syntax:
     content: public int ErrorCode { get; }
     return:
       type: System.Int32
-      description: Return description to be filled
+      description: To be added.
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 references:
 - uid: System.Object
   isExternal: false

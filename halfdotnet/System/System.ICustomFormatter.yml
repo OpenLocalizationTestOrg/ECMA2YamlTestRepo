@@ -6,23 +6,29 @@ items:
   - System.ICustomFormatter.Format(System.String,System.Object,System.IFormatProvider)
   langs:
   - csharp
-  - vb
   name: ICustomFormatter
   nameWithType: ICustomFormatter
   fullName: System.ICustomFormatter
   type: Interface
+  summary: Defines a method that supports custom formatting of the value of an object.
+  remarks: "The ICustomFormatter interface includes a single method, <xref:System.ICustomFormatter.Format%2A?displayProperty=fullName>. When this interface is implemented by a reference or value type, the <xref:System.ICustomFormatter.Format%2A> method returns a custom-formatted string representation of an object's value.  \n  \n Typically, the ICustomFormatter interface is implemented with the <xref:System.IFormatProvider> interface to customize the behavior of two .NET Framework composite string formatting methods that include an <xref:System.IFormatProvider> parameter. Specifically, the ICustomFormatter interface can provide custom formatting of the value of an object passed to the [String.Format(IFormatProvider, String, Object\\[\\])](assetId:///M:System.String.Format(System.IFormatProvider,System.String,System.Object[])?qualifyHint=True&autoUpgrade=False) and [StringBuilder.AppendFormat(IFormatProvider, String, Object\\[\\])](assetId:///M:System.Text.StringBuilder.AppendFormat(System.IFormatProvider,System.String,System.Object[])?qualifyHint=True&autoUpgrade=False) methods.  \n  \n Providing a custom representation of an object's value requires that you do the following:  \n  \n1.  Define a class that implements the ICustomFormatter interface and its single member, the <xref:System.ICustomFormatter.Format%2A> method.  \n  \n2.  Define a class that implements the <xref:System.IFormatProvider> interface and its single member, the <xref:System.IFormatProvider.GetFormat%2A> method. The <xref:System.IFormatProvider.GetFormat%2A> method returns an instance of your ICustomFormatter implementation. Often, a single class implements both ICustomFormatter and <xref:System.IFormatProvider>. In that case, the class's `GetFormat` implementation just returns an instance of itself.  \n  \n3.  Pass the <xref:System.IFormatProvider> implementation as the  argument of the [String.Format(IFormatProvider, String, Object\\[\\])](assetId:///M:System.String.Format(System.IFormatProvider,System.String,System.Object[])?qualifyHint=True&autoUpgrade=False) method or a comparable method.  \n  \n The .NET Framework method will then use your custom formatting instead of its own."
+  example:
+  - "The following example implements ICustomFormatter to allow binary, octal, and hexadecimal formatting of integral values. In this example, a single class, `IBinaryFormatter`, implements both ICustomFormatter and <xref:System.IFormatProvider>. Its <xref:System.IFormatProvider.GetFormat%2A?displayProperty=fullName> method determines whether the  parameter represents an ICustomFormatter type. If it does, `BinaryFormatter` returns an instance of itself; otherwise, it returns `null`. Its <xref:System.ICustomFormatter.Format%2A?displayProperty=fullName> implementation determines whether the format parameter is one of the three supported format strings (\"B\" for binary, \"O\" for octal, and \"H\" for hexadecimal) and formats the  parameter appropriately. Otherwise, if  is not `null`, it calls the  parameter's <xref:System.IFormattable.ToString%2A?displayProperty=fullName> implementation, if one exists, or its parameterless `ToString` method, if one does not. If  is `null`, the method returns <xref:System.String.Empty?displayProperty=fullName>.  \n  \n [!CODE [System.ICustomFormatter.Class#1](../CodeSnippet/VS_Snippets_CLR_System/system.icustomformatter.class#1)]  \n  \n `BinaryFormatter` can then be used to provide custom formatting by passing a `BinaryFormatter` object as the  parameter of the <xref:System.String.Format%2A> method, as the following example shows.  \n  \n [!CODE [System.ICustomFormatter.Class#2](../CodeSnippet/VS_Snippets_CLR_System/system.icustomformatter.class#2)]"
   syntax:
     content: >-
       [System.Runtime.InteropServices.ComVisible(true)]
 
       public interface ICustomFormatter
   implements: []
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.ICustomFormatter.Format(System.String,System.Object,System.IFormatProvider)
   id: Format(System.String,System.Object,System.IFormatProvider)
   parent: System.ICustomFormatter
   langs:
   - csharp
-  - vb
   name: Format(String,Object,IFormatProvider)
   nameWithType: ICustomFormatter.Format(String,Object,IFormatProvider)
   fullName: System.ICustomFormatter.Format(String,Object,IFormatProvider)
@@ -30,21 +36,29 @@ items:
   assemblies:
   - mscorlib
   namespace: System
+  summary: Converts the value of a specified object to an equivalent string representation using specified format and culture-specific formatting information.
+  remarks: "Format is a callback method. It is called by a method that supports custom formatting, such as [String.Format(IFormatProvider, String, Object\\[\\])](assetId:///M:System.String.Format(System.IFormatProvider,System.String,System.Object[])?qualifyHint=True&autoUpgrade=False) or [StringBuilder.AppendFormat(IFormatProvider, String, Object\\[\\])](assetId:///M:System.Text.StringBuilder.AppendFormat(System.IFormatProvider,System.String,System.Object[])?qualifyHint=True&autoUpgrade=False). The implementation is called once for each format item in a [composite format string](../Topic/Composite%20Formatting.md). For example, in the following statement, the Format method is called three times.  \n  \n [!CODE [System.ICustomFormatter.Class#4](../CodeSnippet/VS_Snippets_CLR_System/system.icustomformatter.class#4)]  \n  \n The  parameter is the object in the object list whose zero-based position corresponds to the index of a particular format item.  \n  \n The  parameter contains a format string, which is the  component of a format item. If the format item has no  component, the value of  is `null`. If  is `null`, depending on the type of , you may be able to use the default format specification of your choice.  \n  \n The  parameter is the <xref:System.IFormatProvider> implementation that provides formatting for . Typically, it is an instance of your <xref:System.ICustomFormatter> implementation. If  is `null`, ignore that parameter.  \n  \n Your implementation of the Format method must include the following functionality so the .NET Framework can provide formatting you do not support. If your format method does not support a format, determine whether the object being formatted implements the <xref:System.IFormattable> interface. If it does, invoke the <xref:System.IFormattable.ToString%2A?displayProperty=fullName> method of that interface. Otherwise, invoke the default <xref:System.Object.ToString%2A?displayProperty=fullName> method of the underlying object. The following code illustrates this pattern.  \n  \n [!CODE [System.ICustomFormatter.Class#3](../CodeSnippet/VS_Snippets_CLR_System/system.icustomformatter.class#3)]"
+  example:
+  - "The following example implements <xref:System.ICustomFormatter> to allow binary, octal, and hexadecimal formatting of integral values. Its Format implementation determines whether the format parameter is one of the three supported format strings (\"B\" for binary, \"O\" for octal, and \"H\" for hexadecimal) and formats the  parameter appropriately. Otherwise, if  is not `null`, it calls the  parameter's <xref:System.IFormattable.ToString%2A?displayProperty=fullName> implementation, if one exists, or its parameterless `ToString` method, if one does not. If  is `null`, the method returns <xref:System.String.Empty?displayProperty=fullName>.  \n  \n [!CODE [System.ICustomFormatter.Class#1](../CodeSnippet/VS_Snippets_CLR_System/system.icustomformatter.class#1)]  \n  \n `BinaryFormatter` can then be used to provide custom formatting by passing a `BinaryFormatter` object as the  parameter of the <xref:System.String.Format%2A> method, as the following example shows.  \n  \n [!CODE [System.ICustomFormatter.Class#2](../CodeSnippet/VS_Snippets_CLR_System/system.icustomformatter.class#2)]"
   syntax:
     content: public string Format (string format, object arg, IFormatProvider formatProvider);
     parameters:
     - id: format
       type: System.String
-      description: Parameter description to be filled
+      description: A format string containing formatting specifications.
     - id: arg
       type: System.Object
-      description: Parameter description to be filled
+      description: An object to format.
     - id: formatProvider
       type: System.IFormatProvider
-      description: Parameter description to be filled
+      description: An object that supplies format information about the current instance.
     return:
       type: System.String
-      description: Return description to be filled
+      description: The string representation of the value of , formatted as specified by  and .
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 references:
 - uid: System.ICustomFormatter.Format(System.String,System.Object,System.IFormatProvider)
   parent: System.ICustomFormatter

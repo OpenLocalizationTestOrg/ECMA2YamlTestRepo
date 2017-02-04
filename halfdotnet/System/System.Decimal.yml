@@ -115,11 +115,14 @@ items:
   - System.Decimal.Zero
   langs:
   - csharp
-  - vb
   name: Decimal
   nameWithType: Decimal
   fullName: System.Decimal
   type: Struct
+  summary: Represents a decimal number.
+  remarks: "The Decimal value type represents decimal numbers ranging from positive 79,228,162,514,264,337,593,543,950,335 to negative 79,228,162,514,264,337,593,543,950,335. The Decimal value type is appropriate for financial calculations that require large numbers of significant integral and fractional digits and no round-off errors. The Decimal type does not eliminate the need for rounding. Rather, it minimizes errors due to rounding. For example, the following code produces a result of 0.9999999999999999999999999999 instead of 1.  \n  \n [!CODE [System.Decimal.Class#1](../CodeSnippet/VS_Snippets_CLR_System/system.Decimal.Class#1)]  \n  \n When the result of the division and multiplication is passed to the <xref:System.Math.Round%2A> method, the result suffers no loss of precision, as the following code shows.  \n  \n [!CODE [System.Decimal.Class#2](../CodeSnippet/VS_Snippets_CLR_System/system.Decimal.Class#2)]  \n  \n A decimal number is a floating-point value that consists of a sign, a numeric value where each digit in the value ranges from 0 to 9, and a scaling factor that indicates the position of a floating decimal point that separates the integral and fractional parts of the numeric value.  \n  \n The binary representation of a Decimal value consists of a 1-bit sign, a 96-bit integer number, and a scaling factor used to divide the 96-bit integer and specify what portion of it is a decimal fraction. The scaling factor is implicitly the number 10, raised to an exponent ranging from 0 to 28. Therefore, the binary representation of a Decimal value  the form, ((-2<sup>96</sup> to 2<sup>96</sup>) / 10<sup>(0 to 28)</sup>), where -(2<sup>96</sup>-1) is equal to <xref:System.Decimal.MinValue>, and 2<sup>96</sup>-1 is equal to <xref:System.Decimal.MaxValue>. For more information about the binary representation of Decimal values and an example, see the [Decimal(Int32\\[\\])](assetId:///M:System.Decimal.#ctor(System.Int32[])?qualifyHint=False&autoUpgrade=False) constructor and the <xref:System.Decimal.GetBits%2A> method.  \n  \n The scaling factor  also preserves any trailing zeros in a Decimal number. Trailing zeros do not affect the value of a Decimal number in arithmetic or comparison operations. However, trailing zeros might be revealed by the <xref:System.Decimal.ToString%2A> method if an appropriate format string is applied.  \n  \n## Conversion Considerations  \n This type provides methods that convert Decimal values to and from <xref:System.SByte>, <xref:System.Int16>, <xref:System.Int32>, <xref:System.Int64>, <xref:System.Byte>, <xref:System.UInt16>, <xref:System.UInt32>, and <xref:System.UInt64> values. Conversions from these integral types to Decimal are widening conversions that never lose information or throw exceptions.  \n  \n Conversions from Decimal to any of the integral types are narrowing conversions that round the Decimal value to the nearest integer value toward zero. Some languages, such as C#, also support the conversion of Decimal values to <xref:System.Char> values. If the result of these conversions cannot be represented in the destination type, an <xref:System.OverflowException> exception is thrown.  \n  \n The Decimal type also provides methods that convert Decimal values to and from <xref:System.Single> and <xref:System.Double> values. Conversions from Decimal to <xref:System.Single> or <xref:System.Double> are narrowing conversions that might lose precision but not information about the magnitude of the converted value. The conversion does not throw an exception.  \n  \n Conversions from <xref:System.Single> or <xref:System.Double> to Decimal throw an <xref:System.OverflowException> exception if the result of the conversion cannot be represented as a Decimal.  \n  \n## Performing Operations on Decimal Values  \n The Decimal type supports standard mathematical operations such as addition, subtraction, division, multiplication, and unary negation. You can also work directly with the binary representation of a Decimal value by calling the <xref:System.Decimal.GetBits%2A> method.  \n  \n To compare two Decimal values, you can use the standard numeric comparison operators, or you can call the <xref:System.Decimal.CompareTo%2A> or <xref:System.Decimal.Equals%2A> method.  \n  \n You can also call the members of the <xref:System.Math> class to perform a wide range of numeric operations, including getting the absolute value of a number, determining the maximum or minimum value of two Decimal values, getting the sign of a number, and rounding a number."
+  example:
+  - "The following code example demonstrates the use of Decimal.  \n  \n [!CODE [Decimal Example#1](../CodeSnippet/VS_Snippets_CLR/Decimal Example#1)]"
   syntax:
     content: >-
       [System.Runtime.InteropServices.ComVisible(true)]
@@ -135,12 +138,15 @@ items:
   - System.IEquatable<System.Decimal>
   - System.IFormattable
   - System.Runtime.Serialization.IDeserializationCallback
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Decimal.#ctor(System.Double)
   id: '#ctor(System.Double)'
   parent: System.Decimal
   langs:
   - csharp
-  - vb
   name: Decimal(Double)
   nameWithType: Decimal.Decimal(Double)
   fullName: System.Decimal.Decimal(Double)
@@ -148,18 +154,25 @@ items:
   assemblies:
   - mscorlib
   namespace: System
+  summary: Initializes a new instance of <see cref="T:System.Decimal"> to the value of the specified double-precision floating-point number.
+  remarks: This constructor rounds  to 15 significant digits using rounding to nearest. This is done even if the number has more than 15 digits and the less significant digits are zero.
+  example:
+  - "The following code example creates several `Decimal` numbers using the constructor overload that initializes a `Decimal` structure with a <xref:System.Double> value.  \n  \n [!CODE [System.Decimal.Ctor.Reals#2](../CodeSnippet/VS_Snippets_CLR_System/system.Decimal.Ctor.Reals#2)]"
   syntax:
     content: public Decimal (double value);
     parameters:
     - id: value
       type: System.Double
-      description: Parameter description to be filled
+      description: The value to represent as a <see cref="T:System.Decimal">.
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Decimal.#ctor(System.Int32)
   id: '#ctor(System.Int32)'
   parent: System.Decimal
   langs:
   - csharp
-  - vb
   name: Decimal(Int32)
   nameWithType: Decimal.Decimal(Int32)
   fullName: System.Decimal.Decimal(Int32)
@@ -167,18 +180,25 @@ items:
   assemblies:
   - mscorlib
   namespace: System
+  summary: Initializes a new instance of <see cref="T:System.Decimal"> to the value of the specified 32-bit signed integer.
+  remarks: ''
+  example:
+  - "The following code example creates several `Decimal` numbers using the constructor overload that initializes a `Decimal` structure with an <xref:System.Int32> value.  \n  \n [!CODE [System.Decimal.Ctor.Ints#1](../CodeSnippet/VS_Snippets_CLR_System/system.Decimal.Ctor.Ints#1)]"
   syntax:
     content: public Decimal (int value);
     parameters:
     - id: value
       type: System.Int32
-      description: Parameter description to be filled
+      description: The value to represent as a <see cref="T:System.Decimal">.
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Decimal.#ctor(System.Int32[])
   id: '#ctor(System.Int32[])'
   parent: System.Decimal
   langs:
   - csharp
-  - vb
   name: Decimal(Int32[])
   nameWithType: Decimal.Decimal(Int32[])
   fullName: System.Decimal.Decimal(Int32[])
@@ -186,18 +206,25 @@ items:
   assemblies:
   - mscorlib
   namespace: System
+  summary: Initializes a new instance of <see cref="T:System.Decimal"> to a decimal value represented in binary and contained in a specified array.
+  remarks: "The binary representation of a <xref:System.Decimal> number consists of a 1-bit sign, a 96-bit integer number, and a scaling factor used to divide the integer number and specify what portion of it is a decimal fraction. The scaling factor is implicitly the number 10, raised to an exponent ranging from 0 to 28.  \n  \n is a four-element long array of 32-bit signed integers.  \n  \n [0],  [1], and  [2] contain the low, middle, and high 32 bits of the 96-bit integer number.  \n  \n [3] contains the scale factor and sign, and consists of following parts:  \n  \n Bits 0 to 15, the lower word, are unused and must be zero.  \n  \n Bits 16 to 23 must contain an exponent between 0 and 28, which indicates the power of 10 to divide the integer number.  \n  \n Bits 24 to 30 are unused and must be zero.  \n  \n Bit 31 contains the sign; 0 meaning positive, and 1 meaning negative.  \n  \n A numeric value might have several possible binary representations; all are equally valid and numerically equivalent. Note that the bit representation differentiates between negative and positive zero. These values are treated as being equal in all operations."
+  example:
+  - "The following code example creates several `Decimal` numbers using the constructor overload that initializes a `Decimal` structure with an array of four <xref:System.Int32> values.  \n  \n [!CODE [System.Decimal.Ctor.Arrays#1](../CodeSnippet/VS_Snippets_CLR_System/system.Decimal.Ctor.Arrays#1)]"
   syntax:
     content: public Decimal (int[] bits);
     parameters:
     - id: bits
       type: System.Int32[]
-      description: Parameter description to be filled
+      description: An array of 32-bit signed integers containing a representation of a decimal value.
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Decimal.#ctor(System.Int64)
   id: '#ctor(System.Int64)'
   parent: System.Decimal
   langs:
   - csharp
-  - vb
   name: Decimal(Int64)
   nameWithType: Decimal.Decimal(Int64)
   fullName: System.Decimal.Decimal(Int64)
@@ -205,18 +232,25 @@ items:
   assemblies:
   - mscorlib
   namespace: System
+  summary: Initializes a new instance of <see cref="T:System.Decimal"> to the value of the specified 64-bit signed integer.
+  remarks: ''
+  example:
+  - "The following code example creates several `Decimal` numbers using the constructor overload that initializes a `Decimal` structure with an <xref:System.Int64> value.  \n  \n [!CODE [System.Decimal.Ctor.Ints#3](../CodeSnippet/VS_Snippets_CLR_System/system.Decimal.Ctor.Ints#3)]"
   syntax:
     content: public Decimal (long value);
     parameters:
     - id: value
       type: System.Int64
-      description: Parameter description to be filled
+      description: The value to represent as a <see cref="T:System.Decimal">.
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Decimal.#ctor(System.Single)
   id: '#ctor(System.Single)'
   parent: System.Decimal
   langs:
   - csharp
-  - vb
   name: Decimal(Single)
   nameWithType: Decimal.Decimal(Single)
   fullName: System.Decimal.Decimal(Single)
@@ -224,18 +258,25 @@ items:
   assemblies:
   - mscorlib
   namespace: System
+  summary: Initializes a new instance of <see cref="T:System.Decimal"> to the value of the specified single-precision floating-point number.
+  remarks: This constructor rounds  to 7 significant digits using rounding to nearest. This is done even if the number has more than 7 digits and the less significant digits are zero.
+  example:
+  - "The following code example creates several `Decimal` numbers using the constructor overload that initializes a `Decimal` structure with a <xref:System.Single> value.  \n  \n [!CODE [System.Decimal.Ctor.Reals#1](../CodeSnippet/VS_Snippets_CLR_System/system.Decimal.Ctor.Reals#1)]"
   syntax:
     content: public Decimal (float value);
     parameters:
     - id: value
       type: System.Single
-      description: Parameter description to be filled
+      description: The value to represent as a <see cref="T:System.Decimal">.
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Decimal.#ctor(System.UInt32)
   id: '#ctor(System.UInt32)'
   parent: System.Decimal
   langs:
   - csharp
-  - vb
   name: Decimal(UInt32)
   nameWithType: Decimal.Decimal(UInt32)
   fullName: System.Decimal.Decimal(UInt32)
@@ -243,18 +284,25 @@ items:
   assemblies:
   - mscorlib
   namespace: System
+  summary: Initializes a new instance of <see cref="T:System.Decimal"> to the value of the specified 32-bit unsigned integer.
+  remarks: ''
+  example:
+  - "The following code example creates several `Decimal` numbers using the constructor overload that initializes a `Decimal` structure with a <xref:System.UInt32> value.  \n  \n [!CODE [System.Decimal.Ctor.Ints#2](../CodeSnippet/VS_Snippets_CLR_System/system.Decimal.Ctor.Ints#2)]"
   syntax:
     content: public Decimal (uint value);
     parameters:
     - id: value
       type: System.UInt32
-      description: Parameter description to be filled
+      description: The value to represent as a <see cref="T:System.Decimal">.
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Decimal.#ctor(System.UInt64)
   id: '#ctor(System.UInt64)'
   parent: System.Decimal
   langs:
   - csharp
-  - vb
   name: Decimal(UInt64)
   nameWithType: Decimal.Decimal(UInt64)
   fullName: System.Decimal.Decimal(UInt64)
@@ -262,18 +310,25 @@ items:
   assemblies:
   - mscorlib
   namespace: System
+  summary: Initializes a new instance of <see cref="T:System.Decimal"> to the value of the specified 64-bit unsigned integer.
+  remarks: ''
+  example:
+  - "The following code example creates several `Decimal` numbers using the constructor overload that initializes a `Decimal` structure with a <xref:System.UInt64> value.  \n  \n [!CODE [System.Decimal.Ctor.Ints#4](../CodeSnippet/VS_Snippets_CLR_System/system.Decimal.Ctor.Ints#4)]"
   syntax:
     content: public Decimal (ulong value);
     parameters:
     - id: value
       type: System.UInt64
-      description: Parameter description to be filled
+      description: The value to represent as a <see cref="T:System.Decimal">.
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Decimal.#ctor(System.Int32,System.Int32,System.Int32,System.Boolean,System.Byte)
   id: '#ctor(System.Int32,System.Int32,System.Int32,System.Boolean,System.Byte)'
   parent: System.Decimal
   langs:
   - csharp
-  - vb
   name: Decimal(Int32,Int32,Int32,Boolean,Byte)
   nameWithType: Decimal.Decimal(Int32,Int32,Int32,Boolean,Byte)
   fullName: System.Decimal.Decimal(Int32,Int32,Int32,Boolean,Byte)
@@ -281,30 +336,37 @@ items:
   assemblies:
   - mscorlib
   namespace: System
+  summary: Initializes a new instance of <see cref="T:System.Decimal"> from parameters specifying the instance's constituent parts.
+  remarks: The binary representation of a <xref:System.Decimal> number consists of a 1-bit sign, a 96-bit integer number, and a scaling factor used to divide the integer number and specify what portion of it is a decimal fraction. The scaling factor is implicitly the number 10 raised to an exponent ranging from 0 to 28.
+  example:
+  - "The following code example creates several `Decimal` numbers using the constructor overload that initializes a `Decimal` structure with three <xref:System.Int32> value words, a <xref:System.Boolean> sign, and a <xref:System.Byte> scale factor.  \n  \n [!CODE [System.Decimal.Ctor.Arrays#2](../CodeSnippet/VS_Snippets_CLR_System/system.Decimal.Ctor.Arrays#2)]  \n  \n The following example uses the <xref:System.Decimal.GetBits%2A> method to retrieve the component parts of an array. It then uses this array in the call to the Decimal constructor to instantiate a new <xref:System.Decimal> value.  \n  \n [!CODE [System.Decimal.Ctor#1](../CodeSnippet/VS_Snippets_CLR_System/system.decimal.ctor#1)]"
   syntax:
     content: public Decimal (int lo, int mid, int hi, bool isNegative, byte scale);
     parameters:
     - id: lo
       type: System.Int32
-      description: Parameter description to be filled
+      description: The low 32 bits of a 96-bit integer.
     - id: mid
       type: System.Int32
-      description: Parameter description to be filled
+      description: The middle 32 bits of a 96-bit integer.
     - id: hi
       type: System.Int32
-      description: Parameter description to be filled
+      description: The high 32 bits of a 96-bit integer.
     - id: isNegative
       type: System.Boolean
-      description: Parameter description to be filled
+      description: '`true` to indicate a negative number; `false` to indicate a positive number.'
     - id: scale
       type: System.Byte
-      description: Parameter description to be filled
+      description: A power of 10 ranging from 0 to 28.
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Decimal.Add(System.Decimal,System.Decimal)
   id: Add(System.Decimal,System.Decimal)
   parent: System.Decimal
   langs:
   - csharp
-  - vb
   name: Add(Decimal,Decimal)
   nameWithType: Decimal.Add(Decimal,Decimal)
   fullName: System.Decimal.Add(Decimal,Decimal)
@@ -312,24 +374,29 @@ items:
   assemblies:
   - mscorlib
   namespace: System
+  summary: Adds two specified <see cref="T:System.Decimal"> values.
+  remarks: "The following code sample illustrates the use of `Add` :  \n  \n [!CODE [Decimal Example#5](../CodeSnippet/VS_Snippets_CLR/Decimal Example#5)]"
   syntax:
     content: public static decimal Add (decimal d1, decimal d2);
     parameters:
     - id: d1
       type: System.Decimal
-      description: Parameter description to be filled
+      description: The first value to add.
     - id: d2
       type: System.Decimal
-      description: Parameter description to be filled
+      description: The second value to add.
     return:
       type: System.Decimal
-      description: Return description to be filled
+      description: The sum of  and .
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Decimal.Ceiling(System.Decimal)
   id: Ceiling(System.Decimal)
   parent: System.Decimal
   langs:
   - csharp
-  - vb
   name: Ceiling(Decimal)
   nameWithType: Decimal.Ceiling(Decimal)
   fullName: System.Decimal.Ceiling(Decimal)
@@ -337,21 +404,28 @@ items:
   assemblies:
   - mscorlib
   namespace: System
+  summary: Returns the smallest integral value that is greater than or equal to the specified decimal number.
+  remarks: The behavior of this method follows IEEE Standard 754, section 4. This kind of rounding is sometimes called rounding toward positive infinity. In other words, if  is positive, the presence of any fractional component causes  to be rounded to the next highest integer. If  is negative, the rounding operation causes any fractional component of  to be discarded. The operation of this method differs from the <xref:System.Decimal.Floor%2A> method, which supports rounding toward negative infinity.
+  example:
+  - "The following example illustrates the Ceiling method and contrasts it with the <xref:System.Decimal.Floor%2A> method.  \n  \n [!CODE [System.Decimal.Ceiling#1](../CodeSnippet/VS_Snippets_CLR_System/system.Decimal.Ceiling#1)]"
   syntax:
     content: public static decimal Ceiling (decimal d);
     parameters:
     - id: d
       type: System.Decimal
-      description: Parameter description to be filled
+      description: A decimal number.
     return:
       type: System.Decimal
-      description: Return description to be filled
+      description: The smallest integral value that is greater than or equal to the  parameter. Note that this method returns a <see cref="T:System.Decimal"> instead of an integral type.
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Decimal.Compare(System.Decimal,System.Decimal)
   id: Compare(System.Decimal,System.Decimal)
   parent: System.Decimal
   langs:
   - csharp
-  - vb
   name: Compare(Decimal,Decimal)
   nameWithType: Decimal.Compare(Decimal,Decimal)
   fullName: System.Decimal.Compare(Decimal,Decimal)
@@ -359,24 +433,31 @@ items:
   assemblies:
   - mscorlib
   namespace: System
+  summary: Compares two specified <see cref="T:System.Decimal"> values.
+  remarks: ''
+  example:
+  - "The following example compares several <xref:System.Decimal> values. Note that the first comparison indicates that the two values are equal despite the subtraction operation performed on the `value2` variable. This is because the <xref:System.Decimal> type has 29 digits of precision, whereas a difference between these two values can be detected only with 30 digits of precision.  \n  \n [!CODE [System.Decimal.Compare#1](../CodeSnippet/VS_Snippets_CLR_System/System.Decimal.Compare#1)]"
   syntax:
     content: public static int Compare (decimal d1, decimal d2);
     parameters:
     - id: d1
       type: System.Decimal
-      description: Parameter description to be filled
+      description: The first value to compare.
     - id: d2
       type: System.Decimal
-      description: Parameter description to be filled
+      description: The second value to compare.
     return:
       type: System.Int32
-      description: Return description to be filled
+      description: "A signed number indicating the relative values of  and .  \n  \n|Return value|Meaning|  \n|------------------|-------------|  \n|Less than zero|is less than .|  \n|Zero|and  are equal.|  \n|Greater than zero|is greater than .|"
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Decimal.CompareTo(System.Decimal)
   id: CompareTo(System.Decimal)
   parent: System.Decimal
   langs:
   - csharp
-  - vb
   name: CompareTo(Decimal)
   nameWithType: Decimal.CompareTo(Decimal)
   fullName: System.Decimal.CompareTo(Decimal)
@@ -384,22 +465,29 @@ items:
   assemblies:
   - mscorlib
   namespace: System
+  summary: Compares this instance to a specified <see cref="T:System.Decimal"> object and returns a comparison of their relative values.
+  remarks: "This method implements the <xref:System.IComparable%601?displayProperty=fullName> interface and performs slightly better than the <xref:System.Decimal.CompareTo%2A?displayProperty=fullName> method because it does not have to convert the  parameter to an object.  \n  \n Depending on your programming language, it might be possible to code a <xref:System.Decimal.CompareTo%2A> method where the parameter type has fewer bits (is narrower) than the instance type. This is possible because some programming languages perform an implicit widening conversion that represents the parameter as a type with as many bits as the instance.  \n  \n For example, suppose the instance type is <xref:System.Int32> and the parameter type is <xref:System.Byte>. The Microsoft C# compiler generates instructions to represent the parameter as an <xref:System.Int32> object, then generates a <xref:System.Int32.CompareTo%2A?displayProperty=fullName> method to compare the values of the <xref:System.Int32> instance and the <xref:System.Int32> parameter representation.  \n  \n Consult your programming language's documentation to determine whether its compiler performs implicit widening conversions on numeric types."
+  example:
+  - "The following code example demonstrates generic and nongeneric versions of the <xref:System.Decimal.CompareTo%2A> method for several value and reference types.  \n  \n [!CODE [T.CompareTo#1](../CodeSnippet/VS_Snippets_CLR/T.CompareTo#1)]"
   syntax:
     content: public int CompareTo (decimal value);
     parameters:
     - id: value
       type: System.Decimal
-      description: Parameter description to be filled
+      description: The object to compare with this instance.
     return:
       type: System.Int32
-      description: Return description to be filled
+      description: "A signed number indicating the relative values of this instance and .  \n  \n|Return value|Meaning|  \n|------------------|-------------|  \n|Less than zero|This instance is less than .|  \n|Zero|This instance is equal to .|  \n|Greater than zero|This instance is greater than .|"
   overload: System.Decimal.CompareTo*
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Decimal.CompareTo(System.Object)
   id: CompareTo(System.Object)
   parent: System.Decimal
   langs:
   - csharp
-  - vb
   name: CompareTo(Object)
   nameWithType: Decimal.CompareTo(Object)
   fullName: System.Decimal.CompareTo(Object)
@@ -407,22 +495,29 @@ items:
   assemblies:
   - mscorlib
   namespace: System
+  summary: Compares this instance to a specified object and returns a comparison of their relative values.
+  remarks: "Any instance of <xref:System.Decimal>, regardless of its value, is considered greater than `null`.  \n  \n Parameter  must be `null` or an instance of <xref:System.Decimal>; otherwise, an exception is thrown."
+  example:
+  - "The following code example compares several `Decimal` and other objects to a reference `Decimal` value using the `CompareTo` method.  \n  \n [!CODE [System.Decimal.Compare_Equals#1](../CodeSnippet/VS_Snippets_CLR_System/system.Decimal.Compare_Equals#1)]"
   syntax:
     content: public int CompareTo (object value);
     parameters:
     - id: value
       type: System.Object
-      description: Parameter description to be filled
+      description: The object to compare with this instance, or `null`.
     return:
       type: System.Int32
-      description: Return description to be filled
+      description: "A signed number indicating the relative values of this instance and .  \n  \n|Return value|Meaning|  \n|------------------|-------------|  \n|Less than zero|This instance is less than .|  \n|Zero|This instance is equal to .|  \n|Greater than zero|This instance is greater than .<br /><br /> -or-<br /><br /> is `null`.|"
   overload: System.Decimal.CompareTo*
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Decimal.Divide(System.Decimal,System.Decimal)
   id: Divide(System.Decimal,System.Decimal)
   parent: System.Decimal
   langs:
   - csharp
-  - vb
   name: Divide(Decimal,Decimal)
   nameWithType: Decimal.Divide(Decimal,Decimal)
   fullName: System.Decimal.Divide(Decimal,Decimal)
@@ -430,24 +525,31 @@ items:
   assemblies:
   - mscorlib
   namespace: System
+  summary: Divides two specified <see cref="T:System.Decimal"> values.
+  remarks: ''
+  example:
+  - "The following example calls the Divide method to divide a range of values by 22.1.  \n  \n [!CODE [System.Decimal.Divide#1](../CodeSnippet/VS_Snippets_CLR_System/System.Decimal.Divide#1)]"
   syntax:
     content: public static decimal Divide (decimal d1, decimal d2);
     parameters:
     - id: d1
       type: System.Decimal
-      description: Parameter description to be filled
+      description: The dividend.
     - id: d2
       type: System.Decimal
-      description: Parameter description to be filled
+      description: The divisor.
     return:
       type: System.Decimal
-      description: Return description to be filled
+      description: The result of dividing  by .
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Decimal.Equals(System.Decimal)
   id: Equals(System.Decimal)
   parent: System.Decimal
   langs:
   - csharp
-  - vb
   name: Equals(Decimal)
   nameWithType: Decimal.Equals(Decimal)
   fullName: System.Decimal.Equals(Decimal)
@@ -455,22 +557,27 @@ items:
   assemblies:
   - mscorlib
   namespace: System
+  summary: Returns a value indicating whether this instance and a specified <see cref="T:System.Decimal"> object represent the same value.
+  remarks: "This method implements the <xref:System.IEquatable%601?displayProperty=fullName> interface, and performs slightly better than <xref:System.Decimal.Equals%2A> because it does not have to convert the  parameter to an object.  \n  \n If  has fewer bits (is narrower) than the instance type, some programming languages perform an implicit widening conversion that transforms the value of the parameter into a value with more bits.  \n  \n For example, suppose the instance type is <xref:System.Int32> and the parameter type is <xref:System.Byte>. The Microsoft C# compiler generates instructions to represent the value of the parameter as an <xref:System.Int32> object, then generates a <xref:System.Int32.CompareTo%2A?displayProperty=fullName> method to compare the <xref:System.Int32> instance and parameter representation.  \n  \n Consult your programming language's documentation to determine whether its compiler performs implicit widening conversions on numeric types."
   syntax:
     content: public bool Equals (decimal value);
     parameters:
     - id: value
       type: System.Decimal
-      description: Parameter description to be filled
+      description: An object to compare to this instance.
     return:
       type: System.Boolean
-      description: Return description to be filled
+      description: '`true` if  is equal to this instance; otherwise, `false`.'
   overload: System.Decimal.Equals*
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Decimal.Equals(System.Object)
   id: Equals(System.Object)
   parent: System.Decimal
   langs:
   - csharp
-  - vb
   name: Equals(Object)
   nameWithType: Decimal.Equals(Object)
   fullName: System.Decimal.Equals(Object)
@@ -478,22 +585,29 @@ items:
   assemblies:
   - mscorlib
   namespace: System
+  summary: Returns a value indicating whether this instance and a specified <see cref="T:System.Object"> represent the same type and value.
+  remarks: ''
+  example:
+  - "The following code example compares several `Decimal` and other objects to a reference `Decimal` value using the `Equals` method.  \n  \n [!CODE [System.Decimal.Compare_Equals#1](../CodeSnippet/VS_Snippets_CLR_System/system.Decimal.Compare_Equals#1)]"
   syntax:
     content: public override bool Equals (object value);
     parameters:
     - id: value
       type: System.Object
-      description: Parameter description to be filled
+      description: The object to compare with this instance.
     return:
       type: System.Boolean
-      description: Return description to be filled
+      description: '`true` if  is a <see cref="T:System.Decimal"> and equal to this instance; otherwise, `false`.'
   overload: System.Decimal.Equals*
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Decimal.Equals(System.Decimal,System.Decimal)
   id: Equals(System.Decimal,System.Decimal)
   parent: System.Decimal
   langs:
   - csharp
-  - vb
   name: Equals(Decimal,Decimal)
   nameWithType: Decimal.Equals(Decimal,Decimal)
   fullName: System.Decimal.Equals(Decimal,Decimal)
@@ -501,25 +615,32 @@ items:
   assemblies:
   - mscorlib
   namespace: System
+  summary: Returns a value indicating whether two specified instances of <see cref="T:System.Decimal"> represent the same value.
+  remarks: ''
+  example:
+  - "The following code example compares several `Decimal` values to a reference `Decimal` value using the static `Equals` method.  \n  \n [!CODE [System.Decimal.Compare_Equals#2](../CodeSnippet/VS_Snippets_CLR_System/system.Decimal.Compare_Equals#2)]"
   syntax:
     content: public static bool Equals (decimal d1, decimal d2);
     parameters:
     - id: d1
       type: System.Decimal
-      description: Parameter description to be filled
+      description: The first value to compare.
     - id: d2
       type: System.Decimal
-      description: Parameter description to be filled
+      description: The second value to compare.
     return:
       type: System.Boolean
-      description: Return description to be filled
+      description: '`true` if  and  are equal; otherwise, `false`.'
   overload: System.Decimal.Equals*
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Decimal.Floor(System.Decimal)
   id: Floor(System.Decimal)
   parent: System.Decimal
   langs:
   - csharp
-  - vb
   name: Floor(Decimal)
   nameWithType: Decimal.Floor(Decimal)
   fullName: System.Decimal.Floor(Decimal)
@@ -527,21 +648,28 @@ items:
   assemblies:
   - mscorlib
   namespace: System
+  summary: Rounds a specified <see cref="T:System.Decimal"> number to the closest integer toward negative infinity.
+  remarks: The behavior of this method follows IEEE Standard 754, Section 4. This kind of rounding is sometimes called rounding toward negative infinity. In other words, if  is positive, any fractional component is truncated. If  is negative, the presence of any fractional component causes it to be rounded to the smaller integer. The operation of this method differs from the <xref:System.Decimal.Ceiling%2A> method, which supports rounding toward positive infinity.
+  example:
+  - "The following example illustrates the Floor method and contrasts it with the <xref:System.Decimal.Ceiling%2A> method.  \n  \n [!CODE [System.Decimal.Ceiling#1](../CodeSnippet/VS_Snippets_CLR_System/system.Decimal.Ceiling#1)]"
   syntax:
     content: public static decimal Floor (decimal d);
     parameters:
     - id: d
       type: System.Decimal
-      description: Parameter description to be filled
+      description: The value to round.
     return:
       type: System.Decimal
-      description: Return description to be filled
+      description: "If  has a fractional part, the next whole <see cref=\"T:System.Decimal\"> number toward negative infinity that is less than .  \n  \n -or-  \n  \n If  doesn't have a fractional part,  is returned unchanged. Note that the method returns an integral value of type <see cref=\"T:System.Decimal\">."
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Decimal.FromOACurrency(System.Int64)
   id: FromOACurrency(System.Int64)
   parent: System.Decimal
   langs:
   - csharp
-  - vb
   name: FromOACurrency(Int64)
   nameWithType: Decimal.FromOACurrency(Int64)
   fullName: System.Decimal.FromOACurrency(Int64)
@@ -549,21 +677,28 @@ items:
   assemblies:
   - mscorlib
   namespace: System
+  summary: Converts the specified 64-bit signed integer, which contains an OLE Automation Currency value, to the equivalent <see cref="T:System.Decimal"> value.
+  remarks: ''
+  example:
+  - "The following code example uses the `FromOACurrency` method to convert <xref:System.Int64> fields that contain OLE Automation Currency values to the equivalent `Decimal` numbers.  \n  \n [!CODE [System.Decimal.OACurrency#2](../CodeSnippet/VS_Snippets_CLR_System/system.Decimal.OACurrency#2)]"
   syntax:
     content: public static decimal FromOACurrency (long cy);
     parameters:
     - id: cy
       type: System.Int64
-      description: Parameter description to be filled
+      description: An OLE Automation Currency value.
     return:
       type: System.Decimal
-      description: Return description to be filled
+      description: A <see cref="T:System.Decimal"> that contains the equivalent of .
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Decimal.GetBits(System.Decimal)
   id: GetBits(System.Decimal)
   parent: System.Decimal
   langs:
   - csharp
-  - vb
   name: GetBits(Decimal)
   nameWithType: Decimal.GetBits(Decimal)
   fullName: System.Decimal.GetBits(Decimal)
@@ -571,21 +706,28 @@ items:
   assemblies:
   - mscorlib
   namespace: System
+  summary: Converts the value of a specified instance of <see cref="T:System.Decimal"> to its equivalent binary representation.
+  remarks: "The binary representation of a <xref:System.Decimal> number consists of a 1-bit sign, a 96-bit integer number, and a scaling factor used to divide the integer number and specify what portion of it is a decimal fraction. The scaling factor is implicitly the number 10, raised to an exponent ranging from 0 to 28.  \n  \n The return value is a four-element array of 32-bit signed integers.  \n  \n The first, second, and third elements of the returned array contain the low, middle, and high 32 bits of the 96-bit integer number.  \n  \n The fourth element of the returned array contains the scale factor and sign. It consists of the following parts:  \n  \n Bits 0 to 15, the lower word, are unused and must be zero.  \n  \n Bits 16 to 23 must contain an exponent between 0 and 28, which indicates the power of 10 to divide the integer number.  \n  \n Bits 24 to 30 are unused and must be zero.  \n  \n Bit 31 contains the sign: 0 mean positive, and 1 means negative.  \n  \n Note that the bit representation differentiates between negative and positive zero. These values are treated as being equal in all operations."
+  example:
+  - "The following example uses the `GetBits` method to convert several `Decimal` values to their equivalent binary representations. It then displays the decimal values and the hexadecimal value of the elements in the array returned by the GetBits method.  \n  \n [!CODE [System.Decimal.Get_Bits_Hash_Type#2](../CodeSnippet/VS_Snippets_CLR_System/system.Decimal.Get_Bits_Hash_Type#2)]  \n  \n The following example uses the GetBits method to retrieve the component parts of an array. It then uses this array in the call to the <xref:System.Decimal.%23ctor%28System.Int32%2CSystem.Int32%2CSystem.Int32%2CSystem.Boolean%2CSystem.Byte%29> constructor to instantiate a new <xref:System.Decimal> value.  \n  \n [!CODE [System.Decimal.Ctor#1](../CodeSnippet/VS_Snippets_CLR_System/system.decimal.ctor#1)]"
   syntax:
     content: public static int[] GetBits (decimal d);
     parameters:
     - id: d
       type: System.Decimal
-      description: Parameter description to be filled
+      description: The value to convert.
     return:
       type: System.Int32[]
-      description: Return description to be filled
+      description: A 32-bit signed integer array with four elements that contain the binary representation of .
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Decimal.GetHashCode
   id: GetHashCode
   parent: System.Decimal
   langs:
   - csharp
-  - vb
   name: GetHashCode()
   nameWithType: Decimal.GetHashCode()
   fullName: System.Decimal.GetHashCode()
@@ -593,18 +735,23 @@ items:
   assemblies:
   - mscorlib
   namespace: System
+  summary: Returns the hash code for this instance.
+  remarks: To be added.
   syntax:
     content: public override int GetHashCode ();
     parameters: []
     return:
       type: System.Int32
-      description: Return description to be filled
+      description: A 32-bit signed integer hash code.
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Decimal.GetTypeCode
   id: GetTypeCode
   parent: System.Decimal
   langs:
   - csharp
-  - vb
   name: GetTypeCode()
   nameWithType: Decimal.GetTypeCode()
   fullName: System.Decimal.GetTypeCode()
@@ -612,18 +759,25 @@ items:
   assemblies:
   - mscorlib
   namespace: System
+  summary: Returns the <see cref="T:System.TypeCode"> for value type <xref:System.Decimal>.
+  remarks: ''
+  example:
+  - "The following code example uses the `GetTypeCode` method to return the type code for `Decimal` value type.  \n  \n [!CODE [System.Decimal.Get_Bits_Hash_Type#3](../CodeSnippet/VS_Snippets_CLR_System/system.Decimal.Get_Bits_Hash_Type#3)]"
   syntax:
     content: public TypeCode GetTypeCode ();
     parameters: []
     return:
       type: System.TypeCode
-      description: Return description to be filled
+      description: The enumerated constant <xref:System.TypeCode?displayProperty=fullName>.
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Decimal.MaxValue
   id: MaxValue
   parent: System.Decimal
   langs:
   - csharp
-  - vb
   name: MaxValue
   nameWithType: Decimal.MaxValue
   fullName: System.Decimal.MaxValue
@@ -631,17 +785,24 @@ items:
   assemblies:
   - mscorlib
   namespace: System
+  summary: Represents the largest possible value of <see cref="T:System.Decimal">. This field is constant and read-only.
+  remarks: The value of this constant is positive 79,228,162,514,264,337,593,543,950,335.
+  example:
+  - "The following code sample illustrates the use of `MaxValue` :  \n  \n [!CODE [Decimal Example#2](../CodeSnippet/VS_Snippets_CLR/Decimal Example#2)]"
   syntax:
     content: public static readonly decimal MaxValue;
     return:
       type: System.Decimal
-      description: Return description to be filled
+      description: To be added.
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Decimal.MinusOne
   id: MinusOne
   parent: System.Decimal
   langs:
   - csharp
-  - vb
   name: MinusOne
   nameWithType: Decimal.MinusOne
   fullName: System.Decimal.MinusOne
@@ -649,17 +810,24 @@ items:
   assemblies:
   - mscorlib
   namespace: System
+  summary: Represents the number negative one (-1).
+  remarks: ''
+  example:
+  - "The following code example illustrates the use of the `MinusOne` field.  \n  \n [!CODE [System.Decimal.Fields#1](../CodeSnippet/VS_Snippets_CLR_System/system.Decimal.Fields#1)]"
   syntax:
     content: public static readonly decimal MinusOne;
     return:
       type: System.Decimal
-      description: Return description to be filled
+      description: To be added.
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Decimal.MinValue
   id: MinValue
   parent: System.Decimal
   langs:
   - csharp
-  - vb
   name: MinValue
   nameWithType: Decimal.MinValue
   fullName: System.Decimal.MinValue
@@ -667,17 +835,24 @@ items:
   assemblies:
   - mscorlib
   namespace: System
+  summary: Represents the smallest possible value of <see cref="T:System.Decimal">. This field is constant and read-only.
+  remarks: The value of this constant is negative 79,228,162,514,264,337,593,543,950,335.
+  example:
+  - "The following code example illustrates the use of the `MinValue` field.  \n  \n [!CODE [System.Decimal.Fields#1](../CodeSnippet/VS_Snippets_CLR_System/system.Decimal.Fields#1)]"
   syntax:
     content: public static readonly decimal MinValue;
     return:
       type: System.Decimal
-      description: Return description to be filled
+      description: To be added.
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Decimal.Multiply(System.Decimal,System.Decimal)
   id: Multiply(System.Decimal,System.Decimal)
   parent: System.Decimal
   langs:
   - csharp
-  - vb
   name: Multiply(Decimal,Decimal)
   nameWithType: Decimal.Multiply(Decimal,Decimal)
   fullName: System.Decimal.Multiply(Decimal,Decimal)
@@ -685,24 +860,31 @@ items:
   assemblies:
   - mscorlib
   namespace: System
+  summary: Multiplies two specified <see cref="T:System.Decimal"> values.
+  remarks: ''
+  example:
+  - "The following code example creates several pairs of `Decimal` values and calculates their products with the `Multiply` method.  \n  \n [!CODE [System.Decimal.Mul_Div_Rem#1](../CodeSnippet/VS_Snippets_CLR_System/system.Decimal.Mul_Div_Rem#1)]"
   syntax:
     content: public static decimal Multiply (decimal d1, decimal d2);
     parameters:
     - id: d1
       type: System.Decimal
-      description: Parameter description to be filled
+      description: The multiplicand.
     - id: d2
       type: System.Decimal
-      description: Parameter description to be filled
+      description: The multiplier.
     return:
       type: System.Decimal
-      description: Return description to be filled
+      description: The result of multiplying  and .
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Decimal.Negate(System.Decimal)
   id: Negate(System.Decimal)
   parent: System.Decimal
   langs:
   - csharp
-  - vb
   name: Negate(Decimal)
   nameWithType: Decimal.Negate(Decimal)
   fullName: System.Decimal.Negate(Decimal)
@@ -710,21 +892,28 @@ items:
   assemblies:
   - mscorlib
   namespace: System
+  summary: Returns the result of multiplying the specified <see cref="T:System.Decimal"> value by negative one.
+  remarks: ''
+  example:
+  - "The following code example uses the `Negate` method to change the sign of several `Decimal` values.  \n  \n [!CODE [System.Decimal.Flr_Neg_Rnd_Trnc#1](../CodeSnippet/VS_Snippets_CLR_System/system.Decimal.Flr_Neg_Rnd_Trnc#1)]"
   syntax:
     content: public static decimal Negate (decimal d);
     parameters:
     - id: d
       type: System.Decimal
-      description: Parameter description to be filled
+      description: The value to negate.
     return:
       type: System.Decimal
-      description: Return description to be filled
+      description: "A decimal number with the value of , but the opposite sign.  \n  \n -or-  \n  \n Zero, if  is zero."
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Decimal.One
   id: One
   parent: System.Decimal
   langs:
   - csharp
-  - vb
   name: One
   nameWithType: Decimal.One
   fullName: System.Decimal.One
@@ -732,17 +921,24 @@ items:
   assemblies:
   - mscorlib
   namespace: System
+  summary: Represents the number one (1).
+  remarks: ''
+  example:
+  - "The following code example illustrates the use of the `One` field.  \n  \n [!CODE [System.Decimal.Fields#1](../CodeSnippet/VS_Snippets_CLR_System/system.Decimal.Fields#1)]"
   syntax:
     content: public static readonly decimal One;
     return:
       type: System.Decimal
-      description: Return description to be filled
+      description: To be added.
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Decimal.op_Addition(System.Decimal,System.Decimal)
   id: op_Addition(System.Decimal,System.Decimal)
   parent: System.Decimal
   langs:
   - csharp
-  - vb
   name: op_Addition(Decimal,Decimal)
   nameWithType: Decimal.op_Addition(Decimal,Decimal)
   fullName: System.Decimal.op_Addition(Decimal,Decimal)
@@ -750,24 +946,29 @@ items:
   assemblies:
   - mscorlib
   namespace: System
+  summary: Adds two specified <see cref="T:System.Decimal"> values.
+  remarks: "The Addition method defines the operation of the addition operator for <xref:System.Decimal> values. It enables code such as the following:  \n  \n [!CODE [System.Decimal.Operators#3](../CodeSnippet/VS_Snippets_CLR_System/system.decimal.operators#3)]  \n  \n If the language you're using doesn't support custom operators, call the <xref:System.Decimal.Add%2A> method instead."
   syntax:
     content: public static decimal op_Addition (decimal d1, decimal d2);
     parameters:
     - id: d1
       type: System.Decimal
-      description: Parameter description to be filled
+      description: The first value to add.
     - id: d2
       type: System.Decimal
-      description: Parameter description to be filled
+      description: The second value to add.
     return:
       type: System.Decimal
-      description: Return description to be filled
+      description: The result of adding  and .
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Decimal.op_Decrement(System.Decimal)
   id: op_Decrement(System.Decimal)
   parent: System.Decimal
   langs:
   - csharp
-  - vb
   name: op_Decrement(Decimal)
   nameWithType: Decimal.op_Decrement(Decimal)
   fullName: System.Decimal.op_Decrement(Decimal)
@@ -775,21 +976,26 @@ items:
   assemblies:
   - mscorlib
   namespace: System
+  summary: Decrements the <see cref="T:System.Decimal"> operand by one.
+  remarks: "The Decrement method defines the operation of the decrement operator for <xref:System.Decimal> values. It enables code such as the following:  \n  \n [!CODE [System.Decimal.Operators#4](../CodeSnippet/VS_Snippets_CLR_System/system.decimal.operators#4)]  \n  \n Some languages (such as Visual Basic) that lack an increment operator can call the Decrement method directly, as the following example shows.  \n  \n [!CODE [System.Decimal.Operators#5](../CodeSnippet/VS_Snippets_CLR_System/system.decimal.operators#5)]  \n  \n If your language does not support custom operators, call the <xref:System.Decimal.Subtract%2A> method instead, as the following example shows.  \n  \n [!CODE [System.Decimal.Operators#6](../CodeSnippet/VS_Snippets_CLR_System/system.decimal.operators#6)]"
   syntax:
     content: public static decimal op_Decrement (decimal d);
     parameters:
     - id: d
       type: System.Decimal
-      description: Parameter description to be filled
+      description: The value to decrement.
     return:
       type: System.Decimal
-      description: Return description to be filled
+      description: The value of  decremented by 1.
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Decimal.op_Division(System.Decimal,System.Decimal)
   id: op_Division(System.Decimal,System.Decimal)
   parent: System.Decimal
   langs:
   - csharp
-  - vb
   name: op_Division(Decimal,Decimal)
   nameWithType: Decimal.op_Division(Decimal,Decimal)
   fullName: System.Decimal.op_Division(Decimal,Decimal)
@@ -797,24 +1003,29 @@ items:
   assemblies:
   - mscorlib
   namespace: System
+  summary: Divides two specified <see cref="T:System.Decimal"> values.
+  remarks: "The Division method defines the operation of the division operator for <xref:System.Decimal> values. It enables code such as the following:  \n  \n [!CODE [System.Decimal.Operators#7](../CodeSnippet/VS_Snippets_CLR_System/system.decimal.operators#7)]  \n  \n If the language you're using doesn't support custom operators, call the <xref:System.Decimal.Divide%2A> method instead."
   syntax:
     content: public static decimal op_Division (decimal d1, decimal d2);
     parameters:
     - id: d1
       type: System.Decimal
-      description: Parameter description to be filled
+      description: The dividend.
     - id: d2
       type: System.Decimal
-      description: Parameter description to be filled
+      description: The divisor.
     return:
       type: System.Decimal
-      description: Return description to be filled
+      description: The result of dividing  by .
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Decimal.op_Equality(System.Decimal,System.Decimal)
   id: op_Equality(System.Decimal,System.Decimal)
   parent: System.Decimal
   langs:
   - csharp
-  - vb
   name: op_Equality(Decimal,Decimal)
   nameWithType: Decimal.op_Equality(Decimal,Decimal)
   fullName: System.Decimal.op_Equality(Decimal,Decimal)
@@ -822,24 +1033,29 @@ items:
   assemblies:
   - mscorlib
   namespace: System
+  summary: Returns a value that indicates whether two <see cref="T:System.Decimal"> values are equal.
+  remarks: "The Equality method defines the operation of the equality operator for <xref:System.Decimal> values. It enables code such as the following:  \n  \n [!CODE [System.Decimal.Operators#1](../CodeSnippet/VS_Snippets_CLR_System/system.decimal.operators#1)]  \n  \n If the language you're using doesn't support custom operators, call the <xref:System.Decimal.Equals%2A> method instead."
   syntax:
     content: public static bool op_Equality (decimal d1, decimal d2);
     parameters:
     - id: d1
       type: System.Decimal
-      description: Parameter description to be filled
+      description: The first value to compare.
     - id: d2
       type: System.Decimal
-      description: Parameter description to be filled
+      description: The second value to compare.
     return:
       type: System.Boolean
-      description: Return description to be filled
+      description: '`true` if  and  are equal; otherwise, `false`.'
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Decimal.op_Explicit(System.Decimal to System.Byte)
   id: op_Explicit(System.Decimal to System.Byte)
   parent: System.Decimal
   langs:
   - csharp
-  - vb
   name: op_Explicit(Decimal)
   nameWithType: Decimal.op_Explicit(Decimal)
   fullName: System.Decimal.op_Explicit(Decimal)
@@ -847,21 +1063,26 @@ items:
   assemblies:
   - mscorlib
   namespace: System
+  summary: To be added.
+  remarks: To be added.
   syntax:
     content: public static byte op_Explicit (decimal value);
     parameters:
     - id: value
       type: System.Decimal
-      description: Parameter description to be filled
+      description: To be added.
     return:
       type: System.Byte
-      description: Return description to be filled
+      description: To be added.
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Decimal.op_Explicit(System.Decimal to System.Char)
   id: op_Explicit(System.Decimal to System.Char)
   parent: System.Decimal
   langs:
   - csharp
-  - vb
   name: op_Explicit(Decimal)
   nameWithType: Decimal.op_Explicit(Decimal)
   fullName: System.Decimal.op_Explicit(Decimal)
@@ -869,21 +1090,26 @@ items:
   assemblies:
   - mscorlib
   namespace: System
+  summary: To be added.
+  remarks: To be added.
   syntax:
     content: public static char op_Explicit (decimal value);
     parameters:
     - id: value
       type: System.Decimal
-      description: Parameter description to be filled
+      description: To be added.
     return:
       type: System.Char
-      description: Return description to be filled
+      description: To be added.
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Decimal.op_Explicit(System.Decimal to System.Double)
   id: op_Explicit(System.Decimal to System.Double)
   parent: System.Decimal
   langs:
   - csharp
-  - vb
   name: op_Explicit(Decimal)
   nameWithType: Decimal.op_Explicit(Decimal)
   fullName: System.Decimal.op_Explicit(Decimal)
@@ -891,21 +1117,26 @@ items:
   assemblies:
   - mscorlib
   namespace: System
+  summary: To be added.
+  remarks: To be added.
   syntax:
     content: public static double op_Explicit (decimal value);
     parameters:
     - id: value
       type: System.Decimal
-      description: Parameter description to be filled
+      description: To be added.
     return:
       type: System.Double
-      description: Return description to be filled
+      description: To be added.
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Decimal.op_Explicit(System.Decimal to System.Int16)
   id: op_Explicit(System.Decimal to System.Int16)
   parent: System.Decimal
   langs:
   - csharp
-  - vb
   name: op_Explicit(Decimal)
   nameWithType: Decimal.op_Explicit(Decimal)
   fullName: System.Decimal.op_Explicit(Decimal)
@@ -913,21 +1144,26 @@ items:
   assemblies:
   - mscorlib
   namespace: System
+  summary: To be added.
+  remarks: To be added.
   syntax:
     content: public static short op_Explicit (decimal value);
     parameters:
     - id: value
       type: System.Decimal
-      description: Parameter description to be filled
+      description: To be added.
     return:
       type: System.Int16
-      description: Return description to be filled
+      description: To be added.
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Decimal.op_Explicit(System.Decimal to System.Int32)
   id: op_Explicit(System.Decimal to System.Int32)
   parent: System.Decimal
   langs:
   - csharp
-  - vb
   name: op_Explicit(Decimal)
   nameWithType: Decimal.op_Explicit(Decimal)
   fullName: System.Decimal.op_Explicit(Decimal)
@@ -935,21 +1171,26 @@ items:
   assemblies:
   - mscorlib
   namespace: System
+  summary: To be added.
+  remarks: To be added.
   syntax:
     content: public static int op_Explicit (decimal value);
     parameters:
     - id: value
       type: System.Decimal
-      description: Parameter description to be filled
+      description: To be added.
     return:
       type: System.Int32
-      description: Return description to be filled
+      description: To be added.
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Decimal.op_Explicit(System.Decimal to System.Int64)
   id: op_Explicit(System.Decimal to System.Int64)
   parent: System.Decimal
   langs:
   - csharp
-  - vb
   name: op_Explicit(Decimal)
   nameWithType: Decimal.op_Explicit(Decimal)
   fullName: System.Decimal.op_Explicit(Decimal)
@@ -957,21 +1198,26 @@ items:
   assemblies:
   - mscorlib
   namespace: System
+  summary: To be added.
+  remarks: To be added.
   syntax:
     content: public static long op_Explicit (decimal value);
     parameters:
     - id: value
       type: System.Decimal
-      description: Parameter description to be filled
+      description: To be added.
     return:
       type: System.Int64
-      description: Return description to be filled
+      description: To be added.
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Decimal.op_Explicit(System.Decimal to System.SByte)
   id: op_Explicit(System.Decimal to System.SByte)
   parent: System.Decimal
   langs:
   - csharp
-  - vb
   name: op_Explicit(Decimal)
   nameWithType: Decimal.op_Explicit(Decimal)
   fullName: System.Decimal.op_Explicit(Decimal)
@@ -979,21 +1225,26 @@ items:
   assemblies:
   - mscorlib
   namespace: System
+  summary: To be added.
+  remarks: To be added.
   syntax:
     content: public static sbyte op_Explicit (decimal value);
     parameters:
     - id: value
       type: System.Decimal
-      description: Parameter description to be filled
+      description: To be added.
     return:
       type: System.SByte
-      description: Return description to be filled
+      description: To be added.
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Decimal.op_Explicit(System.Decimal to System.Single)
   id: op_Explicit(System.Decimal to System.Single)
   parent: System.Decimal
   langs:
   - csharp
-  - vb
   name: op_Explicit(Decimal)
   nameWithType: Decimal.op_Explicit(Decimal)
   fullName: System.Decimal.op_Explicit(Decimal)
@@ -1001,21 +1252,26 @@ items:
   assemblies:
   - mscorlib
   namespace: System
+  summary: To be added.
+  remarks: To be added.
   syntax:
     content: public static float op_Explicit (decimal value);
     parameters:
     - id: value
       type: System.Decimal
-      description: Parameter description to be filled
+      description: To be added.
     return:
       type: System.Single
-      description: Return description to be filled
+      description: To be added.
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Decimal.op_Explicit(System.Decimal to System.UInt16)
   id: op_Explicit(System.Decimal to System.UInt16)
   parent: System.Decimal
   langs:
   - csharp
-  - vb
   name: op_Explicit(Decimal)
   nameWithType: Decimal.op_Explicit(Decimal)
   fullName: System.Decimal.op_Explicit(Decimal)
@@ -1023,21 +1279,26 @@ items:
   assemblies:
   - mscorlib
   namespace: System
+  summary: To be added.
+  remarks: To be added.
   syntax:
     content: public static ushort op_Explicit (decimal value);
     parameters:
     - id: value
       type: System.Decimal
-      description: Parameter description to be filled
+      description: To be added.
     return:
       type: System.UInt16
-      description: Return description to be filled
+      description: To be added.
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Decimal.op_Explicit(System.Decimal to System.UInt32)
   id: op_Explicit(System.Decimal to System.UInt32)
   parent: System.Decimal
   langs:
   - csharp
-  - vb
   name: op_Explicit(Decimal)
   nameWithType: Decimal.op_Explicit(Decimal)
   fullName: System.Decimal.op_Explicit(Decimal)
@@ -1045,21 +1306,26 @@ items:
   assemblies:
   - mscorlib
   namespace: System
+  summary: To be added.
+  remarks: To be added.
   syntax:
     content: public static uint op_Explicit (decimal value);
     parameters:
     - id: value
       type: System.Decimal
-      description: Parameter description to be filled
+      description: To be added.
     return:
       type: System.UInt32
-      description: Return description to be filled
+      description: To be added.
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Decimal.op_Explicit(System.Decimal to System.UInt64)
   id: op_Explicit(System.Decimal to System.UInt64)
   parent: System.Decimal
   langs:
   - csharp
-  - vb
   name: op_Explicit(Decimal)
   nameWithType: Decimal.op_Explicit(Decimal)
   fullName: System.Decimal.op_Explicit(Decimal)
@@ -1067,21 +1333,26 @@ items:
   assemblies:
   - mscorlib
   namespace: System
+  summary: To be added.
+  remarks: To be added.
   syntax:
     content: public static ulong op_Explicit (decimal value);
     parameters:
     - id: value
       type: System.Decimal
-      description: Parameter description to be filled
+      description: To be added.
     return:
       type: System.UInt64
-      description: Return description to be filled
+      description: To be added.
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Decimal.op_Explicit(System.Double to System.Decimal)
   id: op_Explicit(System.Double to System.Decimal)
   parent: System.Decimal
   langs:
   - csharp
-  - vb
   name: op_Explicit(Double)
   nameWithType: Decimal.op_Explicit(Double)
   fullName: System.Decimal.op_Explicit(Double)
@@ -1089,21 +1360,26 @@ items:
   assemblies:
   - mscorlib
   namespace: System
+  summary: To be added.
+  remarks: To be added.
   syntax:
     content: public static decimal op_Explicit (double value);
     parameters:
     - id: value
       type: System.Double
-      description: Parameter description to be filled
+      description: To be added.
     return:
       type: System.Decimal
-      description: Return description to be filled
+      description: To be added.
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Decimal.op_Explicit(System.Single to System.Decimal)
   id: op_Explicit(System.Single to System.Decimal)
   parent: System.Decimal
   langs:
   - csharp
-  - vb
   name: op_Explicit(Single)
   nameWithType: Decimal.op_Explicit(Single)
   fullName: System.Decimal.op_Explicit(Single)
@@ -1111,21 +1387,26 @@ items:
   assemblies:
   - mscorlib
   namespace: System
+  summary: To be added.
+  remarks: To be added.
   syntax:
     content: public static decimal op_Explicit (float value);
     parameters:
     - id: value
       type: System.Single
-      description: Parameter description to be filled
+      description: To be added.
     return:
       type: System.Decimal
-      description: Return description to be filled
+      description: To be added.
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Decimal.op_GreaterThan(System.Decimal,System.Decimal)
   id: op_GreaterThan(System.Decimal,System.Decimal)
   parent: System.Decimal
   langs:
   - csharp
-  - vb
   name: op_GreaterThan(Decimal,Decimal)
   nameWithType: Decimal.op_GreaterThan(Decimal,Decimal)
   fullName: System.Decimal.op_GreaterThan(Decimal,Decimal)
@@ -1133,24 +1414,29 @@ items:
   assemblies:
   - mscorlib
   namespace: System
+  summary: Returns a value indicating whether a specified <see cref="T:System.Decimal"> is greater than another specified <see cref="T:System.Decimal">.
+  remarks: "The GreaterThan method defines the operation of the greater than operator for <xref:System.Decimal> values. It enables code such as the following:  \n  \n [!CODE [System.Decimal.Operators#8](../CodeSnippet/VS_Snippets_CLR_System/system.decimal.operators#8)]  \n  \n Languages that do not support custom operators can call the <xref:System.Decimal.Compare%2A> method instead. They may also be able to call the GreaterThan method directly, as the following example shows.  \n  \n [!CODE [System.Decimal.Operators#9](../CodeSnippet/VS_Snippets_CLR_System/system.decimal.operators#9)]"
   syntax:
     content: public static bool op_GreaterThan (decimal d1, decimal d2);
     parameters:
     - id: d1
       type: System.Decimal
-      description: Parameter description to be filled
+      description: The first value to compare.
     - id: d2
       type: System.Decimal
-      description: Parameter description to be filled
+      description: The second value to compare.
     return:
       type: System.Boolean
-      description: Return description to be filled
+      description: '`true` if  is greater than ; otherwise, `false`.'
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Decimal.op_GreaterThanOrEqual(System.Decimal,System.Decimal)
   id: op_GreaterThanOrEqual(System.Decimal,System.Decimal)
   parent: System.Decimal
   langs:
   - csharp
-  - vb
   name: op_GreaterThanOrEqual(Decimal,Decimal)
   nameWithType: Decimal.op_GreaterThanOrEqual(Decimal,Decimal)
   fullName: System.Decimal.op_GreaterThanOrEqual(Decimal,Decimal)
@@ -1158,24 +1444,29 @@ items:
   assemblies:
   - mscorlib
   namespace: System
+  summary: Returns a value indicating whether a specified <see cref="T:System.Decimal"> is greater than or equal to another specified <see cref="T:System.Decimal">.
+  remarks: "The GreaterThanOrEqual method defines the operation of the greater than or equal operator for <xref:System.Decimal> values. It enables code such as the following:  \n  \n [!CODE [System.Decimal.Operators#10](../CodeSnippet/VS_Snippets_CLR_System/system.decimal.operators#10)]  \n  \n Languages that do not support custom operators can call the <xref:System.Decimal.Compare%2A> method instead. They may also be able to call the GreaterThanOrEqual method directly, as the following example shows.  \n  \n [!CODE [System.Decimal.Operators#11](../CodeSnippet/VS_Snippets_CLR_System/system.decimal.operators#11)]"
   syntax:
     content: public static bool op_GreaterThanOrEqual (decimal d1, decimal d2);
     parameters:
     - id: d1
       type: System.Decimal
-      description: Parameter description to be filled
+      description: The first value to compare.
     - id: d2
       type: System.Decimal
-      description: Parameter description to be filled
+      description: The second value to compare.
     return:
       type: System.Boolean
-      description: Return description to be filled
+      description: '`true` if  is greater than or equal to ; otherwise, `false`.'
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Decimal.op_Implicit(System.Byte)
   id: op_Implicit(System.Byte)
   parent: System.Decimal
   langs:
   - csharp
-  - vb
   name: op_Implicit(Byte)
   nameWithType: Decimal.op_Implicit(Byte)
   fullName: System.Decimal.op_Implicit(Byte)
@@ -1183,21 +1474,26 @@ items:
   assemblies:
   - mscorlib
   namespace: System
+  summary: To be added.
+  remarks: To be added.
   syntax:
     content: public static decimal op_Implicit (byte value);
     parameters:
     - id: value
       type: System.Byte
-      description: Parameter description to be filled
+      description: To be added.
     return:
       type: System.Decimal
-      description: Return description to be filled
+      description: To be added.
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Decimal.op_Implicit(System.Char)
   id: op_Implicit(System.Char)
   parent: System.Decimal
   langs:
   - csharp
-  - vb
   name: op_Implicit(Char)
   nameWithType: Decimal.op_Implicit(Char)
   fullName: System.Decimal.op_Implicit(Char)
@@ -1205,21 +1501,26 @@ items:
   assemblies:
   - mscorlib
   namespace: System
+  summary: To be added.
+  remarks: To be added.
   syntax:
     content: public static decimal op_Implicit (char value);
     parameters:
     - id: value
       type: System.Char
-      description: Parameter description to be filled
+      description: To be added.
     return:
       type: System.Decimal
-      description: Return description to be filled
+      description: To be added.
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Decimal.op_Implicit(System.Int16)
   id: op_Implicit(System.Int16)
   parent: System.Decimal
   langs:
   - csharp
-  - vb
   name: op_Implicit(Int16)
   nameWithType: Decimal.op_Implicit(Int16)
   fullName: System.Decimal.op_Implicit(Int16)
@@ -1227,21 +1528,26 @@ items:
   assemblies:
   - mscorlib
   namespace: System
+  summary: To be added.
+  remarks: To be added.
   syntax:
     content: public static decimal op_Implicit (short value);
     parameters:
     - id: value
       type: System.Int16
-      description: Parameter description to be filled
+      description: To be added.
     return:
       type: System.Decimal
-      description: Return description to be filled
+      description: To be added.
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Decimal.op_Implicit(System.Int32)
   id: op_Implicit(System.Int32)
   parent: System.Decimal
   langs:
   - csharp
-  - vb
   name: op_Implicit(Int32)
   nameWithType: Decimal.op_Implicit(Int32)
   fullName: System.Decimal.op_Implicit(Int32)
@@ -1249,21 +1555,26 @@ items:
   assemblies:
   - mscorlib
   namespace: System
+  summary: To be added.
+  remarks: To be added.
   syntax:
     content: public static decimal op_Implicit (int value);
     parameters:
     - id: value
       type: System.Int32
-      description: Parameter description to be filled
+      description: To be added.
     return:
       type: System.Decimal
-      description: Return description to be filled
+      description: To be added.
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Decimal.op_Implicit(System.Int64)
   id: op_Implicit(System.Int64)
   parent: System.Decimal
   langs:
   - csharp
-  - vb
   name: op_Implicit(Int64)
   nameWithType: Decimal.op_Implicit(Int64)
   fullName: System.Decimal.op_Implicit(Int64)
@@ -1271,21 +1582,26 @@ items:
   assemblies:
   - mscorlib
   namespace: System
+  summary: To be added.
+  remarks: To be added.
   syntax:
     content: public static decimal op_Implicit (long value);
     parameters:
     - id: value
       type: System.Int64
-      description: Parameter description to be filled
+      description: To be added.
     return:
       type: System.Decimal
-      description: Return description to be filled
+      description: To be added.
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Decimal.op_Implicit(System.SByte)
   id: op_Implicit(System.SByte)
   parent: System.Decimal
   langs:
   - csharp
-  - vb
   name: op_Implicit(SByte)
   nameWithType: Decimal.op_Implicit(SByte)
   fullName: System.Decimal.op_Implicit(SByte)
@@ -1293,21 +1609,26 @@ items:
   assemblies:
   - mscorlib
   namespace: System
+  summary: To be added.
+  remarks: To be added.
   syntax:
     content: public static decimal op_Implicit (sbyte value);
     parameters:
     - id: value
       type: System.SByte
-      description: Parameter description to be filled
+      description: To be added.
     return:
       type: System.Decimal
-      description: Return description to be filled
+      description: To be added.
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Decimal.op_Implicit(System.UInt16)
   id: op_Implicit(System.UInt16)
   parent: System.Decimal
   langs:
   - csharp
-  - vb
   name: op_Implicit(UInt16)
   nameWithType: Decimal.op_Implicit(UInt16)
   fullName: System.Decimal.op_Implicit(UInt16)
@@ -1315,21 +1636,26 @@ items:
   assemblies:
   - mscorlib
   namespace: System
+  summary: To be added.
+  remarks: To be added.
   syntax:
     content: public static decimal op_Implicit (ushort value);
     parameters:
     - id: value
       type: System.UInt16
-      description: Parameter description to be filled
+      description: To be added.
     return:
       type: System.Decimal
-      description: Return description to be filled
+      description: To be added.
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Decimal.op_Implicit(System.UInt32)
   id: op_Implicit(System.UInt32)
   parent: System.Decimal
   langs:
   - csharp
-  - vb
   name: op_Implicit(UInt32)
   nameWithType: Decimal.op_Implicit(UInt32)
   fullName: System.Decimal.op_Implicit(UInt32)
@@ -1337,21 +1663,26 @@ items:
   assemblies:
   - mscorlib
   namespace: System
+  summary: To be added.
+  remarks: To be added.
   syntax:
     content: public static decimal op_Implicit (uint value);
     parameters:
     - id: value
       type: System.UInt32
-      description: Parameter description to be filled
+      description: To be added.
     return:
       type: System.Decimal
-      description: Return description to be filled
+      description: To be added.
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Decimal.op_Implicit(System.UInt64)
   id: op_Implicit(System.UInt64)
   parent: System.Decimal
   langs:
   - csharp
-  - vb
   name: op_Implicit(UInt64)
   nameWithType: Decimal.op_Implicit(UInt64)
   fullName: System.Decimal.op_Implicit(UInt64)
@@ -1359,21 +1690,26 @@ items:
   assemblies:
   - mscorlib
   namespace: System
+  summary: To be added.
+  remarks: To be added.
   syntax:
     content: public static decimal op_Implicit (ulong value);
     parameters:
     - id: value
       type: System.UInt64
-      description: Parameter description to be filled
+      description: To be added.
     return:
       type: System.Decimal
-      description: Return description to be filled
+      description: To be added.
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Decimal.op_Increment(System.Decimal)
   id: op_Increment(System.Decimal)
   parent: System.Decimal
   langs:
   - csharp
-  - vb
   name: op_Increment(Decimal)
   nameWithType: Decimal.op_Increment(Decimal)
   fullName: System.Decimal.op_Increment(Decimal)
@@ -1381,21 +1717,26 @@ items:
   assemblies:
   - mscorlib
   namespace: System
+  summary: Increments the <see cref="T:System.Decimal"> operand by 1.
+  remarks: "The Increment method defines the operation of the increment operator for <xref:System.Decimal> values. It enables code such as the following:  \n  \n [!CODE [System.Decimal.Operators#12](../CodeSnippet/VS_Snippets_CLR_System/system.decimal.operators#12)]  \n  \n Some languages (such as Visual Basic) that lack an increment operator can call the Increment method directly, as the following example shows.  \n  \n [!CODE [System.Decimal.Operators#13](../CodeSnippet/VS_Snippets_CLR_System/system.decimal.operators#13)]  \n  \n If your language does not support custom operators, call the <xref:System.Decimal.Add%2A> method instead, as the following example shows.  \n  \n [!CODE [System.Decimal.Operators#14](../CodeSnippet/VS_Snippets_CLR_System/system.decimal.operators#14)]"
   syntax:
     content: public static decimal op_Increment (decimal d);
     parameters:
     - id: d
       type: System.Decimal
-      description: Parameter description to be filled
+      description: The value to increment.
     return:
       type: System.Decimal
-      description: Return description to be filled
+      description: The value of  incremented by 1.
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Decimal.op_Inequality(System.Decimal,System.Decimal)
   id: op_Inequality(System.Decimal,System.Decimal)
   parent: System.Decimal
   langs:
   - csharp
-  - vb
   name: op_Inequality(Decimal,Decimal)
   nameWithType: Decimal.op_Inequality(Decimal,Decimal)
   fullName: System.Decimal.op_Inequality(Decimal,Decimal)
@@ -1403,24 +1744,29 @@ items:
   assemblies:
   - mscorlib
   namespace: System
+  summary: Returns a value that indicates whether two <see cref="T:System.Decimal"> objects have different values.
+  remarks: "The Inequality method defines the operation of the inequality operator for <xref:System.Decimal> values. It enables code such as the following:  \n  \n [!CODE [System.Decimal.Operators#2](../CodeSnippet/VS_Snippets_CLR_System/system.decimal.operators#2)]  \n  \n If the language you're using doesn't support custom operators, you can test for inequality by using one of the following techniques:  \n  \n-   Calling the <xref:System.Decimal.Compare%2A> method, which indicates the relationship between two <xref:System.Decimal> values.  \n  \n-   Calling the <xref:System.Decimal.Equals%2A> method and reversing its value."
   syntax:
     content: public static bool op_Inequality (decimal d1, decimal d2);
     parameters:
     - id: d1
       type: System.Decimal
-      description: Parameter description to be filled
+      description: The first value to compare.
     - id: d2
       type: System.Decimal
-      description: Parameter description to be filled
+      description: The second value to compare.
     return:
       type: System.Boolean
-      description: Return description to be filled
+      description: '`true` if  and  are not equal; otherwise, `false`.'
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Decimal.op_LessThan(System.Decimal,System.Decimal)
   id: op_LessThan(System.Decimal,System.Decimal)
   parent: System.Decimal
   langs:
   - csharp
-  - vb
   name: op_LessThan(Decimal,Decimal)
   nameWithType: Decimal.op_LessThan(Decimal,Decimal)
   fullName: System.Decimal.op_LessThan(Decimal,Decimal)
@@ -1428,24 +1774,29 @@ items:
   assemblies:
   - mscorlib
   namespace: System
+  summary: Returns a value indicating whether a specified <see cref="T:System.Decimal"> is less than another specified <see cref="T:System.Decimal">.
+  remarks: "The LessThan method defines the operation of the less than operator for <xref:System.Decimal> values. It enables code such as the following:  \n  \n [!CODE [System.Decimal.Operators#15](../CodeSnippet/VS_Snippets_CLR_System/system.decimal.operators#15)]  \n  \n Languages that do not support custom operators can call the <xref:System.Decimal.Compare%2A> method instead. They may also be able to call the LessThan method directly, as the following example shows.  \n  \n [!CODE [System.Decimal.Operators#16](../CodeSnippet/VS_Snippets_CLR_System/system.decimal.operators#16)]"
   syntax:
     content: public static bool op_LessThan (decimal d1, decimal d2);
     parameters:
     - id: d1
       type: System.Decimal
-      description: Parameter description to be filled
+      description: The first value to compare.
     - id: d2
       type: System.Decimal
-      description: Parameter description to be filled
+      description: The second value to compare.
     return:
       type: System.Boolean
-      description: Return description to be filled
+      description: '`true` if  is less than ; otherwise, `false`.'
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Decimal.op_LessThanOrEqual(System.Decimal,System.Decimal)
   id: op_LessThanOrEqual(System.Decimal,System.Decimal)
   parent: System.Decimal
   langs:
   - csharp
-  - vb
   name: op_LessThanOrEqual(Decimal,Decimal)
   nameWithType: Decimal.op_LessThanOrEqual(Decimal,Decimal)
   fullName: System.Decimal.op_LessThanOrEqual(Decimal,Decimal)
@@ -1453,24 +1804,29 @@ items:
   assemblies:
   - mscorlib
   namespace: System
+  summary: Returns a value indicating whether a specified <see cref="T:System.Decimal"> is less than or equal to another specified <see cref="T:System.Decimal">.
+  remarks: "The LessThanOrEqual method defines the operation of the less than or equal operator for <xref:System.Decimal> values. It enables code such as the following:  \n  \n [!CODE [System.Decimal.Operators#17](../CodeSnippet/VS_Snippets_CLR_System/system.decimal.operators#17)]  \n  \n Languages that do not support custom operators can call the <xref:System.Decimal.Compare%2A> method instead. They may also be able to call the LessThanOrEqual method directly, as the following example shows.  \n  \n [!CODE [System.Decimal.Operators#18](../CodeSnippet/VS_Snippets_CLR_System/system.decimal.operators#18)]"
   syntax:
     content: public static bool op_LessThanOrEqual (decimal d1, decimal d2);
     parameters:
     - id: d1
       type: System.Decimal
-      description: Parameter description to be filled
+      description: The first value to compare.
     - id: d2
       type: System.Decimal
-      description: Parameter description to be filled
+      description: The second value to compare.
     return:
       type: System.Boolean
-      description: Return description to be filled
+      description: '`true` if  is less than or equal to ; otherwise, `false`.'
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Decimal.op_Modulus(System.Decimal,System.Decimal)
   id: op_Modulus(System.Decimal,System.Decimal)
   parent: System.Decimal
   langs:
   - csharp
-  - vb
   name: op_Modulus(Decimal,Decimal)
   nameWithType: Decimal.op_Modulus(Decimal,Decimal)
   fullName: System.Decimal.op_Modulus(Decimal,Decimal)
@@ -1478,24 +1834,29 @@ items:
   assemblies:
   - mscorlib
   namespace: System
+  summary: Returns the remainder resulting from dividing two specified <see cref="T:System.Decimal"> values.
+  remarks: "The Modulus method defines the operation of the modulus operator for <xref:System.Decimal> values. It enables code such as the following:  \n  \n [!CODE [System.Decimal.Operators#19](../CodeSnippet/VS_Snippets_CLR_System/system.decimal.operators#19)]  \n  \n If the language you're using doesn't support custom operators, call the <xref:System.Decimal.Remainder%2A> method instead.  \n  \n The sign of the value return by the modulus operation depends on the sign of dividend. If dividend is positive, the modulus operation returns a positive result; if it is negative, the modulus operation returns a negative result."
   syntax:
     content: public static decimal op_Modulus (decimal d1, decimal d2);
     parameters:
     - id: d1
       type: System.Decimal
-      description: Parameter description to be filled
+      description: The dividend.
     - id: d2
       type: System.Decimal
-      description: Parameter description to be filled
+      description: The divisor.
     return:
       type: System.Decimal
-      description: Return description to be filled
+      description: The remainder resulting from dividing  by .
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Decimal.op_Multiply(System.Decimal,System.Decimal)
   id: op_Multiply(System.Decimal,System.Decimal)
   parent: System.Decimal
   langs:
   - csharp
-  - vb
   name: op_Multiply(Decimal,Decimal)
   nameWithType: Decimal.op_Multiply(Decimal,Decimal)
   fullName: System.Decimal.op_Multiply(Decimal,Decimal)
@@ -1503,24 +1864,29 @@ items:
   assemblies:
   - mscorlib
   namespace: System
+  summary: Multiplies two specified <see cref="T:System.Decimal"> values.
+  remarks: "The Multiply method defines the operation of the multiplication operator for <xref:System.Decimal> values. It enables code such as the following:  \n  \n [!CODE [System.Decimal.Operators#20](../CodeSnippet/VS_Snippets_CLR_System/system.decimal.operators#20)]  \n  \n If the language you're using doesn't support custom operators, call the <xref:System.Decimal.Multiply%2A> method instead."
   syntax:
     content: public static decimal op_Multiply (decimal d1, decimal d2);
     parameters:
     - id: d1
       type: System.Decimal
-      description: Parameter description to be filled
+      description: The first value to multiply.
     - id: d2
       type: System.Decimal
-      description: Parameter description to be filled
+      description: The second value to multiply.
     return:
       type: System.Decimal
-      description: Return description to be filled
+      description: The result of multiplying  by .
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Decimal.op_Subtraction(System.Decimal,System.Decimal)
   id: op_Subtraction(System.Decimal,System.Decimal)
   parent: System.Decimal
   langs:
   - csharp
-  - vb
   name: op_Subtraction(Decimal,Decimal)
   nameWithType: Decimal.op_Subtraction(Decimal,Decimal)
   fullName: System.Decimal.op_Subtraction(Decimal,Decimal)
@@ -1528,24 +1894,29 @@ items:
   assemblies:
   - mscorlib
   namespace: System
+  summary: Subtracts two specified <see cref="T:System.Decimal"> values.
+  remarks: "The Subtraction method defines the operation of the subtraction operator for <xref:System.Decimal> values. It enables code such as the following:  \n  \n [!CODE [System.Decimal.Operators#21](../CodeSnippet/VS_Snippets_CLR_System/system.decimal.operators#21)]  \n  \n If the language you're using doesn't support custom operators, call the <xref:System.Decimal.Subtract%2A> method instead."
   syntax:
     content: public static decimal op_Subtraction (decimal d1, decimal d2);
     parameters:
     - id: d1
       type: System.Decimal
-      description: Parameter description to be filled
+      description: The minuend.
     - id: d2
       type: System.Decimal
-      description: Parameter description to be filled
+      description: The subtrahend.
     return:
       type: System.Decimal
-      description: Return description to be filled
+      description: The result of subtracting  from .
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Decimal.op_UnaryNegation(System.Decimal)
   id: op_UnaryNegation(System.Decimal)
   parent: System.Decimal
   langs:
   - csharp
-  - vb
   name: op_UnaryNegation(Decimal)
   nameWithType: Decimal.op_UnaryNegation(Decimal)
   fullName: System.Decimal.op_UnaryNegation(Decimal)
@@ -1553,21 +1924,26 @@ items:
   assemblies:
   - mscorlib
   namespace: System
+  summary: Negates the value of the specified <see cref="T:System.Decimal"> operand.
+  remarks: The <xref:System.Decimal.op_UnaryPlus%2A> method defines the operation of the unary negation operator (or the additive inverse operator) for <xref:System.Decimal> values. The operation produces a value that results in 0 (zero) when it is added to the original number. Languages that do not support custom operators can call the <xref:System.Decimal.Negate%2A> method instead.
   syntax:
     content: public static decimal op_UnaryNegation (decimal d);
     parameters:
     - id: d
       type: System.Decimal
-      description: Parameter description to be filled
+      description: The value to negate.
     return:
       type: System.Decimal
-      description: Return description to be filled
+      description: The result of  multiplied by negative one (-1).
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Decimal.op_UnaryPlus(System.Decimal)
   id: op_UnaryPlus(System.Decimal)
   parent: System.Decimal
   langs:
   - csharp
-  - vb
   name: op_UnaryPlus(Decimal)
   nameWithType: Decimal.op_UnaryPlus(Decimal)
   fullName: System.Decimal.op_UnaryPlus(Decimal)
@@ -1575,21 +1951,26 @@ items:
   assemblies:
   - mscorlib
   namespace: System
+  summary: Returns the value of the <see cref="T:System.Decimal"> operand (the sign of the operand is unchanged).
+  remarks: The UnaryPlus method defines the operation of the unary positive operator for <xref:System.Decimal> values.
   syntax:
     content: public static decimal op_UnaryPlus (decimal d);
     parameters:
     - id: d
       type: System.Decimal
-      description: Parameter description to be filled
+      description: The operand to return.
     return:
       type: System.Decimal
-      description: Return description to be filled
+      description: The value of the operand, .
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Decimal.Parse(System.String)
   id: Parse(System.String)
   parent: System.Decimal
   langs:
   - csharp
-  - vb
   name: Parse(String)
   nameWithType: Decimal.Parse(String)
   fullName: System.Decimal.Parse(String)
@@ -1597,22 +1978,29 @@ items:
   assemblies:
   - mscorlib
   namespace: System
+  summary: Converts the string representation of a number to its <see cref="T:System.Decimal"> equivalent.
+  remarks: "Parameter  contains a number of the form:  \n  \n [ws][sign][digits,]digits[.fractional-digits][ws]  \n  \n Elements in square brackets ([ and ]) are optional. The following table describes each element.  \n  \n|Element|Description|  \n|-------------|-----------------|  \n|*ws*|Optional white space.|  \n|*sign*|An optional sign.|  \n|*digits*|A sequence of digits ranging from 0 to 9.|  \n|*,*|A culture-specific thousands separator symbol.|  \n|*.*|A culture-specific decimal point symbol.|  \n|*fractional-digits*|A sequence of digits ranging from 0 to 9.|  \n  \n Parameter  is interpreted using the <xref:System.Globalization.NumberStyles?displayProperty=fullName> style. This means that white space and thousands separators are allowed but currency symbols are not. To explicitly define the elements (such as currency symbols, thousands separators, and white space) that can be present in , use either the <xref:System.Decimal.Parse%28System.String%2CSystem.Globalization.NumberStyles%29?displayProperty=fullName> or the <xref:System.Decimal.Parse%28System.String%2CSystem.Globalization.NumberStyles%2CSystem.IFormatProvider%29?displayProperty=fullName> method.  \n  \n Parameter  is parsed using the formatting information in a <xref:System.Globalization.NumberFormatInfo> initialized for the current system culture. For more information, see <xref:System.Globalization.NumberFormatInfo.CurrentInfo%2A>. To parse a string using the formatting information of some other culture, use the <xref:System.Decimal.Parse%28System.String%2CSystem.IFormatProvider%29?displayProperty=fullName> or <xref:System.Decimal.Parse%28System.String%2CSystem.Globalization.NumberStyles%2CSystem.IFormatProvider%29?displayProperty=fullName> method.  \n  \n If necessary, the value of  is rounded using rounding to nearest.  \n  \n A <xref:System.Decimal> has 29 digits of precision. If  represents a number that has more than 29 digits, but has a fractional part and is within the range of <xref:System.Decimal.MaxValue> and <xref:System.Decimal.MinValue>, the number is rounded, not truncated, to 29 digits using rounding to nearest.  \n  \n If during a parse operation a separator is encountered in the  parameter, and the applicable currency or number decimal and group separators are the same, the parse operation assumes that the separator is a decimal separator rather than a group separator. For more information about separators, see <xref:System.Globalization.NumberFormatInfo.CurrencyDecimalSeparator%2A>, <xref:System.Globalization.NumberFormatInfo.NumberDecimalSeparator%2A>, <xref:System.Globalization.NumberFormatInfo.CurrencyGroupSeparator%2A>, and <xref:System.Globalization.NumberFormatInfo.NumberGroupSeparator%2A>."
+  example:
+  - "The following code example uses the Parse method to parse string representations of <xref:System.Decimal> values.  \n  \n [!CODE [System.Decimal.Parse#1](../CodeSnippet/VS_Snippets_CLR_System/system.Decimal.Parse#1)]"
   syntax:
     content: public static decimal Parse (string s);
     parameters:
     - id: s
       type: System.String
-      description: Parameter description to be filled
+      description: The string representation of the number to convert.
     return:
       type: System.Decimal
-      description: Return description to be filled
+      description: The equivalent to the number contained in .
   overload: System.Decimal.Parse*
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Decimal.Parse(System.String,System.Globalization.NumberStyles)
   id: Parse(System.String,System.Globalization.NumberStyles)
   parent: System.Decimal
   langs:
   - csharp
-  - vb
   name: Parse(String,NumberStyles)
   nameWithType: Decimal.Parse(String,NumberStyles)
   fullName: System.Decimal.Parse(String,NumberStyles)
@@ -1620,25 +2008,32 @@ items:
   assemblies:
   - mscorlib
   namespace: System
+  summary: Converts the string representation of a number in a specified style to its <see cref="T:System.Decimal"> equivalent.
+  remarks: "The  parameter defines the style elements (such as thousands separators, white space, and currency symbols) that are allowed in the  parameter for the parse operation to succeed. It must be a combination of bit flags from the <xref:System.Globalization.NumberStyles> enumeration. The following <xref:System.Globalization.NumberStyles> members are not supported:  \n  \n-   <xref:System.Globalization.NumberStyles?displayProperty=fullName>  \n  \n-   <xref:System.Globalization.NumberStyles>  \n  \n Depending on the value of , the  parameter may include the following elements:  \n  \n [ws][$][sign][digits,]digits[.fractional-digits][e[sign]digits][ws]  \n  \n Elements in square brackets ([ and ]) are optional. The following table describes each element.  \n  \n|Element|Description|  \n|-------------|-----------------|  \n|*ws*|Optional white space. White space can appear at the beginning of  if  includes the <xref:System.Globalization.NumberStyles?displayProperty=fullName> flag, and it can appear at the end of  if  includes the <xref:System.Globalization.NumberStyles?displayProperty=fullName> flag.|  \n|*$*|A culture-specific currency symbol. Its position in the string is defined by the <xref:System.Globalization.NumberFormatInfo.CurrencyNegativePattern%2A?displayProperty=fullName> and <xref:System.Globalization.NumberFormatInfo.CurrencyPositivePattern%2A?displayProperty=fullName> properties of the current culture. The current culture's currency symbol can appear in  if  includes the <xref:System.Globalization.NumberStyles?displayProperty=fullName> flag.|  \n|*sign*|An optional sign. The sign can appear at the beginning of  if  includes the <xref:System.Globalization.NumberStyles?displayProperty=fullName> flag, and it can appear at the end of  if  includes the <xref:System.Globalization.NumberStyles?displayProperty=fullName> flag. Parentheses can be used in  to indicate a negative value if  includes the <xref:System.Globalization.NumberStyles?displayProperty=fullName> flag.|  \n|*digits*|A sequence of digits ranging from 0 to 9.|  \n|*,*|A culture-specific thousands separator symbol. The current culture's thousands separator can appear in  if  includes the <xref:System.Globalization.NumberStyles?displayProperty=fullName> flag.|  \n|*.*|A culture-specific decimal point symbol. The current culture's decimal point symbol can appear in  if  includes the <xref:System.Globalization.NumberStyles?displayProperty=fullName> flag.|  \n|*fractional-digits*|A sequence of digits ranging from 0 to 9. Fractional digits can appear in  only if  includes the <xref:System.Globalization.NumberStyles?displayProperty=fullName> flag.|  \n|*e*|The 'e' or 'E' character, which indicates that the value is represented in exponential notation. The  parameter can represent a number in exponential notation if  includes the <xref:System.Globalization.NumberStyles?displayProperty=fullName> flag.|  \n  \n A string with digits only (which corresponds to the <xref:System.Globalization.NumberStyles> style) always parses successfully. The remaining <xref:System.Globalization.NumberStyles> members control elements that may be but are not required to be present in the input string. The following table indicates how individual <xref:System.Globalization.NumberStyles> members affect the elements that may be present in .  \n  \n|NumberStyles value|Elements permitted in s in addition to digits|  \n|------------------------|---------------------------------------------------|  \n|<xref:System.Globalization.NumberStyles>|The *digits* element only.|  \n|<xref:System.Globalization.NumberStyles>|The *.* and *fractional-digits* elements.|  \n|<xref:System.Globalization.NumberStyles>|The  parameter can also use exponential notation. This flag supports values in the form *digits*E*digits*; additional flags are needed to successfully parse strings with elements such as positive or negative signs and decimal point symbols.|  \n|<xref:System.Globalization.NumberStyles>|The *ws* element at the beginning of .|  \n|<xref:System.Globalization.NumberStyles>|The *ws* element at the end of .|  \n|<xref:System.Globalization.NumberStyles>|The *sign* element at the beginning of .|  \n|<xref:System.Globalization.NumberStyles>|The *sign* element at the end of .|  \n|<xref:System.Globalization.NumberStyles>|The *sign* element in the form of parentheses enclosing the numeric value.|  \n|<xref:System.Globalization.NumberStyles>|The *,* element.|  \n|<xref:System.Globalization.NumberStyles>|The *$* element.|  \n|<xref:System.Globalization.NumberStyles>|All. The  parameter cannot represent a hexadecimal number or a number in exponential notation.|  \n|<xref:System.Globalization.NumberStyles>|The *ws* element at the beginning or end of , *sign* at the beginning of , and the *.* symbol. The  parameter can also use exponential notation.|  \n|<xref:System.Globalization.NumberStyles>|The , , *,*, and *.* elements.|  \n|<xref:System.Globalization.NumberStyles>|All styles, except  cannot represent a hexadecimal number.|  \n  \n The  parameter is parsed using the formatting information in a <xref:System.Globalization.NumberFormatInfo> object initialized for the current system culture. For more information, see <xref:System.Globalization.NumberFormatInfo.CurrentInfo%2A>.  \n  \n A <xref:System.Decimal> has 29 digits of precision. If  represents a number that has more than 29 digits, but has a fractional part and is within the range of <xref:System.Decimal.MaxValue> and <xref:System.Decimal.MinValue>, the number is rounded, not truncated, to 29 digits using rounding to nearest.  \n  \n If a separator is encountered in the  parameter during a parse operation,  includes the <xref:System.Globalization.NumberStyles?displayProperty=fullName> and <xref:System.Globalization.NumberStyles?displayProperty=fullName> values, and the applicable currency or number decimal and group separators are the same, the parse operation assumes that the separator is a decimal separator rather than a group separator. For more information about separators, see <xref:System.Globalization.NumberFormatInfo.CurrencyDecimalSeparator%2A>, <xref:System.Globalization.NumberFormatInfo.NumberDecimalSeparator%2A>, <xref:System.Globalization.NumberFormatInfo.CurrencyGroupSeparator%2A>, and <xref:System.Globalization.NumberFormatInfo.NumberGroupSeparator%2A>."
+  example:
+  - "The following code example uses the Parse method to parse the string representations of <xref:System.Decimal> values using the en-US culture.  \n  \n [!CODE [System.Decimal.Parse#2](../CodeSnippet/VS_Snippets_CLR_System/system.Decimal.Parse#2)]"
   syntax:
     content: public static decimal Parse (string s, System.Globalization.NumberStyles style);
     parameters:
     - id: s
       type: System.String
-      description: Parameter description to be filled
+      description: The string representation of the number to convert.
     - id: style
       type: System.Globalization.NumberStyles
-      description: Parameter description to be filled
+      description: A bitwise combination of <see cref="T:System.Globalization.NumberStyles"> values that indicates the style elements that can be present in . A typical value to specify is <see cref="T:System.Globalization.NumberStyles">.
     return:
       type: System.Decimal
-      description: Return description to be filled
+      description: The <see cref="T:System.Decimal"> number equivalent to the number contained in  as specified by .
   overload: System.Decimal.Parse*
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Decimal.Parse(System.String,System.IFormatProvider)
   id: Parse(System.String,System.IFormatProvider)
   parent: System.Decimal
   langs:
   - csharp
-  - vb
   name: Parse(String,IFormatProvider)
   nameWithType: Decimal.Parse(String,IFormatProvider)
   fullName: System.Decimal.Parse(String,IFormatProvider)
@@ -1646,25 +2041,32 @@ items:
   assemblies:
   - mscorlib
   namespace: System
+  summary: Converts the string representation of a number to its <see cref="T:System.Decimal"> equivalent using the specified culture-specific format information.
+  remarks: "This overload of the Parse method is commonly used to convert text that can be formatted in a variety of ways to a <xref:System.Decimal> value. For example, it can be used to convert the text entered by a user into an HTML text box to a numeric value.  \n  \n The  parameter contains a number of the form:  \n  \n [ws][sign][digits,]digits[.fractional-digits][ws]  \n  \n Elements in square brackets ([ and ]) are optional. The following table describes each element.  \n  \n|Element|Description|  \n|-------------|-----------------|  \n|*ws*|Optional white space.|  \n|*sign*|An optional sign.|  \n|*digits*|A sequence of digits ranging from 0 to 9.|  \n|*,*|A culture-specific thousands separator symbol.|  \n|*.*|A culture-specific decimal point symbol.|  \n|*fractional-digits*|A sequence of digits ranging from 0 to 9.|  \n  \n The  parameter is interpreted using the <xref:System.Globalization.NumberStyles?displayProperty=fullName> style. This means that white space and thousands separators are allowed but currency symbols are not. To explicitly define the elements (such as currency symbols, thousands separators, and white space) that can be present in , use the <xref:System.Decimal.Parse%28System.String%2CSystem.Globalization.NumberStyles%2CSystem.IFormatProvider%29?displayProperty=fullName> method.  \n  \n The  parameter is an <xref:System.IFormatProvider> implementation, such as a <xref:System.Globalization.NumberFormatInfo> or <xref:System.Globalization.CultureInfo> object. The  parameter supplies culture-specific information used in parsing. If  is `null`, the thread current culture is used.  \n  \n A <xref:System.Decimal> object has 29 digits of precision. If  represents a number that has more than 29 digits, but has a fractional part and is within the range of <xref:System.Decimal.MaxValue> and <xref:System.Decimal.MinValue>, the number is rounded, not truncated, to 29 digits using rounding to nearest.  \n  \n If a separator is encountered in the  parameter during a parse operation, and the applicable currency or number decimal and group separators are the same, the parse operation assumes that the separator is a decimal separator rather than a group separator. For more information about separators, see <xref:System.Globalization.NumberFormatInfo.CurrencyDecimalSeparator%2A>, <xref:System.Globalization.NumberFormatInfo.NumberDecimalSeparator%2A>, <xref:System.Globalization.NumberFormatInfo.CurrencyGroupSeparator%2A>, and <xref:System.Globalization.NumberFormatInfo.NumberGroupSeparator%2A>."
+  example:
+  - "The following example is the button click event handler of a Web form. It uses the array returned by the <xref:System.Web.HttpRequest.UserLanguages%2A?displayProperty=fullName> property to determine the user's locale. It then instantiates a <xref:System.Globalization.CultureInfo> object that corresponds to that locale. The <xref:System.Globalization.NumberFormatInfo> object that belongs to that <xref:System.Globalization.CultureInfo> object is then passed to the Parse method to convert the user's input to a <xref:System.Decimal> value.  \n  \n [!code-cs[ParseMethod#3](../../add/codesnippet/CSharp/parsemethod/Default.aspx.cs#3)]\n [!code-vb[ParseMethod#3](../../add/codesnippet/VisualBasic/parsemethod/Default.aspx.vb#3)]"
   syntax:
     content: public static decimal Parse (string s, IFormatProvider provider);
     parameters:
     - id: s
       type: System.String
-      description: Parameter description to be filled
+      description: The string representation of the number to convert.
     - id: provider
       type: System.IFormatProvider
-      description: Parameter description to be filled
+      description: An <see cref="T:System.IFormatProvider"> that supplies culture-specific parsing information about .
     return:
       type: System.Decimal
-      description: Return description to be filled
+      description: The <see cref="T:System.Decimal"> number equivalent to the number contained in  as specified by .
   overload: System.Decimal.Parse*
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Decimal.Parse(System.String,System.Globalization.NumberStyles,System.IFormatProvider)
   id: Parse(System.String,System.Globalization.NumberStyles,System.IFormatProvider)
   parent: System.Decimal
   langs:
   - csharp
-  - vb
   name: Parse(String,NumberStyles,IFormatProvider)
   nameWithType: Decimal.Parse(String,NumberStyles,IFormatProvider)
   fullName: System.Decimal.Parse(String,NumberStyles,IFormatProvider)
@@ -1672,28 +2074,35 @@ items:
   assemblies:
   - mscorlib
   namespace: System
+  summary: Converts the string representation of a number to its <see cref="T:System.Decimal"> equivalent using the specified style and culture-specific format.
+  remarks: "The  parameter defines the allowable format of the  parameter for the parse operation to succeed. It must be a combination of bit flags from the <xref:System.Globalization.NumberStyles> enumeration. The following <xref:System.Globalization.NumberStyles> members are not supported:  \n  \n-   <xref:System.Globalization.NumberStyles?displayProperty=fullName>  \n  \n-   <xref:System.Globalization.NumberStyles>  \n  \n Depending on the value of , the  parameter may include the following elements:  \n  \n [ws][$][sign][digits,]digits[.fractional-digits][e[sign]digits][ws]  \n  \n Elements in square brackets ([ and ]) are optional. The following table describes each element.  \n  \n|Element|Description|  \n|-------------|-----------------|  \n|*$*|A culture-specific currency symbol. Its position in the string is defined by the <xref:System.Globalization.NumberFormatInfo.CurrencyNegativePattern%2A> and <xref:System.Globalization.NumberFormatInfo.CurrencyPositivePattern%2A> properties of the <xref:System.Globalization.NumberFormatInfo> object returned by the <xref:System.IFormatProvider.GetFormat%2A> method of the  parameter. The currency symbol can appear in  if  includes the <xref:System.Globalization.NumberStyles?displayProperty=fullName> flag.|  \n|*ws*|Optional white space. White space can appear at the beginning of  if  includes the <xref:System.Globalization.NumberStyles?displayProperty=fullName> flag, and it can appear at the end of  if  includes the <xref:System.Globalization.NumberStyles?displayProperty=fullName> flag.|  \n|*sign*|An optional sign. The sign can appear at the beginning of  if  includes the <xref:System.Globalization.NumberStyles?displayProperty=fullName> flag, and it can appear at the end of  if  includes the <xref:System.Globalization.NumberStyles?displayProperty=fullName> flag. Parentheses can be used in  to indicate a negative value if  includes the <xref:System.Globalization.NumberStyles?displayProperty=fullName> flag.|  \n|*digits*|A sequence of digits ranging from 0 to 9.|  \n|*,*|A culture-specific thousands separator symbol. The thousands separator of the culture defined by  can appear in  if  includes the <xref:System.Globalization.NumberStyles?displayProperty=fullName> flag.|  \n|*.*|A culture-specific decimal point symbol. The decimal point symbol of the culture defined by  can appear in  if  includes the <xref:System.Globalization.NumberStyles?displayProperty=fullName> flag.|  \n|*fractional-digits*|A sequence of digits ranging from 0 to 9. Fractional digits can appear in  only if  includes the <xref:System.Globalization.NumberStyles?displayProperty=fullName> flag.|  \n|*e*|The 'e' or 'E' character, which indicates that the value is represented in exponential notation. The  parameter can represent a number in exponential notation if  includes the <xref:System.Globalization.NumberStyles?displayProperty=fullName> flag.|  \n  \n A string with digits only (which corresponds to the <xref:System.Globalization.NumberStyles> style) always parses successfully. The remaining <xref:System.Globalization.NumberStyles> members control elements that may be but are not required to be present in the input string. The following table indicates how individual <xref:System.Globalization.NumberStyles> members affect the elements that may be present in .  \n  \n|NumberStyles value|Elements permitted in s in addition to digits|  \n|------------------------|---------------------------------------------------|  \n|<xref:System.Globalization.NumberStyles>|The *digits* element only.|  \n|<xref:System.Globalization.NumberStyles>|The *.* and *fractional-digits* elements.|  \n|<xref:System.Globalization.NumberStyles>|The  parameter can also use exponential notation.  This flag supports values in the form *digits*E*digits*; additional flags are needed to successfully parse strings with elements such as positive or negative signs and decimal point symbols.|  \n|<xref:System.Globalization.NumberStyles>|The *ws* element at the beginning of .|  \n|<xref:System.Globalization.NumberStyles>|The *ws* element at the end of .|  \n|<xref:System.Globalization.NumberStyles>|The *sign* element at the beginning of .|  \n|<xref:System.Globalization.NumberStyles>|The *sign* element at the end of .|  \n|<xref:System.Globalization.NumberStyles>|The *sign* element in the form of parentheses enclosing the numeric value.|  \n|<xref:System.Globalization.NumberStyles>|The *,* element.|  \n|<xref:System.Globalization.NumberStyles>|The *$* element.|  \n|<xref:System.Globalization.NumberStyles>|All. The  parameter cannot represent a hexadecimal number or a number in exponential notation.|  \n|<xref:System.Globalization.NumberStyles>|The *ws* element at the beginning or end of , *sign* at the beginning of , and the *.*symbol. The  parameter can also use exponential notation.|  \n|<xref:System.Globalization.NumberStyles>|The , , *,*, and *.* elements.|  \n|<xref:System.Globalization.NumberStyles>|All styles, except  cannot represent a hexadecimal number.|  \n  \n The  parameter is an <xref:System.IFormatProvider> implementation, such as a <xref:System.Globalization.NumberFormatInfo> or <xref:System.Globalization.CultureInfo> object. The  parameter supplies culture-specific information used in parsing. If  is `null`, the thread current culture is used.  \n  \n A <xref:System.Decimal> object has 29 digits of precision. If  represents a number that has more than 29 digits, but has a fractional part and is within the range of <xref:System.Decimal.MaxValue> and <xref:System.Decimal.MinValue>, the number is rounded, not truncated, to 29 digits using rounding to nearest.  \n  \n If a separator is encountered in the  parameter during a parse operation, and the applicable currency or number decimal and group separators are the same, the parse operation assumes that the separator is a decimal separator rather than a group separator. For more information about separators, see <xref:System.Globalization.NumberFormatInfo.CurrencyDecimalSeparator%2A>, <xref:System.Globalization.NumberFormatInfo.NumberDecimalSeparator%2A>, <xref:System.Globalization.NumberFormatInfo.CurrencyGroupSeparator%2A>, and <xref:System.Globalization.NumberFormatInfo.NumberGroupSeparator%2A>."
+  example:
+  - "The following example uses a variety of  and  parameters to parse the string representations of <xref:System.Decimal> values.  \n  \n [!CODE [System.Decimal.Parse#3](../CodeSnippet/VS_Snippets_CLR_System/system.Decimal.Parse#3)]"
   syntax:
     content: public static decimal Parse (string s, System.Globalization.NumberStyles style, IFormatProvider provider);
     parameters:
     - id: s
       type: System.String
-      description: Parameter description to be filled
+      description: The string representation of the number to convert.
     - id: style
       type: System.Globalization.NumberStyles
-      description: Parameter description to be filled
+      description: A bitwise combination of <see cref="T:System.Globalization.NumberStyles"> values that indicates the style elements that can be present in . A typical value to specify is <see cref="T:System.Globalization.NumberStyles">.
     - id: provider
       type: System.IFormatProvider
-      description: Parameter description to be filled
+      description: An <see cref="T:System.IFormatProvider"> object that supplies culture-specific information about the format of .
     return:
       type: System.Decimal
-      description: Return description to be filled
+      description: The <see cref="T:System.Decimal"> number equivalent to the number contained in  as specified by  and .
   overload: System.Decimal.Parse*
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Decimal.Remainder(System.Decimal,System.Decimal)
   id: Remainder(System.Decimal,System.Decimal)
   parent: System.Decimal
   langs:
   - csharp
-  - vb
   name: Remainder(Decimal,Decimal)
   nameWithType: Decimal.Remainder(Decimal,Decimal)
   fullName: System.Decimal.Remainder(Decimal,Decimal)
@@ -1701,24 +2110,31 @@ items:
   assemblies:
   - mscorlib
   namespace: System
+  summary: Computes the remainder after dividing two <see cref="T:System.Decimal"> values.
+  remarks: ''
+  example:
+  - "The following example uses the Remainder method to calculate the remainder in a series of division operations.  \n  \n [!CODE [System.Decimal.Remainder#1](../CodeSnippet/VS_Snippets_CLR_System/system.decimal.remainder#1)]"
   syntax:
     content: public static decimal Remainder (decimal d1, decimal d2);
     parameters:
     - id: d1
       type: System.Decimal
-      description: Parameter description to be filled
+      description: The dividend.
     - id: d2
       type: System.Decimal
-      description: Parameter description to be filled
+      description: The divisor.
     return:
       type: System.Decimal
-      description: Return description to be filled
+      description: The remainder after dividing  by .
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Decimal.Round(System.Decimal)
   id: Round(System.Decimal)
   parent: System.Decimal
   langs:
   - csharp
-  - vb
   name: Round(Decimal)
   nameWithType: Decimal.Round(Decimal)
   fullName: System.Decimal.Round(Decimal)
@@ -1726,22 +2142,29 @@ items:
   assemblies:
   - mscorlib
   namespace: System
+  summary: Rounds a decimal value to the nearest integer.
+  remarks: The behavior of this method follows IEEE Standard 754, section 4. This kind of rounding is sometimes called *round half to even* or *banker's rounding*. It minimizes rounding errors that result from consistently rounding a midpoint value in a single direction. It is equivalent to calling the <xref:System.Decimal.Round%28System.Decimal%2CSystem.MidpointRounding%29> method with a  argument of <xref:System.MidpointRounding?displayProperty=fullName>.
+  example:
+  - "The following example rounds a range of <xref:System.Decimal> values between 100 and 102 to the nearest integer. Because the method uses banker's rounding, note that 100.5 rounds to 100 and 101.5 rounds to 102.  \n  \n [!CODE [System.Decimal.Round#1](../CodeSnippet/VS_Snippets_CLR_System/System.Decimal.Round#1)]"
   syntax:
     content: public static decimal Round (decimal d);
     parameters:
     - id: d
       type: System.Decimal
-      description: Parameter description to be filled
+      description: A decimal number to round.
     return:
       type: System.Decimal
-      description: Return description to be filled
+      description: The integer that is nearest to the  parameter. If  is halfway between two integers, one of which is even and the other odd, the even number is returned.
   overload: System.Decimal.Round*
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Decimal.Round(System.Decimal,System.Int32)
   id: Round(System.Decimal,System.Int32)
   parent: System.Decimal
   langs:
   - csharp
-  - vb
   name: Round(Decimal,Int32)
   nameWithType: Decimal.Round(Decimal,Int32)
   fullName: System.Decimal.Round(Decimal,Int32)
@@ -1749,25 +2172,32 @@ items:
   assemblies:
   - mscorlib
   namespace: System
+  summary: Rounds a <see cref="T:System.Decimal"> value to a specified number of decimal places.
+  remarks: This method is equivalent to calling the <xref:System.Decimal.Round%28System.Decimal%2CSystem.Int32%2CSystem.MidpointRounding%29> method with a  argument of <xref:System.MidpointRounding?displayProperty=fullName>.When  is exactly halfway between two rounded values, the result is the rounded value that has an even digit in the far right decimal position. For example, when rounded to two decimals, the value 2.345 becomes 2.34 and the value 2.355 becomes 2.36. This process is known as *rounding toward even*, or *banker's rounding*. It minimizes rounding errors that result from consistently rounding a midpoint value in a single direction.
+  example:
+  - "The following example rounds several `Decimal` values to a specified number of decimal places using the `Round` method.  \n  \n [!CODE [System.Decimal.Round#12](../CodeSnippet/VS_Snippets_CLR_System/System.Decimal.Round#12)]"
   syntax:
     content: public static decimal Round (decimal d, int decimals);
     parameters:
     - id: d
       type: System.Decimal
-      description: Parameter description to be filled
+      description: A decimal number to round.
     - id: decimals
       type: System.Int32
-      description: Parameter description to be filled
+      description: A value from 0 to 28 that specifies the number of decimal places to round to.
     return:
       type: System.Decimal
-      description: Return description to be filled
+      description: The decimal number equivalent to  rounded to  number of decimal places.
   overload: System.Decimal.Round*
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Decimal.Round(System.Decimal,System.MidpointRounding)
   id: Round(System.Decimal,System.MidpointRounding)
   parent: System.Decimal
   langs:
   - csharp
-  - vb
   name: Round(Decimal,MidpointRounding)
   nameWithType: Decimal.Round(Decimal,MidpointRounding)
   fullName: System.Decimal.Round(Decimal,MidpointRounding)
@@ -1775,25 +2205,32 @@ items:
   assemblies:
   - mscorlib
   namespace: System
+  summary: Rounds a decimal value to the nearest integer. A parameter specifies how to round the value if it is midway between two other numbers.
+  remarks: "In a midpoint value, the value after the least significant digit in the result is precisely half way between two numbers. For example, 7.5 is a midpoint value if it is to be rounded to an integer. For midpoint values, the nearest value can't be easily identified without a rounding convention, which is specified by the  argument. The Round method supports two rounding conventions for handling midpoint values.  \n  \n Rounding away from zero.  \n Midpoint values are rounded to the next number away from zero. For example, 3.5 rounds to 4, 4.5 rounds to 5, -3.5 rounds to -4, and -4.5 rounds to -5. This form of rounding is represented by the <xref:System.MidpointRounding?displayProperty=fullName> enumeration member.  \n  \n Rounding away from zero is the most widely known form of rounding.  \n  \n Rounding to even, or banker's rounding  \n Midpoint values are rounded to the nearest even number. For example, both 3.5 and 4.5 round to 4, and both -3.5 and -4.5 round to -4. This form of rounding is represented by the <xref:System.MidpointRounding?displayProperty=fullName> enumeration member.  \n  \n Rounding to nearest is the standard form of rounding used in financial and statistical operations. It conforms to IEEE Standard 754, section 4. When used in multiple rounding operations, it reduces the rounding error that is caused by consistently rounding midpoint values in a single direction. In some cases, this rounding error can be significant."
+  example:
+  - "The following example displays values returned by the <xref:System.Math.Round%28System.Decimal%29> method, the <xref:System.Math.Round%28System.Decimal%2CSystem.MidpointRounding%29> method with a  argument of <xref:System.MidpointRounding>, and the <xref:System.Math.Round%28System.Decimal%2CSystem.MidpointRounding%29> method with a  argument of <xref:System.MidpointRounding>.  \n  \n [!CODE [System.Math.Round.Overload#5](../CodeSnippet/VS_Snippets_CLR_System/system.math.round.overload#5)]"
   syntax:
     content: public static decimal Round (decimal d, MidpointRounding mode);
     parameters:
     - id: d
       type: System.Decimal
-      description: Parameter description to be filled
+      description: A decimal number to round.
     - id: mode
       type: System.MidpointRounding
-      description: Parameter description to be filled
+      description: A value that specifies how to round  if it is midway between two other numbers.
     return:
       type: System.Decimal
-      description: Return description to be filled
+      description: The integer that is nearest to the  parameter. If  is halfway between two numbers, one of which is even and the other odd, the  parameter determines which of the two numbers is returned.
   overload: System.Decimal.Round*
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Decimal.Round(System.Decimal,System.Int32,System.MidpointRounding)
   id: Round(System.Decimal,System.Int32,System.MidpointRounding)
   parent: System.Decimal
   langs:
   - csharp
-  - vb
   name: Round(Decimal,Int32,MidpointRounding)
   nameWithType: Decimal.Round(Decimal,Int32,MidpointRounding)
   fullName: System.Decimal.Round(Decimal,Int32,MidpointRounding)
@@ -1801,28 +2238,35 @@ items:
   assemblies:
   - mscorlib
   namespace: System
+  summary: Rounds a decimal value to a specified precision. A parameter specifies how to round the value if it is midway between two other numbers.
+  remarks: "The  parameter specifies the number of significant decimal places in the return value and ranges from 0 to 28. If  is zero, an integer is returned.  \n  \n In a midpoint value, the value after the least significant digit in the result is precisely half way between two numbers. For example, 3.47500 is a midpoint value if it is to be rounded two decimal places, and 7.500 is a midpoint value if it is to be rounded to an integer. In these cases, the nearest value can't be easily identified without a rounding convention, which is specified by the  argument. The Round method supports two rounding conventions for handling midpoint values.  \n  \n Rounding away from zero.  \n Midpoint values are rounded to the next number away from zero. For example, 3.75 rounds to 3.8, 3.85 rounds to 3.9, -3.75 rounds to -3.8, and -3.85 rounds to -3.9. This form of rounding is represented by the <xref:System.MidpointRounding?displayProperty=fullName> enumeration member.  \n  \n Rounding away from zero is the most widely known form of rounding.  \n  \n Rounding to even, or banker's rounding  \n Midpoint values are rounded to the nearest even number. For example, both 3.75 and 3.85 round to 3.8, and both -3.75 and -3.85 round to -3.8. This form of rounding is represented by the <xref:System.MidpointRounding?displayProperty=fullName> enumeration member.  \n  \n Rounding to nearest is the standard form of rounding used in financial and statistical operations. It conforms to IEEE Standard 754, section 4. When used in multiple rounding operations, it reduces the rounding error that is caused by consistently rounding midpoint values in a single direction. In some cases, this rounding error can be significant."
+  example:
+  - "The following example demonstrates how to use the <xref:System.Math.Round%28System.Decimal%2CSystem.Int32%2CSystem.MidpointRounding%29> method with the <xref:System.MidpointRounding> enumeration.  \n  \n [!CODE [math.midpointrounding#1](../CodeSnippet/VS_Snippets_CLR/math.midpointrounding#1)]"
   syntax:
     content: public static decimal Round (decimal d, int decimals, MidpointRounding mode);
     parameters:
     - id: d
       type: System.Decimal
-      description: Parameter description to be filled
+      description: A decimal number to round.
     - id: decimals
       type: System.Int32
-      description: Parameter description to be filled
+      description: The number of significant decimal places (precision) in the return value.
     - id: mode
       type: System.MidpointRounding
-      description: Parameter description to be filled
+      description: A value that specifies how to round  if it is midway between two other numbers.
     return:
       type: System.Decimal
-      description: Return description to be filled
+      description: The number that is nearest to the  parameter with a precision equal to the  parameter. If  is halfway between two numbers, one of which is even and the other odd, the  parameter determines which of the two numbers is returned. If the precision of  is less than ,  is returned unchanged.
   overload: System.Decimal.Round*
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Decimal.Subtract(System.Decimal,System.Decimal)
   id: Subtract(System.Decimal,System.Decimal)
   parent: System.Decimal
   langs:
   - csharp
-  - vb
   name: Subtract(Decimal,Decimal)
   nameWithType: Decimal.Subtract(Decimal,Decimal)
   fullName: System.Decimal.Subtract(Decimal,Decimal)
@@ -1830,25 +2274,32 @@ items:
   assemblies:
   - mscorlib
   namespace: System
+  summary: Subtracts one specified <see cref="T:System.Decimal"> value from another.
+  remarks: ''
+  example:
+  - "The following example illustrates the use of `Subtract`.  \n  \n [!CODE [Decimal Example#4](../CodeSnippet/VS_Snippets_CLR/Decimal Example#4)]"
   syntax:
     content: public static decimal Subtract (decimal d1, decimal d2);
     parameters:
     - id: d1
       type: System.Decimal
-      description: Parameter description to be filled
+      description: The minuend.
     - id: d2
       type: System.Decimal
-      description: Parameter description to be filled
+      description: The subtrahend.
     return:
       type: System.Decimal
-      description: Return description to be filled
+      description: The result of subtracting  from .
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Decimal.System#IConvertible#ToBoolean(System.IFormatProvider)
   id: System#IConvertible#ToBoolean(System.IFormatProvider)
   isEii: true
   parent: System.Decimal
   langs:
   - csharp
-  - vb
   name: System.IConvertible.ToBoolean(IFormatProvider)
   nameWithType: Decimal.System.IConvertible.ToBoolean(IFormatProvider)
   fullName: System.Decimal.System.IConvertible.ToBoolean(IFormatProvider)
@@ -1856,22 +2307,27 @@ items:
   assemblies:
   - mscorlib
   namespace: System
+  summary: For a description of this member, see <xref:System.IConvertible.ToBoolean%2A?displayProperty=fullName>.
+  remarks: This member is an explicit interface member implementation. It can be used only when the <xref:System.Decimal> instance is cast to an <xref:System.IConvertible> interface. The recommended alternative is to call the <xref:System.Convert.ToBoolean%28System.Decimal%29?displayProperty=fullName> method.
   syntax:
     content: bool IConvertible.ToBoolean (IFormatProvider provider);
     parameters:
     - id: provider
       type: System.IFormatProvider
-      description: Parameter description to be filled
+      description: This parameter is ignored.
     return:
       type: System.Boolean
-      description: Return description to be filled
+      description: '`true` if the value of the current instance is not zero; otherwise, `false`.'
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Decimal.System#IConvertible#ToByte(System.IFormatProvider)
   id: System#IConvertible#ToByte(System.IFormatProvider)
   isEii: true
   parent: System.Decimal
   langs:
   - csharp
-  - vb
   name: System.IConvertible.ToByte(IFormatProvider)
   nameWithType: Decimal.System.IConvertible.ToByte(IFormatProvider)
   fullName: System.Decimal.System.IConvertible.ToByte(IFormatProvider)
@@ -1879,22 +2335,27 @@ items:
   assemblies:
   - mscorlib
   namespace: System
+  summary: For a description of this member, see <xref:System.IConvertible.ToByte%2A?displayProperty=fullName>.
+  remarks: This member is an explicit interface member implementation. It can be used only when the <xref:System.Decimal> instance is cast to an <xref:System.IConvertible> interface. The recommended alternative is to call either the <xref:System.Decimal.ToByte%2A?displayProperty=fullName> method or the <xref:System.Convert.ToByte%2A?displayProperty=fullName> method.
   syntax:
     content: byte IConvertible.ToByte (IFormatProvider provider);
     parameters:
     - id: provider
       type: System.IFormatProvider
-      description: Parameter description to be filled
+      description: This parameter is ignored.
     return:
       type: System.Byte
-      description: Return description to be filled
+      description: The value of the current instance, converted to a <see cref="T:System.Byte">.
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Decimal.System#IConvertible#ToChar(System.IFormatProvider)
   id: System#IConvertible#ToChar(System.IFormatProvider)
   isEii: true
   parent: System.Decimal
   langs:
   - csharp
-  - vb
   name: System.IConvertible.ToChar(IFormatProvider)
   nameWithType: Decimal.System.IConvertible.ToChar(IFormatProvider)
   fullName: System.Decimal.System.IConvertible.ToChar(IFormatProvider)
@@ -1902,22 +2363,27 @@ items:
   assemblies:
   - mscorlib
   namespace: System
+  summary: This conversion is not supported. Attempting to use this method throws an <see cref="T:System.InvalidCastException">.
+  remarks: To be added.
   syntax:
     content: char IConvertible.ToChar (IFormatProvider provider);
     parameters:
     - id: provider
       type: System.IFormatProvider
-      description: Parameter description to be filled
+      description: This parameter is ignored.
     return:
       type: System.Char
-      description: Return description to be filled
+      description: None. This conversion is not supported.
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Decimal.System#IConvertible#ToDateTime(System.IFormatProvider)
   id: System#IConvertible#ToDateTime(System.IFormatProvider)
   isEii: true
   parent: System.Decimal
   langs:
   - csharp
-  - vb
   name: System.IConvertible.ToDateTime(IFormatProvider)
   nameWithType: Decimal.System.IConvertible.ToDateTime(IFormatProvider)
   fullName: System.Decimal.System.IConvertible.ToDateTime(IFormatProvider)
@@ -1925,22 +2391,27 @@ items:
   assemblies:
   - mscorlib
   namespace: System
+  summary: This conversion is not supported. Attempting to use this method throws an <see cref="T:System.InvalidCastException">.
+  remarks: To be added.
   syntax:
     content: DateTime IConvertible.ToDateTime (IFormatProvider provider);
     parameters:
     - id: provider
       type: System.IFormatProvider
-      description: Parameter description to be filled
+      description: This parameter is ignored.
     return:
       type: System.DateTime
-      description: Return description to be filled
+      description: None. This conversion is not supported.
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Decimal.System#IConvertible#ToDecimal(System.IFormatProvider)
   id: System#IConvertible#ToDecimal(System.IFormatProvider)
   isEii: true
   parent: System.Decimal
   langs:
   - csharp
-  - vb
   name: System.IConvertible.ToDecimal(IFormatProvider)
   nameWithType: Decimal.System.IConvertible.ToDecimal(IFormatProvider)
   fullName: System.Decimal.System.IConvertible.ToDecimal(IFormatProvider)
@@ -1948,22 +2419,27 @@ items:
   assemblies:
   - mscorlib
   namespace: System
+  summary: For a description of this member, see <xref:System.IConvertible.ToDecimal%2A?displayProperty=fullName>.
+  remarks: This member is an explicit interface member implementation. It can be used only when the <xref:System.Decimal> instance is cast to an <xref:System.IConvertible> interface.
   syntax:
     content: decimal IConvertible.ToDecimal (IFormatProvider provider);
     parameters:
     - id: provider
       type: System.IFormatProvider
-      description: Parameter description to be filled
+      description: This parameter is ignored.
     return:
       type: System.Decimal
-      description: Return description to be filled
+      description: The value of the current instance, unchanged.
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Decimal.System#IConvertible#ToDouble(System.IFormatProvider)
   id: System#IConvertible#ToDouble(System.IFormatProvider)
   isEii: true
   parent: System.Decimal
   langs:
   - csharp
-  - vb
   name: System.IConvertible.ToDouble(IFormatProvider)
   nameWithType: Decimal.System.IConvertible.ToDouble(IFormatProvider)
   fullName: System.Decimal.System.IConvertible.ToDouble(IFormatProvider)
@@ -1971,22 +2447,27 @@ items:
   assemblies:
   - mscorlib
   namespace: System
+  summary: For a description of this member, see <xref:System.IConvertible.ToDouble%2A?displayProperty=fullName>.
+  remarks: "This member is an explicit interface member implementation. It can be used only when the <xref:System.Decimal> instance is cast to an <xref:System.IConvertible> interface. The recommended alternative is to call either the <xref:System.Decimal.ToDouble%2A?displayProperty=fullName> method or the <xref:System.Convert.ToDouble%2A?displayProperty=fullName> method.  \n  \n Because a <xref:System.Double> has fewer significant digits than a <xref:System.Decimal>, this operation may produce round-off errors."
   syntax:
     content: double IConvertible.ToDouble (IFormatProvider provider);
     parameters:
     - id: provider
       type: System.IFormatProvider
-      description: Parameter description to be filled
+      description: This parameter is ignored.
     return:
       type: System.Double
-      description: Return description to be filled
+      description: The value of the current instance, converted to a <see cref="T:System.Double">.
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Decimal.System#IConvertible#ToInt16(System.IFormatProvider)
   id: System#IConvertible#ToInt16(System.IFormatProvider)
   isEii: true
   parent: System.Decimal
   langs:
   - csharp
-  - vb
   name: System.IConvertible.ToInt16(IFormatProvider)
   nameWithType: Decimal.System.IConvertible.ToInt16(IFormatProvider)
   fullName: System.Decimal.System.IConvertible.ToInt16(IFormatProvider)
@@ -1994,22 +2475,27 @@ items:
   assemblies:
   - mscorlib
   namespace: System
+  summary: For a description of this member, see <xref:System.IConvertible.ToInt16%2A?displayProperty=fullName>.
+  remarks: "This member is an explicit interface member implementation. It can be used only when the <xref:System.Decimal> instance is cast to an <xref:System.IConvertible> interface. The recommended alternative is to call either the <xref:System.Decimal.ToInt16%2A?displayProperty=fullName> method or the <xref:System.Convert.ToInt16%2A?displayProperty=fullName> method.  \n  \n The <xref:System.Decimal> value is rounded toward zero to the nearest integer value."
   syntax:
     content: short IConvertible.ToInt16 (IFormatProvider provider);
     parameters:
     - id: provider
       type: System.IFormatProvider
-      description: Parameter description to be filled
+      description: This parameter is ignored.
     return:
       type: System.Int16
-      description: Return description to be filled
+      description: The value of the current instance, converted to a <see cref="T:System.Int16">.
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Decimal.System#IConvertible#ToInt32(System.IFormatProvider)
   id: System#IConvertible#ToInt32(System.IFormatProvider)
   isEii: true
   parent: System.Decimal
   langs:
   - csharp
-  - vb
   name: System.IConvertible.ToInt32(IFormatProvider)
   nameWithType: Decimal.System.IConvertible.ToInt32(IFormatProvider)
   fullName: System.Decimal.System.IConvertible.ToInt32(IFormatProvider)
@@ -2017,22 +2503,27 @@ items:
   assemblies:
   - mscorlib
   namespace: System
+  summary: For a description of this member, see <xref:System.IConvertible.ToInt32%2A?displayProperty=fullName>.
+  remarks: "This member is an explicit interface member implementation. It can be used only when the <xref:System.Decimal> instance is cast to an <xref:System.IConvertible> interface. The recommended alternative is to call either the <xref:System.Decimal.ToInt32%2A?displayProperty=fullName> method or the <xref:System.Convert.ToInt32%2A?displayProperty=fullName> method.  \n  \n The <xref:System.Decimal> value is rounded toward zero to the nearest integer value."
   syntax:
     content: int IConvertible.ToInt32 (IFormatProvider provider);
     parameters:
     - id: provider
       type: System.IFormatProvider
-      description: Parameter description to be filled
+      description: The parameter is ignored.
     return:
       type: System.Int32
-      description: Return description to be filled
+      description: The value of the current instance, converted to a <see cref="T:System.Int32">.
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Decimal.System#IConvertible#ToInt64(System.IFormatProvider)
   id: System#IConvertible#ToInt64(System.IFormatProvider)
   isEii: true
   parent: System.Decimal
   langs:
   - csharp
-  - vb
   name: System.IConvertible.ToInt64(IFormatProvider)
   nameWithType: Decimal.System.IConvertible.ToInt64(IFormatProvider)
   fullName: System.Decimal.System.IConvertible.ToInt64(IFormatProvider)
@@ -2040,22 +2531,27 @@ items:
   assemblies:
   - mscorlib
   namespace: System
+  summary: For a description of this member, see <xref:System.IConvertible.ToInt64%2A?displayProperty=fullName>.
+  remarks: This member is an explicit interface member implementation. It can be used only when the <xref:System.Decimal> instance is cast to an <xref:System.IConvertible> interface. The recommended alternative is to call either the <xref:System.Decimal.ToInt64%2A?displayProperty=fullName> method or the <xref:System.Convert.ToInt64%2A?displayProperty=fullName> method.
   syntax:
     content: long IConvertible.ToInt64 (IFormatProvider provider);
     parameters:
     - id: provider
       type: System.IFormatProvider
-      description: Parameter description to be filled
+      description: This parameter is ignored.
     return:
       type: System.Int64
-      description: Return description to be filled
+      description: The value of the current instance, converted to a <see cref="T:System.Int64">.
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Decimal.System#IConvertible#ToSByte(System.IFormatProvider)
   id: System#IConvertible#ToSByte(System.IFormatProvider)
   isEii: true
   parent: System.Decimal
   langs:
   - csharp
-  - vb
   name: System.IConvertible.ToSByte(IFormatProvider)
   nameWithType: Decimal.System.IConvertible.ToSByte(IFormatProvider)
   fullName: System.Decimal.System.IConvertible.ToSByte(IFormatProvider)
@@ -2063,22 +2559,27 @@ items:
   assemblies:
   - mscorlib
   namespace: System
+  summary: For a description of this member, see <xref:System.IConvertible.ToSByte%2A?displayProperty=fullName>.
+  remarks: This member is an explicit interface member implementation. It can be used only when the <xref:System.Decimal> instance is cast to an <xref:System.IConvertible> interface. The recommended alternative is to call either the <xref:System.Decimal.ToSByte%2A?displayProperty=fullName> method or the <xref:System.Convert.ToSByte%2A?displayProperty=fullName> method.
   syntax:
     content: sbyte IConvertible.ToSByte (IFormatProvider provider);
     parameters:
     - id: provider
       type: System.IFormatProvider
-      description: Parameter description to be filled
+      description: This parameter is ignored.
     return:
       type: System.SByte
-      description: Return description to be filled
+      description: The value of the current instance, converted to a <see cref="T:System.SByte">.
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Decimal.System#IConvertible#ToSingle(System.IFormatProvider)
   id: System#IConvertible#ToSingle(System.IFormatProvider)
   isEii: true
   parent: System.Decimal
   langs:
   - csharp
-  - vb
   name: System.IConvertible.ToSingle(IFormatProvider)
   nameWithType: Decimal.System.IConvertible.ToSingle(IFormatProvider)
   fullName: System.Decimal.System.IConvertible.ToSingle(IFormatProvider)
@@ -2086,22 +2587,27 @@ items:
   assemblies:
   - mscorlib
   namespace: System
+  summary: For a description of this member, see <xref:System.IConvertible.ToSingle%2A?displayProperty=fullName>.
+  remarks: This member is an explicit interface member implementation. It can be used only when the <xref:System.Decimal> instance is cast to an <xref:System.IConvertible> interface. The recommended alternative is to call either the <xref:System.Decimal.ToSingle%2A?displayProperty=fullName> method or the <xref:System.Convert.ToSingle%2A?displayProperty=fullName> method.
   syntax:
     content: float IConvertible.ToSingle (IFormatProvider provider);
     parameters:
     - id: provider
       type: System.IFormatProvider
-      description: Parameter description to be filled
+      description: This parameter is ignored.
     return:
       type: System.Single
-      description: Return description to be filled
+      description: The value of the current instance, converted to a <see cref="T:System.Single">.
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Decimal.System#IConvertible#ToType(System.Type,System.IFormatProvider)
   id: System#IConvertible#ToType(System.Type,System.IFormatProvider)
   isEii: true
   parent: System.Decimal
   langs:
   - csharp
-  - vb
   name: System.IConvertible.ToType(Type,IFormatProvider)
   nameWithType: Decimal.System.IConvertible.ToType(Type,IFormatProvider)
   fullName: System.Decimal.System.IConvertible.ToType(Type,IFormatProvider)
@@ -2109,25 +2615,30 @@ items:
   assemblies:
   - mscorlib
   namespace: System
+  summary: For a description of this member, see <xref:System.IConvertible.ToType%2A?displayProperty=fullName>.
+  remarks: This member is an explicit interface member implementation. It can be used only when the <xref:System.Decimal> instance is cast to an <xref:System.IConvertible> interface. The recommended alternative is to call the `static` (`Shared` in Visual Basic) <xref:System.Convert.ChangeType%2A?displayProperty=fullName> method instead.
   syntax:
     content: object IConvertible.ToType (Type type, IFormatProvider provider);
     parameters:
     - id: type
       type: System.Type
-      description: Parameter description to be filled
+      description: The type to which to convert the value of this <see cref="T:System.Decimal"> instance.
     - id: provider
       type: System.IFormatProvider
-      description: Parameter description to be filled
+      description: An <see cref="T:System.IFormatProvider"> implementation that supplies culture-specific information about the format of the returned value.
     return:
       type: System.Object
-      description: Return description to be filled
+      description: The value of the current instance, converted to a .
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Decimal.System#IConvertible#ToUInt16(System.IFormatProvider)
   id: System#IConvertible#ToUInt16(System.IFormatProvider)
   isEii: true
   parent: System.Decimal
   langs:
   - csharp
-  - vb
   name: System.IConvertible.ToUInt16(IFormatProvider)
   nameWithType: Decimal.System.IConvertible.ToUInt16(IFormatProvider)
   fullName: System.Decimal.System.IConvertible.ToUInt16(IFormatProvider)
@@ -2135,22 +2646,27 @@ items:
   assemblies:
   - mscorlib
   namespace: System
+  summary: For a description of this member, see <xref:System.IConvertible.ToUInt16%2A?displayProperty=fullName>.
+  remarks: This member is an explicit interface member implementation. It can be used only when the <xref:System.Decimal> instance is cast to an <xref:System.IConvertible> interface. The recommended alternative is to call either the <xref:System.Decimal.ToUInt16%2A?displayProperty=fullName> method or the <xref:System.Convert.ToUInt16%2A?displayProperty=fullName> method.
   syntax:
     content: ushort IConvertible.ToUInt16 (IFormatProvider provider);
     parameters:
     - id: provider
       type: System.IFormatProvider
-      description: Parameter description to be filled
+      description: This parameter is ignored.
     return:
       type: System.UInt16
-      description: Return description to be filled
+      description: The value of the current instance, converted to a <see cref="T:System.UInt16">.
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Decimal.System#IConvertible#ToUInt32(System.IFormatProvider)
   id: System#IConvertible#ToUInt32(System.IFormatProvider)
   isEii: true
   parent: System.Decimal
   langs:
   - csharp
-  - vb
   name: System.IConvertible.ToUInt32(IFormatProvider)
   nameWithType: Decimal.System.IConvertible.ToUInt32(IFormatProvider)
   fullName: System.Decimal.System.IConvertible.ToUInt32(IFormatProvider)
@@ -2158,22 +2674,27 @@ items:
   assemblies:
   - mscorlib
   namespace: System
+  summary: For a description of this member, see <xref:System.IConvertible.ToInt32%2A?displayProperty=fullName>.
+  remarks: "This member is an explicit interface member implementation. It can be used only when the <xref:System.Decimal> instance is cast to an <xref:System.IConvertible> interface. The recommended alternative is to call either the <xref:System.Decimal.ToUInt32%2A?displayProperty=fullName> method or the <xref:System.Convert.ToUInt32%2A?displayProperty=fullName> method.  \n  \n The <xref:System.Decimal> value is rounded toward zero to the nearest integer value."
   syntax:
     content: uint IConvertible.ToUInt32 (IFormatProvider provider);
     parameters:
     - id: provider
       type: System.IFormatProvider
-      description: Parameter description to be filled
+      description: This parameter is ignored.
     return:
       type: System.UInt32
-      description: Return description to be filled
+      description: The value of the current instance, converted to a <see cref="T:System.UInt32">.
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Decimal.System#IConvertible#ToUInt64(System.IFormatProvider)
   id: System#IConvertible#ToUInt64(System.IFormatProvider)
   isEii: true
   parent: System.Decimal
   langs:
   - csharp
-  - vb
   name: System.IConvertible.ToUInt64(IFormatProvider)
   nameWithType: Decimal.System.IConvertible.ToUInt64(IFormatProvider)
   fullName: System.Decimal.System.IConvertible.ToUInt64(IFormatProvider)
@@ -2181,22 +2702,27 @@ items:
   assemblies:
   - mscorlib
   namespace: System
+  summary: For a description of this member, see <xref:System.IConvertible.ToInt64%2A?displayProperty=fullName>.
+  remarks: "This member is an explicit interface member implementation. It can be used only when the <xref:System.Decimal> instance is cast to an <xref:System.IConvertible> interface. The recommended alternative is to call either the <xref:System.Decimal.ToUInt64%2A?displayProperty=fullName> method or the <xref:System.Convert.ToUInt64%2A?displayProperty=fullName> method.  \n  \n The <xref:System.Decimal> value is rounded toward zero to the nearest integer value."
   syntax:
     content: ulong IConvertible.ToUInt64 (IFormatProvider provider);
     parameters:
     - id: provider
       type: System.IFormatProvider
-      description: Parameter description to be filled
+      description: This parameter is ignored.
     return:
       type: System.UInt64
-      description: Return description to be filled
+      description: The value of the current instance, converted to a <see cref="T:System.UInt64">.
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Decimal.System#Runtime#Serialization#IDeserializationCallback#OnDeserialization(System.Object)
   id: System#Runtime#Serialization#IDeserializationCallback#OnDeserialization(System.Object)
   isEii: true
   parent: System.Decimal
   langs:
   - csharp
-  - vb
   name: System.Runtime.Serialization.IDeserializationCallback.OnDeserialization(Object)
   nameWithType: Decimal.System.Runtime.Serialization.IDeserializationCallback.OnDeserialization(Object)
   fullName: System.Decimal.System.Runtime.Serialization.IDeserializationCallback.OnDeserialization(Object)
@@ -2204,21 +2730,23 @@ items:
   assemblies:
   - mscorlib
   namespace: System
+  summary: Runs when the deserialization of an object has been completed.
+  remarks: To be added.
   syntax:
     content: void IDeserializationCallback.OnDeserialization (object sender);
     parameters:
     - id: sender
       type: System.Object
-      description: Parameter description to be filled
-    return:
-      type: System.Void
-      description: Return description to be filled
+      description: The object that initiated the callback. The functionality for this parameter is not currently implemented.
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Decimal.ToByte(System.Decimal)
   id: ToByte(System.Decimal)
   parent: System.Decimal
   langs:
   - csharp
-  - vb
   name: ToByte(Decimal)
   nameWithType: Decimal.ToByte(Decimal)
   fullName: System.Decimal.ToByte(Decimal)
@@ -2226,21 +2754,28 @@ items:
   assemblies:
   - mscorlib
   namespace: System
+  summary: Converts the value of the specified <see cref="T:System.Decimal"> to the equivalent 8-bit unsigned integer.
+  remarks: "Parameter  is rounded to the nearest integer value toward zero, and that result is returned.  \n  \n You can also convert a <xref:System.Decimal> value to an 8-bit unsigned integer by using the <xref:System.Decimal.op_Explicit%2A> assignment operator. Because the operator performs a narrowing conversion, you must use a casting operator in C# or a conversion function in Visual Basic."
+  example:
+  - "The following example uses the ToByte method to convert decimal numbers to <xref:System.Byte> values.  \n  \n [!CODE [System.Decimal.ToByte#1](../CodeSnippet/VS_Snippets_CLR_System/system.decimal.tobyte#1)]"
   syntax:
     content: public static byte ToByte (decimal value);
     parameters:
     - id: value
       type: System.Decimal
-      description: Parameter description to be filled
+      description: The decimal number to convert.
     return:
       type: System.Byte
-      description: Return description to be filled
+      description: An 8-bit unsigned integer equivalent to .
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Decimal.ToDouble(System.Decimal)
   id: ToDouble(System.Decimal)
   parent: System.Decimal
   langs:
   - csharp
-  - vb
   name: ToDouble(Decimal)
   nameWithType: Decimal.ToDouble(Decimal)
   fullName: System.Decimal.ToDouble(Decimal)
@@ -2248,21 +2783,28 @@ items:
   assemblies:
   - mscorlib
   namespace: System
+  summary: Converts the value of the specified <see cref="T:System.Decimal"> to the equivalent double-precision floating-point number.
+  remarks: "This operation can produce round-off errors because a double-precision floating-point number has fewer significant digits than a <xref:System.Decimal>.  \n  \n You can also convert a <xref:System.Decimal> to a <xref:System.Double> value by using the <xref:System.Decimal.op_Explicit%2A> assignment operator. Because the conversion can entail a loss of precision, you must use a casting operator in C# or a conversion function in Visual Basic."
+  example:
+  - "The following code example converts `Decimal` numbers to <xref:System.Double> values using `ToDouble` method.  \n  \n [!CODE [System.Decimal.ToXXX#5](../CodeSnippet/VS_Snippets_CLR_System/system.Decimal.ToXXX#5)]"
   syntax:
     content: public static double ToDouble (decimal d);
     parameters:
     - id: d
       type: System.Decimal
-      description: Parameter description to be filled
+      description: The decimal number to convert.
     return:
       type: System.Double
-      description: Return description to be filled
+      description: A double-precision floating-point number equivalent to .
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Decimal.ToInt16(System.Decimal)
   id: ToInt16(System.Decimal)
   parent: System.Decimal
   langs:
   - csharp
-  - vb
   name: ToInt16(Decimal)
   nameWithType: Decimal.ToInt16(Decimal)
   fullName: System.Decimal.ToInt16(Decimal)
@@ -2270,21 +2812,28 @@ items:
   assemblies:
   - mscorlib
   namespace: System
+  summary: Converts the value of the specified <see cref="T:System.Decimal"> to the equivalent 16-bit signed integer.
+  remarks: You can also convert a <xref:System.Decimal> value to a 16-bit integer by using the <xref:System.Decimal.op_Explicit%2A> assignment operator. Because the operator performs a narrowing conversion, you must use a casting operator in C# or a conversion function in Visual Basic.
+  example:
+  - "The following example uses the ToInt16 method to convert decimal numbers to <xref:System.Int16> values.  \n  \n [!CODE [System.Decimal.ToInt16#1](../CodeSnippet/VS_Snippets_CLR_System/system.decimal.toint16#1)]"
   syntax:
     content: public static short ToInt16 (decimal value);
     parameters:
     - id: value
       type: System.Decimal
-      description: Parameter description to be filled
+      description: The decimal number to convert.
     return:
       type: System.Int16
-      description: Return description to be filled
+      description: A 16-bit signed integer equivalent to .
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Decimal.ToInt32(System.Decimal)
   id: ToInt32(System.Decimal)
   parent: System.Decimal
   langs:
   - csharp
-  - vb
   name: ToInt32(Decimal)
   nameWithType: Decimal.ToInt32(Decimal)
   fullName: System.Decimal.ToInt32(Decimal)
@@ -2292,21 +2841,28 @@ items:
   assemblies:
   - mscorlib
   namespace: System
+  summary: Converts the value of the specified <see cref="T:System.Decimal"> to the equivalent 32-bit signed integer.
+  remarks: "The return value is the integral part of the decimal value; fractional digits are truncated.  \n  \n You can also convert a <xref:System.Decimal> value to a 32-bit integer by using the <xref:System.Decimal.op_Explicit%2A> assignment operator. Because the operator performs a narrowing conversion, you must use a casting operator in C# or a conversion function in Visual Basic."
+  example:
+  - "The following example uses the ToInt32 method to convert decimal numbers to <xref:System.Int32> values.  \n  \n [!CODE [System.Decimal.ToInt32#1](../CodeSnippet/VS_Snippets_CLR_System/system.decimal.toint32#1)]"
   syntax:
     content: public static int ToInt32 (decimal d);
     parameters:
     - id: d
       type: System.Decimal
-      description: Parameter description to be filled
+      description: The decimal number to convert.
     return:
       type: System.Int32
-      description: Return description to be filled
+      description: A 32-bit signed integer equivalent to the value of .
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Decimal.ToInt64(System.Decimal)
   id: ToInt64(System.Decimal)
   parent: System.Decimal
   langs:
   - csharp
-  - vb
   name: ToInt64(Decimal)
   nameWithType: Decimal.ToInt64(Decimal)
   fullName: System.Decimal.ToInt64(Decimal)
@@ -2314,21 +2870,28 @@ items:
   assemblies:
   - mscorlib
   namespace: System
+  summary: Converts the value of the specified <see cref="T:System.Decimal"> to the equivalent 64-bit signed integer.
+  remarks: "The return value is the integral part of the decimal value; fractional digits are truncated.  \n  \n You can also convert a <xref:System.Decimal> value to a 64-bit integer by using the <xref:System.Decimal.op_Explicit%2A> assignment operator. Because the operator performs a narrowing conversion, you must use a casting operator in C# or a conversion function in Visual Basic."
+  example:
+  - "The following example uses the ToInt64 method to convert decimal numbers to <xref:System.Int64> values.  \n  \n [!CODE [System.Decimal.ToInt64#1](../CodeSnippet/VS_Snippets_CLR_System/system.decimal.toint64#1)]"
   syntax:
     content: public static long ToInt64 (decimal d);
     parameters:
     - id: d
       type: System.Decimal
-      description: Parameter description to be filled
+      description: The decimal number to convert.
     return:
       type: System.Int64
-      description: Return description to be filled
+      description: A 64-bit signed integer equivalent to the value of .
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Decimal.ToOACurrency(System.Decimal)
   id: ToOACurrency(System.Decimal)
   parent: System.Decimal
   langs:
   - csharp
-  - vb
   name: ToOACurrency(Decimal)
   nameWithType: Decimal.ToOACurrency(Decimal)
   fullName: System.Decimal.ToOACurrency(Decimal)
@@ -2336,21 +2899,28 @@ items:
   assemblies:
   - mscorlib
   namespace: System
+  summary: Converts the specified <see cref="T:System.Decimal"> value to the equivalent OLE Automation Currency value, which is contained in a 64-bit signed integer.
+  remarks: ''
+  example:
+  - "The following code example uses the `ToOACurrency` method to convert `Decimal` numbers to the equivalent OLE Automation Currency values that are contained in <xref:System.Int64> fields.  \n  \n [!CODE [System.Decimal.OACurrency#1](../CodeSnippet/VS_Snippets_CLR_System/system.Decimal.OACurrency#1)]"
   syntax:
     content: public static long ToOACurrency (decimal value);
     parameters:
     - id: value
       type: System.Decimal
-      description: Parameter description to be filled
+      description: The decimal number to convert.
     return:
       type: System.Int64
-      description: Return description to be filled
+      description: A 64-bit signed integer that contains the OLE Automation equivalent of .
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Decimal.ToSByte(System.Decimal)
   id: ToSByte(System.Decimal)
   parent: System.Decimal
   langs:
   - csharp
-  - vb
   name: ToSByte(Decimal)
   nameWithType: Decimal.ToSByte(Decimal)
   fullName: System.Decimal.ToSByte(Decimal)
@@ -2358,21 +2928,28 @@ items:
   assemblies:
   - mscorlib
   namespace: System
+  summary: Converts the value of the specified <see cref="T:System.Decimal"> to the equivalent 8-bit signed integer.
+  remarks: You can also convert a <xref:System.Decimal> value to an 8-bit signed integer by using the <xref:System.Decimal.op_Explicit%2A> assignment operator. Because the operator performs a narrowing conversion, you must use a casting operator in C# or a conversion function in Visual Basic.
+  example:
+  - "The following example uses the ToSByte method to convert decimal numbers to <xref:System.SByte> values.  \n  \n [!CODE [System.Decimal.ToSByte#1](../CodeSnippet/VS_Snippets_CLR_System/system.decimal.tosbyte#1)]"
   syntax:
     content: public static sbyte ToSByte (decimal value);
     parameters:
     - id: value
       type: System.Decimal
-      description: Parameter description to be filled
+      description: The decimal number to convert.
     return:
       type: System.SByte
-      description: Return description to be filled
+      description: An 8-bit signed integer equivalent to .
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Decimal.ToSingle(System.Decimal)
   id: ToSingle(System.Decimal)
   parent: System.Decimal
   langs:
   - csharp
-  - vb
   name: ToSingle(Decimal)
   nameWithType: Decimal.ToSingle(Decimal)
   fullName: System.Decimal.ToSingle(Decimal)
@@ -2380,21 +2957,28 @@ items:
   assemblies:
   - mscorlib
   namespace: System
+  summary: Converts the value of the specified <see cref="T:System.Decimal"> to the equivalent single-precision floating-point number.
+  remarks: "This operation can produce round-off errors because a single-precision floating-point number has fewer significant digits than a <xref:System.Decimal>.  \n  \n You can also convert a <xref:System.Decimal> to a <xref:System.Single> value by using the <xref:System.Decimal.op_Explicit%2A> assignment operator. Because the conversion can entail a loss of precision, you must use a casting operator in C# or a conversion function in Visual Basic."
+  example:
+  - "The following code example converts `Decimal` numbers to <xref:System.Single> values using the `ToSingle` method.  \n  \n [!CODE [System.Decimal.ToXXX#5](../CodeSnippet/VS_Snippets_CLR_System/system.Decimal.ToXXX#5)]"
   syntax:
     content: public static float ToSingle (decimal d);
     parameters:
     - id: d
       type: System.Decimal
-      description: Parameter description to be filled
+      description: The decimal number to convert.
     return:
       type: System.Single
-      description: Return description to be filled
+      description: A single-precision floating-point number equivalent to the value of .
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Decimal.ToString
   id: ToString
   parent: System.Decimal
   langs:
   - csharp
-  - vb
   name: ToString()
   nameWithType: Decimal.ToString()
   fullName: System.Decimal.ToString()
@@ -2402,19 +2986,26 @@ items:
   assemblies:
   - mscorlib
   namespace: System
+  summary: Converts the numeric value of this instance to its equivalent string representation.
+  remarks: "The ToString method formats a <xref:System.Decimal> value in the default (\"G\", or general) format of the current culture. If you want to specify a different format or culture, use the other overloads of the <xref:System.Decimal.ToString%2A> method, as follows:  \n  \n|To use format|For culture|Use the overload|  \n|-------------------|-----------------|----------------------|  \n|Default (\"G\") format|A specific culture|<xref:System.Decimal.ToString%28System.IFormatProvider%29>|  \n|A specific format|Default (current) culture|<xref:System.Decimal.ToString%28System.String%29>|  \n|A specific format|A specific culture|<xref:System.Decimal.ToString%28System.String%2CSystem.IFormatProvider%29>|  \n  \n The .NET Framework provides extensive formatting support, which is described in greater detail in the following formatting topics:  \n  \n-   For more information about numeric format specifiers, see [Standard Numeric Format Strings](../Topic/Standard%20Numeric%20Format%20Strings.md) and [Custom Numeric Format Strings](../Topic/Custom%20Numeric%20Format%20Strings.md).  \n  \n-   For more information about formatting, see [Formatting Types](../Topic/Formatting%20Types%20in%20the%20.NET%20Framework.md)."
+  example:
+  - "The following example displays a <xref:System.Decimal> value using the default ToString method. It also displays the string representations of the <xref:System.Decimal> value that result from using a number of standard format specifiers.  \n  \n [!CODE [System.Decimal.ToString#2](../CodeSnippet/VS_Snippets_CLR_System/system.Decimal.ToString#2)]  \n  \n The following example displays the amount of money in an account.  \n  \n [!CODE [Decimal Example#5](../CodeSnippet/VS_Snippets_CLR/Decimal Example#5)]"
   syntax:
     content: public override string ToString ();
     parameters: []
     return:
       type: System.String
-      description: Return description to be filled
+      description: A string that represents the value of this instance.
   overload: System.Decimal.ToString*
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Decimal.ToString(System.IFormatProvider)
   id: ToString(System.IFormatProvider)
   parent: System.Decimal
   langs:
   - csharp
-  - vb
   name: ToString(IFormatProvider)
   nameWithType: Decimal.ToString(IFormatProvider)
   fullName: System.Decimal.ToString(IFormatProvider)
@@ -2422,22 +3013,29 @@ items:
   assemblies:
   - mscorlib
   namespace: System
+  summary: Converts the numeric value of this instance to its equivalent string representation using the specified culture-specific format information.
+  remarks: "The ToString method formats a <xref:System.Decimal> value in the default (\"G\", or general) format of a specified culture. If you want to specify a different format or the current culture, use the other overloads of the <xref:System.Decimal.ToString%2A> method, as follows:  \n  \n|To use format|For culture|Use the overload|  \n|-------------------|-----------------|----------------------|  \n|Default (\"G\") format|Default (current) culture|<xref:System.Decimal.ToString>|  \n|A specific format|Default (current) culture|<xref:System.Decimal.ToString%28System.String%29>|  \n|A specific format|A specific culture|<xref:System.Decimal.ToString%28System.String%2CSystem.IFormatProvider%29>|  \n  \n The .NET Framework provides extensive formatting support, which is described in greater detail in the following formatting topics:  \n  \n-   For more information about numeric format specifiers, see [Standard Numeric Format Strings](../Topic/Standard%20Numeric%20Format%20Strings.md) and [Custom Numeric Format Strings](../Topic/Custom%20Numeric%20Format%20Strings.md).  \n  \n-   For more information about formatting, see [Formatting Types](../Topic/Formatting%20Types%20in%20the%20.NET%20Framework.md).  \n  \n The  parameter is an <xref:System.IFormatProvider> implementation whose <xref:System.IFormatProvider.GetFormat%2A?displayProperty=fullName> method returns a <xref:System.Globalization.NumberFormatInfo> object. Typically,  is a <xref:System.Globalization.NumberFormatInfo> object or a <xref:System.Globalization.CultureInfo> object. The  parameter supplies culture-specific information used in formatting. If  is `null`, the thread current culture is used.  \n  \n To convert a <xref:System.Decimal> value to its string representation using a specified culture and a specific format string, call the <xref:System.Decimal.ToString%28System.String%2CSystem.IFormatProvider%29?displayProperty=fullName> method."
+  example:
+  - "The following example displays the string representation of a <xref:System.Decimal> value using <xref:System.Globalization.CultureInfo> objects that represent several different cultures.  \n  \n [!CODE [System.Decimal.ToString#3](../CodeSnippet/VS_Snippets_CLR_System/system.Decimal.ToString#3)]"
   syntax:
     content: public string ToString (IFormatProvider provider);
     parameters:
     - id: provider
       type: System.IFormatProvider
-      description: Parameter description to be filled
+      description: An object that supplies culture-specific formatting information.
     return:
       type: System.String
-      description: Return description to be filled
+      description: The string representation of the value of this instance as specified by .
   overload: System.Decimal.ToString*
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Decimal.ToString(System.String)
   id: ToString(System.String)
   parent: System.Decimal
   langs:
   - csharp
-  - vb
   name: ToString(String)
   nameWithType: Decimal.ToString(String)
   fullName: System.Decimal.ToString(String)
@@ -2445,22 +3043,29 @@ items:
   assemblies:
   - mscorlib
   namespace: System
+  summary: Converts the numeric value of this instance to its equivalent string representation, using the specified format.
+  remarks: "The ToString method formats a <xref:System.Decimal> value in a specified format by using the conventions of the current culture. If you want to use the default (\"G\", or general) format or specify a different culture, use the other overloads of the ToString method, as follows:  \n  \n|To use format|For culture|Use the overload|  \n|-------------------|-----------------|----------------------|  \n|Default (\"G\") format|Default (current) culture|<xref:System.Decimal.ToString>|  \n|Default (\"G\") format|A specific culture|<xref:System.Decimal.ToString%28System.IFormatProvider%29>|  \n|A specific format|A specific culture|<xref:System.Decimal.ToString%28System.String%2CSystem.IFormatProvider%29>|  \n  \n The ToString method uses the standard or custom numeric format string specified by the  parameter to convert the value of the current instance into its string representation. The  parameter can be any valid [standard numeric format specifier](../Topic/Standard%20Numeric%20Format%20Strings.md) except for D, R, and X, as well as any combination of [custom numeric format specifiers](../Topic/Custom%20Numeric%20Format%20Strings.md). If  is `null` or an empty string, the return value of this instance is formatted with the general numeric format specifier (G).  \n  \n The .NET Framework provides extensive formatting support, which is described in greater detail in the following formatting topics:  \n  \n-   For more information about numeric format specifiers, see [Standard Numeric Format Strings](../Topic/Standard%20Numeric%20Format%20Strings.md) and [Custom Numeric Format Strings](../Topic/Custom%20Numeric%20Format%20Strings.md).  \n  \n-   For more information about formatting, see [Formatting Types](../Topic/Formatting%20Types%20in%20the%20.NET%20Framework.md).  \n  \n The return value is formatted by using the <xref:System.Globalization.NumberFormatInfo> object for the current culture. To apply the formatting conventions of a specified culture, call the <xref:System.Decimal.ToString%28System.String%2CSystem.IFormatProvider%29> method."
+  example:
+  - "The following example displays a <xref:System.Decimal> value using each of the supported standard numeric format specifiers, together with two custom numeric format strings. In converting the numeric values to strings, the example uses the formatting conventions of the en-US culture.  \n  \n [!CODE [System.Decimal.ToString#4](../CodeSnippet/VS_Snippets_CLR_System/system.Decimal.ToString#4)]"
   syntax:
     content: public string ToString (string format);
     parameters:
     - id: format
       type: System.String
-      description: Parameter description to be filled
+      description: A standard or custom numeric format string (see Remarks).
     return:
       type: System.String
-      description: Return description to be filled
+      description: The string representation of the value of this instance as specified by .
   overload: System.Decimal.ToString*
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Decimal.ToString(System.String,System.IFormatProvider)
   id: ToString(System.String,System.IFormatProvider)
   parent: System.Decimal
   langs:
   - csharp
-  - vb
   name: ToString(String,IFormatProvider)
   nameWithType: Decimal.ToString(String,IFormatProvider)
   fullName: System.Decimal.ToString(String,IFormatProvider)
@@ -2468,25 +3073,32 @@ items:
   assemblies:
   - mscorlib
   namespace: System
+  summary: Converts the numeric value of this instance to its equivalent string representation using the specified format and culture-specific format information.
+  remarks: "The <xref:System.Double.ToString%28System.String%2CSystem.IFormatProvider%29> method formats a <xref:System.Double> value in a specified format of a specified culture. If you want to use default format or culture settings, use the other overloads of the <xref:System.Double.ToString%2A> method, as follows:  \n  \n|To use format|For culture|Use the overload|  \n|-------------------|-----------------|----------------------|  \n|Default (\"G\") format|Default (current) culture|<xref:System.Double.ToString>|  \n|Default (\"G\") format|A specific culture|<xref:System.Double.ToString%28System.IFormatProvider%29>|  \n|A specific format|Default (current) culture|<xref:System.Double.ToString%28System.String%29>|  \n  \n The  parameter can be any valid standard numeric format specifier except for D, R, and X, as well as any combination of custom numeric format specifiers. If  is `null` or an empty string, the return value for this instance is formatted with the general numeric format specifier (\"G\").  \n  \n The .NET Framework provides extensive formatting support, which is described in greater detail in the following formatting topics:  \n  \n-   For more information about numeric format specifiers, see [Standard Numeric Format Strings](../Topic/Standard%20Numeric%20Format%20Strings.md) and [Custom Numeric Format Strings](../Topic/Custom%20Numeric%20Format%20Strings.md).  \n  \n-   For more information about formatting, see [Formatting Types](../Topic/Formatting%20Types%20in%20the%20.NET%20Framework.md).  \n  \n The  parameter is an <xref:System.IFormatProvider> implementation whose <xref:System.IFormatProvider.GetFormat%2A?displayProperty=fullName> method returns a <xref:System.Globalization.NumberFormatInfo> object. Typically,  is a <xref:System.Globalization.NumberFormatInfo> or <xref:System.Globalization.CultureInfo> object. The  parameter supplies culture-specific information used in formatting. If  is `null`, the thread current culture is used."
+  example:
+  - "The following example displays a <xref:System.Decimal> value using each of the supported standard numeric format specifiers for several different cultures.  \n  \n [!CODE [System.Decimal.ToString#5](../CodeSnippet/VS_Snippets_CLR_System/system.Decimal.ToString#5)]"
   syntax:
     content: public string ToString (string format, IFormatProvider provider);
     parameters:
     - id: format
       type: System.String
-      description: Parameter description to be filled
+      description: A numeric format string (see Remarks).
     - id: provider
       type: System.IFormatProvider
-      description: Parameter description to be filled
+      description: An object that supplies culture-specific formatting information.
     return:
       type: System.String
-      description: Return description to be filled
+      description: The string representation of the value of this instance as specified by  and .
   overload: System.Decimal.ToString*
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Decimal.ToUInt16(System.Decimal)
   id: ToUInt16(System.Decimal)
   parent: System.Decimal
   langs:
   - csharp
-  - vb
   name: ToUInt16(Decimal)
   nameWithType: Decimal.ToUInt16(Decimal)
   fullName: System.Decimal.ToUInt16(Decimal)
@@ -2494,21 +3106,28 @@ items:
   assemblies:
   - mscorlib
   namespace: System
+  summary: Converts the value of the specified <see cref="T:System.Decimal"> to the equivalent 16-bit unsigned integer.
+  remarks: "The return value is the integral part of the decimal value; fractional digits are truncated.  \n  \n You can also convert a <xref:System.Decimal> value to a 16-bit unsigned integer by using the <xref:System.Decimal.op_Explicit%2A> assignment operator. Because the operator performs a narrowing conversion, you must use a casting operator in C# or a conversion function in Visual Basic."
+  example:
+  - "The following example uses the ToUInt16 method to convert decimal numbers to <xref:System.UInt16> values.  \n  \n [!CODE [System.Decimal.ToUInt16#1](../CodeSnippet/VS_Snippets_CLR_System/system.decimal.touint16#1)]"
   syntax:
     content: public static ushort ToUInt16 (decimal value);
     parameters:
     - id: value
       type: System.Decimal
-      description: Parameter description to be filled
+      description: The decimal number to convert.
     return:
       type: System.UInt16
-      description: Return description to be filled
+      description: A 16-bit unsigned integer equivalent to the value of .
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Decimal.ToUInt32(System.Decimal)
   id: ToUInt32(System.Decimal)
   parent: System.Decimal
   langs:
   - csharp
-  - vb
   name: ToUInt32(Decimal)
   nameWithType: Decimal.ToUInt32(Decimal)
   fullName: System.Decimal.ToUInt32(Decimal)
@@ -2516,21 +3135,28 @@ items:
   assemblies:
   - mscorlib
   namespace: System
+  summary: Converts the value of the specified <see cref="T:System.Decimal"> to the equivalent 32-bit unsigned integer.
+  remarks: "The return value is the integral part of the decimal value; fractional digits are truncated.  \n  \n You can also convert a <xref:System.Decimal> value to an 32-bit unsigned integer by using the <xref:System.Decimal.op_Explicit%2A> assignment operator. Because the operator performs a narrowing conversion, you must use a casting operator in C# or a conversion function in Visual Basic."
+  example:
+  - "The following example uses the ToUInt32 method to convert decimal numbers to <xref:System.UInt32> values.  \n  \n [!CODE [System.Decimal.ToUInt32#1](../CodeSnippet/VS_Snippets_CLR_System/system.decimal.touint32#1)]"
   syntax:
     content: public static uint ToUInt32 (decimal d);
     parameters:
     - id: d
       type: System.Decimal
-      description: Parameter description to be filled
+      description: The decimal number to convert.
     return:
       type: System.UInt32
-      description: Return description to be filled
+      description: A 32-bit unsigned integer equivalent to the value of .
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Decimal.ToUInt64(System.Decimal)
   id: ToUInt64(System.Decimal)
   parent: System.Decimal
   langs:
   - csharp
-  - vb
   name: ToUInt64(Decimal)
   nameWithType: Decimal.ToUInt64(Decimal)
   fullName: System.Decimal.ToUInt64(Decimal)
@@ -2538,21 +3164,28 @@ items:
   assemblies:
   - mscorlib
   namespace: System
+  summary: Converts the value of the specified <see cref="T:System.Decimal"> to the equivalent 64-bit unsigned integer.
+  remarks: "The return value is the integral part of the decimal value; fractional digits are truncated.  \n  \n You can also convert a <xref:System.Decimal> value to an 64-bit unsigned integer by using the <xref:System.Decimal.op_Explicit%2A> assignment operator. Because the operator performs a narrowing conversion, you must use a casting operator in C# or a conversion function in Visual Basic."
+  example:
+  - "The following example uses the ToUInt64 method to convert decimal numbers to <xref:System.UInt64> values.  \n  \n [!CODE [System.Decimal.ToUInt64#1](../CodeSnippet/VS_Snippets_CLR_System/system.decimal.touint64#1)]"
   syntax:
     content: public static ulong ToUInt64 (decimal d);
     parameters:
     - id: d
       type: System.Decimal
-      description: Parameter description to be filled
+      description: The decimal number to convert.
     return:
       type: System.UInt64
-      description: Return description to be filled
+      description: A 64-bit unsigned integer equivalent to the value of .
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Decimal.Truncate(System.Decimal)
   id: Truncate(System.Decimal)
   parent: System.Decimal
   langs:
   - csharp
-  - vb
   name: Truncate(Decimal)
   nameWithType: Decimal.Truncate(Decimal)
   fullName: System.Decimal.Truncate(Decimal)
@@ -2560,21 +3193,28 @@ items:
   assemblies:
   - mscorlib
   namespace: System
+  summary: Returns the integral digits of the specified <see cref="T:System.Decimal">; any fractional digits are discarded.
+  remarks: This method rounds  toward zero, to the nearest whole number, which corresponds to discarding any digits after the decimal point.
+  example:
+  - "The following code example uses the `Truncate` method to discard the fractional digits of several `Decimal` values.  \n  \n [!CODE [System.Decimal.Flr_Neg_Rnd_Trnc#1](../CodeSnippet/VS_Snippets_CLR_System/system.Decimal.Flr_Neg_Rnd_Trnc#1)]"
   syntax:
     content: public static decimal Truncate (decimal d);
     parameters:
     - id: d
       type: System.Decimal
-      description: Parameter description to be filled
+      description: The decimal number to truncate.
     return:
       type: System.Decimal
-      description: Return description to be filled
+      description: The result of  rounded toward zero, to the nearest whole number.
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Decimal.TryParse(System.String,System.Decimal@)
   id: TryParse(System.String,System.Decimal@)
   parent: System.Decimal
   langs:
   - csharp
-  - vb
   name: TryParse(String,Decimal)
   nameWithType: Decimal.TryParse(String,Decimal)
   fullName: System.Decimal.TryParse(String,Decimal)
@@ -2582,25 +3222,32 @@ items:
   assemblies:
   - mscorlib
   namespace: System
+  summary: Converts the string representation of a number to its <see cref="T:System.Decimal"> equivalent. A return value indicates whether the conversion succeeded or failed.
+  remarks: "This overload differs from the <xref:System.Decimal.Parse%28System.String%29?displayProperty=fullName> method by returning a Boolean value that indicates whether the parse operation succeeded instead of returning the parsed numeric value. It eliminates the need to use exception handling to test for a <xref:System.FormatException> in the event that  is invalid and cannot be successfully parsed.  \n  \n Parameter  contains a number of the form:  \n  \n [ws][sign][digits,]digits[.fractional-digits][ws]  \n  \n Elements in square brackets ([ and ]) are optional. The following table describes each element.  \n  \n|Element|Description|  \n|-------------|-----------------|  \n|*ws*|Optional white space.|  \n|*sign*|An optional sign.|  \n|*digits*|A sequence of digits ranging from 0 to 9.|  \n|*,*|A culture-specific thousands separator symbol.|  \n|*.*|A culture-specific decimal point symbol.|  \n|*fractional-digits*|A sequence of digits ranging from 0 to 9.|  \n  \n Parameter  is interpreted using the <xref:System.Globalization.NumberStyles?displayProperty=fullName> style. This means that white space and thousands separators are allowed but currency symbols are not. To explicitly define the elements (such as currency symbols, thousands separators, and white space) that can be present in , use the <xref:System.Decimal.TryParse%28System.String%2CSystem.Globalization.NumberStyles%2CSystem.IFormatProvider%2CSystem.Decimal%40%29?displayProperty=fullName> method overload.  \n  \n Parameter  is parsed using the formatting information in a <xref:System.Globalization.NumberFormatInfo> object initialized for the current system culture. For more information, see <xref:System.Globalization.NumberFormatInfo.CurrentInfo%2A>. To parse a string using the formatting information of some other specified culture, use the <xref:System.Decimal.TryParse%28System.String%2CSystem.Globalization.NumberStyles%2CSystem.IFormatProvider%2CSystem.Decimal%40%29?displayProperty=fullName> method overload.  \n  \n If necessary, the value of  is rounded using rounding to nearest.  \n  \n A <xref:System.Decimal> object has 29 digits of precision. If  represents a number that has more than 29 digits, but has a fractional part and is within the range of <xref:System.Decimal.MaxValue> and <xref:System.Decimal.MinValue>, the number is rounded, not truncated, to 29 digits using rounding to nearest.  \n  \n If during a parse operation a separator is encountered in the  parameter, and the applicable currency or number decimal and group separators are the same, the parse operation assumes that the separator is a decimal separator rather than a group separator. For more information about separators, see <xref:System.Globalization.NumberFormatInfo.CurrencyDecimalSeparator%2A>, <xref:System.Globalization.NumberFormatInfo.NumberDecimalSeparator%2A>, <xref:System.Globalization.NumberFormatInfo.CurrencyGroupSeparator%2A>, and <xref:System.Globalization.NumberFormatInfo.NumberGroupSeparator%2A>."
+  example:
+  - "The following example uses the TryParse method to convert the string representations of numeric values to <xref:System.Decimal> values. It assumes that en-US is the current culture.  \n  \n [!CODE [System.Decimal.TryParse#1](../CodeSnippet/VS_Snippets_CLR_System/system.Decimal.TryParse#1)]"
   syntax:
     content: public static bool TryParse (string s, out decimal result);
     parameters:
     - id: s
       type: System.String
-      description: Parameter description to be filled
+      description: The string representation of the number to convert.
     - id: result
       type: System.Decimal
-      description: Parameter description to be filled
+      description: To be added.
     return:
       type: System.Boolean
-      description: Return description to be filled
+      description: '`true` if  was converted successfully; otherwise, `false`.'
   overload: System.Decimal.TryParse*
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Decimal.TryParse(System.String,System.Globalization.NumberStyles,System.IFormatProvider,System.Decimal@)
   id: TryParse(System.String,System.Globalization.NumberStyles,System.IFormatProvider,System.Decimal@)
   parent: System.Decimal
   langs:
   - csharp
-  - vb
   name: TryParse(String,NumberStyles,IFormatProvider,Decimal)
   nameWithType: Decimal.TryParse(String,NumberStyles,IFormatProvider,Decimal)
   fullName: System.Decimal.TryParse(String,NumberStyles,IFormatProvider,Decimal)
@@ -2608,31 +3255,38 @@ items:
   assemblies:
   - mscorlib
   namespace: System
+  summary: Converts the string representation of a number to its <see cref="T:System.Decimal"> equivalent using the specified style and culture-specific format. A return value indicates whether the conversion succeeded or failed.
+  remarks: "This overload differs from the <xref:System.Decimal.Parse%28System.String%2CSystem.Globalization.NumberStyles%2CSystem.IFormatProvider%29?displayProperty=fullName> method by returning a Boolean value that indicates whether the parse operation succeeded instead of returning the parsed numeric value. It eliminates the need to use exception handling to test for a <xref:System.FormatException> in the event that  is invalid and cannot be successfully parsed.  \n  \n The  parameter defines the allowable format of the  parameter for the parse operation to succeed. It must be a combination of bit flags from the <xref:System.Globalization.NumberStyles> enumeration. The following <xref:System.Globalization.NumberStyles> members are not supported:  \n  \n-   <xref:System.Globalization.NumberStyles?displayProperty=fullName>  \n  \n-   <xref:System.Globalization.NumberStyles?displayProperty=fullName>  \n  \n Depending on the value of style, the  parameter may include the following elements:  \n  \n [ws][$][sign][digits,]digits[.fractional-digits][e[sign]digits][ws]  \n  \n Elements in square brackets ([ and ]) are optional. The following table describes each element.  \n  \n|Element|Description|  \n|-------------|-----------------|  \n|*ws*|Optional white space. White space can appear at the beginning of  if  includes the <xref:System.Globalization.NumberStyles?displayProperty=fullName> flag. It can appear at the end of  if  includes the <xref:System.Globalization.NumberStyles?displayProperty=fullName> flag.|  \n|*$*|A culture-specific currency symbol. Its position in the string is defined by the <xref:System.Globalization.NumberFormatInfo.CurrencyNegativePattern%2A?displayProperty=fullName> or <xref:System.Globalization.NumberFormatInfo.CurrencyPositivePattern%2A?displayProperty=fullName> properties of the <xref:System.Globalization.NumberFormatInfo> object returned by the <xref:System.IFormatProvider.GetFormat%2A?displayProperty=fullName> method of the  parameter. The currency symbol can appear in  if  includes the <xref:System.Globalization.NumberStyles?displayProperty=fullName> flag.|  \n|*sign*|An optional sign.|  \n|*digits*|A sequence of digits ranging from 0 to 9.|  \n|*.*|A culture-specific decimal point symbol.|  \n|*fractional-digits*|A sequence of digits ranging from 0 to 9.|  \n  \n The  parameter specifies the permitted format of the  parameter, and can be one or more <xref:System.Globalization.NumberStyles> enumerated constants combined using a bitwise OR operation. If  is null,  is interpreted using the <xref:System.Globalization.NumberStyles?displayProperty=fullName> style.  \n  \n The  parameter is an <xref:System.IFormatProvider> implementation such as a <xref:System.Globalization.NumberFormatInfo> or <xref:System.Globalization.CultureInfo> object. The  parameter supplies culture-specific information used in parsing. If  is `null`, the thread current culture is used.  \n  \n A <xref:System.Decimal> object has 29 digits of precision. If  represents a number that has more than 29 digits, but has a fractional part and is within the range of <xref:System.Decimal.MaxValue> and <xref:System.Decimal.MinValue>, the number is rounded, not truncated, to 29 digits using rounding to nearest.  \n  \n If a separator is encountered in the  parameter during a parse operation, and the applicable currency or number decimal and group separators are the same, the parse operation assumes that the separator is a decimal separator rather than a group separator. For more information about separators, see <xref:System.Globalization.NumberFormatInfo.CurrencyDecimalSeparator%2A>, <xref:System.Globalization.NumberFormatInfo.NumberDecimalSeparator%2A>, <xref:System.Globalization.NumberFormatInfo.CurrencyGroupSeparator%2A>, and <xref:System.Globalization.NumberFormatInfo.NumberGroupSeparator%2A>."
+  example:
+  - "The following example demonstrates the use of the TryParse method to parse the string representation of a number that has a particular style and is formatted using the conventions of a particular culture.  \n  \n [!CODE [System.Decimal.TryParse#2](../CodeSnippet/VS_Snippets_CLR_System/system.Decimal.TryParse#2)]"
   syntax:
     content: public static bool TryParse (string s, System.Globalization.NumberStyles style, IFormatProvider provider, out decimal result);
     parameters:
     - id: s
       type: System.String
-      description: Parameter description to be filled
+      description: The string representation of the number to convert.
     - id: style
       type: System.Globalization.NumberStyles
-      description: Parameter description to be filled
+      description: A bitwise combination of enumeration values that indicates the permitted format of . A typical value to specify is <see cref="T:System.Globalization.NumberStyles">.
     - id: provider
       type: System.IFormatProvider
-      description: Parameter description to be filled
+      description: An object that supplies culture-specific parsing information about .
     - id: result
       type: System.Decimal
-      description: Parameter description to be filled
+      description: To be added.
     return:
       type: System.Boolean
-      description: Return description to be filled
+      description: '`true` if  was converted successfully; otherwise, `false`.'
   overload: System.Decimal.TryParse*
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Decimal.Zero
   id: Zero
   parent: System.Decimal
   langs:
   - csharp
-  - vb
   name: Zero
   nameWithType: Decimal.Zero
   fullName: System.Decimal.Zero
@@ -2640,11 +3294,19 @@ items:
   assemblies:
   - mscorlib
   namespace: System
+  summary: Represents the number zero (0).
+  remarks: ''
+  example:
+  - "The following code example illustrates the use of the `Zero` field.  \n  \n [!CODE [System.Decimal.Fields#1](../CodeSnippet/VS_Snippets_CLR_System/system.Decimal.Fields#1)]"
   syntax:
     content: public static readonly decimal Zero;
     return:
       type: System.Decimal
-      description: Return description to be filled
+      description: To be added.
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 references:
 - uid: System.ValueType
   isExternal: false
@@ -2679,6 +3341,12 @@ references:
   name: Decimal(Int32[])
   nameWithType: Decimal.Decimal(Int32[])
   fullName: System.Decimal.Decimal(Int32[])
+- uid: System.Int32
+  parent: System
+  isExternal: false
+  name: Int32
+  nameWithType: Int32
+  fullName: System.Int32[]
 - uid: System.Decimal.#ctor(System.Int64)
   parent: System.Decimal
   isExternal: false
@@ -2991,6 +3659,12 @@ references:
   name: GetBits(Decimal)
   nameWithType: Decimal.GetBits(Decimal)
   fullName: System.Decimal.GetBits(Decimal)
+- uid: System.Int32
+  parent: System
+  isExternal: false
+  name: Int32
+  nameWithType: Int32
+  fullName: System.Int32[]
 - uid: System.Decimal
   parent: System
   isExternal: false
@@ -4365,12 +5039,6 @@ references:
   name: System.Runtime.Serialization.IDeserializationCallback.OnDeserialization(Object)
   nameWithType: Decimal.System.Runtime.Serialization.IDeserializationCallback.OnDeserialization(Object)
   fullName: System.Decimal.System.Runtime.Serialization.IDeserializationCallback.OnDeserialization(Object)
-- uid: System.Void
-  parent: System
-  isExternal: false
-  name: Void
-  nameWithType: Void
-  fullName: System.Void
 - uid: System.Object
   parent: System
   isExternal: false

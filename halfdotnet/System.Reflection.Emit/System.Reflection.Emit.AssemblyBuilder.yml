@@ -64,11 +64,14 @@ items:
   - System.Reflection.Emit.AssemblyBuilder.System#Runtime#InteropServices#_AssemblyBuilder#Invoke(System.UInt32,System.Guid@,System.UInt32,System.Int16,System.IntPtr,System.IntPtr,System.IntPtr,System.IntPtr)
   langs:
   - csharp
-  - vb
   name: AssemblyBuilder
   nameWithType: AssemblyBuilder
   fullName: System.Reflection.Emit.AssemblyBuilder
   type: Class
+  summary: Defines and represents a dynamic assembly.
+  remarks: "A dynamic assembly is an assembly that is created using the Reflection Emit APIs. The dynamic modules in the assembly are saved when the dynamic assembly is saved using the <xref:System.Reflection.Emit.AssemblyBuilder.Save%2A> method. To generate an executable, the <xref:System.Reflection.Emit.AssemblyBuilder.SetEntryPoint%2A> method must be called to identify the method that is the entry point to the assembly. Assemblies are saved as DLLs by default, unless the <xref:System.Reflection.Emit.AssemblyBuilder.SetEntryPoint%2A> method requests the generation of a console application or a Windows-based application.  \n  \n If a dynamic assembly contains more than one dynamic module, the assembly's manifest file name should match the module's name that is specified as the first argument to the <xref:System.Reflection.Emit.AssemblyBuilder.DefineDynamicModule%2A> method.  \n  \n Some methods on the base <xref:System.Reflection.Assembly> class, such as `GetModules` and `GetLoadedModules`, will not work correctly when called from AssemblyBuilder objects. You can load the defined dynamic assembly and call the methods on the loaded assembly. For example, to ensure that resource modules are included in the returned module list, call `GetModules` on the loaded <xref:System.Reflection.Assembly> object.  \n  \n The signing of a dynamic assembly using <xref:System.Reflection.AssemblyName.KeyPair%2A> is not effective until the assembly is saved to disk. So, strong names will not work with transient dynamic assemblies.  \n  \n To get an AssemblyBuilder object, use the <xref:System.AppDomain.DefineDynamicAssembly%2A?displayProperty=fullName> method.  \n  \n## Reflection emit dynamic assembly scenarios  \n The following are some things to consider when using the AssemblyBuilder class to create dynamic assemblies.  \n  \n### Dynamic modules  \n Reflection emit supports the creation of dynamic modules defined in dynamic assemblies. A dynamic module created in a dynamic assembly can be transient or persistable.  \n  \n### Restrictions on type references  \n Assemblies can reference types defined in another assembly. A transient dynamic assembly can safely reference types defined in another transient dynamic assembly, a persistable dynamic assembly, or a static assembly. However, the common language runtime does not allow a persistable dynamic module to reference a type defined in a transient dynamic module. This is because when the persisted dynamic module is loaded after being saved to disk, the runtime cannot resolve the references to types defined in the transient dynamic module.  \n  \n### Restrictions on emitting to remote application domains  \n Some scenarios require a dynamic assembly to be created and executed in a remote application domain. Reflection emit does not allow a dynamic assembly to be emitted directly to a remote application domain. The solution is to emit the dynamic assembly in the current application domain, save the emitted dynamic assembly to disk, and then load the dynamic assembly into the remote application domain.  \n  \n### Dynamic assembly access modes  \n Dynamic assemblies can be created using one of the following access modes:  \n  \n-   <xref:System.Reflection.Emit.AssemblyBuilderAccess?displayProperty=fullName>  \n  \n     The dynamic assembly represented by an AssemblyBuilder object is transient. The dynamic assembly can only be used to execute the emitted code.  \n  \n-   <xref:System.Reflection.Emit.AssemblyBuilderAccess?displayProperty=fullName>  \n  \n     The dynamic assembly represented by an AssemblyBuilder object is persistable but cannot be executed until the saved portable executable (PE) file has been loaded from disk.  \n  \n-   <xref:System.Reflection.Emit.AssemblyBuilderAccess?displayProperty=fullName>  \n  \n     The dynamic assembly represented by an AssemblyBuilder object is persistable, but can also be executed before and/or after the assembly is saved to disk.  \n  \n The access mode must be specified by providing the appropriate <xref:System.Reflection.Emit.AssemblyBuilderAccess> value in the call to the <xref:System.Reflection.Emit.AssemblyBuilder.DefineDynamicAssembly%2A?displayProperty=fullName> method when the dynamic assembly is defined and cannot be changed later. The runtime uses the access mode of a dynamic assembly to optimize the assembly's internal representation."
+  example:
+  - "The following code example shows how to define a dynamic assembly with one module. The module in the example assembly contains one type, `MyDynamicType`, which has a private field, a property that gets and sets the private field, constructors that initialize the private field, and a method that multiplies a user-supplied number by the private field value and returns the result.  \n  \n <xref:System.Reflection.Emit.AssemblyBuilderAccess?displayProperty=fullName> is specified when the assembly is created. The assembly code is used immediately, and the assembly is also saved to disk so that it can be examined with [Ildasm.exe (IL Disassembler)](../Topic/Ildasm.exe%20\\(IL%20Disassembler\\).md) or used in another program.  \n  \n [!CODE [AssemblyBuilderClass#1](../CodeSnippet/VS_Snippets_CLR/AssemblyBuilderClass#1)]"
   syntax:
     content: >-
       [System.Runtime.InteropServices.ClassInterface(System.Runtime.InteropServices.ClassInterfaceType.None)]
@@ -137,12 +140,15 @@ items:
   - System.Reflection.Assembly.System#Runtime#InteropServices#_Assembly#GetType
   - System.Reflection.Assembly.ToString
   - System.Reflection.Assembly.UnsafeLoadFrom(System.String)
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Reflection.Emit.AssemblyBuilder.AddResourceFile(System.String,System.String)
   id: AddResourceFile(System.String,System.String)
   parent: System.Reflection.Emit.AssemblyBuilder
   langs:
   - csharp
-  - vb
   name: AddResourceFile(String,String)
   nameWithType: AssemblyBuilder.AddResourceFile(String,String)
   fullName: System.Reflection.Emit.AssemblyBuilder.AddResourceFile(String,String)
@@ -150,25 +156,29 @@ items:
   assemblies:
   - mscorlib
   namespace: System.Reflection.Emit
+  summary: Adds an existing resource file to this assembly.
+  remarks: "should not be the same as that of any other persistable module, standalone managed resource, or the standalone manifest file.  \n  \n The managed resources in the file are assumed to be public.  \n  \n The specified resource file must be in the directory where the assembly will be saved.  \n  \n> [!NOTE]\n>  Starting with the [!INCLUDE[net_v20sp1_long](../../add/includes/net-v20sp1-long-md.md)], this member no longer requires <xref:System.Security.Permissions.ReflectionPermission> with the <xref:System.Security.Permissions.ReflectionPermissionFlag?displayProperty=fullName> flag. (See [Security Issues in Reflection Emit](../Topic/Security%20Issues%20in%20Reflection%20Emit.md).) To use this functionality, your application should target the [!INCLUDE[net_v35_long](../../add/includes/net-v35-long-md.md)] or later."
+  example:
+  - "The following code sample demonstrates how to attach a resource file to a dynamically created assembly, using `AddResourceFile`.  \n  \n [!CODE [System.Reflection.Emit.AssemblyBuilder.AddResourceFile Example#1](../CodeSnippet/VS_Snippets_CLR_System/system.Reflection.Emit.AssemblyBuilder.AddResourceFile Example#1)]"
   syntax:
     content: public void AddResourceFile (string name, string fileName);
     parameters:
     - id: name
       type: System.String
-      description: Parameter description to be filled
+      description: The logical name of the resource.
     - id: fileName
       type: System.String
-      description: Parameter description to be filled
-    return:
-      type: System.Void
-      description: Return description to be filled
+      description: The physical file name (.resources file) to which the logical name is mapped. This should not include a path; the file must be in the same directory as the assembly to which it is added.
   overload: System.Reflection.Emit.AssemblyBuilder.AddResourceFile*
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Reflection.Emit.AssemblyBuilder.AddResourceFile(System.String,System.String,System.Reflection.ResourceAttributes)
   id: AddResourceFile(System.String,System.String,System.Reflection.ResourceAttributes)
   parent: System.Reflection.Emit.AssemblyBuilder
   langs:
   - csharp
-  - vb
   name: AddResourceFile(String,String,ResourceAttributes)
   nameWithType: AssemblyBuilder.AddResourceFile(String,String,ResourceAttributes)
   fullName: System.Reflection.Emit.AssemblyBuilder.AddResourceFile(String,String,ResourceAttributes)
@@ -176,28 +186,32 @@ items:
   assemblies:
   - mscorlib
   namespace: System.Reflection.Emit
+  summary: Adds an existing resource file to this assembly.
+  remarks: "should not be the same as that of any other persistable module, standalone managed resource, or the standalone manifest file.  \n  \n Attributes can be specified for the managed resource.  \n  \n The specified resource file must be in the directory where the assembly will be saved.  \n  \n> [!NOTE]\n>  Starting with the [!INCLUDE[net_v20sp1_long](../../add/includes/net-v20sp1-long-md.md)], this member no longer requires <xref:System.Security.Permissions.ReflectionPermission> with the <xref:System.Security.Permissions.ReflectionPermissionFlag?displayProperty=fullName> flag. (See [Security Issues in Reflection Emit](../Topic/Security%20Issues%20in%20Reflection%20Emit.md).) To use this functionality, your application should target the [!INCLUDE[net_v35_long](../../add/includes/net-v35-long-md.md)] or later."
+  example:
+  - "The following code sample demonstrates how to attach a resource file to a dynamically created assembly, using `AddResourceFile`.  \n  \n [!CODE [System.Reflection.Emit.AssemblyBuilder.AddResourceFile Example#1](../CodeSnippet/VS_Snippets_CLR_System/system.Reflection.Emit.AssemblyBuilder.AddResourceFile Example#1)]"
   syntax:
     content: public void AddResourceFile (string name, string fileName, System.Reflection.ResourceAttributes attribute);
     parameters:
     - id: name
       type: System.String
-      description: Parameter description to be filled
+      description: The logical name of the resource.
     - id: fileName
       type: System.String
-      description: Parameter description to be filled
+      description: The physical file name (.resources file) to which the logical name is mapped. This should not include a path; the file must be in the same directory as the assembly to which it is added.
     - id: attribute
       type: System.Reflection.ResourceAttributes
-      description: Parameter description to be filled
-    return:
-      type: System.Void
-      description: Return description to be filled
+      description: The resource attributes.
   overload: System.Reflection.Emit.AssemblyBuilder.AddResourceFile*
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Reflection.Emit.AssemblyBuilder.CodeBase
   id: CodeBase
   parent: System.Reflection.Emit.AssemblyBuilder
   langs:
   - csharp
-  - vb
   name: CodeBase
   nameWithType: AssemblyBuilder.CodeBase
   fullName: System.Reflection.Emit.AssemblyBuilder.CodeBase
@@ -205,17 +219,22 @@ items:
   assemblies:
   - mscorlib
   namespace: System.Reflection.Emit
+  summary: Gets the location of the assembly, as specified originally (such as in an <see cref="T:System.Reflection.AssemblyName"> object).
+  remarks: To get the absolute path to the loaded manifest-containing file, use the <xref:System.Reflection.Assembly.Location%2A?displayProperty=fullName> property.
   syntax:
     content: public override string CodeBase { get; }
     return:
       type: System.String
-      description: Return description to be filled
+      description: To be added.
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Reflection.Emit.AssemblyBuilder.DefineDynamicAssembly(System.Reflection.AssemblyName,System.Reflection.Emit.AssemblyBuilderAccess)
   id: DefineDynamicAssembly(System.Reflection.AssemblyName,System.Reflection.Emit.AssemblyBuilderAccess)
   parent: System.Reflection.Emit.AssemblyBuilder
   langs:
   - csharp
-  - vb
   name: DefineDynamicAssembly(AssemblyName,AssemblyBuilderAccess)
   nameWithType: AssemblyBuilder.DefineDynamicAssembly(AssemblyName,AssemblyBuilderAccess)
   fullName: System.Reflection.Emit.AssemblyBuilder.DefineDynamicAssembly(AssemblyName,AssemblyBuilderAccess)
@@ -223,54 +242,64 @@ items:
   assemblies:
   - mscorlib
   namespace: System.Reflection.Emit
+  summary: Defines a dynamic assembly that has the specified name and access rights.
+  remarks: To be added.
   syntax:
     content: public static System.Reflection.Emit.AssemblyBuilder DefineDynamicAssembly (System.Reflection.AssemblyName name, System.Reflection.Emit.AssemblyBuilderAccess access);
     parameters:
     - id: name
       type: System.Reflection.AssemblyName
-      description: Parameter description to be filled
+      description: The name of the assembly.
     - id: access
       type: System.Reflection.Emit.AssemblyBuilderAccess
-      description: Parameter description to be filled
+      description: The access rights of the assembly.
     return:
       type: System.Reflection.Emit.AssemblyBuilder
-      description: Return description to be filled
+      description: An object that represents the new assembly.
   overload: System.Reflection.Emit.AssemblyBuilder.DefineDynamicAssembly*
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Reflection.Emit.AssemblyBuilder.DefineDynamicAssembly(System.Reflection.AssemblyName,System.Reflection.Emit.AssemblyBuilderAccess,System.Collections.Generic.IEnumerable{System.Reflection.Emit.CustomAttributeBuilder})
   id: DefineDynamicAssembly(System.Reflection.AssemblyName,System.Reflection.Emit.AssemblyBuilderAccess,System.Collections.Generic.IEnumerable{System.Reflection.Emit.CustomAttributeBuilder})
   parent: System.Reflection.Emit.AssemblyBuilder
   langs:
   - csharp
-  - vb
-  name: DefineDynamicAssembly(AssemblyName,AssemblyBuilderAccess,IEnumerable)
-  nameWithType: AssemblyBuilder.DefineDynamicAssembly(AssemblyName,AssemblyBuilderAccess,IEnumerable)
-  fullName: System.Reflection.Emit.AssemblyBuilder.DefineDynamicAssembly(AssemblyName,AssemblyBuilderAccess,IEnumerable)
+  name: DefineDynamicAssembly(AssemblyName,AssemblyBuilderAccess,IEnumerable<CustomAttributeBuilder>)
+  nameWithType: AssemblyBuilder.DefineDynamicAssembly(AssemblyName,AssemblyBuilderAccess,IEnumerable<CustomAttributeBuilder>)
+  fullName: System.Reflection.Emit.AssemblyBuilder.DefineDynamicAssembly(AssemblyName,AssemblyBuilderAccess,IEnumerable<CustomAttributeBuilder>)
   type: Method
   assemblies:
   - mscorlib
   namespace: System.Reflection.Emit
+  summary: Defines a new assembly that has the specified name, access rights, and attributes.
+  remarks: To be added.
   syntax:
     content: public static System.Reflection.Emit.AssemblyBuilder DefineDynamicAssembly (System.Reflection.AssemblyName name, System.Reflection.Emit.AssemblyBuilderAccess access, System.Collections.Generic.IEnumerable<System.Reflection.Emit.CustomAttributeBuilder> assemblyAttributes);
     parameters:
     - id: name
       type: System.Reflection.AssemblyName
-      description: Parameter description to be filled
+      description: The name of the assembly.
     - id: access
       type: System.Reflection.Emit.AssemblyBuilderAccess
-      description: Parameter description to be filled
+      description: The access rights of the assembly.
     - id: assemblyAttributes
       type: System.Collections.Generic.IEnumerable{System.Reflection.Emit.CustomAttributeBuilder}
-      description: Parameter description to be filled
+      description: A collection that contains the attributes of the assembly.
     return:
       type: System.Reflection.Emit.AssemblyBuilder
-      description: Return description to be filled
+      description: An object that represents the new assembly.
   overload: System.Reflection.Emit.AssemblyBuilder.DefineDynamicAssembly*
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Reflection.Emit.AssemblyBuilder.DefineDynamicModule(System.String)
   id: DefineDynamicModule(System.String)
   parent: System.Reflection.Emit.AssemblyBuilder
   langs:
   - csharp
-  - vb
   name: DefineDynamicModule(String)
   nameWithType: AssemblyBuilder.DefineDynamicModule(String)
   fullName: System.Reflection.Emit.AssemblyBuilder.DefineDynamicModule(String)
@@ -278,22 +307,29 @@ items:
   assemblies:
   - mscorlib
   namespace: System.Reflection.Emit
+  summary: Defines a named transient dynamic module in this assembly.
+  remarks: "It is an error to define multiple dynamic modules with the same name in an assembly.  \n  \n The defined dynamic module is transient. The dynamic module is not saved, even if the parent dynamic assembly was created with <xref:System.Reflection.Emit.AssemblyBuilderAccess>.  \n  \n> [!NOTE]\n>  To suppress optimizations when debugging dynamic modules, apply the <xref:System.Diagnostics.DebuggableAttribute> attribute to the dynamic assembly before calling <xref:System.Reflection.Emit.AssemblyBuilder.DefineDynamicModule%2A>. Create an instance of <xref:System.Diagnostics.DebuggableAttribute> with the <xref:System.Diagnostics.DebuggableAttribute.DebuggingModes> flag and apply it using the <xref:System.Reflection.Emit.AssemblyBuilder.SetCustomAttribute%2A> method. The attribute must be applied to the dynamic assembly. It has no effect if applied to the module.  \n  \n> [!NOTE]\n>  Starting with the [!INCLUDE[net_v20sp1_long](../../add/includes/net-v20sp1-long-md.md)], this member no longer requires <xref:System.Security.Permissions.ReflectionPermission> with the <xref:System.Security.Permissions.ReflectionPermissionFlag?displayProperty=fullName> flag. (See [Security Issues in Reflection Emit](../Topic/Security%20Issues%20in%20Reflection%20Emit.md).) To use this functionality, your application should target the [!INCLUDE[net_v35_long](../../add/includes/net-v35-long-md.md)] or later."
+  example:
+  - "[Visual Basic, C#]  \n  \n The code example below demonstrates how to create a transient dynamic module using `DefineDynamicModule`.  \n  \n [!CODE [System.Reflection.Emit.AssemblyBuilder.DefineDynamicModule Example#1](../CodeSnippet/VS_Snippets_CLR_System/system.Reflection.Emit.AssemblyBuilder.DefineDynamicModule Example#1)]"
   syntax:
     content: public System.Reflection.Emit.ModuleBuilder DefineDynamicModule (string name);
     parameters:
     - id: name
       type: System.String
-      description: Parameter description to be filled
+      description: The name of the dynamic module. Must be less than 260 characters in length.
     return:
       type: System.Reflection.Emit.ModuleBuilder
-      description: Return description to be filled
+      description: A <see cref="T:System.Reflection.Emit.ModuleBuilder"> representing the defined dynamic module.
   overload: System.Reflection.Emit.AssemblyBuilder.DefineDynamicModule*
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Reflection.Emit.AssemblyBuilder.DefineDynamicModule(System.String,System.Boolean)
   id: DefineDynamicModule(System.String,System.Boolean)
   parent: System.Reflection.Emit.AssemblyBuilder
   langs:
   - csharp
-  - vb
   name: DefineDynamicModule(String,Boolean)
   nameWithType: AssemblyBuilder.DefineDynamicModule(String,Boolean)
   fullName: System.Reflection.Emit.AssemblyBuilder.DefineDynamicModule(String,Boolean)
@@ -301,25 +337,32 @@ items:
   assemblies:
   - mscorlib
   namespace: System.Reflection.Emit
+  summary: Defines a named transient dynamic module in this assembly and specifies whether symbol information should be emitted.
+  remarks: "It is an error to define multiple dynamic modules with the same name in an assembly.  \n  \n The dynamic module is not saved, even if the parent dynamic assembly was created with <xref:System.Reflection.Emit.AssemblyBuilderAccess>.  \n  \n> [!NOTE]\n>  To suppress optimizations when debugging dynamic modules, apply the <xref:System.Diagnostics.DebuggableAttribute> attribute to the dynamic assembly before calling <xref:System.Reflection.Emit.AssemblyBuilder.DefineDynamicModule%2A>. Create an instance of <xref:System.Diagnostics.DebuggableAttribute> with the <xref:System.Diagnostics.DebuggableAttribute.DebuggingModes> flag and apply it using the <xref:System.Reflection.Emit.AssemblyBuilder.SetCustomAttribute%2A> method. The attribute must be applied to the dynamic assembly. It has no effect if applied to the module.  \n  \n> [!NOTE]\n>  Starting with the [!INCLUDE[net_v20sp1_long](../../add/includes/net-v20sp1-long-md.md)], this member no longer requires <xref:System.Security.Permissions.ReflectionPermission> with the <xref:System.Security.Permissions.ReflectionPermissionFlag?displayProperty=fullName> flag. (See [Security Issues in Reflection Emit](../Topic/Security%20Issues%20in%20Reflection%20Emit.md).) To use this functionality, your application should target the [!INCLUDE[net_v35_long](../../add/includes/net-v35-long-md.md)] or later."
+  example:
+  - "[Visual Basic, C#]  \n  \n The code example below demonstrates how to create a transient dynamic module using `DefineDynamicModule`, suppressing symbol information.  \n  \n [!CODE [System.Reflection.Emit.AssemblyBuilder.DefineDynamicModule Example#2](../CodeSnippet/VS_Snippets_CLR_System/system.Reflection.Emit.AssemblyBuilder.DefineDynamicModule Example#2)]"
   syntax:
     content: public System.Reflection.Emit.ModuleBuilder DefineDynamicModule (string name, bool emitSymbolInfo);
     parameters:
     - id: name
       type: System.String
-      description: Parameter description to be filled
+      description: The name of the dynamic module. Must be less than 260 characters in length.
     - id: emitSymbolInfo
       type: System.Boolean
-      description: Parameter description to be filled
+      description: '`true` if symbol information is to be emitted; otherwise, `false`.'
     return:
       type: System.Reflection.Emit.ModuleBuilder
-      description: Return description to be filled
+      description: A <see cref="T:System.Reflection.Emit.ModuleBuilder"> representing the defined dynamic module.
   overload: System.Reflection.Emit.AssemblyBuilder.DefineDynamicModule*
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Reflection.Emit.AssemblyBuilder.DefineDynamicModule(System.String,System.String)
   id: DefineDynamicModule(System.String,System.String)
   parent: System.Reflection.Emit.AssemblyBuilder
   langs:
   - csharp
-  - vb
   name: DefineDynamicModule(String,String)
   nameWithType: AssemblyBuilder.DefineDynamicModule(String,String)
   fullName: System.Reflection.Emit.AssemblyBuilder.DefineDynamicModule(String,String)
@@ -327,25 +370,32 @@ items:
   assemblies:
   - mscorlib
   namespace: System.Reflection.Emit
+  summary: Defines a persistable dynamic module with the given name that will be saved to the specified file. No symbol information is emitted.
+  remarks: "To define a persistable dynamic module, this assembly needs to be created with the <xref:System.Reflection.Emit.AssemblyBuilderAccess> or the <xref:System.Reflection.Emit.AssemblyBuilderAccess> attribute.  \n  \n If you want the module to contain the assembly manifest,  should be the same as the name of the assembly (that is, the <xref:System.Reflection.AssemblyName.Name%2A?displayProperty=fullName> property of the <xref:System.Reflection.AssemblyName> used to create the dynamic assembly) and  should be the same as the filename you specify when you save the assembly.  \n  \n In an assembly with only one module, that module should contain the assembly manifest.  \n  \n> [!NOTE]\n>  To suppress optimizations when debugging dynamic modules, apply the <xref:System.Diagnostics.DebuggableAttribute> attribute to the dynamic assembly before calling <xref:System.Reflection.Emit.AssemblyBuilder.DefineDynamicModule%2A>. Create an instance of <xref:System.Diagnostics.DebuggableAttribute> with the <xref:System.Diagnostics.DebuggableAttribute.DebuggingModes> flag and apply it using the <xref:System.Reflection.Emit.AssemblyBuilder.SetCustomAttribute%2A> method. The attribute must be applied to the dynamic assembly. It has no effect if applied to the module.  \n  \n> [!NOTE]\n>  Starting with the [!INCLUDE[net_v20sp1_long](../../add/includes/net-v20sp1-long-md.md)], this member no longer requires <xref:System.Security.Permissions.ReflectionPermission> with the <xref:System.Security.Permissions.ReflectionPermissionFlag?displayProperty=fullName> flag. (See [Security Issues in Reflection Emit](../Topic/Security%20Issues%20in%20Reflection%20Emit.md).) To use this functionality, your application should target the [!INCLUDE[net_v35_long](../../add/includes/net-v35-long-md.md)] or later."
+  example:
+  - "[Visual Basic, C#]  \n  \n The code example below demonstrates how to create a persistent dynamic module using `DefineDynamicModule`.  \n  \n [!CODE [System.Reflection.Emit.AssemblyBuilder.DefineDynamicModule Example#3](../CodeSnippet/VS_Snippets_CLR_System/system.Reflection.Emit.AssemblyBuilder.DefineDynamicModule Example#3)]"
   syntax:
     content: public System.Reflection.Emit.ModuleBuilder DefineDynamicModule (string name, string fileName);
     parameters:
     - id: name
       type: System.String
-      description: Parameter description to be filled
+      description: The name of the dynamic module. Must be less than 260 characters in length.
     - id: fileName
       type: System.String
-      description: Parameter description to be filled
+      description: The name of the file to which the dynamic module should be saved.
     return:
       type: System.Reflection.Emit.ModuleBuilder
-      description: Return description to be filled
+      description: A <see cref="T:System.Reflection.Emit.ModuleBuilder"> object representing the defined dynamic module.
   overload: System.Reflection.Emit.AssemblyBuilder.DefineDynamicModule*
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Reflection.Emit.AssemblyBuilder.DefineDynamicModule(System.String,System.String,System.Boolean)
   id: DefineDynamicModule(System.String,System.String,System.Boolean)
   parent: System.Reflection.Emit.AssemblyBuilder
   langs:
   - csharp
-  - vb
   name: DefineDynamicModule(String,String,Boolean)
   nameWithType: AssemblyBuilder.DefineDynamicModule(String,String,Boolean)
   fullName: System.Reflection.Emit.AssemblyBuilder.DefineDynamicModule(String,String,Boolean)
@@ -353,28 +403,35 @@ items:
   assemblies:
   - mscorlib
   namespace: System.Reflection.Emit
+  summary: Defines a persistable dynamic module, specifying the module name, the name of the file to which the module will be saved, and whether symbol information should be emitted using the default symbol writer.
+  remarks: "To define a persistable dynamic module, this assembly needs to be created with the <xref:System.Reflection.Emit.AssemblyBuilderAccess> or the <xref:System.Reflection.Emit.AssemblyBuilderAccess> attribute.  \n  \n If you want the module to contain the assembly manifest,  should be the same as the name of the assembly (that is, the <xref:System.Reflection.AssemblyName.Name%2A?displayProperty=fullName> property of the <xref:System.Reflection.AssemblyName> used to create the dynamic assembly) and  should be the same as the filename you specify when you save the assembly.  \n  \n In an assembly with only one module, that module should contain the assembly manifest.  \n  \n> [!NOTE]\n>  To suppress optimizations when debugging dynamic modules, apply the <xref:System.Diagnostics.DebuggableAttribute> attribute to the dynamic assembly before calling <xref:System.Reflection.Emit.AssemblyBuilder.DefineDynamicModule%2A>. Create an instance of <xref:System.Diagnostics.DebuggableAttribute> with the <xref:System.Diagnostics.DebuggableAttribute.DebuggingModes> flag and apply it using the <xref:System.Reflection.Emit.AssemblyBuilder.SetCustomAttribute%2A> method. The attribute must be applied to the dynamic assembly. It has no effect if applied to the module.  \n  \n> [!NOTE]\n>  Starting with the [!INCLUDE[net_v20sp1_long](../../add/includes/net-v20sp1-long-md.md)], this member no longer requires <xref:System.Security.Permissions.ReflectionPermission> with the <xref:System.Security.Permissions.ReflectionPermissionFlag?displayProperty=fullName> flag. (See [Security Issues in Reflection Emit](../Topic/Security%20Issues%20in%20Reflection%20Emit.md).) To use this functionality, your application should target the [!INCLUDE[net_v35_long](../../add/includes/net-v35-long-md.md)] or later."
+  example:
+  - "[Visual Basic, C#]  \n  \n The code example below demonstrates how to create a persistent dynamic module with symbol emission using `DefineDynamicModule`.  \n  \n [!CODE [System.Reflection.Emit.AssemblyBuilder.DefineDynamicModule Example#4](../CodeSnippet/VS_Snippets_CLR_System/system.Reflection.Emit.AssemblyBuilder.DefineDynamicModule Example#4)]"
   syntax:
     content: public System.Reflection.Emit.ModuleBuilder DefineDynamicModule (string name, string fileName, bool emitSymbolInfo);
     parameters:
     - id: name
       type: System.String
-      description: Parameter description to be filled
+      description: The name of the dynamic module. Must be less than 260 characters in length.
     - id: fileName
       type: System.String
-      description: Parameter description to be filled
+      description: The name of the file to which the dynamic module should be saved.
     - id: emitSymbolInfo
       type: System.Boolean
-      description: Parameter description to be filled
+      description: If `true`, symbolic information is written using the default symbol writer.
     return:
       type: System.Reflection.Emit.ModuleBuilder
-      description: Return description to be filled
+      description: A <see cref="T:System.Reflection.Emit.ModuleBuilder"> object representing the defined dynamic module.
   overload: System.Reflection.Emit.AssemblyBuilder.DefineDynamicModule*
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Reflection.Emit.AssemblyBuilder.DefineResource(System.String,System.String,System.String)
   id: DefineResource(System.String,System.String,System.String)
   parent: System.Reflection.Emit.AssemblyBuilder
   langs:
   - csharp
-  - vb
   name: DefineResource(String,String,String)
   nameWithType: AssemblyBuilder.DefineResource(String,String,String)
   fullName: System.Reflection.Emit.AssemblyBuilder.DefineResource(String,String,String)
@@ -382,28 +439,35 @@ items:
   assemblies:
   - mscorlib
   namespace: System.Reflection.Emit
+  summary: Defines a standalone managed resource for this assembly with the default public resource attribute.
+  remarks: "Fine grain resources can be added with the returned <xref:System.Resources.ResourceWriter> by calling <xref:System.Resources.ResourceWriter.AddResource%2A>.  \n  \n should not be the same as that of any other persistable module, stand-alone managed resource, or the stand-alone manifest file.  \n  \n The runtime calls the <xref:System.Resources.ResourceWriter.Close%2A> method when the dynamic assembly is saved.  \n  \n> [!NOTE]\n>  Starting with the [!INCLUDE[net_v20sp1_long](../../add/includes/net-v20sp1-long-md.md)], this member no longer requires <xref:System.Security.Permissions.ReflectionPermission> with the <xref:System.Security.Permissions.ReflectionPermissionFlag?displayProperty=fullName> flag. (See [Security Issues in Reflection Emit](../Topic/Security%20Issues%20in%20Reflection%20Emit.md).) To use this functionality, your application should target the [!INCLUDE[net_v35_long](../../add/includes/net-v35-long-md.md)] or later."
+  example:
+  - "The following example uses the DefineResource method to get a resource writer. The example uses the resource writer to add three resource strings.  \n  \n [!CODE [AssemblyBuilder.DefineResource Example 2#1](../CodeSnippet/VS_Snippets_CLR/AssemblyBuilder.DefineResource Example 2#1)]"
   syntax:
     content: public System.Resources.IResourceWriter DefineResource (string name, string description, string fileName);
     parameters:
     - id: name
       type: System.String
-      description: Parameter description to be filled
+      description: The logical name of the resource.
     - id: description
       type: System.String
-      description: Parameter description to be filled
+      description: A textual description of the resource.
     - id: fileName
       type: System.String
-      description: Parameter description to be filled
+      description: The physical file name (.resources file) to which the logical name is mapped. This should not include a path.
     return:
       type: System.Resources.IResourceWriter
-      description: Return description to be filled
+      description: A <see cref="T:System.Resources.ResourceWriter"> object for the specified resource.
   overload: System.Reflection.Emit.AssemblyBuilder.DefineResource*
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Reflection.Emit.AssemblyBuilder.DefineResource(System.String,System.String,System.String,System.Reflection.ResourceAttributes)
   id: DefineResource(System.String,System.String,System.String,System.Reflection.ResourceAttributes)
   parent: System.Reflection.Emit.AssemblyBuilder
   langs:
   - csharp
-  - vb
   name: DefineResource(String,String,String,ResourceAttributes)
   nameWithType: AssemblyBuilder.DefineResource(String,String,String,ResourceAttributes)
   fullName: System.Reflection.Emit.AssemblyBuilder.DefineResource(String,String,String,ResourceAttributes)
@@ -411,31 +475,36 @@ items:
   assemblies:
   - mscorlib
   namespace: System.Reflection.Emit
+  summary: Defines a standalone managed resource for this assembly. Attributes can be specified for the managed resource.
+  remarks: "Fine-grain resources can be added with the returned <xref:System.Resources.ResourceWriter> by calling <xref:System.Resources.ResourceWriter.AddResource%2A>.  \n  \n should not be the same as that of any other persistable module, standalone managed resource, or the standalone manifest file.  \n  \n The runtime calls the <xref:System.Resources.ResourceWriter.Close%2A> method when the dynamic assembly is saved.  \n  \n> [!NOTE]\n>  Starting with the [!INCLUDE[net_v20sp1_long](../../add/includes/net-v20sp1-long-md.md)], this member no longer requires <xref:System.Security.Permissions.ReflectionPermission> with the <xref:System.Security.Permissions.ReflectionPermissionFlag?displayProperty=fullName> flag. (See [Security Issues in Reflection Emit](../Topic/Security%20Issues%20in%20Reflection%20Emit.md).) To use this functionality, your application should target the [!INCLUDE[net_v35_long](../../add/includes/net-v35-long-md.md)] or later."
   syntax:
     content: public System.Resources.IResourceWriter DefineResource (string name, string description, string fileName, System.Reflection.ResourceAttributes attribute);
     parameters:
     - id: name
       type: System.String
-      description: Parameter description to be filled
+      description: The logical name of the resource.
     - id: description
       type: System.String
-      description: Parameter description to be filled
+      description: A textual description of the resource.
     - id: fileName
       type: System.String
-      description: Parameter description to be filled
+      description: The physical file name (.resources file) to which the logical name is mapped. This should not include a path.
     - id: attribute
       type: System.Reflection.ResourceAttributes
-      description: Parameter description to be filled
+      description: The resource attributes.
     return:
       type: System.Resources.IResourceWriter
-      description: Return description to be filled
+      description: A <see cref="T:System.Resources.ResourceWriter"> object for the specified resource.
   overload: System.Reflection.Emit.AssemblyBuilder.DefineResource*
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Reflection.Emit.AssemblyBuilder.DefineUnmanagedResource(System.Byte[])
   id: DefineUnmanagedResource(System.Byte[])
   parent: System.Reflection.Emit.AssemblyBuilder
   langs:
   - csharp
-  - vb
   name: DefineUnmanagedResource(Byte[])
   nameWithType: AssemblyBuilder.DefineUnmanagedResource(Byte[])
   fullName: System.Reflection.Emit.AssemblyBuilder.DefineUnmanagedResource(Byte[])
@@ -443,22 +512,26 @@ items:
   assemblies:
   - mscorlib
   namespace: System.Reflection.Emit
+  summary: Defines an unmanaged resource for this assembly as an opaque blob of bytes.
+  remarks: An assembly can be associated with only one unmanaged resource. This means that calling <xref:System.Reflection.Emit.AssemblyBuilder.DefineVersionInfoResource%2A> or DefineUnmanagedResource after either one of the methods was called previously will throw the System.ArgumentException being throw. Multiple unmanaged resources need to be merged with a tool such as the Microsoft ResMerge utility (not supplied with the common language runtime).
+  example:
+  - "The following code sample creates and attaches an array of bytes representing an unmanaged resource to a dynamic assembly, using `DefineUnmanagedResource`.  \n  \n [!CODE [AssemblyBuilder_DefineUnmanagedResource2#1](../CodeSnippet/VS_Snippets_CLR/AssemblyBuilder_DefineUnmanagedResource2#1)]"
   syntax:
     content: public void DefineUnmanagedResource (byte[] resource);
     parameters:
     - id: resource
       type: System.Byte[]
-      description: Parameter description to be filled
-    return:
-      type: System.Void
-      description: Return description to be filled
+      description: The opaque blob of bytes representing the unmanaged resource.
   overload: System.Reflection.Emit.AssemblyBuilder.DefineUnmanagedResource*
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Reflection.Emit.AssemblyBuilder.DefineUnmanagedResource(System.String)
   id: DefineUnmanagedResource(System.String)
   parent: System.Reflection.Emit.AssemblyBuilder
   langs:
   - csharp
-  - vb
   name: DefineUnmanagedResource(String)
   nameWithType: AssemblyBuilder.DefineUnmanagedResource(String)
   fullName: System.Reflection.Emit.AssemblyBuilder.DefineUnmanagedResource(String)
@@ -466,22 +539,26 @@ items:
   assemblies:
   - mscorlib
   namespace: System.Reflection.Emit
+  summary: Defines an unmanaged resource file for this assembly given the name of the resource file.
+  remarks: "An assembly can be associated with only one unmanaged resource. This means that calling <xref:System.Reflection.Emit.AssemblyBuilder.DefineVersionInfoResource%2A> or <xref:System.Reflection.Emit.AssemblyBuilder.DefineUnmanagedResource%2A> after either one of the methods was called previously will throw the System.ArgumentException. Multiple unmanaged resources need to be merged with a tool such as the Microsoft ResMerge utility (not supplied with the common language runtime).  \n  \n> [!NOTE]\n>  Starting with the [!INCLUDE[net_v20sp1_long](../../add/includes/net-v20sp1-long-md.md)], this member no longer requires <xref:System.Security.Permissions.ReflectionPermission> with the <xref:System.Security.Permissions.ReflectionPermissionFlag?displayProperty=fullName> flag. (See [Security Issues in Reflection Emit](../Topic/Security%20Issues%20in%20Reflection%20Emit.md).) To use this functionality, your application should target the [!INCLUDE[net_v35_long](../../add/includes/net-v35-long-md.md)] or later."
+  example:
+  - "The example below demonstrates a call to `DefineUnmanagedResource`, passing an external resource file.  \n  \n [!CODE [AssemblyBuilder_DefineUnmanagedResource#3](../CodeSnippet/VS_Snippets_CLR/AssemblyBuilder_DefineUnmanagedResource#3)]"
   syntax:
     content: public void DefineUnmanagedResource (string resourceFileName);
     parameters:
     - id: resourceFileName
       type: System.String
-      description: Parameter description to be filled
-    return:
-      type: System.Void
-      description: Return description to be filled
+      description: The name of the resource file.
   overload: System.Reflection.Emit.AssemblyBuilder.DefineUnmanagedResource*
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Reflection.Emit.AssemblyBuilder.DefineVersionInfoResource
   id: DefineVersionInfoResource
   parent: System.Reflection.Emit.AssemblyBuilder
   langs:
   - csharp
-  - vb
   name: DefineVersionInfoResource()
   nameWithType: AssemblyBuilder.DefineVersionInfoResource()
   fullName: System.Reflection.Emit.AssemblyBuilder.DefineVersionInfoResource()
@@ -489,19 +566,23 @@ items:
   assemblies:
   - mscorlib
   namespace: System.Reflection.Emit
+  summary: Defines an unmanaged version information resource using the information specified in the assembly's AssemblyName object and the assembly's custom attributes.
+  remarks: "An assembly can be associated with only one unmanaged resource. This means that calling <xref:System.Reflection.Emit.AssemblyBuilder.DefineVersionInfoResource%2A> or <xref:System.Reflection.Emit.AssemblyBuilder.DefineUnmanagedResource%2A> after either one of the methods was called previously will throw the System.ArgumentException. Multiple unmanaged resources need to be merged with a tool such as the Microsoft ResMerge utility (not supplied with the common language runtime SDK).  \n  \n Empty argument strings get written as a single space. Spaces are substituted for null characters in the argument strings.  \n  \n The information is inferred from the `AssemblyName` object used to define this dynamic assembly. This assembly's custom attributes override information specified in the `AssemblyName` object.  \n  \n> [!NOTE]\n>  Starting with the [!INCLUDE[net_v20sp1_long](../../add/includes/net-v20sp1-long-md.md)], this member no longer requires <xref:System.Security.Permissions.ReflectionPermission> with the <xref:System.Security.Permissions.ReflectionPermissionFlag?displayProperty=fullName> flag. (See [Security Issues in Reflection Emit](../Topic/Security%20Issues%20in%20Reflection%20Emit.md).) To use this functionality, your application should target the [!INCLUDE[net_v35_long](../../add/includes/net-v35-long-md.md)] or later."
+  example:
+  - "The example below illustrates the usage of `DefineVersionInfoResource`.  \n  \n [!CODE [AssemblyBuilder_DefineVersionInfoResource#1](../CodeSnippet/VS_Snippets_CLR/AssemblyBuilder_DefineVersionInfoResource#1)]"
   syntax:
     content: public void DefineVersionInfoResource ();
     parameters: []
-    return:
-      type: System.Void
-      description: Return description to be filled
   overload: System.Reflection.Emit.AssemblyBuilder.DefineVersionInfoResource*
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Reflection.Emit.AssemblyBuilder.DefineVersionInfoResource(System.String,System.String,System.String,System.String,System.String)
   id: DefineVersionInfoResource(System.String,System.String,System.String,System.String,System.String)
   parent: System.Reflection.Emit.AssemblyBuilder
   langs:
   - csharp
-  - vb
   name: DefineVersionInfoResource(String,String,String,String,String)
   nameWithType: AssemblyBuilder.DefineVersionInfoResource(String,String,String,String,String)
   fullName: System.Reflection.Emit.AssemblyBuilder.DefineVersionInfoResource(String,String,String,String,String)
@@ -509,34 +590,38 @@ items:
   assemblies:
   - mscorlib
   namespace: System.Reflection.Emit
+  summary: Defines an unmanaged version information resource for this assembly with the given specifications.
+  remarks: "An assembly can be associated with only one unmanaged resource. This means that calling DefineVersionInfoResource or <xref:System.Reflection.Emit.AssemblyBuilder.DefineUnmanagedResource%2A> after either one of the methods was called previously will throw the System.ArgumentException. Multiple unmanaged resources need to be merged with a tool such as the Microsoft `ResMerge` utility (not supplied with the common language runtime SDK).  \n  \n Empty argument strings get written as a single space. Spaces are substituted for null characters in the argument strings.  \n  \n The structure of the version resource includes data that identifies the version, language, and distribution of the file. Installation programs use the functions in the file installation library (VER.DLL) to retrieve the version information resource from a file and to extract the version information blocks from the resource.  \n  \n> [!NOTE]\n>  Starting with the [!INCLUDE[net_v20sp1_long](../../add/includes/net-v20sp1-long-md.md)], this member no longer requires <xref:System.Security.Permissions.ReflectionPermission> with the <xref:System.Security.Permissions.ReflectionPermissionFlag?displayProperty=fullName> flag. (See [Security Issues in Reflection Emit](../Topic/Security%20Issues%20in%20Reflection%20Emit.md).) To use this functionality, your application should target the [!INCLUDE[net_v35_long](../../add/includes/net-v35-long-md.md)] or later."
+  example:
+  - "The example below illustrates the usage of `DefineVersionInfoResource`.  \n  \n [!CODE [AssemblyBuilder_DefineVersionInfoResource#1](../CodeSnippet/VS_Snippets_CLR/AssemblyBuilder_DefineVersionInfoResource#1)]"
   syntax:
     content: public void DefineVersionInfoResource (string product, string productVersion, string company, string copyright, string trademark);
     parameters:
     - id: product
       type: System.String
-      description: Parameter description to be filled
+      description: The name of the product with which this assembly is distributed.
     - id: productVersion
       type: System.String
-      description: Parameter description to be filled
+      description: The version of the product with which this assembly is distributed.
     - id: company
       type: System.String
-      description: Parameter description to be filled
+      description: The name of the company that produced this assembly.
     - id: copyright
       type: System.String
-      description: Parameter description to be filled
+      description: Describes all copyright notices, trademarks, and registered trademarks that apply to this assembly. This should include the full text of all notices, legal symbols, copyright dates, trademark numbers, and so on. In English, this string should be in the format "Copyright Microsoft Corp. 1990-2001".
     - id: trademark
       type: System.String
-      description: Parameter description to be filled
-    return:
-      type: System.Void
-      description: Return description to be filled
+      description: Describes all trademarks and registered trademarks that apply to this assembly. This should include the full text of all notices, legal symbols, trademark numbers, and so on. In English, this string should be in the format "Windows is a trademark of Microsoft Corporation".
   overload: System.Reflection.Emit.AssemblyBuilder.DefineVersionInfoResource*
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Reflection.Emit.AssemblyBuilder.EntryPoint
   id: EntryPoint
   parent: System.Reflection.Emit.AssemblyBuilder
   langs:
   - csharp
-  - vb
   name: EntryPoint
   nameWithType: AssemblyBuilder.EntryPoint
   fullName: System.Reflection.Emit.AssemblyBuilder.EntryPoint
@@ -544,17 +629,22 @@ items:
   assemblies:
   - mscorlib
   namespace: System.Reflection.Emit
+  summary: Returns the entry point of this assembly.
+  remarks: To be added.
   syntax:
     content: public override System.Reflection.MethodInfo EntryPoint { get; }
     return:
       type: System.Reflection.MethodInfo
-      description: Return description to be filled
+      description: To be added.
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Reflection.Emit.AssemblyBuilder.Equals(System.Object)
   id: Equals(System.Object)
   parent: System.Reflection.Emit.AssemblyBuilder
   langs:
   - csharp
-  - vb
   name: Equals(Object)
   nameWithType: AssemblyBuilder.Equals(Object)
   fullName: System.Reflection.Emit.AssemblyBuilder.Equals(Object)
@@ -562,21 +652,26 @@ items:
   assemblies:
   - mscorlib
   namespace: System.Reflection.Emit
+  summary: Returns a value that indicates whether this instance is equal to the specified object.
+  remarks: To be added.
   syntax:
     content: public override bool Equals (object obj);
     parameters:
     - id: obj
       type: System.Object
-      description: Parameter description to be filled
+      description: An object to compare with this instance, or `null`.
     return:
       type: System.Boolean
-      description: Return description to be filled
+      description: '`true` if  equals the type and value of this instance; otherwise, `false`.'
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Reflection.Emit.AssemblyBuilder.Evidence
   id: Evidence
   parent: System.Reflection.Emit.AssemblyBuilder
   langs:
   - csharp
-  - vb
   name: Evidence
   nameWithType: AssemblyBuilder.Evidence
   fullName: System.Reflection.Emit.AssemblyBuilder.Evidence
@@ -584,17 +679,22 @@ items:
   assemblies:
   - mscorlib
   namespace: System.Reflection.Emit
+  summary: Gets the evidence for this assembly.
+  remarks: To be added.
   syntax:
     content: public override System.Security.Policy.Evidence Evidence { get; }
     return:
       type: System.Security.Policy.Evidence
-      description: Return description to be filled
+      description: To be added.
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Reflection.Emit.AssemblyBuilder.FullName
   id: FullName
   parent: System.Reflection.Emit.AssemblyBuilder
   langs:
   - csharp
-  - vb
   name: FullName
   nameWithType: AssemblyBuilder.FullName
   fullName: System.Reflection.Emit.AssemblyBuilder.FullName
@@ -602,17 +702,22 @@ items:
   assemblies:
   - mscorlib
   namespace: System.Reflection.Emit
+  summary: Gets the display name of the current dynamic assembly.
+  remarks: See <xref:System.Reflection.AssemblyName> for a description of the format of the display name of an assembly.
   syntax:
     content: public override string FullName { get; }
     return:
       type: System.String
-      description: Return description to be filled
+      description: To be added.
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Reflection.Emit.AssemblyBuilder.GetCustomAttributes(System.Boolean)
   id: GetCustomAttributes(System.Boolean)
   parent: System.Reflection.Emit.AssemblyBuilder
   langs:
   - csharp
-  - vb
   name: GetCustomAttributes(Boolean)
   nameWithType: AssemblyBuilder.GetCustomAttributes(Boolean)
   fullName: System.Reflection.Emit.AssemblyBuilder.GetCustomAttributes(Boolean)
@@ -620,22 +725,27 @@ items:
   assemblies:
   - mscorlib
   namespace: System.Reflection.Emit
+  summary: Returns all the custom attributes that have been applied to the current <see cref="T:System.Reflection.Emit.AssemblyBuilder">.
+  remarks: To be added.
   syntax:
     content: public override object[] GetCustomAttributes (bool inherit);
     parameters:
     - id: inherit
       type: System.Boolean
-      description: Parameter description to be filled
+      description: This argument is ignored for objects of this type.
     return:
       type: System.Object[]
-      description: Return description to be filled
+      description: An array that contains the custom attributes; the array is empty if there are no attributes.
   overload: System.Reflection.Emit.AssemblyBuilder.GetCustomAttributes*
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Reflection.Emit.AssemblyBuilder.GetCustomAttributes(System.Type,System.Boolean)
   id: GetCustomAttributes(System.Type,System.Boolean)
   parent: System.Reflection.Emit.AssemblyBuilder
   langs:
   - csharp
-  - vb
   name: GetCustomAttributes(Type,Boolean)
   nameWithType: AssemblyBuilder.GetCustomAttributes(Type,Boolean)
   fullName: System.Reflection.Emit.AssemblyBuilder.GetCustomAttributes(Type,Boolean)
@@ -643,25 +753,30 @@ items:
   assemblies:
   - mscorlib
   namespace: System.Reflection.Emit
+  summary: Returns all the custom attributes that have been applied to the current <see cref="T:System.Reflection.Emit.AssemblyBuilder">, and that derive from a specified attribute type.
+  remarks: To be added.
   syntax:
     content: public override object[] GetCustomAttributes (Type attributeType, bool inherit);
     parameters:
     - id: attributeType
       type: System.Type
-      description: Parameter description to be filled
+      description: The base type from which attributes derive.
     - id: inherit
       type: System.Boolean
-      description: Parameter description to be filled
+      description: This argument is ignored for objects of this type.
     return:
       type: System.Object[]
-      description: Return description to be filled
+      description: An array that contains the custom attributes that are derived at any level from ; the array is empty if there are no such attributes.
   overload: System.Reflection.Emit.AssemblyBuilder.GetCustomAttributes*
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Reflection.Emit.AssemblyBuilder.GetCustomAttributesData
   id: GetCustomAttributesData
   parent: System.Reflection.Emit.AssemblyBuilder
   langs:
   - csharp
-  - vb
   name: GetCustomAttributesData()
   nameWithType: AssemblyBuilder.GetCustomAttributesData()
   fullName: System.Reflection.Emit.AssemblyBuilder.GetCustomAttributesData()
@@ -669,18 +784,23 @@ items:
   assemblies:
   - mscorlib
   namespace: System.Reflection.Emit
+  summary: Returns <see cref="T:System.Reflection.CustomAttributeData"> objects that contain information about the attributes that have been applied to the current <xref:System.Reflection.Emit.AssemblyBuilder>.
+  remarks: Use this method to examine the custom attributes of code in the reflection-only context, in cases where the custom attributes themselves are defined in code that is loaded into the reflection-only context. Methods such as <xref:System.Attribute.GetCustomAttributes%2A?displayProperty=fullName> and <xref:System.Reflection.Assembly.GetCustomAttributes%2A?displayProperty=fullName> cannot be used in such cases, because they create instances of the attributes. Code in the reflection-only context cannot be executed. For more information and for example code, see the <xref:System.Reflection.CustomAttributeData> class.
   syntax:
     content: public override System.Collections.Generic.IList<System.Reflection.CustomAttributeData> GetCustomAttributesData ();
     parameters: []
     return:
       type: System.Collections.Generic.IList{System.Reflection.CustomAttributeData}
-      description: Return description to be filled
+      description: A generic list of <see cref="T:System.Reflection.CustomAttributeData"> objects representing data about the attributes that have been applied to the current module.
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Reflection.Emit.AssemblyBuilder.GetDynamicModule(System.String)
   id: GetDynamicModule(System.String)
   parent: System.Reflection.Emit.AssemblyBuilder
   langs:
   - csharp
-  - vb
   name: GetDynamicModule(String)
   nameWithType: AssemblyBuilder.GetDynamicModule(String)
   fullName: System.Reflection.Emit.AssemblyBuilder.GetDynamicModule(String)
@@ -688,21 +808,26 @@ items:
   assemblies:
   - mscorlib
   namespace: System.Reflection.Emit
+  summary: Returns the dynamic module with the specified name.
+  remarks: To be added.
   syntax:
     content: public System.Reflection.Emit.ModuleBuilder GetDynamicModule (string name);
     parameters:
     - id: name
       type: System.String
-      description: Parameter description to be filled
+      description: The name of the requested dynamic module.
     return:
       type: System.Reflection.Emit.ModuleBuilder
-      description: Return description to be filled
+      description: A ModuleBuilder object representing the requested dynamic module.
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Reflection.Emit.AssemblyBuilder.GetExportedTypes
   id: GetExportedTypes
   parent: System.Reflection.Emit.AssemblyBuilder
   langs:
   - csharp
-  - vb
   name: GetExportedTypes()
   nameWithType: AssemblyBuilder.GetExportedTypes()
   fullName: System.Reflection.Emit.AssemblyBuilder.GetExportedTypes()
@@ -710,18 +835,23 @@ items:
   assemblies:
   - mscorlib
   namespace: System.Reflection.Emit
+  summary: Gets the exported types defined in this assembly.
+  remarks: To be added.
   syntax:
     content: public override Type[] GetExportedTypes ();
     parameters: []
     return:
       type: System.Type[]
-      description: Return description to be filled
+      description: An array of <see cref="T:System.Type"> containing the exported types defined in this assembly.
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Reflection.Emit.AssemblyBuilder.GetFile(System.String)
   id: GetFile(System.String)
   parent: System.Reflection.Emit.AssemblyBuilder
   langs:
   - csharp
-  - vb
   name: GetFile(String)
   nameWithType: AssemblyBuilder.GetFile(String)
   fullName: System.Reflection.Emit.AssemblyBuilder.GetFile(String)
@@ -729,21 +859,26 @@ items:
   assemblies:
   - mscorlib
   namespace: System.Reflection.Emit
+  summary: Gets a <see cref="T:System.IO.FileStream"> for the specified file in the file table of the manifest of this assembly.
+  remarks: should not include the path to the file.
   syntax:
     content: public override System.IO.FileStream GetFile (string name);
     parameters:
     - id: name
       type: System.String
-      description: Parameter description to be filled
+      description: The name of the specified file.
     return:
       type: System.IO.FileStream
-      description: Return description to be filled
+      description: A <see cref="T:System.IO.FileStream"> for the specified file, or `null`, if the file is not found.
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Reflection.Emit.AssemblyBuilder.GetFiles(System.Boolean)
   id: GetFiles(System.Boolean)
   parent: System.Reflection.Emit.AssemblyBuilder
   langs:
   - csharp
-  - vb
   name: GetFiles(Boolean)
   nameWithType: AssemblyBuilder.GetFiles(Boolean)
   fullName: System.Reflection.Emit.AssemblyBuilder.GetFiles(Boolean)
@@ -751,21 +886,26 @@ items:
   assemblies:
   - mscorlib
   namespace: System.Reflection.Emit
+  summary: Gets the files in the file table of an assembly manifest, specifying whether to include resource modules.
+  remarks: To be added.
   syntax:
     content: public override System.IO.FileStream[] GetFiles (bool getResourceModules);
     parameters:
     - id: getResourceModules
       type: System.Boolean
-      description: Parameter description to be filled
+      description: '`true` to include resource modules; otherwise, `false`.'
     return:
       type: System.IO.FileStream[]
-      description: Return description to be filled
+      description: An array of <see cref="T:System.IO.FileStream"> objects.
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Reflection.Emit.AssemblyBuilder.GetHashCode
   id: GetHashCode
   parent: System.Reflection.Emit.AssemblyBuilder
   langs:
   - csharp
-  - vb
   name: GetHashCode()
   nameWithType: AssemblyBuilder.GetHashCode()
   fullName: System.Reflection.Emit.AssemblyBuilder.GetHashCode()
@@ -773,18 +913,23 @@ items:
   assemblies:
   - mscorlib
   namespace: System.Reflection.Emit
+  summary: Returns the hash code for this instance.
+  remarks: To be added.
   syntax:
     content: public override int GetHashCode ();
     parameters: []
     return:
       type: System.Int32
-      description: Return description to be filled
+      description: A 32-bit signed integer hash code.
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Reflection.Emit.AssemblyBuilder.GetLoadedModules(System.Boolean)
   id: GetLoadedModules(System.Boolean)
   parent: System.Reflection.Emit.AssemblyBuilder
   langs:
   - csharp
-  - vb
   name: GetLoadedModules(Boolean)
   nameWithType: AssemblyBuilder.GetLoadedModules(Boolean)
   fullName: System.Reflection.Emit.AssemblyBuilder.GetLoadedModules(Boolean)
@@ -792,21 +937,26 @@ items:
   assemblies:
   - mscorlib
   namespace: System.Reflection.Emit
+  summary: Returns all the loaded modules that are part of this assembly, and optionally includes resource modules.
+  remarks: To be added.
   syntax:
     content: public override System.Reflection.Module[] GetLoadedModules (bool getResourceModules);
     parameters:
     - id: getResourceModules
       type: System.Boolean
-      description: Parameter description to be filled
+      description: '`true` to include resource modules; otherwise, `false`.'
     return:
       type: System.Reflection.Module[]
-      description: Return description to be filled
+      description: The loaded modules that are part of this assembly.
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Reflection.Emit.AssemblyBuilder.GetManifestResourceInfo(System.String)
   id: GetManifestResourceInfo(System.String)
   parent: System.Reflection.Emit.AssemblyBuilder
   langs:
   - csharp
-  - vb
   name: GetManifestResourceInfo(String)
   nameWithType: AssemblyBuilder.GetManifestResourceInfo(String)
   fullName: System.Reflection.Emit.AssemblyBuilder.GetManifestResourceInfo(String)
@@ -814,21 +964,26 @@ items:
   assemblies:
   - mscorlib
   namespace: System.Reflection.Emit
+  summary: Returns information about how the given resource has been persisted.
+  remarks: To be added.
   syntax:
     content: public override System.Reflection.ManifestResourceInfo GetManifestResourceInfo (string resourceName);
     parameters:
     - id: resourceName
       type: System.String
-      description: Parameter description to be filled
+      description: The name of the resource.
     return:
       type: System.Reflection.ManifestResourceInfo
-      description: Return description to be filled
+      description: <see cref="T:System.Reflection.ManifestResourceInfo"> populated with information about the resource's topology, or `null` if the resource is not found.
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Reflection.Emit.AssemblyBuilder.GetManifestResourceNames
   id: GetManifestResourceNames
   parent: System.Reflection.Emit.AssemblyBuilder
   langs:
   - csharp
-  - vb
   name: GetManifestResourceNames()
   nameWithType: AssemblyBuilder.GetManifestResourceNames()
   fullName: System.Reflection.Emit.AssemblyBuilder.GetManifestResourceNames()
@@ -836,18 +991,23 @@ items:
   assemblies:
   - mscorlib
   namespace: System.Reflection.Emit
+  summary: Loads the specified manifest resource from this assembly.
+  remarks: To be added.
   syntax:
     content: public override string[] GetManifestResourceNames ();
     parameters: []
     return:
       type: System.String[]
-      description: Return description to be filled
+      description: An array of type `String` containing the names of all the resources.
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Reflection.Emit.AssemblyBuilder.GetManifestResourceStream(System.String)
   id: GetManifestResourceStream(System.String)
   parent: System.Reflection.Emit.AssemblyBuilder
   langs:
   - csharp
-  - vb
   name: GetManifestResourceStream(String)
   nameWithType: AssemblyBuilder.GetManifestResourceStream(String)
   fullName: System.Reflection.Emit.AssemblyBuilder.GetManifestResourceStream(String)
@@ -855,22 +1015,27 @@ items:
   assemblies:
   - mscorlib
   namespace: System.Reflection.Emit
+  summary: Loads the specified manifest resource from this assembly.
+  remarks: To be added.
   syntax:
     content: public override System.IO.Stream GetManifestResourceStream (string name);
     parameters:
     - id: name
       type: System.String
-      description: Parameter description to be filled
+      description: The name of the manifest resource being requested.
     return:
       type: System.IO.Stream
-      description: Return description to be filled
+      description: A <see cref="T:System.IO.Stream"> representing this manifest resource.
   overload: System.Reflection.Emit.AssemblyBuilder.GetManifestResourceStream*
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Reflection.Emit.AssemblyBuilder.GetManifestResourceStream(System.Type,System.String)
   id: GetManifestResourceStream(System.Type,System.String)
   parent: System.Reflection.Emit.AssemblyBuilder
   langs:
   - csharp
-  - vb
   name: GetManifestResourceStream(Type,String)
   nameWithType: AssemblyBuilder.GetManifestResourceStream(Type,String)
   fullName: System.Reflection.Emit.AssemblyBuilder.GetManifestResourceStream(Type,String)
@@ -878,25 +1043,32 @@ items:
   assemblies:
   - mscorlib
   namespace: System.Reflection.Emit
+  summary: Loads the specified manifest resource, scoped by the namespace of the specified type, from this assembly.
+  remarks: The returned <xref:System.IO.Stream> has its file pointer set to the beginning of the resource.
+  example:
+  - If the full name of  is "MyNameSpace.MyClasses" and  is "Dot", `GetManifestResourceStream` will search for a resource named MyNameSpace.Dot.
   syntax:
     content: public override System.IO.Stream GetManifestResourceStream (Type type, string name);
     parameters:
     - id: type
       type: System.Type
-      description: Parameter description to be filled
+      description: The type whose namespace is used to scope the manifest resource name.
     - id: name
       type: System.String
-      description: Parameter description to be filled
+      description: The name of the manifest resource being requested.
     return:
       type: System.IO.Stream
-      description: Return description to be filled
+      description: A <see cref="T:System.IO.Stream"> representing this manifest resource.
   overload: System.Reflection.Emit.AssemblyBuilder.GetManifestResourceStream*
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Reflection.Emit.AssemblyBuilder.GetModule(System.String)
   id: GetModule(System.String)
   parent: System.Reflection.Emit.AssemblyBuilder
   langs:
   - csharp
-  - vb
   name: GetModule(String)
   nameWithType: AssemblyBuilder.GetModule(String)
   fullName: System.Reflection.Emit.AssemblyBuilder.GetModule(String)
@@ -904,21 +1076,26 @@ items:
   assemblies:
   - mscorlib
   namespace: System.Reflection.Emit
+  summary: Gets the specified module in this assembly.
+  remarks: To be added.
   syntax:
     content: public override System.Reflection.Module GetModule (string name);
     parameters:
     - id: name
       type: System.String
-      description: Parameter description to be filled
+      description: The name of the requested module.
     return:
       type: System.Reflection.Module
-      description: Return description to be filled
+      description: The module being requested, or `null` if the module is not found.
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Reflection.Emit.AssemblyBuilder.GetModules(System.Boolean)
   id: GetModules(System.Boolean)
   parent: System.Reflection.Emit.AssemblyBuilder
   langs:
   - csharp
-  - vb
   name: GetModules(Boolean)
   nameWithType: AssemblyBuilder.GetModules(Boolean)
   fullName: System.Reflection.Emit.AssemblyBuilder.GetModules(Boolean)
@@ -926,21 +1103,26 @@ items:
   assemblies:
   - mscorlib
   namespace: System.Reflection.Emit
+  summary: Gets all the modules that are part of this assembly, and optionally includes resource modules.
+  remarks: To be added.
   syntax:
     content: public override System.Reflection.Module[] GetModules (bool getResourceModules);
     parameters:
     - id: getResourceModules
       type: System.Boolean
-      description: Parameter description to be filled
+      description: '`true` to include resource modules; otherwise, `false`.'
     return:
       type: System.Reflection.Module[]
-      description: Return description to be filled
+      description: The modules that are part of this assembly.
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Reflection.Emit.AssemblyBuilder.GetName(System.Boolean)
   id: GetName(System.Boolean)
   parent: System.Reflection.Emit.AssemblyBuilder
   langs:
   - csharp
-  - vb
   name: GetName(Boolean)
   nameWithType: AssemblyBuilder.GetName(Boolean)
   fullName: System.Reflection.Emit.AssemblyBuilder.GetName(Boolean)
@@ -948,21 +1130,26 @@ items:
   assemblies:
   - mscorlib
   namespace: System.Reflection.Emit
+  summary: Gets the <see cref="T:System.Reflection.AssemblyName"> that was specified when the current dynamic assembly was created, and sets the code base as specified.
+  remarks: To be added.
   syntax:
     content: public override System.Reflection.AssemblyName GetName (bool copiedName);
     parameters:
     - id: copiedName
       type: System.Boolean
-      description: Parameter description to be filled
+      description: '`true` to set the code base to the location of the assembly after it is shadow-copied; `false` to set the code base to the original location.'
     return:
       type: System.Reflection.AssemblyName
-      description: Return description to be filled
+      description: The name of the dynamic assembly.
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Reflection.Emit.AssemblyBuilder.GetReferencedAssemblies
   id: GetReferencedAssemblies
   parent: System.Reflection.Emit.AssemblyBuilder
   langs:
   - csharp
-  - vb
   name: GetReferencedAssemblies()
   nameWithType: AssemblyBuilder.GetReferencedAssemblies()
   fullName: System.Reflection.Emit.AssemblyBuilder.GetReferencedAssemblies()
@@ -970,18 +1157,23 @@ items:
   assemblies:
   - mscorlib
   namespace: System.Reflection.Emit
+  summary: Gets an incomplete list of <see cref="T:System.Reflection.AssemblyName"> objects for the assemblies that are referenced by this <xref:System.Reflection.Emit.AssemblyBuilder>.
+  remarks: "This method does not return a complete list of referenced assemblies. For example, if you apply a custom attribute to the <xref:System.Reflection.Emit.AssemblyBuilder>, the assembly in which the attribute was defined is included in the list returned by this method. However, if you use a <xref:System.Type> object to specify the type of a method parameter, that type is not included.  \n  \n To get a complete list of referenced assemblies, save the assembly, load it into another application domain, and call the <xref:System.Reflection.Assembly.GetReferencedAssemblies%2A?displayProperty=fullName> method."
   syntax:
     content: public override System.Reflection.AssemblyName[] GetReferencedAssemblies ();
     parameters: []
     return:
       type: System.Reflection.AssemblyName[]
-      description: Return description to be filled
+      description: An array of assembly names for the referenced assemblies. This array is not a complete list.
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Reflection.Emit.AssemblyBuilder.GetSatelliteAssembly(System.Globalization.CultureInfo)
   id: GetSatelliteAssembly(System.Globalization.CultureInfo)
   parent: System.Reflection.Emit.AssemblyBuilder
   langs:
   - csharp
-  - vb
   name: GetSatelliteAssembly(CultureInfo)
   nameWithType: AssemblyBuilder.GetSatelliteAssembly(CultureInfo)
   fullName: System.Reflection.Emit.AssemblyBuilder.GetSatelliteAssembly(CultureInfo)
@@ -989,22 +1181,27 @@ items:
   assemblies:
   - mscorlib
   namespace: System.Reflection.Emit
+  summary: Gets the satellite assembly for the specified culture.
+  remarks: "Satellite assemblies contain localized resources, as distinct from main application assemblies, which contain non-localizable executable code and resources for a single culture that serve as the default or neutral culture.  \n  \n Call this method to use your current assembly version."
   syntax:
     content: public override System.Reflection.Assembly GetSatelliteAssembly (System.Globalization.CultureInfo culture);
     parameters:
     - id: culture
       type: System.Globalization.CultureInfo
-      description: Parameter description to be filled
+      description: The specified culture.
     return:
       type: System.Reflection.Assembly
-      description: Return description to be filled
+      description: The specified satellite assembly.
   overload: System.Reflection.Emit.AssemblyBuilder.GetSatelliteAssembly*
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Reflection.Emit.AssemblyBuilder.GetSatelliteAssembly(System.Globalization.CultureInfo,System.Version)
   id: GetSatelliteAssembly(System.Globalization.CultureInfo,System.Version)
   parent: System.Reflection.Emit.AssemblyBuilder
   langs:
   - csharp
-  - vb
   name: GetSatelliteAssembly(CultureInfo,Version)
   nameWithType: AssemblyBuilder.GetSatelliteAssembly(CultureInfo,Version)
   fullName: System.Reflection.Emit.AssemblyBuilder.GetSatelliteAssembly(CultureInfo,Version)
@@ -1012,25 +1209,30 @@ items:
   assemblies:
   - mscorlib
   namespace: System.Reflection.Emit
+  summary: Gets the specified version of the satellite assembly for the specified culture.
+  remarks: "Satellite assemblies contain localized resources, as distinct from main application assemblies, which contain non-localizable executable code and resources for a single culture that serve as the default or neutral culture.  \n  \n Call the <xref:System.Reflection.Assembly.GetSatelliteAssembly%28System.Globalization.CultureInfo%29> overload to use your current assembly version."
   syntax:
     content: public override System.Reflection.Assembly GetSatelliteAssembly (System.Globalization.CultureInfo culture, Version version);
     parameters:
     - id: culture
       type: System.Globalization.CultureInfo
-      description: Parameter description to be filled
+      description: The specified culture.
     - id: version
       type: System.Version
-      description: Parameter description to be filled
+      description: The version of the satellite assembly.
     return:
       type: System.Reflection.Assembly
-      description: Return description to be filled
+      description: The specified satellite assembly.
   overload: System.Reflection.Emit.AssemblyBuilder.GetSatelliteAssembly*
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Reflection.Emit.AssemblyBuilder.GetType(System.String,System.Boolean,System.Boolean)
   id: GetType(System.String,System.Boolean,System.Boolean)
   parent: System.Reflection.Emit.AssemblyBuilder
   langs:
   - csharp
-  - vb
   name: GetType(String,Boolean,Boolean)
   nameWithType: AssemblyBuilder.GetType(String,Boolean,Boolean)
   fullName: System.Reflection.Emit.AssemblyBuilder.GetType(String,Boolean,Boolean)
@@ -1038,27 +1240,32 @@ items:
   assemblies:
   - mscorlib
   namespace: System.Reflection.Emit
+  summary: Gets the specified type from the types that have been defined and created in the current <see cref="T:System.Reflection.Emit.AssemblyBuilder">.
+  remarks: A type cannot be found until it has been created by calling the <xref:System.Reflection.Emit.TypeBuilder.CreateType%2A> method.
   syntax:
     content: public override Type GetType (string name, bool throwOnError, bool ignoreCase);
     parameters:
     - id: name
       type: System.String
-      description: Parameter description to be filled
+      description: The name of the type to search for.
     - id: throwOnError
       type: System.Boolean
-      description: Parameter description to be filled
+      description: '`true` to throw an exception if the type is not found; otherwise, `false`.'
     - id: ignoreCase
       type: System.Boolean
-      description: Parameter description to be filled
+      description: '`true` to ignore the case of the type name when searching; otherwise, `false`.'
     return:
       type: System.Type
-      description: Return description to be filled
+      description: The specified type, or `null` if the type is not found or has not been created yet.
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Reflection.Emit.AssemblyBuilder.GlobalAssemblyCache
   id: GlobalAssemblyCache
   parent: System.Reflection.Emit.AssemblyBuilder
   langs:
   - csharp
-  - vb
   name: GlobalAssemblyCache
   nameWithType: AssemblyBuilder.GlobalAssemblyCache
   fullName: System.Reflection.Emit.AssemblyBuilder.GlobalAssemblyCache
@@ -1066,17 +1273,22 @@ items:
   assemblies:
   - mscorlib
   namespace: System.Reflection.Emit
+  summary: Gets a value that indicates whether the assembly was loaded from the global assembly cache.
+  remarks: <xref:System.Reflection.Emit.AssemblyBuilder> objects always represent dynamic assemblies, and therefore are never loaded from the global assembly cache.
   syntax:
     content: public override bool GlobalAssemblyCache { get; }
     return:
       type: System.Boolean
-      description: Return description to be filled
+      description: To be added.
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Reflection.Emit.AssemblyBuilder.HostContext
   id: HostContext
   parent: System.Reflection.Emit.AssemblyBuilder
   langs:
   - csharp
-  - vb
   name: HostContext
   nameWithType: AssemblyBuilder.HostContext
   fullName: System.Reflection.Emit.AssemblyBuilder.HostContext
@@ -1084,17 +1296,22 @@ items:
   assemblies:
   - mscorlib
   namespace: System.Reflection.Emit
+  summary: Gets the host context where the dynamic assembly is being created.
+  remarks: To be added.
   syntax:
     content: public override long HostContext { get; }
     return:
       type: System.Int64
-      description: Return description to be filled
+      description: To be added.
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Reflection.Emit.AssemblyBuilder.ImageRuntimeVersion
   id: ImageRuntimeVersion
   parent: System.Reflection.Emit.AssemblyBuilder
   langs:
   - csharp
-  - vb
   name: ImageRuntimeVersion
   nameWithType: AssemblyBuilder.ImageRuntimeVersion
   fullName: System.Reflection.Emit.AssemblyBuilder.ImageRuntimeVersion
@@ -1102,17 +1319,22 @@ items:
   assemblies:
   - mscorlib
   namespace: System.Reflection.Emit
+  summary: Gets the version of the common language runtime that will be saved in the file containing the manifest.
+  remarks: To be added.
   syntax:
     content: public override string ImageRuntimeVersion { get; }
     return:
       type: System.String
-      description: Return description to be filled
+      description: To be added.
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Reflection.Emit.AssemblyBuilder.IsDefined(System.Type,System.Boolean)
   id: IsDefined(System.Type,System.Boolean)
   parent: System.Reflection.Emit.AssemblyBuilder
   langs:
   - csharp
-  - vb
   name: IsDefined(Type,Boolean)
   nameWithType: AssemblyBuilder.IsDefined(Type,Boolean)
   fullName: System.Reflection.Emit.AssemblyBuilder.IsDefined(Type,Boolean)
@@ -1120,24 +1342,29 @@ items:
   assemblies:
   - mscorlib
   namespace: System.Reflection.Emit
+  summary: Returns a value that indicates whether one or more instances of the specified attribute type is applied to this member.
+  remarks: To be added.
   syntax:
     content: public override bool IsDefined (Type attributeType, bool inherit);
     parameters:
     - id: attributeType
       type: System.Type
-      description: Parameter description to be filled
+      description: The type of attribute to test for.
     - id: inherit
       type: System.Boolean
-      description: Parameter description to be filled
+      description: This argument is ignored for objects of this type.
     return:
       type: System.Boolean
-      description: Return description to be filled
+      description: '`true` if one or more instances of  is applied to this dynamic assembly; otherwise, `false`.'
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Reflection.Emit.AssemblyBuilder.IsDynamic
   id: IsDynamic
   parent: System.Reflection.Emit.AssemblyBuilder
   langs:
   - csharp
-  - vb
   name: IsDynamic
   nameWithType: AssemblyBuilder.IsDynamic
   fullName: System.Reflection.Emit.AssemblyBuilder.IsDynamic
@@ -1145,17 +1372,22 @@ items:
   assemblies:
   - mscorlib
   namespace: System.Reflection.Emit
+  summary: Gets a value that indicates that the current assembly is a dynamic assembly.
+  remarks: An <xref:System.Reflection.Emit.AssemblyBuilder> object always represents a dynamic assembly.
   syntax:
     content: public override bool IsDynamic { get; }
     return:
       type: System.Boolean
-      description: Return description to be filled
+      description: To be added.
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Reflection.Emit.AssemblyBuilder.Location
   id: Location
   parent: System.Reflection.Emit.AssemblyBuilder
   langs:
   - csharp
-  - vb
   name: Location
   nameWithType: AssemblyBuilder.Location
   fullName: System.Reflection.Emit.AssemblyBuilder.Location
@@ -1163,17 +1395,22 @@ items:
   assemblies:
   - mscorlib
   namespace: System.Reflection.Emit
+  summary: Gets the location, in codebase format, of the loaded file that contains the manifest if it is not shadow-copied.
+  remarks: To be added.
   syntax:
     content: public override string Location { get; }
     return:
       type: System.String
-      description: Return description to be filled
+      description: To be added.
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Reflection.Emit.AssemblyBuilder.ManifestModule
   id: ManifestModule
   parent: System.Reflection.Emit.AssemblyBuilder
   langs:
   - csharp
-  - vb
   name: ManifestModule
   nameWithType: AssemblyBuilder.ManifestModule
   fullName: System.Reflection.Emit.AssemblyBuilder.ManifestModule
@@ -1181,17 +1418,22 @@ items:
   assemblies:
   - mscorlib
   namespace: System.Reflection.Emit
+  summary: Gets the module in the current <see cref="T:System.Reflection.Emit.AssemblyBuilder"> that contains the assembly manifest.
+  remarks: To be added.
   syntax:
     content: public override System.Reflection.Module ManifestModule { get; }
     return:
       type: System.Reflection.Module
-      description: Return description to be filled
+      description: To be added.
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Reflection.Emit.AssemblyBuilder.PermissionSet
   id: PermissionSet
   parent: System.Reflection.Emit.AssemblyBuilder
   langs:
   - csharp
-  - vb
   name: PermissionSet
   nameWithType: AssemblyBuilder.PermissionSet
   fullName: System.Reflection.Emit.AssemblyBuilder.PermissionSet
@@ -1199,17 +1441,22 @@ items:
   assemblies:
   - mscorlib
   namespace: System.Reflection.Emit
+  summary: Gets the grant set of the current dynamic assembly.
+  remarks: <xref:System.Security.PermissionSet> objects can contain sensitive information such as paths. Therefore, full trust is required to access these objects.
   syntax:
     content: public override System.Security.PermissionSet PermissionSet { get; }
     return:
       type: System.Security.PermissionSet
-      description: Return description to be filled
+      description: To be added.
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Reflection.Emit.AssemblyBuilder.ReflectionOnly
   id: ReflectionOnly
   parent: System.Reflection.Emit.AssemblyBuilder
   langs:
   - csharp
-  - vb
   name: ReflectionOnly
   nameWithType: AssemblyBuilder.ReflectionOnly
   fullName: System.Reflection.Emit.AssemblyBuilder.ReflectionOnly
@@ -1217,17 +1464,22 @@ items:
   assemblies:
   - mscorlib
   namespace: System.Reflection.Emit
+  summary: Gets a value indicating whether the dynamic assembly is in the reflection-only context.
+  remarks: "To emit a dynamic assembly in the reflection-only context, specify <xref:System.Reflection.Emit.AssemblyBuilderAccess?displayProperty=fullName> when you create the <xref:System.Reflection.Emit.AssemblyBuilder>. If a dynamic assembly is emitted in the reflection-only context, its code cannot be executed.  \n  \n> [!NOTE]\n>  After you have saved a dynamic assembly to disk, you can use the <xref:System.Reflection.Assembly.ReflectionOnlyLoad%2A?displayProperty=fullName> method to load the completed assembly into the reflection-only context. However, the assembly can no longer be modified."
   syntax:
     content: public override bool ReflectionOnly { get; }
     return:
       type: System.Boolean
-      description: Return description to be filled
+      description: To be added.
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Reflection.Emit.AssemblyBuilder.Save(System.String)
   id: Save(System.String)
   parent: System.Reflection.Emit.AssemblyBuilder
   langs:
   - csharp
-  - vb
   name: Save(String)
   nameWithType: AssemblyBuilder.Save(String)
   fullName: System.Reflection.Emit.AssemblyBuilder.Save(String)
@@ -1235,22 +1487,26 @@ items:
   assemblies:
   - mscorlib
   namespace: System.Reflection.Emit
+  summary: Saves this dynamic assembly to disk.
+  remarks: "This method saves all non-transient dynamic modules defined in this dynamic assembly. Transient dynamic modules are not saved. The assembly file name can be the same as the name of one of the modules. If so, the assembly manifest is stored within that module.  can be different from the names of all of the modules contained within the assembly. If so, the assembly file contains only the assembly manifest.  \n  \n For each <xref:System.Resources.ResourceWriter> obtained using <xref:System.Reflection.Emit.AssemblyBuilder.DefineResource%2A>, this method writes the .resources file and calls <xref:System.Resources.ResourceWriter.Close%2A> to close the stream.  \n  \n The  needs to be a simple file name without a drive or directory component. To create an assembly in a specific directory, use one of the <xref:System.AppDomain.DefineDynamicAssembly%2A> methods that takes a target directory argument.  \n  \n In the .NET Framework version 2.0, this overload of the <xref:System.Reflection.Emit.AssemblyBuilder.Save%2A> method is equivalent to calling the <xref:System.Reflection.Emit.AssemblyBuilder.Save%28System.String%2CSystem.Reflection.PortableExecutableKinds%2CSystem.Reflection.ImageFileMachine%29> method overload with <xref:System.Reflection.PortableExecutableKinds> for the  parameter and <xref:System.Reflection.ImageFileMachine> for the  parameter."
+  example:
+  - "The following code sample creates a dynamic assembly and then persists it to a local disk using `Save`.  \n  \n [!CODE [System.Reflection.Emit.AssemblyBuilder.Save Example#1](../CodeSnippet/VS_Snippets_CLR_System/system.Reflection.Emit.AssemblyBuilder.Save Example#1)]"
   syntax:
     content: public void Save (string assemblyFileName);
     parameters:
     - id: assemblyFileName
       type: System.String
-      description: Parameter description to be filled
-    return:
-      type: System.Void
-      description: Return description to be filled
+      description: The file name of the assembly.
   overload: System.Reflection.Emit.AssemblyBuilder.Save*
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Reflection.Emit.AssemblyBuilder.Save(System.String,System.Reflection.PortableExecutableKinds,System.Reflection.ImageFileMachine)
   id: Save(System.String,System.Reflection.PortableExecutableKinds,System.Reflection.ImageFileMachine)
   parent: System.Reflection.Emit.AssemblyBuilder
   langs:
   - csharp
-  - vb
   name: Save(String,PortableExecutableKinds,ImageFileMachine)
   nameWithType: AssemblyBuilder.Save(String,PortableExecutableKinds,ImageFileMachine)
   fullName: System.Reflection.Emit.AssemblyBuilder.Save(String,PortableExecutableKinds,ImageFileMachine)
@@ -1258,28 +1514,30 @@ items:
   assemblies:
   - mscorlib
   namespace: System.Reflection.Emit
+  summary: Saves this dynamic assembly to disk, specifying the nature of code in the assembly's executables and the target platform.
+  remarks: "If  and  are incompatible,  takes precedence over . No exception is thrown. For example, if you specify <xref:System.Reflection.ImageFileMachine?displayProperty=fullName> with <xref:System.Reflection.PortableExecutableKinds?displayProperty=fullName>, <xref:System.Reflection.PortableExecutableKinds?displayProperty=fullName> is ignored.  \n  \n This method saves all non-transient dynamic modules defined in this dynamic assembly. Transient dynamic modules are not saved. The assembly file name can be the same as the name of one of the module. If so, the assembly manifest is stored within that module.  can be different from the names of all of the modules contained within the assembly. If so, the assembly file contains only the assembly manifest.  \n  \n For each <xref:System.Resources.ResourceWriter> obtained using <xref:System.Reflection.Emit.AssemblyBuilder.DefineResource%2A>, this method writes the .resources file and calls <xref:System.Resources.ResourceWriter.Close%2A> to close the stream.  \n  \n The  needs to be a simple file name without a drive or directory component. To create an assembly in a specific directory, use one of the <xref:System.AppDomain.DefineDynamicAssembly%2A> methods that takes a target directory argument."
   syntax:
     content: public void Save (string assemblyFileName, System.Reflection.PortableExecutableKinds portableExecutableKind, System.Reflection.ImageFileMachine imageFileMachine);
     parameters:
     - id: assemblyFileName
       type: System.String
-      description: Parameter description to be filled
+      description: The file name of the assembly.
     - id: portableExecutableKind
       type: System.Reflection.PortableExecutableKinds
-      description: Parameter description to be filled
+      description: A bitwise combination of the <see cref="T:System.Reflection.PortableExecutableKinds"> values that specifies the nature of the code.
     - id: imageFileMachine
       type: System.Reflection.ImageFileMachine
-      description: Parameter description to be filled
-    return:
-      type: System.Void
-      description: Return description to be filled
+      description: One of the <see cref="T:System.Reflection.ImageFileMachine"> values that specifies the target platform.
   overload: System.Reflection.Emit.AssemblyBuilder.Save*
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Reflection.Emit.AssemblyBuilder.SecurityRuleSet
   id: SecurityRuleSet
   parent: System.Reflection.Emit.AssemblyBuilder
   langs:
   - csharp
-  - vb
   name: SecurityRuleSet
   nameWithType: AssemblyBuilder.SecurityRuleSet
   fullName: System.Reflection.Emit.AssemblyBuilder.SecurityRuleSet
@@ -1287,17 +1545,22 @@ items:
   assemblies:
   - mscorlib
   namespace: System.Reflection.Emit
+  summary: Gets a value that indicates which set of security rules the common language runtime (CLR) enforces for this assembly.
+  remarks: The [!INCLUDE[net_v40_long](../../add/includes/net-v40-long-md.md)] always enforces level 2 transparency (<xref:System.Security.SecurityRuleSet?displayProperty=fullName>) for the dynamic assemblies it generates.
   syntax:
     content: public override System.Security.SecurityRuleSet SecurityRuleSet { get; }
     return:
       type: System.Security.SecurityRuleSet
-      description: Return description to be filled
+      description: To be added.
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Reflection.Emit.AssemblyBuilder.SetCustomAttribute(System.Reflection.Emit.CustomAttributeBuilder)
   id: SetCustomAttribute(System.Reflection.Emit.CustomAttributeBuilder)
   parent: System.Reflection.Emit.AssemblyBuilder
   langs:
   - csharp
-  - vb
   name: SetCustomAttribute(CustomAttributeBuilder)
   nameWithType: AssemblyBuilder.SetCustomAttribute(CustomAttributeBuilder)
   fullName: System.Reflection.Emit.AssemblyBuilder.SetCustomAttribute(CustomAttributeBuilder)
@@ -1305,22 +1568,26 @@ items:
   assemblies:
   - mscorlib
   namespace: System.Reflection.Emit
+  summary: Set a custom attribute on this assembly using a custom attribute builder.
+  remarks: "> [!NOTE]\n>  <xref:System.Reflection.Emit.AssemblyBuilder.SetCustomAttribute%2A> cannot be used to set declarative security attributes. Use one of the overloads of <xref:System.AppDomain.DefineDynamicAssembly%2A> that takes required, optional, and refused permissions.  \n  \n> [!NOTE]\n>  Starting with the [!INCLUDE[net_v20sp1_long](../../add/includes/net-v20sp1-long-md.md)], this member no longer requires <xref:System.Security.Permissions.ReflectionPermission> with the <xref:System.Security.Permissions.ReflectionPermissionFlag?displayProperty=fullName> flag. (See [Security Issues in Reflection Emit](../Topic/Security%20Issues%20in%20Reflection%20Emit.md).) To use this functionality, your application should target the [!INCLUDE[net_v35_long](../../add/includes/net-v35-long-md.md)] or later."
+  example:
+  - "The following code sample illustrates the use of `SetCustomAttribute` within <xref:System.Reflection.Emit.AssemblyBuilder>, using a <xref:System.Reflection.Emit.CustomAttributeBuilder>.  \n  \n [!CODE [AssemblyBuilder_SetCustomAttribute1#1](../CodeSnippet/VS_Snippets_CLR/AssemblyBuilder_SetCustomAttribute1#1)]"
   syntax:
     content: public void SetCustomAttribute (System.Reflection.Emit.CustomAttributeBuilder customBuilder);
     parameters:
     - id: customBuilder
       type: System.Reflection.Emit.CustomAttributeBuilder
-      description: Parameter description to be filled
-    return:
-      type: System.Void
-      description: Return description to be filled
+      description: An instance of a helper class to define the custom attribute.
   overload: System.Reflection.Emit.AssemblyBuilder.SetCustomAttribute*
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Reflection.Emit.AssemblyBuilder.SetCustomAttribute(System.Reflection.ConstructorInfo,System.Byte[])
   id: SetCustomAttribute(System.Reflection.ConstructorInfo,System.Byte[])
   parent: System.Reflection.Emit.AssemblyBuilder
   langs:
   - csharp
-  - vb
   name: SetCustomAttribute(ConstructorInfo,Byte[])
   nameWithType: AssemblyBuilder.SetCustomAttribute(ConstructorInfo,Byte[])
   fullName: System.Reflection.Emit.AssemblyBuilder.SetCustomAttribute(ConstructorInfo,Byte[])
@@ -1328,25 +1595,29 @@ items:
   assemblies:
   - mscorlib
   namespace: System.Reflection.Emit
+  summary: Set a custom attribute on this assembly using a specified custom attribute blob.
+  remarks: "See the metadata specification in the ECMA Partition II documentation for details on how to format . The documentation is available online; see [ECMA C# and Common Language Infrastructure Standards](http://go.microsoft.com/fwlink/?LinkID=99212) on MSDN and [Standard ECMA-335 - Common Language Infrastructure (CLI)](http://go.microsoft.com/fwlink/?LinkID=65552) on the Ecma International Web site.  \n  \n `RuntimeConstructorInfo` is a special type generated by the system. It derives from the <xref:System.Reflection.ConstructorInfo> class, and any <xref:System.Reflection.ConstructorInfo> object you obtain through reflection is actually an instance of `RuntimeConstructorInfo`.  \n  \n> [!NOTE]\n>  SetCustomAttribute cannot be used to set declarative security attributes. Use one of the overloads of <xref:System.AppDomain.DefineDynamicAssembly%2A> that takes required, optional, and refused permissions.  \n  \n> [!NOTE]\n>  Starting with the [!INCLUDE[net_v20sp1_long](../../add/includes/net-v20sp1-long-md.md)], this member no longer requires <xref:System.Security.Permissions.ReflectionPermission> with the <xref:System.Security.Permissions.ReflectionPermissionFlag?displayProperty=fullName> flag. (See [Security Issues in Reflection Emit](../Topic/Security%20Issues%20in%20Reflection%20Emit.md).) To use this functionality, your application should target the [!INCLUDE[net_v35_long](../../add/includes/net-v35-long-md.md)] or later."
+  example:
+  - "The following code sample illustrates the use of `SetCustomAttribute` to attach a custom attribute to a dynamically generated assembly.  \n  \n [!CODE [AssemblyBuilder_SetCustomAttribute2#1](../CodeSnippet/VS_Snippets_CLR/AssemblyBuilder_SetCustomAttribute2#1)]"
   syntax:
     content: public void SetCustomAttribute (System.Reflection.ConstructorInfo con, byte[] binaryAttribute);
     parameters:
     - id: con
       type: System.Reflection.ConstructorInfo
-      description: Parameter description to be filled
+      description: The constructor for the custom attribute.
     - id: binaryAttribute
       type: System.Byte[]
-      description: Parameter description to be filled
-    return:
-      type: System.Void
-      description: Return description to be filled
+      description: A byte blob representing the attributes.
   overload: System.Reflection.Emit.AssemblyBuilder.SetCustomAttribute*
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Reflection.Emit.AssemblyBuilder.SetEntryPoint(System.Reflection.MethodInfo)
   id: SetEntryPoint(System.Reflection.MethodInfo)
   parent: System.Reflection.Emit.AssemblyBuilder
   langs:
   - csharp
-  - vb
   name: SetEntryPoint(MethodInfo)
   nameWithType: AssemblyBuilder.SetEntryPoint(MethodInfo)
   fullName: System.Reflection.Emit.AssemblyBuilder.SetEntryPoint(MethodInfo)
@@ -1354,22 +1625,24 @@ items:
   assemblies:
   - mscorlib
   namespace: System.Reflection.Emit
+  summary: Sets the entry point for this dynamic assembly, assuming that a console application is being built.
+  remarks: To be added.
   syntax:
     content: public void SetEntryPoint (System.Reflection.MethodInfo entryMethod);
     parameters:
     - id: entryMethod
       type: System.Reflection.MethodInfo
-      description: Parameter description to be filled
-    return:
-      type: System.Void
-      description: Return description to be filled
+      description: A reference to the method that represents the entry point for this dynamic assembly.
   overload: System.Reflection.Emit.AssemblyBuilder.SetEntryPoint*
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Reflection.Emit.AssemblyBuilder.SetEntryPoint(System.Reflection.MethodInfo,System.Reflection.Emit.PEFileKinds)
   id: SetEntryPoint(System.Reflection.MethodInfo,System.Reflection.Emit.PEFileKinds)
   parent: System.Reflection.Emit.AssemblyBuilder
   langs:
   - csharp
-  - vb
   name: SetEntryPoint(MethodInfo,PEFileKinds)
   nameWithType: AssemblyBuilder.SetEntryPoint(MethodInfo,PEFileKinds)
   fullName: System.Reflection.Emit.AssemblyBuilder.SetEntryPoint(MethodInfo,PEFileKinds)
@@ -1377,26 +1650,31 @@ items:
   assemblies:
   - mscorlib
   namespace: System.Reflection.Emit
+  summary: Sets the entry point for this assembly and defines the type of the portable executable (PE file) being built.
+  remarks: >-
+    > [!NOTE]
+
+    >  Starting with the [!INCLUDE[net_v20sp1_long](../../add/includes/net-v20sp1-long-md.md)], this member no longer requires <xref:System.Security.Permissions.ReflectionPermission> with the <xref:System.Security.Permissions.ReflectionPermissionFlag?displayProperty=fullName> flag. (See [Security Issues in Reflection Emit](../Topic/Security%20Issues%20in%20Reflection%20Emit.md).) To use this functionality, your application should target the [!INCLUDE[net_v35_long](../../add/includes/net-v35-long-md.md)] or later.
   syntax:
     content: public void SetEntryPoint (System.Reflection.MethodInfo entryMethod, System.Reflection.Emit.PEFileKinds fileKind);
     parameters:
     - id: entryMethod
       type: System.Reflection.MethodInfo
-      description: Parameter description to be filled
+      description: A reference to the method that represents the entry point for this dynamic assembly.
     - id: fileKind
       type: System.Reflection.Emit.PEFileKinds
-      description: Parameter description to be filled
-    return:
-      type: System.Void
-      description: Return description to be filled
+      description: The type of the assembly executable being built.
   overload: System.Reflection.Emit.AssemblyBuilder.SetEntryPoint*
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Reflection.Emit.AssemblyBuilder.System#Runtime#InteropServices#_AssemblyBuilder#GetIDsOfNames(System.Guid@,System.IntPtr,System.UInt32,System.UInt32,System.IntPtr)
   id: System#Runtime#InteropServices#_AssemblyBuilder#GetIDsOfNames(System.Guid@,System.IntPtr,System.UInt32,System.UInt32,System.IntPtr)
   isEii: true
   parent: System.Reflection.Emit.AssemblyBuilder
   langs:
   - csharp
-  - vb
   name: System.Runtime.InteropServices._AssemblyBuilder.GetIDsOfNames(Guid,IntPtr,UInt32,UInt32,IntPtr)
   nameWithType: AssemblyBuilder.System.Runtime.InteropServices._AssemblyBuilder.GetIDsOfNames(Guid,IntPtr,UInt32,UInt32,IntPtr)
   fullName: System.Reflection.Emit.AssemblyBuilder.System.Runtime.InteropServices._AssemblyBuilder.GetIDsOfNames(Guid,IntPtr,UInt32,UInt32,IntPtr)
@@ -1404,34 +1682,36 @@ items:
   assemblies:
   - mscorlib
   namespace: System.Reflection.Emit
+  summary: Maps a set of names to a corresponding set of dispatch identifiers.
+  remarks: This method is for access to managed classes from unmanaged code, and should not be called from managed code. For more information about `IDispatch::GetIDsOfNames`, see the MSDN Library.
   syntax:
     content: void _AssemblyBuilder.GetIDsOfNames (ref Guid riid, IntPtr rgszNames, uint cNames, uint lcid, IntPtr rgDispId);
     parameters:
     - id: riid
       type: System.Guid
-      description: Parameter description to be filled
+      description: Reserved for future use. Must be IID_NULL.
     - id: rgszNames
       type: System.IntPtr
-      description: Parameter description to be filled
+      description: Passed-in array of names to be mapped.
     - id: cNames
       type: System.UInt32
-      description: Parameter description to be filled
+      description: Count of the names to be mapped.
     - id: lcid
       type: System.UInt32
-      description: Parameter description to be filled
+      description: The locale context in which to interpret the names.
     - id: rgDispId
       type: System.IntPtr
-      description: Parameter description to be filled
-    return:
-      type: System.Void
-      description: Return description to be filled
+      description: Caller-allocated array which receives the IDs corresponding to the names.
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Reflection.Emit.AssemblyBuilder.System#Runtime#InteropServices#_AssemblyBuilder#GetTypeInfo(System.UInt32,System.UInt32,System.IntPtr)
   id: System#Runtime#InteropServices#_AssemblyBuilder#GetTypeInfo(System.UInt32,System.UInt32,System.IntPtr)
   isEii: true
   parent: System.Reflection.Emit.AssemblyBuilder
   langs:
   - csharp
-  - vb
   name: System.Runtime.InteropServices._AssemblyBuilder.GetTypeInfo(UInt32,UInt32,IntPtr)
   nameWithType: AssemblyBuilder.System.Runtime.InteropServices._AssemblyBuilder.GetTypeInfo(UInt32,UInt32,IntPtr)
   fullName: System.Reflection.Emit.AssemblyBuilder.System.Runtime.InteropServices._AssemblyBuilder.GetTypeInfo(UInt32,UInt32,IntPtr)
@@ -1439,28 +1719,30 @@ items:
   assemblies:
   - mscorlib
   namespace: System.Reflection.Emit
+  summary: Retrieves the type information for an object, which can then be used to get the type information for an interface.
+  remarks: This method is for access to managed classes from unmanaged code, and should not be called from managed code. For more information about `IDispatch::GetTypeInfo`, see the MSDN Library.
   syntax:
     content: void _AssemblyBuilder.GetTypeInfo (uint iTInfo, uint lcid, IntPtr ppTInfo);
     parameters:
     - id: iTInfo
       type: System.UInt32
-      description: Parameter description to be filled
+      description: The type information to return.
     - id: lcid
       type: System.UInt32
-      description: Parameter description to be filled
+      description: The locale identifier for the type information.
     - id: ppTInfo
       type: System.IntPtr
-      description: Parameter description to be filled
-    return:
-      type: System.Void
-      description: Return description to be filled
+      description: Receives a pointer to the requested type information object.
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Reflection.Emit.AssemblyBuilder.System#Runtime#InteropServices#_AssemblyBuilder#GetTypeInfoCount(System.UInt32@)
   id: System#Runtime#InteropServices#_AssemblyBuilder#GetTypeInfoCount(System.UInt32@)
   isEii: true
   parent: System.Reflection.Emit.AssemblyBuilder
   langs:
   - csharp
-  - vb
   name: System.Runtime.InteropServices._AssemblyBuilder.GetTypeInfoCount(UInt32)
   nameWithType: AssemblyBuilder.System.Runtime.InteropServices._AssemblyBuilder.GetTypeInfoCount(UInt32)
   fullName: System.Reflection.Emit.AssemblyBuilder.System.Runtime.InteropServices._AssemblyBuilder.GetTypeInfoCount(UInt32)
@@ -1468,22 +1750,24 @@ items:
   assemblies:
   - mscorlib
   namespace: System.Reflection.Emit
+  summary: Retrieves the number of type information interfaces that an object provides (either 0 or 1).
+  remarks: This method is for access to managed classes from unmanaged code, and should not be called from managed code. For more information about `IDispatch::GetTypeInfoCount`, see the MSDN Library.
   syntax:
     content: void _AssemblyBuilder.GetTypeInfoCount (out uint pcTInfo);
     parameters:
     - id: pcTInfo
       type: System.UInt32
-      description: Parameter description to be filled
-    return:
-      type: System.Void
-      description: Return description to be filled
+      description: Points to a location that receives the number of type information interfaces provided by the object.
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Reflection.Emit.AssemblyBuilder.System#Runtime#InteropServices#_AssemblyBuilder#Invoke(System.UInt32,System.Guid@,System.UInt32,System.Int16,System.IntPtr,System.IntPtr,System.IntPtr,System.IntPtr)
   id: System#Runtime#InteropServices#_AssemblyBuilder#Invoke(System.UInt32,System.Guid@,System.UInt32,System.Int16,System.IntPtr,System.IntPtr,System.IntPtr,System.IntPtr)
   isEii: true
   parent: System.Reflection.Emit.AssemblyBuilder
   langs:
   - csharp
-  - vb
   name: System.Runtime.InteropServices._AssemblyBuilder.Invoke(UInt32,Guid,UInt32,Int16,IntPtr,IntPtr,IntPtr,IntPtr)
   nameWithType: AssemblyBuilder.System.Runtime.InteropServices._AssemblyBuilder.Invoke(UInt32,Guid,UInt32,Int16,IntPtr,IntPtr,IntPtr,IntPtr)
   fullName: System.Reflection.Emit.AssemblyBuilder.System.Runtime.InteropServices._AssemblyBuilder.Invoke(UInt32,Guid,UInt32,Int16,IntPtr,IntPtr,IntPtr,IntPtr)
@@ -1491,36 +1775,39 @@ items:
   assemblies:
   - mscorlib
   namespace: System.Reflection.Emit
+  summary: Provides access to properties and methods exposed by an object.
+  remarks: This method is for access to managed classes from unmanaged code, and should not be called from managed code. For more information about `IDispatch::Invoke`, see the MSDN Library.
   syntax:
     content: void _AssemblyBuilder.Invoke (uint dispIdMember, ref Guid riid, uint lcid, short wFlags, IntPtr pDispParams, IntPtr pVarResult, IntPtr pExcepInfo, IntPtr puArgErr);
     parameters:
     - id: dispIdMember
       type: System.UInt32
-      description: Parameter description to be filled
+      description: Identifies the member.
     - id: riid
       type: System.Guid
-      description: Parameter description to be filled
+      description: Reserved for future use. Must be IID_NULL.
     - id: lcid
       type: System.UInt32
-      description: Parameter description to be filled
+      description: The locale context in which to interpret arguments.
     - id: wFlags
       type: System.Int16
-      description: Parameter description to be filled
+      description: Flags describing the context of the call.
     - id: pDispParams
       type: System.IntPtr
-      description: Parameter description to be filled
+      description: Pointer to a structure containing an array of arguments, an array of argument DISPIDs for named arguments, and counts for the number of elements in the arrays.
     - id: pVarResult
       type: System.IntPtr
-      description: Parameter description to be filled
+      description: Pointer to the location where the result is to be stored.
     - id: pExcepInfo
       type: System.IntPtr
-      description: Parameter description to be filled
+      description: Pointer to a structure that contains exception information.
     - id: puArgErr
       type: System.IntPtr
-      description: Parameter description to be filled
-    return:
-      type: System.Void
-      description: Return description to be filled
+      description: The index of the first argument that has an error.
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 references:
 - uid: System.Reflection.Assembly
   isExternal: false
@@ -1531,12 +1818,6 @@ references:
   name: AddResourceFile(String,String)
   nameWithType: AssemblyBuilder.AddResourceFile(String,String)
   fullName: System.Reflection.Emit.AssemblyBuilder.AddResourceFile(String,String)
-- uid: System.Void
-  parent: System
-  isExternal: false
-  name: Void
-  nameWithType: Void
-  fullName: System.Void
 - uid: System.String
   parent: System
   isExternal: false
@@ -1555,12 +1836,6 @@ references:
   name: AddResourceFile(String,String,ResourceAttributes)
   nameWithType: AssemblyBuilder.AddResourceFile(String,String,ResourceAttributes)
   fullName: System.Reflection.Emit.AssemblyBuilder.AddResourceFile(String,String,ResourceAttributes)
-- uid: System.Void
-  parent: System
-  isExternal: false
-  name: Void
-  nameWithType: Void
-  fullName: System.Void
 - uid: System.String
   parent: System
   isExternal: false
@@ -1618,9 +1893,9 @@ references:
 - uid: System.Reflection.Emit.AssemblyBuilder.DefineDynamicAssembly(System.Reflection.AssemblyName,System.Reflection.Emit.AssemblyBuilderAccess,System.Collections.Generic.IEnumerable{System.Reflection.Emit.CustomAttributeBuilder})
   parent: System.Reflection.Emit.AssemblyBuilder
   isExternal: false
-  name: DefineDynamicAssembly(AssemblyName,AssemblyBuilderAccess,IEnumerable)
-  nameWithType: AssemblyBuilder.DefineDynamicAssembly(AssemblyName,AssemblyBuilderAccess,IEnumerable)
-  fullName: System.Reflection.Emit.AssemblyBuilder.DefineDynamicAssembly(AssemblyName,AssemblyBuilderAccess,IEnumerable)
+  name: DefineDynamicAssembly(AssemblyName,AssemblyBuilderAccess,IEnumerable<CustomAttributeBuilder>)
+  nameWithType: AssemblyBuilder.DefineDynamicAssembly(AssemblyName,AssemblyBuilderAccess,IEnumerable<CustomAttributeBuilder>)
+  fullName: System.Reflection.Emit.AssemblyBuilder.DefineDynamicAssembly(AssemblyName,AssemblyBuilderAccess,IEnumerable<CustomAttributeBuilder>)
 - uid: System.Reflection.Emit.AssemblyBuilder
   parent: System.Reflection.Emit
   isExternal: false
@@ -1639,6 +1914,12 @@ references:
   name: AssemblyBuilderAccess
   nameWithType: AssemblyBuilderAccess
   fullName: System.Reflection.Emit.AssemblyBuilderAccess
+- uid: System.Collections.Generic.IEnumerable{System.Reflection.Emit.CustomAttributeBuilder}
+  parent: System.Collections.Generic
+  isExternal: false
+  name: IEnumerable<CustomAttributeBuilder>
+  nameWithType: IEnumerable<CustomAttributeBuilder>
+  fullName: System.Collections.Generic.IEnumerable<System.Reflection.Emit.CustomAttributeBuilder>
 - uid: System.Reflection.Emit.AssemblyBuilder.DefineDynamicModule(System.String)
   parent: System.Reflection.Emit.AssemblyBuilder
   isExternal: false
@@ -1807,24 +2088,18 @@ references:
   name: DefineUnmanagedResource(Byte[])
   nameWithType: AssemblyBuilder.DefineUnmanagedResource(Byte[])
   fullName: System.Reflection.Emit.AssemblyBuilder.DefineUnmanagedResource(Byte[])
-- uid: System.Void
+- uid: System.Byte
   parent: System
   isExternal: false
-  name: Void
-  nameWithType: Void
-  fullName: System.Void
+  name: Byte
+  nameWithType: Byte
+  fullName: System.Byte[]
 - uid: System.Reflection.Emit.AssemblyBuilder.DefineUnmanagedResource(System.String)
   parent: System.Reflection.Emit.AssemblyBuilder
   isExternal: false
   name: DefineUnmanagedResource(String)
   nameWithType: AssemblyBuilder.DefineUnmanagedResource(String)
   fullName: System.Reflection.Emit.AssemblyBuilder.DefineUnmanagedResource(String)
-- uid: System.Void
-  parent: System
-  isExternal: false
-  name: Void
-  nameWithType: Void
-  fullName: System.Void
 - uid: System.String
   parent: System
   isExternal: false
@@ -1837,24 +2112,12 @@ references:
   name: DefineVersionInfoResource()
   nameWithType: AssemblyBuilder.DefineVersionInfoResource()
   fullName: System.Reflection.Emit.AssemblyBuilder.DefineVersionInfoResource()
-- uid: System.Void
-  parent: System
-  isExternal: false
-  name: Void
-  nameWithType: Void
-  fullName: System.Void
 - uid: System.Reflection.Emit.AssemblyBuilder.DefineVersionInfoResource(System.String,System.String,System.String,System.String,System.String)
   parent: System.Reflection.Emit.AssemblyBuilder
   isExternal: false
   name: DefineVersionInfoResource(String,String,String,String,String)
   nameWithType: AssemblyBuilder.DefineVersionInfoResource(String,String,String,String,String)
   fullName: System.Reflection.Emit.AssemblyBuilder.DefineVersionInfoResource(String,String,String,String,String)
-- uid: System.Void
-  parent: System
-  isExternal: false
-  name: Void
-  nameWithType: Void
-  fullName: System.Void
 - uid: System.String
   parent: System
   isExternal: false
@@ -1945,6 +2208,12 @@ references:
   name: GetCustomAttributes(Boolean)
   nameWithType: AssemblyBuilder.GetCustomAttributes(Boolean)
   fullName: System.Reflection.Emit.AssemblyBuilder.GetCustomAttributes(Boolean)
+- uid: System.Object
+  parent: System
+  isExternal: false
+  name: Object
+  nameWithType: Object
+  fullName: System.Object[]
 - uid: System.Boolean
   parent: System
   isExternal: false
@@ -1957,6 +2226,12 @@ references:
   name: GetCustomAttributes(Type,Boolean)
   nameWithType: AssemblyBuilder.GetCustomAttributes(Type,Boolean)
   fullName: System.Reflection.Emit.AssemblyBuilder.GetCustomAttributes(Type,Boolean)
+- uid: System.Object
+  parent: System
+  isExternal: false
+  name: Object
+  nameWithType: Object
+  fullName: System.Object[]
 - uid: System.Type
   parent: System
   isExternal: false
@@ -1975,6 +2250,12 @@ references:
   name: GetCustomAttributesData()
   nameWithType: AssemblyBuilder.GetCustomAttributesData()
   fullName: System.Reflection.Emit.AssemblyBuilder.GetCustomAttributesData()
+- uid: System.Collections.Generic.IList{System.Reflection.CustomAttributeData}
+  parent: System.Collections.Generic
+  isExternal: false
+  name: IList<CustomAttributeData>
+  nameWithType: IList<CustomAttributeData>
+  fullName: System.Collections.Generic.IList<System.Reflection.CustomAttributeData>
 - uid: System.Reflection.Emit.AssemblyBuilder.GetDynamicModule(System.String)
   parent: System.Reflection.Emit.AssemblyBuilder
   isExternal: false
@@ -1999,6 +2280,12 @@ references:
   name: GetExportedTypes()
   nameWithType: AssemblyBuilder.GetExportedTypes()
   fullName: System.Reflection.Emit.AssemblyBuilder.GetExportedTypes()
+- uid: System.Type
+  parent: System
+  isExternal: false
+  name: Type
+  nameWithType: Type
+  fullName: System.Type[]
 - uid: System.Reflection.Emit.AssemblyBuilder.GetFile(System.String)
   parent: System.Reflection.Emit.AssemblyBuilder
   isExternal: false
@@ -2023,6 +2310,12 @@ references:
   name: GetFiles(Boolean)
   nameWithType: AssemblyBuilder.GetFiles(Boolean)
   fullName: System.Reflection.Emit.AssemblyBuilder.GetFiles(Boolean)
+- uid: System.IO.FileStream
+  parent: System.IO
+  isExternal: false
+  name: FileStream
+  nameWithType: FileStream
+  fullName: System.IO.FileStream[]
 - uid: System.Boolean
   parent: System
   isExternal: false
@@ -2047,6 +2340,12 @@ references:
   name: GetLoadedModules(Boolean)
   nameWithType: AssemblyBuilder.GetLoadedModules(Boolean)
   fullName: System.Reflection.Emit.AssemblyBuilder.GetLoadedModules(Boolean)
+- uid: System.Reflection.Module
+  parent: System.Reflection
+  isExternal: false
+  name: Module
+  nameWithType: Module
+  fullName: System.Reflection.Module[]
 - uid: System.Boolean
   parent: System
   isExternal: false
@@ -2077,6 +2376,12 @@ references:
   name: GetManifestResourceNames()
   nameWithType: AssemblyBuilder.GetManifestResourceNames()
   fullName: System.Reflection.Emit.AssemblyBuilder.GetManifestResourceNames()
+- uid: System.String
+  parent: System
+  isExternal: false
+  name: String
+  nameWithType: String
+  fullName: System.String[]
 - uid: System.Reflection.Emit.AssemblyBuilder.GetManifestResourceStream(System.String)
   parent: System.Reflection.Emit.AssemblyBuilder
   isExternal: false
@@ -2143,6 +2448,12 @@ references:
   name: GetModules(Boolean)
   nameWithType: AssemblyBuilder.GetModules(Boolean)
   fullName: System.Reflection.Emit.AssemblyBuilder.GetModules(Boolean)
+- uid: System.Reflection.Module
+  parent: System.Reflection
+  isExternal: false
+  name: Module
+  nameWithType: Module
+  fullName: System.Reflection.Module[]
 - uid: System.Boolean
   parent: System
   isExternal: false
@@ -2173,6 +2484,12 @@ references:
   name: GetReferencedAssemblies()
   nameWithType: AssemblyBuilder.GetReferencedAssemblies()
   fullName: System.Reflection.Emit.AssemblyBuilder.GetReferencedAssemblies()
+- uid: System.Reflection.AssemblyName
+  parent: System.Reflection
+  isExternal: false
+  name: AssemblyName
+  nameWithType: AssemblyName
+  fullName: System.Reflection.AssemblyName[]
 - uid: System.Reflection.Emit.AssemblyBuilder.GetSatelliteAssembly(System.Globalization.CultureInfo)
   parent: System.Reflection.Emit.AssemblyBuilder
   isExternal: false
@@ -2371,12 +2688,6 @@ references:
   name: Save(String)
   nameWithType: AssemblyBuilder.Save(String)
   fullName: System.Reflection.Emit.AssemblyBuilder.Save(String)
-- uid: System.Void
-  parent: System
-  isExternal: false
-  name: Void
-  nameWithType: Void
-  fullName: System.Void
 - uid: System.String
   parent: System
   isExternal: false
@@ -2389,12 +2700,6 @@ references:
   name: Save(String,PortableExecutableKinds,ImageFileMachine)
   nameWithType: AssemblyBuilder.Save(String,PortableExecutableKinds,ImageFileMachine)
   fullName: System.Reflection.Emit.AssemblyBuilder.Save(String,PortableExecutableKinds,ImageFileMachine)
-- uid: System.Void
-  parent: System
-  isExternal: false
-  name: Void
-  nameWithType: Void
-  fullName: System.Void
 - uid: System.String
   parent: System
   isExternal: false
@@ -2431,12 +2736,6 @@ references:
   name: SetCustomAttribute(CustomAttributeBuilder)
   nameWithType: AssemblyBuilder.SetCustomAttribute(CustomAttributeBuilder)
   fullName: System.Reflection.Emit.AssemblyBuilder.SetCustomAttribute(CustomAttributeBuilder)
-- uid: System.Void
-  parent: System
-  isExternal: false
-  name: Void
-  nameWithType: Void
-  fullName: System.Void
 - uid: System.Reflection.Emit.CustomAttributeBuilder
   parent: System.Reflection.Emit
   isExternal: false
@@ -2449,30 +2748,24 @@ references:
   name: SetCustomAttribute(ConstructorInfo,Byte[])
   nameWithType: AssemblyBuilder.SetCustomAttribute(ConstructorInfo,Byte[])
   fullName: System.Reflection.Emit.AssemblyBuilder.SetCustomAttribute(ConstructorInfo,Byte[])
-- uid: System.Void
-  parent: System
-  isExternal: false
-  name: Void
-  nameWithType: Void
-  fullName: System.Void
 - uid: System.Reflection.ConstructorInfo
   parent: System.Reflection
   isExternal: false
   name: ConstructorInfo
   nameWithType: ConstructorInfo
   fullName: System.Reflection.ConstructorInfo
+- uid: System.Byte
+  parent: System
+  isExternal: false
+  name: Byte
+  nameWithType: Byte
+  fullName: System.Byte[]
 - uid: System.Reflection.Emit.AssemblyBuilder.SetEntryPoint(System.Reflection.MethodInfo)
   parent: System.Reflection.Emit.AssemblyBuilder
   isExternal: false
   name: SetEntryPoint(MethodInfo)
   nameWithType: AssemblyBuilder.SetEntryPoint(MethodInfo)
   fullName: System.Reflection.Emit.AssemblyBuilder.SetEntryPoint(MethodInfo)
-- uid: System.Void
-  parent: System
-  isExternal: false
-  name: Void
-  nameWithType: Void
-  fullName: System.Void
 - uid: System.Reflection.MethodInfo
   parent: System.Reflection
   isExternal: false
@@ -2485,12 +2778,6 @@ references:
   name: SetEntryPoint(MethodInfo,PEFileKinds)
   nameWithType: AssemblyBuilder.SetEntryPoint(MethodInfo,PEFileKinds)
   fullName: System.Reflection.Emit.AssemblyBuilder.SetEntryPoint(MethodInfo,PEFileKinds)
-- uid: System.Void
-  parent: System
-  isExternal: false
-  name: Void
-  nameWithType: Void
-  fullName: System.Void
 - uid: System.Reflection.MethodInfo
   parent: System.Reflection
   isExternal: false
@@ -2509,12 +2796,6 @@ references:
   name: System.Runtime.InteropServices._AssemblyBuilder.GetIDsOfNames(Guid,IntPtr,UInt32,UInt32,IntPtr)
   nameWithType: AssemblyBuilder.System.Runtime.InteropServices._AssemblyBuilder.GetIDsOfNames(Guid,IntPtr,UInt32,UInt32,IntPtr)
   fullName: System.Reflection.Emit.AssemblyBuilder.System.Runtime.InteropServices._AssemblyBuilder.GetIDsOfNames(Guid,IntPtr,UInt32,UInt32,IntPtr)
-- uid: System.Void
-  parent: System
-  isExternal: false
-  name: Void
-  nameWithType: Void
-  fullName: System.Void
 - uid: System.Guid
   parent: System
   isExternal: false
@@ -2551,12 +2832,6 @@ references:
   name: System.Runtime.InteropServices._AssemblyBuilder.GetTypeInfo(UInt32,UInt32,IntPtr)
   nameWithType: AssemblyBuilder.System.Runtime.InteropServices._AssemblyBuilder.GetTypeInfo(UInt32,UInt32,IntPtr)
   fullName: System.Reflection.Emit.AssemblyBuilder.System.Runtime.InteropServices._AssemblyBuilder.GetTypeInfo(UInt32,UInt32,IntPtr)
-- uid: System.Void
-  parent: System
-  isExternal: false
-  name: Void
-  nameWithType: Void
-  fullName: System.Void
 - uid: System.UInt32
   parent: System
   isExternal: false
@@ -2581,12 +2856,6 @@ references:
   name: System.Runtime.InteropServices._AssemblyBuilder.GetTypeInfoCount(UInt32)
   nameWithType: AssemblyBuilder.System.Runtime.InteropServices._AssemblyBuilder.GetTypeInfoCount(UInt32)
   fullName: System.Reflection.Emit.AssemblyBuilder.System.Runtime.InteropServices._AssemblyBuilder.GetTypeInfoCount(UInt32)
-- uid: System.Void
-  parent: System
-  isExternal: false
-  name: Void
-  nameWithType: Void
-  fullName: System.Void
 - uid: System.UInt32
   parent: System
   isExternal: false
@@ -2599,12 +2868,6 @@ references:
   name: System.Runtime.InteropServices._AssemblyBuilder.Invoke(UInt32,Guid,UInt32,Int16,IntPtr,IntPtr,IntPtr,IntPtr)
   nameWithType: AssemblyBuilder.System.Runtime.InteropServices._AssemblyBuilder.Invoke(UInt32,Guid,UInt32,Int16,IntPtr,IntPtr,IntPtr,IntPtr)
   fullName: System.Reflection.Emit.AssemblyBuilder.System.Runtime.InteropServices._AssemblyBuilder.Invoke(UInt32,Guid,UInt32,Int16,IntPtr,IntPtr,IntPtr,IntPtr)
-- uid: System.Void
-  parent: System
-  isExternal: false
-  name: Void
-  nameWithType: Void
-  fullName: System.Void
 - uid: System.UInt32
   parent: System
   isExternal: false

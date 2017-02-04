@@ -9,11 +9,12 @@ items:
   - System.AttributeUsageAttribute.ValidOn
   langs:
   - csharp
-  - vb
   name: AttributeUsageAttribute
   nameWithType: AttributeUsageAttribute
   fullName: System.AttributeUsageAttribute
   type: Class
+  summary: Specifies the usage of another attribute class. This class cannot be inherited.
+  remarks: "When you are defining your own attribute class, you can control the manner in which it is used by placing an AttributeUsageAttribute on your attribute class. The indicated attribute class must derive from <xref:System.Attribute>, either directly or indirectly.  \n  \n Attribute classes have positional and named parameters. Each public constructor for an attribute class defines a valid sequence of positional parameters for that class. Named parameters are defined by the non-static, public, and read-write fields or properties of the attribute class.  \n  \n The three properties of AttributeUsageAttribute are set by defining the following parameters:  \n  \n-   <xref:System.AttributeUsageAttribute.ValidOn%2A>  \n  \n This positional parameter specifies the program elements that the indicated attribute can be placed on. The set of all possible elements that you can place an attribute on is listed in the <xref:System.AttributeTargets> enumeration. You can combine several <xref:System.AttributeTargets> values using a bitwise OR operation to get the desired combination of valid program elements.  \n  \n-   <xref:System.AttributeUsageAttribute.AllowMultiple%2A>  \n  \n This named parameter specifies whether the indicated attribute can be specified more than once for a given program element.  \n  \n-   <xref:System.AttributeUsageAttribute.Inherited%2A>  \n  \n This named parameter specifies whether the indicated attribute can be inherited by derived classes and overriding members.  \n  \n For more information about using attributes, see <xref:System.Attribute> and [Attributes](../Topic/Extending%20Metadata%20Using%20Attributes.md)."
   syntax:
     content: >-
       [System.AttributeUsage(System.AttributeTargets.Class, Inherited=true)]
@@ -72,12 +73,15 @@ items:
   - System.Object.MemberwiseClone
   - System.Object.ReferenceEquals(System.Object,System.Object)
   - System.Object.ToString
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.AttributeUsageAttribute.#ctor(System.AttributeTargets)
   id: '#ctor(System.AttributeTargets)'
   parent: System.AttributeUsageAttribute
   langs:
   - csharp
-  - vb
   name: AttributeUsageAttribute(AttributeTargets)
   nameWithType: AttributeUsageAttribute.AttributeUsageAttribute(AttributeTargets)
   fullName: System.AttributeUsageAttribute.AttributeUsageAttribute(AttributeTargets)
@@ -85,18 +89,25 @@ items:
   assemblies:
   - mscorlib
   namespace: System
+  summary: Initializes a new instance of the <see cref="T:System.AttributeUsageAttribute"> class with the specified list of <xref:System.AttributeTargets>, the <xref:System.AttributeUsageAttribute.AllowMultiple%2A> value, and the <xref:System.AttributeUsageAttribute.Inherited%2A> value.
+  remarks: "You can combine several <xref:System.AttributeTargets> values using a bitwise OR operation to get the desired combination of valid program elements.  \n  \n For default property values, see the <xref:System.AttributeUsageAttribute.ValidOn%2A>, <xref:System.AttributeUsageAttribute.AllowMultiple%2A>, and <xref:System.AttributeUsageAttribute.Inherited%2A> properties."
+  example:
+  - "The definition of the DispId attribute illustrates the use of a bitwise OR operation to combine several <xref:System.AttributeTargets> values.  \n  \n [!CODE [Classic AttributeUsageAttribute.AttributeUsageAttribute Example#1](../CodeSnippet/VS_Snippets_CLR_Classic/classic AttributeUsageAttribute.AttributeUsageAttribute Example#1)]"
   syntax:
     content: public AttributeUsageAttribute (AttributeTargets validOn);
     parameters:
     - id: validOn
       type: System.AttributeTargets
-      description: Parameter description to be filled
+      description: The set of values combined using a bitwise OR operation to indicate which program elements are valid.
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.AttributeUsageAttribute.AllowMultiple
   id: AllowMultiple
   parent: System.AttributeUsageAttribute
   langs:
   - csharp
-  - vb
   name: AllowMultiple
   nameWithType: AttributeUsageAttribute.AllowMultiple
   fullName: System.AttributeUsageAttribute.AllowMultiple
@@ -104,17 +115,22 @@ items:
   assemblies:
   - mscorlib
   namespace: System
+  summary: Gets or sets a Boolean value indicating whether more than one instance of the indicated attribute can be specified for a single program element.
+  remarks: An attribute that can be specified more than once for a program element is called a multi-use attribute. An attribute that can be specified only once is called a single-use attribute.
   syntax:
     content: public bool AllowMultiple { get; set; }
     return:
       type: System.Boolean
-      description: Return description to be filled
+      description: To be added.
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.AttributeUsageAttribute.Inherited
   id: Inherited
   parent: System.AttributeUsageAttribute
   langs:
   - csharp
-  - vb
   name: Inherited
   nameWithType: AttributeUsageAttribute.Inherited
   fullName: System.AttributeUsageAttribute.Inherited
@@ -122,17 +138,24 @@ items:
   assemblies:
   - mscorlib
   namespace: System
+  summary: Gets or sets a <see cref="T:System.Boolean"> value that determines whether the indicated attribute is inherited by derived classes and overriding members.
+  remarks: "The Inherited property determines:  \n  \n-   Whether classes derived from a base class tagged with the attribute to which the <xref:System.AttributeUsageAttribute> attribute is applied inherit that attribute.  \n  \n-   Whether methods of derived classes that override a base class method tagged with the attribute to which the <xref:System.AttributeUsageAttribute> attribute is applied inherit that attribute.  (If a class inherits a base class member, it also inherits any attributes applied to that member.)"
+  example:
+  - "The following example illustrates the difference between an attribute to which an <xref:System.AttributeUsageAttribute> attribute with an Inherited property value of `true` is applied and one to which  <xref:System.AttributeUsageAttribute> attribute with an Inherited property value of `true` is applied . The example defines two attributes, `InheritedAttribute` and `NotInheritedAttribute`. Both attributes can apply to classes and methods. Because the Inherited property of the <xref:System.AttributeUsageAttribute> attribute applied to `InheritedAttribute` is `true`, it is inherited by derived classes and the members of derived classes that override the base class method.  On the other hand, because the Inherited property of the <xref:System.AttributeUsageAttribute> attribute applied to `NotInheritedAttribute` is `false`, it is not inherited by derived classes and the members of derived classes that override the base class method.  \n  \n [!CODE [System.AttributeUsageAttribute.Inherited#1](../CodeSnippet/VS_Snippets_CLR_System/System.AttributeUsageAttribute.Inherited#1)]  \n  \n The example then defines two  base classes. The first, `BaseA`, has a single method, `MethodA`.  The second, `BaseB`, has a single method, `MethodB`. `BaseA` and `MethodA` are tagged with the `InheritedAttribute` attribute, and `BaseB` and `MethodB` are tagged with the `NotInheritedAttribute` attribute. `DerivedA` inherits from `BaseA` and overrides its `MethodA` method. `DerivedB` inherits from `BaseB` and overrides its `MethodB` method.  \n  \n [!CODE [System.AttributeUsageAttribute.Inherited#2](../CodeSnippet/VS_Snippets_CLR_System/System.AttributeUsageAttribute.Inherited#2)]  \n  \n As the output from the example shows, `DerivedA` and `DerivedA.MethodA` inherit the `InheritedAttribute` attribute, but `DerivedB` and `DerivedB.MethodB` do not inherit the `NotInheritedAttribute` attribute."
   syntax:
     content: public bool Inherited { get; set; }
     return:
       type: System.Boolean
-      description: Return description to be filled
+      description: To be added.
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.AttributeUsageAttribute.ValidOn
   id: ValidOn
   parent: System.AttributeUsageAttribute
   langs:
   - csharp
-  - vb
   name: ValidOn
   nameWithType: AttributeUsageAttribute.ValidOn
   fullName: System.AttributeUsageAttribute.ValidOn
@@ -140,11 +163,17 @@ items:
   assemblies:
   - mscorlib
   namespace: System
+  summary: Gets a set of values identifying which program elements that the indicated attribute can be applied to.
+  remarks: To be added.
   syntax:
     content: public AttributeTargets ValidOn { get; }
     return:
       type: System.AttributeTargets
-      description: Return description to be filled
+      description: To be added.
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 references:
 - uid: System.Attribute
   isExternal: false

@@ -16,11 +16,12 @@ items:
   - System.Runtime.InteropServices.CriticalHandle.SetHandleAsInvalid
   langs:
   - csharp
-  - vb
   name: CriticalHandle
   nameWithType: CriticalHandle
   fullName: System.Runtime.InteropServices.CriticalHandle
   type: Class
+  summary: Represents a wrapper class for handle resources.
+  remarks: "The CriticalHandle class is similar to the <xref:System.Runtime.InteropServices.SafeHandle> class, except that <xref:System.Runtime.InteropServices.SafeHandle> implements reference counting. You can use CriticalHandle instead of <xref:System.Runtime.InteropServices.SafeHandle> to address performance considerations when you can provide the necessary synchronization more efficiently yourself.  \n  \n Because the CriticalHandle class does not perform reference counting, it does not provide protection from handle recycling security attacks. Because the reference counting algorithm implicitly serializes operations, a certain amount of thread safety is also lost. If you call the <xref:System.IDisposable.Dispose%2A?displayProperty=fullName> or <xref:System.Runtime.InteropServices.SafeHandle.Close%2A> method while an operation that is using the handle is outstanding on another thread, or if you call <xref:System.IDisposable.Dispose%2A?displayProperty=fullName> or <xref:System.Runtime.InteropServices.SafeHandle.Close%2A> from two threads at the same time, the results are non-deterministic. The CriticalHandle class still provides the guaranteed critical finalization provided by the <xref:System.Runtime.ConstrainedExecution.CriticalFinalizerObject> class."
   syntax:
     content: >-
       [System.Security.SecurityCritical]
@@ -39,12 +40,15 @@ items:
   - System.Object.MemberwiseClone
   - System.Object.ReferenceEquals(System.Object,System.Object)
   - System.Object.ToString
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Runtime.InteropServices.CriticalHandle.#ctor(System.IntPtr)
   id: '#ctor(System.IntPtr)'
   parent: System.Runtime.InteropServices.CriticalHandle
   langs:
   - csharp
-  - vb
   name: CriticalHandle(IntPtr)
   nameWithType: CriticalHandle.CriticalHandle(IntPtr)
   fullName: System.Runtime.InteropServices.CriticalHandle.CriticalHandle(IntPtr)
@@ -52,18 +56,23 @@ items:
   assemblies:
   - mscorlib
   namespace: System.Runtime.InteropServices
+  summary: Initializes a new instance of the <see cref="T:System.Runtime.InteropServices.CriticalHandle"> class with the specified invalid handle value.
+  remarks: To be added.
   syntax:
     content: protected CriticalHandle (IntPtr invalidHandleValue);
     parameters:
     - id: invalidHandleValue
       type: System.IntPtr
-      description: Parameter description to be filled
+      description: The value of an invalid handle (usually 0 or -1).
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Runtime.InteropServices.CriticalHandle.Close
   id: Close
   parent: System.Runtime.InteropServices.CriticalHandle
   langs:
   - csharp
-  - vb
   name: Close()
   nameWithType: CriticalHandle.Close()
   fullName: System.Runtime.InteropServices.CriticalHandle.Close()
@@ -71,18 +80,20 @@ items:
   assemblies:
   - mscorlib
   namespace: System.Runtime.InteropServices
+  summary: Marks the handle for releasing and freeing resources.
+  remarks: "Calling the Close or <xref:System.Runtime.InteropServices.CriticalHandle.Dispose%2A> method allows the resources to be freed. Unlike the <xref:System.Runtime.InteropServices.SafeHandle> class, this will always happen immediately since there is no reference count to indicate that other threads are using this handle. Therefore, you must employ a synchronization mechanism to ensure it is safe to call the Close method. Although most classes that use the <xref:System.Runtime.InteropServices.CriticalHandle> class do not need to provide a finalizer, this is sometimes necessary (for example, to flush out file buffers or to write some data back into memory). In this case, the class can provide a finalizer that is guaranteed to run before the <xref:System.Runtime.InteropServices.CriticalHandle> critical finalizer runs.  \n  \n Call the Close or <xref:System.Runtime.InteropServices.CriticalHandle.Dispose%2A> method when you are finished using the <xref:System.Runtime.InteropServices.CriticalHandle> object. The Close method leaves the <xref:System.Runtime.InteropServices.CriticalHandle> object in an unusable state.  \n  \n **Note** Always call Close or <xref:System.Runtime.InteropServices.CriticalHandle.Dispose%2A> before you release your last reference to the <xref:System.Runtime.InteropServices.CriticalHandle> object. Otherwise, the resources it is using will not be freed until the garbage collector calls the <xref:System.Runtime.InteropServices.CriticalHandle> object's <xref:System.Runtime.InteropServices.CriticalHandle.Finalize%2A> method."
   syntax:
     content: public void Close ();
     parameters: []
-    return:
-      type: System.Void
-      description: Return description to be filled
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Runtime.InteropServices.CriticalHandle.Dispose
   id: Dispose
   parent: System.Runtime.InteropServices.CriticalHandle
   langs:
   - csharp
-  - vb
   name: Dispose()
   nameWithType: CriticalHandle.Dispose()
   fullName: System.Runtime.InteropServices.CriticalHandle.Dispose()
@@ -90,19 +101,21 @@ items:
   assemblies:
   - mscorlib
   namespace: System.Runtime.InteropServices
+  summary: Releases all resources used by the <see cref="T:System.Runtime.InteropServices.CriticalHandle">.
+  remarks: "Calling the <xref:System.Runtime.InteropServices.CriticalHandle.Close%2A> or Dispose method allows the resources to be freed. Unlike the <xref:System.Runtime.InteropServices.SafeHandle> class, this will always happen immediately since there is no reference count to indicate that other threads are using this handle. Therefore, you must employ a synchronization mechanism to ensure it is safe to call the Dispose method. Although most classes that use the <xref:System.Runtime.InteropServices.CriticalHandle> class do not need to provide a finalizer, this is sometimes necessary (for example, to flush out file buffers or to write some data back into memory). In this case, the class can provide a finalizer that is guaranteed to run before the <xref:System.Runtime.InteropServices.CriticalHandle> critical finalizer runs.  \n  \n Call the <xref:System.Runtime.InteropServices.CriticalHandle.Close%2A> or Dispose method when you are finished using the <xref:System.Runtime.InteropServices.CriticalHandle> object. The <xref:System.Runtime.InteropServices.CriticalHandle.Close%2A> method leaves the <xref:System.Runtime.InteropServices.CriticalHandle> object in an unusable state.  \n  \n **Note** Always call the <xref:System.Runtime.InteropServices.CriticalHandle.Close%2A> or Dispose method before you release your last reference to the <xref:System.Runtime.InteropServices.CriticalHandle> object. Otherwise, the resources it is using will not be freed until the garbage collector calls the <xref:System.Runtime.InteropServices.CriticalHandle> object's <xref:System.Runtime.InteropServices.CriticalHandle.Finalize%2A> method."
   syntax:
     content: public void Dispose ();
     parameters: []
-    return:
-      type: System.Void
-      description: Return description to be filled
   overload: System.Runtime.InteropServices.CriticalHandle.Dispose*
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Runtime.InteropServices.CriticalHandle.Dispose(System.Boolean)
   id: Dispose(System.Boolean)
   parent: System.Runtime.InteropServices.CriticalHandle
   langs:
   - csharp
-  - vb
   name: Dispose(Boolean)
   nameWithType: CriticalHandle.Dispose(Boolean)
   fullName: System.Runtime.InteropServices.CriticalHandle.Dispose(Boolean)
@@ -110,22 +123,24 @@ items:
   assemblies:
   - mscorlib
   namespace: System.Runtime.InteropServices
+  summary: Releases the unmanaged resources used by the <see cref="T:System.Runtime.InteropServices.CriticalHandle"> class specifying whether to perform a normal dispose operation.
+  remarks: You should never explicitly call the Dispose method with the  parameter set to `false`.
   syntax:
     content: protected virtual void Dispose (bool disposing);
     parameters:
     - id: disposing
       type: System.Boolean
-      description: Parameter description to be filled
-    return:
-      type: System.Void
-      description: Return description to be filled
+      description: '`true` for a normal dispose operation; `false` to finalize the handle.'
   overload: System.Runtime.InteropServices.CriticalHandle.Dispose*
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Runtime.InteropServices.CriticalHandle.Finalize
   id: Finalize
   parent: System.Runtime.InteropServices.CriticalHandle
   langs:
   - csharp
-  - vb
   name: Finalize()
   nameWithType: CriticalHandle.Finalize()
   fullName: System.Runtime.InteropServices.CriticalHandle.Finalize()
@@ -133,18 +148,20 @@ items:
   assemblies:
   - mscorlib
   namespace: System.Runtime.InteropServices
+  summary: Frees all resources associated with the handle.
+  remarks: The Finalize method is the destructor for the <xref:System.Runtime.InteropServices.CriticalHandle> class. Application code should not call this method directly.
   syntax:
     content: ~CriticalHandle ();
     parameters: []
-    return:
-      type: System.Void
-      description: Return description to be filled
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Runtime.InteropServices.CriticalHandle.handle
   id: handle
   parent: System.Runtime.InteropServices.CriticalHandle
   langs:
   - csharp
-  - vb
   name: handle
   nameWithType: CriticalHandle.handle
   fullName: System.Runtime.InteropServices.CriticalHandle.handle
@@ -152,17 +169,22 @@ items:
   assemblies:
   - mscorlib
   namespace: System.Runtime.InteropServices
+  summary: Specifies the handle to be wrapped.
+  remarks: Do not expose the handle publicly (that is, outside of the derived class).
   syntax:
     content: protected IntPtr handle;
     return:
       type: System.IntPtr
-      description: Return description to be filled
+      description: To be added.
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Runtime.InteropServices.CriticalHandle.IsClosed
   id: IsClosed
   parent: System.Runtime.InteropServices.CriticalHandle
   langs:
   - csharp
-  - vb
   name: IsClosed
   nameWithType: CriticalHandle.IsClosed
   fullName: System.Runtime.InteropServices.CriticalHandle.IsClosed
@@ -170,17 +192,22 @@ items:
   assemblies:
   - mscorlib
   namespace: System.Runtime.InteropServices
+  summary: Gets a value indicating whether the handle is closed.
+  remarks: "The IsClosed method returns a value indicating whether the <xref:System.Runtime.InteropServices.CriticalHandle> object's handle is no longer associated with a native resource. This differs from the definition of the <xref:System.Runtime.InteropServices.CriticalHandle.IsInvalid%2A> property, which computes whether a given handle is always considered invalid. The IsClosed method returns a `true` value in the following cases:  \n  \n-   The <xref:System.Runtime.InteropServices.CriticalHandle.SetHandleAsInvalid%2A> method was called.  \n  \n-   The <xref:System.Runtime.InteropServices.CriticalHandle.Dispose%2A> method or <xref:System.Runtime.InteropServices.CriticalHandle.Close%2A> method was called and there are no references to the <xref:System.Runtime.InteropServices.CriticalHandle> object on other threads."
   syntax:
     content: public bool IsClosed { get; }
     return:
       type: System.Boolean
-      description: Return description to be filled
+      description: To be added.
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Runtime.InteropServices.CriticalHandle.IsInvalid
   id: IsInvalid
   parent: System.Runtime.InteropServices.CriticalHandle
   langs:
   - csharp
-  - vb
   name: IsInvalid
   nameWithType: CriticalHandle.IsInvalid
   fullName: System.Runtime.InteropServices.CriticalHandle.IsInvalid
@@ -188,17 +215,22 @@ items:
   assemblies:
   - mscorlib
   namespace: System.Runtime.InteropServices
+  summary: When overridden in a derived class, gets a value indicating whether the handle value is invalid.
+  remarks: "Derived classes must implement the IsInvalid property so that the common language runtime can determine whether critical finalization is required. Derived classes must provide an implementation that suits the general type of handle they support (0 or -1 is invalid). These classes can then be further derived for specific safe handle types.  \n  \n Unlike the <xref:System.Runtime.InteropServices.CriticalHandle.IsClosed%2A> property, which reports whether the <xref:System.Runtime.InteropServices.CriticalHandle> object has finished using the underlying handle, the IsInvalid property calculates whether the given handle value is always considered invalid. Therefore, the IsInvalid property always returns the same value for any one handle value."
   syntax:
     content: public abstract bool IsInvalid { get; }
     return:
       type: System.Boolean
-      description: Return description to be filled
+      description: To be added.
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Runtime.InteropServices.CriticalHandle.ReleaseHandle
   id: ReleaseHandle
   parent: System.Runtime.InteropServices.CriticalHandle
   langs:
   - csharp
-  - vb
   name: ReleaseHandle()
   nameWithType: CriticalHandle.ReleaseHandle()
   fullName: System.Runtime.InteropServices.CriticalHandle.ReleaseHandle()
@@ -206,18 +238,23 @@ items:
   assemblies:
   - mscorlib
   namespace: System.Runtime.InteropServices
+  summary: When overridden in a derived class, executes the code required to free the handle.
+  remarks: "The ReleaseHandle method is guaranteed to be called only once, provided that you employ proper synchronization mechanisms to ensure that only one call to the <xref:System.Runtime.InteropServices.CriticalHandle.Close%2A> or <xref:System.Runtime.InteropServices.CriticalHandle.Dispose%2A> method is made. The ReleaseHandle method will not be called if the <xref:System.Runtime.InteropServices.CriticalHandle.IsInvalid%2A> or <xref:System.Runtime.InteropServices.CriticalHandle.IsClosed%2A> property is `true`. Implement this method in your <xref:System.Runtime.InteropServices.CriticalHandle> derived classes to execute any code that is required to free the handle. Because one of the functions of <xref:System.Runtime.InteropServices.CriticalHandle> is to guarantee prevention of resource leaks, the code in your implementation of ReleaseHandle must never fail. The garbage collector calls ReleaseHandle after normal finalizers have been run for objects that were garbage collected at the same time, and guarantees the resources to invoke it and that it will not be interrupted while it is in progress. This method will be prepared as a constrained execution region (CER) at instance construction time (along with all the methods in its statically determinable call graph). Although this prevents thread abort interrupts, you must still be careful not to introduce any fault paths in your overridden ReleaseHandle method. In particular, apply the <xref:System.Runtime.ConstrainedExecution.ReliabilityContractAttribute> attribute to any methods you call from ReleaseHandle. In most cases this code should be:  \n  \n `ReliabilityContract(Consistency.WillNotCorruptState, Cer.Success)`  \n  \n Additionally, for simple cleanup (for example, calling the Win32 API `CloseHandle` on a file handle) you can check the return value for the single platform invoke call. For complex cleanup, you may have a lot of program logic and many method calls, some of which might fail. You must ensure that your program logic has fallback code for each of those cases.  \n  \n If the ReleaseHandle method returns `false` for any reason, it generates a [releaseHandleFailed](../Topic/releaseHandleFailed%20MDA.md) Managed Debugging Assistant."
   syntax:
     content: protected abstract bool ReleaseHandle ();
     parameters: []
     return:
       type: System.Boolean
-      description: Return description to be filled
+      description: '`true` if the handle is released successfully; otherwise, in the event of a catastrophic failure, `false`. In this case, it generates a [releaseHandleFailed](../Topic/releaseHandleFailed%20MDA.md) Managed Debugging Assistant.'
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Runtime.InteropServices.CriticalHandle.SetHandle(System.IntPtr)
   id: SetHandle(System.IntPtr)
   parent: System.Runtime.InteropServices.CriticalHandle
   langs:
   - csharp
-  - vb
   name: SetHandle(IntPtr)
   nameWithType: CriticalHandle.SetHandle(IntPtr)
   fullName: System.Runtime.InteropServices.CriticalHandle.SetHandle(IntPtr)
@@ -225,21 +262,23 @@ items:
   assemblies:
   - mscorlib
   namespace: System.Runtime.InteropServices
+  summary: Sets the handle to the specified pre-existing handle.
+  remarks: Use the SetHandle method only if you need to support a pre-existing handle (for example, if the handle is returned in a structure) because the .NET Framework COM interop infrastructure does not support marshaling handles in a structure.
   syntax:
     content: protected void SetHandle (IntPtr handle);
     parameters:
     - id: handle
       type: System.IntPtr
-      description: Parameter description to be filled
-    return:
-      type: System.Void
-      description: Return description to be filled
+      description: The pre-existing handle to use.
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Runtime.InteropServices.CriticalHandle.SetHandleAsInvalid
   id: SetHandleAsInvalid
   parent: System.Runtime.InteropServices.CriticalHandle
   langs:
   - csharp
-  - vb
   name: SetHandleAsInvalid()
   nameWithType: CriticalHandle.SetHandleAsInvalid()
   fullName: System.Runtime.InteropServices.CriticalHandle.SetHandleAsInvalid()
@@ -247,12 +286,15 @@ items:
   assemblies:
   - mscorlib
   namespace: System.Runtime.InteropServices
+  summary: Marks a handle as invalid.
+  remarks: "Call the SetHandleAsInvalid method only when you know that your handle is invalid and you want to mark it as such. Doing so does not change the value of the <xref:System.Runtime.InteropServices.CriticalHandle.handle> field; it only marks the handle as invalid. The handle might then contain a potentially stale value. The effect of this call is that no attempt is made to free the resources.  \n  \n As with the <xref:System.Runtime.InteropServices.CriticalHandle.SetHandle%2A> method, use SetHandleAsInvalid only if you need to support a pre-existing handle."
   syntax:
     content: public void SetHandleAsInvalid ();
     parameters: []
-    return:
-      type: System.Void
-      description: Return description to be filled
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 references:
 - uid: System.Runtime.ConstrainedExecution.CriticalFinalizerObject
   isExternal: false
@@ -275,36 +317,18 @@ references:
   name: Close()
   nameWithType: CriticalHandle.Close()
   fullName: System.Runtime.InteropServices.CriticalHandle.Close()
-- uid: System.Void
-  parent: System
-  isExternal: false
-  name: Void
-  nameWithType: Void
-  fullName: System.Void
 - uid: System.Runtime.InteropServices.CriticalHandle.Dispose
   parent: System.Runtime.InteropServices.CriticalHandle
   isExternal: false
   name: Dispose()
   nameWithType: CriticalHandle.Dispose()
   fullName: System.Runtime.InteropServices.CriticalHandle.Dispose()
-- uid: System.Void
-  parent: System
-  isExternal: false
-  name: Void
-  nameWithType: Void
-  fullName: System.Void
 - uid: System.Runtime.InteropServices.CriticalHandle.Dispose(System.Boolean)
   parent: System.Runtime.InteropServices.CriticalHandle
   isExternal: false
   name: Dispose(Boolean)
   nameWithType: CriticalHandle.Dispose(Boolean)
   fullName: System.Runtime.InteropServices.CriticalHandle.Dispose(Boolean)
-- uid: System.Void
-  parent: System
-  isExternal: false
-  name: Void
-  nameWithType: Void
-  fullName: System.Void
 - uid: System.Boolean
   parent: System
   isExternal: false
@@ -317,12 +341,6 @@ references:
   name: Finalize()
   nameWithType: CriticalHandle.Finalize()
   fullName: System.Runtime.InteropServices.CriticalHandle.Finalize()
-- uid: System.Void
-  parent: System
-  isExternal: false
-  name: Void
-  nameWithType: Void
-  fullName: System.Void
 - uid: System.Runtime.InteropServices.CriticalHandle.handle
   parent: System.Runtime.InteropServices.CriticalHandle
   isExternal: false
@@ -377,12 +395,6 @@ references:
   name: SetHandle(IntPtr)
   nameWithType: CriticalHandle.SetHandle(IntPtr)
   fullName: System.Runtime.InteropServices.CriticalHandle.SetHandle(IntPtr)
-- uid: System.Void
-  parent: System
-  isExternal: false
-  name: Void
-  nameWithType: Void
-  fullName: System.Void
 - uid: System.IntPtr
   parent: System
   isExternal: false
@@ -395,12 +407,6 @@ references:
   name: SetHandleAsInvalid()
   nameWithType: CriticalHandle.SetHandleAsInvalid()
   fullName: System.Runtime.InteropServices.CriticalHandle.SetHandleAsInvalid()
-- uid: System.Void
-  parent: System
-  isExternal: false
-  name: Void
-  nameWithType: Void
-  fullName: System.Void
 - uid: System.Runtime.InteropServices.CriticalHandle.Dispose*
   parent: System.Runtime.InteropServices.CriticalHandle
   isExternal: false

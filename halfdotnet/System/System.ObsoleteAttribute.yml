@@ -10,11 +10,14 @@ items:
   - System.ObsoleteAttribute.Message
   langs:
   - csharp
-  - vb
   name: ObsoleteAttribute
   nameWithType: ObsoleteAttribute
   fullName: System.ObsoleteAttribute
   type: Class
+  summary: Marks the program elements that are no longer in use. This class cannot be inherited.
+  remarks: "ObsoleteAttribute is applicable to all program elements except assemblies, modules, parameters, and return values. Marking an element as obsolete informs users that the element will be removed in future versions of the product.  \n  \n The ObsoleteAttribute class includes two properties:  \n  \n-   <xref:System.ObsoleteAttribute.Message%2A>. The string assigned to the <xref:System.ObsoleteAttribute.Message%2A> property is emitted by the compiler when the attribute target is used in code. The string should note that the attribute target is obsolete and, if possible, provide some workaround or programmatic alternative.  \n  \n-   <xref:System.ObsoleteAttribute.IsError%2A>. This is a Boolean value that indicates to the compiler whether using the ObsoleteAttribute attribute should cause it to emit an error (<xref:System.ObsoleteAttribute.IsError%2A> is `true`) or a warning (<xref:System.ObsoleteAttribute.IsError%2A> is `false`).  \n  \n For more information about using attributes, see [Attributes](../Topic/Extending%20Metadata%20Using%20Attributes.md).  \n  \n## [!INCLUDE[win8_appname_long](../../add/includes/win8-appname-long-md.md)] Apps  \n When you create a Windows Metadata library (.winmd file), the ObsoleteAttribute is exported as both the ObsoleteAttribute attribute and the [Windows.Foundation.Metadata.DeprecatedAttribute](http://msdn.microsoft.com/library/windows/apps/windows.foundation.metadata.deprecatedattribute.aspx) attribute if only the ObsoleteAttribute is present in source code. The ObsoleteAttribute is transformed to the `DeprecatedAttribute` as follows:  \n  \n-   If the  and  arguments are both present,  is assigned to the `DeprecatedAttribute` argument. An error value of `true` maps to [DeprecationType.Remove](http://msdn.microsoft.com/library/windows/apps/windows.foundation.metadata.deprecationtype.aspx), and an  value of `false` maps to [DeprecationType.Deprecate](http://msdn.microsoft.com/library/windows/apps/windows.foundation.metadata.deprecationtype.aspx).  \n  \n-   If the  argument is not supplied in the ObsoleteAttribute, its default value in the `DeprecatedAttribute` is \"*element_name* is deprecated\", where *element_name* is the name of the target program element to which the attribute is applied.  \n  \n-   If the  argument is not present in the ObsoleteAttribute, its default value in the `DeprecatedAttribute` is [DeprecationType.Deprecate](http://msdn.microsoft.com/library/windows/apps/windows.foundation.metadata.deprecationtype.aspx).  \n  \n> [!IMPORTANT]\n>  Directly applying the [Windows.Foundation.Metadata.DeprecatedAttribute](http://msdn.microsoft.com/library/windows/apps/windows.foundation.metadata.deprecatedattribute.aspx) attribute to managed code is not recommended, because this export occurs automatically."
+  example:
+  - "The following example defines a class that contains a property and a method that are marked with the ObsoleteAttribute attribute. Accessing the value of the `OldProperty` property in code generates a compiler warning, but calling the `CallOldMethod` method generates a compiler error. The example also shows the output that results when you attempt to compile the source code.  \n  \n [!CODE [ObsoleteAttribute#1](../CodeSnippet/VS_Snippets_CLR/ObsoleteAttribute#1)]"
   syntax:
     content: >-
       [System.AttributeUsage(System.AttributeTargets.Class | System.AttributeTargets.Struct | System.AttributeTargets.Enum | System.AttributeTargets.Constructor | System.AttributeTargets.Method | System.AttributeTargets.Property | System.AttributeTargets.Field | System.AttributeTargets.Event | System.AttributeTargets.Interface | System.AttributeTargets.Delegate, Inherited=false)]
@@ -73,12 +76,15 @@ items:
   - System.Object.MemberwiseClone
   - System.Object.ReferenceEquals(System.Object,System.Object)
   - System.Object.ToString
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.ObsoleteAttribute.#ctor
   id: '#ctor'
   parent: System.ObsoleteAttribute
   langs:
   - csharp
-  - vb
   name: ObsoleteAttribute()
   nameWithType: ObsoleteAttribute.ObsoleteAttribute()
   fullName: System.ObsoleteAttribute.ObsoleteAttribute()
@@ -86,15 +92,20 @@ items:
   assemblies:
   - mscorlib
   namespace: System
+  summary: Initializes a new instance of the <see cref="T:System.ObsoleteAttribute"> class with default properties.
+  remarks: "The following table shows the initial property values for an instance of <xref:System.ObsoleteAttribute>.  \n  \n|Property|Value|  \n|--------------|-----------|  \n|<xref:System.ObsoleteAttribute.IsError%2A>|`false`|  \n|<xref:System.ObsoleteAttribute.Message%2A>|`null`|"
   syntax:
     content: public ObsoleteAttribute ();
     parameters: []
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.ObsoleteAttribute.#ctor(System.String)
   id: '#ctor(System.String)'
   parent: System.ObsoleteAttribute
   langs:
   - csharp
-  - vb
   name: ObsoleteAttribute(String)
   nameWithType: ObsoleteAttribute.ObsoleteAttribute(String)
   fullName: System.ObsoleteAttribute.ObsoleteAttribute(String)
@@ -102,18 +113,23 @@ items:
   assemblies:
   - mscorlib
   namespace: System
+  summary: Initializes a new instance of the <see cref="T:System.ObsoleteAttribute"> class with a specified workaround message.
+  remarks: "The following table shows the initial property values for an instance of <xref:System.ObsoleteAttribute>.  \n  \n|Property|Value|  \n|--------------|-----------|  \n|<xref:System.ObsoleteAttribute.IsError%2A>|`false`.|  \n|<xref:System.ObsoleteAttribute.Message%2A>|The workaround message.|"
   syntax:
     content: public ObsoleteAttribute (string message);
     parameters:
     - id: message
       type: System.String
-      description: Parameter description to be filled
+      description: The text string that describes alternative workarounds.
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.ObsoleteAttribute.#ctor(System.String,System.Boolean)
   id: '#ctor(System.String,System.Boolean)'
   parent: System.ObsoleteAttribute
   langs:
   - csharp
-  - vb
   name: ObsoleteAttribute(String,Boolean)
   nameWithType: ObsoleteAttribute.ObsoleteAttribute(String,Boolean)
   fullName: System.ObsoleteAttribute.ObsoleteAttribute(String,Boolean)
@@ -121,21 +137,26 @@ items:
   assemblies:
   - mscorlib
   namespace: System
+  summary: Initializes a new instance of the <see cref="T:System.ObsoleteAttribute"> class with a workaround message and a Boolean value indicating whether the obsolete element usage is considered an error.
+  remarks: "The following table shows the initial property values for an instance of <xref:System.ObsoleteAttribute>.  \n  \n|Property|Value|  \n|--------------|-----------|  \n|<xref:System.ObsoleteAttribute.IsError%2A>|The  value.|  \n|<xref:System.ObsoleteAttribute.Message%2A>|The  value.|"
   syntax:
     content: public ObsoleteAttribute (string message, bool error);
     parameters:
     - id: message
       type: System.String
-      description: Parameter description to be filled
+      description: The text string that describes alternative workarounds.
     - id: error
       type: System.Boolean
-      description: Parameter description to be filled
+      description: '`true` if the obsolete element usage generates a compiler error; `false` if it generates a compiler warning.'
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.ObsoleteAttribute.IsError
   id: IsError
   parent: System.ObsoleteAttribute
   langs:
   - csharp
-  - vb
   name: IsError
   nameWithType: ObsoleteAttribute.IsError
   fullName: System.ObsoleteAttribute.IsError
@@ -143,17 +164,24 @@ items:
   assemblies:
   - mscorlib
   namespace: System
+  summary: Gets a Boolean value indicating whether the compiler will treat usage of the obsolete program element as an error.
+  remarks: ''
+  example:
+  - "The following example defines a class that contains two members marked as obsolete. The first, a property named `OldProperty`, produces a compiler warning if it is called. The second, a method named `CallOldMethod`, produces a compiler error. The example uses reflection to get information about the <xref:System.ObsoleteAttribute> attributes applied to members of the type and displays the values of their <xref:System.ObsoleteAttribute.Message%2A> and IsError properties.  \n  \n [!CODE [System.ObsoleteAttribute.Message#1](../CodeSnippet/VS_Snippets_CLR_System/system.obsoleteattribute.message#1)]"
   syntax:
     content: public bool IsError { get; }
     return:
       type: System.Boolean
-      description: Return description to be filled
+      description: To be added.
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.ObsoleteAttribute.Message
   id: Message
   parent: System.ObsoleteAttribute
   langs:
   - csharp
-  - vb
   name: Message
   nameWithType: ObsoleteAttribute.Message
   fullName: System.ObsoleteAttribute.Message
@@ -161,11 +189,19 @@ items:
   assemblies:
   - mscorlib
   namespace: System
+  summary: Gets the workaround message, including a description of the alternative program elements.
+  remarks: ''
+  example:
+  - "The following example defines a class that contains two members marked as obsolete. The first, a property named `OldProperty`, produces a compiler warning if it is called. The second, a method named `CallOldMethod`, produces a compiler error. The example uses reflection to get information about the <xref:System.ObsoleteAttribute> attributes applied to members of the type and displays the values of their Message and <xref:System.ObsoleteAttribute.IsError%2A> properties.  \n  \n [!CODE [System.ObsoleteAttribute.Message#1](../CodeSnippet/VS_Snippets_CLR_System/system.obsoleteattribute.message#1)]"
   syntax:
     content: public string Message { get; }
     return:
       type: System.String
-      description: Return description to be filled
+      description: To be added.
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 references:
 - uid: System.Attribute
   isExternal: false

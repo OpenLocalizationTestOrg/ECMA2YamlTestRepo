@@ -6,23 +6,29 @@ items:
   - System.IFormattable.ToString(System.String,System.IFormatProvider)
   langs:
   - csharp
-  - vb
   name: IFormattable
   nameWithType: IFormattable
   fullName: System.IFormattable
   type: Interface
+  summary: Provides functionality to format the value of an object into a string representation.
+  remarks: "The IFormattable interface converts an object to its string representation based on a format string and a format provider.  \n  \n A format string typically defines the general appearance of an object. For example, the .NET Framework supports the following:  \n  \n-   Standard format strings for formatting enumeration values (see [Enumeration Format Strings](../Topic/Enumeration%20Format%20Strings.md)).  \n  \n-   Standard and custom format strings for formatting numeric values (see [Standard Numeric Format Strings](../Topic/Standard%20Numeric%20Format%20Strings.md) and [Custom Numeric Format Strings](../Topic/Custom%20Numeric%20Format%20Strings.md)).  \n  \n-   Standard and custom format strings for formatting date and time values (see [Standard Date and Time Format Strings](../Topic/Standard%20Date%20and%20Time%20Format%20Strings.md) and [Custom Date and Time Format Strings](../Topic/Custom%20Date%20and%20Time%20Format%20Strings.md)).  \n  \n-   Standard and custom format strings for formatting time intervals (see [Standard TimeSpan Format Strings](../Topic/Standard%20TimeSpan%20Format%20Strings.md) and [Custom TimeSpan Format Strings](../Topic/Custom%20TimeSpan%20Format%20Strings.md)).  \n  \n You can also define your own format strings to support formatting of your application-defined types.  \n  \n A format provider returns a formatting object that typically defines the symbols used in converting an object to its string representation. For example, when you convert a number to a currency value, a format provider defines the currency symbol that appears in the result string. The .NET Framework defines three format providers:  \n  \n-   The <xref:System.Globalization.CultureInfo?displayProperty=fullName> class, which returns either a <xref:System.Globalization.NumberFormatInfo> object for formatting numeric values, or a <xref:System.Globalization.DateTimeFormatInfo> object for formatting date and time values.  \n  \n-   The <xref:System.Globalization.NumberFormatInfo?displayProperty=fullName> class, which returns an instance of itself for formatting numeric values.  \n  \n-   The <xref:System.Globalization.DateTimeFormatInfo?displayProperty=fullName> class, which returns an instance of itself for formatting date and time values.  \n  \n In addition, you can define your own custom format providers to supply culture-specific, profession-specific, or industry-specific information used in formatting. For more information about implementing custom formatting by using a custom format provider, see <xref:System.ICustomFormatter>.  \n  \n The IFormattable interface defines a single method, <xref:System.IFormattable.ToString%2A>, that supplies formatting services for the implementing type. The <xref:System.IFormattable.ToString%2A> method can be called directly. In addition, it is called automatically by the <xref:System.Convert.ToString%28System.Object%29?displayProperty=fullName> and <xref:System.Convert.ToString%28System.Object%2CSystem.IFormatProvider%29?displayProperty=fullName> methods, and by methods that use the [composite formatting feature](../Topic/Composite%20Formatting.md) in the .NET Framework. Such methods include <xref:System.Console.WriteLine%28System.String%2CSystem.Object%29?displayProperty=fullName>, <xref:System.String.Format%2A?displayProperty=fullName>, and <xref:System.Text.StringBuilder.AppendFormat%28System.String%2CSystem.Object%29?displayProperty=fullName>, among others. The <xref:System.IFormattable.ToString%2A> method is called for each format item in the method's format string.  \n  \n The IFormattable interface is implemented by the base data types."
+  example:
+  - "The following example defines a `Temperature` class that implements the IFormattable interface. The class supports four format specifiers: \"G\" and \"C\", which indicate that the temperature is to be displayed in Celsius; \"F\", which indicates that the temperature is to be displayed in Fahrenheit; and \"K\", which indicates that the temperature is to be displayed in Kelvin. In addition, the <xref:System.IFormattable.ToString%2A?displayProperty=fullName> implementation also can handle a format string that is `null` or empty. The other two `ToString` methods defined by the `Temperature` class simply wrap a call to the <xref:System.IFormattable.ToString%2A?displayProperty=fullName> implementation.  \n  \n [!CODE [System.IFormattable#1](../CodeSnippet/VS_Snippets_CLR_System/system.iformattable#1)]  \n  \n The following example then calls the <xref:System.IFormattable.ToString%2A?displayProperty=fullName> implementation either directly or by using a composite format string.  \n  \n [!CODE [System.IFormattable#2](../CodeSnippet/VS_Snippets_CLR_System/system.iformattable#2)]"
   syntax:
     content: >-
       [System.Runtime.InteropServices.ComVisible(true)]
 
       public interface IFormattable
   implements: []
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.IFormattable.ToString(System.String,System.IFormatProvider)
   id: ToString(System.String,System.IFormatProvider)
   parent: System.IFormattable
   langs:
   - csharp
-  - vb
   name: ToString(String,IFormatProvider)
   nameWithType: IFormattable.ToString(String,IFormatProvider)
   fullName: System.IFormattable.ToString(String,IFormatProvider)
@@ -30,18 +36,26 @@ items:
   assemblies:
   - mscorlib
   namespace: System
+  summary: Formats the value of the current instance using the specified format.
+  remarks: "The ToString method converts a value to a string representation that can be expressed in multiple ways. Its precise format depends on specific symbols or a specified order defined by specific cultures, professions, or industries. You can call the method directly. It is also called automatically by the <xref:System.Convert.ToString%28System.Object%29?displayProperty=fullName> and <xref:System.Convert.ToString%28System.Object%2CSystem.IFormatProvider%29?displayProperty=fullName> methods, and by methods that use the composite formatting feature in the .NET Framework, such as [String.Format(String, Object\\[\\])](assetId:///M:System.String.Format(System.String,System.Object[])?qualifyHint=True&autoUpgrade=False), [Console.WriteLine(String, Object\\[\\])](assetId:///M:System.Console.WriteLine(System.String,System.Object[])?qualifyHint=True&autoUpgrade=False), and [StringBuilder.AppendFormat(String, Object\\[\\])](assetId:///M:System.Text.StringBuilder.AppendFormat(System.String,System.Object[])?qualifyHint=True&autoUpgrade=False). (For more information, see [Composite Formatting](../Topic/Composite%20Formatting.md).)  \n  \n Composite formatting methods call the ToString method once for each format item in a format string. The parameters passed to the method depend on the specific formatting method that is called and on the content of the format item, as follows:  \n  \n-   If the format item does not include a format string (for example, if the format item is simply `{0}`), it is passed `null` as the value of the <xref:System.String?displayProperty=fullName> parameter.  \n  \n-   If the format item includes a format string (for example, `{0:G}`), that format string is passed as the value of the <xref:System.String?displayProperty=fullName> parameter.  \n  \n-   If the original method call does not include an <xref:System.IFormatProvider?displayProperty=fullName> parameter, <xref:System.Globalization.CultureInfo.CurrentCulture%2A?displayProperty=fullName> is passed as the value of the <xref:System.IFormatProvider?displayProperty=fullName> parameter.  \n  \n-   If the original method call includes an <xref:System.IFormatProvider?displayProperty=fullName> parameter, the provider that is supplied in the method call is passed as the value of the <xref:System.IFormatProvider?displayProperty=fullName> parameter.  \n  \n> [!NOTE]\n>  An object's ToString implementation is called by composite formatting methods only if they are not passed an <xref:System.ICustomFormatter> format provider, or if the <xref:System.ICustomFormatter.Format%2A> method of the custom format provider returns `null`.  \n  \n The .NET Framework includes three format providers, all of which implement the <xref:System.IFormatProvider> interface:  \n  \n-   <xref:System.Globalization.NumberFormatInfo> supplies numeric formatting information, such as the characters to use for decimal and group separators, and the spelling and placement of currency symbols in monetary values.  \n  \n-   <xref:System.Globalization.DateTimeFormatInfo> supplies date-related and time-related formatting information, such as the position of the month, the day, and the year in a date pattern.  \n  \n-   <xref:System.Globalization.CultureInfo> contains the default formatting information in a specific culture, including the numeric format information, and date-related and time-related formatting information.  \n  \n In addition, you can define your own custom format provider."
+  example:
+  - "The following example demonstrates a `Temperature` class that implements the ToString method. This code example is part of a larger example provided for the <xref:System.IFormattable> class.  \n  \n [!CODE [System.IFormattable#1](../CodeSnippet/VS_Snippets_CLR_System/system.iformattable#1)]"
   syntax:
     content: public string ToString (string format, IFormatProvider formatProvider);
     parameters:
     - id: format
       type: System.String
-      description: Parameter description to be filled
+      description: "The format to use.  \n  \n -or-  \n  \n A null reference (`Nothing` in Visual Basic) to use the default format defined for the type of the <see cref=\"T:System.IFormattable\"> implementation."
     - id: formatProvider
       type: System.IFormatProvider
-      description: Parameter description to be filled
+      description: "The provider to use to format the value.  \n  \n -or-  \n  \n A null reference (`Nothing` in Visual Basic) to obtain the numeric format information from the current locale setting of the operating system."
     return:
       type: System.String
-      description: Return description to be filled
+      description: The value of the current instance in the specified format.
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 references:
 - uid: System.IFormattable.ToString(System.String,System.IFormatProvider)
   parent: System.IFormattable

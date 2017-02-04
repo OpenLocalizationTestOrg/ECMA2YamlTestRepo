@@ -6,11 +6,14 @@ items:
   - System.Runtime.CompilerServices.IteratorStateMachineAttribute.#ctor(System.Type)
   langs:
   - csharp
-  - vb
   name: IteratorStateMachineAttribute
   nameWithType: IteratorStateMachineAttribute
   fullName: System.Runtime.CompilerServices.IteratorStateMachineAttribute
   type: Class
+  summary: Indicates whether a method in Visual Basic is marked with the `Iterator` modifier.
+  remarks: "You shouldn't apply the `IteratorStateMachine` attribute to methods in your code. For methods in Visual Basic that have the [Iterator](../Topic/Iterator%20\\(Visual%20Basic\\).md) modifier, the compiler will apply the `IteratorStateMachine` attribute in the IL that it emits.  \n  \n When a method (*MethodName*) in Visual Basic has the `Iterator` modifier, the compiler emits IL that includes a state machine structure. That structure contains the code in the method. That IL also contains a stub method (*MethodName*) that calls into the state machine. The compiler adds the `IteratorStateMachine` attribute to the stub method so that tools can identify the corresponding state machine. Details of the emitted IL might change in future releases of the compilers.  \n  \n An iterator method performs a custom iteration over a collection by using the `Yield` (Visual Basic) statement to return each element one at a time. For more information, see [Iterators](../Topic/Iterators%20\\(C%23%20and%20Visual%20Basic\\).md).  \n  \n> [!NOTE]\n>  You can't use `IteratorStateMachineAttribute` to test whether a method is an iterator method in C#."
+  example:
+  - "The following example shows how to determine whether a method is an iterator method. In the example, `IsIteratorMethod` performs the following steps:  \n  \n-   Obtains a <xref:System.Reflection.MethodInfo> object for the method name by using <xref:System.Type.GetMethod%2A?displayProperty=fullName>.  \n  \n-   Obtains a <xref:System.Type> object for the attribute by using [GetType Operator](../Topic/GetType%20Operator%20\\(Visual%20Basic\\).md).  \n  \n-   Obtains an attribute object for the method and attribute type by using `MethodInfo.GetCustomAttribute`. If `GetCustomAttribute` returns `Nothing` (Visual Basic), the method doesn't contain the attribute.  \n  \n [!CODE [Runtime.CompilerServices.AsyncStateMachineAttribute#2](../CodeSnippet/VS_Snippets_CLR/runtime.compilerservices.asyncstatemachineattribute#2)]"
   syntax:
     content: >-
       [System.AttributeUsage(System.AttributeTargets.Method, AllowMultiple=false, Inherited=false)]
@@ -69,12 +72,15 @@ items:
   - System.Object.ReferenceEquals(System.Object,System.Object)
   - System.Object.ToString
   - System.Runtime.CompilerServices.StateMachineAttribute.StateMachineType
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Runtime.CompilerServices.IteratorStateMachineAttribute.#ctor(System.Type)
   id: '#ctor(System.Type)'
   parent: System.Runtime.CompilerServices.IteratorStateMachineAttribute
   langs:
   - csharp
-  - vb
   name: IteratorStateMachineAttribute(Type)
   nameWithType: IteratorStateMachineAttribute.IteratorStateMachineAttribute(Type)
   fullName: System.Runtime.CompilerServices.IteratorStateMachineAttribute.IteratorStateMachineAttribute(Type)
@@ -82,12 +88,18 @@ items:
   assemblies:
   - mscorlib
   namespace: System.Runtime.CompilerServices
+  summary: Initializes a new instance of the <see cref="T:System.Runtime.CompilerServices.IteratorStateMachineAttribute"> class.
+  remarks: To be added.
   syntax:
     content: public IteratorStateMachineAttribute (Type stateMachineType);
     parameters:
     - id: stateMachineType
       type: System.Type
-      description: Parameter description to be filled
+      description: The type object for the underlying state machine type that's used to implement a state machine method.
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 references:
 - uid: System.Runtime.CompilerServices.StateMachineAttribute
   isExternal: false

@@ -25,11 +25,14 @@ items:
   - System.Windows.Media.Imaging.WriteableBitmap.WritePixels(System.Windows.Int32Rect,System.IntPtr,System.Int32,System.Int32,System.Int32,System.Int32)
   langs:
   - csharp
-  - vb
   name: WriteableBitmap
   nameWithType: WriteableBitmap
   fullName: System.Windows.Media.Imaging.WriteableBitmap
   type: Class
+  summary: Provides a <see cref="T:System.Windows.Media.Imaging.BitmapSource"> that can be written to and updated.
+  remarks: "Use the WriteableBitmap class to update and render a bitmap on a per-frame basis. This is useful for generating algorithmic content, such as a fractal image, and for data visualization, such as a music visualizer.  \n  \n The WriteableBitmap class uses two buffers. The *back buffer* is allocated in system memory and accumulates content that is not currently displayed. The *front buffer* is allocated in system memory and contains the content that is currently displayed. The rendering system copies the front buffer to video memory for display.  \n  \n Two threads use these buffers. The *user interface (UI) thread* generates the UI but does not present it to the screen. The UI thread responds to user input, timers, and other events. An application can have multiple UI threads. The *render thread* composes and renders changes from the UI thread. There is only one render thread per application.  \n  \n The UI thread writes content to the back buffer. The render thread reads content from the front buffer and copies it to video memory. Changes to the back buffer are tracked with changed rectangular regions.  \n  \n Call one of the <xref:System.Windows.Media.Imaging.WriteableBitmap.WritePixels%2A> overloads to update and display content in the back buffer automatically.  \n  \n For greater control over updates, and for multi-threaded access to the back buffer, use the following workflow.  \n  \n1.  Call the <xref:System.Windows.Media.Imaging.WriteableBitmap.Lock%2A> method to reserve the back buffer for updates.  \n  \n2.  Obtain a pointer to the back buffer by accessing the <xref:System.Windows.Media.Imaging.WriteableBitmap.BackBuffer%2A> property.  \n  \n3.  Write changes to the back buffer. Other threads may write changes to the back buffer when the WriteableBitmap is locked.  \n  \n4.  Call the <xref:System.Windows.Media.Imaging.WriteableBitmap.AddDirtyRect%2A> method to indicate areas that have changed.  \n  \n5.  Call the <xref:System.Windows.Media.Imaging.WriteableBitmap.Unlock%2A> method to release the back buffer and allow presentation to the screen.  \n  \n When updates are sent to the rendering thread, the rendering thread copies the changed rectangles from the back buffer to the front buffer. The rendering system controls this exchange to avoid deadlocks and redraw artifacts, such as \"tearing\"."
+  example:
+  - "The following example demonstrates how a WriteableBitmap can be used as the source of an <xref:System.Windows.Controls.Image> to draw pixels when the mouse moves.  \n  \n [!code-cs[WriteableBitmap2#WriteableBitmapFullPage](../../add/codesnippet/CSharp/WriteableBitmapDemo/Program.cs#writeablebitmapfullpage)]"
   syntax:
     content: 'public sealed class WriteableBitmap : System.Windows.Media.Imaging.BitmapSource'
   inheritance:
@@ -70,12 +73,15 @@ items:
   - System.Windows.Media.Imaging.BitmapSource.PixelHeight
   - System.Windows.Media.Imaging.BitmapSource.PixelWidth
   - System.Windows.Media.Imaging.BitmapSource.Width
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Windows.Media.Imaging.WriteableBitmap.#ctor(System.Windows.Media.Imaging.BitmapSource)
   id: '#ctor(System.Windows.Media.Imaging.BitmapSource)'
   parent: System.Windows.Media.Imaging.WriteableBitmap
   langs:
   - csharp
-  - vb
   name: WriteableBitmap(BitmapSource)
   nameWithType: WriteableBitmap.WriteableBitmap(BitmapSource)
   fullName: System.Windows.Media.Imaging.WriteableBitmap.WriteableBitmap(BitmapSource)
@@ -83,18 +89,23 @@ items:
   assemblies:
   - PresentationCore
   namespace: System.Windows.Media.Imaging
+  summary: Initializes a new instance of the <see cref="T:System.Windows.Media.Imaging.WriteableBitmap"> class using the given <xref:System.Windows.Media.Imaging.BitmapSource>.
+  remarks: "The <xref:System.Windows.Media.Imaging.WriteableBitmap.%23ctor%28System.Int32%2CSystem.Int32%2CSystem.Double%2CSystem.Double%2CSystem.Windows.Media.PixelFormat%2CSystem.Windows.Media.Imaging.BitmapPalette%29> constructor is preferred over using this constructor.  \n  \n If  does not use a natively supported bitmap format, format conversions are applied for each frame update, which reduces performance."
   syntax:
     content: public WriteableBitmap (System.Windows.Media.Imaging.BitmapSource source);
     parameters:
     - id: source
       type: System.Windows.Media.Imaging.BitmapSource
-      description: Parameter description to be filled
+      description: The <see cref="T:System.Windows.Media.Imaging.BitmapSource"> to use for initialization.
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Windows.Media.Imaging.WriteableBitmap.#ctor(System.Int32,System.Int32,System.Double,System.Double,System.Windows.Media.PixelFormat,System.Windows.Media.Imaging.BitmapPalette)
   id: '#ctor(System.Int32,System.Int32,System.Double,System.Double,System.Windows.Media.PixelFormat,System.Windows.Media.Imaging.BitmapPalette)'
   parent: System.Windows.Media.Imaging.WriteableBitmap
   langs:
   - csharp
-  - vb
   name: WriteableBitmap(Int32,Int32,Double,Double,PixelFormat,BitmapPalette)
   nameWithType: WriteableBitmap.WriteableBitmap(Int32,Int32,Double,Double,PixelFormat,BitmapPalette)
   fullName: System.Windows.Media.Imaging.WriteableBitmap.WriteableBitmap(Int32,Int32,Double,Double,PixelFormat,BitmapPalette)
@@ -102,33 +113,38 @@ items:
   assemblies:
   - PresentationCore
   namespace: System.Windows.Media.Imaging
+  summary: Initializes a new instance of the <see cref="T:System.Windows.Media.Imaging.WriteableBitmap"> class with the specified parameters.
+  remarks: The preferred values for  are <xref:System.Windows.Media.PixelFormats.Bgr32%2A> and <xref:System.Windows.Media.PixelFormats.Pbgra32%2A>. These formats are natively supported and do not require a format conversion. Other  values require a format conversion for each frame update, which reduces performance.
   syntax:
     content: public WriteableBitmap (int pixelWidth, int pixelHeight, double dpiX, double dpiY, System.Windows.Media.PixelFormat pixelFormat, System.Windows.Media.Imaging.BitmapPalette palette);
     parameters:
     - id: pixelWidth
       type: System.Int32
-      description: Parameter description to be filled
+      description: The desired width of the bitmap.
     - id: pixelHeight
       type: System.Int32
-      description: Parameter description to be filled
+      description: The desired height of the bitmap.
     - id: dpiX
       type: System.Double
-      description: Parameter description to be filled
+      description: The horizontal [!INCLUDE[TLA#tla_dpi](../../add/includes/tlasharptla-dpi-md.md)] of the bitmap.
     - id: dpiY
       type: System.Double
-      description: Parameter description to be filled
+      description: The vertical [!INCLUDE[TLA#tla_dpi](../../add/includes/tlasharptla-dpi-md.md)] of the bitmap.
     - id: pixelFormat
       type: System.Windows.Media.PixelFormat
-      description: Parameter description to be filled
+      description: The <see cref="T:System.Windows.Media.PixelFormat"> of the bitmap.
     - id: palette
       type: System.Windows.Media.Imaging.BitmapPalette
-      description: Parameter description to be filled
+      description: The <see cref="T:System.Windows.Media.Imaging.BitmapPalette"> of the bitmap.
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Windows.Media.Imaging.WriteableBitmap.AddDirtyRect(System.Windows.Int32Rect)
   id: AddDirtyRect(System.Windows.Int32Rect)
   parent: System.Windows.Media.Imaging.WriteableBitmap
   langs:
   - csharp
-  - vb
   name: AddDirtyRect(Int32Rect)
   nameWithType: WriteableBitmap.AddDirtyRect(Int32Rect)
   fullName: System.Windows.Media.Imaging.WriteableBitmap.AddDirtyRect(Int32Rect)
@@ -136,21 +152,25 @@ items:
   assemblies:
   - PresentationCore
   namespace: System.Windows.Media.Imaging
+  summary: Specifies the area of the bitmap that changed.
+  remarks: "Call the AddDirtyRect method to indicate changes your code has made to the back buffer.  \n  \n When you call this method multiple times, the changed areas are accumulated in a sufficient, but not necessarily minimal, representation. For efficiency, only the areas that are marked as dirty are guaranteed to be copied forward to the front buffer. However, any portion of the bitmap may be copied forward, so you must ensure that the entire back buffer is always valid.  \n  \n Call the AddDirtyRect method only between calls to the <xref:System.Windows.Media.Imaging.WriteableBitmap.Lock%2A> and <xref:System.Windows.Media.Imaging.WriteableBitmap.Unlock%2A> methods, as described in the <xref:System.Windows.Media.Imaging.WriteableBitmap> class remarks."
+  example:
+  - "The following code example shows how to specify the area of the back buffer that changed by using the AddDirtyRect method.  \n  \n [!code-cs[WriteableBitmap2#2](../../add/codesnippet/CSharp/WriteableBitmapDemo/Program.cs#2)]"
   syntax:
     content: public void AddDirtyRect (System.Windows.Int32Rect dirtyRect);
     parameters:
     - id: dirtyRect
       type: System.Windows.Int32Rect
-      description: Parameter description to be filled
-    return:
-      type: System.Void
-      description: Return description to be filled
+      description: An <xref:System.Windows.Int32Rect> representing the area that changed. Dimensions are in pixels.
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Windows.Media.Imaging.WriteableBitmap.BackBuffer
   id: BackBuffer
   parent: System.Windows.Media.Imaging.WriteableBitmap
   langs:
   - csharp
-  - vb
   name: BackBuffer
   nameWithType: WriteableBitmap.BackBuffer
   fullName: System.Windows.Media.Imaging.WriteableBitmap.BackBuffer
@@ -158,17 +178,22 @@ items:
   assemblies:
   - PresentationCore
   namespace: System.Windows.Media.Imaging
+  summary: Gets a pointer to the back buffer.
+  remarks: "The back buffer contains the bitmap contents in the pixel format requested by the user.  \n  \n Update the back buffer only between calls to the <xref:System.Windows.Media.Imaging.WriteableBitmap.Lock%2A> and <xref:System.Windows.Media.Imaging.WriteableBitmap.Unlock%2A> methods. If you do not follow the Lock/Unlock workflow described in the <xref:System.Windows.Media.Imaging.WriteableBitmap> class remarks, undefined behaviors, such as tearing, can occur.  \n  \n The address of the back buffer does not change.  \n  \n## Thread Safety  \n You can pass the BackBuffer pointer to external components and other threads for processing, but if you do, you must provide you own thread coordination. In particular, you must ensure that the UI thread specifies changed areas by calling the <xref:System.Windows.Media.Imaging.WriteableBitmap.AddDirtyRect%2A> method, and that the UI thread unlocks the buffer by calling the <xref:System.Windows.Media.Imaging.WriteableBitmap.Unlock%2A> method."
   syntax:
     content: public IntPtr BackBuffer { get; }
     return:
       type: System.IntPtr
-      description: Return description to be filled
+      description: To be added.
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Windows.Media.Imaging.WriteableBitmap.BackBufferStride
   id: BackBufferStride
   parent: System.Windows.Media.Imaging.WriteableBitmap
   langs:
   - csharp
-  - vb
   name: BackBufferStride
   nameWithType: WriteableBitmap.BackBufferStride
   fullName: System.Windows.Media.Imaging.WriteableBitmap.BackBufferStride
@@ -176,17 +201,22 @@ items:
   assemblies:
   - PresentationCore
   namespace: System.Windows.Media.Imaging
+  summary: Gets a value indicating the number of bytes in a single row of pixel data.
+  remarks: To be added.
   syntax:
     content: public int BackBufferStride { get; }
     return:
       type: System.Int32
-      description: Return description to be filled
+      description: To be added.
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Windows.Media.Imaging.WriteableBitmap.Clone
   id: Clone
   parent: System.Windows.Media.Imaging.WriteableBitmap
   langs:
   - csharp
-  - vb
   name: Clone()
   nameWithType: WriteableBitmap.Clone()
   fullName: System.Windows.Media.Imaging.WriteableBitmap.Clone()
@@ -194,18 +224,23 @@ items:
   assemblies:
   - PresentationCore
   namespace: System.Windows.Media.Imaging
+  summary: Creates a modifiable clone of this <see cref="T:System.Windows.Media.Imaging.WriteableBitmap">, making deep copies of this object's values. When copying dependency properties, this method copies resource references and data bindings (but they might no longer resolve) but not animations or their current values.
+  remarks: "This method is used to produce modifiable copies of frozen <xref:System.Windows.Freezable> objects (or any <xref:System.Windows.Freezable> object). For convenience, this method shadows the inherited version with a strongly typed implementation.  \n  \n For more information, see <xref:System.Windows.Freezable.Clone%2A?displayProperty=fullName>."
   syntax:
     content: public System.Windows.Media.Imaging.WriteableBitmap Clone ();
     parameters: []
     return:
       type: System.Windows.Media.Imaging.WriteableBitmap
-      description: Return description to be filled
+      description: A modifiable clone of the current object. The cloned object's <xref:System.Windows.Freezable.IsFrozen%2A> property will be `false` even if the source's <xref:System.Windows.Freezable.IsFrozen%2A> property was `true.`
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Windows.Media.Imaging.WriteableBitmap.CloneCore(System.Windows.Freezable)
   id: CloneCore(System.Windows.Freezable)
   parent: System.Windows.Media.Imaging.WriteableBitmap
   langs:
   - csharp
-  - vb
   name: CloneCore(Freezable)
   nameWithType: WriteableBitmap.CloneCore(Freezable)
   fullName: System.Windows.Media.Imaging.WriteableBitmap.CloneCore(Freezable)
@@ -213,21 +248,23 @@ items:
   assemblies:
   - PresentationCore
   namespace: System.Windows.Media.Imaging
+  summary: To be added.
+  remarks: To be added.
   syntax:
     content: protected override void CloneCore (System.Windows.Freezable sourceFreezable);
     parameters:
     - id: sourceFreezable
       type: System.Windows.Freezable
-      description: Parameter description to be filled
-    return:
-      type: System.Void
-      description: Return description to be filled
+      description: To be added.
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Windows.Media.Imaging.WriteableBitmap.CloneCurrentValue
   id: CloneCurrentValue
   parent: System.Windows.Media.Imaging.WriteableBitmap
   langs:
   - csharp
-  - vb
   name: CloneCurrentValue()
   nameWithType: WriteableBitmap.CloneCurrentValue()
   fullName: System.Windows.Media.Imaging.WriteableBitmap.CloneCurrentValue()
@@ -235,18 +272,23 @@ items:
   assemblies:
   - PresentationCore
   namespace: System.Windows.Media.Imaging
+  summary: Creates a modifiable clone of this <see cref="T:System.Windows.Media.Animation.ByteAnimationUsingKeyFrames"> object, making deep copies of this object's current values. Resource references, data bindings, and animations are not copied, but their current values are.
+  remarks: "This method is used to produce modifiable copies of frozen <xref:System.Windows.Freezable> objects (or any <xref:System.Windows.Freezable> object). For convenience, this method shadows the inherited version with a strongly typed implementation.  \n  \n For more information, see <xref:System.Windows.Freezable.CloneCurrentValue%2A?displayProperty=fullName>."
   syntax:
     content: public System.Windows.Media.Imaging.WriteableBitmap CloneCurrentValue ();
     parameters: []
     return:
       type: System.Windows.Media.Imaging.WriteableBitmap
-      description: Return description to be filled
+      description: A modifiable clone of the current object. The cloned object's <xref:System.Windows.Freezable.IsFrozen%2A> property will be `false` even if the source's <xref:System.Windows.Freezable.IsFrozen%2A> property was `true`.
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Windows.Media.Imaging.WriteableBitmap.CloneCurrentValueCore(System.Windows.Freezable)
   id: CloneCurrentValueCore(System.Windows.Freezable)
   parent: System.Windows.Media.Imaging.WriteableBitmap
   langs:
   - csharp
-  - vb
   name: CloneCurrentValueCore(Freezable)
   nameWithType: WriteableBitmap.CloneCurrentValueCore(Freezable)
   fullName: System.Windows.Media.Imaging.WriteableBitmap.CloneCurrentValueCore(Freezable)
@@ -254,21 +296,23 @@ items:
   assemblies:
   - PresentationCore
   namespace: System.Windows.Media.Imaging
+  summary: To be added.
+  remarks: To be added.
   syntax:
     content: protected override void CloneCurrentValueCore (System.Windows.Freezable sourceFreezable);
     parameters:
     - id: sourceFreezable
       type: System.Windows.Freezable
-      description: Parameter description to be filled
-    return:
-      type: System.Void
-      description: Return description to be filled
+      description: To be added.
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Windows.Media.Imaging.WriteableBitmap.CreateInstanceCore
   id: CreateInstanceCore
   parent: System.Windows.Media.Imaging.WriteableBitmap
   langs:
   - csharp
-  - vb
   name: CreateInstanceCore()
   nameWithType: WriteableBitmap.CreateInstanceCore()
   fullName: System.Windows.Media.Imaging.WriteableBitmap.CreateInstanceCore()
@@ -276,18 +320,23 @@ items:
   assemblies:
   - PresentationCore
   namespace: System.Windows.Media.Imaging
+  summary: To be added.
+  remarks: To be added.
   syntax:
     content: protected override System.Windows.Freezable CreateInstanceCore ();
     parameters: []
     return:
       type: System.Windows.Freezable
-      description: Return description to be filled
+      description: To be added.
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Windows.Media.Imaging.WriteableBitmap.FreezeCore(System.Boolean)
   id: FreezeCore(System.Boolean)
   parent: System.Windows.Media.Imaging.WriteableBitmap
   langs:
   - csharp
-  - vb
   name: FreezeCore(Boolean)
   nameWithType: WriteableBitmap.FreezeCore(Boolean)
   fullName: System.Windows.Media.Imaging.WriteableBitmap.FreezeCore(Boolean)
@@ -295,21 +344,26 @@ items:
   assemblies:
   - PresentationCore
   namespace: System.Windows.Media.Imaging
+  summary: To be added.
+  remarks: To be added.
   syntax:
     content: protected override bool FreezeCore (bool isChecking);
     parameters:
     - id: isChecking
       type: System.Boolean
-      description: Parameter description to be filled
+      description: To be added.
     return:
       type: System.Boolean
-      description: Return description to be filled
+      description: To be added.
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Windows.Media.Imaging.WriteableBitmap.GetAsFrozenCore(System.Windows.Freezable)
   id: GetAsFrozenCore(System.Windows.Freezable)
   parent: System.Windows.Media.Imaging.WriteableBitmap
   langs:
   - csharp
-  - vb
   name: GetAsFrozenCore(Freezable)
   nameWithType: WriteableBitmap.GetAsFrozenCore(Freezable)
   fullName: System.Windows.Media.Imaging.WriteableBitmap.GetAsFrozenCore(Freezable)
@@ -317,21 +371,23 @@ items:
   assemblies:
   - PresentationCore
   namespace: System.Windows.Media.Imaging
+  summary: To be added.
+  remarks: To be added.
   syntax:
     content: protected override void GetAsFrozenCore (System.Windows.Freezable sourceFreezable);
     parameters:
     - id: sourceFreezable
       type: System.Windows.Freezable
-      description: Parameter description to be filled
-    return:
-      type: System.Void
-      description: Return description to be filled
+      description: To be added.
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Windows.Media.Imaging.WriteableBitmap.GetCurrentValueAsFrozenCore(System.Windows.Freezable)
   id: GetCurrentValueAsFrozenCore(System.Windows.Freezable)
   parent: System.Windows.Media.Imaging.WriteableBitmap
   langs:
   - csharp
-  - vb
   name: GetCurrentValueAsFrozenCore(Freezable)
   nameWithType: WriteableBitmap.GetCurrentValueAsFrozenCore(Freezable)
   fullName: System.Windows.Media.Imaging.WriteableBitmap.GetCurrentValueAsFrozenCore(Freezable)
@@ -339,21 +395,23 @@ items:
   assemblies:
   - PresentationCore
   namespace: System.Windows.Media.Imaging
+  summary: To be added.
+  remarks: To be added.
   syntax:
     content: protected override void GetCurrentValueAsFrozenCore (System.Windows.Freezable sourceFreezable);
     parameters:
     - id: sourceFreezable
       type: System.Windows.Freezable
-      description: Parameter description to be filled
-    return:
-      type: System.Void
-      description: Return description to be filled
+      description: To be added.
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Windows.Media.Imaging.WriteableBitmap.Lock
   id: Lock
   parent: System.Windows.Media.Imaging.WriteableBitmap
   langs:
   - csharp
-  - vb
   name: Lock()
   nameWithType: WriteableBitmap.Lock()
   fullName: System.Windows.Media.Imaging.WriteableBitmap.Lock()
@@ -361,18 +419,22 @@ items:
   assemblies:
   - PresentationCore
   namespace: System.Windows.Media.Imaging
+  summary: Reserves the back buffer for updates.
+  remarks: "The Lock method increments the lock count. When a <xref:System.Windows.Media.Imaging.WriteableBitmap> is locked, the rendering system does not send updates until the <xref:System.Windows.Media.Imaging.WriteableBitmap> is fully unlocked by calls to the <xref:System.Windows.Media.Imaging.WriteableBitmap.Unlock%2A> method.  \n  \n You can use the Lock method to support multi-threaded implementations. In these scenarios, the UI thread locks the bitmap and exposes the back buffer to other threads. When the worker thread has finished a frame, the UI thread adds changed rectangles and unlocks the buffer.  \n  \n The UI thread can block when the render thread acquires a lock on the back buffer to copy it forward to the front buffer. If the latency from this block is too long, use the <xref:System.Windows.Media.Imaging.WriteableBitmap.TryLock%2A> method to wait for a short time and then unblock the UI thread to perform other tasks while the back buffer is locked."
+  example:
+  - "The following code example shows how to reserve the back buffer by using the Lock method.  \n  \n [!code-cs[WriteableBitmap2#2](../../add/codesnippet/CSharp/WriteableBitmapDemo/Program.cs#2)]"
   syntax:
     content: public void Lock ();
     parameters: []
-    return:
-      type: System.Void
-      description: Return description to be filled
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Windows.Media.Imaging.WriteableBitmap.TryLock(System.Windows.Duration)
   id: TryLock(System.Windows.Duration)
   parent: System.Windows.Media.Imaging.WriteableBitmap
   langs:
   - csharp
-  - vb
   name: TryLock(Duration)
   nameWithType: WriteableBitmap.TryLock(Duration)
   fullName: System.Windows.Media.Imaging.WriteableBitmap.TryLock(Duration)
@@ -380,21 +442,26 @@ items:
   assemblies:
   - PresentationCore
   namespace: System.Windows.Media.Imaging
+  summary: Attempts to lock the bitmap, waiting for no longer than the specified length of time.
+  remarks: When a lock is acquired, the behavior of the TryLock method is the same as the <xref:System.Windows.Media.Imaging.WriteableBitmap.Lock%2A> method.
   syntax:
     content: public bool TryLock (System.Windows.Duration timeout);
     parameters:
     - id: timeout
       type: System.Windows.Duration
-      description: Parameter description to be filled
+      description: A <see cref="T:System.Windows.Duration"> that represents the length of time to wait. A value of 0 returns immediately. A value of <xref:System.Windows.Duration.Forever%2A> blocks indefinitely.
     return:
       type: System.Boolean
-      description: Return description to be filled
+      description: '`true` if the lock was acquired; otherwise, `false`.'
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Windows.Media.Imaging.WriteableBitmap.Unlock
   id: Unlock
   parent: System.Windows.Media.Imaging.WriteableBitmap
   langs:
   - csharp
-  - vb
   name: Unlock()
   nameWithType: WriteableBitmap.Unlock()
   fullName: System.Windows.Media.Imaging.WriteableBitmap.Unlock()
@@ -402,18 +469,22 @@ items:
   assemblies:
   - PresentationCore
   namespace: System.Windows.Media.Imaging
+  summary: Releases the back buffer to make it available for display.
+  remarks: The Unlock method decrements the lock count. When the lock count reaches 0, a render pass is requested if the <xref:System.Windows.Media.Imaging.WriteableBitmap.AddDirtyRect%2A> method has been called.
+  example:
+  - "The following code example shows how to release the back buffer by using the Unlock method.  \n  \n [!code-cs[WriteableBitmap2#2](../../add/codesnippet/CSharp/WriteableBitmapDemo/Program.cs#2)]"
   syntax:
     content: public void Unlock ();
     parameters: []
-    return:
-      type: System.Void
-      description: Return description to be filled
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Windows.Media.Imaging.WriteableBitmap.WritePixels(System.Windows.Int32Rect,System.Array,System.Int32,System.Int32)
   id: WritePixels(System.Windows.Int32Rect,System.Array,System.Int32,System.Int32)
   parent: System.Windows.Media.Imaging.WriteableBitmap
   langs:
   - csharp
-  - vb
   name: WritePixels(Int32Rect,Array,Int32,Int32)
   nameWithType: WriteableBitmap.WritePixels(Int32Rect,Array,Int32,Int32)
   fullName: System.Windows.Media.Imaging.WriteableBitmap.WritePixels(Int32Rect,Array,Int32,Int32)
@@ -421,31 +492,35 @@ items:
   assemblies:
   - PresentationCore
   namespace: System.Windows.Media.Imaging
+  summary: Updates the pixels in the specified region of the bitmap.
+  remarks: "The <xref:System.Windows.Media.Imaging.WriteableBitmap.WritePixels%28System.Windows.Int32Rect%2CSystem.Array%2CSystem.Int32%2CSystem.Int32%2CSystem.Int32%29> and <xref:System.Windows.Media.Imaging.WriteableBitmap.WritePixels%28System.Windows.Int32Rect%2CSystem.IntPtr%2CSystem.Int32%2CSystem.Int32%2CSystem.Int32%2CSystem.Int32%29> overloads are preferred over using this method.  \n  \n> [!NOTE]\n>  In partial trust, use the <xref:System.Windows.Media.Imaging.WriteableBitmap.WritePixels%28System.Windows.Int32Rect%2CSystem.Array%2CSystem.Int32%2CSystem.Int32%2CSystem.Int32%29> overload."
+  example:
+  - "The following code example shows how to update a pixel in the back buffer by using the WritePixels method.  \n  \n [!code-cs[WriteableBitmap2#3](../../add/codesnippet/CSharp/WriteableBitmapDemo/Program.cs#3)]"
   syntax:
     content: public void WritePixels (System.Windows.Int32Rect sourceRect, Array pixels, int stride, int offset);
     parameters:
     - id: sourceRect
       type: System.Windows.Int32Rect
-      description: Parameter description to be filled
+      description: The rectangle of the <see cref="T:System.Windows.Media.Imaging.WriteableBitmap"> to update.
     - id: pixels
       type: System.Array
-      description: Parameter description to be filled
+      description: The pixel array used to update the bitmap.
     - id: stride
       type: System.Int32
-      description: Parameter description to be filled
+      description: The stride of the update region in .
     - id: offset
       type: System.Int32
-      description: Parameter description to be filled
-    return:
-      type: System.Void
-      description: Return description to be filled
+      description: The input buffer offset.
   overload: System.Windows.Media.Imaging.WriteableBitmap.WritePixels*
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Windows.Media.Imaging.WriteableBitmap.WritePixels(System.Windows.Int32Rect,System.IntPtr,System.Int32,System.Int32)
   id: WritePixels(System.Windows.Int32Rect,System.IntPtr,System.Int32,System.Int32)
   parent: System.Windows.Media.Imaging.WriteableBitmap
   langs:
   - csharp
-  - vb
   name: WritePixels(Int32Rect,IntPtr,Int32,Int32)
   nameWithType: WriteableBitmap.WritePixels(Int32Rect,IntPtr,Int32,Int32)
   fullName: System.Windows.Media.Imaging.WriteableBitmap.WritePixels(Int32Rect,IntPtr,Int32,Int32)
@@ -453,31 +528,33 @@ items:
   assemblies:
   - PresentationCore
   namespace: System.Windows.Media.Imaging
+  summary: Updates the pixels in the specified region of the bitmap.
+  remarks: "The <xref:System.Windows.Media.Imaging.WriteableBitmap.WritePixels%28System.Windows.Int32Rect%2CSystem.Array%2CSystem.Int32%2CSystem.Int32%2CSystem.Int32%29> and <xref:System.Windows.Media.Imaging.WriteableBitmap.WritePixels%28System.Windows.Int32Rect%2CSystem.IntPtr%2CSystem.Int32%2CSystem.Int32%2CSystem.Int32%2CSystem.Int32%29> overloads are preferred over using this method.  \n  \n> [!NOTE]\n>  In partial trust, use the <xref:System.Windows.Media.Imaging.WriteableBitmap.WritePixels%28System.Windows.Int32Rect%2CSystem.Array%2CSystem.Int32%2CSystem.Int32%2CSystem.Int32%29> overload."
   syntax:
     content: public void WritePixels (System.Windows.Int32Rect sourceRect, IntPtr buffer, int bufferSize, int stride);
     parameters:
     - id: sourceRect
       type: System.Windows.Int32Rect
-      description: Parameter description to be filled
+      description: The rectangle of the <see cref="T:System.Windows.Media.Imaging.WriteableBitmap"> to update.
     - id: buffer
       type: System.IntPtr
-      description: Parameter description to be filled
+      description: The input buffer used to update the bitmap.
     - id: bufferSize
       type: System.Int32
-      description: Parameter description to be filled
+      description: The size of the input buffer.
     - id: stride
       type: System.Int32
-      description: Parameter description to be filled
-    return:
-      type: System.Void
-      description: Return description to be filled
+      description: The stride of the update region in .
   overload: System.Windows.Media.Imaging.WriteableBitmap.WritePixels*
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Windows.Media.Imaging.WriteableBitmap.WritePixels(System.Windows.Int32Rect,System.Array,System.Int32,System.Int32,System.Int32)
   id: WritePixels(System.Windows.Int32Rect,System.Array,System.Int32,System.Int32,System.Int32)
   parent: System.Windows.Media.Imaging.WriteableBitmap
   langs:
   - csharp
-  - vb
   name: WritePixels(Int32Rect,Array,Int32,Int32,Int32)
   nameWithType: WriteableBitmap.WritePixels(Int32Rect,Array,Int32,Int32,Int32)
   fullName: System.Windows.Media.Imaging.WriteableBitmap.WritePixels(Int32Rect,Array,Int32,Int32,Int32)
@@ -485,34 +562,36 @@ items:
   assemblies:
   - PresentationCore
   namespace: System.Windows.Media.Imaging
+  summary: Updates the pixels in the specified region of the bitmap.
+  remarks: "Call the <xref:System.Windows.Media.Imaging.WriteableBitmap.WritePixels%2A> method to update the <xref:System.Windows.Media.Imaging.WriteableBitmap> automatically with the contents of . Calling this method is the equivalent of using the <xref:System.Windows.Media.Imaging.WriteableBitmap.Lock%2A> and <xref:System.Windows.Media.Imaging.WriteableBitmap.Unlock%2A> workflow described in the <xref:System.Windows.Media.Imaging.WriteableBitmap> class remarks.  \n  \n> [!NOTE]\n>  Use this overload in partial trust."
   syntax:
     content: public void WritePixels (System.Windows.Int32Rect sourceRect, Array sourceBuffer, int sourceBufferStride, int destinationX, int destinationY);
     parameters:
     - id: sourceRect
       type: System.Windows.Int32Rect
-      description: Parameter description to be filled
+      description: The rectangle in  to copy.
     - id: sourceBuffer
       type: System.Array
-      description: Parameter description to be filled
+      description: The input buffer used to update the bitmap.
     - id: sourceBufferStride
       type: System.Int32
-      description: Parameter description to be filled
+      description: The stride of the input buffer, in bytes.
     - id: destinationX
       type: System.Int32
-      description: Parameter description to be filled
+      description: The destination x-coordinate of the left-most pixel in the back buffer.
     - id: destinationY
       type: System.Int32
-      description: Parameter description to be filled
-    return:
-      type: System.Void
-      description: Return description to be filled
+      description: The destination y-coordinate of the top-most pixel in the back buffer.
   overload: System.Windows.Media.Imaging.WriteableBitmap.WritePixels*
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Windows.Media.Imaging.WriteableBitmap.WritePixels(System.Windows.Int32Rect,System.IntPtr,System.Int32,System.Int32,System.Int32,System.Int32)
   id: WritePixels(System.Windows.Int32Rect,System.IntPtr,System.Int32,System.Int32,System.Int32,System.Int32)
   parent: System.Windows.Media.Imaging.WriteableBitmap
   langs:
   - csharp
-  - vb
   name: WritePixels(Int32Rect,IntPtr,Int32,Int32,Int32,Int32)
   nameWithType: WriteableBitmap.WritePixels(Int32Rect,IntPtr,Int32,Int32,Int32,Int32)
   fullName: System.Windows.Media.Imaging.WriteableBitmap.WritePixels(Int32Rect,IntPtr,Int32,Int32,Int32,Int32)
@@ -520,31 +599,34 @@ items:
   assemblies:
   - PresentationCore
   namespace: System.Windows.Media.Imaging
+  summary: Updates the pixels in the specified region of the bitmap.
+  remarks: "Call the WritePixels method to update the <xref:System.Windows.Media.Imaging.WriteableBitmap> automatically with the contents of . Calling this method is the equivalent of using the <xref:System.Windows.Media.Imaging.WriteableBitmap.Lock%2A> and <xref:System.Windows.Media.Imaging.WriteableBitmap.Unlock%2A> workflow described in the <xref:System.Windows.Media.Imaging.WriteableBitmap> class remarks.  \n  \n> [!NOTE]\n>  In partial trust, use the <xref:System.Windows.Media.Imaging.WriteableBitmap.WritePixels%28System.Windows.Int32Rect%2CSystem.Array%2CSystem.Int32%2CSystem.Int32%2CSystem.Int32%29> overload."
   syntax:
     content: public void WritePixels (System.Windows.Int32Rect sourceRect, IntPtr sourceBuffer, int sourceBufferSize, int sourceBufferStride, int destinationX, int destinationY);
     parameters:
     - id: sourceRect
       type: System.Windows.Int32Rect
-      description: Parameter description to be filled
+      description: The rectangle in  to copy.
     - id: sourceBuffer
       type: System.IntPtr
-      description: Parameter description to be filled
+      description: The input buffer used to update the bitmap.
     - id: sourceBufferSize
       type: System.Int32
-      description: Parameter description to be filled
+      description: The size of the input buffer.
     - id: sourceBufferStride
       type: System.Int32
-      description: Parameter description to be filled
+      description: The stride of the input buffer, in bytes.
     - id: destinationX
       type: System.Int32
-      description: Parameter description to be filled
+      description: The destination x-coordinate of the left-most pixel in the back buffer.
     - id: destinationY
       type: System.Int32
-      description: Parameter description to be filled
-    return:
-      type: System.Void
-      description: Return description to be filled
+      description: The destination y-coordinate of the top-most pixel in the back buffer.
   overload: System.Windows.Media.Imaging.WriteableBitmap.WritePixels*
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 references:
 - uid: System.Windows.Media.Imaging.BitmapSource
   isExternal: false
@@ -609,12 +691,12 @@ references:
   name: AddDirtyRect(Int32Rect)
   nameWithType: WriteableBitmap.AddDirtyRect(Int32Rect)
   fullName: System.Windows.Media.Imaging.WriteableBitmap.AddDirtyRect(Int32Rect)
-- uid: System.Void
-  parent: System
-  isExternal: false
-  name: Void
-  nameWithType: Void
-  fullName: System.Void
+- uid: System.Windows.Int32Rect
+  parent: System.Windows
+  isExternal: true
+  name: Int32Rect
+  nameWithType: Int32Rect
+  fullName: System.Windows.Int32Rect
 - uid: System.Windows.Media.Imaging.WriteableBitmap.BackBuffer
   parent: System.Windows.Media.Imaging.WriteableBitmap
   isExternal: false
@@ -657,12 +739,12 @@ references:
   name: CloneCore(Freezable)
   nameWithType: WriteableBitmap.CloneCore(Freezable)
   fullName: System.Windows.Media.Imaging.WriteableBitmap.CloneCore(Freezable)
-- uid: System.Void
-  parent: System
-  isExternal: false
-  name: Void
-  nameWithType: Void
-  fullName: System.Void
+- uid: System.Windows.Freezable
+  parent: System.Windows
+  isExternal: true
+  name: Freezable
+  nameWithType: Freezable
+  fullName: System.Windows.Freezable
 - uid: System.Windows.Media.Imaging.WriteableBitmap.CloneCurrentValue
   parent: System.Windows.Media.Imaging.WriteableBitmap
   isExternal: false
@@ -681,18 +763,24 @@ references:
   name: CloneCurrentValueCore(Freezable)
   nameWithType: WriteableBitmap.CloneCurrentValueCore(Freezable)
   fullName: System.Windows.Media.Imaging.WriteableBitmap.CloneCurrentValueCore(Freezable)
-- uid: System.Void
-  parent: System
-  isExternal: false
-  name: Void
-  nameWithType: Void
-  fullName: System.Void
+- uid: System.Windows.Freezable
+  parent: System.Windows
+  isExternal: true
+  name: Freezable
+  nameWithType: Freezable
+  fullName: System.Windows.Freezable
 - uid: System.Windows.Media.Imaging.WriteableBitmap.CreateInstanceCore
   parent: System.Windows.Media.Imaging.WriteableBitmap
   isExternal: false
   name: CreateInstanceCore()
   nameWithType: WriteableBitmap.CreateInstanceCore()
   fullName: System.Windows.Media.Imaging.WriteableBitmap.CreateInstanceCore()
+- uid: System.Windows.Freezable
+  parent: System.Windows
+  isExternal: true
+  name: Freezable
+  nameWithType: Freezable
+  fullName: System.Windows.Freezable
 - uid: System.Windows.Media.Imaging.WriteableBitmap.FreezeCore(System.Boolean)
   parent: System.Windows.Media.Imaging.WriteableBitmap
   isExternal: false
@@ -717,36 +805,30 @@ references:
   name: GetAsFrozenCore(Freezable)
   nameWithType: WriteableBitmap.GetAsFrozenCore(Freezable)
   fullName: System.Windows.Media.Imaging.WriteableBitmap.GetAsFrozenCore(Freezable)
-- uid: System.Void
-  parent: System
-  isExternal: false
-  name: Void
-  nameWithType: Void
-  fullName: System.Void
+- uid: System.Windows.Freezable
+  parent: System.Windows
+  isExternal: true
+  name: Freezable
+  nameWithType: Freezable
+  fullName: System.Windows.Freezable
 - uid: System.Windows.Media.Imaging.WriteableBitmap.GetCurrentValueAsFrozenCore(System.Windows.Freezable)
   parent: System.Windows.Media.Imaging.WriteableBitmap
   isExternal: false
   name: GetCurrentValueAsFrozenCore(Freezable)
   nameWithType: WriteableBitmap.GetCurrentValueAsFrozenCore(Freezable)
   fullName: System.Windows.Media.Imaging.WriteableBitmap.GetCurrentValueAsFrozenCore(Freezable)
-- uid: System.Void
-  parent: System
-  isExternal: false
-  name: Void
-  nameWithType: Void
-  fullName: System.Void
+- uid: System.Windows.Freezable
+  parent: System.Windows
+  isExternal: true
+  name: Freezable
+  nameWithType: Freezable
+  fullName: System.Windows.Freezable
 - uid: System.Windows.Media.Imaging.WriteableBitmap.Lock
   parent: System.Windows.Media.Imaging.WriteableBitmap
   isExternal: false
   name: Lock()
   nameWithType: WriteableBitmap.Lock()
   fullName: System.Windows.Media.Imaging.WriteableBitmap.Lock()
-- uid: System.Void
-  parent: System
-  isExternal: false
-  name: Void
-  nameWithType: Void
-  fullName: System.Void
 - uid: System.Windows.Media.Imaging.WriteableBitmap.TryLock(System.Windows.Duration)
   parent: System.Windows.Media.Imaging.WriteableBitmap
   isExternal: false
@@ -771,24 +853,18 @@ references:
   name: Unlock()
   nameWithType: WriteableBitmap.Unlock()
   fullName: System.Windows.Media.Imaging.WriteableBitmap.Unlock()
-- uid: System.Void
-  parent: System
-  isExternal: false
-  name: Void
-  nameWithType: Void
-  fullName: System.Void
 - uid: System.Windows.Media.Imaging.WriteableBitmap.WritePixels(System.Windows.Int32Rect,System.Array,System.Int32,System.Int32)
   parent: System.Windows.Media.Imaging.WriteableBitmap
   isExternal: false
   name: WritePixels(Int32Rect,Array,Int32,Int32)
   nameWithType: WriteableBitmap.WritePixels(Int32Rect,Array,Int32,Int32)
   fullName: System.Windows.Media.Imaging.WriteableBitmap.WritePixels(Int32Rect,Array,Int32,Int32)
-- uid: System.Void
-  parent: System
-  isExternal: false
-  name: Void
-  nameWithType: Void
-  fullName: System.Void
+- uid: System.Windows.Int32Rect
+  parent: System.Windows
+  isExternal: true
+  name: Int32Rect
+  nameWithType: Int32Rect
+  fullName: System.Windows.Int32Rect
 - uid: System.Array
   parent: System
   isExternal: false
@@ -813,12 +889,12 @@ references:
   name: WritePixels(Int32Rect,IntPtr,Int32,Int32)
   nameWithType: WriteableBitmap.WritePixels(Int32Rect,IntPtr,Int32,Int32)
   fullName: System.Windows.Media.Imaging.WriteableBitmap.WritePixels(Int32Rect,IntPtr,Int32,Int32)
-- uid: System.Void
-  parent: System
-  isExternal: false
-  name: Void
-  nameWithType: Void
-  fullName: System.Void
+- uid: System.Windows.Int32Rect
+  parent: System.Windows
+  isExternal: true
+  name: Int32Rect
+  nameWithType: Int32Rect
+  fullName: System.Windows.Int32Rect
 - uid: System.IntPtr
   parent: System
   isExternal: false
@@ -843,12 +919,12 @@ references:
   name: WritePixels(Int32Rect,Array,Int32,Int32,Int32)
   nameWithType: WriteableBitmap.WritePixels(Int32Rect,Array,Int32,Int32,Int32)
   fullName: System.Windows.Media.Imaging.WriteableBitmap.WritePixels(Int32Rect,Array,Int32,Int32,Int32)
-- uid: System.Void
-  parent: System
-  isExternal: false
-  name: Void
-  nameWithType: Void
-  fullName: System.Void
+- uid: System.Windows.Int32Rect
+  parent: System.Windows
+  isExternal: true
+  name: Int32Rect
+  nameWithType: Int32Rect
+  fullName: System.Windows.Int32Rect
 - uid: System.Array
   parent: System
   isExternal: false
@@ -879,12 +955,12 @@ references:
   name: WritePixels(Int32Rect,IntPtr,Int32,Int32,Int32,Int32)
   nameWithType: WriteableBitmap.WritePixels(Int32Rect,IntPtr,Int32,Int32,Int32,Int32)
   fullName: System.Windows.Media.Imaging.WriteableBitmap.WritePixels(Int32Rect,IntPtr,Int32,Int32,Int32,Int32)
-- uid: System.Void
-  parent: System
-  isExternal: false
-  name: Void
-  nameWithType: Void
-  fullName: System.Void
+- uid: System.Windows.Int32Rect
+  parent: System.Windows
+  isExternal: true
+  name: Int32Rect
+  nameWithType: Int32Rect
+  fullName: System.Windows.Int32Rect
 - uid: System.IntPtr
   parent: System
   isExternal: false

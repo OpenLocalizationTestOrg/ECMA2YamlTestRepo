@@ -18,11 +18,12 @@ items:
   - System.Runtime.InteropServices.ComAwareEventInfo.RemoveEventHandler(System.Object,System.Delegate)
   langs:
   - csharp
-  - vb
   name: ComAwareEventInfo
   nameWithType: ComAwareEventInfo
   fullName: System.Runtime.InteropServices.ComAwareEventInfo
   type: Class
+  summary: Permits late-bound registration of an event handler.
+  remarks: "Normally, compilers will automatically embed calls to the <xref:System.Runtime.InteropServices.ComAwareEventInfo.AddEventHandler%28System.Object%2CSystem.Delegate%29?displayProperty=fullName> and <xref:System.Runtime.InteropServices.ComAwareEventInfo.RemoveEventHandler%28System.Object%2CSystem.Delegate%29?displayProperty=fullName> methods instead of using regular add handler and remove handler methods for events. This occurs if the interface that the corresponding event is defined on needs to be embedded.  \n  \n You can specify this by embedding the entire assembly that contains the interface by using the **/link** option on the compilers or by setting the **Embed Interop Types** property to `True` in Visual Studio.  \n  \n The ComAwareEventInfo type derives from the <xref:System.Reflection.EventInfo> class and overrides the <xref:System.Reflection.EventInfo.AddEventHandler%28System.Object%2CSystem.Delegate%29?displayProperty=fullName> and <xref:System.Reflection.EventInfo.RemoveEventHandler%28System.Object%2CSystem.Delegate%29?displayProperty=fullName> methods."
   syntax:
     content: >-
       [System.Security.SecuritySafeCritical]
@@ -71,12 +72,15 @@ items:
   - System.Reflection.MemberInfo.System#Runtime#InteropServices#_MemberInfo#GetTypeInfo(System.UInt32,System.UInt32,System.IntPtr)
   - System.Reflection.MemberInfo.System#Runtime#InteropServices#_MemberInfo#GetTypeInfoCount(System.UInt32@)
   - System.Reflection.MemberInfo.System#Runtime#InteropServices#_MemberInfo#Invoke(System.UInt32,System.Guid@,System.UInt32,System.Int16,System.IntPtr,System.IntPtr,System.IntPtr,System.IntPtr)
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Runtime.InteropServices.ComAwareEventInfo.#ctor(System.Type,System.String)
   id: '#ctor(System.Type,System.String)'
   parent: System.Runtime.InteropServices.ComAwareEventInfo
   langs:
   - csharp
-  - vb
   name: ComAwareEventInfo(Type,String)
   nameWithType: ComAwareEventInfo.ComAwareEventInfo(Type,String)
   fullName: System.Runtime.InteropServices.ComAwareEventInfo.ComAwareEventInfo(Type,String)
@@ -84,21 +88,26 @@ items:
   assemblies:
   - System.Core
   namespace: System.Runtime.InteropServices
+  summary: Initializes a new instance of the <see cref="T:System.Runtime.InteropServices.ComAwareEventInfo"> class by using the specified type and a name of the event on the type.
+  remarks: To be added.
   syntax:
     content: public ComAwareEventInfo (Type type, string eventName);
     parameters:
     - id: type
       type: System.Type
-      description: Parameter description to be filled
+      description: The type of object.
     - id: eventName
       type: System.String
-      description: Parameter description to be filled
+      description: The name of an event on .
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Runtime.InteropServices.ComAwareEventInfo.AddEventHandler(System.Object,System.Delegate)
   id: AddEventHandler(System.Object,System.Delegate)
   parent: System.Runtime.InteropServices.ComAwareEventInfo
   langs:
   - csharp
-  - vb
   name: AddEventHandler(Object,Delegate)
   nameWithType: ComAwareEventInfo.AddEventHandler(Object,Delegate)
   fullName: System.Runtime.InteropServices.ComAwareEventInfo.AddEventHandler(Object,Delegate)
@@ -106,24 +115,26 @@ items:
   assemblies:
   - System.Core
   namespace: System.Runtime.InteropServices
+  summary: Attaches an event handler to a COM object.
+  remarks: "This method is similar to the <xref:System.Reflection.EventInfo.AddEventHandler%28System.Object%2CSystem.Delegate%29?displayProperty=fullName> method except that it allows you to attach events to COM objects.  \n  \n If  is a COM object, this method adds a delegate to an event by using the <xref:System.Runtime.InteropServices.ComEventsHelper.Combine%28System.Object%2CSystem.Guid%2CSystem.Int32%2CSystem.Delegate%29?displayProperty=fullName> method.  \n  \n AddEventHandler facilitates registering COM event sinks that forward calls to corresponding managed delegates. It requires the following information:  \n  \n-   The target object itself ().  \n  \n-   The GUID of the source interface.  \n  \n-   The DispID of the method on the COM interface that corresponds to the specified event.  \n  \n-   The delegate that would be invoked when the COM object triggers the corresponding event ().  \n  \n AddEventHandler looks up the corresponding COM source interface (specified as the first parameter of the <xref:System.Runtime.InteropServices.ComEventInterfaceAttribute.%23ctor%28System.Type%2CSystem.Type%29?displayProperty=fullName> constructor). It then looks up a method on the source interface whose name is identical to the event name. The value of `GuidAttribute` on the source interface is the GUID that is passed to <xref:System.Runtime.InteropServices.ComEventsHelper.Combine%28System.Object%2CSystem.Guid%2CSystem.Int32%2CSystem.Delegate%29?displayProperty=fullName>; the value of `DispIDAttribute` on the method is the DispID value that is passed to <xref:System.Runtime.InteropServices.ComEventsHelper.Combine%28System.Object%2CSystem.Guid%2CSystem.Int32%2CSystem.Delegate%29?displayProperty=fullName>."
   syntax:
     content: public override void AddEventHandler (object target, Delegate handler);
     parameters:
     - id: target
       type: System.Object
-      description: Parameter description to be filled
+      description: The target object that the event delegate should bind to.
     - id: handler
       type: System.Delegate
-      description: Parameter description to be filled
-    return:
-      type: System.Void
-      description: Return description to be filled
+      description: The event delegate.
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Runtime.InteropServices.ComAwareEventInfo.Attributes
   id: Attributes
   parent: System.Runtime.InteropServices.ComAwareEventInfo
   langs:
   - csharp
-  - vb
   name: Attributes
   nameWithType: ComAwareEventInfo.Attributes
   fullName: System.Runtime.InteropServices.ComAwareEventInfo.Attributes
@@ -131,17 +142,22 @@ items:
   assemblies:
   - System.Core
   namespace: System.Runtime.InteropServices
+  summary: Gets the attributes for this event.
+  remarks: The attributes are returned in a 4-byte integer, which represents a bitmap of the attributes set for the event that is reflected by this instance.
   syntax:
     content: public override System.Reflection.EventAttributes Attributes { get; }
     return:
       type: System.Reflection.EventAttributes
-      description: Return description to be filled
+      description: To be added.
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Runtime.InteropServices.ComAwareEventInfo.DeclaringType
   id: DeclaringType
   parent: System.Runtime.InteropServices.ComAwareEventInfo
   langs:
   - csharp
-  - vb
   name: DeclaringType
   nameWithType: ComAwareEventInfo.DeclaringType
   fullName: System.Runtime.InteropServices.ComAwareEventInfo.DeclaringType
@@ -149,17 +165,22 @@ items:
   assemblies:
   - System.Core
   namespace: System.Runtime.InteropServices
+  summary: Gets the class that declares this member.
+  remarks: To be added.
   syntax:
     content: public override Type DeclaringType { get; }
     return:
       type: System.Type
-      description: Return description to be filled
+      description: To be added.
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Runtime.InteropServices.ComAwareEventInfo.GetAddMethod(System.Boolean)
   id: GetAddMethod(System.Boolean)
   parent: System.Runtime.InteropServices.ComAwareEventInfo
   langs:
   - csharp
-  - vb
   name: GetAddMethod(Boolean)
   nameWithType: ComAwareEventInfo.GetAddMethod(Boolean)
   fullName: System.Runtime.InteropServices.ComAwareEventInfo.GetAddMethod(Boolean)
@@ -167,21 +188,26 @@ items:
   assemblies:
   - System.Core
   namespace: System.Runtime.InteropServices
+  summary: Gets the method that was used to add an event handler delegate to the event source.
+  remarks: This method calls the <xref:System.Reflection.EventInfo.GetAddMethod%2A?displayProperty=fullName> method.
   syntax:
     content: public override System.Reflection.MethodInfo GetAddMethod (bool nonPublic);
     parameters:
     - id: nonPublic
       type: System.Boolean
-      description: Parameter description to be filled
+      description: '`true` to return non-public methods; otherwise, `false`.'
     return:
       type: System.Reflection.MethodInfo
-      description: Return description to be filled
+      description: The method that was used to add an event handler delegate to the event source.
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Runtime.InteropServices.ComAwareEventInfo.GetCustomAttributes(System.Boolean)
   id: GetCustomAttributes(System.Boolean)
   parent: System.Runtime.InteropServices.ComAwareEventInfo
   langs:
   - csharp
-  - vb
   name: GetCustomAttributes(Boolean)
   nameWithType: ComAwareEventInfo.GetCustomAttributes(Boolean)
   fullName: System.Runtime.InteropServices.ComAwareEventInfo.GetCustomAttributes(Boolean)
@@ -189,22 +215,27 @@ items:
   assemblies:
   - System.Core
   namespace: System.Runtime.InteropServices
+  summary: When overridden in a derived class, gets an array that contains all the custom attributes that are applied to this member.
+  remarks: This method calls the <xref:System.Reflection.MemberInfo.GetCustomAttributes%2A> method of the underlying <xref:System.Reflection.EventInfo> object.
   syntax:
     content: public override object[] GetCustomAttributes (bool inherit);
     parameters:
     - id: inherit
       type: System.Boolean
-      description: Parameter description to be filled
+      description: '`true` to search this member''s inheritance chain to find the attributes; otherwise, `false`.'
     return:
       type: System.Object[]
-      description: Return description to be filled
+      description: An array that contains all the custom attributes, or an array that has no elements if no attributes were defined.
   overload: System.Runtime.InteropServices.ComAwareEventInfo.GetCustomAttributes*
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Runtime.InteropServices.ComAwareEventInfo.GetCustomAttributes(System.Type,System.Boolean)
   id: GetCustomAttributes(System.Type,System.Boolean)
   parent: System.Runtime.InteropServices.ComAwareEventInfo
   langs:
   - csharp
-  - vb
   name: GetCustomAttributes(Type,Boolean)
   nameWithType: ComAwareEventInfo.GetCustomAttributes(Type,Boolean)
   fullName: System.Runtime.InteropServices.ComAwareEventInfo.GetCustomAttributes(Type,Boolean)
@@ -212,25 +243,30 @@ items:
   assemblies:
   - System.Core
   namespace: System.Runtime.InteropServices
+  summary: When overridden in a derived class, gets an array that contains all the custom attributes of the specified type that are applied to this member.
+  remarks: To be added.
   syntax:
     content: public override object[] GetCustomAttributes (Type attributeType, bool inherit);
     parameters:
     - id: attributeType
       type: System.Type
-      description: Parameter description to be filled
+      description: The attribute type to search for. Only attributes that are assignable to this type can be returned.
     - id: inherit
       type: System.Boolean
-      description: Parameter description to be filled
+      description: '`true` to search this member''s inheritance chain to find the attributes; otherwise, `false`.'
     return:
       type: System.Object[]
-      description: Return description to be filled
+      description: An array that contains all the custom attributes of the specified type, or an array that has no elements if no attributes were defined.
   overload: System.Runtime.InteropServices.ComAwareEventInfo.GetCustomAttributes*
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Runtime.InteropServices.ComAwareEventInfo.GetRaiseMethod(System.Boolean)
   id: GetRaiseMethod(System.Boolean)
   parent: System.Runtime.InteropServices.ComAwareEventInfo
   langs:
   - csharp
-  - vb
   name: GetRaiseMethod(Boolean)
   nameWithType: ComAwareEventInfo.GetRaiseMethod(Boolean)
   fullName: System.Runtime.InteropServices.ComAwareEventInfo.GetRaiseMethod(Boolean)
@@ -238,21 +274,26 @@ items:
   assemblies:
   - System.Core
   namespace: System.Runtime.InteropServices
+  summary: When overridden in a derived class, returns the method that was called when the event was raised.
+  remarks: This method returns `null` for events that are declared with the C# `event` keyword or the Visual Basic `Event` keyword. This is because the C# and Visual Basic compilers do not generate such a method.
   syntax:
     content: public override System.Reflection.MethodInfo GetRaiseMethod (bool nonPublic);
     parameters:
     - id: nonPublic
       type: System.Boolean
-      description: Parameter description to be filled
+      description: '`true` to return non-public methods; otherwise, `false`.'
     return:
       type: System.Reflection.MethodInfo
-      description: Return description to be filled
+      description: The object that was called when the event was raised.
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Runtime.InteropServices.ComAwareEventInfo.GetRemoveMethod(System.Boolean)
   id: GetRemoveMethod(System.Boolean)
   parent: System.Runtime.InteropServices.ComAwareEventInfo
   langs:
   - csharp
-  - vb
   name: GetRemoveMethod(Boolean)
   nameWithType: ComAwareEventInfo.GetRemoveMethod(Boolean)
   fullName: System.Runtime.InteropServices.ComAwareEventInfo.GetRemoveMethod(Boolean)
@@ -260,21 +301,26 @@ items:
   assemblies:
   - System.Core
   namespace: System.Runtime.InteropServices
+  summary: When overridden in a derived class, retrieves the <see cref="T:System.Reflection.MethodInfo"> object for removing a method of the event.
+  remarks: To be added.
   syntax:
     content: public override System.Reflection.MethodInfo GetRemoveMethod (bool nonPublic);
     parameters:
     - id: nonPublic
       type: System.Boolean
-      description: Parameter description to be filled
+      description: '`true` to return non-public methods; otherwise, `false`.'
     return:
       type: System.Reflection.MethodInfo
-      description: Return description to be filled
+      description: The method that was used to remove an event handler delegate from the event source.
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Runtime.InteropServices.ComAwareEventInfo.IsDefined(System.Type,System.Boolean)
   id: IsDefined(System.Type,System.Boolean)
   parent: System.Runtime.InteropServices.ComAwareEventInfo
   langs:
   - csharp
-  - vb
   name: IsDefined(Type,Boolean)
   nameWithType: ComAwareEventInfo.IsDefined(Type,Boolean)
   fullName: System.Runtime.InteropServices.ComAwareEventInfo.IsDefined(Type,Boolean)
@@ -282,24 +328,29 @@ items:
   assemblies:
   - System.Core
   namespace: System.Runtime.InteropServices
+  summary: Indicates whether one or more instances of the specified attribute are applied to this member.
+  remarks: To be added.
   syntax:
     content: public override bool IsDefined (Type attributeType, bool inherit);
     parameters:
     - id: attributeType
       type: System.Type
-      description: Parameter description to be filled
+      description: The attribute type to search for.
     - id: inherit
       type: System.Boolean
-      description: Parameter description to be filled
+      description: '`true` to search this member''s inheritance chain to find the attributes; otherwise, `false`.'
     return:
       type: System.Boolean
-      description: Return description to be filled
+      description: '`true` if the specified attribute has been applied to this member; otherwise, `false`.'
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Runtime.InteropServices.ComAwareEventInfo.Name
   id: Name
   parent: System.Runtime.InteropServices.ComAwareEventInfo
   langs:
   - csharp
-  - vb
   name: Name
   nameWithType: ComAwareEventInfo.Name
   fullName: System.Runtime.InteropServices.ComAwareEventInfo.Name
@@ -307,17 +358,22 @@ items:
   assemblies:
   - System.Core
   namespace: System.Runtime.InteropServices
+  summary: Gets the name of the current member.
+  remarks: To be added.
   syntax:
     content: public override string Name { get; }
     return:
       type: System.String
-      description: Return description to be filled
+      description: To be added.
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Runtime.InteropServices.ComAwareEventInfo.ReflectedType
   id: ReflectedType
   parent: System.Runtime.InteropServices.ComAwareEventInfo
   langs:
   - csharp
-  - vb
   name: ReflectedType
   nameWithType: ComAwareEventInfo.ReflectedType
   fullName: System.Runtime.InteropServices.ComAwareEventInfo.ReflectedType
@@ -325,17 +381,22 @@ items:
   assemblies:
   - System.Core
   namespace: System.Runtime.InteropServices
+  summary: Gets the class object that was used to initialize this instance.
+  remarks: To be added.
   syntax:
     content: public override Type ReflectedType { get; }
     return:
       type: System.Type
-      description: Return description to be filled
+      description: To be added.
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Runtime.InteropServices.ComAwareEventInfo.RemoveEventHandler(System.Object,System.Delegate)
   id: RemoveEventHandler(System.Object,System.Delegate)
   parent: System.Runtime.InteropServices.ComAwareEventInfo
   langs:
   - csharp
-  - vb
   name: RemoveEventHandler(Object,Delegate)
   nameWithType: ComAwareEventInfo.RemoveEventHandler(Object,Delegate)
   fullName: System.Runtime.InteropServices.ComAwareEventInfo.RemoveEventHandler(Object,Delegate)
@@ -343,18 +404,21 @@ items:
   assemblies:
   - System.Core
   namespace: System.Runtime.InteropServices
+  summary: Detaches an event handler from a COM object.
+  remarks: "This method is similar to the <xref:System.Reflection.EventInfo.RemoveEventHandler%28System.Object%2CSystem.Delegate%29?displayProperty=fullName> method, except that it allows you to detach events from COM objects.  \n  \n If  is a COM object, this method releases a delegate to an event by using the <xref:System.Runtime.InteropServices.ComEventsHelper.Remove%28System.Object%2CSystem.Guid%2CSystem.Int32%2CSystem.Delegate%29?displayProperty=fullName> method.  \n  \n RemoveEventHandler facilitates unregistering COM event sinks that forward calls to corresponding managed delegates. It requires the following information:  \n  \n-   The target object itself ().  \n  \n-   The GUID of the source interface.  \n  \n-   The DispID of the method on the COM interface that corresponds to the specified event.  \n  \n-   The delegate that would be invoked when the COM object triggers the corresponding event ().  \n  \n RemoveEventHandler looks up the corresponding COM source interface (specified as the first parameter of the <xref:System.Runtime.InteropServices.ComEventInterfaceAttribute.%23ctor%28System.Type%2CSystem.Type%29?displayProperty=fullName> constructor). It then it looks up a method on the source interface whose name is identical to the event name. The value of `GuidAttribute` on the source interface is the GUID that is passed to <xref:System.Runtime.InteropServices.ComEventsHelper.Remove%28System.Object%2CSystem.Guid%2CSystem.Int32%2CSystem.Delegate%29?displayProperty=fullName>; the value of `DispIDAttribute` on the method is the DispID value that is passed to <xref:System.Runtime.InteropServices.ComEventsHelper.Remove%28System.Object%2CSystem.Guid%2CSystem.Int32%2CSystem.Delegate%29?displayProperty=fullName>."
   syntax:
     content: public override void RemoveEventHandler (object target, Delegate handler);
     parameters:
     - id: target
       type: System.Object
-      description: Parameter description to be filled
+      description: The target object that the event delegate is bound to.
     - id: handler
       type: System.Delegate
-      description: Parameter description to be filled
-    return:
-      type: System.Void
-      description: Return description to be filled
+      description: The event delegate.
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 references:
 - uid: System.Reflection.EventInfo
   isExternal: false
@@ -383,12 +447,6 @@ references:
   name: AddEventHandler(Object,Delegate)
   nameWithType: ComAwareEventInfo.AddEventHandler(Object,Delegate)
   fullName: System.Runtime.InteropServices.ComAwareEventInfo.AddEventHandler(Object,Delegate)
-- uid: System.Void
-  parent: System
-  isExternal: false
-  name: Void
-  nameWithType: Void
-  fullName: System.Void
 - uid: System.Object
   parent: System
   isExternal: false
@@ -449,6 +507,12 @@ references:
   name: GetCustomAttributes(Boolean)
   nameWithType: ComAwareEventInfo.GetCustomAttributes(Boolean)
   fullName: System.Runtime.InteropServices.ComAwareEventInfo.GetCustomAttributes(Boolean)
+- uid: System.Object
+  parent: System
+  isExternal: false
+  name: Object
+  nameWithType: Object
+  fullName: System.Object[]
 - uid: System.Boolean
   parent: System
   isExternal: false
@@ -461,6 +525,12 @@ references:
   name: GetCustomAttributes(Type,Boolean)
   nameWithType: ComAwareEventInfo.GetCustomAttributes(Type,Boolean)
   fullName: System.Runtime.InteropServices.ComAwareEventInfo.GetCustomAttributes(Type,Boolean)
+- uid: System.Object
+  parent: System
+  isExternal: false
+  name: Object
+  nameWithType: Object
+  fullName: System.Object[]
 - uid: System.Type
   parent: System
   isExternal: false
@@ -563,12 +633,6 @@ references:
   name: RemoveEventHandler(Object,Delegate)
   nameWithType: ComAwareEventInfo.RemoveEventHandler(Object,Delegate)
   fullName: System.Runtime.InteropServices.ComAwareEventInfo.RemoveEventHandler(Object,Delegate)
-- uid: System.Void
-  parent: System
-  isExternal: false
-  name: Void
-  nameWithType: Void
-  fullName: System.Void
 - uid: System.Object
   parent: System
   isExternal: false

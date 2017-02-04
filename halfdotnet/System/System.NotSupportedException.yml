@@ -9,11 +9,12 @@ items:
   - System.NotSupportedException.#ctor(System.String,System.Exception)
   langs:
   - csharp
-  - vb
   name: NotSupportedException
   nameWithType: NotSupportedException
   fullName: System.NotSupportedException
   type: Class
+  summary: The exception that is thrown when an invoked method is not supported, or when there is an attempt to read, seek, or write to a stream that does not support the invoked functionality.
+  remarks: "NotSupportedException indicates that no implementation exists for an invoked method or property.  \n  \n NotSupportedException uses the HRESULT COR_E_NOTSUPPORTED, which has the value 0x80131515.  \n  \n For a list of initial property values for an instance of NotSupportedException, see the <xref:System.NotSupportedException.%23ctor%2A> constructors.  \n  \n## Throwing a NotSupportedException exception  \n You might consider throwing a NotSupportedException exception in the following cases:  \n  \n-   You are implementing a general-purpose interface, and number of the methods have no meaningful implementation. For example, if you are creating a date and time type that implements the <xref:System.IConvertible> interface, you would throw a NotSupportedException exception for most of the conversions.  \n  \n-   You've inherited from an abstract class that requires that you override a number of methods. However, you're only prepared to provide an implementation for a subset of these. For the methods that you decide not to implement, you can choose to throw a NotSupportedException.  \n  \n-   You are defining a general-purpose type with a state that enables operations conditionally. For example, your type can be either read-only or read-write. In that case:  \n  \n    -   If the object is read-only, attempting to assign values to the properties of an instance or call methods that modify instance state should throw  a NotSupportedException exception.  \n  \n    -   You should implement a property that returns a <xref:System.Boolean> value that indicates whether particular functionality is available. For example, for a type that can be either read-only or read-write, you could implement a `IsReadOnly` property that indicates whether the set of read-write methods are available or unavailable.  \n  \n## Handling a NotSupportedException exception  \n The NotSupportedException exception indicates that a method has no implementation and that you should not call it.  You should not handle the exception. Instead, what you should do depends on the cause of the exception:  whether an implementation is completely absent , or the member invocation is inconsistent with the purpose of an object (such as a call to the <xref:System.IO.FileStream.Read%2A?displayProperty=fullName> method on a read-only <xref:System.IO.FileStream> object .  \n  \n **An implementation has not been provided because the operation cannot be performed in a meaningful way.**  \n This is a common exception when you are calling methods on an object that provides implementations for the methods of an abstract base class, or that implements a general-purpose interface, and the method has no meaningful implementation.  \n  \n For example, the <xref:System.Convert> class implements the <xref:System.IConvertible> interface, which means that it must include a method to convert every primitive type to every other primitive type. Many of those conversions, however, are not possible. As a result, a call to the <xref:System.Convert.ToBoolean%28System.DateTime%29?displayProperty=fullName> method, for instance, throws a NotSupportedException exception because there is no possible conversion between a <xref:System.DateTime> and a <xref:System.Boolean> value  \n  \n To eliminate the exception, you should eliminate the method call.  \n  \n **The method call is not supported given the state of the object.**  \n You are attempting to invoke a member whose functionality is unavailable because of the object's state. You can eliminate the exception in one of three ways:  \n  \n-   You know the state of the object in advance, but you've invoked an unsupported method or property. In this case, the member invocation is an error, and you can eliminate it.  \n  \n-   You know the state of the object in advance (usually because your code has instantiated it), but the object is mis-configured. The following example illustrates this issue. It creates a read-only <xref:System.IO.FileStream> object  and then attempts to write to it.  \n  \n     [!CODE [System.NotSupportedException#1](../CodeSnippet/VS_Snippets_CLR_System/System.NotSupportedException#1)]  \n  \n     You can eliminate the exception by ensuring that the instantiated object supports the functionality you intend. The following example addresses the problem of the read-only <xref:System.IO.FileStream> object by providing the correct arguments to the <xref:System.IO.FileStream.%23ctor%28System.String%2CSystem.IO.FileMode%2CSystem.IO.FileAccess%29?displayProperty=fullName> constructor.  \n  \n-   You don't know the state of the object in advance, and the object doesn't support a particular operation. In most cases, the object should include a property or method that indicates whether it supports a particular set of operations. You can eliminate the exception by checking the value of the object and invoking the member only if appropriate.  \n  \n     The following example defines a `DetectEncoding` method that throws a NotSupportedException exception when it attempts to read from the beginning of a stream that does not support read access.  \n  \n     [!CODE [System.NotSupportedException#3](../CodeSnippet/VS_Snippets_CLR_System/System.NotSupportedException#3)]  \n  \n     You can eliminate the exception by examining the value of the <xref:System.IO.FileStream.CanRead%2A?displayProperty=fullName> property  and exiting the method if the stream is read-only.  \n  \n     [!CODE [System.NotSupportedException#4](../CodeSnippet/VS_Snippets_CLR_System/System.NotSupportedException#4)]  \n  \n## Related exception types  \n The NotSupportedException exception is closely related to two other exception types;  \n  \n <xref:System.NotImplementedException>.  \n This exception is thrown when a method could be implemented but is not, either because the member will be implemented in  a later version, the member is not available on  a particular platform, or the member belongs to an abstract class and a derived class must provide an implementation.  \n  \n <xref:System.InvalidOperationException>  \n This exception is thrown in scenarios in which it is generally sometimes possible for the object to perform the requested operation, and the object state determines whether the operation can be performed.  \n  \n## .NET Compact Framework notes  \n When working with the [!INCLUDE[Compact](../../add/includes/compact-md.md)] and using P/Invoke on a native function, this exception may be thrown if:  \n  \n-   The declaration in managed code is incorrect.  \n  \n-   The [!INCLUDE[Compact](../../add/includes/compact-md.md)] does not support what you are trying to do.  \n  \n-   The DLL names are mangled on export.  \n  \n If a <xref:System.NotSupportedException.%23ctor%2A> exception is thrown, check:  \n  \n-   For any violations of the [!INCLUDE[Compact](../../add/includes/compact-md.md)] P/Invoke restrictions.  \n  \n-   For any arguments that require pre-allocated memory. If these exist, you should pass a reference to an existing variable.  \n  \n-   That the names of the exported functions are correct. This can be verified with [DumpBin.exe](https://msdn.microsoft.com/library/c1h23y6c.aspx).  \n  \n-   That you are not attempting to pass too many arguments."
   syntax:
     content: >-
       [System.Runtime.InteropServices.ComVisible(true)]
@@ -43,12 +44,15 @@ items:
   - System.Object.GetHashCode
   - System.Object.MemberwiseClone
   - System.Object.ReferenceEquals(System.Object,System.Object)
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.NotSupportedException.#ctor
   id: '#ctor'
   parent: System.NotSupportedException
   langs:
   - csharp
-  - vb
   name: NotSupportedException()
   nameWithType: NotSupportedException.NotSupportedException()
   fullName: System.NotSupportedException.NotSupportedException()
@@ -56,15 +60,20 @@ items:
   assemblies:
   - mscorlib
   namespace: System
+  summary: Initializes a new instance of the <see cref="T:System.NotSupportedException"> class, setting the <xref:System.Exception.Message%2A> property of the new instance to a system-supplied message that describes the error. This message takes into account the current system culture.
+  remarks: "The following table shows the initial property values for an instance of <xref:System.NotSupportedException>.  \n  \n|Property|Value|  \n|--------------|-----------|  \n|<xref:System.Exception.InnerException%2A>|`null`.|  \n|<xref:System.Exception.Message%2A>|The localized error message string.|"
   syntax:
     content: public NotSupportedException ();
     parameters: []
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.NotSupportedException.#ctor(System.String)
   id: '#ctor(System.String)'
   parent: System.NotSupportedException
   langs:
   - csharp
-  - vb
   name: NotSupportedException(String)
   nameWithType: NotSupportedException.NotSupportedException(String)
   fullName: System.NotSupportedException.NotSupportedException(String)
@@ -72,18 +81,23 @@ items:
   assemblies:
   - mscorlib
   namespace: System
+  summary: Initializes a new instance of the <see cref="T:System.NotSupportedException"> class with a specified error message.
+  remarks: "The following table shows the initial property values for an instance of <xref:System.NotSupportedException>.  \n  \n|Property|Value|  \n|--------------|-----------|  \n|<xref:System.Exception.InnerException%2A>|`null`.|  \n|<xref:System.Exception.Message%2A>|The error message string.|"
   syntax:
     content: public NotSupportedException (string message);
     parameters:
     - id: message
       type: System.String
-      description: Parameter description to be filled
+      description: A <see cref="T:System.String"> that describes the error. The content of  is intended to be understood by humans. The caller of this constructor is required to ensure that this string has been localized for the current system culture.
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.NotSupportedException.#ctor(System.Runtime.Serialization.SerializationInfo,System.Runtime.Serialization.StreamingContext)
   id: '#ctor(System.Runtime.Serialization.SerializationInfo,System.Runtime.Serialization.StreamingContext)'
   parent: System.NotSupportedException
   langs:
   - csharp
-  - vb
   name: NotSupportedException(SerializationInfo,StreamingContext)
   nameWithType: NotSupportedException.NotSupportedException(SerializationInfo,StreamingContext)
   fullName: System.NotSupportedException.NotSupportedException(SerializationInfo,StreamingContext)
@@ -91,21 +105,26 @@ items:
   assemblies:
   - mscorlib
   namespace: System
+  summary: Initializes a new instance of the <see cref="T:System.NotSupportedException"> class with serialized data.
+  remarks: This constructor is called during deserialization to reconstitute the exception object transmitted over a stream. For more information, see [XML and SOAP Serialization](../Topic/XML%20and%20SOAP%20Serialization.md).
   syntax:
     content: protected NotSupportedException (System.Runtime.Serialization.SerializationInfo info, System.Runtime.Serialization.StreamingContext context);
     parameters:
     - id: info
       type: System.Runtime.Serialization.SerializationInfo
-      description: Parameter description to be filled
+      description: The object that holds the serialized object data.
     - id: context
       type: System.Runtime.Serialization.StreamingContext
-      description: Parameter description to be filled
+      description: The contextual information about the source or destination.
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.NotSupportedException.#ctor(System.String,System.Exception)
   id: '#ctor(System.String,System.Exception)'
   parent: System.NotSupportedException
   langs:
   - csharp
-  - vb
   name: NotSupportedException(String,Exception)
   nameWithType: NotSupportedException.NotSupportedException(String,Exception)
   fullName: System.NotSupportedException.NotSupportedException(String,Exception)
@@ -113,15 +132,21 @@ items:
   assemblies:
   - mscorlib
   namespace: System
+  summary: Initializes a new instance of the <see cref="T:System.NotSupportedException"> class with a specified error message and a reference to the inner exception that is the cause of this exception.
+  remarks: "An exception that is thrown as a direct result of a previous exception should include a reference to the previous exception in the <xref:System.Exception.InnerException%2A> property. The <xref:System.Exception.InnerException%2A> property returns the same value that is passed into the constructor, or `null` if the <xref:System.Exception.InnerException%2A> property does not supply the inner exception value to the constructor.  \n  \n The following table shows the initial property values for an instance of <xref:System.NotSupportedException>.  \n  \n|Property|Value|  \n|--------------|-----------|  \n|<xref:System.Exception.InnerException%2A>|The inner exception reference.|  \n|<xref:System.Exception.Message%2A>|The error message string.|"
   syntax:
     content: public NotSupportedException (string message, Exception innerException);
     parameters:
     - id: message
       type: System.String
-      description: Parameter description to be filled
+      description: The error message that explains the reason for the exception.
     - id: innerException
       type: System.Exception
-      description: Parameter description to be filled
+      description: The exception that is the cause of the current exception. If the  parameter is not a null reference, the current exception is raised in a `catch` block that handles the inner exception.
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 references:
 - uid: System.SystemException
   isExternal: false

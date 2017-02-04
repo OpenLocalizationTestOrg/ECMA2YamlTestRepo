@@ -55,11 +55,14 @@ items:
   - System.Globalization.CompareInfo.Version
   langs:
   - csharp
-  - vb
   name: CompareInfo
   nameWithType: CompareInfo
   fullName: System.Globalization.CompareInfo
   type: Class
+  summary: Implements a set of methods for culture-sensitive string comparisons.
+  remarks: "Conventions for comparing and sorting data vary from culture to culture. For example, sort order may be based on phonetics or on the visual representation of characters. In East Asian languages, characters are sorted by the stroke and radical of ideographs. Sorting also depends on the order languages and cultures use for the alphabet. For example, the Danish language has an \"Æ\" character that it sorts after \"Z\" in the alphabet. In addition, comparisons may be case-sensitive or case-insensitive, and casing rules may also differ by culture. The CompareInfo class is responsible for maintaining this culture-sensitive string comparison data and for performing culture-sensitive string operations.  \n  \n Typically, you do not have to instantiate a CompareInfo object directly, because one is used implicitly by all non-ordinal string comparison operations, including calls to the <xref:System.String.Compare%2A?displayProperty=fullName> method. However, if you do want to retrieve a CompareInfo object, you can do it in one of these ways:  \n  \n-   By retrieving the value of the <xref:System.Globalization.CultureInfo.CompareInfo%2A?displayProperty=fullName> property for a particular culture.  \n  \n-   By calling the static <xref:System.Globalization.CompareInfo.GetCompareInfo%2A> method with a culture name. This allows for late-bound access to a CompareInfo object.  \n  \n## Ignored search values  \n Character sets include ignorable characters, which are characters that are not considered when performing a linguistic or culture-sensitive comparison. Comparison methods such as <xref:System.Globalization.CompareInfo.IndexOf%2A> and <xref:System.Globalization.CompareInfo.LastIndexOf%2A> do not consider such characters when they perform a culture-sensitive comparison. Ignorable characters include:  \n  \n-   <xref:System.String.Empty?displayProperty=fullName>. Culture-sensitive comparison methods will always find an empty string at the beginning (index zero) of the string being searched.  \n  \n-   A character or string consisting of characters with code points that are not considered in the operation because of comparison options, In particular, the  <xref:System.Globalization.CompareOptions?displayProperty=fullName> and <xref:System.Globalization.CompareOptions?displayProperty=fullName> options produce searches in which symbols and nonspacing combining characters are ignored.  \n  \n-   A string with code points that have no linguistic significance. For example, a soft hyphen (U+00AD) is always ignored in a culture-sensitive string comparison.  \n  \n## Security considerations  \n If a security decision depends on a string comparison or a case change, you should use the <xref:System.Globalization.CultureInfo.InvariantCulture%2A> property to ensure that the behavior is consistent, regardless of the culture settings of the operating system.  \n  \n> [!NOTE]\n>  When possible, you should use string comparison methods that have a parameter of type <xref:System.Globalization.CompareOptions> to specify the kind of comparison expected. As a general rule, use linguistic options (using the current culture) for comparing strings displayed in the user interface and specify <xref:System.Globalization.CompareOptions> or <xref:System.Globalization.CompareOptions> for security comparisons."
+  example:
+  - "The following example shows how the CompareInfo object associated with a <xref:System.Globalization.CultureInfo> object affects string comparison.  \n  \n [!CODE [CompareInfo#1](../CodeSnippet/VS_Snippets_CLR/CompareInfo#1)]"
   syntax:
     content: >-
       [System.Runtime.InteropServices.ComVisible(true)]
@@ -74,12 +77,15 @@ items:
   - System.Object.GetType
   - System.Object.MemberwiseClone
   - System.Object.ReferenceEquals(System.Object,System.Object)
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Globalization.CompareInfo.Compare(System.String,System.String)
   id: Compare(System.String,System.String)
   parent: System.Globalization.CompareInfo
   langs:
   - csharp
-  - vb
   name: Compare(String,String)
   nameWithType: CompareInfo.Compare(String,String)
   fullName: System.Globalization.CompareInfo.Compare(String,String)
@@ -87,25 +93,32 @@ items:
   assemblies:
   - mscorlib
   namespace: System.Globalization
+  summary: Compares two strings.
+  remarks: "By default, the comparison is performed by using <xref:System.Globalization.CompareOptions?displayProperty=fullName>. If a security decision depends on a string comparison or a case change, you should use the <xref:System.Globalization.CultureInfo.InvariantCulture%2A> property to ensure that the behavior is consistent regardless of the culture settings of the operating system.  \n  \n> [!NOTE]\n>  When possible, you should call string comparison methods that have a parameter of type <xref:System.Globalization.CompareOptions> to specify the kind of comparison expected. As a general rule, use linguistic options (using the current culture) for comparing strings displayed in the user interface and specify <xref:System.Globalization.CompareOptions> or <xref:System.Globalization.CompareOptions> for security comparisons."
+  example:
+  - "The following example compares portions of two strings using the different <xref:System.Globalization.CompareInfo> objects:  \n  \n-   <xref:System.Globalization.CompareInfo> object associated with the Spanish (Spain) culture with international sort  \n  \n-   <xref:System.Globalization.CompareInfo> object associated with the Spanish (Spain) culture with traditional sort  \n  \n-   <xref:System.Globalization.CompareInfo> object associated with the <xref:System.Globalization.CultureInfo.InvariantCulture%2A>  \n  \n [!CODE [System.Globalization.CompareInfo.CompareStrStr#1](../CodeSnippet/VS_Snippets_CLR_System/system.Globalization.CompareInfo.CompareStrStr#1)]  \n  \n The following example demonstrates calling the <xref:System.Globalization.CompareInfo.Compare%2A> method.  \n  \n [!CODE [CompareInfo#1](../CodeSnippet/VS_Snippets_CLR/CompareInfo#1)]"
   syntax:
     content: public virtual int Compare (string string1, string string2);
     parameters:
     - id: string1
       type: System.String
-      description: Parameter description to be filled
+      description: The first string to compare.
     - id: string2
       type: System.String
-      description: Parameter description to be filled
+      description: The second string to compare.
     return:
       type: System.Int32
-      description: Return description to be filled
+      description: "A 32-bit signed integer indicating the lexical relationship between the two comparands.  \n  \n|Value|Condition|  \n|-----------|---------------|  \n|zero|The two strings are equal.|  \n|less than zero|is less than .|  \n|greater than zero|is greater than .|"
   overload: System.Globalization.CompareInfo.Compare*
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Globalization.CompareInfo.Compare(System.String,System.String,System.Globalization.CompareOptions)
   id: Compare(System.String,System.String,System.Globalization.CompareOptions)
   parent: System.Globalization.CompareInfo
   langs:
   - csharp
-  - vb
   name: Compare(String,String,CompareOptions)
   nameWithType: CompareInfo.Compare(String,String,CompareOptions)
   fullName: System.Globalization.CompareInfo.Compare(String,String,CompareOptions)
@@ -113,28 +126,35 @@ items:
   assemblies:
   - mscorlib
   namespace: System.Globalization
+  summary: Compares two strings using the specified <see cref="T:System.Globalization.CompareOptions"> value.
+  remarks: "If a security decision depends on a string comparison or a case change, you should use the <xref:System.Globalization.CultureInfo.InvariantCulture%2A> property to ensure that the behavior is consistent regardless of the culture settings of the operating system.  \n  \n> [!NOTE]\n>  When possible, you should call string comparison methods that have a parameter of type <xref:System.Globalization.CompareOptions> to specify the kind of comparison expected. As a general rule, use linguistic options (using the current culture) for comparing strings displayed in the user interface and specify <xref:System.Globalization.CompareOptions> or <xref:System.Globalization.CompareOptions> for security comparisons."
+  example:
+  - "The following example compares two strings using different <xref:System.Globalization.CompareOptions> settings.  \n  \n [!CODE [System.Globalization.CompareInfo.CompareStrStrOpt#1](../CodeSnippet/VS_Snippets_CLR_System/system.Globalization.CompareInfo.CompareStrStrOpt#1)]  \n  \n The following example demonstrates calling the <xref:System.Globalization.CompareInfo.Compare%2A> method.  \n  \n [!CODE [CompareInfo#1](../CodeSnippet/VS_Snippets_CLR/CompareInfo#1)]"
   syntax:
     content: public virtual int Compare (string string1, string string2, System.Globalization.CompareOptions options);
     parameters:
     - id: string1
       type: System.String
-      description: Parameter description to be filled
+      description: The first string to compare.
     - id: string2
       type: System.String
-      description: Parameter description to be filled
+      description: The second string to compare.
     - id: options
       type: System.Globalization.CompareOptions
-      description: Parameter description to be filled
+      description: 'A value that defines how  and  should be compared.  is either the enumeration value <see cref="T:System.Globalization.CompareOptions">, or a bitwise combination of one or more of the following values: <see cref="T:System.Globalization.CompareOptions">, <see cref="T:System.Globalization.CompareOptions">, <see cref="T:System.Globalization.CompareOptions">, <see cref="T:System.Globalization.CompareOptions">, <see cref="T:System.Globalization.CompareOptions">, and <see cref="T:System.Globalization.CompareOptions">.'
     return:
       type: System.Int32
-      description: Return description to be filled
+      description: "A 32-bit signed integer indicating the lexical relationship between the two comparands.  \n  \n|Value|Condition|  \n|-----------|---------------|  \n|zero|The two strings are equal.|  \n|less than zero|is less than .|  \n|greater than zero|is greater than .|"
   overload: System.Globalization.CompareInfo.Compare*
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Globalization.CompareInfo.Compare(System.String,System.Int32,System.String,System.Int32)
   id: Compare(System.String,System.Int32,System.String,System.Int32)
   parent: System.Globalization.CompareInfo
   langs:
   - csharp
-  - vb
   name: Compare(String,Int32,String,Int32)
   nameWithType: CompareInfo.Compare(String,Int32,String,Int32)
   fullName: System.Globalization.CompareInfo.Compare(String,Int32,String,Int32)
@@ -142,31 +162,38 @@ items:
   assemblies:
   - mscorlib
   namespace: System.Globalization
+  summary: Compares the end section of a string with the end section of another string.
+  remarks: "If a security decision depends on a string comparison or a case change, you should use the <xref:System.Globalization.CultureInfo.InvariantCulture%2A> property to ensure that the behavior is consistent regardless of the culture settings of the operating system.  \n  \n> [!NOTE]\n>  When possible, you should call string comparison methods that have a parameter of type <xref:System.Globalization.CompareOptions> to specify the kind of comparison expected. As a general rule, use linguistic options (using the current culture) for comparing strings displayed in the user interface and specify <xref:System.Globalization.CompareOptions> or <xref:System.Globalization.CompareOptions> for security comparisons."
+  example:
+  - "The following example compares portions of two strings using the different <xref:System.Globalization.CompareInfo> objects:  \n  \n-   <xref:System.Globalization.CompareInfo> object associated with the Spanish (Spain) culture with international sort  \n  \n-   <xref:System.Globalization.CompareInfo> object associated with the Spanish (Spain) culture with traditional sort  \n  \n-   <xref:System.Globalization.CompareInfo> object associated with the <xref:System.Globalization.CultureInfo.InvariantCulture%2A>  \n  \n [!CODE [System.Globalization.CompareInfo.CompareStrIntStrInt#1](../CodeSnippet/VS_Snippets_CLR_System/system.Globalization.CompareInfo.CompareStrIntStrInt#1)]"
   syntax:
     content: public virtual int Compare (string string1, int offset1, string string2, int offset2);
     parameters:
     - id: string1
       type: System.String
-      description: Parameter description to be filled
+      description: The first string to compare.
     - id: offset1
       type: System.Int32
-      description: Parameter description to be filled
+      description: The zero-based index of the character in  at which to start comparing.
     - id: string2
       type: System.String
-      description: Parameter description to be filled
+      description: The second string to compare.
     - id: offset2
       type: System.Int32
-      description: Parameter description to be filled
+      description: The zero-based index of the character in  at which to start comparing.
     return:
       type: System.Int32
-      description: Return description to be filled
+      description: "A 32-bit signed integer indicating the lexical relationship between the two comparands.  \n  \n|Value|Condition|  \n|-----------|---------------|  \n|zero|The two strings are equal.|  \n|less than zero|The specified section of  is less than the specified section of .|  \n|greater than zero|The specified section of  is greater than the specified section of .|"
   overload: System.Globalization.CompareInfo.Compare*
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Globalization.CompareInfo.Compare(System.String,System.Int32,System.String,System.Int32,System.Globalization.CompareOptions)
   id: Compare(System.String,System.Int32,System.String,System.Int32,System.Globalization.CompareOptions)
   parent: System.Globalization.CompareInfo
   langs:
   - csharp
-  - vb
   name: Compare(String,Int32,String,Int32,CompareOptions)
   nameWithType: CompareInfo.Compare(String,Int32,String,Int32,CompareOptions)
   fullName: System.Globalization.CompareInfo.Compare(String,Int32,String,Int32,CompareOptions)
@@ -174,34 +201,41 @@ items:
   assemblies:
   - mscorlib
   namespace: System.Globalization
+  summary: Compares the end section of a string with the end section of another string using the specified <see cref="T:System.Globalization.CompareOptions"> value.
+  remarks: "If a security decision depends on a string comparison or a case change, you should use the <xref:System.Globalization.CultureInfo.InvariantCulture%2A> property to ensure that the behavior is consistent regardless of the culture settings of the operating system.  \n  \n> [!NOTE]\n>  When possible, you should call string comparison methods that have a parameter of type <xref:System.Globalization.CompareOptions> to specify the kind of comparison expected. As a general rule, use linguistic options (using the current culture) for comparing strings displayed in the user interface and specify <xref:System.Globalization.CompareOptions> or <xref:System.Globalization.CompareOptions> for security comparisons."
+  example:
+  - "The following example compares portions of two strings using different <xref:System.Globalization.CompareOptions> settings.  \n  \n [!CODE [System.Globalization.CompareInfo.CompareStrIntStrIntOpt#1](../CodeSnippet/VS_Snippets_CLR_System/system.Globalization.CompareInfo.CompareStrIntStrIntOpt#1)]"
   syntax:
     content: public virtual int Compare (string string1, int offset1, string string2, int offset2, System.Globalization.CompareOptions options);
     parameters:
     - id: string1
       type: System.String
-      description: Parameter description to be filled
+      description: The first string to compare.
     - id: offset1
       type: System.Int32
-      description: Parameter description to be filled
+      description: The zero-based index of the character in  at which to start comparing.
     - id: string2
       type: System.String
-      description: Parameter description to be filled
+      description: The second string to compare.
     - id: offset2
       type: System.Int32
-      description: Parameter description to be filled
+      description: The zero-based index of the character in  at which to start comparing.
     - id: options
       type: System.Globalization.CompareOptions
-      description: Parameter description to be filled
+      description: 'A value that defines how  and  should be compared.  is either the enumeration value <see cref="T:System.Globalization.CompareOptions">, or a bitwise combination of one or more of the following values: <see cref="T:System.Globalization.CompareOptions">, <see cref="T:System.Globalization.CompareOptions">, <see cref="T:System.Globalization.CompareOptions">, <see cref="T:System.Globalization.CompareOptions">, <see cref="T:System.Globalization.CompareOptions">, and <see cref="T:System.Globalization.CompareOptions">.'
     return:
       type: System.Int32
-      description: Return description to be filled
+      description: "A 32-bit signed integer indicating the lexical relationship between the two comparands.  \n  \n|Value|Condition|  \n|-----------|---------------|  \n|zero|The two strings are equal.|  \n|less than zero|The specified section of  is less than the specified section of .|  \n|greater than zero|The specified section of  is greater than the specified section of .|"
   overload: System.Globalization.CompareInfo.Compare*
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Globalization.CompareInfo.Compare(System.String,System.Int32,System.Int32,System.String,System.Int32,System.Int32)
   id: Compare(System.String,System.Int32,System.Int32,System.String,System.Int32,System.Int32)
   parent: System.Globalization.CompareInfo
   langs:
   - csharp
-  - vb
   name: Compare(String,Int32,Int32,String,Int32,Int32)
   nameWithType: CompareInfo.Compare(String,Int32,Int32,String,Int32,Int32)
   fullName: System.Globalization.CompareInfo.Compare(String,Int32,Int32,String,Int32,Int32)
@@ -209,37 +243,44 @@ items:
   assemblies:
   - mscorlib
   namespace: System.Globalization
+  summary: Compares a section of one string with a section of another string.
+  remarks: "If a security decision depends on a string comparison or a case change, you should use the <xref:System.Globalization.CultureInfo.InvariantCulture%2A> property to ensure that the behavior is consistent regardless of the culture settings of the operating system.  \n  \n> [!NOTE]\n>  When possible, you should use string comparison methods that have a parameter of type <xref:System.Globalization.CompareOptions> to specify the kind of comparison expected. As a general rule, use linguistic options (using the current culture) for comparing strings displayed in the user interface and specify <xref:System.Globalization.CompareOptions> or <xref:System.Globalization.CompareOptions> for security comparisons."
+  example:
+  - "The following example compares portions of two strings using the different <xref:System.Globalization.CompareInfo> objects:  \n  \n-   <xref:System.Globalization.CompareInfo> object associated with the Spanish (Spain) culture with international sort  \n  \n-   <xref:System.Globalization.CompareInfo> object associated with the Spanish (Spain) culture with traditional sort  \n  \n-   <xref:System.Globalization.CompareInfo> object associated with the <xref:System.Globalization.CultureInfo.InvariantCulture%2A>  \n  \n [!CODE [System.Globalization.CompareInfo.CompareStrIntIntStrIntInt#1](../CodeSnippet/VS_Snippets_CLR_System/system.Globalization.CompareInfo.CompareStrIntIntStrIntInt#1)]"
   syntax:
     content: public virtual int Compare (string string1, int offset1, int length1, string string2, int offset2, int length2);
     parameters:
     - id: string1
       type: System.String
-      description: Parameter description to be filled
+      description: The first string to compare.
     - id: offset1
       type: System.Int32
-      description: Parameter description to be filled
+      description: The zero-based index of the character in  at which to start comparing.
     - id: length1
       type: System.Int32
-      description: Parameter description to be filled
+      description: The number of consecutive characters in  to compare.
     - id: string2
       type: System.String
-      description: Parameter description to be filled
+      description: The second string to compare.
     - id: offset2
       type: System.Int32
-      description: Parameter description to be filled
+      description: The zero-based index of the character in  at which to start comparing.
     - id: length2
       type: System.Int32
-      description: Parameter description to be filled
+      description: The number of consecutive characters in  to compare.
     return:
       type: System.Int32
-      description: Return description to be filled
+      description: "A 32-bit signed integer indicating the lexical relationship between the two comparands.  \n  \n|Value|Condition|  \n|-----------|---------------|  \n|zero|The two strings are equal.|  \n|less than zero|The specified section of  is less than the specified section of .|  \n|greater than zero|The specified section of  is greater than the specified section of .|"
   overload: System.Globalization.CompareInfo.Compare*
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Globalization.CompareInfo.Compare(System.String,System.Int32,System.Int32,System.String,System.Int32,System.Int32,System.Globalization.CompareOptions)
   id: Compare(System.String,System.Int32,System.Int32,System.String,System.Int32,System.Int32,System.Globalization.CompareOptions)
   parent: System.Globalization.CompareInfo
   langs:
   - csharp
-  - vb
   name: Compare(String,Int32,Int32,String,Int32,Int32,CompareOptions)
   nameWithType: CompareInfo.Compare(String,Int32,Int32,String,Int32,Int32,CompareOptions)
   fullName: System.Globalization.CompareInfo.Compare(String,Int32,Int32,String,Int32,Int32,CompareOptions)
@@ -247,40 +288,47 @@ items:
   assemblies:
   - mscorlib
   namespace: System.Globalization
+  summary: Compares a section of one string with a section of another string using the specified <see cref="T:System.Globalization.CompareOptions"> value.
+  remarks: "If a security decision depends on a string comparison or a case change, you should use the <xref:System.Globalization.CultureInfo.InvariantCulture%2A> property to ensure that the behavior is consistent regardless of the culture settings of the operating system.  \n  \n> [!NOTE]\n>  When possible, you should call string comparison methods that have a parameter of type <xref:System.Globalization.CompareOptions> to specify the kind of comparison expected. As a general rule, use linguistic options (using the current culture) for comparing strings displayed in the user interface and specify <xref:System.Globalization.CompareOptions> or <xref:System.Globalization.CompareOptions> for security comparisons."
+  example:
+  - "The following example compares portions of two strings using different <xref:System.Globalization.CompareOptions> settings.  \n  \n [!CODE [System.Globalization.CompareInfo.CompareStrIntIntStrIntIntOpt#1](../CodeSnippet/VS_Snippets_CLR_System/system.Globalization.CompareInfo.CompareStrIntIntStrIntIntOpt#1)]"
   syntax:
     content: public virtual int Compare (string string1, int offset1, int length1, string string2, int offset2, int length2, System.Globalization.CompareOptions options);
     parameters:
     - id: string1
       type: System.String
-      description: Parameter description to be filled
+      description: The first string to compare.
     - id: offset1
       type: System.Int32
-      description: Parameter description to be filled
+      description: The zero-based index of the character in  at which to start comparing.
     - id: length1
       type: System.Int32
-      description: Parameter description to be filled
+      description: The number of consecutive characters in  to compare.
     - id: string2
       type: System.String
-      description: Parameter description to be filled
+      description: The second string to compare.
     - id: offset2
       type: System.Int32
-      description: Parameter description to be filled
+      description: The zero-based index of the character in  at which to start comparing.
     - id: length2
       type: System.Int32
-      description: Parameter description to be filled
+      description: The number of consecutive characters in  to compare.
     - id: options
       type: System.Globalization.CompareOptions
-      description: Parameter description to be filled
+      description: 'A value that defines how  and  should be compared.  is either the enumeration value <see cref="T:System.Globalization.CompareOptions">, or a bitwise combination of one or more of the following values: <see cref="T:System.Globalization.CompareOptions">, <see cref="T:System.Globalization.CompareOptions">, <see cref="T:System.Globalization.CompareOptions">, <see cref="T:System.Globalization.CompareOptions">, <see cref="T:System.Globalization.CompareOptions">, and <see cref="T:System.Globalization.CompareOptions">.'
     return:
       type: System.Int32
-      description: Return description to be filled
+      description: "A 32-bit signed integer indicating the lexical relationship between the two comparands.  \n  \n|Value|Condition|  \n|-----------|---------------|  \n|zero|The two strings are equal.|  \n|less than zero|The specified section of  is less than the specified section of .|  \n|greater than zero|The specified section of  is greater than the specified section of .|"
   overload: System.Globalization.CompareInfo.Compare*
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Globalization.CompareInfo.Equals(System.Object)
   id: Equals(System.Object)
   parent: System.Globalization.CompareInfo
   langs:
   - csharp
-  - vb
   name: Equals(Object)
   nameWithType: CompareInfo.Equals(Object)
   fullName: System.Globalization.CompareInfo.Equals(Object)
@@ -288,21 +336,26 @@ items:
   assemblies:
   - mscorlib
   namespace: System.Globalization
+  summary: Determines whether the specified object is equal to the current <see cref="T:System.Globalization.CompareInfo"> object.
+  remarks: "Two <xref:System.Globalization.CompareInfo> objects are equal if their <xref:System.Globalization.CompareInfo.LCID%2A> and <xref:System.Globalization.CompareInfo.Name%2A> properties are equal.  \n  \n This method overrides <xref:System.Object.Equals%2A?displayProperty=fullName>.  \n  \n If a security decision depends on a string comparison or a case change, you should use the <xref:System.Globalization.CultureInfo.InvariantCulture%2A> property to ensure that the behavior is consistent regardless of the culture settings of the operating system."
   syntax:
     content: public override bool Equals (object value);
     parameters:
     - id: value
       type: System.Object
-      description: Parameter description to be filled
+      description: The object to compare with the current <see cref="T:System.Globalization.CompareInfo">.
     return:
       type: System.Boolean
-      description: Return description to be filled
+      description: '`true` if the specified object is equal to the current <see cref="T:System.Globalization.CompareInfo">; otherwise, `false`.'
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Globalization.CompareInfo.GetCompareInfo(System.Int32)
   id: GetCompareInfo(System.Int32)
   parent: System.Globalization.CompareInfo
   langs:
   - csharp
-  - vb
   name: GetCompareInfo(Int32)
   nameWithType: CompareInfo.GetCompareInfo(Int32)
   fullName: System.Globalization.CompareInfo.GetCompareInfo(Int32)
@@ -310,22 +363,29 @@ items:
   assemblies:
   - mscorlib
   namespace: System.Globalization
+  summary: Initializes a new <see cref="T:System.Globalization.CompareInfo"> object that is associated with the culture with the specified identifier.
+  remarks: ''
+  example:
+  - "The following example compares portions of two strings using the different <xref:System.Globalization.CompareInfo> objects:  \n  \n-   <xref:System.Globalization.CompareInfo> object associated with the Spanish (Spain) culture with international sort  \n  \n-   <xref:System.Globalization.CompareInfo> object associated with the Spanish (Spain) culture with traditional sort  \n  \n-   <xref:System.Globalization.CompareInfo> object associated with the <xref:System.Globalization.CultureInfo.InvariantCulture%2A>  \n  \n [!CODE [System.Globalization.CompareInfo.CompareStrStr#1](../CodeSnippet/VS_Snippets_CLR_System/system.Globalization.CompareInfo.CompareStrStr#1)]"
   syntax:
     content: public static System.Globalization.CompareInfo GetCompareInfo (int culture);
     parameters:
     - id: culture
       type: System.Int32
-      description: Parameter description to be filled
+      description: An integer representing the culture identifier.
     return:
       type: System.Globalization.CompareInfo
-      description: Return description to be filled
+      description: A new <see cref="T:System.Globalization.CompareInfo"> object associated with the culture with the specified identifier and using string comparison methods in the current <xref:System.Reflection.Assembly>.
   overload: System.Globalization.CompareInfo.GetCompareInfo*
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Globalization.CompareInfo.GetCompareInfo(System.String)
   id: GetCompareInfo(System.String)
   parent: System.Globalization.CompareInfo
   langs:
   - csharp
-  - vb
   name: GetCompareInfo(String)
   nameWithType: CompareInfo.GetCompareInfo(String)
   fullName: System.Globalization.CompareInfo.GetCompareInfo(String)
@@ -333,22 +393,29 @@ items:
   assemblies:
   - mscorlib
   namespace: System.Globalization
+  summary: Initializes a new <see cref="T:System.Globalization.CompareInfo"> object that is associated with the culture with the specified name.
+  remarks: ''
+  example:
+  - "The following example compares portions of two strings using the different <xref:System.Globalization.CompareInfo> objects:  \n  \n-   <xref:System.Globalization.CompareInfo> object associated with the Spanish (Spain) culture with international sort  \n  \n-   <xref:System.Globalization.CompareInfo> object associated with the Spanish (Spain) culture with traditional sort  \n  \n-   <xref:System.Globalization.CompareInfo> object associated with the <xref:System.Globalization.CultureInfo.InvariantCulture%2A>  \n  \n [!CODE [System.Globalization.CompareInfo.CompareStrStr#1](../CodeSnippet/VS_Snippets_CLR_System/system.Globalization.CompareInfo.CompareStrStr#1)]"
   syntax:
     content: public static System.Globalization.CompareInfo GetCompareInfo (string name);
     parameters:
     - id: name
       type: System.String
-      description: Parameter description to be filled
+      description: A string representing the culture name.
     return:
       type: System.Globalization.CompareInfo
-      description: Return description to be filled
+      description: A new <see cref="T:System.Globalization.CompareInfo"> object associated with the culture with the specified identifier and using string comparison methods in the current <xref:System.Reflection.Assembly>.
   overload: System.Globalization.CompareInfo.GetCompareInfo*
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Globalization.CompareInfo.GetCompareInfo(System.Int32,System.Reflection.Assembly)
   id: GetCompareInfo(System.Int32,System.Reflection.Assembly)
   parent: System.Globalization.CompareInfo
   langs:
   - csharp
-  - vb
   name: GetCompareInfo(Int32,Assembly)
   nameWithType: CompareInfo.GetCompareInfo(Int32,Assembly)
   fullName: System.Globalization.CompareInfo.GetCompareInfo(Int32,Assembly)
@@ -356,25 +423,30 @@ items:
   assemblies:
   - mscorlib
   namespace: System.Globalization
+  summary: Initializes a new <see cref="T:System.Globalization.CompareInfo"> object that is associated with the specified culture and that uses string comparison methods in the specified <xref:System.Reflection.Assembly>.
+  remarks: "> [!NOTE]\n>  The behavior of this method is unpredictable. It is recommended for your application to use a version of this method that does not take an assembly input.  \n  \n The  parameter must be of the same type as <xref:System.Reflection.Module.Assembly%2A?displayProperty=fullName>."
   syntax:
     content: public static System.Globalization.CompareInfo GetCompareInfo (int culture, System.Reflection.Assembly assembly);
     parameters:
     - id: culture
       type: System.Int32
-      description: Parameter description to be filled
+      description: An integer representing the culture identifier.
     - id: assembly
       type: System.Reflection.Assembly
-      description: Parameter description to be filled
+      description: An <see cref="T:System.Reflection.Assembly"> that contains the string comparison methods to use.
     return:
       type: System.Globalization.CompareInfo
-      description: Return description to be filled
+      description: A new <see cref="T:System.Globalization.CompareInfo"> object associated with the culture with the specified identifier and using string comparison methods in the current <xref:System.Reflection.Assembly>.
   overload: System.Globalization.CompareInfo.GetCompareInfo*
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Globalization.CompareInfo.GetCompareInfo(System.String,System.Reflection.Assembly)
   id: GetCompareInfo(System.String,System.Reflection.Assembly)
   parent: System.Globalization.CompareInfo
   langs:
   - csharp
-  - vb
   name: GetCompareInfo(String,Assembly)
   nameWithType: CompareInfo.GetCompareInfo(String,Assembly)
   fullName: System.Globalization.CompareInfo.GetCompareInfo(String,Assembly)
@@ -382,25 +454,30 @@ items:
   assemblies:
   - mscorlib
   namespace: System.Globalization
+  summary: Initializes a new <see cref="T:System.Globalization.CompareInfo"> object that is associated with the specified culture and that uses string comparison methods in the specified <xref:System.Reflection.Assembly>.
+  remarks: "> [!NOTE]\n>  The behavior of this method is unpredictable. We recommend that you use a version of this method that does not take an assembly input.  \n  \n The  parameter must be of the same type as <xref:System.Reflection.Module.Assembly%2A?displayProperty=fullName>."
   syntax:
     content: public static System.Globalization.CompareInfo GetCompareInfo (string name, System.Reflection.Assembly assembly);
     parameters:
     - id: name
       type: System.String
-      description: Parameter description to be filled
+      description: A string representing the culture name.
     - id: assembly
       type: System.Reflection.Assembly
-      description: Parameter description to be filled
+      description: An <see cref="T:System.Reflection.Assembly"> that contains the string comparison methods to use.
     return:
       type: System.Globalization.CompareInfo
-      description: Return description to be filled
+      description: A new <see cref="T:System.Globalization.CompareInfo"> object associated with the culture with the specified identifier and using string comparison methods in the current <xref:System.Reflection.Assembly>.
   overload: System.Globalization.CompareInfo.GetCompareInfo*
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Globalization.CompareInfo.GetHashCode
   id: GetHashCode
   parent: System.Globalization.CompareInfo
   langs:
   - csharp
-  - vb
   name: GetHashCode()
   nameWithType: CompareInfo.GetHashCode()
   fullName: System.Globalization.CompareInfo.GetHashCode()
@@ -408,19 +485,24 @@ items:
   assemblies:
   - mscorlib
   namespace: System.Globalization
+  summary: Serves as a hash function for the current <see cref="T:System.Globalization.CompareInfo"> for hashing algorithms and data structures, such as a hash table.
+  remarks: "This method overrides <xref:System.Object.GetHashCode%2A?displayProperty=fullName>.  \n  \n This method generates the same hash code for two objects that are equal according to the <xref:System.Globalization.CompareInfo.Equals%2A> method."
   syntax:
     content: public override int GetHashCode ();
     parameters: []
     return:
       type: System.Int32
-      description: Return description to be filled
+      description: A hash code for the current <see cref="T:System.Globalization.CompareInfo">.
   overload: System.Globalization.CompareInfo.GetHashCode*
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Globalization.CompareInfo.GetHashCode(System.String,System.Globalization.CompareOptions)
   id: GetHashCode(System.String,System.Globalization.CompareOptions)
   parent: System.Globalization.CompareInfo
   langs:
   - csharp
-  - vb
   name: GetHashCode(String,CompareOptions)
   nameWithType: CompareInfo.GetHashCode(String,CompareOptions)
   fullName: System.Globalization.CompareInfo.GetHashCode(String,CompareOptions)
@@ -428,25 +510,30 @@ items:
   assemblies:
   - mscorlib
   namespace: System.Globalization
+  summary: Gets the hash code for a string based on specified comparison options.
+  remarks: "The behavior of GetHashCode is dependent on its implementation, which might change from one version of the common language runtime to another, or from one .NET Framework platform to another.  \n  \n> [!IMPORTANT]\n>  If two string objects are equal, the GetHashCode method returns identical values. However, there is not a unique hash code value for each unique string value. Different strings can return the same hash code.  \n>   \n>  The hash code itself is not guaranteed to be stable. Hash codes for identical strings can differ across versions of the .NET Framework and across platforms (such as 32-bit and 64-bit) for a single version of the .NET Framework. In some cases, they can even differ by application domain.  \n>   \n>  As a result, hash codes should never be used outside of the application domain in which they were created, they should never be used as key fields in a collection, and they should never be persisted."
   syntax:
     content: public virtual int GetHashCode (string source, System.Globalization.CompareOptions options);
     parameters:
     - id: source
       type: System.String
-      description: Parameter description to be filled
+      description: The string whose hash code is to be returned.
     - id: options
       type: System.Globalization.CompareOptions
-      description: Parameter description to be filled
+      description: A value that determines how strings are compared.
     return:
       type: System.Int32
-      description: Return description to be filled
+      description: A 32-bit signed integer hash code.
   overload: System.Globalization.CompareInfo.GetHashCode*
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Globalization.CompareInfo.GetSortKey(System.String)
   id: GetSortKey(System.String)
   parent: System.Globalization.CompareInfo
   langs:
   - csharp
-  - vb
   name: GetSortKey(String)
   nameWithType: CompareInfo.GetSortKey(String)
   fullName: System.Globalization.CompareInfo.GetSortKey(String)
@@ -454,22 +541,27 @@ items:
   assemblies:
   - mscorlib
   namespace: System.Globalization
+  summary: Gets the sort key for the specified string.
+  remarks: Each character in a string is given several categories of sort weights, including script, alphabetic, case, and diacritic weights. A sort key is the repository of these weights for a particular string. For example, a sort key might contain a string of alphabetic weights, followed by a string of case weights, and so on. The <xref:System.Globalization.CompareInfo.GetSortKey%2A> method is equivalent to the Windows API method `LCMapString` with the LCMAP_SORTKEY flag.
   syntax:
     content: public virtual System.Globalization.SortKey GetSortKey (string source);
     parameters:
     - id: source
       type: System.String
-      description: Parameter description to be filled
+      description: The string for which a <see cref="T:System.Globalization.SortKey"> object is obtained.
     return:
       type: System.Globalization.SortKey
-      description: Return description to be filled
+      description: The <see cref="T:System.Globalization.SortKey"> object that contains the sort key for the specified string.
   overload: System.Globalization.CompareInfo.GetSortKey*
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Globalization.CompareInfo.GetSortKey(System.String,System.Globalization.CompareOptions)
   id: GetSortKey(System.String,System.Globalization.CompareOptions)
   parent: System.Globalization.CompareInfo
   langs:
   - csharp
-  - vb
   name: GetSortKey(String,CompareOptions)
   nameWithType: CompareInfo.GetSortKey(String,CompareOptions)
   fullName: System.Globalization.CompareInfo.GetSortKey(String,CompareOptions)
@@ -477,25 +569,30 @@ items:
   assemblies:
   - mscorlib
   namespace: System.Globalization
+  summary: Gets a <see cref="T:System.Globalization.SortKey"> object for the specified string using the specified <xref:System.Globalization.CompareOptions> value.
+  remarks: Each character in a string is given several categories of sort weights, including script, alphabetic, case, and diacritic weights. A sort key is the repository of these weights for a particular string. For example, a sort key might contain a string of alphabetic weights, followed by a string of case weights, and so on. The <xref:System.Globalization.CompareInfo.GetSortKey%2A> method is equivalent to the Windows API method `LCMapString` with the LCMAP_SORTKEY flag.
   syntax:
     content: public virtual System.Globalization.SortKey GetSortKey (string source, System.Globalization.CompareOptions options);
     parameters:
     - id: source
       type: System.String
-      description: Parameter description to be filled
+      description: The string for which a <see cref="T:System.Globalization.SortKey"> object is obtained.
     - id: options
       type: System.Globalization.CompareOptions
-      description: Parameter description to be filled
+      description: 'A bitwise combination of one or more of the following enumeration values that define how the sort key is calculated: <see cref="T:System.Globalization.CompareOptions">, <see cref="T:System.Globalization.CompareOptions">, <see cref="T:System.Globalization.CompareOptions">, <see cref="T:System.Globalization.CompareOptions">, <see cref="T:System.Globalization.CompareOptions">, and <see cref="T:System.Globalization.CompareOptions">.'
     return:
       type: System.Globalization.SortKey
-      description: Return description to be filled
+      description: The <see cref="T:System.Globalization.SortKey"> object that contains the sort key for the specified string.
   overload: System.Globalization.CompareInfo.GetSortKey*
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Globalization.CompareInfo.IndexOf(System.String,System.Char)
   id: IndexOf(System.String,System.Char)
   parent: System.Globalization.CompareInfo
   langs:
   - csharp
-  - vb
   name: IndexOf(String,Char)
   nameWithType: CompareInfo.IndexOf(String,Char)
   fullName: System.Globalization.CompareInfo.IndexOf(String,Char)
@@ -503,25 +600,32 @@ items:
   assemblies:
   - mscorlib
   namespace: System.Globalization
+  summary: Searches for the specified character and returns the zero-based index of the first occurrence within the entire source string.
+  remarks: "This method searches the source string from the beginning of the string to the end of the string.  \n  \n This overload performs a culture-sensitive search. If  represents a precomposed Unicode character, such as the ligature \"Æ\" (U+00C6), it might be considered equivalent to any occurrence of its components in the correct sequence, such as \"AE\" (U+0041, U+0045), depending on the culture. To perform an ordinal (culture-insensitive) search, where a character is considered equivalent to another character only if their Unicode code points are the same, you should call an overload that has a parameter of type <xref:System.Globalization.CompareOptions> and use the <xref:System.Globalization.CompareOptions?displayProperty=fullName> value. Unlike IndexOf, which performs a culture-sensitive comparison, overloads of the <xref:System.String.IndexOf%2A?displayProperty=fullName> method that search for a character perform an ordinal comparison and overloads that search for a string perform a culture-sensitive comparison.  \n  \n> [!NOTE]\n>  When possible, you should use string comparison methods that have a parameter of type <xref:System.Globalization.CompareOptions> to specify the kind of comparison expected. As a general rule, use linguistic options (using the current culture) for comparing strings displayed in the user interface and specify <xref:System.Globalization.CompareOptions?displayProperty=fullName> or <xref:System.Globalization.CompareOptions?displayProperty=fullName> for security comparisons."
+  example:
+  - "The following example determines the indexes of the first and last occurrences of a character or a substring within a string.  \n  \n [!CODE [System.Globalization.CompareInfo.IndexOf#1](../CodeSnippet/VS_Snippets_CLR_System/system.Globalization.CompareInfo.IndexOf#1)]"
   syntax:
     content: public virtual int IndexOf (string source, char value);
     parameters:
     - id: source
       type: System.String
-      description: Parameter description to be filled
+      description: The string to search.
     - id: value
       type: System.Char
-      description: Parameter description to be filled
+      description: The character to locate within .
     return:
       type: System.Int32
-      description: Return description to be filled
+      description: The zero-based index of the first occurrence of , if found, within ; otherwise, -1. Returns 0 (zero) if  is an ignorable character.
   overload: System.Globalization.CompareInfo.IndexOf*
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Globalization.CompareInfo.IndexOf(System.String,System.String)
   id: IndexOf(System.String,System.String)
   parent: System.Globalization.CompareInfo
   langs:
   - csharp
-  - vb
   name: IndexOf(String,String)
   nameWithType: CompareInfo.IndexOf(String,String)
   fullName: System.Globalization.CompareInfo.IndexOf(String,String)
@@ -529,25 +633,32 @@ items:
   assemblies:
   - mscorlib
   namespace: System.Globalization
+  summary: Searches for the specified substring and returns the zero-based index of the first occurrence within the entire source string.
+  remarks: "The source string is searched forward starting at the beginning of the string and ending at the end of the string.  \n  \n This overload performs a culture-sensitive search. A Unicode value representing a precomposed character, such as the ligature \"Æ\" (U+00C6), might be considered equivalent to any occurrence of the character's components in the correct sequence, such as \"AE\" (U+0041, U+0045), depending on the culture. To perform an ordinal (culture-insensitive) search, where the Unicode values are compared, you should use one of the overloads that has a parameter of type <xref:System.Globalization.CompareOptions> and use the <xref:System.Globalization.CompareOptions> value.  \n  \n> [!NOTE]\n>  When possible, you should call string comparison methods that have a parameter of type <xref:System.Globalization.CompareOptions> to specify the kind of comparison expected. As a general rule, use linguistic options (using the current culture) for comparing strings displayed in the user interface and specify <xref:System.Globalization.CompareOptions?displayProperty=fullName> or <xref:System.Globalization.CompareOptions?displayProperty=fullName> for security comparisons."
+  example:
+  - "The following example determines the indexes of the first and last occurrences of a character or a substring within a string.  \n  \n [!CODE [System.Globalization.CompareInfo.IndexOf#1](../CodeSnippet/VS_Snippets_CLR_System/system.Globalization.CompareInfo.IndexOf#1)]"
   syntax:
     content: public virtual int IndexOf (string source, string value);
     parameters:
     - id: source
       type: System.String
-      description: Parameter description to be filled
+      description: The string to search.
     - id: value
       type: System.String
-      description: Parameter description to be filled
+      description: The string to locate within .
     return:
       type: System.Int32
-      description: Return description to be filled
+      description: The zero-based index of the first occurrence of , if found, within ; otherwise, -1. Returns 0 (zero) if  is an ignorable character.
   overload: System.Globalization.CompareInfo.IndexOf*
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Globalization.CompareInfo.IndexOf(System.String,System.Char,System.Globalization.CompareOptions)
   id: IndexOf(System.String,System.Char,System.Globalization.CompareOptions)
   parent: System.Globalization.CompareInfo
   langs:
   - csharp
-  - vb
   name: IndexOf(String,Char,CompareOptions)
   nameWithType: CompareInfo.IndexOf(String,Char,CompareOptions)
   fullName: System.Globalization.CompareInfo.IndexOf(String,Char,CompareOptions)
@@ -555,28 +666,35 @@ items:
   assemblies:
   - mscorlib
   namespace: System.Globalization
+  summary: Searches for the specified character and returns the zero-based index of the first occurrence within the entire source string using the specified <see cref="T:System.Globalization.CompareOptions"> value.
+  remarks: "The source string is searched forward starting at the beginning of the string and ending at the end of the string.  \n  \n The <xref:System.Globalization.CompareOptions?displayProperty=fullName> value is not valid for this method.  \n  \n If  does not include the <xref:System.Globalization.CompareOptions> value, this overload performs a culture-sensitive search. If the character is a Unicode value representing a precomposed character, such as the ligature \"Æ\" (U+00C6), it might be considered equivalent to any occurrence of its components in the correct sequence, such as \"AE\" (U+0041, U+0045), depending on the culture. If  includes the <xref:System.Globalization.CompareOptions> value, this overload performs an ordinal (culture-insensitive) search. A character is considered equivalent to another character only if the Unicode values are the same. Overloads of <xref:System.String.IndexOf%2A?displayProperty=fullName> that search for a character perform an ordinal search, whereas those that search for a string perform a culture-sensitive search.  \n  \n> [!NOTE]\n>  When possible, you should use string comparison methods that have a parameter of type <xref:System.Globalization.CompareOptions> to specify the kind of comparison expected. As a general rule, use linguistic options (using the current culture) for comparing strings displayed in the user interface and specify <xref:System.Globalization.CompareOptions?displayProperty=fullName> or <xref:System.Globalization.CompareOptions?displayProperty=fullName> for security comparisons."
+  example:
+  - "The following example determines the indexes of the first and last occurrences of a character or a substring within a string.  \n  \n [!CODE [System.Globalization.CompareInfo.IndexOf#1](../CodeSnippet/VS_Snippets_CLR_System/system.Globalization.CompareInfo.IndexOf#1)]"
   syntax:
     content: public virtual int IndexOf (string source, char value, System.Globalization.CompareOptions options);
     parameters:
     - id: source
       type: System.String
-      description: Parameter description to be filled
+      description: The string to search.
     - id: value
       type: System.Char
-      description: Parameter description to be filled
+      description: The character to locate within .
     - id: options
       type: System.Globalization.CompareOptions
-      description: Parameter description to be filled
+      description: 'A value that defines how the strings should be compared.  is either the enumeration value <see cref="T:System.Globalization.CompareOptions">, or a bitwise combination of one or more of the following values: <see cref="T:System.Globalization.CompareOptions">, <see cref="T:System.Globalization.CompareOptions">, <see cref="T:System.Globalization.CompareOptions">, <see cref="T:System.Globalization.CompareOptions">, and <see cref="T:System.Globalization.CompareOptions">.'
     return:
       type: System.Int32
-      description: Return description to be filled
+      description: The zero-based index of the first occurrence of , if found, within , using the specified comparison options; otherwise, -1. Returns 0 (zero) if  is an ignorable character.
   overload: System.Globalization.CompareInfo.IndexOf*
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Globalization.CompareInfo.IndexOf(System.String,System.Char,System.Int32)
   id: IndexOf(System.String,System.Char,System.Int32)
   parent: System.Globalization.CompareInfo
   langs:
   - csharp
-  - vb
   name: IndexOf(String,Char,Int32)
   nameWithType: CompareInfo.IndexOf(String,Char,Int32)
   fullName: System.Globalization.CompareInfo.IndexOf(String,Char,Int32)
@@ -584,28 +702,35 @@ items:
   assemblies:
   - mscorlib
   namespace: System.Globalization
+  summary: Searches for the specified character and returns the zero-based index of the first occurrence within the section of the source string that extends from the specified index to the end of the string.
+  remarks: "The source string is searched forward starting at  and ending at the end of the string.  \n  \n This overload performs a culture-sensitive search. If the character is a Unicode value representing a precomposed character, such as the ligature \"Æ\" (U+00C6), it might be considered equivalent to any occurrence of its components in the correct sequence, such as \"AE\" (U+0041, U+0045), depending on the culture. To perform an ordinal (culture-insensitive) search, where a character is considered equivalent to another character only if the Unicode values are the same, you should call one of the overloads that has a parameter of type <xref:System.Globalization.CompareOptions> and use the <xref:System.Globalization.CompareOptions> value. Overloads of <xref:System.String.IndexOf%2A?displayProperty=fullName> that search for a character perform an ordinal search, whereas those that search for a string perform a culture-sensitive search.  \n  \n> [!NOTE]\n>  When possible, you should call string comparison methods that have a parameter of type <xref:System.Globalization.CompareOptions> to specify the kind of comparison expected. As a general rule, use linguistic options (using the current culture) for comparing strings displayed in the user interface and specify <xref:System.Globalization.CompareOptions?displayProperty=fullName> or <xref:System.Globalization.CompareOptions?displayProperty=fullName> for security comparisons."
+  example:
+  - "The following example determines the indexes of the first and last occurrences of a character or a substring within a portion of a string. Note that <xref:System.Globalization.CompareInfo.IndexOf%2A> and <xref:System.Globalization.CompareInfo.LastIndexOf%2A> are searching in different portions of the string, even with the same  parameter.  \n  \n [!CODE [System.Globalization.CompareInfo.IndexOfInt#1](../CodeSnippet/VS_Snippets_CLR_System/system.Globalization.CompareInfo.IndexOfInt#1)]"
   syntax:
     content: public virtual int IndexOf (string source, char value, int startIndex);
     parameters:
     - id: source
       type: System.String
-      description: Parameter description to be filled
+      description: The string to search.
     - id: value
       type: System.Char
-      description: Parameter description to be filled
+      description: The character to locate within .
     - id: startIndex
       type: System.Int32
-      description: Parameter description to be filled
+      description: The zero-based starting index of the search.
     return:
       type: System.Int32
-      description: Return description to be filled
+      description: The zero-based index of the first occurrence of , if found, within the section of  that extends from  to the end of ; otherwise, -1. Returns  if  is an ignorable character.
   overload: System.Globalization.CompareInfo.IndexOf*
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Globalization.CompareInfo.IndexOf(System.String,System.String,System.Globalization.CompareOptions)
   id: IndexOf(System.String,System.String,System.Globalization.CompareOptions)
   parent: System.Globalization.CompareInfo
   langs:
   - csharp
-  - vb
   name: IndexOf(String,String,CompareOptions)
   nameWithType: CompareInfo.IndexOf(String,String,CompareOptions)
   fullName: System.Globalization.CompareInfo.IndexOf(String,String,CompareOptions)
@@ -613,28 +738,35 @@ items:
   assemblies:
   - mscorlib
   namespace: System.Globalization
+  summary: Searches for the specified substring and returns the zero-based index of the first occurrence within the entire source string using the specified <see cref="T:System.Globalization.CompareOptions"> value.
+  remarks: "The source string is searched forward starting at the beginning of the string and ending at the end of the string.  \n  \n The <xref:System.Globalization.CompareOptions?displayProperty=fullName> value is not valid for this method.  \n  \n If  does not include the <xref:System.Globalization.CompareOptions> value, this overload performs a culture-sensitive search. A Unicode value representing a precomposed character, such as the ligature \"Æ\" (U+00C6), might be considered equivalent to any occurrence of the character's components in the correct sequence, such as \"AE\" (U+0041, U+0045), depending on the culture. If  includes the <xref:System.Globalization.CompareOptions> value, this overload performs an ordinal (culture-insensitive) search, where the Unicode values are compared.  \n  \n> [!NOTE]\n>  When possible, you should call string comparison methods that have a parameter of type <xref:System.Globalization.CompareOptions> to specify the kind of comparison expected. As a general rule, use linguistic options (using the current culture) for comparing strings displayed in the user interface and specify <xref:System.Globalization.CompareOptions?displayProperty=fullName> or <xref:System.Globalization.CompareOptions?displayProperty=fullName> for security comparisons."
+  example:
+  - "The following example determines the indexes of the first and last occurrences of a character or a substring within a string.  \n  \n [!CODE [System.Globalization.CompareInfo.IndexOf#1](../CodeSnippet/VS_Snippets_CLR_System/system.Globalization.CompareInfo.IndexOf#1)]"
   syntax:
     content: public virtual int IndexOf (string source, string value, System.Globalization.CompareOptions options);
     parameters:
     - id: source
       type: System.String
-      description: Parameter description to be filled
+      description: The string to search.
     - id: value
       type: System.String
-      description: Parameter description to be filled
+      description: The string to locate within .
     - id: options
       type: System.Globalization.CompareOptions
-      description: Parameter description to be filled
+      description: 'A value that defines how  and  should be compared.  is either the enumeration value <see cref="T:System.Globalization.CompareOptions">, or a bitwise combination of one or more of the following values: <see cref="T:System.Globalization.CompareOptions">, <see cref="T:System.Globalization.CompareOptions">, <see cref="T:System.Globalization.CompareOptions">, <see cref="T:System.Globalization.CompareOptions">, and <see cref="T:System.Globalization.CompareOptions">.'
     return:
       type: System.Int32
-      description: Return description to be filled
+      description: The zero-based index of the first occurrence of , if found, within , using the specified comparison options; otherwise, -1. Returns 0 (zero) if  is an ignorable character.
   overload: System.Globalization.CompareInfo.IndexOf*
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Globalization.CompareInfo.IndexOf(System.String,System.String,System.Int32)
   id: IndexOf(System.String,System.String,System.Int32)
   parent: System.Globalization.CompareInfo
   langs:
   - csharp
-  - vb
   name: IndexOf(String,String,Int32)
   nameWithType: CompareInfo.IndexOf(String,String,Int32)
   fullName: System.Globalization.CompareInfo.IndexOf(String,String,Int32)
@@ -642,28 +774,35 @@ items:
   assemblies:
   - mscorlib
   namespace: System.Globalization
+  summary: Searches for the specified substring and returns the zero-based index of the first occurrence within the section of the source string that extends from the specified index to the end of the string.
+  remarks: "The source string is searched forward starting at  and ending at the end of the string.  \n  \n This overload performs a culture-sensitive search. A Unicode value representing a precomposed character, such as the ligature \"Æ\" (U+00C6), might be considered equivalent to any occurrence of the character's components in the correct sequence, such as \"AE\" (U+0041, U+0045), depending on the culture. To perform an ordinal (culture-insensitive) search, where the Unicode values are compared, you should call one of the overloads that has a parameter of type <xref:System.Globalization.CompareOptions> and use the <xref:System.Globalization.CompareOptions> value.  \n  \n> [!NOTE]\n>  When possible, you should call string comparison methods that have a parameter of type <xref:System.Globalization.CompareOptions> to specify the kind of comparison expected. As a general rule, use linguistic options (using the current culture) for comparing strings displayed in the user interface and specify <xref:System.Globalization.CompareOptions?displayProperty=fullName> or <xref:System.Globalization.CompareOptions?displayProperty=fullName> for security comparisons."
+  example:
+  - "The following example determines the indexes of the first and last occurrences of a character or a substring within a portion of a string. Note that <xref:System.Globalization.CompareInfo.IndexOf%2A> and <xref:System.Globalization.CompareInfo.LastIndexOf%2A> are searching in different portions of the string, even with the same  parameter.  \n  \n [!CODE [System.Globalization.CompareInfo.IndexOfInt#1](../CodeSnippet/VS_Snippets_CLR_System/system.Globalization.CompareInfo.IndexOfInt#1)]"
   syntax:
     content: public virtual int IndexOf (string source, string value, int startIndex);
     parameters:
     - id: source
       type: System.String
-      description: Parameter description to be filled
+      description: The string to search.
     - id: value
       type: System.String
-      description: Parameter description to be filled
+      description: The string to locate within .
     - id: startIndex
       type: System.Int32
-      description: Parameter description to be filled
+      description: The zero-based starting index of the search.
     return:
       type: System.Int32
-      description: Return description to be filled
+      description: The zero-based index of the first occurrence of , if found, within the section of  that extends from  to the end of ; otherwise, -1. Returns  if  is an ignorable character.
   overload: System.Globalization.CompareInfo.IndexOf*
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Globalization.CompareInfo.IndexOf(System.String,System.Char,System.Int32,System.Globalization.CompareOptions)
   id: IndexOf(System.String,System.Char,System.Int32,System.Globalization.CompareOptions)
   parent: System.Globalization.CompareInfo
   langs:
   - csharp
-  - vb
   name: IndexOf(String,Char,Int32,CompareOptions)
   nameWithType: CompareInfo.IndexOf(String,Char,Int32,CompareOptions)
   fullName: System.Globalization.CompareInfo.IndexOf(String,Char,Int32,CompareOptions)
@@ -671,31 +810,38 @@ items:
   assemblies:
   - mscorlib
   namespace: System.Globalization
+  summary: Searches for the specified character and returns the zero-based index of the first occurrence within the section of the source string that extends from the specified index to the end of the string using the specified <see cref="T:System.Globalization.CompareOptions"> value.
+  remarks: "The source string is searched forward starting at  and ending at the end of the string.  \n  \n The <xref:System.Globalization.CompareOptions?displayProperty=fullName> value is not valid for this method.  \n  \n If  does not include the <xref:System.Globalization.CompareOptions> value, this overload performs a culture-sensitive search. If the character is a Unicode value representing a precomposed character, such as the ligature \"Æ\" (U+00C6), it might be considered equivalent to any occurrence of its components in the correct sequence, such as \"AE\" (U+0041, U+0045), depending on the culture. If  includes the <xref:System.Globalization.CompareOptions> value, this overload performs an ordinal (culture-insensitive) search. A character is considered equivalent to another character only if the Unicode values are the same. Overloads of <xref:System.String.IndexOf%2A?displayProperty=fullName> that search for a character perform an ordinal search, whereas those that search for a string perform a culture-sensitive search.  \n  \n> [!NOTE]\n>  When possible, you should call string comparison methods that have a parameter of type <xref:System.Globalization.CompareOptions> to specify the kind of comparison expected. As a general rule, use linguistic options (using the current culture) for comparing strings displayed in the user interface and specify <xref:System.Globalization.CompareOptions?displayProperty=fullName> or <xref:System.Globalization.CompareOptions?displayProperty=fullName> for security comparisons."
+  example:
+  - "The following example determines the indexes of the first and last occurrences of a character or a substring within a portion of a string. Note that <xref:System.Globalization.CompareInfo.IndexOf%2A> and <xref:System.Globalization.CompareInfo.LastIndexOf%2A> are searching in different portions of the string, even with the same  parameter.  \n  \n [!CODE [System.Globalization.CompareInfo.IndexOfInt#1](../CodeSnippet/VS_Snippets_CLR_System/system.Globalization.CompareInfo.IndexOfInt#1)]"
   syntax:
     content: public virtual int IndexOf (string source, char value, int startIndex, System.Globalization.CompareOptions options);
     parameters:
     - id: source
       type: System.String
-      description: Parameter description to be filled
+      description: The string to search.
     - id: value
       type: System.Char
-      description: Parameter description to be filled
+      description: The character to locate within .
     - id: startIndex
       type: System.Int32
-      description: Parameter description to be filled
+      description: The zero-based starting index of the search.
     - id: options
       type: System.Globalization.CompareOptions
-      description: Parameter description to be filled
+      description: 'A value that defines how  and  should be compared.  is either the enumeration value <see cref="T:System.Globalization.CompareOptions">, or a bitwise combination of one or more of the following values: <see cref="T:System.Globalization.CompareOptions">, <see cref="T:System.Globalization.CompareOptions">, <see cref="T:System.Globalization.CompareOptions">, <see cref="T:System.Globalization.CompareOptions">, and <see cref="T:System.Globalization.CompareOptions">.'
     return:
       type: System.Int32
-      description: Return description to be filled
+      description: The zero-based index of the first occurrence of , if found, within the section of  that extends from  to the end of , using the specified comparison options; otherwise, -1. Returns  if  is an ignorable character.
   overload: System.Globalization.CompareInfo.IndexOf*
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Globalization.CompareInfo.IndexOf(System.String,System.Char,System.Int32,System.Int32)
   id: IndexOf(System.String,System.Char,System.Int32,System.Int32)
   parent: System.Globalization.CompareInfo
   langs:
   - csharp
-  - vb
   name: IndexOf(String,Char,Int32,Int32)
   nameWithType: CompareInfo.IndexOf(String,Char,Int32,Int32)
   fullName: System.Globalization.CompareInfo.IndexOf(String,Char,Int32,Int32)
@@ -703,31 +849,38 @@ items:
   assemblies:
   - mscorlib
   namespace: System.Globalization
+  summary: Searches for the specified character and returns the zero-based index of the first occurrence within the section of the source string that starts at the specified index and contains the specified number of elements.
+  remarks: "The source string is searched forward starting at  and ending at  +  - 1.  \n  \n This overload performs a culture-sensitive search. If the character is a Unicode value representing a precomposed character, such as the ligature \"Æ\" (U+00C6), it might be considered equivalent to any occurrence of its components in the correct sequence, such as \"AE\" (U+0041, U+0045), depending on the culture. To perform an ordinal (culture-insensitive) search, where a character is considered equivalent to another character only if the Unicode values are the same, you should call one of the overloads that has a parameter of type <xref:System.Globalization.CompareOptions> and use the <xref:System.Globalization.CompareOptions> value. Overloads of <xref:System.String.IndexOf%2A?displayProperty=fullName> that search for a character perform an ordinal search, whereas those that search for a string perform a culture-sensitive search.  \n  \n> [!NOTE]\n>  When possible, you should call string comparison methods that have a parameter of type <xref:System.Globalization.CompareOptions> to specify the kind of comparison expected. As a general rule, use linguistic options (using the current culture) for comparing strings displayed in the user interface and specify <xref:System.Globalization.CompareOptions?displayProperty=fullName> or <xref:System.Globalization.CompareOptions?displayProperty=fullName> for security comparisons."
+  example:
+  - "The following example determines the indexes of the first and last occurrences of a character or a substring within a portion of a string.  \n  \n [!CODE [System.Globalization.CompareInfo.IndexOfIntInt#1](../CodeSnippet/VS_Snippets_CLR_System/system.Globalization.CompareInfo.IndexOfIntInt#1)]"
   syntax:
     content: public virtual int IndexOf (string source, char value, int startIndex, int count);
     parameters:
     - id: source
       type: System.String
-      description: Parameter description to be filled
+      description: The string to search.
     - id: value
       type: System.Char
-      description: Parameter description to be filled
+      description: The character to locate within .
     - id: startIndex
       type: System.Int32
-      description: Parameter description to be filled
+      description: The zero-based starting index of the search.
     - id: count
       type: System.Int32
-      description: Parameter description to be filled
+      description: The number of elements in the section to search.
     return:
       type: System.Int32
-      description: Return description to be filled
+      description: The zero-based index of the first occurrence of , if found, within the section of  that starts at  and contains the number of elements specified by ; otherwise, -1. Returns  if  is an ignorable character.
   overload: System.Globalization.CompareInfo.IndexOf*
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Globalization.CompareInfo.IndexOf(System.String,System.String,System.Int32,System.Globalization.CompareOptions)
   id: IndexOf(System.String,System.String,System.Int32,System.Globalization.CompareOptions)
   parent: System.Globalization.CompareInfo
   langs:
   - csharp
-  - vb
   name: IndexOf(String,String,Int32,CompareOptions)
   nameWithType: CompareInfo.IndexOf(String,String,Int32,CompareOptions)
   fullName: System.Globalization.CompareInfo.IndexOf(String,String,Int32,CompareOptions)
@@ -735,31 +888,38 @@ items:
   assemblies:
   - mscorlib
   namespace: System.Globalization
+  summary: Searches for the specified substring and returns the zero-based index of the first occurrence within the section of the source string that extends from the specified index to the end of the string using the specified <see cref="T:System.Globalization.CompareOptions"> value.
+  remarks: "The source string is searched forward starting at  and ending at the end of the string.  \n  \n The <xref:System.Globalization.CompareOptions?displayProperty=fullName> value is not valid for this method.  \n  \n If  does not include the <xref:System.Globalization.CompareOptions> value, this overload performs a culture-sensitive search. A Unicode value representing a precomposed character, such as the ligature \"Æ\" (U+00C6), might be considered equivalent to any occurrence of the character's components in the correct sequence, such as \"AE\" (U+0041, U+0045), depending on the culture. If  includes the <xref:System.Globalization.CompareOptions> value, this overload performs an ordinal (culture-insensitive) search, where the Unicode values are compared.  \n  \n> [!NOTE]\n>  When possible, you should call string comparison methods that have a parameter of type <xref:System.Globalization.CompareOptions> to specify the kind of comparison expected. As a general rule, use linguistic options (using the current culture) for comparing strings displayed in the user interface and specify <xref:System.Globalization.CompareOptions?displayProperty=fullName> or <xref:System.Globalization.CompareOptions?displayProperty=fullName> for security comparisons."
+  example:
+  - "The following example determines the indexes of the first and last occurrences of a character or a substring within a portion of a string. Note that <xref:System.Globalization.CompareInfo.IndexOf%2A> and <xref:System.Globalization.CompareInfo.LastIndexOf%2A> are searching in different portions of the string, even with the same  parameter.  \n  \n [!CODE [System.Globalization.CompareInfo.IndexOfInt#1](../CodeSnippet/VS_Snippets_CLR_System/system.Globalization.CompareInfo.IndexOfInt#1)]"
   syntax:
     content: public virtual int IndexOf (string source, string value, int startIndex, System.Globalization.CompareOptions options);
     parameters:
     - id: source
       type: System.String
-      description: Parameter description to be filled
+      description: The string to search.
     - id: value
       type: System.String
-      description: Parameter description to be filled
+      description: The string to locate within .
     - id: startIndex
       type: System.Int32
-      description: Parameter description to be filled
+      description: The zero-based starting index of the search.
     - id: options
       type: System.Globalization.CompareOptions
-      description: Parameter description to be filled
+      description: 'A value that defines how  and  should be compared.  is either the enumeration value <see cref="T:System.Globalization.CompareOptions">, or a bitwise combination of one or more of the following values: <see cref="T:System.Globalization.CompareOptions">, <see cref="T:System.Globalization.CompareOptions">, <see cref="T:System.Globalization.CompareOptions">, <see cref="T:System.Globalization.CompareOptions">, and <see cref="T:System.Globalization.CompareOptions">.'
     return:
       type: System.Int32
-      description: Return description to be filled
+      description: The zero-based index of the first occurrence of , if found, within the section of  that extends from  to the end of , using the specified comparison options; otherwise, -1. Returns  if  is an ignorable character.
   overload: System.Globalization.CompareInfo.IndexOf*
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Globalization.CompareInfo.IndexOf(System.String,System.String,System.Int32,System.Int32)
   id: IndexOf(System.String,System.String,System.Int32,System.Int32)
   parent: System.Globalization.CompareInfo
   langs:
   - csharp
-  - vb
   name: IndexOf(String,String,Int32,Int32)
   nameWithType: CompareInfo.IndexOf(String,String,Int32,Int32)
   fullName: System.Globalization.CompareInfo.IndexOf(String,String,Int32,Int32)
@@ -767,31 +927,38 @@ items:
   assemblies:
   - mscorlib
   namespace: System.Globalization
+  summary: Searches for the specified substring and returns the zero-based index of the first occurrence within the section of the source string that starts at the specified index and contains the specified number of elements.
+  remarks: "The source string is searched forward starting at  and ending at  +  - 1.  \n  \n This overload performs a culture-sensitive search. A Unicode value representing a precomposed character, such as the ligature \"Æ\" (U+00C6), might be considered equivalent to any occurrence of the character's components in the correct sequence, such as \"AE\" (U+0041, U+0045), depending on the culture. To perform an ordinal (culture-insensitive) search, where the Unicode values are compared, you should call one of the overloads that has a parameter of type <xref:System.Globalization.CompareOptions> and use the <xref:System.Globalization.CompareOptions> value.  \n  \n> [!NOTE]\n>  When possible, you should call string comparison methods that have a parameter of type <xref:System.Globalization.CompareOptions> to specify the kind of comparison expected. As a general rule, use linguistic options (using the current culture) for comparing strings displayed in the user interface and specify <xref:System.Globalization.CompareOptions?displayProperty=fullName> or <xref:System.Globalization.CompareOptions?displayProperty=fullName> for security comparisons."
+  example:
+  - "The following example determines the indexes of the first and last occurrences of a character or a substring within a portion of a string.  \n  \n [!CODE [System.Globalization.CompareInfo.IndexOfIntInt#1](../CodeSnippet/VS_Snippets_CLR_System/system.Globalization.CompareInfo.IndexOfIntInt#1)]"
   syntax:
     content: public virtual int IndexOf (string source, string value, int startIndex, int count);
     parameters:
     - id: source
       type: System.String
-      description: Parameter description to be filled
+      description: The string to search.
     - id: value
       type: System.String
-      description: Parameter description to be filled
+      description: The string to locate within .
     - id: startIndex
       type: System.Int32
-      description: Parameter description to be filled
+      description: The zero-based starting index of the search.
     - id: count
       type: System.Int32
-      description: Parameter description to be filled
+      description: The number of elements in the section to search.
     return:
       type: System.Int32
-      description: Return description to be filled
+      description: The zero-based index of the first occurrence of , if found, within the section of  that starts at  and contains the number of elements specified by ; otherwise, -1. Returns  if  is an ignorable character.
   overload: System.Globalization.CompareInfo.IndexOf*
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Globalization.CompareInfo.IndexOf(System.String,System.Char,System.Int32,System.Int32,System.Globalization.CompareOptions)
   id: IndexOf(System.String,System.Char,System.Int32,System.Int32,System.Globalization.CompareOptions)
   parent: System.Globalization.CompareInfo
   langs:
   - csharp
-  - vb
   name: IndexOf(String,Char,Int32,Int32,CompareOptions)
   nameWithType: CompareInfo.IndexOf(String,Char,Int32,Int32,CompareOptions)
   fullName: System.Globalization.CompareInfo.IndexOf(String,Char,Int32,Int32,CompareOptions)
@@ -799,34 +966,41 @@ items:
   assemblies:
   - mscorlib
   namespace: System.Globalization
+  summary: Searches for the specified character and returns the zero-based index of the first occurrence within the section of the source string that starts at the specified index and contains the specified number of elements using the specified <see cref="T:System.Globalization.CompareOptions"> value.
+  remarks: "The source string is searched forward starting at  and ending at  +  - 1.  \n  \n The <xref:System.Globalization.CompareOptions?displayProperty=fullName> value is not valid for this method.  \n  \n If  does not include the <xref:System.Globalization.CompareOptions> value, this overload performs a culture-sensitive search. If the character is a Unicode value representing a precomposed character, such as the ligature \"Æ\" (U+00C6), it might be considered equivalent to any occurrence of its components in the correct sequence, such as \"AE\" (U+0041, U+0045), depending on the culture. If  includes the <xref:System.Globalization.CompareOptions> value, this overload performs an ordinal (culture-insensitive) search. A character is considered equivalent to another character only if the Unicode values are the same. Overloads of <xref:System.String.IndexOf%2A?displayProperty=fullName> that search for a character perform an ordinal search, whereas those that search for a string perform a culture-sensitive search.  \n  \n> [!NOTE]\n>  When possible, you should call string comparison methods that have a parameter of type <xref:System.Globalization.CompareOptions> to specify the kind of comparison expected. As a general rule, use linguistic options (using the current culture) for comparing strings displayed in the user interface and specify <xref:System.Globalization.CompareOptions?displayProperty=fullName> or <xref:System.Globalization.CompareOptions?displayProperty=fullName> for security comparisons."
+  example:
+  - "The following example determines the indexes of the first and last occurrences of a character or a substring within a portion of a string.  \n  \n [!CODE [System.Globalization.CompareInfo.IndexOfIntInt#1](../CodeSnippet/VS_Snippets_CLR_System/system.Globalization.CompareInfo.IndexOfIntInt#1)]"
   syntax:
     content: public virtual int IndexOf (string source, char value, int startIndex, int count, System.Globalization.CompareOptions options);
     parameters:
     - id: source
       type: System.String
-      description: Parameter description to be filled
+      description: The string to search.
     - id: value
       type: System.Char
-      description: Parameter description to be filled
+      description: The character to locate within .
     - id: startIndex
       type: System.Int32
-      description: Parameter description to be filled
+      description: The zero-based starting index of the search.
     - id: count
       type: System.Int32
-      description: Parameter description to be filled
+      description: The number of elements in the section to search.
     - id: options
       type: System.Globalization.CompareOptions
-      description: Parameter description to be filled
+      description: 'A value that defines how  and  should be compared.  is either the enumeration value <see cref="T:System.Globalization.CompareOptions">, or a bitwise combination of one or more of the following values: <see cref="T:System.Globalization.CompareOptions">, <see cref="T:System.Globalization.CompareOptions">, <see cref="T:System.Globalization.CompareOptions">, <see cref="T:System.Globalization.CompareOptions">, and <see cref="T:System.Globalization.CompareOptions">.'
     return:
       type: System.Int32
-      description: Return description to be filled
+      description: The zero-based index of the first occurrence of , if found, within the section of  that starts at  and contains the number of elements specified by , using the specified comparison options; otherwise, -1. Returns  if  is an ignorable character.
   overload: System.Globalization.CompareInfo.IndexOf*
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Globalization.CompareInfo.IndexOf(System.String,System.String,System.Int32,System.Int32,System.Globalization.CompareOptions)
   id: IndexOf(System.String,System.String,System.Int32,System.Int32,System.Globalization.CompareOptions)
   parent: System.Globalization.CompareInfo
   langs:
   - csharp
-  - vb
   name: IndexOf(String,String,Int32,Int32,CompareOptions)
   nameWithType: CompareInfo.IndexOf(String,String,Int32,Int32,CompareOptions)
   fullName: System.Globalization.CompareInfo.IndexOf(String,String,Int32,Int32,CompareOptions)
@@ -834,34 +1008,41 @@ items:
   assemblies:
   - mscorlib
   namespace: System.Globalization
+  summary: Searches for the specified substring and returns the zero-based index of the first occurrence within the section of the source string that starts at the specified index and contains the specified number of elements using the specified <see cref="T:System.Globalization.CompareOptions"> value.
+  remarks: "The source string is searched forward starting at  and ending at  +  - 1.  \n  \n The <xref:System.Globalization.CompareOptions?displayProperty=fullName> value is not valid for this method.  \n  \n If  does not include the <xref:System.Globalization.CompareOptions> value, this overload performs a culture-sensitive search. A Unicode value representing a precomposed character, such as the ligature \"Æ\" (U+00C6), might be considered equivalent to any occurrence of the character's components in the correct sequence, such as \"AE\" (U+0041, U+0045), depending on the culture. If  includes the <xref:System.Globalization.CompareOptions> value, this overload performs an ordinal (culture-insensitive) search, where the Unicode values are compared.  \n  \n> [!NOTE]\n>  When possible, you should call string comparison methods that have a parameter of type <xref:System.Globalization.CompareOptions> to specify the kind of comparison expected. As a general rule, use linguistic options (using the current culture) for comparing strings displayed in the user interface and specify <xref:System.Globalization.CompareOptions?displayProperty=fullName> or <xref:System.Globalization.CompareOptions?displayProperty=fullName> for security comparisons."
+  example:
+  - "The following example determines the indexes of the first and last occurrences of a character or a substring within a portion of a string.  \n  \n [!CODE [System.Globalization.CompareInfo.IndexOfIntInt#1](../CodeSnippet/VS_Snippets_CLR_System/system.Globalization.CompareInfo.IndexOfIntInt#1)]"
   syntax:
     content: public virtual int IndexOf (string source, string value, int startIndex, int count, System.Globalization.CompareOptions options);
     parameters:
     - id: source
       type: System.String
-      description: Parameter description to be filled
+      description: The string to search.
     - id: value
       type: System.String
-      description: Parameter description to be filled
+      description: The string to locate within .
     - id: startIndex
       type: System.Int32
-      description: Parameter description to be filled
+      description: The zero-based starting index of the search.
     - id: count
       type: System.Int32
-      description: Parameter description to be filled
+      description: The number of elements in the section to search.
     - id: options
       type: System.Globalization.CompareOptions
-      description: Parameter description to be filled
+      description: 'A value that defines how  and  should be compared.  is either the enumeration value <see cref="T:System.Globalization.CompareOptions">, or a bitwise combination of one or more of the following values: <see cref="T:System.Globalization.CompareOptions">, <see cref="T:System.Globalization.CompareOptions">, <see cref="T:System.Globalization.CompareOptions">, <see cref="T:System.Globalization.CompareOptions">, and <see cref="T:System.Globalization.CompareOptions">.'
     return:
       type: System.Int32
-      description: Return description to be filled
+      description: The zero-based index of the first occurrence of , if found, within the section of  that starts at  and contains the number of elements specified by , using the specified comparison options; otherwise, -1. Returns  if  is an ignorable character.
   overload: System.Globalization.CompareInfo.IndexOf*
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Globalization.CompareInfo.IsPrefix(System.String,System.String)
   id: IsPrefix(System.String,System.String)
   parent: System.Globalization.CompareInfo
   langs:
   - csharp
-  - vb
   name: IsPrefix(String,String)
   nameWithType: CompareInfo.IsPrefix(String,String)
   fullName: System.Globalization.CompareInfo.IsPrefix(String,String)
@@ -869,25 +1050,32 @@ items:
   assemblies:
   - mscorlib
   namespace: System.Globalization
+  summary: Determines whether the specified source string starts with the specified prefix.
+  remarks: "Every string starts and ends with an empty substring (\"\"); therefore, if  is an empty string, this method returns `true`.  \n  \n> [!NOTE]\n>  When possible, you should call string comparison methods that have a parameter of type <xref:System.Globalization.CompareOptions> to specify the kind of comparison expected. As a general rule, use linguistic options (using the current culture) for comparing strings displayed in the user interface and specify <xref:System.Globalization.CompareOptions?displayProperty=fullName> or <xref:System.Globalization.CompareOptions?displayProperty=fullName> for security comparisons."
+  example:
+  - "The following example determines whether a string is the prefix or suffix of another string.  \n  \n [!CODE [System.Globalization.CompareInfo.IsPrefixSuffix#1](../CodeSnippet/VS_Snippets_CLR_System/system.Globalization.CompareInfo.IsPrefixSuffix#1)]"
   syntax:
     content: public virtual bool IsPrefix (string source, string prefix);
     parameters:
     - id: source
       type: System.String
-      description: Parameter description to be filled
+      description: The string to search in.
     - id: prefix
       type: System.String
-      description: Parameter description to be filled
+      description: The string to compare with the beginning of .
     return:
       type: System.Boolean
-      description: Return description to be filled
+      description: '`true` if the length of  is less than or equal to the length of  and  starts with ; otherwise, `false`.'
   overload: System.Globalization.CompareInfo.IsPrefix*
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Globalization.CompareInfo.IsPrefix(System.String,System.String,System.Globalization.CompareOptions)
   id: IsPrefix(System.String,System.String,System.Globalization.CompareOptions)
   parent: System.Globalization.CompareInfo
   langs:
   - csharp
-  - vb
   name: IsPrefix(String,String,CompareOptions)
   nameWithType: CompareInfo.IsPrefix(String,String,CompareOptions)
   fullName: System.Globalization.CompareInfo.IsPrefix(String,String,CompareOptions)
@@ -895,28 +1083,35 @@ items:
   assemblies:
   - mscorlib
   namespace: System.Globalization
+  summary: Determines whether the specified source string starts with the specified prefix using the specified <see cref="T:System.Globalization.CompareOptions"> value.
+  remarks: "Every string starts and ends with an empty substring (\"\"); therefore, if  is an empty string, this method returns `true`.  \n  \n The <xref:System.Globalization.CompareOptions?displayProperty=fullName> value is not valid for this method.  \n  \n> [!NOTE]\n>  When possible, you should call string comparison methods that have a parameter of type <xref:System.Globalization.CompareOptions> to specify the kind of comparison expected. As a general rule, use linguistic options (using the current culture) for comparing strings displayed in the user interface and specify <xref:System.Globalization.CompareOptions?displayProperty=fullName> or <xref:System.Globalization.CompareOptions?displayProperty=fullName> for security comparisons."
+  example:
+  - "The following example determines whether a string is the prefix or suffix of another string using <xref:System.Globalization.CompareOptions>.  \n  \n [!CODE [System.Globalization.CompareInfo.IsPrefixSuffixOpt#1](../CodeSnippet/VS_Snippets_CLR_System/system.Globalization.CompareInfo.IsPrefixSuffixOpt#1)]"
   syntax:
     content: public virtual bool IsPrefix (string source, string prefix, System.Globalization.CompareOptions options);
     parameters:
     - id: source
       type: System.String
-      description: Parameter description to be filled
+      description: The string to search in.
     - id: prefix
       type: System.String
-      description: Parameter description to be filled
+      description: The string to compare with the beginning of .
     - id: options
       type: System.Globalization.CompareOptions
-      description: Parameter description to be filled
+      description: 'A value that defines how  and  should be compared.  is either the enumeration value <see cref="T:System.Globalization.CompareOptions">, or a bitwise combination of one or more of the following values: <see cref="T:System.Globalization.CompareOptions">, <see cref="T:System.Globalization.CompareOptions">, <see cref="T:System.Globalization.CompareOptions">, <see cref="T:System.Globalization.CompareOptions">, and <see cref="T:System.Globalization.CompareOptions">.'
     return:
       type: System.Boolean
-      description: Return description to be filled
+      description: '`true` if the length of  is less than or equal to the length of  and  starts with ; otherwise, `false`.'
   overload: System.Globalization.CompareInfo.IsPrefix*
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Globalization.CompareInfo.IsSortable(System.Char)
   id: IsSortable(System.Char)
   parent: System.Globalization.CompareInfo
   langs:
   - csharp
-  - vb
   name: IsSortable(Char)
   nameWithType: CompareInfo.IsSortable(Char)
   fullName: System.Globalization.CompareInfo.IsSortable(Char)
@@ -924,22 +1119,27 @@ items:
   assemblies:
   - mscorlib
   namespace: System.Globalization
+  summary: Indicates whether a specified Unicode character is sortable.
+  remarks: The  parameter is sortable if it is a Unicode character that is defined in an internal <xref:System.Globalization.CompareInfo> class sort table, and is not a private use or unpaired high or low surrogate character.
   syntax:
     content: public static bool IsSortable (char ch);
     parameters:
     - id: ch
       type: System.Char
-      description: Parameter description to be filled
+      description: A Unicode character.
     return:
       type: System.Boolean
-      description: Return description to be filled
+      description: '`true` if the  parameter is sortable; otherwise, `false`.'
   overload: System.Globalization.CompareInfo.IsSortable*
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Globalization.CompareInfo.IsSortable(System.String)
   id: IsSortable(System.String)
   parent: System.Globalization.CompareInfo
   langs:
   - csharp
-  - vb
   name: IsSortable(String)
   nameWithType: CompareInfo.IsSortable(String)
   fullName: System.Globalization.CompareInfo.IsSortable(String)
@@ -947,22 +1147,27 @@ items:
   assemblies:
   - mscorlib
   namespace: System.Globalization
+  summary: Indicates whether a specified Unicode string is sortable.
+  remarks: Each Unicode character in the  parameter is represented by one or more UTF-16 encoded <xref:System.Char> objects. The  parameter is sortable if each Unicode character is defined in an internal <xref:System.Globalization.CompareInfo> class sort table, and is not a private use or unpaired high or low surrogate character.
   syntax:
     content: public static bool IsSortable (string text);
     parameters:
     - id: text
       type: System.String
-      description: Parameter description to be filled
+      description: A string of zero or more Unicode characters.
     return:
       type: System.Boolean
-      description: Return description to be filled
+      description: '`true` if the  parameter is not an empty string ("") and all the Unicode characters in  are sortable; otherwise, `false`.'
   overload: System.Globalization.CompareInfo.IsSortable*
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Globalization.CompareInfo.IsSuffix(System.String,System.String)
   id: IsSuffix(System.String,System.String)
   parent: System.Globalization.CompareInfo
   langs:
   - csharp
-  - vb
   name: IsSuffix(String,String)
   nameWithType: CompareInfo.IsSuffix(String,String)
   fullName: System.Globalization.CompareInfo.IsSuffix(String,String)
@@ -970,25 +1175,32 @@ items:
   assemblies:
   - mscorlib
   namespace: System.Globalization
+  summary: Determines whether the specified source string ends with the specified suffix.
+  remarks: "Every string starts and ends with an empty substring (\"\"); therefore, if  is an empty string, this method returns `true`.  \n  \n> [!NOTE]\n>  When possible, you should call string comparison methods that have a parameter of type <xref:System.Globalization.CompareOptions> to specify the kind of comparison expected. As a general rule, use linguistic options (using the current culture) for comparing strings displayed in the user interface and specify <xref:System.Globalization.CompareOptions?displayProperty=fullName> or <xref:System.Globalization.CompareOptions?displayProperty=fullName> for security comparisons."
+  example:
+  - "The following example determines whether a string is the prefix or suffix of another string.  \n  \n [!CODE [System.Globalization.CompareInfo.IsPrefixSuffix#1](../CodeSnippet/VS_Snippets_CLR_System/system.Globalization.CompareInfo.IsPrefixSuffix#1)]"
   syntax:
     content: public virtual bool IsSuffix (string source, string suffix);
     parameters:
     - id: source
       type: System.String
-      description: Parameter description to be filled
+      description: The string to search in.
     - id: suffix
       type: System.String
-      description: Parameter description to be filled
+      description: The string to compare with the end of .
     return:
       type: System.Boolean
-      description: Return description to be filled
+      description: '`true` if the length of  is less than or equal to the length of  and  ends with ; otherwise, `false`.'
   overload: System.Globalization.CompareInfo.IsSuffix*
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Globalization.CompareInfo.IsSuffix(System.String,System.String,System.Globalization.CompareOptions)
   id: IsSuffix(System.String,System.String,System.Globalization.CompareOptions)
   parent: System.Globalization.CompareInfo
   langs:
   - csharp
-  - vb
   name: IsSuffix(String,String,CompareOptions)
   nameWithType: CompareInfo.IsSuffix(String,String,CompareOptions)
   fullName: System.Globalization.CompareInfo.IsSuffix(String,String,CompareOptions)
@@ -996,28 +1208,35 @@ items:
   assemblies:
   - mscorlib
   namespace: System.Globalization
+  summary: Determines whether the specified source string ends with the specified suffix using the specified <see cref="T:System.Globalization.CompareOptions"> value.
+  remarks: "Every string starts and ends with an empty substring (\"\"); therefore, if  is an empty string, this method returns `true`.  \n  \n The <xref:System.Globalization.CompareOptions?displayProperty=fullName> value is not valid for this method.  \n  \n> [!NOTE]\n>  When possible, you should call string comparison methods that have a parameter of type <xref:System.Globalization.CompareOptions> to specify the kind of comparison expected. As a general rule, use linguistic options (using the current culture) for comparing strings displayed in the user interface and specify <xref:System.Globalization.CompareOptions?displayProperty=fullName> or <xref:System.Globalization.CompareOptions?displayProperty=fullName> for security comparisons."
+  example:
+  - "The following example determines whether a string is the prefix or suffix of another string using <xref:System.Globalization.CompareOptions>.  \n  \n [!CODE [System.Globalization.CompareInfo.IsPrefixSuffixOpt#1](../CodeSnippet/VS_Snippets_CLR_System/system.Globalization.CompareInfo.IsPrefixSuffixOpt#1)]"
   syntax:
     content: public virtual bool IsSuffix (string source, string suffix, System.Globalization.CompareOptions options);
     parameters:
     - id: source
       type: System.String
-      description: Parameter description to be filled
+      description: The string to search in.
     - id: suffix
       type: System.String
-      description: Parameter description to be filled
+      description: The string to compare with the end of .
     - id: options
       type: System.Globalization.CompareOptions
-      description: Parameter description to be filled
+      description: 'A value that defines how  and  should be compared.  is either the enumeration value <see cref="T:System.Globalization.CompareOptions"> used by itself, or the bitwise combination of one or more of the following values: <see cref="T:System.Globalization.CompareOptions">, <see cref="T:System.Globalization.CompareOptions">, <see cref="T:System.Globalization.CompareOptions">, <see cref="T:System.Globalization.CompareOptions">, and <see cref="T:System.Globalization.CompareOptions">.'
     return:
       type: System.Boolean
-      description: Return description to be filled
+      description: '`true` if the length of  is less than or equal to the length of  and  ends with ; otherwise, `false`.'
   overload: System.Globalization.CompareInfo.IsSuffix*
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Globalization.CompareInfo.LastIndexOf(System.String,System.Char)
   id: LastIndexOf(System.String,System.Char)
   parent: System.Globalization.CompareInfo
   langs:
   - csharp
-  - vb
   name: LastIndexOf(String,Char)
   nameWithType: CompareInfo.LastIndexOf(String,Char)
   fullName: System.Globalization.CompareInfo.LastIndexOf(String,Char)
@@ -1025,25 +1244,32 @@ items:
   assemblies:
   - mscorlib
   namespace: System.Globalization
+  summary: Searches for the specified character and returns the zero-based index of the last occurrence within the entire source string.
+  remarks: "The source string is searched backward starting at the end of the string and ending at the beginning of the string.  \n  \n This overload performs a culture-sensitive search. If the character is a Unicode value representing a precomposed character, such as the ligature \"Æ\" (U+00C6), it might be considered equivalent to any occurrence of its components in the correct sequence, such as \"AE\" (U+0041, U+0045), depending on the culture. To perform an ordinal (culture-insensitive) search, where a character is considered equivalent to another character only if the Unicode values are the same, you should call one of the overloads that has a parameter of type <xref:System.Globalization.CompareOptions> and use the <xref:System.Globalization.CompareOptions> value. Overloads of <xref:System.String.LastIndexOf%2A?displayProperty=fullName> that search for a character perform an ordinal search, whereas those that search for a string perform a culture-sensitive search.  \n  \n> [!NOTE]\n>  When possible, you should call string comparison methods that have a parameter of type <xref:System.Globalization.CompareOptions> to specify the kind of comparison expected. As a general rule, use linguistic options (using the current culture) for comparing strings displayed in the user interface and specify <xref:System.Globalization.CompareOptions?displayProperty=fullName> or <xref:System.Globalization.CompareOptions?displayProperty=fullName> for security comparisons."
+  example:
+  - "The following example determines the indexes of the first and last occurrences of a character or a substring within a string.  \n  \n [!CODE [System.Globalization.CompareInfo.IndexOf#1](../CodeSnippet/VS_Snippets_CLR_System/system.Globalization.CompareInfo.IndexOf#1)]"
   syntax:
     content: public virtual int LastIndexOf (string source, char value);
     parameters:
     - id: source
       type: System.String
-      description: Parameter description to be filled
+      description: The string to search.
     - id: value
       type: System.Char
-      description: Parameter description to be filled
+      description: The character to locate within .
     return:
       type: System.Int32
-      description: Return description to be filled
+      description: The zero-based index of the last occurrence of , if found, within ; otherwise, -1.
   overload: System.Globalization.CompareInfo.LastIndexOf*
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Globalization.CompareInfo.LastIndexOf(System.String,System.String)
   id: LastIndexOf(System.String,System.String)
   parent: System.Globalization.CompareInfo
   langs:
   - csharp
-  - vb
   name: LastIndexOf(String,String)
   nameWithType: CompareInfo.LastIndexOf(String,String)
   fullName: System.Globalization.CompareInfo.LastIndexOf(String,String)
@@ -1051,25 +1277,32 @@ items:
   assemblies:
   - mscorlib
   namespace: System.Globalization
+  summary: Searches for the specified substring and returns the zero-based index of the last occurrence within the entire source string.
+  remarks: "The source string is searched backward starting at the end of the string and ending at the beginning of the string.  \n  \n This overload performs a culture-sensitive search. A Unicode value representing a precomposed character, such as the ligature \"Æ\" (U+00C6), might be considered equivalent to any occurrence of the character's components in the correct sequence, such as \"AE\" (U+0041, U+0045), depending on the culture. To perform an ordinal (culture-insensitive) search, where the Unicode values are compared, you should call one of the overloads that has a parameter of type <xref:System.Globalization.CompareOptions> and use the <xref:System.Globalization.CompareOptions?displayProperty=fullName> value.  \n  \n> [!NOTE]\n>  When possible, you should call string comparison methods that have a parameter of type <xref:System.Globalization.CompareOptions> to specify the kind of comparison expected. As a general rule, use linguistic options (using the current culture) for comparing strings displayed in the user interface and specify <xref:System.Globalization.CompareOptions?displayProperty=fullName> or <xref:System.Globalization.CompareOptions?displayProperty=fullName> for security comparisons."
+  example:
+  - "The following example determines the indexes of the first and last occurrences of a character or a substring within a string.  \n  \n [!CODE [System.Globalization.CompareInfo.IndexOf#1](../CodeSnippet/VS_Snippets_CLR_System/system.Globalization.CompareInfo.IndexOf#1)]"
   syntax:
     content: public virtual int LastIndexOf (string source, string value);
     parameters:
     - id: source
       type: System.String
-      description: Parameter description to be filled
+      description: The string to search.
     - id: value
       type: System.String
-      description: Parameter description to be filled
+      description: The string to locate within .
     return:
       type: System.Int32
-      description: Return description to be filled
+      description: The zero-based index of the last occurrence of , if found, within ; otherwise, -1.
   overload: System.Globalization.CompareInfo.LastIndexOf*
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Globalization.CompareInfo.LastIndexOf(System.String,System.Char,System.Globalization.CompareOptions)
   id: LastIndexOf(System.String,System.Char,System.Globalization.CompareOptions)
   parent: System.Globalization.CompareInfo
   langs:
   - csharp
-  - vb
   name: LastIndexOf(String,Char,CompareOptions)
   nameWithType: CompareInfo.LastIndexOf(String,Char,CompareOptions)
   fullName: System.Globalization.CompareInfo.LastIndexOf(String,Char,CompareOptions)
@@ -1077,28 +1310,35 @@ items:
   assemblies:
   - mscorlib
   namespace: System.Globalization
+  summary: Searches for the specified character and returns the zero-based index of the last occurrence within the entire source string using the specified <see cref="T:System.Globalization.CompareOptions"> value.
+  remarks: "The source string is searched backward starting at the end of the string and ending at the beginning of the string.  \n  \n The <xref:System.Globalization.CompareOptions?displayProperty=fullName> value is not valid for this method.  \n  \n If  does not include the <xref:System.Globalization.CompareOptions> value, this overload performs a culture-sensitive search. If the character is a Unicode value representing a precomposed character, such as the ligature \"Æ\" (U+00C6), it might be considered equivalent to any occurrence of its components in the correct sequence, such as \"AE\" (U+0041, U+0045), depending on the culture. If  includes the <xref:System.Globalization.CompareOptions> value, this overload performs an ordinal (culture-insensitive) search. A character is considered equivalent to another character only if the Unicode values are the same. Overloads of <xref:System.String.LastIndexOf%2A?displayProperty=fullName> that search for a character perform an ordinal search, whereas those that search for a string perform a culture-sensitive search.  \n  \n> [!NOTE]\n>  When possible, you should call string comparison methods that have a parameter of type <xref:System.Globalization.CompareOptions> to specify the kind of comparison expected. As a general rule, use linguistic options (using the current culture) for comparing strings displayed in the user interface and specify <xref:System.Globalization.CompareOptions?displayProperty=fullName> or <xref:System.Globalization.CompareOptions?displayProperty=fullName> for security comparisons."
+  example:
+  - "The following example determines the indexes of the first and last occurrences of a character or a substring within a string.  \n  \n [!CODE [System.Globalization.CompareInfo.IndexOf#1](../CodeSnippet/VS_Snippets_CLR_System/system.Globalization.CompareInfo.IndexOf#1)]"
   syntax:
     content: public virtual int LastIndexOf (string source, char value, System.Globalization.CompareOptions options);
     parameters:
     - id: source
       type: System.String
-      description: Parameter description to be filled
+      description: The string to search.
     - id: value
       type: System.Char
-      description: Parameter description to be filled
+      description: The character to locate within .
     - id: options
       type: System.Globalization.CompareOptions
-      description: Parameter description to be filled
+      description: 'A value that defines how  and  should be compared.  is either the enumeration value <see cref="T:System.Globalization.CompareOptions">, or a bitwise combination of one or more of the following values: <see cref="T:System.Globalization.CompareOptions">, <see cref="T:System.Globalization.CompareOptions">, <see cref="T:System.Globalization.CompareOptions">, <see cref="T:System.Globalization.CompareOptions">, and <see cref="T:System.Globalization.CompareOptions">.'
     return:
       type: System.Int32
-      description: Return description to be filled
+      description: The zero-based index of the last occurrence of , if found, within , using the specified comparison options; otherwise, -1.
   overload: System.Globalization.CompareInfo.LastIndexOf*
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Globalization.CompareInfo.LastIndexOf(System.String,System.Char,System.Int32)
   id: LastIndexOf(System.String,System.Char,System.Int32)
   parent: System.Globalization.CompareInfo
   langs:
   - csharp
-  - vb
   name: LastIndexOf(String,Char,Int32)
   nameWithType: CompareInfo.LastIndexOf(String,Char,Int32)
   fullName: System.Globalization.CompareInfo.LastIndexOf(String,Char,Int32)
@@ -1106,28 +1346,35 @@ items:
   assemblies:
   - mscorlib
   namespace: System.Globalization
+  summary: Searches for the specified character and returns the zero-based index of the last occurrence within the section of the source string that extends from the beginning of the string to the specified index.
+  remarks: "The source string is searched backward starting at  and ending at the beginning of the string.  \n  \n This overload performs a culture-sensitive search. If the character is a Unicode value representing a precomposed character, such as the ligature \"Æ\" (U+00C6), it might be considered equivalent to any occurrence of its components in the correct sequence, such as \"AE\" (U+0041, U+0045), depending on the culture. To perform an ordinal (culture-insensitive) search, where a character is considered equivalent to another character only if the Unicode values are the same, you should call one of the overloads that has a parameter of type <xref:System.Globalization.CompareOptions> and use the <xref:System.Globalization.CompareOptions> value. Overloads of <xref:System.String.LastIndexOf%2A?displayProperty=fullName> that search for a character perform an ordinal search, whereas those that search for a string perform a culture-sensitive search.  \n  \n> [!NOTE]\n>  When possible, you should call string comparison methods that have a parameter of type <xref:System.Globalization.CompareOptions> to specify the kind of comparison expected. As a general rule, use linguistic options (using the current culture) for comparing strings displayed in the user interface and specify <xref:System.Globalization.CompareOptions?displayProperty=fullName> or <xref:System.Globalization.CompareOptions?displayProperty=fullName> for security comparisons."
+  example:
+  - "The following example determines the indexes of the first and last occurrences of a character or a substring within a portion of a string. Note that <xref:System.Globalization.CompareInfo.IndexOf%2A> and <xref:System.Globalization.CompareInfo.LastIndexOf%2A> are searching in different portions of the string, even with the same  parameter.  \n  \n [!CODE [System.Globalization.CompareInfo.IndexOfInt#1](../CodeSnippet/VS_Snippets_CLR_System/system.Globalization.CompareInfo.IndexOfInt#1)]"
   syntax:
     content: public virtual int LastIndexOf (string source, char value, int startIndex);
     parameters:
     - id: source
       type: System.String
-      description: Parameter description to be filled
+      description: The string to search.
     - id: value
       type: System.Char
-      description: Parameter description to be filled
+      description: The character to locate within .
     - id: startIndex
       type: System.Int32
-      description: Parameter description to be filled
+      description: The zero-based starting index of the backward search.
     return:
       type: System.Int32
-      description: Return description to be filled
+      description: The zero-based index of the last occurrence of , if found, within the section of  that extends from the beginning of  to ; otherwise, -1. Returns  if  is an ignorable character.
   overload: System.Globalization.CompareInfo.LastIndexOf*
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Globalization.CompareInfo.LastIndexOf(System.String,System.String,System.Globalization.CompareOptions)
   id: LastIndexOf(System.String,System.String,System.Globalization.CompareOptions)
   parent: System.Globalization.CompareInfo
   langs:
   - csharp
-  - vb
   name: LastIndexOf(String,String,CompareOptions)
   nameWithType: CompareInfo.LastIndexOf(String,String,CompareOptions)
   fullName: System.Globalization.CompareInfo.LastIndexOf(String,String,CompareOptions)
@@ -1135,28 +1382,35 @@ items:
   assemblies:
   - mscorlib
   namespace: System.Globalization
+  summary: Searches for the specified substring and returns the zero-based index of the last occurrence within the entire source string using the specified <see cref="T:System.Globalization.CompareOptions"> value.
+  remarks: "The source string is searched backward starting at the end of the string and ending at the beginning of the string.  \n  \n The <xref:System.Globalization.CompareOptions?displayProperty=fullName> value is not valid for this method.  \n  \n If  does not include the <xref:System.Globalization.CompareOptions> value, this overload performs a culture-sensitive search. A Unicode value representing a precomposed character, such as the ligature \"Æ\" (U+00C6), might be considered equivalent to any occurrence of the character's components in the correct sequence, such as \"AE\" (U+0041, U+0045), depending on the culture. If  includes the <xref:System.Globalization.CompareOptions> value, this overload performs an ordinal (culture-insensitive) search, where the Unicode values are compared.  \n  \n> [!NOTE]\n>  When possible, you should call string comparison methods that have a parameter of type <xref:System.Globalization.CompareOptions> to specify the kind of comparison expected. As a general rule, use linguistic options (using the current culture) for comparing strings displayed in the user interface and specify <xref:System.Globalization.CompareOptions?displayProperty=fullName> or <xref:System.Globalization.CompareOptions?displayProperty=fullName> for security comparisons."
+  example:
+  - "The following example determines the indexes of the first and last occurrences of a character or a substring within a string.  \n  \n [!CODE [System.Globalization.CompareInfo.IndexOf#1](../CodeSnippet/VS_Snippets_CLR_System/system.Globalization.CompareInfo.IndexOf#1)]"
   syntax:
     content: public virtual int LastIndexOf (string source, string value, System.Globalization.CompareOptions options);
     parameters:
     - id: source
       type: System.String
-      description: Parameter description to be filled
+      description: The string to search.
     - id: value
       type: System.String
-      description: Parameter description to be filled
+      description: The string to locate within .
     - id: options
       type: System.Globalization.CompareOptions
-      description: Parameter description to be filled
+      description: 'A value that defines how  and  should be compared.  is either the enumeration value <see cref="T:System.Globalization.CompareOptions">, or a bitwise combination of one or more of the following values: <see cref="T:System.Globalization.CompareOptions">, <see cref="T:System.Globalization.CompareOptions">, <see cref="T:System.Globalization.CompareOptions">, <see cref="T:System.Globalization.CompareOptions">, and <see cref="T:System.Globalization.CompareOptions">.'
     return:
       type: System.Int32
-      description: Return description to be filled
+      description: The zero-based index of the last occurrence of , if found, within , using the specified comparison options; otherwise, -1.
   overload: System.Globalization.CompareInfo.LastIndexOf*
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Globalization.CompareInfo.LastIndexOf(System.String,System.String,System.Int32)
   id: LastIndexOf(System.String,System.String,System.Int32)
   parent: System.Globalization.CompareInfo
   langs:
   - csharp
-  - vb
   name: LastIndexOf(String,String,Int32)
   nameWithType: CompareInfo.LastIndexOf(String,String,Int32)
   fullName: System.Globalization.CompareInfo.LastIndexOf(String,String,Int32)
@@ -1164,28 +1418,35 @@ items:
   assemblies:
   - mscorlib
   namespace: System.Globalization
+  summary: Searches for the specified substring and returns the zero-based index of the last occurrence within the section of the source string that extends from the beginning of the string to the specified index.
+  remarks: "The source string is searched backward starting at  and ending at the beginning of the string.  \n  \n This overload performs a culture-sensitive search. A Unicode value representing a precomposed character, such as the ligature \"Æ\" (U+00C6), might be considered equivalent to any occurrence of the character's components in the correct sequence, such as \"AE\" (U+0041, U+0045), depending on the culture. To perform an ordinal (culture-insensitive) search, where the Unicode values are compared, you should call one of the overloads that has a parameter of type <xref:System.Globalization.CompareOptions> and use the <xref:System.Globalization.CompareOptions?displayProperty=fullName> value.  \n  \n> [!NOTE]\n>  When possible, you should call string comparison methods that have a parameter of type <xref:System.Globalization.CompareOptions> to specify the kind of comparison expected. As a general rule, use linguistic options (using the current culture) for comparing strings displayed in the user interface and specify <xref:System.Globalization.CompareOptions?displayProperty=fullName> or <xref:System.Globalization.CompareOptions?displayProperty=fullName> for security comparisons."
+  example:
+  - "The following example determines the indexes of the first and last occurrences of a character or a substring within a portion of a string. Note that <xref:System.Globalization.CompareInfo.IndexOf%2A> and <xref:System.Globalization.CompareInfo.LastIndexOf%2A> are searching in different portions of the string, even with the same  parameter.  \n  \n [!CODE [System.Globalization.CompareInfo.IndexOfInt#1](../CodeSnippet/VS_Snippets_CLR_System/system.Globalization.CompareInfo.IndexOfInt#1)]"
   syntax:
     content: public virtual int LastIndexOf (string source, string value, int startIndex);
     parameters:
     - id: source
       type: System.String
-      description: Parameter description to be filled
+      description: The string to search.
     - id: value
       type: System.String
-      description: Parameter description to be filled
+      description: The string to locate within .
     - id: startIndex
       type: System.Int32
-      description: Parameter description to be filled
+      description: The zero-based starting index of the backward search.
     return:
       type: System.Int32
-      description: Return description to be filled
+      description: The zero-based index of the last occurrence of , if found, within the section of  that extends from the beginning of  to ; otherwise, -1. Returns  if  is an ignorable character.
   overload: System.Globalization.CompareInfo.LastIndexOf*
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Globalization.CompareInfo.LastIndexOf(System.String,System.Char,System.Int32,System.Globalization.CompareOptions)
   id: LastIndexOf(System.String,System.Char,System.Int32,System.Globalization.CompareOptions)
   parent: System.Globalization.CompareInfo
   langs:
   - csharp
-  - vb
   name: LastIndexOf(String,Char,Int32,CompareOptions)
   nameWithType: CompareInfo.LastIndexOf(String,Char,Int32,CompareOptions)
   fullName: System.Globalization.CompareInfo.LastIndexOf(String,Char,Int32,CompareOptions)
@@ -1193,31 +1454,38 @@ items:
   assemblies:
   - mscorlib
   namespace: System.Globalization
+  summary: Searches for the specified character and returns the zero-based index of the last occurrence within the section of the source string that extends from the beginning of the string to the specified index using the specified <see cref="T:System.Globalization.CompareOptions"> value.
+  remarks: "The source string is searched backward starting at  and ending at the beginning of the string.  \n  \n The <xref:System.Globalization.CompareOptions?displayProperty=fullName> value is not valid for this method.  \n  \n If  does not include the <xref:System.Globalization.CompareOptions> value, this overload performs a culture-sensitive search. If the character is a Unicode value representing a precomposed character, such as the ligature \"Æ\" (U+00C6), it might be considered equivalent to any occurrence of its components in the correct sequence, such as \"AE\" (U+0041, U+0045), depending on the culture. If  includes the <xref:System.Globalization.CompareOptions> value, this overload performs an ordinal (culture-insensitive) search. A character is considered equivalent to another character only if the Unicode values are the same. Overloads of <xref:System.String.LastIndexOf%2A?displayProperty=fullName> that search for a character perform an ordinal search, whereas those that search for a string perform a culture-sensitive search.  \n  \n> [!NOTE]\n>  When possible, you should call string comparison methods that have a parameter of type <xref:System.Globalization.CompareOptions> to specify the kind of comparison expected. As a general rule, use linguistic options (using the current culture) for comparing strings displayed in the user interface and specify <xref:System.Globalization.CompareOptions?displayProperty=fullName> or <xref:System.Globalization.CompareOptions?displayProperty=fullName> for security comparisons."
+  example:
+  - "The following example determines the indexes of the first and last occurrences of a character or a substring within a portion of a string. Note that <xref:System.Globalization.CompareInfo.IndexOf%2A> and <xref:System.Globalization.CompareInfo.LastIndexOf%2A> are searching in different portions of the string, even with the same  parameter.  \n  \n [!CODE [System.Globalization.CompareInfo.IndexOfInt#1](../CodeSnippet/VS_Snippets_CLR_System/system.Globalization.CompareInfo.IndexOfInt#1)]"
   syntax:
     content: public virtual int LastIndexOf (string source, char value, int startIndex, System.Globalization.CompareOptions options);
     parameters:
     - id: source
       type: System.String
-      description: Parameter description to be filled
+      description: The string to search.
     - id: value
       type: System.Char
-      description: Parameter description to be filled
+      description: The character to locate within .
     - id: startIndex
       type: System.Int32
-      description: Parameter description to be filled
+      description: The zero-based starting index of the backward search.
     - id: options
       type: System.Globalization.CompareOptions
-      description: Parameter description to be filled
+      description: 'A value that defines how  and  should be compared.  is either the enumeration value <see cref="T:System.Globalization.CompareOptions">, or a bitwise combination of one or more of the following values: <see cref="T:System.Globalization.CompareOptions">, <see cref="T:System.Globalization.CompareOptions">, <see cref="T:System.Globalization.CompareOptions">, <see cref="T:System.Globalization.CompareOptions">, and <see cref="T:System.Globalization.CompareOptions">.'
     return:
       type: System.Int32
-      description: Return description to be filled
+      description: The zero-based index of the last occurrence of , if found, within the section of  that extends from the beginning of  to , using the specified comparison options; otherwise, -1. Returns  if  is an ignorable character.
   overload: System.Globalization.CompareInfo.LastIndexOf*
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Globalization.CompareInfo.LastIndexOf(System.String,System.Char,System.Int32,System.Int32)
   id: LastIndexOf(System.String,System.Char,System.Int32,System.Int32)
   parent: System.Globalization.CompareInfo
   langs:
   - csharp
-  - vb
   name: LastIndexOf(String,Char,Int32,Int32)
   nameWithType: CompareInfo.LastIndexOf(String,Char,Int32,Int32)
   fullName: System.Globalization.CompareInfo.LastIndexOf(String,Char,Int32,Int32)
@@ -1225,31 +1493,38 @@ items:
   assemblies:
   - mscorlib
   namespace: System.Globalization
+  summary: Searches for the specified character and returns the zero-based index of the last occurrence within the section of the source string that contains the specified number of elements and ends at the specified index.
+  remarks: "The source string is searched backward starting at  and ending at  -  + 1.  \n  \n This overload performs a culture-sensitive search. If the character is a Unicode value representing a precomposed character, such as the ligature \"Æ\" (U+00C6), it might be considered equivalent to any occurrence of its components in the correct sequence, such as \"AE\" (U+0041, U+0045), depending on the culture. To perform an ordinal (culture-insensitive) search, where a character is considered equivalent to another character only if the Unicode values are the same, you should call one of the overloads that has a parameter of type <xref:System.Globalization.CompareOptions> and use the <xref:System.Globalization.CompareOptions> value. Overloads of <xref:System.String.LastIndexOf%2A?displayProperty=fullName> that search for a character perform an ordinal search, whereas those that search for a string perform a culture-sensitive search.  \n  \n> [!NOTE]\n>  When possible, you should call string comparison methods that have a parameter of type <xref:System.Globalization.CompareOptions> to specify the kind of comparison expected. As a general rule, use linguistic options (using the current culture) for comparing strings displayed in the user interface and specify <xref:System.Globalization.CompareOptions?displayProperty=fullName> or <xref:System.Globalization.CompareOptions?displayProperty=fullName> for security comparisons."
+  example:
+  - "The following example determines the indexes of the first and last occurrences of a character or a substring within a portion of a string.  \n  \n [!CODE [System.Globalization.CompareInfo.IndexOfIntInt#1](../CodeSnippet/VS_Snippets_CLR_System/system.Globalization.CompareInfo.IndexOfIntInt#1)]"
   syntax:
     content: public virtual int LastIndexOf (string source, char value, int startIndex, int count);
     parameters:
     - id: source
       type: System.String
-      description: Parameter description to be filled
+      description: The string to search.
     - id: value
       type: System.Char
-      description: Parameter description to be filled
+      description: The character to locate within .
     - id: startIndex
       type: System.Int32
-      description: Parameter description to be filled
+      description: The zero-based starting index of the backward search.
     - id: count
       type: System.Int32
-      description: Parameter description to be filled
+      description: The number of elements in the section to search.
     return:
       type: System.Int32
-      description: Return description to be filled
+      description: The zero-based index of the last occurrence of , if found, within the section of  that contains the number of elements specified by  and that ends at ; otherwise, -1. Returns  if  is an ignorable character.
   overload: System.Globalization.CompareInfo.LastIndexOf*
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Globalization.CompareInfo.LastIndexOf(System.String,System.String,System.Int32,System.Globalization.CompareOptions)
   id: LastIndexOf(System.String,System.String,System.Int32,System.Globalization.CompareOptions)
   parent: System.Globalization.CompareInfo
   langs:
   - csharp
-  - vb
   name: LastIndexOf(String,String,Int32,CompareOptions)
   nameWithType: CompareInfo.LastIndexOf(String,String,Int32,CompareOptions)
   fullName: System.Globalization.CompareInfo.LastIndexOf(String,String,Int32,CompareOptions)
@@ -1257,31 +1532,38 @@ items:
   assemblies:
   - mscorlib
   namespace: System.Globalization
+  summary: Searches for the specified substring and returns the zero-based index of the last occurrence within the section of the source string that extends from the beginning of the string to the specified index using the specified <see cref="T:System.Globalization.CompareOptions"> value.
+  remarks: "The source string is searched backward starting at  and ending at the beginning of the string.  \n  \n The <xref:System.Globalization.CompareOptions?displayProperty=fullName> value is not valid for this method.  \n  \n If  does not include the <xref:System.Globalization.CompareOptions> value, this overload performs a culture-sensitive search. A Unicode value representing a precomposed character, such as the ligature \"Æ\" (U+00C6), might be considered equivalent to any occurrence of the character's components in the correct sequence, such as \"AE\" (U+0041, U+0045), depending on the culture. If  includes the <xref:System.Globalization.CompareOptions> value, this overload performs an ordinal (culture-insensitive) search, where the Unicode values are compared.  \n  \n> [!NOTE]\n>  When possible, you should call string comparison methods that have a parameter of type <xref:System.Globalization.CompareOptions> to specify the kind of comparison expected. As a general rule, use linguistic options (using the current culture) for comparing strings displayed in the user interface and specify <xref:System.Globalization.CompareOptions?displayProperty=fullName> or <xref:System.Globalization.CompareOptions?displayProperty=fullName> for security comparisons."
+  example:
+  - "The following example determines the indexes of the first and last occurrences of a character or a substring within a portion of a string. Note that <xref:System.Globalization.CompareInfo.IndexOf%2A> and <xref:System.Globalization.CompareInfo.LastIndexOf%2A> are searching in different portions of the string, even with the same  parameter.  \n  \n [!CODE [System.Globalization.CompareInfo.IndexOfInt#1](../CodeSnippet/VS_Snippets_CLR_System/system.Globalization.CompareInfo.IndexOfInt#1)]"
   syntax:
     content: public virtual int LastIndexOf (string source, string value, int startIndex, System.Globalization.CompareOptions options);
     parameters:
     - id: source
       type: System.String
-      description: Parameter description to be filled
+      description: The string to search.
     - id: value
       type: System.String
-      description: Parameter description to be filled
+      description: The string to locate within .
     - id: startIndex
       type: System.Int32
-      description: Parameter description to be filled
+      description: The zero-based starting index of the backward search.
     - id: options
       type: System.Globalization.CompareOptions
-      description: Parameter description to be filled
+      description: 'A value that defines how  and  should be compared.  is either the enumeration value <see cref="T:System.Globalization.CompareOptions">, or a bitwise combination of one or more of the following values: <see cref="T:System.Globalization.CompareOptions">, <see cref="T:System.Globalization.CompareOptions">, <see cref="T:System.Globalization.CompareOptions">, <see cref="T:System.Globalization.CompareOptions">, and <see cref="T:System.Globalization.CompareOptions">.'
     return:
       type: System.Int32
-      description: Return description to be filled
+      description: The zero-based index of the last occurrence of , if found, within the section of  that extends from the beginning of  to , using the specified comparison options; otherwise, -1. Returns  if  is an ignorable character.
   overload: System.Globalization.CompareInfo.LastIndexOf*
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Globalization.CompareInfo.LastIndexOf(System.String,System.String,System.Int32,System.Int32)
   id: LastIndexOf(System.String,System.String,System.Int32,System.Int32)
   parent: System.Globalization.CompareInfo
   langs:
   - csharp
-  - vb
   name: LastIndexOf(String,String,Int32,Int32)
   nameWithType: CompareInfo.LastIndexOf(String,String,Int32,Int32)
   fullName: System.Globalization.CompareInfo.LastIndexOf(String,String,Int32,Int32)
@@ -1289,31 +1571,38 @@ items:
   assemblies:
   - mscorlib
   namespace: System.Globalization
+  summary: Searches for the specified substring and returns the zero-based index of the last occurrence within the section of the source string that contains the specified number of elements and ends at the specified index.
+  remarks: "The source string is searched backward starting at  and ending at  -  + 1.  \n  \n This overload performs a culture-sensitive search. A Unicode value representing a precomposed character, such as the ligature \"Æ\" (U+00C6), might be considered equivalent to any occurrence of the character's components in the correct sequence, such as \"AE\" (U+0041, U+0045), depending on the culture. To perform an ordinal (culture-insensitive) search, where the Unicode values are compared, you should call one of the overloads that has a parameter of type <xref:System.Globalization.CompareOptions> and use the <xref:System.Globalization.CompareOptions> value.  \n  \n> [!NOTE]\n>  When possible, you should call string comparison methods that have a parameter of type <xref:System.Globalization.CompareOptions> to specify the kind of comparison expected. As a general rule, use linguistic options (using the current culture) for comparing strings displayed in the user interface and specify <xref:System.Globalization.CompareOptions?displayProperty=fullName> or <xref:System.Globalization.CompareOptions?displayProperty=fullName> for security comparisons ."
+  example:
+  - "The following example determines the indexes of the first and last occurrences of a character or a substring within a portion of a string.  \n  \n [!CODE [System.Globalization.CompareInfo.IndexOfIntInt#1](../CodeSnippet/VS_Snippets_CLR_System/system.Globalization.CompareInfo.IndexOfIntInt#1)]"
   syntax:
     content: public virtual int LastIndexOf (string source, string value, int startIndex, int count);
     parameters:
     - id: source
       type: System.String
-      description: Parameter description to be filled
+      description: The string to search.
     - id: value
       type: System.String
-      description: Parameter description to be filled
+      description: The string to locate within .
     - id: startIndex
       type: System.Int32
-      description: Parameter description to be filled
+      description: The zero-based starting index of the backward search.
     - id: count
       type: System.Int32
-      description: Parameter description to be filled
+      description: The number of elements in the section to search.
     return:
       type: System.Int32
-      description: Return description to be filled
+      description: The zero-based index of the last occurrence of , if found, within the section of  that contains the number of elements specified by  and that ends at ; otherwise, -1. Returns  if  is an ignorable character.
   overload: System.Globalization.CompareInfo.LastIndexOf*
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Globalization.CompareInfo.LastIndexOf(System.String,System.Char,System.Int32,System.Int32,System.Globalization.CompareOptions)
   id: LastIndexOf(System.String,System.Char,System.Int32,System.Int32,System.Globalization.CompareOptions)
   parent: System.Globalization.CompareInfo
   langs:
   - csharp
-  - vb
   name: LastIndexOf(String,Char,Int32,Int32,CompareOptions)
   nameWithType: CompareInfo.LastIndexOf(String,Char,Int32,Int32,CompareOptions)
   fullName: System.Globalization.CompareInfo.LastIndexOf(String,Char,Int32,Int32,CompareOptions)
@@ -1321,34 +1610,41 @@ items:
   assemblies:
   - mscorlib
   namespace: System.Globalization
+  summary: Searches for the specified character and returns the zero-based index of the last occurrence within the section of the source string that contains the specified number of elements and ends at the specified index using the specified <see cref="T:System.Globalization.CompareOptions"> value.
+  remarks: "The source string is searched backward starting at  and ending at  -  + 1.  \n  \n The <xref:System.Globalization.CompareOptions?displayProperty=fullName> value is not valid for this method.  \n  \n If  does not include the <xref:System.Globalization.CompareOptions> value, this overload performs a culture-sensitive search. If the character is a Unicode value representing a precomposed character, such as the ligature \"Æ\" (U+00C6), it might be considered equivalent to any occurrence of its components in the correct sequence, such as \"AE\" (U+0041, U+0045), depending on the culture. If  includes the <xref:System.Globalization.CompareOptions> value, this overload performs an ordinal (culture-insensitive) search. A character is considered equivalent to another character only if the Unicode values are the same. Overloads of <xref:System.String.LastIndexOf%2A?displayProperty=fullName> that search for a character perform an ordinal search, whereas those that search for a string perform a culture-sensitive search.  \n  \n> [!NOTE]\n>  When possible, you should call string comparison methods that have a parameter of type <xref:System.Globalization.CompareOptions> to specify the kind of comparison expected. As a general rule, use linguistic options (using the current culture) for comparing strings displayed in the user interface and specify <xref:System.Globalization.CompareOptions?displayProperty=fullName> or <xref:System.Globalization.CompareOptions?displayProperty=fullName> for security comparisons."
+  example:
+  - "The following example determines the indexes of the first and last occurrences of a character or a substring within a portion of a string.  \n  \n [!CODE [System.Globalization.CompareInfo.IndexOfIntInt#1](../CodeSnippet/VS_Snippets_CLR_System/system.Globalization.CompareInfo.IndexOfIntInt#1)]"
   syntax:
     content: public virtual int LastIndexOf (string source, char value, int startIndex, int count, System.Globalization.CompareOptions options);
     parameters:
     - id: source
       type: System.String
-      description: Parameter description to be filled
+      description: The string to search.
     - id: value
       type: System.Char
-      description: Parameter description to be filled
+      description: The character to locate within .
     - id: startIndex
       type: System.Int32
-      description: Parameter description to be filled
+      description: The zero-based starting index of the backward search.
     - id: count
       type: System.Int32
-      description: Parameter description to be filled
+      description: The number of elements in the section to search.
     - id: options
       type: System.Globalization.CompareOptions
-      description: Parameter description to be filled
+      description: 'A value that defines how  and  should be compared.  is either the enumeration value <see cref="T:System.Globalization.CompareOptions">, or a bitwise combination of one or more of the following values: <see cref="T:System.Globalization.CompareOptions">, <see cref="T:System.Globalization.CompareOptions">, <see cref="T:System.Globalization.CompareOptions">, <see cref="T:System.Globalization.CompareOptions">, and <see cref="T:System.Globalization.CompareOptions">.'
     return:
       type: System.Int32
-      description: Return description to be filled
+      description: The zero-based index of the last occurrence of , if found, within the section of  that contains the number of elements specified by  and that ends at , using the specified comparison options; otherwise, -1. Returns  if  is an ignorable character.
   overload: System.Globalization.CompareInfo.LastIndexOf*
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Globalization.CompareInfo.LastIndexOf(System.String,System.String,System.Int32,System.Int32,System.Globalization.CompareOptions)
   id: LastIndexOf(System.String,System.String,System.Int32,System.Int32,System.Globalization.CompareOptions)
   parent: System.Globalization.CompareInfo
   langs:
   - csharp
-  - vb
   name: LastIndexOf(String,String,Int32,Int32,CompareOptions)
   nameWithType: CompareInfo.LastIndexOf(String,String,Int32,Int32,CompareOptions)
   fullName: System.Globalization.CompareInfo.LastIndexOf(String,String,Int32,Int32,CompareOptions)
@@ -1356,34 +1652,41 @@ items:
   assemblies:
   - mscorlib
   namespace: System.Globalization
+  summary: Searches for the specified substring and returns the zero-based index of the last occurrence within the section of the source string that contains the specified number of elements and ends at the specified index using the specified <see cref="T:System.Globalization.CompareOptions"> value.
+  remarks: "The source string is searched backward starting at  and ending at  -  + 1.  \n  \n The <xref:System.Globalization.CompareOptions?displayProperty=fullName> value is not valid for this method.  \n  \n If  does not include the <xref:System.Globalization.CompareOptions> value, this overload performs a culture-sensitive search. A Unicode value representing a precomposed character, such as the ligature \"Æ\" (U+00C6), might be considered equivalent to any occurrence of the character's components in the correct sequence, such as \"AE\" (U+0041, U+0045), depending on the culture. If  includes the <xref:System.Globalization.CompareOptions> value, this overload performs an ordinal (culture-insensitive) search, where the Unicode values are compared.  \n  \n> [!NOTE]\n>  When possible, you should call string comparison methods that have a parameter of type <xref:System.Globalization.CompareOptions> to specify the kind of comparison expected. As a general rule, use linguistic options (using the current culture) for comparing strings displayed in the user interface and specify <xref:System.Globalization.CompareOptions?displayProperty=fullName> or <xref:System.Globalization.CompareOptions?displayProperty=fullName> for security comparisons."
+  example:
+  - "The following example determines the indexes of the first and last occurrences of a character or a substring within a portion of a string.  \n  \n [!CODE [System.Globalization.CompareInfo.IndexOfIntInt#1](../CodeSnippet/VS_Snippets_CLR_System/system.Globalization.CompareInfo.IndexOfIntInt#1)]"
   syntax:
     content: public virtual int LastIndexOf (string source, string value, int startIndex, int count, System.Globalization.CompareOptions options);
     parameters:
     - id: source
       type: System.String
-      description: Parameter description to be filled
+      description: The string to search.
     - id: value
       type: System.String
-      description: Parameter description to be filled
+      description: The string to locate within .
     - id: startIndex
       type: System.Int32
-      description: Parameter description to be filled
+      description: The zero-based starting index of the backward search.
     - id: count
       type: System.Int32
-      description: Parameter description to be filled
+      description: The number of elements in the section to search.
     - id: options
       type: System.Globalization.CompareOptions
-      description: Parameter description to be filled
+      description: 'A value that defines how  and  should be compared.  is either the enumeration value <see cref="T:System.Globalization.CompareOptions">, or a bitwise combination of one or more of the following values: <see cref="T:System.Globalization.CompareOptions">, <see cref="T:System.Globalization.CompareOptions">, <see cref="T:System.Globalization.CompareOptions">, <see cref="T:System.Globalization.CompareOptions">, and <see cref="T:System.Globalization.CompareOptions">.'
     return:
       type: System.Int32
-      description: Return description to be filled
+      description: The zero-based index of the last occurrence of , if found, within the section of  that contains the number of elements specified by  and that ends at , using the specified comparison options; otherwise, -1. Returns  if  is an ignorable character.
   overload: System.Globalization.CompareInfo.LastIndexOf*
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Globalization.CompareInfo.LCID
   id: LCID
   parent: System.Globalization.CompareInfo
   langs:
   - csharp
-  - vb
   name: LCID
   nameWithType: CompareInfo.LCID
   fullName: System.Globalization.CompareInfo.LCID
@@ -1391,17 +1694,24 @@ items:
   assemblies:
   - mscorlib
   namespace: System.Globalization
+  summary: Gets the properly formed culture identifier for the current <see cref="T:System.Globalization.CompareInfo">.
+  remarks: ''
+  example:
+  - "The following example demonstrates the LCID property.  \n  \n [!CODE [CompareInfo#1](../CodeSnippet/VS_Snippets_CLR/CompareInfo#1)]"
   syntax:
     content: public int LCID { get; }
     return:
       type: System.Int32
-      description: Return description to be filled
+      description: To be added.
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Globalization.CompareInfo.Name
   id: Name
   parent: System.Globalization.CompareInfo
   langs:
   - csharp
-  - vb
   name: Name
   nameWithType: CompareInfo.Name
   fullName: System.Globalization.CompareInfo.Name
@@ -1409,18 +1719,25 @@ items:
   assemblies:
   - mscorlib
   namespace: System.Globalization
+  summary: Gets the name of the culture used for sorting operations by this <see cref="T:System.Globalization.CompareInfo"> object.
+  remarks: The Name and <xref:System.Globalization.CultureInfo.Name?displayProperty=fullName> properties can have different values. For example, an <xref:System.Globalization.CompareInfo.LCID%2A> property value of hexadecimal 0x10407 identifies an alternate sort culture that sorts names as they might appear in a German telephone book. The Name property has a value of "de-de_phoneb", whereas the <xref:System.Globalization.CultureInfo.Name?displayProperty=fullName> property of the associated German (Germany) culture has a value of "de-DE".
+  example:
+  - "The following example compares three strings using the fr-FR and ja-JP cultures. The <xref:System.Globalization.CultureInfo.Name%2A> property is used to display the name of each culture.  \n  \n [!CODE [CompareInfo#1](../CodeSnippet/VS_Snippets_CLR/CompareInfo#1)]"
   syntax:
     content: public virtual string Name { get; }
     return:
       type: System.String
-      description: Return description to be filled
+      description: To be added.
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Globalization.CompareInfo.System#Runtime#Serialization#IDeserializationCallback#OnDeserialization(System.Object)
   id: System#Runtime#Serialization#IDeserializationCallback#OnDeserialization(System.Object)
   isEii: true
   parent: System.Globalization.CompareInfo
   langs:
   - csharp
-  - vb
   name: System.Runtime.Serialization.IDeserializationCallback.OnDeserialization(Object)
   nameWithType: CompareInfo.System.Runtime.Serialization.IDeserializationCallback.OnDeserialization(Object)
   fullName: System.Globalization.CompareInfo.System.Runtime.Serialization.IDeserializationCallback.OnDeserialization(Object)
@@ -1428,21 +1745,23 @@ items:
   assemblies:
   - mscorlib
   namespace: System.Globalization
+  summary: Runs when the entire object graph has been deserialized.
+  remarks: This member is an explicit interface member implementation that can be used only when the current <xref:System.Globalization.CompareInfo> object is cast to an <xref:System.Runtime.Serialization.IDeserializationCallback> interface. For more information, see the <xref:System.Runtime.Serialization.IDeserializationCallback.OnDeserialization%2A> method.
   syntax:
     content: void IDeserializationCallback.OnDeserialization (object sender);
     parameters:
     - id: sender
       type: System.Object
-      description: Parameter description to be filled
-    return:
-      type: System.Void
-      description: Return description to be filled
+      description: The object that initiated the callback.
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Globalization.CompareInfo.ToString
   id: ToString
   parent: System.Globalization.CompareInfo
   langs:
   - csharp
-  - vb
   name: ToString()
   nameWithType: CompareInfo.ToString()
   fullName: System.Globalization.CompareInfo.ToString()
@@ -1450,18 +1769,23 @@ items:
   assemblies:
   - mscorlib
   namespace: System.Globalization
+  summary: Returns a string that represents the current <see cref="T:System.Globalization.CompareInfo"> object.
+  remarks: This method overrides the <xref:System.Object.ToString%2A?displayProperty=fullName> method. It returns a string that consists of the class name and the value of the instance <xref:System.Globalization.CompareInfo.Name%2A> property, separated by a hyphen.
   syntax:
     content: public override string ToString ();
     parameters: []
     return:
       type: System.String
-      description: Return description to be filled
+      description: A string that represents the current <see cref="T:System.Globalization.CompareInfo"> object.
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Globalization.CompareInfo.Version
   id: Version
   parent: System.Globalization.CompareInfo
   langs:
   - csharp
-  - vb
   name: Version
   nameWithType: CompareInfo.Version
   fullName: System.Globalization.CompareInfo.Version
@@ -1469,11 +1793,17 @@ items:
   assemblies:
   - mscorlib
   namespace: System.Globalization
+  summary: Gets information about the version of Unicode used for comparing and sorting strings.
+  remarks: "The weight of individual characters, and therefore the way in which particular strings are compared or ordered, depends on the version of the Unicode specification that a particular version of the .NET Framework implements. In the [!INCLUDE[net_v45](../../add/includes/net-v45-md.md)], this also depends on the host operating system, as the following table shows. Note that this list of supported Unicode versions applies to character comparison and sorting only; it does not apply to classification of Unicode characters by category.  \n  \n|.NET Framework version|Operating system|Unicode version|  \n|----------------------------|----------------------|---------------------|  \n|[!INCLUDE[net_v40_short](../../add/includes/net-v40-short-md.md)]|All operating systems|Unicode 5.0|  \n|[!INCLUDE[net_v45](../../add/includes/net-v45-md.md)] and later versions|[!INCLUDE[win7](../../add/includes/win7-md.md)]|Unicode 5.0|  \n|[!INCLUDE[net_v45](../../add/includes/net-v45-md.md)] and later versions|[!INCLUDE[win8](../../add/includes/win8-md.md)] and later Windows operating system versions|Unicode 6.3|  \n  \n The <xref:System.Globalization.SortVersion> object returned by the Version property doesn't identify the precise Unicode version used to compare strings. It is useful only when comparing two <xref:System.Globalization.SortVersion> objects to determine whether they use the same Unicode version and culture to compare strings. For more information and an example, see the <xref:System.Globalization.SortVersion> reference page."
   syntax:
     content: public System.Globalization.SortVersion Version { get; }
     return:
       type: System.Globalization.SortVersion
-      description: Return description to be filled
+      description: To be added.
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 references:
 - uid: System.Object
   isExternal: false
@@ -2858,12 +3188,6 @@ references:
   name: System.Runtime.Serialization.IDeserializationCallback.OnDeserialization(Object)
   nameWithType: CompareInfo.System.Runtime.Serialization.IDeserializationCallback.OnDeserialization(Object)
   fullName: System.Globalization.CompareInfo.System.Runtime.Serialization.IDeserializationCallback.OnDeserialization(Object)
-- uid: System.Void
-  parent: System
-  isExternal: false
-  name: Void
-  nameWithType: Void
-  fullName: System.Void
 - uid: System.Object
   parent: System
   isExternal: false

@@ -11,11 +11,12 @@ items:
   - System.Windows.Documents.Adorner.MeasureOverride(System.Windows.Size)
   langs:
   - csharp
-  - vb
   name: Adorner
   nameWithType: Adorner
   fullName: System.Windows.Documents.Adorner
   type: Class
+  summary: Abstract class that represents a <see cref="T:System.Windows.FrameworkElement"> that decorates a <xref:System.Windows.UIElement>.
+  remarks: "An adorner is a custom <xref:System.Windows.FrameworkElement> that is bound to a <xref:System.Windows.UIElement>. Adorners are rendered in an adorner layer, which is a rendering surface that is always on top of the adorned element or a collection of adorned elements; rendering of an adorner is independent from rendering of the <xref:System.Windows.UIElement> that the adorner is bound to. An adorner is typically positioned relative to the element to which it is bound, using the standard 2-D coordinate origin located at the upper-left of the adorned element.  \n  \n> [!NOTE]\n>  The parent of an Adorner is the <xref:System.Windows.Documents.AdornerLayer> that renders the Adorner, not the element being adorned.  \n  \n> [!NOTE]\n>  Anything placed in the adorner layer is rendered on top of the rest of any styles you have set. In other words, adorners are always visually on top and cannot be overridden using z-order."
   syntax:
     content: 'public abstract class Adorner : System.Windows.FrameworkElement'
   inheritance:
@@ -574,12 +575,15 @@ items:
   - System.Windows.UIElement.UpdateLayout
   - System.Windows.UIElement.Visibility
   - System.Windows.UIElement.VisibilityProperty
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Windows.Documents.Adorner.#ctor(System.Windows.UIElement)
   id: '#ctor(System.Windows.UIElement)'
   parent: System.Windows.Documents.Adorner
   langs:
   - csharp
-  - vb
   name: Adorner(UIElement)
   nameWithType: Adorner.Adorner(UIElement)
   fullName: System.Windows.Documents.Adorner.Adorner(UIElement)
@@ -587,18 +591,23 @@ items:
   assemblies:
   - PresentationFramework
   namespace: System.Windows.Documents
+  summary: Initializes a new instance of the <see cref="T:System.Windows.Documents.Adorner"> class.
+  remarks: When implementing a class that inherits from <xref:System.Windows.Documents.Adorner>, ensure that the inheriting class's constructor calls the base class constructor.
   syntax:
     content: protected Adorner (System.Windows.UIElement adornedElement);
     parameters:
     - id: adornedElement
       type: System.Windows.UIElement
-      description: Parameter description to be filled
+      description: The element to bind the adorner to.
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Windows.Documents.Adorner.AdornedElement
   id: AdornedElement
   parent: System.Windows.Documents.Adorner
   langs:
   - csharp
-  - vb
   name: AdornedElement
   nameWithType: Adorner.AdornedElement
   fullName: System.Windows.Documents.Adorner.AdornedElement
@@ -606,17 +615,22 @@ items:
   assemblies:
   - PresentationFramework
   namespace: System.Windows.Documents
+  summary: Gets the <see cref="T:System.Windows.UIElement"> that this adorner is bound to.
+  remarks: To be added.
   syntax:
     content: public System.Windows.UIElement AdornedElement { get; }
     return:
       type: System.Windows.UIElement
-      description: Return description to be filled
+      description: To be added.
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Windows.Documents.Adorner.GetDesiredTransform(System.Windows.Media.GeneralTransform)
   id: GetDesiredTransform(System.Windows.Media.GeneralTransform)
   parent: System.Windows.Documents.Adorner
   langs:
   - csharp
-  - vb
   name: GetDesiredTransform(GeneralTransform)
   nameWithType: Adorner.GetDesiredTransform(GeneralTransform)
   fullName: System.Windows.Documents.Adorner.GetDesiredTransform(GeneralTransform)
@@ -624,21 +638,26 @@ items:
   assemblies:
   - PresentationFramework
   namespace: System.Windows.Documents
+  summary: Returns a <see cref="T:System.Windows.Media.Transform"> for the adorner, based on the transform that is currently applied to the adorned element.
+  remarks: "An adorner may need to be transformed differently than the element it decorates. For instance, adorners which act like points, such as resize handles, should be translated and rotated along with the adorned element, but not scaled. By contrast, an adorner that displays a marquee on an element might require the same transform as the adorned element.  \n  \n This method is called by the associated <xref:System.Windows.Documents.AdornerLayer> to provide an opportunity to filter unwanted or unneeded transforms. Implementations of this method should examine the incoming transform (which is the transform for the adorned element) and remove aspects that are not useful or should not be applied to the adorner itself. This method can also be used to add additional transform details at this time, for instance adding a translation that enables the adorner to control its position relative to the adorned element."
   syntax:
     content: public virtual System.Windows.Media.GeneralTransform GetDesiredTransform (System.Windows.Media.GeneralTransform transform);
     parameters:
     - id: transform
       type: System.Windows.Media.GeneralTransform
-      description: Parameter description to be filled
+      description: The transform that is currently applied to the adorned element.
     return:
       type: System.Windows.Media.GeneralTransform
-      description: Return description to be filled
+      description: A transform to apply to the adorner.
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Windows.Documents.Adorner.GetLayoutClip(System.Windows.Size)
   id: GetLayoutClip(System.Windows.Size)
   parent: System.Windows.Documents.Adorner
   langs:
   - csharp
-  - vb
   name: GetLayoutClip(Size)
   nameWithType: Adorner.GetLayoutClip(Size)
   fullName: System.Windows.Documents.Adorner.GetLayoutClip(Size)
@@ -646,21 +665,26 @@ items:
   assemblies:
   - PresentationFramework
   namespace: System.Windows.Documents
+  summary: For a description of this member, see <xref:System.Windows.UIElement.GetLayoutClip%2A>.
+  remarks: "This implementation always returns `null`.  \n  \n This method overrides <xref:System.Windows.FrameworkElement.GetLayoutClip%2A>.  \n  \n To ensure that adorners are always rendered topmost, clipping constraints are ignored unless <xref:System.Windows.Documents.Adorner.IsClipEnabled%2A> is `true`. This enables an adorner to render outside of the adorned element's bounding rectangle."
   syntax:
     content: protected override System.Windows.Media.Geometry GetLayoutClip (System.Windows.Size layoutSlotSize);
     parameters:
     - id: layoutSlotSize
       type: System.Windows.Size
-      description: Parameter description to be filled
+      description: The available size provided by the element.
     return:
       type: System.Windows.Media.Geometry
-      description: Return description to be filled
+      description: The potential clipping geometry. See Remarks.
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Windows.Documents.Adorner.IsClipEnabled
   id: IsClipEnabled
   parent: System.Windows.Documents.Adorner
   langs:
   - csharp
-  - vb
   name: IsClipEnabled
   nameWithType: Adorner.IsClipEnabled
   fullName: System.Windows.Documents.Adorner.IsClipEnabled
@@ -668,17 +692,22 @@ items:
   assemblies:
   - PresentationFramework
   namespace: System.Windows.Documents
+  summary: Gets or sets a value that indicates whether clipping of the adorner is enabled.
+  remarks: Enabling clipping an adorner incurs a substantial performance cost. In general, clipping of the adorner should be disabled.
   syntax:
     content: public bool IsClipEnabled { get; set; }
     return:
       type: System.Boolean
-      description: Return description to be filled
+      description: To be added.
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Windows.Documents.Adorner.MeasureOverride(System.Windows.Size)
   id: MeasureOverride(System.Windows.Size)
   parent: System.Windows.Documents.Adorner
   langs:
   - csharp
-  - vb
   name: MeasureOverride(Size)
   nameWithType: Adorner.MeasureOverride(Size)
   fullName: System.Windows.Documents.Adorner.MeasureOverride(Size)
@@ -686,15 +715,21 @@ items:
   assemblies:
   - PresentationFramework
   namespace: System.Windows.Documents
+  summary: Implements any custom measuring behavior for the adorner.
+  remarks: "By default, an adorner will size to match the adorned element.  \n  \n This method overrides <xref:System.Windows.FrameworkElement.MeasureOverride%2A>."
   syntax:
     content: protected override System.Windows.Size MeasureOverride (System.Windows.Size constraint);
     parameters:
     - id: constraint
       type: System.Windows.Size
-      description: Parameter description to be filled
+      description: A size to constrain the adorner to.
     return:
       type: System.Windows.Size
-      description: Return description to be filled
+      description: A <xref:System.Windows.Size> object representing the amount of layout space needed by the adorner.
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 references:
 - uid: System.Windows.FrameworkElement
   isExternal: false
@@ -753,6 +788,12 @@ references:
   name: Geometry
   nameWithType: Geometry
   fullName: System.Windows.Media.Geometry
+- uid: System.Windows.Size
+  parent: System.Windows
+  isExternal: true
+  name: Size
+  nameWithType: Size
+  fullName: System.Windows.Size
 - uid: System.Windows.Documents.Adorner.IsClipEnabled
   parent: System.Windows.Documents.Adorner
   isExternal: false
@@ -771,3 +812,15 @@ references:
   name: MeasureOverride(Size)
   nameWithType: Adorner.MeasureOverride(Size)
   fullName: System.Windows.Documents.Adorner.MeasureOverride(Size)
+- uid: System.Windows.Size
+  parent: System.Windows
+  isExternal: true
+  name: Size
+  nameWithType: Size
+  fullName: System.Windows.Size
+- uid: System.Windows.Size
+  parent: System.Windows
+  isExternal: true
+  name: Size
+  nameWithType: Size
+  fullName: System.Windows.Size

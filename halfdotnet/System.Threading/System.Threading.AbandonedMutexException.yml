@@ -14,11 +14,14 @@ items:
   - System.Threading.AbandonedMutexException.MutexIndex
   langs:
   - csharp
-  - vb
   name: AbandonedMutexException
   nameWithType: AbandonedMutexException
   fullName: System.Threading.AbandonedMutexException
   type: Class
+  summary: The exception that is thrown when one thread acquires a <see cref="T:System.Threading.Mutex"> object that another thread has abandoned by exiting without releasing it.
+  remarks: "When a thread abandons a mutex, the exception is thrown in the next thread that acquires the mutex. The thread might acquire the mutex because it was already waiting on the mutex or because it enters the mutex at a later time.  \n  \n An abandoned mutex indicates a serious programming error. When a thread exits without releasing the mutex, the data structures protected by the mutex might not be in a consistent state. Prior to version 2.0 of the .NET Framework, such problems were hard to discover because no exception was thrown if a wait completed as the result of an abandoned mutex. For more information, see the <xref:System.Threading.Mutex> class.  \n  \n The next thread to request ownership of the mutex can handle this exception and proceed, provided that the integrity of the data structures can be verified."
+  example:
+  - "The following code example executes a thread that abandons five mutexes, demonstrating their effects on the <xref:System.Threading.WaitHandle.WaitOne%2A>, <xref:System.Threading.WaitHandle.WaitAny%2A>, and <xref:System.Threading.WaitHandle.WaitAll%2A> methods. The value of the <xref:System.Threading.AbandonedMutexException.MutexIndex%2A> property is displayed for the <xref:System.Threading.WaitHandle.WaitAny%2A> call.  \n  \n> [!NOTE]\n>  The call to the <xref:System.Threading.WaitHandle.WaitAny%2A> method is interrupted by one of the abandoned mutexes. The other abandoned mutex could still cause an AbandonedMutexException to be thrown by subsequent wait methods.  \n  \n [!CODE [System.Threading.AbandonedMutexException#1](../CodeSnippet/VS_Snippets_CLR_System/system.Threading.AbandonedMutexException#1)]"
   syntax:
     content: >-
       [System.Runtime.InteropServices.ComVisible(false)]
@@ -48,12 +51,15 @@ items:
   - System.Object.GetHashCode
   - System.Object.MemberwiseClone
   - System.Object.ReferenceEquals(System.Object,System.Object)
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Threading.AbandonedMutexException.#ctor
   id: '#ctor'
   parent: System.Threading.AbandonedMutexException
   langs:
   - csharp
-  - vb
   name: AbandonedMutexException()
   nameWithType: AbandonedMutexException.AbandonedMutexException()
   fullName: System.Threading.AbandonedMutexException.AbandonedMutexException()
@@ -61,15 +67,20 @@ items:
   assemblies:
   - mscorlib
   namespace: System.Threading
+  summary: Initializes a new instance of the <see cref="T:System.Threading.AbandonedMutexException"> class with default values.
+  remarks: "This constructor initializes the <xref:System.Exception.Message%2A> property of the new instance to a system-supplied message that describes the error, such as \"The wait completed due to an abandoned mutex.\" This message takes into account the current system culture.  \n  \n The following table shows the initial property values for an instance of <xref:System.Threading.AbandonedMutexException>.  \n  \n|Property|Value|  \n|--------------|-----------|  \n|<xref:System.Exception.InnerException%2A>|`null`.|  \n|<xref:System.Exception.Message%2A>|The system-supplied error message string.|  \n|<xref:System.Threading.AbandonedMutexException.Mutex%2A>|`null`.|  \n|<xref:System.Threading.AbandonedMutexException.MutexIndex%2A>|–1 (minus one).|"
   syntax:
     content: public AbandonedMutexException ();
     parameters: []
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Threading.AbandonedMutexException.#ctor(System.String)
   id: '#ctor(System.String)'
   parent: System.Threading.AbandonedMutexException
   langs:
   - csharp
-  - vb
   name: AbandonedMutexException(String)
   nameWithType: AbandonedMutexException.AbandonedMutexException(String)
   fullName: System.Threading.AbandonedMutexException.AbandonedMutexException(String)
@@ -77,18 +88,23 @@ items:
   assemblies:
   - mscorlib
   namespace: System.Threading
+  summary: Initializes a new instance of the <see cref="T:System.Threading.AbandonedMutexException"> class with a specified error message.
+  remarks: "The content of  is intended to be understood by humans. The caller of this constructor is required to ensure that this string has been localized for the current system culture.  \n  \n The following table shows the initial property values for an instance of <xref:System.Threading.AbandonedMutexException> initialized with this constructor.  \n  \n|Property|Value|  \n|--------------|-----------|  \n|<xref:System.Exception.InnerException%2A>|`null`.|  \n|<xref:System.Exception.Message%2A>|.|  \n|<xref:System.Threading.AbandonedMutexException.Mutex%2A>|`null`.|  \n|<xref:System.Threading.AbandonedMutexException.MutexIndex%2A>|–1 (minus one).|"
   syntax:
     content: public AbandonedMutexException (string message);
     parameters:
     - id: message
       type: System.String
-      description: Parameter description to be filled
+      description: An error message that explains the reason for the exception.
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Threading.AbandonedMutexException.#ctor(System.Int32,System.Threading.WaitHandle)
   id: '#ctor(System.Int32,System.Threading.WaitHandle)'
   parent: System.Threading.AbandonedMutexException
   langs:
   - csharp
-  - vb
   name: AbandonedMutexException(Int32,WaitHandle)
   nameWithType: AbandonedMutexException.AbandonedMutexException(Int32,WaitHandle)
   fullName: System.Threading.AbandonedMutexException.AbandonedMutexException(Int32,WaitHandle)
@@ -96,21 +112,26 @@ items:
   assemblies:
   - mscorlib
   namespace: System.Threading
+  summary: Initializes a new instance of the <see cref="T:System.Threading.AbandonedMutexException"> class with a specified index for the abandoned mutex, if applicable, and a <xref:System.Threading.Mutex> object that represents the mutex.
+  remarks: "This constructor initializes the <xref:System.Exception.Message%2A> property of the new instance to a system-supplied message that describes the error, such as \"The wait completed due to an abandoned mutex.\" This message takes into account the current system culture.  \n  \n The following table shows the initial property values for an instance of <xref:System.Threading.AbandonedMutexException> initialized with this constructor.  \n  \n|Property|Value|  \n|--------------|-----------|  \n|<xref:System.Exception.InnerException%2A>|`null`.|  \n|<xref:System.Exception.Message%2A>|A system-supplied error message string.|  \n|<xref:System.Threading.AbandonedMutexException.Mutex%2A>|.|  \n|<xref:System.Threading.AbandonedMutexException.MutexIndex%2A>|.|"
   syntax:
     content: public AbandonedMutexException (int location, System.Threading.WaitHandle handle);
     parameters:
     - id: location
       type: System.Int32
-      description: Parameter description to be filled
+      description: The index of the abandoned mutex in the array of wait handles if the exception is thrown for the <xref:System.Threading.WaitHandle.WaitAny%2A?displayProperty=fullName> method, or –1 if the exception is thrown for the <xref:System.Threading.WaitHandle.WaitOne%2A> or <xref:System.Threading.WaitHandle.WaitAll%2A> methods.
     - id: handle
       type: System.Threading.WaitHandle
-      description: Parameter description to be filled
+      description: A <see cref="T:System.Threading.Mutex"> object that represents the abandoned mutex.
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Threading.AbandonedMutexException.#ctor(System.Runtime.Serialization.SerializationInfo,System.Runtime.Serialization.StreamingContext)
   id: '#ctor(System.Runtime.Serialization.SerializationInfo,System.Runtime.Serialization.StreamingContext)'
   parent: System.Threading.AbandonedMutexException
   langs:
   - csharp
-  - vb
   name: AbandonedMutexException(SerializationInfo,StreamingContext)
   nameWithType: AbandonedMutexException.AbandonedMutexException(SerializationInfo,StreamingContext)
   fullName: System.Threading.AbandonedMutexException.AbandonedMutexException(SerializationInfo,StreamingContext)
@@ -118,21 +139,26 @@ items:
   assemblies:
   - mscorlib
   namespace: System.Threading
+  summary: Initializes a new instance of the <see cref="T:System.Threading.AbandonedMutexException"> class with serialized data.
+  remarks: This constructor is called during deserialization to reconstitute the exception object transmitted over a stream. For more information, see [XML and SOAP Serialization](../Topic/XML%20and%20SOAP%20Serialization.md).
   syntax:
     content: protected AbandonedMutexException (System.Runtime.Serialization.SerializationInfo info, System.Runtime.Serialization.StreamingContext context);
     parameters:
     - id: info
       type: System.Runtime.Serialization.SerializationInfo
-      description: Parameter description to be filled
+      description: The <see cref="T:System.Runtime.Serialization.SerializationInfo"> object that holds the serialized object data about the exception being thrown.
     - id: context
       type: System.Runtime.Serialization.StreamingContext
-      description: Parameter description to be filled
+      description: The <see cref="T:System.Runtime.Serialization.StreamingContext"> object that contains contextual information about the source or destination.
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Threading.AbandonedMutexException.#ctor(System.String,System.Exception)
   id: '#ctor(System.String,System.Exception)'
   parent: System.Threading.AbandonedMutexException
   langs:
   - csharp
-  - vb
   name: AbandonedMutexException(String,Exception)
   nameWithType: AbandonedMutexException.AbandonedMutexException(String,Exception)
   fullName: System.Threading.AbandonedMutexException.AbandonedMutexException(String,Exception)
@@ -140,21 +166,26 @@ items:
   assemblies:
   - mscorlib
   namespace: System.Threading
+  summary: Initializes a new instance of the <see cref="T:System.Threading.AbandonedMutexException"> class with a specified error message and inner exception.
+  remarks: "The content of  is intended to be understood by humans. The caller of this constructor is required to ensure that this string has been localized for the current system culture.  \n  \n An exception that is thrown as a direct result of a previous exception should include a reference to the previous exception in the <xref:System.Exception.InnerException%2A> property. The <xref:System.Exception.InnerException%2A> property returns the same value that is passed into the constructor, or `null` if the <xref:System.Exception.InnerException%2A> property does not supply the inner exception value to the constructor.  \n  \n The following table shows the initial property values for an instance of <xref:System.Threading.AbandonedMutexException> initialized with this constructor.  \n  \n|Property|Value|  \n|--------------|-----------|  \n|<xref:System.Exception.InnerException%2A>|.|  \n|<xref:System.Exception.Message%2A>|.|  \n|<xref:System.Threading.AbandonedMutexException.Mutex%2A>|`null`.|  \n|<xref:System.Threading.AbandonedMutexException.MutexIndex%2A>|–1 (minus one).|"
   syntax:
     content: public AbandonedMutexException (string message, Exception inner);
     parameters:
     - id: message
       type: System.String
-      description: Parameter description to be filled
+      description: An error message that explains the reason for the exception.
     - id: inner
       type: System.Exception
-      description: Parameter description to be filled
+      description: The exception that is the cause of the current exception. If the  parameter is not `null`, the current exception is raised in a `catch` block that handles the inner exception.
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Threading.AbandonedMutexException.#ctor(System.String,System.Int32,System.Threading.WaitHandle)
   id: '#ctor(System.String,System.Int32,System.Threading.WaitHandle)'
   parent: System.Threading.AbandonedMutexException
   langs:
   - csharp
-  - vb
   name: AbandonedMutexException(String,Int32,WaitHandle)
   nameWithType: AbandonedMutexException.AbandonedMutexException(String,Int32,WaitHandle)
   fullName: System.Threading.AbandonedMutexException.AbandonedMutexException(String,Int32,WaitHandle)
@@ -162,24 +193,29 @@ items:
   assemblies:
   - mscorlib
   namespace: System.Threading
+  summary: Initializes a new instance of the <see cref="T:System.Threading.AbandonedMutexException"> class with a specified error message, the index of the abandoned mutex, if applicable, and the abandoned mutex.
+  remarks: "The content of  is intended to be understood by humans. The caller of this constructor is required to ensure that this string has been localized for the current system culture.  \n  \n The following table shows the initial property values for an instance of <xref:System.Threading.AbandonedMutexException> initialized with this constructor.  \n  \n|Property|Value|  \n|--------------|-----------|  \n|<xref:System.Exception.InnerException%2A>|`null`.|  \n|<xref:System.Exception.Message%2A>|.|  \n|<xref:System.Threading.AbandonedMutexException.Mutex%2A>|.|  \n|<xref:System.Threading.AbandonedMutexException.MutexIndex%2A>|.|"
   syntax:
     content: public AbandonedMutexException (string message, int location, System.Threading.WaitHandle handle);
     parameters:
     - id: message
       type: System.String
-      description: Parameter description to be filled
+      description: An error message that explains the reason for the exception.
     - id: location
       type: System.Int32
-      description: Parameter description to be filled
+      description: The index of the abandoned mutex in the array of wait handles if the exception is thrown for the <xref:System.Threading.WaitHandle.WaitAny%2A?displayProperty=fullName> method, or –1 if the exception is thrown for the <xref:System.Threading.WaitHandle.WaitOne%2A?displayProperty=fullName> or <xref:System.Threading.WaitHandle.WaitAll%2A> methods.
     - id: handle
       type: System.Threading.WaitHandle
-      description: Parameter description to be filled
+      description: A <see cref="T:System.Threading.Mutex"> object that represents the abandoned mutex.
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Threading.AbandonedMutexException.#ctor(System.String,System.Exception,System.Int32,System.Threading.WaitHandle)
   id: '#ctor(System.String,System.Exception,System.Int32,System.Threading.WaitHandle)'
   parent: System.Threading.AbandonedMutexException
   langs:
   - csharp
-  - vb
   name: AbandonedMutexException(String,Exception,Int32,WaitHandle)
   nameWithType: AbandonedMutexException.AbandonedMutexException(String,Exception,Int32,WaitHandle)
   fullName: System.Threading.AbandonedMutexException.AbandonedMutexException(String,Exception,Int32,WaitHandle)
@@ -187,27 +223,32 @@ items:
   assemblies:
   - mscorlib
   namespace: System.Threading
+  summary: Initializes a new instance of the <see cref="T:System.Threading.AbandonedMutexException"> class with a specified error message, the inner exception, the index for the abandoned mutex, if applicable, and a <xref:System.Threading.Mutex> object that represents the mutex.
+  remarks: "The content of  is a text string intended to inform the user about the exception. The caller of this constructor is required to ensure that this string has been localized for the current system culture.  \n  \n An exception that is thrown as a direct result of a previous exception should include a reference to the previous exception in the <xref:System.Exception.InnerException%2A> property. The <xref:System.Exception.InnerException%2A> property returns the same value that is passed into the constructor, or `null` if the <xref:System.Exception.InnerException%2A> property does not supply the inner exception value to the constructor.  \n  \n The following table shows the initial property values for an instance of <xref:System.Threading.AbandonedMutexException> initialized with this constructor.  \n  \n|Property|Value|  \n|--------------|-----------|  \n|<xref:System.Exception.InnerException%2A>|.|  \n|<xref:System.Exception.Message%2A>|.|  \n|<xref:System.Threading.AbandonedMutexException.Mutex%2A>|.|  \n|<xref:System.Threading.AbandonedMutexException.MutexIndex%2A>|.|"
   syntax:
     content: public AbandonedMutexException (string message, Exception inner, int location, System.Threading.WaitHandle handle);
     parameters:
     - id: message
       type: System.String
-      description: Parameter description to be filled
+      description: An error message that explains the reason for the exception.
     - id: inner
       type: System.Exception
-      description: Parameter description to be filled
+      description: The exception that is the cause of the current exception. If the  parameter is not `null`, the current exception is raised in a `catch` block that handles the inner exception.
     - id: location
       type: System.Int32
-      description: Parameter description to be filled
+      description: The index of the abandoned mutex in the array of wait handles if the exception is thrown for the <xref:System.Threading.WaitHandle.WaitAny%2A?displayProperty=fullName> method, or –1 if the exception is thrown for the <xref:System.Threading.WaitHandle.WaitOne%2A?displayProperty=fullName> or <xref:System.Threading.WaitHandle.WaitAll%2A> methods.
     - id: handle
       type: System.Threading.WaitHandle
-      description: Parameter description to be filled
+      description: A <see cref="T:System.Threading.Mutex"> object that represents the abandoned mutex.
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Threading.AbandonedMutexException.Mutex
   id: Mutex
   parent: System.Threading.AbandonedMutexException
   langs:
   - csharp
-  - vb
   name: Mutex
   nameWithType: AbandonedMutexException.Mutex
   fullName: System.Threading.AbandonedMutexException.Mutex
@@ -215,17 +256,22 @@ items:
   assemblies:
   - mscorlib
   namespace: System.Threading
+  summary: Gets the abandoned mutex that caused the exception, if known.
+  remarks: If the exception is thrown on a call to the <xref:System.Threading.WaitHandle.WaitAny%2A?displayProperty=fullName> method, the <xref:System.Threading.Mutex> returned is the abandoned mutex with the lowest index in the array of <xref:System.Threading.WaitHandle> objects that was passed to <xref:System.Threading.WaitHandle.WaitAny%2A>, or `null` if the abandoned mutex could not be identified. If the exception is thrown on a call to <xref:System.Threading.WaitHandle.WaitOne%2A> or <xref:System.Threading.WaitHandle.WaitAll%2A>, this property always returns `null`.
   syntax:
     content: public System.Threading.Mutex Mutex { get; }
     return:
       type: System.Threading.Mutex
-      description: Return description to be filled
+      description: To be added.
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Threading.AbandonedMutexException.MutexIndex
   id: MutexIndex
   parent: System.Threading.AbandonedMutexException
   langs:
   - csharp
-  - vb
   name: MutexIndex
   nameWithType: AbandonedMutexException.MutexIndex
   fullName: System.Threading.AbandonedMutexException.MutexIndex
@@ -233,11 +279,19 @@ items:
   assemblies:
   - mscorlib
   namespace: System.Threading
+  summary: Gets the index of the abandoned mutex that caused the exception, if known.
+  remarks: If the exception is thrown on a call to the <xref:System.Threading.WaitHandle.WaitAny%2A?displayProperty=fullName> method, this property returns the index of the abandoned mutex with the lowest index in the array of <xref:System.Threading.WaitHandle> objects that was passed to <xref:System.Threading.WaitHandle.WaitAny%2A>, or –1 if the abandoned mutex could not be identified. If the exception is thrown on a call to <xref:System.Threading.WaitHandle.WaitOne%2A> or <xref:System.Threading.WaitHandle.WaitAll%2A>, this property always returns –1.
+  example:
+  - "The following code example executes a thread that abandons five mutexes. The abandoned mutexes are used to demonstrate the effects on the <xref:System.Threading.WaitHandle.WaitOne%2A?displayProperty=fullName>, <xref:System.Threading.WaitHandle.WaitAny%2A>, and <xref:System.Threading.WaitHandle.WaitAll%2A> method calls. The value of the MutexIndex property is displayed for the <xref:System.Threading.WaitHandle.WaitAny%2A> call.  \n  \n> [!NOTE]\n>  The call to <xref:System.Threading.WaitHandle.WaitAny%2A> is interrupted by one of the abandoned mutexes. The other abandoned mutex could still cause an <xref:System.Threading.AbandonedMutexException> to be thrown by subsequent wait methods.  \n  \n [!CODE [System.Threading.AbandonedMutexException#1](../CodeSnippet/VS_Snippets_CLR_System/system.Threading.AbandonedMutexException#1)]"
   syntax:
     content: public int MutexIndex { get; }
     return:
       type: System.Int32
-      description: Return description to be filled
+      description: To be added.
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 references:
 - uid: System.SystemException
   isExternal: false

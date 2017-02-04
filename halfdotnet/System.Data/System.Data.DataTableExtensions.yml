@@ -11,11 +11,12 @@ items:
   - System.Data.DataTableExtensions.CopyToDataTable``1(System.Collections.Generic.IEnumerable`1@,System.Data.Data``0able,System.Data.LoadOption,System.Data.FillErrorEventHandler)
   langs:
   - csharp
-  - vb
   name: DataTableExtensions
   nameWithType: DataTableExtensions
   fullName: System.Data.DataTableExtensions
   type: Class
+  summary: Defines the extension methods to the <see cref="T:System.Data.DataTable"> class. DataTableExtensions is a static class.
+  remarks: To be added.
   syntax:
     content: public static class DataTableExtensions
   inheritance:
@@ -29,12 +30,15 @@ items:
   - System.Object.MemberwiseClone
   - System.Object.ReferenceEquals(System.Object,System.Object)
   - System.Object.ToString
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Data.DataTableExtensions.AsDataView(System.Data.DataTable@)
   id: AsDataView(System.Data.DataTable@)
   parent: System.Data.DataTableExtensions
   langs:
   - csharp
-  - vb
   name: AsDataView(DataTable)
   nameWithType: DataTableExtensions.AsDataView(DataTable)
   fullName: System.Data.DataTableExtensions.AsDataView(DataTable)
@@ -42,43 +46,55 @@ items:
   assemblies:
   - System.Data.DataSetExtensions
   namespace: System.Data
+  summary: Creates and returns a LINQ-enabled <see cref="T:System.Data.DataView"> object.
+  remarks: "<xref:System.Data.DataView> enables data-binding scenarios for [!INCLUDE[linq_dataset](../../add/includes/linq-dataset-md.md)] and can be created from a typed or untyped <xref:System.Data.DataTable>, providing a default view of that table. Filtering and sorting can be set on the <xref:System.Data.DataView> after it has been created from a <xref:System.Data.DataTable>. The <xref:System.Data.DataView> is then bound to a UI control, such as a <xref:System.Windows.Forms.DataGrid> or a <xref:System.Windows.Forms.DataGridView>, providing a simple data binding model.  \n  \n For more information and examples, see [Creating a DataView Object](../Topic/Creating%20a%20DataView%20Object%20\\(LINQ%20to%20DataSet\\).md)."
+  example:
+  - "The following example creates a <xref:System.Data.DataView> from the SalesOrderDetail table and sets it as the data source of a <xref:System.Windows.Forms.BindingSource> object, which acts as a proxy for a <xref:System.Windows.Forms.DataGridView> control:  \n  \n [!CODE [DP DataView Samples#CreateLDVFromTable](../CodeSnippet/VS_Snippets_ADO.NET/DP DataView Samples#createldvfromtable)]"
   syntax:
     content: public static System.Data.DataView AsDataView (this System.Data.DataTable table);
     parameters:
     - id: table
       type: System.Data.DataTable
-      description: Parameter description to be filled
+      description: The source <see cref="T:System.Data.DataTable"> from which the LINQ-enabled <xref:System.Data.DataView> is created.
     return:
       type: System.Data.DataView
-      description: Return description to be filled
+      description: A LINQ-enabled <see cref="T:System.Data.DataView"> object.
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Data.DataTableExtensions.AsDataView``1(System.Data.EnumerableRowCollection{``0}@)
   id: AsDataView``1(System.Data.EnumerableRowCollection{``0}@)
   parent: System.Data.DataTableExtensions
   langs:
   - csharp
-  - vb
-  name: AsDataView(EnumerableRowCollection)
-  nameWithType: DataTableExtensions.AsDataView(EnumerableRowCollection)
-  fullName: System.Data.DataTableExtensions.AsDataView(EnumerableRowCollection)
+  name: AsDataView(EnumerableRowCollection<T>)
+  nameWithType: DataTableExtensions.AsDataView(EnumerableRowCollection<T>)
+  fullName: System.Data.DataTableExtensions.AsDataView(EnumerableRowCollection<T>)
   type: Method
   assemblies:
   - System.Data.DataSetExtensions
   namespace: System.Data
+  summary: To be added.
+  remarks: To be added.
   syntax:
     content: 'public static System.Data.DataView AsDataView<T> (this System.Data.EnumerableRowCollection<T> source) where T : System.Data.DataRow;'
     parameters:
     - id: source
       type: System.Data.EnumerableRowCollection{T}
-      description: Parameter description to be filled
+      description: To be added.
     return:
       type: System.Data.DataView
-      description: Return description to be filled
+      description: To be added.
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Data.DataTableExtensions.AsEnumerable(System.Data.DataTable@)
   id: AsEnumerable(System.Data.DataTable@)
   parent: System.Data.DataTableExtensions
   langs:
   - csharp
-  - vb
   name: AsEnumerable(DataTable)
   nameWithType: DataTableExtensions.AsEnumerable(DataTable)
   fullName: System.Data.DataTableExtensions.AsEnumerable(DataTable)
@@ -86,99 +102,116 @@ items:
   assemblies:
   - System.Data.DataSetExtensions
   namespace: System.Data
+  summary: Returns an <xref:System.Collections.Generic.IEnumerable%601> object, where the generic parameter  is <xref:System.Data.DataRow>. This object can be used in a [!INCLUDE[vbteclinq](../../add/includes/vbteclinq-md.md)] expression or method query.
+  remarks: "[!INCLUDE[vbteclinqext](../../add/includes/vbteclinqext-md.md)] queries work on data sources that implement the <xref:System.Collections.Generic.IEnumerable%601> interface or the <xref:System.Query.IQueryable%601> interface.  The <xref:System.Data.DataTable> class does not implement either interface, so you must call the AsEnumerable method to use the <xref:System.Data.DataTable> as a source in the `From` clause of a [!INCLUDE[vbteclinq](../../add/includes/vbteclinq-md.md)] query. You can also obtain custom, domain-specific operators, such as <xref:System.Data.DataTableExtensions.CopyToDataTable%2A>, by returning an <xref:System.Collections.Generic.IEnumerable%601> object.  \n  \n The enumerable object returned by the AsEnumerable method is permanently bound to the <xref:System.Data.DataTable> that produced it. Multiple calls to the AsEnumerable method will return multiple, independent queryable objects that are all bound to the source <xref:System.Data.DataTable>."
+  example:
+  - "In the following sample, the `DisplayProducts` method receives a DataTable that contains a DataColumn named `ProductName`, extracts the `ProductName` values and then prints the values.  \n  \n [!CODE [system.data.DataTableExtensions.AsEnumerable#1](../CodeSnippet/VS_Snippets_CLR_System/system.data.datatableextensions.asenumerable#1)]"
   syntax:
     content: public static System.Data.EnumerableRowCollection<System.Data.DataRow> AsEnumerable (this System.Data.DataTable source);
     parameters:
     - id: source
       type: System.Data.DataTable
-      description: Parameter description to be filled
+      description: The source <see cref="T:System.Data.DataTable"> to make enumerable.
     return:
       type: System.Data.EnumerableRowCollection{System.Data.DataRow}
-      description: Return description to be filled
+      description: An <xref:System.Collections.Generic.IEnumerable%601> object, where the generic parameter  is <xref:System.Data.DataRow>.
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Data.DataTableExtensions.CopyToDataTable``1(System.Collections.Generic.IEnumerable`1@)
   id: CopyToDataTable``1(System.Collections.Generic.IEnumerable`1@)
   parent: System.Data.DataTableExtensions
   langs:
   - csharp
-  - vb
-  name: CopyToDataTable(IEnumerable)
-  nameWithType: DataTableExtensions.CopyToDataTable(IEnumerable)
-  fullName: System.Data.DataTableExtensions.CopyToDataTable(IEnumerable)
+  name: CopyToDataTable(IEnumerable<T>)
+  nameWithType: DataTableExtensions.CopyToDataTable(IEnumerable<T>)
+  fullName: System.Data.DataTableExtensions.CopyToDataTable(IEnumerable<T>)
   type: Method
   assemblies:
   - System.Data.DataSetExtensions
   namespace: System.Data
+  summary: To be added.
+  remarks: To be added.
   syntax:
     content: 'public static System.Data.DataTable CopyToDataTable<T> (this System.Collections.Generic.IEnumerable<T> source) where T : System.Data.DataRow;'
     parameters:
     - id: source
-      type: System.Collections.Generic.IEnumerable{T}
-      description: Parameter description to be filled
+      type: System.Collections.Generic.IEnumerable`1
+      description: To be added.
     return:
       type: System.Data.DataTable
-      description: Return description to be filled
+      description: To be added.
   overload: System.Data.DataTableExtensions.CopyToDataTable<T>*
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Data.DataTableExtensions.CopyToDataTable``1(System.Collections.Generic.IEnumerable`1@,System.Data.Data``0able,System.Data.LoadOption)
   id: CopyToDataTable``1(System.Collections.Generic.IEnumerable`1@,System.Data.Data``0able,System.Data.LoadOption)
   parent: System.Data.DataTableExtensions
   langs:
   - csharp
-  - vb
-  name: CopyToDataTable(IEnumerable,DataTable,LoadOption)
-  nameWithType: DataTableExtensions.CopyToDataTable(IEnumerable,DataTable,LoadOption)
-  fullName: System.Data.DataTableExtensions.CopyToDataTable(IEnumerable,DataTable,LoadOption)
+  name: CopyToDataTable(IEnumerable<T>,DataTable,LoadOption)
+  nameWithType: DataTableExtensions.CopyToDataTable(IEnumerable<T>,DataTable,LoadOption)
+  fullName: System.Data.DataTableExtensions.CopyToDataTable(IEnumerable<T>,DataTable,LoadOption)
   type: Method
   assemblies:
   - System.Data.DataSetExtensions
   namespace: System.Data
+  summary: To be added.
+  remarks: To be added.
   syntax:
     content: 'public static void CopyToDataTable<T> (this System.Collections.Generic.IEnumerable<T> source, System.Data.DataTable table, System.Data.LoadOption options) where T : System.Data.DataRow;'
     parameters:
     - id: source
-      type: System.Collections.Generic.IEnumerable{T}
-      description: Parameter description to be filled
+      type: System.Collections.Generic.IEnumerable`1
+      description: To be added.
     - id: table
       type: System.Data.DataTable
-      description: Parameter description to be filled
+      description: To be added.
     - id: options
       type: System.Data.LoadOption
-      description: Parameter description to be filled
-    return:
-      type: System.Void
-      description: Return description to be filled
+      description: To be added.
   overload: System.Data.DataTableExtensions.CopyToDataTable<T>*
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Data.DataTableExtensions.CopyToDataTable``1(System.Collections.Generic.IEnumerable`1@,System.Data.Data``0able,System.Data.LoadOption,System.Data.FillErrorEventHandler)
   id: CopyToDataTable``1(System.Collections.Generic.IEnumerable`1@,System.Data.Data``0able,System.Data.LoadOption,System.Data.FillErrorEventHandler)
   parent: System.Data.DataTableExtensions
   langs:
   - csharp
-  - vb
-  name: CopyToDataTable(IEnumerable,DataTable,LoadOption,FillErrorEventHandler)
-  nameWithType: DataTableExtensions.CopyToDataTable(IEnumerable,DataTable,LoadOption,FillErrorEventHandler)
-  fullName: System.Data.DataTableExtensions.CopyToDataTable(IEnumerable,DataTable,LoadOption,FillErrorEventHandler)
+  name: CopyToDataTable(IEnumerable<T>,DataTable,LoadOption,FillErrorEventHandler)
+  nameWithType: DataTableExtensions.CopyToDataTable(IEnumerable<T>,DataTable,LoadOption,FillErrorEventHandler)
+  fullName: System.Data.DataTableExtensions.CopyToDataTable(IEnumerable<T>,DataTable,LoadOption,FillErrorEventHandler)
   type: Method
   assemblies:
   - System.Data.DataSetExtensions
   namespace: System.Data
+  summary: To be added.
+  remarks: To be added.
   syntax:
     content: 'public static void CopyToDataTable<T> (this System.Collections.Generic.IEnumerable<T> source, System.Data.DataTable table, System.Data.LoadOption options, System.Data.FillErrorEventHandler errorHandler) where T : System.Data.DataRow;'
     parameters:
     - id: source
-      type: System.Collections.Generic.IEnumerable{T}
-      description: Parameter description to be filled
+      type: System.Collections.Generic.IEnumerable`1
+      description: To be added.
     - id: table
       type: System.Data.DataTable
-      description: Parameter description to be filled
+      description: To be added.
     - id: options
       type: System.Data.LoadOption
-      description: Parameter description to be filled
+      description: To be added.
     - id: errorHandler
       type: System.Data.FillErrorEventHandler
-      description: Parameter description to be filled
-    return:
-      type: System.Void
-      description: Return description to be filled
+      description: To be added.
   overload: System.Data.DataTableExtensions.CopyToDataTable<T>*
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 references:
 - uid: System.Object
   isExternal: false
@@ -204,21 +237,33 @@ references:
 - uid: System.Data.DataTableExtensions.AsDataView``1(System.Data.EnumerableRowCollection{``0}@)
   parent: System.Data.DataTableExtensions
   isExternal: false
-  name: AsDataView(EnumerableRowCollection)
-  nameWithType: DataTableExtensions.AsDataView(EnumerableRowCollection)
-  fullName: System.Data.DataTableExtensions.AsDataView(EnumerableRowCollection)
+  name: AsDataView(EnumerableRowCollection<T>)
+  nameWithType: DataTableExtensions.AsDataView(EnumerableRowCollection<T>)
+  fullName: System.Data.DataTableExtensions.AsDataView(EnumerableRowCollection<T>)
 - uid: System.Data.DataView
   parent: System.Data
   isExternal: false
   name: DataView
   nameWithType: DataView
   fullName: System.Data.DataView
+- uid: System.Data.EnumerableRowCollection{T}
+  parent: System.Data
+  isExternal: false
+  name: EnumerableRowCollection<T>
+  nameWithType: EnumerableRowCollection<T>
+  fullName: System.Data.EnumerableRowCollection<T>
 - uid: System.Data.DataTableExtensions.AsEnumerable(System.Data.DataTable@)
   parent: System.Data.DataTableExtensions
   isExternal: false
   name: AsEnumerable(DataTable)
   nameWithType: DataTableExtensions.AsEnumerable(DataTable)
   fullName: System.Data.DataTableExtensions.AsEnumerable(DataTable)
+- uid: System.Data.EnumerableRowCollection{System.Data.DataRow}
+  parent: System.Data
+  isExternal: false
+  name: EnumerableRowCollection<DataRow>
+  nameWithType: EnumerableRowCollection<DataRow>
+  fullName: System.Data.EnumerableRowCollection<System.Data.DataRow>
 - uid: System.Data.DataTable
   parent: System.Data
   isExternal: false
@@ -228,9 +273,9 @@ references:
 - uid: System.Data.DataTableExtensions.CopyToDataTable``1(System.Collections.Generic.IEnumerable`1@)
   parent: System.Data.DataTableExtensions
   isExternal: false
-  name: CopyToDataTable(IEnumerable)
-  nameWithType: DataTableExtensions.CopyToDataTable(IEnumerable)
-  fullName: System.Data.DataTableExtensions.CopyToDataTable(IEnumerable)
+  name: CopyToDataTable(IEnumerable<T>)
+  nameWithType: DataTableExtensions.CopyToDataTable(IEnumerable<T>)
+  fullName: System.Data.DataTableExtensions.CopyToDataTable(IEnumerable<T>)
 - uid: System.Data.DataTable
   parent: System.Data
   isExternal: false
@@ -246,15 +291,9 @@ references:
 - uid: System.Data.DataTableExtensions.CopyToDataTable``1(System.Collections.Generic.IEnumerable`1@,System.Data.Data``0able,System.Data.LoadOption)
   parent: System.Data.DataTableExtensions
   isExternal: false
-  name: CopyToDataTable(IEnumerable,DataTable,LoadOption)
-  nameWithType: DataTableExtensions.CopyToDataTable(IEnumerable,DataTable,LoadOption)
-  fullName: System.Data.DataTableExtensions.CopyToDataTable(IEnumerable,DataTable,LoadOption)
-- uid: System.Void
-  parent: System
-  isExternal: false
-  name: Void
-  nameWithType: Void
-  fullName: System.Void
+  name: CopyToDataTable(IEnumerable<T>,DataTable,LoadOption)
+  nameWithType: DataTableExtensions.CopyToDataTable(IEnumerable<T>,DataTable,LoadOption)
+  fullName: System.Data.DataTableExtensions.CopyToDataTable(IEnumerable<T>,DataTable,LoadOption)
 - uid: System.Collections.Generic.IEnumerable`1
   parent: System.Collections.Generic
   isExternal: false
@@ -276,15 +315,9 @@ references:
 - uid: System.Data.DataTableExtensions.CopyToDataTable``1(System.Collections.Generic.IEnumerable`1@,System.Data.Data``0able,System.Data.LoadOption,System.Data.FillErrorEventHandler)
   parent: System.Data.DataTableExtensions
   isExternal: false
-  name: CopyToDataTable(IEnumerable,DataTable,LoadOption,FillErrorEventHandler)
-  nameWithType: DataTableExtensions.CopyToDataTable(IEnumerable,DataTable,LoadOption,FillErrorEventHandler)
-  fullName: System.Data.DataTableExtensions.CopyToDataTable(IEnumerable,DataTable,LoadOption,FillErrorEventHandler)
-- uid: System.Void
-  parent: System
-  isExternal: false
-  name: Void
-  nameWithType: Void
-  fullName: System.Void
+  name: CopyToDataTable(IEnumerable<T>,DataTable,LoadOption,FillErrorEventHandler)
+  nameWithType: DataTableExtensions.CopyToDataTable(IEnumerable<T>,DataTable,LoadOption,FillErrorEventHandler)
+  fullName: System.Data.DataTableExtensions.CopyToDataTable(IEnumerable<T>,DataTable,LoadOption,FillErrorEventHandler)
 - uid: System.Collections.Generic.IEnumerable`1
   parent: System.Collections.Generic
   isExternal: false

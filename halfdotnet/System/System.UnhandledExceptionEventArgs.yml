@@ -8,11 +8,12 @@ items:
   - System.UnhandledExceptionEventArgs.IsTerminating
   langs:
   - csharp
-  - vb
   name: UnhandledExceptionEventArgs
   nameWithType: UnhandledExceptionEventArgs
   fullName: System.UnhandledExceptionEventArgs
   type: Class
+  summary: Provides data for the event that is raised when there is an exception that is not handled in any application domain.
+  remarks: "UnhandledExceptionEventArgs provides access to the exception object and a flag indicating whether the common language runtime is terminating. The UnhandledExceptionEventArgs is one of the parameters passed into <xref:System.UnhandledExceptionEventHandler> for the <xref:System.AppDomain.UnhandledException?displayProperty=fullName> event.  \n  \n For more information about event handler delegates, see [Events](../Topic/Handling%20and%20Raising%20Events.md)."
   syntax:
     content: >-
       [System.Runtime.InteropServices.ComVisible(true)]
@@ -31,12 +32,15 @@ items:
   - System.Object.MemberwiseClone
   - System.Object.ReferenceEquals(System.Object,System.Object)
   - System.Object.ToString
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.UnhandledExceptionEventArgs.#ctor(System.Object,System.Boolean)
   id: '#ctor(System.Object,System.Boolean)'
   parent: System.UnhandledExceptionEventArgs
   langs:
   - csharp
-  - vb
   name: UnhandledExceptionEventArgs(Object,Boolean)
   nameWithType: UnhandledExceptionEventArgs.UnhandledExceptionEventArgs(Object,Boolean)
   fullName: System.UnhandledExceptionEventArgs.UnhandledExceptionEventArgs(Object,Boolean)
@@ -44,21 +48,26 @@ items:
   assemblies:
   - mscorlib
   namespace: System
+  summary: Initializes a new instance of the <see cref="T:System.UnhandledExceptionEventArgs"> class with the exception object and a common language runtime termination flag.
+  remarks: To be added.
   syntax:
     content: public UnhandledExceptionEventArgs (object exception, bool isTerminating);
     parameters:
     - id: exception
       type: System.Object
-      description: Parameter description to be filled
+      description: The exception that is not handled.
     - id: isTerminating
       type: System.Boolean
-      description: Parameter description to be filled
+      description: '`true` if the runtime is terminating; otherwise, `false`.'
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.UnhandledExceptionEventArgs.ExceptionObject
   id: ExceptionObject
   parent: System.UnhandledExceptionEventArgs
   langs:
   - csharp
-  - vb
   name: ExceptionObject
   nameWithType: UnhandledExceptionEventArgs.ExceptionObject
   fullName: System.UnhandledExceptionEventArgs.ExceptionObject
@@ -66,17 +75,24 @@ items:
   assemblies:
   - mscorlib
   namespace: System
+  summary: Gets the unhandled exception object.
+  remarks: "This property returns an object of type <xref:System.Object> rather than one derived from <xref:System.Exception>. Although the Common Language Specification requires that all exception types derive from <xref:System.Exception>, it is possible for methods to throw exceptions with objects not derived from <xref:System.Exception>. You can do the following to work with this exception:  \n  \n-   Apply the  <xref:System.Runtime.CompilerServices.RuntimeCompatibilityAttribute> attribute with a <xref:System.Runtime.CompilerServices.RuntimeCompatibilityAttribute.WrapNonExceptionThrows%2A?displayProperty=fullName> value of `true` to the assembly that contains the event handler. This wraps all exceptions not derived from the <xref:System.Exception> class in a <xref:System.Runtime.CompilerServices.RuntimeWrappedException> object. You can then safely cast (in C#) or convert (in Visual Basic) the object returned by this property to an <xref:System.Exception> object, and retrieve the original exception object from the <xref:System.Runtime.CompilerServices.RuntimeWrappedException.WrappedException%2A?displayProperty=fullName> property. Note that some compilers, such as the C# and Visual Basic compilers, automatically apply this attribute.  \n  \n-   Cast the object returned by this property to an <xref:System.Exception> object."
+  example:
+  - "The following example demonstrates the <xref:System.AppDomain.UnhandledException> event. It defines an event handler, `MyHandler`, that is invoked whenever an unhandled exception is thrown in the default application domain. It then throws two exceptions. The first is handled by a **try/catch** block. The second is unhandled and invokes the `MyHandle` routine before the application terminates.  \n  \n [!CODE [AppDomain_UnhandledException#1](../CodeSnippet/VS_Snippets_CLR/AppDomain_UnhandledException#1)]"
   syntax:
     content: public object ExceptionObject { get; }
     return:
       type: System.Object
-      description: Return description to be filled
+      description: To be added.
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.UnhandledExceptionEventArgs.IsTerminating
   id: IsTerminating
   parent: System.UnhandledExceptionEventArgs
   langs:
   - csharp
-  - vb
   name: IsTerminating
   nameWithType: UnhandledExceptionEventArgs.IsTerminating
   fullName: System.UnhandledExceptionEventArgs.IsTerminating
@@ -84,11 +100,17 @@ items:
   assemblies:
   - mscorlib
   namespace: System
+  summary: Indicates whether the common language runtime is terminating.
+  remarks: "Beginning with the .NET Framework version 2.0, this property returns `true` for most unhandled exceptions, unless an application compatibility flag is used to revert to the behavior of versions 1.0 and 1.1. The reason is that most unhandled exceptions in threads, including thread pool threads, are allowed to proceed naturally, which normally results in termination of the application. For more information, including a list of cases in which the runtime does not terminate, see [Exceptions in Managed Threads](../Topic/Exceptions%20in%20Managed%20Threads.md).  \n  \n## Version Information  \n The following applies to the .NET Framework versions 1.0 and 1.1: This property returns `true` when an exception is received in, but not handled by, an application's main thread. This property also returns `true` if an unmanaged thread is executing managed code and receives an unhandled exception. Finally, this property returns `false` for thread pool threads and managed threads created by an application, because versions 1.0 and 1.1 catch unhandled exceptions in such threads and ignore them."
   syntax:
     content: public bool IsTerminating { get; }
     return:
       type: System.Boolean
-      description: Return description to be filled
+      description: To be added.
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 references:
 - uid: System.EventArgs
   isExternal: false

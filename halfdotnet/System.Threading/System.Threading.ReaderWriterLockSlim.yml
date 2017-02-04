@@ -31,11 +31,14 @@ items:
   - System.Threading.ReaderWriterLockSlim.WaitingWriteCount
   langs:
   - csharp
-  - vb
   name: ReaderWriterLockSlim
   nameWithType: ReaderWriterLockSlim
   fullName: System.Threading.ReaderWriterLockSlim
   type: Class
+  summary: Represents a lock that is used to manage access to a resource, allowing multiple threads for reading or exclusive access for writing.
+  remarks: "Use ReaderWriterLockSlim to protect a resource that is read by multiple threads and written to by one thread at a time. ReaderWriterLockSlim allows multiple threads to be in read mode, allows one thread to be in write mode with exclusive ownership of the lock, and allows one thread that has read access to be in upgradeable read mode, from which the thread can upgrade to write mode without having to relinquish its read access to the resource.  \n  \n> [!NOTE]\n>  ReaderWriterLockSlim is similar to <xref:System.Threading.ReaderWriterLock>, but it has simplified rules for recursion and for upgrading and downgrading lock state. ReaderWriterLockSlimavoids many cases of potential deadlock. In addition, the performance of ReaderWriterLockSlim is significantly better than <xref:System.Threading.ReaderWriterLock>. ReaderWriterLockSlim is recommended for all new development.  \n  \n By default, new instances of ReaderWriterLockSlim are created with the <xref:System.Threading.LockRecursionPolicy?displayProperty=fullName> flag and do not allow recursion. This default policy is recommended for all new development, because recursion introduces unnecessary complications and makes your code more prone to deadlocks. To simplify migration from existing projects that use <xref:System.Threading.Monitor> or <xref:System.Threading.ReaderWriterLock>, you can use the <xref:System.Threading.LockRecursionPolicy?displayProperty=fullName> flag to create instances of ReaderWriterLockSlim that allow recursion.  \n  \n A thread can enter the lock in three modes: read mode, write mode, and upgradeable read mode. (In the rest of this topic, \"upgradeable read mode\" is referred to as \"upgradeable mode\", and the phrase \"enter  mode\" is used in preference to the longer phrase \"enter the lock in  mode\".)  \n  \n Regardless of recursion policy, only one thread can be in write mode at any time. When a thread is in write mode, no other thread can enter the lock in any mode. Only one thread can be in upgradeable mode at any time. Any number of threads can be in read mode, and there can be one thread in upgradeable mode while other threads are in read mode.  \n  \n> [!IMPORTANT]\n>  This type implements the <xref:System.IDisposable> interface. When you have finished using the type, you should dispose of it either directly or indirectly. To dispose of the type directly, call its <xref:System.IDisposable.Dispose%2A> method in a `try`/`catch` block. To dispose of it indirectly, use a language construct such as `using` (in C#) or `Using` (in Visual Basic). For more information, see the “Using an Object that Implements IDisposable” section in the <xref:System.IDisposable> interface topic.  \n  \n ReaderWriterLockSlim has managed thread affinity; that is, each <xref:System.Threading.Thread> object must make its own method calls to enter and exit lock modes. No thread can change the mode of another thread.  \n  \n If a ReaderWriterLockSlim does not allow recursion, a thread that tries to enter the lock can block for several reasons:  \n  \n-   A thread that tries to enter read mode blocks if there are threads waiting to enter write mode or if there is a single thread in write mode.  \n  \n    > [!NOTE]\n    >  Blocking new readers when writers are queued is a lock fairness policy that favors writers. The current fairness policy balances fairness to readers and writers, to promote throughput in the most common scenarios. Future versions of the [!INCLUDE[dnprdnshort](../../add/includes/dnprdnshort-md.md)] may introduce new fairness policies.  \n  \n-   A thread that tries to enter upgradeable mode blocks if there is already a thread in upgradeable mode, if there are threads waiting to enter write mode, or if there is a single thread in write mode.  \n  \n-   A thread that tries to enter write mode blocks if there is a thread in any of the three modes.  \n  \n## Upgrading and Downgrading Locks  \n Upgradeable mode is intended for cases where a thread usually reads from the protected resource, but might need to write to it if some condition is met. A thread that has entered a ReaderWriterLockSlim in upgradeable mode has read access to the protected resource, and can upgrade to write mode by calling the <xref:System.Threading.ReaderWriterLockSlim.EnterWriteLock%2A> or <xref:System.Threading.ReaderWriterLockSlim.TryEnterWriteLock%2A> methods. Because there can be only one thread in upgradeable mode at a time, upgrading to write mode cannot deadlock when recursion is not allowed, which is the default policy.  \n  \n> [!IMPORTANT]\n>  Regardless of recursion policy, a thread that initially entered read mode is not allowed to upgrade to upgradeable mode or write mode, because that pattern creates a strong probability of deadlocks. For example, if two threads in read mode both try to enter write mode, they will deadlock. Upgradeable mode is designed to avoid such deadlocks.  \n  \n If there are other threads in read mode, the thread that is upgrading blocks. While the thread is blocked, other threads that try to enter read mode are blocked. When all threads have exited from read mode, the blocked upgradeable thread enters write mode. If there are other threads waiting to enter write mode, they remain blocked, because the single thread that is in upgradeable mode prevents them from gaining exclusive access to the resource.  \n  \n When the thread in upgradeable mode exits write mode, other threads that are waiting to enter read mode can do so, unless there are threads waiting to enter write mode. The thread in upgradeable mode can upgrade and downgrade indefinitely, as long as it is the only thread that writes to the protected resource.  \n  \n> [!IMPORTANT]\n>  If you allow multiple threads to enter write mode or upgradeable mode, you must not allow one thread to monopolize upgradeable mode. Otherwise, threads that try to enter write mode directly will be blocked indefinitely, and while they are blocked, other threads will be unable to enter read mode.  \n  \n A thread in upgradeable mode can downgrade to read mode by first calling the <xref:System.Threading.ReaderWriterLockSlim.EnterReadLock%2A> method and then calling the <xref:System.Threading.ReaderWriterLockSlim.ExitUpgradeableReadLock%2A> method. This downgrade pattern is allowed for all lock recursion policies, even <xref:System.Threading.LockRecursionPolicy>.  \n  \n After downgrading to read mode, a thread cannot reenter upgradeable mode until it has exited from read mode.  \n  \n## Entering the Lock Recursively  \n You can create a ReaderWriterLockSlim that supports recursive lock entry by using the <xref:System.Threading.ReaderWriterLockSlim.%23ctor%28System.Threading.LockRecursionPolicy%29> constructor that specifies lock policy, and specifying <xref:System.Threading.LockRecursionPolicy?displayProperty=fullName>.  \n  \n> [!NOTE]\n>  The use of recursion is not recommended for new development, because it introduces unnecessary complications and makes your code more prone to deadlocks.  \n  \n For a ReaderWriterLockSlim that allows recursion, the following can be said about the modes a thread can enter:  \n  \n-   A thread in read mode can enter read mode recursively, but cannot enter write mode or upgradeable mode. If it tries to do this, a <xref:System.Threading.LockRecursionException> is thrown. Entering read mode and then entering write mode or upgradeable mode is a pattern with a strong probability of deadlocks, so it is not allowed. As discussed earlier, upgradeable mode is provided for cases where it is necessary to upgrade a lock.  \n  \n-   A thread in upgradeable mode can enter write mode and/or read mode, and can enter any of the three modes recursively. However, an attempt to enter write mode blocks if there are other threads in read mode.  \n  \n-   A thread in write mode can enter read mode and/or upgradeable mode, and can enter any of the three modes recursively.  \n  \n-   A thread that has not entered the lock can enter any mode. This attempt can block for the same reasons as an attempt to enter a non-recursive lock.  \n  \n A thread can exit the modes it has entered in any order, as long as it exits each mode exactly as many times as it entered that mode. If a thread tries to exit a mode too many times, or to exit a mode it has not entered, a <xref:System.Threading.SynchronizationLockException> is thrown.  \n  \n## Lock States  \n You may find it useful to think of the lock in terms of its states. A ReaderWriterLockSlim can be in one of four states: not entered, read, upgrade, and write.  \n  \n-   Not entered: In this state, no threads have entered the lock (or all threads have exited the lock).  \n  \n-   Read: In this state, one or more threads have entered the lock for read access to the protected resource.  \n  \n    > [!NOTE]\n    >  A thread can enter the lock in read mode by using the <xref:System.Threading.ReaderWriterLockSlim.EnterReadLock%2A> or <xref:System.Threading.ReaderWriterLockSlim.TryEnterReadLock%2A> methods, or by downgrading from upgradeable mode.  \n  \n-   Upgrade: In this state, one thread has entered the lock for read access with the option to upgrade to write access (that is, in upgradeable mode), and zero or more threads have entered the lock for read access. No more than one thread at a time can enter the lock with the option to upgrade; additional threads that try to enter upgradeable mode are blocked.  \n  \n-   Write: In this state, one thread has entered the lock for write access to the protected resource. That thread has exclusive possession of the lock. Any other thread that tries to enter the lock for any reason is blocked.  \n  \n The following table describes the transitions between lock states, for locks that do not allow recursion, when a thread  takes the action described in the leftmost column. At the time it takes the action,  has no mode. (The special case where  is in upgradeable mode is described in the table footnotes.) The top row describes the starting state of the lock. The cells describe what happens to the thread, and show changes to the lock state in parentheses.  \n  \n||Not entered (N)|Read (R)|Upgrade (U)|Write (W)|  \n|-|-----------------------|----------------|-------------------|-----------------|  \n|enters read mode|enters (R).|blocks if threads are waiting for write mode; otherwise,  enters.|blocks if threads are waiting for write mode; otherwise,  enters.<sup>1</sup>|blocks.|  \n|enters upgradeable mode|enters (U).|blocks if threads are waiting for write mode or upgrade mode; otherwise,  enters (U).|blocks.|blocks.|  \n|enters write mode|enters (W).|blocks.|blocks.<sup>2</sup>|blocks.|  \n  \n <sup>1</sup> If  starts out in upgradeable mode, it enters read mode. This action never blocks. The lock state does not change. (The thread can then complete a downgrade to read mode by exiting upgradeable mode.)  \n  \n <sup>2</sup> If  starts out in upgradeable mode, it blocks if there are threads in read mode. Otherwise it upgrades to write mode. The lock state changes to Write (W). If  blocks because there are threads in read mode, it enters write mode as soon as the last thread exits read mode, even if there are threads waiting to enter write mode.  \n  \n When a state change occurs because a thread exits the lock, the next thread to be awakened is selected as follows:  \n  \n-   First, a thread that is waiting for write mode and is already in upgradeable mode (there can be at most one such thread).  \n  \n-   Failing that, a thread that is waiting for write mode.  \n  \n-   Failing that, a thread that is waiting for upgradeable mode.  \n  \n-   Failing that, all threads that are waiting for read mode.  \n  \n The subsequent state of the lock is always Write (W) in the first two cases and Upgrade (U) in the third case, regardless of the state of the lock when the exiting thread triggered the state change. In the last case, the state of the lock is Upgrade (U) if there is a thread in upgradeable mode after the state change, and Read (R) otherwise, regardless of the prior state."
+  example:
+  - "The following example shows a simple synchronized cache that holds strings with integer keys. An instance of ReaderWriterLockSlim is used to synchronize access to the <xref:System.Collections.Generic.Dictionary%602> that serves as the inner cache.  \n  \n The example includes simple methods to add to the cache, delete from the cache, and read from the cache. To demonstrate time-outs, the example includes a method that adds to the cache only if it can do so within a specified time-out.  \n  \n To demonstrate upgradeable mode, the example includes a method that retrieves the value associated with a key and compares it with a new value. If the value is unchanged, the method returns a status indicating no change. It no value is found for the key, the key/value pair is inserted. If the value has changed, it is updated. Upgradeable mode allows the thread to upgrade from read access to write access as needed, without the risk of deadlocks.  \n  \n The example includes a nested enumeration that specifies the return values for the method that demonstrates upgradeable mode.  \n  \n The example uses the default constructor to create the lock, so recursion is not allowed. Programming the ReaderWriterLockSlim is simpler and less prone to error when the lock does not allow recursion.  \n  \n [!CODE [System.Threading.ReaderWriterLockSlim_Shadow#11](../CodeSnippet/VS_Snippets_CLR_System/system.Threading.ReaderWriterLockSlim_Shadow#11)]  \n[!CODE [System.Threading.ReaderWriterLockSlim_Shadow#12](../CodeSnippet/VS_Snippets_CLR_System/system.Threading.ReaderWriterLockSlim_Shadow#12)]  \n  \n The following code then uses the `SynchronizedCache` object to store a dictionary of vegetable names. It creates three tasks. The first writes the names of vegetables stored in an array to a `SynchronizedCache` instance. The second and third task display the names of the vegetables, the first in ascending order (from low index to high index), the second in descending order. The final task searches for the string \"cucumber\" and, when it finds it, calls the <xref:System.Threading.ReaderWriterLockSlim.EnterUpgradeableReadLock%2A> method  to substitute the string \"green bean\".  \n  \n [!CODE [System.Threading.ReaderWriterLockSlim_Shadow#11](../CodeSnippet/VS_Snippets_CLR_System/system.Threading.ReaderWriterLockSlim_Shadow#11)]  \n[!CODE [System.Threading.ReaderWriterLockSlim_Shadow#13](../CodeSnippet/VS_Snippets_CLR_System/system.Threading.ReaderWriterLockSlim_Shadow#13)]"
   syntax:
     content: 'public class ReaderWriterLockSlim : IDisposable'
   inheritance:
@@ -50,12 +53,15 @@ items:
   - System.Object.MemberwiseClone
   - System.Object.ReferenceEquals(System.Object,System.Object)
   - System.Object.ToString
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Threading.ReaderWriterLockSlim.#ctor
   id: '#ctor'
   parent: System.Threading.ReaderWriterLockSlim
   langs:
   - csharp
-  - vb
   name: ReaderWriterLockSlim()
   nameWithType: ReaderWriterLockSlim.ReaderWriterLockSlim()
   fullName: System.Threading.ReaderWriterLockSlim.ReaderWriterLockSlim()
@@ -63,15 +69,22 @@ items:
   assemblies:
   - System.Core
   namespace: System.Threading
+  summary: Initializes a new instance of the <see cref="T:System.Threading.ReaderWriterLockSlim"> class with default property values.
+  remarks: "A <xref:System.Threading.ReaderWriterLockSlim> that is initialized with this constructor does not allow recursion. That is, the <xref:System.Threading.ReaderWriterLockSlim.RecursionPolicy%2A> property returns <xref:System.Threading.LockRecursionPolicy?displayProperty=fullName>.  \n  \n For more information about recursion policy and its effects, see the <xref:System.Threading.LockRecursionPolicy> enumeration and the <xref:System.Threading.ReaderWriterLockSlim> class."
+  example:
+  - "The following example shows a simple synchronized cache that holds strings with integer keys. An instance of <xref:System.Threading.ReaderWriterLockSlim> is used to synchronize access to the <xref:System.Collections.Generic.Dictionary%602> that serves as the inner cache. The parameterless constructor is used to create the lock.  \n  \n The example includes simple methods to add to the cache, delete from the cache, and read from the cache. To demonstrate time-outs, the example includes a method that adds to the cache only if it can do so within a specified time-out.  \n  \n To demonstrate upgradeable mode, the example includes a method that retrieves the value associated with a key and compares it with a new value. If the value is unchanged, the method returns a status indicating no change. It no value is found for the key, the key/value pair is inserted. If the value has changed, it is updated. Upgradeable mode allows the thread to upgrade from read access to write access as needed, without the risk of deadlocks.  \n  \n The example includes a nested enumeration that specifies the return values for the method that demonstrates upgradeable mode.  \n  \n The example uses the default constructor to create the lock, so recursion is not allowed. Programming the <xref:System.Threading.ReaderWriterLockSlim> is simpler and less prone to error when the lock does not allow recursion.  \n  \n [!CODE [System.Threading.ReaderWriterLockSlim_Shadow#11](../CodeSnippet/VS_Snippets_CLR_System/system.Threading.ReaderWriterLockSlim_Shadow#11)]  \n[!CODE [System.Threading.ReaderWriterLockSlim_Shadow#12](../CodeSnippet/VS_Snippets_CLR_System/system.Threading.ReaderWriterLockSlim_Shadow#12)]  \n  \n The following code then uses the `SynchronizedCache` object to store a dictionary of vegetable names. It creates three tasks. The first writes the names of vegetables stored in an array to a `SynchronizedCache` instance. The second and third task display the names of the vegetables, the first in ascending order (from low index to high index), the second in descending order. The final task searches for the string \"cucumber\" and, when it finds it, calls the <xref:System.Threading.ReaderWriterLockSlim.EnterUpgradeableReadLock%2A> method  to substitute the string \"green bean\".  \n  \n [!CODE [System.Threading.ReaderWriterLockSlim_Shadow#11](../CodeSnippet/VS_Snippets_CLR_System/system.Threading.ReaderWriterLockSlim_Shadow#11)]  \n[!CODE [System.Threading.ReaderWriterLockSlim_Shadow#13](../CodeSnippet/VS_Snippets_CLR_System/system.Threading.ReaderWriterLockSlim_Shadow#13)]"
   syntax:
     content: public ReaderWriterLockSlim ();
     parameters: []
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Threading.ReaderWriterLockSlim.#ctor(System.Threading.LockRecursionPolicy)
   id: '#ctor(System.Threading.LockRecursionPolicy)'
   parent: System.Threading.ReaderWriterLockSlim
   langs:
   - csharp
-  - vb
   name: ReaderWriterLockSlim(LockRecursionPolicy)
   nameWithType: ReaderWriterLockSlim.ReaderWriterLockSlim(LockRecursionPolicy)
   fullName: System.Threading.ReaderWriterLockSlim.ReaderWriterLockSlim(LockRecursionPolicy)
@@ -79,18 +92,25 @@ items:
   assemblies:
   - System.Core
   namespace: System.Threading
+  summary: Initializes a new instance of the <see cref="T:System.Threading.ReaderWriterLockSlim"> class, specifying the lock recursion policy.
+  remarks: "Recursion policy determines the restrictions on threads that enter the lock more than once. For example, if a lock was created with <xref:System.Threading.LockRecursionPolicy?displayProperty=fullName> and a thread has entered the lock in read mode, <xref:System.Threading.LockRecursionException> is thrown if the thread tries to reenter the lock in read mode. Similarly, if a thread has entered the lock in write mode, <xref:System.Threading.LockRecursionException> is thrown if the thread tries to reenter the lock in any mode.  \n  \n> [!NOTE]\n>  A thread in upgradeable mode can upgrade to write mode or downgrade to read mode regardless of the lock recursion policy setting.  \n  \n Regardless of recursion policy, a thread that initially entered read mode is not allowed to upgrade to upgradeable mode or write mode, because that pattern creates a strong probability of deadlocks.  \n  \n For more information about recursion policy and its effects, see the <xref:System.Threading.LockRecursionPolicy> enumeration and the <xref:System.Threading.ReaderWriterLockSlim> class."
+  example:
+  - "The following example shows two exception scenarios, one that depends on the <xref:System.Threading.LockRecursionPolicy> setting and one that does not.  \n  \n In the first scenario, the thread enters read mode and then tries to enter read mode recursively. If the <xref:System.Threading.ReaderWriterLockSlim> is created by using the default constructor, which sets recursion policy to <xref:System.Threading.LockRecursionPolicy?displayProperty=fullName>, an exception is thrown. If <xref:System.Threading.LockRecursionPolicy?displayProperty=fullName> is used to create the <xref:System.Threading.ReaderWriterLockSlim>, no exception is thrown.  \n  \n In the second scenario, the thread enters read mode and then tries to enter write mode. <xref:System.Threading.LockRecursionException> is thrown regardless of the lock recursion policy.  \n  \n [!CODE [System.Threading.LockRecursionPolicy#11](../CodeSnippet/VS_Snippets_CLR_System/system.Threading.LockRecursionPolicy#11)]  \n[!CODE [System.Threading.LockRecursionPolicy#12](../CodeSnippet/VS_Snippets_CLR_System/system.Threading.LockRecursionPolicy#12)]  \n  \n The following code then uses the `SynchronizedCache` object to store a dictionary of vegetable names. It creates three tasks. The first writes the names of vegetables stored in an array to a `SynchronizedCache` instance. The second and third task display the names of the vegetables, the first in ascending order (from low index to high index), the second in descending order. The final task searches for the string \"cucumber\" and, when it finds it, calls the <xref:System.Threading.ReaderWriterLockSlim.EnterUpgradeableReadLock%2A> method  to substitute the string \"green bean\".  \n  \n [!CODE [System.Threading.LockRecursionPolicy#11](../CodeSnippet/VS_Snippets_CLR_System/system.Threading.LockRecursionPolicy#11)]  \n[!CODE [System.Threading.LockRecursionPolicy#13](../CodeSnippet/VS_Snippets_CLR_System/system.Threading.LockRecursionPolicy#13)]"
   syntax:
     content: public ReaderWriterLockSlim (System.Threading.LockRecursionPolicy recursionPolicy);
     parameters:
     - id: recursionPolicy
       type: System.Threading.LockRecursionPolicy
-      description: Parameter description to be filled
+      description: One of the enumeration values that specifies the lock recursion policy.
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Threading.ReaderWriterLockSlim.CurrentReadCount
   id: CurrentReadCount
   parent: System.Threading.ReaderWriterLockSlim
   langs:
   - csharp
-  - vb
   name: CurrentReadCount
   nameWithType: ReaderWriterLockSlim.CurrentReadCount
   fullName: System.Threading.ReaderWriterLockSlim.CurrentReadCount
@@ -98,17 +118,24 @@ items:
   assemblies:
   - System.Core
   namespace: System.Threading
+  summary: Gets the total number of unique threads that have entered the lock in read mode.
+  remarks: "A thread is counted only once, even if the lock allows recursion and the thread has entered read mode multiple times.  \n  \n Use this property only for debugging, profiling, and logging purposes, and not to control the behavior of an algorithm. The results can change as soon as they have been calculated. Therefore, it is not safe to make decisions based on this property."
+  example:
+  - "The following example shows how to use the CurrentReadCount property to generate an event log entry if the number of threads in read mode exceeds a threshold.  \n  \n [!CODE [System.Threading.ReaderWriterLockSlim_Aux#1](../CodeSnippet/VS_Snippets_CLR_System/system.Threading.ReaderWriterLockSlim_Aux#1)]  \n[!CODE [System.Threading.ReaderWriterLockSlim_Aux#2](../CodeSnippet/VS_Snippets_CLR_System/system.Threading.ReaderWriterLockSlim_Aux#2)]  \n[!CODE [System.Threading.ReaderWriterLockSlim_Aux#11](../CodeSnippet/VS_Snippets_CLR_System/system.Threading.ReaderWriterLockSlim_Aux#11)]"
   syntax:
     content: public int CurrentReadCount { get; }
     return:
       type: System.Int32
-      description: Return description to be filled
+      description: To be added.
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Threading.ReaderWriterLockSlim.Dispose
   id: Dispose
   parent: System.Threading.ReaderWriterLockSlim
   langs:
   - csharp
-  - vb
   name: Dispose()
   nameWithType: ReaderWriterLockSlim.Dispose()
   fullName: System.Threading.ReaderWriterLockSlim.Dispose()
@@ -116,18 +143,20 @@ items:
   assemblies:
   - System.Core
   namespace: System.Threading
+  summary: Releases all resources used by the current instance of the <see cref="T:System.Threading.ReaderWriterLockSlim"> class.
+  remarks: "Call Dispose when you are finished using the <xref:System.Threading.ReaderWriterLockSlim>. The Dispose method leaves the <xref:System.Threading.ReaderWriterLockSlim> in an unusable state. After calling Dispose, you must release all references to the <xref:System.Threading.ReaderWriterLockSlim> so the garbage collector can reclaim the memory that the <xref:System.Threading.ReaderWriterLockSlim> was occupying. For more information, see [Cleaning Up Unmanaged Resources](../Topic/Cleaning%20Up%20Unmanaged%20Resources.md) and [Implementing a Dispose Method](../Topic/Implementing%20a%20Dispose%20Method.md).  \n  \n> [!NOTE]\n>  Always call Dispose before you release your last reference to the <xref:System.Threading.ReaderWriterLockSlim> object."
   syntax:
     content: public void Dispose ();
     parameters: []
-    return:
-      type: System.Void
-      description: Return description to be filled
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Threading.ReaderWriterLockSlim.EnterReadLock
   id: EnterReadLock
   parent: System.Threading.ReaderWriterLockSlim
   langs:
   - csharp
-  - vb
   name: EnterReadLock()
   nameWithType: ReaderWriterLockSlim.EnterReadLock()
   fullName: System.Threading.ReaderWriterLockSlim.EnterReadLock()
@@ -135,18 +164,22 @@ items:
   assemblies:
   - System.Core
   namespace: System.Threading
+  summary: Tries to enter the lock in read mode.
+  remarks: "This method blocks until the calling thread enters the lock, and therefore might never return. Use the <xref:System.Threading.ReaderWriterLockSlim.TryEnterReadLock%2A> method to block for a specified interval, and then return if the calling thread has not entered read mode during that interval.  \n  \n Multiple threads can enter read mode at the same time.  \n  \n If one or more threads are waiting to enter write mode, a thread that calls the EnterReadLock method blocks until those threads have either timed out or entered write mode and then exited from it.  \n  \n> [!NOTE]\n>  If a lock allows recursion, a thread that has entered the lock in read mode can enter read mode recursively, even if other threads are waiting to enter write mode.  \n  \n At most one thread can be in upgradeable mode while other threads are in read mode. If additional threads are waiting to enter upgradeable mode, and there are no threads waiting to enter write mode, threads that call the EnterReadLock method enter read mode immediately and do not block."
+  example:
+  - "The following example shows how to use the EnterReadLock method to enter the lock in read mode. The method shown in the example retrieves the value associated with a key. If the key is not found, the exception thrown by the inner <xref:System.Collections.Generic.Dictionary%602> is allowed to terminate the method. A `finally` block is used to execute the <xref:System.Threading.ReaderWriterLockSlim.ExitReadLock%2A> method, ensuring that the caller exits read mode.  \n  \n This code is part of a larger example provided for the <xref:System.Threading.ReaderWriterLockSlim> class.  \n  \n [!CODE [System.Threading.ReaderWriterLockSlim_Shadow#2](../CodeSnippet/VS_Snippets_CLR_System/system.Threading.ReaderWriterLockSlim_Shadow#2)]  \n[!CODE [System.Threading.ReaderWriterLockSlim_Shadow#3](../CodeSnippet/VS_Snippets_CLR_System/system.Threading.ReaderWriterLockSlim_Shadow#3)]"
   syntax:
     content: public void EnterReadLock ();
     parameters: []
-    return:
-      type: System.Void
-      description: Return description to be filled
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Threading.ReaderWriterLockSlim.EnterUpgradeableReadLock
   id: EnterUpgradeableReadLock
   parent: System.Threading.ReaderWriterLockSlim
   langs:
   - csharp
-  - vb
   name: EnterUpgradeableReadLock()
   nameWithType: ReaderWriterLockSlim.EnterUpgradeableReadLock()
   fullName: System.Threading.ReaderWriterLockSlim.EnterUpgradeableReadLock()
@@ -154,18 +187,22 @@ items:
   assemblies:
   - System.Core
   namespace: System.Threading
+  summary: Tries to enter the lock in upgradeable mode.
+  remarks: "This method blocks until the calling thread enters the lock, and therefore might never return. Use the <xref:System.Threading.ReaderWriterLockSlim.TryEnterUpgradeableReadLock%2A> method to block for a specified interval, and then return if the calling thread has not entered upgradeable mode during that interval.  \n  \n Use upgradeable mode when a thread usually accesses the resource that is protected by the <xref:System.Threading.ReaderWriterLockSlim> in read mode, but may need to enter write mode if certain conditions are met. A thread in upgradeable mode can downgrade to read mode or upgrade to write mode.  \n  \n Only one thread can enter upgradeable mode at any given time. If a thread is in upgradeable mode, and there are no threads waiting to enter write mode, any number of other threads can enter read mode, even if there are threads waiting to enter upgradeable mode.  \n  \n If one or more threads are waiting to enter write mode, a thread that calls the EnterUpgradeableReadLock method blocks until those threads have either timed out or entered write mode and then exited from it.  \n  \n> [!NOTE]\n>  If a lock allows recursion, a thread that has entered the lock in upgradeable mode can enter upgradeable mode recursively, even if other threads are waiting to enter write mode."
+  example:
+  - "The following example shows how to use the EnterUpgradeableReadLock method to enter the lock in upgradeable mode. A `finally` block is used to execute the <xref:System.Threading.ReaderWriterLockSlim.ExitUpgradeableReadLock%2A> method, ensuring that the caller exits upgradeable mode.  \n  \n The method shown in the example retrieves the value associated with a key and compares it with a new value. If the value is unchanged, the method returns a status indicating no change. It no value is found for the key, the key/value pair is inserted. If the value has changed, it is updated. Upgradeable mode allows the thread to upgrade the read lock as needed, without risk of deadlocks.  \n  \n The example uses the default constructor to create the lock, so recursion is not allowed. Programming the <xref:System.Threading.ReaderWriterLockSlim> is simpler and less prone to error when the lock does not allow recursion.  \n  \n This code is part of a larger example provided for the <xref:System.Threading.ReaderWriterLockSlim> class.  \n  \n [!CODE [System.Threading.ReaderWriterLockSlim_Shadow#2](../CodeSnippet/VS_Snippets_CLR_System/system.Threading.ReaderWriterLockSlim_Shadow#2)]  \n[!CODE [System.Threading.ReaderWriterLockSlim_Shadow#6](../CodeSnippet/VS_Snippets_CLR_System/system.Threading.ReaderWriterLockSlim_Shadow#6)]  \n[!CODE [System.Threading.ReaderWriterLockSlim_Shadow#10](../CodeSnippet/VS_Snippets_CLR_System/system.Threading.ReaderWriterLockSlim_Shadow#10)]"
   syntax:
     content: public void EnterUpgradeableReadLock ();
     parameters: []
-    return:
-      type: System.Void
-      description: Return description to be filled
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Threading.ReaderWriterLockSlim.EnterWriteLock
   id: EnterWriteLock
   parent: System.Threading.ReaderWriterLockSlim
   langs:
   - csharp
-  - vb
   name: EnterWriteLock()
   nameWithType: ReaderWriterLockSlim.EnterWriteLock()
   fullName: System.Threading.ReaderWriterLockSlim.EnterWriteLock()
@@ -173,18 +210,22 @@ items:
   assemblies:
   - System.Core
   namespace: System.Threading
+  summary: Tries to enter the lock in write mode.
+  remarks: "This method blocks until the calling thread enters the lock, and therefore might never return. Use the <xref:System.Threading.ReaderWriterLockSlim.TryEnterWriteLock%2A> method to block for a specified interval, and then return if the calling thread has not entered write mode during that interval.  \n  \n If other threads have entered the lock in read mode, a thread that calls the EnterWriteLock method blocks until those threads have exited read mode. When there are threads waiting to enter write mode, additional threads that try to enter read mode or upgradeable mode block until all the threads waiting to enter write mode have either timed out or entered write mode and then exited from it.  \n  \n> [!NOTE]\n>  If a lock allows recursion, a thread that has entered the lock in write mode can enter write mode recursively, even if other threads are waiting to enter write mode."
+  example:
+  - "The following example shows how to use the EnterWriteLock method to enter the lock in write mode. The method shown in the example adds a new key/value pair to the synchronized cache. If the key is already in the cache, the exception thrown by the inner <xref:System.Collections.Generic.Dictionary%602> is allowed to terminate the method. A `finally` block is used to execute the <xref:System.Threading.ReaderWriterLockSlim.ExitWriteLock%2A> method, ensuring that the caller exits write mode.  \n  \n This code is part of a larger example provided for the <xref:System.Threading.ReaderWriterLockSlim> class.  \n  \n [!CODE [System.Threading.ReaderWriterLockSlim_Shadow#2](../CodeSnippet/VS_Snippets_CLR_System/system.Threading.ReaderWriterLockSlim_Shadow#2)]  \n[!CODE [System.Threading.ReaderWriterLockSlim_Shadow#4](../CodeSnippet/VS_Snippets_CLR_System/system.Threading.ReaderWriterLockSlim_Shadow#4)]"
   syntax:
     content: public void EnterWriteLock ();
     parameters: []
-    return:
-      type: System.Void
-      description: Return description to be filled
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Threading.ReaderWriterLockSlim.ExitReadLock
   id: ExitReadLock
   parent: System.Threading.ReaderWriterLockSlim
   langs:
   - csharp
-  - vb
   name: ExitReadLock()
   nameWithType: ReaderWriterLockSlim.ExitReadLock()
   fullName: System.Threading.ReaderWriterLockSlim.ExitReadLock()
@@ -192,18 +233,22 @@ items:
   assemblies:
   - System.Core
   namespace: System.Threading
+  summary: Reduces the recursion count for read mode, and exits read mode if the resulting count is 0 (zero).
+  remarks: "This method is not sensitive to recursion order. For example, if a thread enters a lock in upgradeable mode and then enters the lock in read mode, the order in which the thread exits the two modes does not matter. If a lock allows recursion, a thread can enter the lock in write mode and then enter it recursively in read mode; the order in which the thread exits read mode and write mode does not matter.  \n  \n Exiting the lock might signal other waiting threads."
+  example:
+  - "The following example shows how to use a `finally` block to execute the ExitReadLock method, ensuring that the caller exits read mode. The method shown in the example retrieves the value associated with a key. If the key is not found, the exception thrown by the inner <xref:System.Collections.Generic.Dictionary%602> is allowed to terminate the method. The <xref:System.Threading.ReaderWriterLockSlim.EnterReadLock%2A> method is used to enter read mode.  \n  \n This code is part of a larger example provided for the <xref:System.Threading.ReaderWriterLockSlim> class.  \n  \n [!CODE [System.Threading.ReaderWriterLockSlim_Shadow#2](../CodeSnippet/VS_Snippets_CLR_System/system.Threading.ReaderWriterLockSlim_Shadow#2)]  \n[!CODE [System.Threading.ReaderWriterLockSlim_Shadow#3](../CodeSnippet/VS_Snippets_CLR_System/system.Threading.ReaderWriterLockSlim_Shadow#3)]"
   syntax:
     content: public void ExitReadLock ();
     parameters: []
-    return:
-      type: System.Void
-      description: Return description to be filled
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Threading.ReaderWriterLockSlim.ExitUpgradeableReadLock
   id: ExitUpgradeableReadLock
   parent: System.Threading.ReaderWriterLockSlim
   langs:
   - csharp
-  - vb
   name: ExitUpgradeableReadLock()
   nameWithType: ReaderWriterLockSlim.ExitUpgradeableReadLock()
   fullName: System.Threading.ReaderWriterLockSlim.ExitUpgradeableReadLock()
@@ -211,18 +256,22 @@ items:
   assemblies:
   - System.Core
   namespace: System.Threading
+  summary: Reduces the recursion count for upgradeable mode, and exits upgradeable mode if the resulting count is 0 (zero).
+  remarks: "This method is not sensitive to recursion order. For example, if a thread enters a lock in upgradeable mode and then enters the lock in write mode, the order in which the thread exits the two modes does not matter. If a lock allows recursion, a thread can enter the lock in write mode and then enter it recursively in upgradeable mode; the order in which the thread exits upgradeable mode and write mode does not matter.  \n  \n Exiting the lock might signal other waiting threads."
+  example:
+  - "The following example shows how to use a `finally` block to execute the ExitUpgradeableReadLock method, ensuring that the caller exits upgradeable mode.  \n  \n The method shown in the example retrieves the value associated with a key and compares it with a new value. If the value is unchanged, the method returns a status indicating no change. It no value is found for the key, the key/value pair is inserted. If the value has changed, it is updated. Upgradeable mode allows the thread to upgrade the read lock as needed, without risk of deadlocks.  \n  \n The example uses the default constructor to create the lock, so recursion is not allowed. Programming the <xref:System.Threading.ReaderWriterLockSlim> is simpler and less prone to error when the lock does not allow recursion.  \n  \n This code is part of a larger example provided for the <xref:System.Threading.ReaderWriterLockSlim> class.  \n  \n [!CODE [System.Threading.ReaderWriterLockSlim_Shadow#2](../CodeSnippet/VS_Snippets_CLR_System/system.Threading.ReaderWriterLockSlim_Shadow#2)]  \n[!CODE [System.Threading.ReaderWriterLockSlim_Shadow#6](../CodeSnippet/VS_Snippets_CLR_System/system.Threading.ReaderWriterLockSlim_Shadow#6)]  \n[!CODE [System.Threading.ReaderWriterLockSlim_Shadow#10](../CodeSnippet/VS_Snippets_CLR_System/system.Threading.ReaderWriterLockSlim_Shadow#10)]"
   syntax:
     content: public void ExitUpgradeableReadLock ();
     parameters: []
-    return:
-      type: System.Void
-      description: Return description to be filled
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Threading.ReaderWriterLockSlim.ExitWriteLock
   id: ExitWriteLock
   parent: System.Threading.ReaderWriterLockSlim
   langs:
   - csharp
-  - vb
   name: ExitWriteLock()
   nameWithType: ReaderWriterLockSlim.ExitWriteLock()
   fullName: System.Threading.ReaderWriterLockSlim.ExitWriteLock()
@@ -230,18 +279,22 @@ items:
   assemblies:
   - System.Core
   namespace: System.Threading
+  summary: Reduces the recursion count for write mode, and exits write mode if the resulting count is 0 (zero).
+  remarks: "This method is not sensitive to recursion order. For example, if a thread enters a lock in upgradeable mode and then enters the lock in write mode, the order in which the thread exits the two modes does not matter. If a lock allows recursion, a thread can enter the lock in write mode and then enter it recursively in read mode; the order in which the thread exits read mode and write mode does not matter.  \n  \n Exiting the lock might signal other waiting threads."
+  example:
+  - "The following example shows how to use a `finally` block to execute the ExitWriteLock method, ensuring that the caller exits write mode. The method shown in the example adds a new key/value pair to the synchronized cache. If the key is already in the cache, the exception thrown by the inner <xref:System.Collections.Generic.Dictionary%602> is allowed to terminate the method. The <xref:System.Threading.ReaderWriterLockSlim.EnterWriteLock%2A> method is used to enter the lock in write mode.  \n  \n This code is part of a larger example provided for the <xref:System.Threading.ReaderWriterLockSlim> class.  \n  \n [!CODE [System.Threading.ReaderWriterLockSlim_Shadow#2](../CodeSnippet/VS_Snippets_CLR_System/system.Threading.ReaderWriterLockSlim_Shadow#2)]  \n[!CODE [System.Threading.ReaderWriterLockSlim_Shadow#4](../CodeSnippet/VS_Snippets_CLR_System/system.Threading.ReaderWriterLockSlim_Shadow#4)]"
   syntax:
     content: public void ExitWriteLock ();
     parameters: []
-    return:
-      type: System.Void
-      description: Return description to be filled
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Threading.ReaderWriterLockSlim.IsReadLockHeld
   id: IsReadLockHeld
   parent: System.Threading.ReaderWriterLockSlim
   langs:
   - csharp
-  - vb
   name: IsReadLockHeld
   nameWithType: ReaderWriterLockSlim.IsReadLockHeld
   fullName: System.Threading.ReaderWriterLockSlim.IsReadLockHeld
@@ -249,17 +302,24 @@ items:
   assemblies:
   - System.Core
   namespace: System.Threading
+  summary: Gets a value that indicates whether the current thread has entered the lock in read mode.
+  remarks: This property is intended for use in asserts or for other debugging purposes. Do not use it to control the flow of program execution.
+  example:
+  - "The following example shows how to use the IsReadLockHeld property to generate an assert if the current thread has entered read mode unexpectedly.  \n  \n [!CODE [System.Threading.ReaderWriterLockSlim_Aux#1](../CodeSnippet/VS_Snippets_CLR_System/system.Threading.ReaderWriterLockSlim_Aux#1)]  \n[!CODE [System.Threading.ReaderWriterLockSlim_Aux#21](../CodeSnippet/VS_Snippets_CLR_System/system.Threading.ReaderWriterLockSlim_Aux#21)]"
   syntax:
     content: public bool IsReadLockHeld { get; }
     return:
       type: System.Boolean
-      description: Return description to be filled
+      description: To be added.
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Threading.ReaderWriterLockSlim.IsUpgradeableReadLockHeld
   id: IsUpgradeableReadLockHeld
   parent: System.Threading.ReaderWriterLockSlim
   langs:
   - csharp
-  - vb
   name: IsUpgradeableReadLockHeld
   nameWithType: ReaderWriterLockSlim.IsUpgradeableReadLockHeld
   fullName: System.Threading.ReaderWriterLockSlim.IsUpgradeableReadLockHeld
@@ -267,17 +327,24 @@ items:
   assemblies:
   - System.Core
   namespace: System.Threading
+  summary: Gets a value that indicates whether the current thread has entered the lock in upgradeable mode.
+  remarks: This property is intended for use in asserts or for other debugging purposes. Do not use it to control the flow of program execution.
+  example:
+  - "The following example shows how to use the IsUpgradeableReadLockHeld property to generate an assert if the current thread has entered upgradeable mode unexpectedly.  \n  \n [!CODE [System.Threading.ReaderWriterLockSlim_Aux#1](../CodeSnippet/VS_Snippets_CLR_System/system.Threading.ReaderWriterLockSlim_Aux#1)]  \n[!CODE [System.Threading.ReaderWriterLockSlim_Aux#22](../CodeSnippet/VS_Snippets_CLR_System/system.Threading.ReaderWriterLockSlim_Aux#22)]"
   syntax:
     content: public bool IsUpgradeableReadLockHeld { get; }
     return:
       type: System.Boolean
-      description: Return description to be filled
+      description: To be added.
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Threading.ReaderWriterLockSlim.IsWriteLockHeld
   id: IsWriteLockHeld
   parent: System.Threading.ReaderWriterLockSlim
   langs:
   - csharp
-  - vb
   name: IsWriteLockHeld
   nameWithType: ReaderWriterLockSlim.IsWriteLockHeld
   fullName: System.Threading.ReaderWriterLockSlim.IsWriteLockHeld
@@ -285,17 +352,24 @@ items:
   assemblies:
   - System.Core
   namespace: System.Threading
+  summary: Gets a value that indicates whether the current thread has entered the lock in write mode.
+  remarks: This property is intended for use in asserts or for other debugging purposes. Do not use it to control the flow of program execution.
+  example:
+  - "The following example shows how to use the IsWriteLockHeld property to generate an assert if the current thread has entered write mode unexpectedly.  \n  \n [!CODE [System.Threading.ReaderWriterLockSlim_Aux#1](../CodeSnippet/VS_Snippets_CLR_System/system.Threading.ReaderWriterLockSlim_Aux#1)]  \n[!CODE [System.Threading.ReaderWriterLockSlim_Aux#23](../CodeSnippet/VS_Snippets_CLR_System/system.Threading.ReaderWriterLockSlim_Aux#23)]"
   syntax:
     content: public bool IsWriteLockHeld { get; }
     return:
       type: System.Boolean
-      description: Return description to be filled
+      description: To be added.
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Threading.ReaderWriterLockSlim.RecursionPolicy
   id: RecursionPolicy
   parent: System.Threading.ReaderWriterLockSlim
   langs:
   - csharp
-  - vb
   name: RecursionPolicy
   nameWithType: ReaderWriterLockSlim.RecursionPolicy
   fullName: System.Threading.ReaderWriterLockSlim.RecursionPolicy
@@ -303,17 +377,22 @@ items:
   assemblies:
   - System.Core
   namespace: System.Threading
+  summary: Gets a value that indicates the recursion policy for the current <see cref="T:System.Threading.ReaderWriterLockSlim"> object.
+  remarks: "Recursion policy determines the restrictions on threads that enter the lock more than once. For example, if a lock was created with <xref:System.Threading.LockRecursionPolicy?displayProperty=fullName> and a thread has entered the lock in read mode, <xref:System.Threading.LockRecursionException> is thrown if the thread tries to reenter the lock in read mode.  \n  \n> [!NOTE]\n>  A thread in upgradeable mode can upgrade to write mode or downgrade to read mode regardless of the lock recursion policy setting.  \n  \n Regardless of recursion policy, a thread that initially entered read mode is not allowed to upgrade to upgradeable mode or write mode, because that pattern creates a strong probability of deadlocks.  \n  \n For more information about recursion policy and its effects, see the <xref:System.Threading.LockRecursionPolicy> enumeration and the <xref:System.Threading.ReaderWriterLockSlim> class."
   syntax:
     content: public System.Threading.LockRecursionPolicy RecursionPolicy { get; }
     return:
       type: System.Threading.LockRecursionPolicy
-      description: Return description to be filled
+      description: To be added.
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Threading.ReaderWriterLockSlim.RecursiveReadCount
   id: RecursiveReadCount
   parent: System.Threading.ReaderWriterLockSlim
   langs:
   - csharp
-  - vb
   name: RecursiveReadCount
   nameWithType: ReaderWriterLockSlim.RecursiveReadCount
   fullName: System.Threading.ReaderWriterLockSlim.RecursiveReadCount
@@ -321,17 +400,22 @@ items:
   assemblies:
   - System.Core
   namespace: System.Threading
+  summary: Gets the number of times the current thread has entered the lock in read mode, as an indication of recursion.
+  remarks: Use this property only for debugging, profiling, and logging purposes, and not to control the behavior of an algorithm. The results can change as soon as they have been calculated. Therefore, it is not safe to make decisions based on this property.
   syntax:
     content: public int RecursiveReadCount { get; }
     return:
       type: System.Int32
-      description: Return description to be filled
+      description: To be added.
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Threading.ReaderWriterLockSlim.RecursiveUpgradeCount
   id: RecursiveUpgradeCount
   parent: System.Threading.ReaderWriterLockSlim
   langs:
   - csharp
-  - vb
   name: RecursiveUpgradeCount
   nameWithType: ReaderWriterLockSlim.RecursiveUpgradeCount
   fullName: System.Threading.ReaderWriterLockSlim.RecursiveUpgradeCount
@@ -339,17 +423,22 @@ items:
   assemblies:
   - System.Core
   namespace: System.Threading
+  summary: Gets the number of times the current thread has entered the lock in upgradeable mode, as an indication of recursion.
+  remarks: Use this property only for debugging, profiling, and logging purposes, and not to control the behavior of an algorithm. The results can change as soon as they have been calculated. Therefore, it is not safe to make decisions based on this property.
   syntax:
     content: public int RecursiveUpgradeCount { get; }
     return:
       type: System.Int32
-      description: Return description to be filled
+      description: To be added.
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Threading.ReaderWriterLockSlim.RecursiveWriteCount
   id: RecursiveWriteCount
   parent: System.Threading.ReaderWriterLockSlim
   langs:
   - csharp
-  - vb
   name: RecursiveWriteCount
   nameWithType: ReaderWriterLockSlim.RecursiveWriteCount
   fullName: System.Threading.ReaderWriterLockSlim.RecursiveWriteCount
@@ -357,17 +446,22 @@ items:
   assemblies:
   - System.Core
   namespace: System.Threading
+  summary: Gets the number of times the current thread has entered the lock in write mode, as an indication of recursion.
+  remarks: Use this property only for debugging, profiling, and logging purposes, and not to control the behavior of an algorithm. The results can change as soon as they have been calculated. Therefore, it is not safe to make decisions based on this property.
   syntax:
     content: public int RecursiveWriteCount { get; }
     return:
       type: System.Int32
-      description: Return description to be filled
+      description: To be added.
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Threading.ReaderWriterLockSlim.TryEnterReadLock(System.Int32)
   id: TryEnterReadLock(System.Int32)
   parent: System.Threading.ReaderWriterLockSlim
   langs:
   - csharp
-  - vb
   name: TryEnterReadLock(Int32)
   nameWithType: ReaderWriterLockSlim.TryEnterReadLock(Int32)
   fullName: System.Threading.ReaderWriterLockSlim.TryEnterReadLock(Int32)
@@ -375,22 +469,27 @@ items:
   assemblies:
   - System.Core
   namespace: System.Threading
+  summary: Tries to enter the lock in read mode, with an optional integer time-out.
+  remarks: "If  is 0 (zero), this method checks the lock state and returns `false` immediately if the desired state is unavailable.  \n  \n Multiple threads can enter read mode at the same time.  \n  \n If one or more threads are waiting to enter write mode, a thread that calls the TryEnterReadLock method blocks until those threads have either timed out or entered write mode and then exited from it, or until the calling thread's own time-out interval expires.  \n  \n> [!NOTE]\n>  If a lock allows recursion, a thread that has entered the lock in read mode can enter read mode recursively, even if other threads are waiting to enter write mode.  \n  \n One thread can be in upgradeable mode while other threads are in read mode. If additional threads are waiting to enter upgradeable mode, and there are no threads waiting to enter write mode, threads that call the TryEnterReadLock method enter read mode immediately and do not block."
   syntax:
     content: public bool TryEnterReadLock (int millisecondsTimeout);
     parameters:
     - id: millisecondsTimeout
       type: System.Int32
-      description: Parameter description to be filled
+      description: The number of milliseconds to wait, or -1 (<xref:System.Threading.Timeout.Infinite?displayProperty=fullName>) to wait indefinitely.
     return:
       type: System.Boolean
-      description: Return description to be filled
+      description: '`true` if the calling thread entered read mode, otherwise, `false`.'
   overload: System.Threading.ReaderWriterLockSlim.TryEnterReadLock*
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Threading.ReaderWriterLockSlim.TryEnterReadLock(System.TimeSpan)
   id: TryEnterReadLock(System.TimeSpan)
   parent: System.Threading.ReaderWriterLockSlim
   langs:
   - csharp
-  - vb
   name: TryEnterReadLock(TimeSpan)
   nameWithType: ReaderWriterLockSlim.TryEnterReadLock(TimeSpan)
   fullName: System.Threading.ReaderWriterLockSlim.TryEnterReadLock(TimeSpan)
@@ -398,22 +497,27 @@ items:
   assemblies:
   - System.Core
   namespace: System.Threading
+  summary: Tries to enter the lock in read mode, with an optional time-out.
+  remarks: "If  is 0 (zero), this method checks the lock state and returns `false` immediately if the desired state is unavailable.  \n  \n Multiple threads can enter the lock in read mode at the same time.  \n  \n If one or more threads are queued to enter write mode, a thread that calls the TryEnterReadLock method blocks until those threads have either timed out or entered write mode and then exited from it, or until the calling thread's own time-out interval expires.  \n  \n> [!NOTE]\n>  If a lock allows recursion, a thread that has entered the lock in read mode can enter read mode recursively, even if other threads are waiting to enter write mode.  \n  \n One thread can be in upgradeable mode while other threads are in read mode. If additional threads are waiting to enter upgradeable mode, and there are no threads waiting to enter write mode, threads that call the TryEnterReadLock method enter read mode immediately and do not block."
   syntax:
     content: public bool TryEnterReadLock (TimeSpan timeout);
     parameters:
     - id: timeout
       type: System.TimeSpan
-      description: Parameter description to be filled
+      description: The interval to wait, or -1 milliseconds to wait indefinitely.
     return:
       type: System.Boolean
-      description: Return description to be filled
+      description: '`true` if the calling thread entered read mode, otherwise, `false`.'
   overload: System.Threading.ReaderWriterLockSlim.TryEnterReadLock*
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Threading.ReaderWriterLockSlim.TryEnterUpgradeableReadLock(System.Int32)
   id: TryEnterUpgradeableReadLock(System.Int32)
   parent: System.Threading.ReaderWriterLockSlim
   langs:
   - csharp
-  - vb
   name: TryEnterUpgradeableReadLock(Int32)
   nameWithType: ReaderWriterLockSlim.TryEnterUpgradeableReadLock(Int32)
   fullName: System.Threading.ReaderWriterLockSlim.TryEnterUpgradeableReadLock(Int32)
@@ -421,22 +525,27 @@ items:
   assemblies:
   - System.Core
   namespace: System.Threading
+  summary: Tries to enter the lock in upgradeable mode, with an optional time-out.
+  remarks: "If  is 0 (zero), this method checks the lock state and returns `false` immediately if the desired state is unavailable.  \n  \n Use upgradeable mode when a thread usually accesses the resource that is protected by the <xref:System.Threading.ReaderWriterLockSlim> in read mode, but may need to enter write mode if certain conditions are met. A thread in upgradeable mode can upgrade to write mode or downgrade to read mode.  \n  \n Only one thread can enter a lock in upgradeable mode at any given time. If a thread is in upgradeable mode, and there are no threads waiting to enter write mode, any number of other threads can enter read mode, even if there are threads waiting to enter upgradeable mode.  \n  \n If one or more threads are waiting to enter write mode, a thread that calls the TryEnterUpgradeableReadLock method blocks until those threads have either timed out or entered write mode and then exited from it, or until the calling thread's own time-out interval expires.  \n  \n> [!NOTE]\n>  If a lock allows recursion, a thread that has entered the lock in upgradeable mode can enter upgradeable mode recursively, even if other threads are waiting to enter write mode."
   syntax:
     content: public bool TryEnterUpgradeableReadLock (int millisecondsTimeout);
     parameters:
     - id: millisecondsTimeout
       type: System.Int32
-      description: Parameter description to be filled
+      description: The number of milliseconds to wait, or -1 (<xref:System.Threading.Timeout.Infinite?displayProperty=fullName>) to wait indefinitely.
     return:
       type: System.Boolean
-      description: Return description to be filled
+      description: '`true` if the calling thread entered upgradeable mode, otherwise, `false`.'
   overload: System.Threading.ReaderWriterLockSlim.TryEnterUpgradeableReadLock*
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Threading.ReaderWriterLockSlim.TryEnterUpgradeableReadLock(System.TimeSpan)
   id: TryEnterUpgradeableReadLock(System.TimeSpan)
   parent: System.Threading.ReaderWriterLockSlim
   langs:
   - csharp
-  - vb
   name: TryEnterUpgradeableReadLock(TimeSpan)
   nameWithType: ReaderWriterLockSlim.TryEnterUpgradeableReadLock(TimeSpan)
   fullName: System.Threading.ReaderWriterLockSlim.TryEnterUpgradeableReadLock(TimeSpan)
@@ -444,22 +553,27 @@ items:
   assemblies:
   - System.Core
   namespace: System.Threading
+  summary: Tries to enter the lock in upgradeable mode, with an optional time-out.
+  remarks: "If  is 0 (zero), this method checks the lock state and returns `false` immediately if the desired state is unavailable.  \n  \n Use upgradeable mode when a thread usually accesses the resource protected by the <xref:System.Threading.ReaderWriterLockSlim> in read mode, but may need to enter write mode if certain conditions are met. A thread in upgradeable mode can upgrade to write mode or downgrade to read mode.  \n  \n Only one thread can enter a lock in upgradeable mode at any given time. If a thread is in upgradeable mode, and there are no threads waiting to enter write mode, any number of other threads can enter read mode, even if there are threads waiting to enter upgradeable mode.  \n  \n If one or more threads are waiting to enter write mode, a thread that calls the <xref:System.Threading.ReaderWriterLockSlim.TryEnterUpgradeableReadLock%2A> method blocks until those threads have either timed out or entered write mode and then exited from it, or until the calling thread's own time-out interval expires.  \n  \n> [!NOTE]\n>  If a lock allows recursion, a thread that has entered the lock in upgradeable mode can enter upgradeable mode recursively, even if other threads are waiting to enter write mode."
   syntax:
     content: public bool TryEnterUpgradeableReadLock (TimeSpan timeout);
     parameters:
     - id: timeout
       type: System.TimeSpan
-      description: Parameter description to be filled
+      description: The interval to wait, or -1 milliseconds to wait indefinitely.
     return:
       type: System.Boolean
-      description: Return description to be filled
+      description: '`true` if the calling thread entered upgradeable mode, otherwise, `false`.'
   overload: System.Threading.ReaderWriterLockSlim.TryEnterUpgradeableReadLock*
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Threading.ReaderWriterLockSlim.TryEnterWriteLock(System.Int32)
   id: TryEnterWriteLock(System.Int32)
   parent: System.Threading.ReaderWriterLockSlim
   langs:
   - csharp
-  - vb
   name: TryEnterWriteLock(Int32)
   nameWithType: ReaderWriterLockSlim.TryEnterWriteLock(Int32)
   fullName: System.Threading.ReaderWriterLockSlim.TryEnterWriteLock(Int32)
@@ -467,22 +581,29 @@ items:
   assemblies:
   - System.Core
   namespace: System.Threading
+  summary: Tries to enter the lock in write mode, with an optional time-out.
+  remarks: "If  is 0 (zero), this method checks the lock state and returns `false` immediately if the desired state is unavailable.  \n  \n If other threads have entered the lock in read mode, a thread that calls the TryEnterWriteLock method blocks until those threads have exited read mode or until the time-out interval has elapsed. While threads are blocked waiting to enter write mode, additional threads that try to enter read mode or upgradeable mode block until all the threads waiting to enter write mode have either timed out or entered write mode and then exited from it.  \n  \n> [!NOTE]\n>  If a lock allows recursion, a thread that has entered the lock in write mode can enter write mode recursively, even if other threads are waiting to enter write mode."
+  example:
+  - "The following example shows how to use the TryEnterWriteLock method to enter the lock in write mode, with a time-out. The method shown in the example adds a new key/value pair to the synchronized cache. If the specified time-out interval elapses before the thread enters the lock, the method returns `false`. The method returns `true` if the key/value pair is added.  \n  \n If the key is already in the cache, the exception thrown by the inner <xref:System.Collections.Generic.Dictionary%602> is allowed to terminate the method. A `finally` block is used to execute the <xref:System.Threading.ReaderWriterLockSlim.ExitWriteLock%2A> method, ensuring that the caller exits the lock.  \n  \n This code is part of a larger example provided for the <xref:System.Threading.ReaderWriterLockSlim> class.  \n  \n [!CODE [System.Threading.ReaderWriterLockSlim_Shadow#2](../CodeSnippet/VS_Snippets_CLR_System/system.Threading.ReaderWriterLockSlim_Shadow#2)]  \n[!CODE [System.Threading.ReaderWriterLockSlim_Shadow#5](../CodeSnippet/VS_Snippets_CLR_System/system.Threading.ReaderWriterLockSlim_Shadow#5)]"
   syntax:
     content: public bool TryEnterWriteLock (int millisecondsTimeout);
     parameters:
     - id: millisecondsTimeout
       type: System.Int32
-      description: Parameter description to be filled
+      description: The number of milliseconds to wait, or -1 (<xref:System.Threading.Timeout.Infinite?displayProperty=fullName>) to wait indefinitely.
     return:
       type: System.Boolean
-      description: Return description to be filled
+      description: '`true` if the calling thread entered write mode, otherwise, `false`.'
   overload: System.Threading.ReaderWriterLockSlim.TryEnterWriteLock*
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Threading.ReaderWriterLockSlim.TryEnterWriteLock(System.TimeSpan)
   id: TryEnterWriteLock(System.TimeSpan)
   parent: System.Threading.ReaderWriterLockSlim
   langs:
   - csharp
-  - vb
   name: TryEnterWriteLock(TimeSpan)
   nameWithType: ReaderWriterLockSlim.TryEnterWriteLock(TimeSpan)
   fullName: System.Threading.ReaderWriterLockSlim.TryEnterWriteLock(TimeSpan)
@@ -490,22 +611,27 @@ items:
   assemblies:
   - System.Core
   namespace: System.Threading
+  summary: Tries to enter the lock in write mode, with an optional time-out.
+  remarks: "If  is 0 (zero), this method checks the lock state and returns `false` immediately if the desired state is unavailable.  \n  \n If other threads have entered the lock in read mode, a thread that calls the <xref:System.Threading.ReaderWriterLockSlim.TryEnterWriteLock%2A> method blocks until those threads have exited read mode or until the time-out interval has elapsed. While threads are blocked waiting to enter write mode, additional threads that try to enter read mode or upgradeable mode block until all the threads waiting to enter write mode have either timed out or entered write mode and then exited from it.  \n  \n> [!NOTE]\n>  If a lock allows recursion, a thread that has entered the lock in write mode can enter write mode recursively, even if other threads are waiting to enter write mode."
   syntax:
     content: public bool TryEnterWriteLock (TimeSpan timeout);
     parameters:
     - id: timeout
       type: System.TimeSpan
-      description: Parameter description to be filled
+      description: The interval to wait, or -1 milliseconds to wait indefinitely.
     return:
       type: System.Boolean
-      description: Return description to be filled
+      description: '`true` if the calling thread entered write mode, otherwise, `false`.'
   overload: System.Threading.ReaderWriterLockSlim.TryEnterWriteLock*
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Threading.ReaderWriterLockSlim.WaitingReadCount
   id: WaitingReadCount
   parent: System.Threading.ReaderWriterLockSlim
   langs:
   - csharp
-  - vb
   name: WaitingReadCount
   nameWithType: ReaderWriterLockSlim.WaitingReadCount
   fullName: System.Threading.ReaderWriterLockSlim.WaitingReadCount
@@ -513,17 +639,24 @@ items:
   assemblies:
   - System.Core
   namespace: System.Threading
+  summary: Gets the total number of threads that are waiting to enter the lock in read mode.
+  remarks: Use this property only for debugging, profiling, and logging purposes, and not to control the behavior of an algorithm. The results can change as soon as they have been calculated. Therefore, it is not safe to make decisions based on this property.
+  example:
+  - "The following example shows how to use the WaitingReadCount property to generate an event log entry if the number of threads that are blocked, waiting to enter read mode, exceeds a threshold.  \n  \n [!CODE [System.Threading.ReaderWriterLockSlim_Aux#1](../CodeSnippet/VS_Snippets_CLR_System/system.Threading.ReaderWriterLockSlim_Aux#1)]  \n[!CODE [System.Threading.ReaderWriterLockSlim_Aux#31](../CodeSnippet/VS_Snippets_CLR_System/system.Threading.ReaderWriterLockSlim_Aux#31)]"
   syntax:
     content: public int WaitingReadCount { get; }
     return:
       type: System.Int32
-      description: Return description to be filled
+      description: To be added.
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Threading.ReaderWriterLockSlim.WaitingUpgradeCount
   id: WaitingUpgradeCount
   parent: System.Threading.ReaderWriterLockSlim
   langs:
   - csharp
-  - vb
   name: WaitingUpgradeCount
   nameWithType: ReaderWriterLockSlim.WaitingUpgradeCount
   fullName: System.Threading.ReaderWriterLockSlim.WaitingUpgradeCount
@@ -531,17 +664,24 @@ items:
   assemblies:
   - System.Core
   namespace: System.Threading
+  summary: Gets the total number of threads that are waiting to enter the lock in upgradeable mode.
+  remarks: Use this property only for debugging, profiling, and logging purposes, and not to control the behavior of an algorithm. The results can change as soon as they have been calculated. Therefore, it is not safe to make decisions based on this property.
+  example:
+  - "The following example shows how to use the WaitingUpgradeCount property to generate an event log entry if the number of threads that are blocked, waiting to enter upgradeable mode, exceeds a threshold.  \n  \n [!CODE [System.Threading.ReaderWriterLockSlim_Aux#1](../CodeSnippet/VS_Snippets_CLR_System/system.Threading.ReaderWriterLockSlim_Aux#1)]  \n[!CODE [System.Threading.ReaderWriterLockSlim_Aux#33](../CodeSnippet/VS_Snippets_CLR_System/system.Threading.ReaderWriterLockSlim_Aux#33)]"
   syntax:
     content: public int WaitingUpgradeCount { get; }
     return:
       type: System.Int32
-      description: Return description to be filled
+      description: To be added.
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Threading.ReaderWriterLockSlim.WaitingWriteCount
   id: WaitingWriteCount
   parent: System.Threading.ReaderWriterLockSlim
   langs:
   - csharp
-  - vb
   name: WaitingWriteCount
   nameWithType: ReaderWriterLockSlim.WaitingWriteCount
   fullName: System.Threading.ReaderWriterLockSlim.WaitingWriteCount
@@ -549,11 +689,19 @@ items:
   assemblies:
   - System.Core
   namespace: System.Threading
+  summary: Gets the total number of threads that are waiting to enter the lock in write mode.
+  remarks: Use this property only for debugging, profiling, and logging purposes, and not to control the behavior of an algorithm. The results can change as soon as they have been calculated. Therefore, it is not safe to make decisions based on this property.
+  example:
+  - "The following example shows how to use the WaitingWriteCount property to generate an event log entry if the number of threads that are blocked, waiting to enter write mode, exceeds a threshold.  \n  \n [!CODE [System.Threading.ReaderWriterLockSlim_Aux#1](../CodeSnippet/VS_Snippets_CLR_System/system.Threading.ReaderWriterLockSlim_Aux#1)]  \n[!CODE [System.Threading.ReaderWriterLockSlim_Aux#32](../CodeSnippet/VS_Snippets_CLR_System/system.Threading.ReaderWriterLockSlim_Aux#32)]"
   syntax:
     content: public int WaitingWriteCount { get; }
     return:
       type: System.Int32
-      description: Return description to be filled
+      description: To be added.
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 references:
 - uid: System.Object
   isExternal: false
@@ -594,84 +742,42 @@ references:
   name: Dispose()
   nameWithType: ReaderWriterLockSlim.Dispose()
   fullName: System.Threading.ReaderWriterLockSlim.Dispose()
-- uid: System.Void
-  parent: System
-  isExternal: false
-  name: Void
-  nameWithType: Void
-  fullName: System.Void
 - uid: System.Threading.ReaderWriterLockSlim.EnterReadLock
   parent: System.Threading.ReaderWriterLockSlim
   isExternal: false
   name: EnterReadLock()
   nameWithType: ReaderWriterLockSlim.EnterReadLock()
   fullName: System.Threading.ReaderWriterLockSlim.EnterReadLock()
-- uid: System.Void
-  parent: System
-  isExternal: false
-  name: Void
-  nameWithType: Void
-  fullName: System.Void
 - uid: System.Threading.ReaderWriterLockSlim.EnterUpgradeableReadLock
   parent: System.Threading.ReaderWriterLockSlim
   isExternal: false
   name: EnterUpgradeableReadLock()
   nameWithType: ReaderWriterLockSlim.EnterUpgradeableReadLock()
   fullName: System.Threading.ReaderWriterLockSlim.EnterUpgradeableReadLock()
-- uid: System.Void
-  parent: System
-  isExternal: false
-  name: Void
-  nameWithType: Void
-  fullName: System.Void
 - uid: System.Threading.ReaderWriterLockSlim.EnterWriteLock
   parent: System.Threading.ReaderWriterLockSlim
   isExternal: false
   name: EnterWriteLock()
   nameWithType: ReaderWriterLockSlim.EnterWriteLock()
   fullName: System.Threading.ReaderWriterLockSlim.EnterWriteLock()
-- uid: System.Void
-  parent: System
-  isExternal: false
-  name: Void
-  nameWithType: Void
-  fullName: System.Void
 - uid: System.Threading.ReaderWriterLockSlim.ExitReadLock
   parent: System.Threading.ReaderWriterLockSlim
   isExternal: false
   name: ExitReadLock()
   nameWithType: ReaderWriterLockSlim.ExitReadLock()
   fullName: System.Threading.ReaderWriterLockSlim.ExitReadLock()
-- uid: System.Void
-  parent: System
-  isExternal: false
-  name: Void
-  nameWithType: Void
-  fullName: System.Void
 - uid: System.Threading.ReaderWriterLockSlim.ExitUpgradeableReadLock
   parent: System.Threading.ReaderWriterLockSlim
   isExternal: false
   name: ExitUpgradeableReadLock()
   nameWithType: ReaderWriterLockSlim.ExitUpgradeableReadLock()
   fullName: System.Threading.ReaderWriterLockSlim.ExitUpgradeableReadLock()
-- uid: System.Void
-  parent: System
-  isExternal: false
-  name: Void
-  nameWithType: Void
-  fullName: System.Void
 - uid: System.Threading.ReaderWriterLockSlim.ExitWriteLock
   parent: System.Threading.ReaderWriterLockSlim
   isExternal: false
   name: ExitWriteLock()
   nameWithType: ReaderWriterLockSlim.ExitWriteLock()
   fullName: System.Threading.ReaderWriterLockSlim.ExitWriteLock()
-- uid: System.Void
-  parent: System
-  isExternal: false
-  name: Void
-  nameWithType: Void
-  fullName: System.Void
 - uid: System.Threading.ReaderWriterLockSlim.IsReadLockHeld
   parent: System.Threading.ReaderWriterLockSlim
   isExternal: false

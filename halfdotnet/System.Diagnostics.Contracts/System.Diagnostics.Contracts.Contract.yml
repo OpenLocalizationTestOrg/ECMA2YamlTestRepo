@@ -28,11 +28,12 @@ items:
   - System.Diagnostics.Contracts.Contract.ValueAtReturn``1(``0@)
   langs:
   - csharp
-  - vb
   name: Contract
   nameWithType: Contract
   fullName: System.Diagnostics.Contracts.Contract
   type: Class
+  summary: Contains static methods for representing program contracts such as preconditions, postconditions, and object invariants.
+  remarks: "Code contract classes let you specify preconditions, postconditions, and object invariants in your code. Preconditions are requirements that must be met when entering a method or property. Postconditions describe expectations at the time the method or property code exits. Object invariants describe the expected state for a class that has no condition problems. For more information about preconditions, postconditions, and object invariants, see [Code Contracts](../Topic/Code%20Contracts.md).  \n  \n For tools and detailed instructions for using code contracts, see [Code Contracts](http://go.microsoft.com/fwlink/?LinkId=152461) on the MSDN DevLabs Web site.  \n  \n> [!IMPORTANT]\n>  You must use a binary rewriter to insert run-time enforcement of contracts. Otherwise, contracts such as the <xref:System.Diagnostics.Contracts.Contract.Ensures%2A?displayProperty=fullName> method can only be tested statically and will not throw exceptions during run time if a contract is violated. You can download the binary rewriter CCRewrite from [Code Contracts](http://go.microsoft.com/fwlink/?LinkId=152461) on the MSDN DevLabs Web site. CCRewrite comes with a Visual Studio add-in that enables you to activate run-time contract enforcement from the project **Properties** page. The binary rewriter and the Visual Studio add-in do not ship with [!INCLUDE[vs_dev10_long](../../add/includes/vs-dev10-long-md.md)] or the Windows SDK."
   syntax:
     content: public static class Contract
   inheritance:
@@ -46,12 +47,15 @@ items:
   - System.Object.MemberwiseClone
   - System.Object.ReferenceEquals(System.Object,System.Object)
   - System.Object.ToString
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Diagnostics.Contracts.Contract.Assert(System.Boolean)
   id: Assert(System.Boolean)
   parent: System.Diagnostics.Contracts.Contract
   langs:
   - csharp
-  - vb
   name: Assert(Boolean)
   nameWithType: Contract.Assert(Boolean)
   fullName: System.Diagnostics.Contracts.Contract.Assert(Boolean)
@@ -59,22 +63,24 @@ items:
   assemblies:
   - mscorlib
   namespace: System.Diagnostics.Contracts
+  summary: Checks for a condition; if the condition is `false`, follows the escalation policy set for the analyzer.
+  remarks: The default escalation policy is to notify the attached debugger about a contract failure or to display an **Assert** dialog box if a debugger is not attached. Optionally, the analyzer can be instructed to throw an exception.
   syntax:
     content: public static void Assert (bool condition);
     parameters:
     - id: condition
       type: System.Boolean
-      description: Parameter description to be filled
-    return:
-      type: System.Void
-      description: Return description to be filled
+      description: The conditional expression to test.
   overload: System.Diagnostics.Contracts.Contract.Assert*
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Diagnostics.Contracts.Contract.Assert(System.Boolean,System.String)
   id: Assert(System.Boolean,System.String)
   parent: System.Diagnostics.Contracts.Contract
   langs:
   - csharp
-  - vb
   name: Assert(Boolean,String)
   nameWithType: Contract.Assert(Boolean,String)
   fullName: System.Diagnostics.Contracts.Contract.Assert(Boolean,String)
@@ -82,25 +88,27 @@ items:
   assemblies:
   - mscorlib
   namespace: System.Diagnostics.Contracts
+  summary: Checks for a condition; if the condition is `false`, follows the escalation policy set by the analyzer and displays the specified message.
+  remarks: The default escalation policy is to notify the attached debugger about a contract failure or to display an **Assert** dialog box if a debugger is not attached. Optionally, the analyzer can be instructed to throw an exception. The  parameter is passed to the debugger output. If  is not a constant string literal, tools may not be able to read it.
   syntax:
     content: public static void Assert (bool condition, string userMessage);
     parameters:
     - id: condition
       type: System.Boolean
-      description: Parameter description to be filled
+      description: The conditional expression to test.
     - id: userMessage
       type: System.String
-      description: Parameter description to be filled
-    return:
-      type: System.Void
-      description: Return description to be filled
+      description: A message to display if the condition is not met.
   overload: System.Diagnostics.Contracts.Contract.Assert*
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Diagnostics.Contracts.Contract.Assume(System.Boolean)
   id: Assume(System.Boolean)
   parent: System.Diagnostics.Contracts.Contract
   langs:
   - csharp
-  - vb
   name: Assume(Boolean)
   nameWithType: Contract.Assume(Boolean)
   fullName: System.Diagnostics.Contracts.Contract.Assume(Boolean)
@@ -108,22 +116,24 @@ items:
   assemblies:
   - mscorlib
   namespace: System.Diagnostics.Contracts
+  summary: Instructs code analysis tools to assume that the specified condition is `true`, even if it cannot be statically proven to always be `true`.
+  remarks: At run time, using this method is equivalent to using the <xref:System.Diagnostics.Contracts.Contract.Assert%28System.Boolean%29> method.
   syntax:
     content: public static void Assume (bool condition);
     parameters:
     - id: condition
       type: System.Boolean
-      description: Parameter description to be filled
-    return:
-      type: System.Void
-      description: Return description to be filled
+      description: The conditional expression to assume `true`.
   overload: System.Diagnostics.Contracts.Contract.Assume*
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Diagnostics.Contracts.Contract.Assume(System.Boolean,System.String)
   id: Assume(System.Boolean,System.String)
   parent: System.Diagnostics.Contracts.Contract
   langs:
   - csharp
-  - vb
   name: Assume(Boolean,String)
   nameWithType: Contract.Assume(Boolean,String)
   fullName: System.Diagnostics.Contracts.Contract.Assume(Boolean,String)
@@ -131,25 +141,27 @@ items:
   assemblies:
   - mscorlib
   namespace: System.Diagnostics.Contracts
+  summary: Instructs code analysis tools to assume that a condition is `true`, even if it cannot be statically proven to always be `true`, and displays a message if the assumption fails.
+  remarks: "If  is not a constant string literal, the contract may not be understood by tools.  \n  \n At run time, using this method is equivalent to using the <xref:System.Diagnostics.Contracts.Contract.Assert%28System.Boolean%2CSystem.String%29> method."
   syntax:
     content: public static void Assume (bool condition, string userMessage);
     parameters:
     - id: condition
       type: System.Boolean
-      description: Parameter description to be filled
+      description: The conditional expression to assume `true`.
     - id: userMessage
       type: System.String
-      description: Parameter description to be filled
-    return:
-      type: System.Void
-      description: Return description to be filled
+      description: The message to post if the assumption fails.
   overload: System.Diagnostics.Contracts.Contract.Assume*
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Diagnostics.Contracts.Contract.ContractFailed
   id: ContractFailed
   parent: System.Diagnostics.Contracts.Contract
   langs:
   - csharp
-  - vb
   name: ContractFailed
   nameWithType: Contract.ContractFailed
   fullName: System.Diagnostics.Contracts.Contract.ContractFailed
@@ -157,17 +169,22 @@ items:
   assemblies:
   - mscorlib
   namespace: System.Diagnostics.Contracts
+  summary: Occurs when a contract fails.
+  remarks: "The event information for this event is supplied by the <xref:System.Diagnostics.Contracts.ContractFailedEventArgs?displayProperty=fullName> object that is passed to the event handler. This event notifies a managed application environment such as an interactive interpreter or a Web browser host that a contract has failed. Before doing so, it will raise an event that an application can handle as it sees fit. For example, if code is being run in a testing framework, you can log a test failure and then end the test.  \n  \n The default implementation of the <xref:System.Diagnostics.Contracts.Internal.ContractHelper.RaiseContractFailedEvent%2A> method in the .NET Framework class library is to call each handler that is registered with the ContractFailed event. Exceptions thrown by handlers are ignored, but each handler can indicate whether the failure is handled by calling the <xref:System.Diagnostics.Contracts.ContractFailedEventArgs.SetHandled%2A> method for the event arguments. If any handler sets the failure as handled, the method returns `null` and no further action is taken. Alternatively, handlers can call the <xref:System.Diagnostics.Contracts.ContractFailedEventArgs.SetUnwind%2A> method to instruct the code to unwind. In that case, an exception is thrown after all handlers have executed."
   syntax:
     content: public static event EventHandler<System.Diagnostics.Contracts.ContractFailedEventArgs> ContractFailed;
     return:
       type: System.EventHandler{System.Diagnostics.Contracts.ContractFailedEventArgs}
-      description: Return description to be filled
+      description: To be added.
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Diagnostics.Contracts.Contract.EndContractBlock
   id: EndContractBlock
   parent: System.Diagnostics.Contracts.Contract
   langs:
   - csharp
-  - vb
   name: EndContractBlock()
   nameWithType: Contract.EndContractBlock()
   fullName: System.Diagnostics.Contracts.Contract.EndContractBlock()
@@ -175,18 +192,20 @@ items:
   assemblies:
   - mscorlib
   namespace: System.Diagnostics.Contracts
+  summary: Marks the end of the contract section when a method's contracts contain only preconditions in the `if`-`then`-`throw` form.
+  remarks: "Most code already contains some parameter validation in the form of `if`-`then`-`throw` code. The contract tools recognize `if`-`then`-`throw` statements as preconditions when the statements appear first inside a method, and the entire set of such statements is followed by an explicit <xref:System.Diagnostics.Contracts.Contract> method call, such as a <xref:System.Diagnostics.Contracts.Contract.Requires%2A>, <xref:System.Diagnostics.Contracts.Contract.Ensures%2A>, <xref:System.Diagnostics.Contracts.Contract.EnsuresOnThrow%2A>, or EndContractBlock.  \n  \n When `if`-`then`-`throw` statements appear in this form, the contract tools recognize them as legacy-require statements. The EndContractBlock form is used only if no other contracts follow the `if`-`then`-`throw` sequences, but they should still be tagged as legacy-requires."
   syntax:
     content: public static void EndContractBlock ();
     parameters: []
-    return:
-      type: System.Void
-      description: Return description to be filled
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Diagnostics.Contracts.Contract.Ensures(System.Boolean)
   id: Ensures(System.Boolean)
   parent: System.Diagnostics.Contracts.Contract
   langs:
   - csharp
-  - vb
   name: Ensures(Boolean)
   nameWithType: Contract.Ensures(Boolean)
   fullName: System.Diagnostics.Contracts.Contract.Ensures(Boolean)
@@ -194,22 +213,26 @@ items:
   assemblies:
   - mscorlib
   namespace: System.Diagnostics.Contracts
+  summary: Specifies a postcondition contract for the enclosing method or property.
+  remarks: "The  parameter specifies a postcondition that is expected to be `true` when the enclosing method or property returns normally.  \n  \n-   This method call must be at the beginning of a method or property, before any other code.  \n  \n-   You must use the binary rewriter (available at [Code Contracts](http://go.microsoft.com/fwlink/?LinkId=152461) on the MSDN DevLabs Web site) for run-time enforcement of this postcondition."
+  example:
+  - "The following example shows how to use the Ensures method to ensure that an expected value is returned. This code example is part of a larger example provided for the <xref:System.Diagnostics.Contracts.ContractClassAttribute> class.  \n  \n [!CODE [ContractExample#3](../CodeSnippet/VS_Snippets_CLR/contractexample#3)]"
   syntax:
     content: public static void Ensures (bool condition);
     parameters:
     - id: condition
       type: System.Boolean
-      description: Parameter description to be filled
-    return:
-      type: System.Void
-      description: Return description to be filled
+      description: The conditional expression to test. The expression may include <xref:System.Diagnostics.Contracts.Contract.OldValue%2A>, <xref:System.Diagnostics.Contracts.Contract.ValueAtReturn%2A>, and <xref:System.Diagnostics.Contracts.Contract.Result%2A> values.
   overload: System.Diagnostics.Contracts.Contract.Ensures*
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Diagnostics.Contracts.Contract.Ensures(System.Boolean,System.String)
   id: Ensures(System.Boolean,System.String)
   parent: System.Diagnostics.Contracts.Contract
   langs:
   - csharp
-  - vb
   name: Ensures(Boolean,String)
   nameWithType: Contract.Ensures(Boolean,String)
   fullName: System.Diagnostics.Contracts.Contract.Ensures(Boolean,String)
@@ -217,25 +240,27 @@ items:
   assemblies:
   - mscorlib
   namespace: System.Diagnostics.Contracts
+  summary: Specifies a postcondition contract for a provided exit condition and a message to display if the condition is `false`.
+  remarks: "The  parameter specifies a postcondition that is expected to be `true` when the enclosing method or property returns normally.  \n  \n-   This method call must be at the beginning of a method or property, before any other code.  \n  \n-   This contract is exposed to clients; therefore, it must only reference members that are at least as visible as the enclosing method.  \n  \n-   You must use the binary rewriter (available at [Code Contracts](http://go.microsoft.com/fwlink/?LinkId=152461) on the MSDN DevLabs Web site) for run-time enforcement of this postcondition.  \n  \n-   If  is not a constant string literal, the contract may not be understood by tools."
   syntax:
     content: public static void Ensures (bool condition, string userMessage);
     parameters:
     - id: condition
       type: System.Boolean
-      description: Parameter description to be filled
+      description: The conditional expression to test. The expression may include <xref:System.Diagnostics.Contracts.Contract.OldValue%2A> and <xref:System.Diagnostics.Contracts.Contract.Result%2A> values.
     - id: userMessage
       type: System.String
-      description: Parameter description to be filled
-    return:
-      type: System.Void
-      description: Return description to be filled
+      description: The message to display if the expression is not `true`.
   overload: System.Diagnostics.Contracts.Contract.Ensures*
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Diagnostics.Contracts.Contract.EnsuresOnThrow``1(System.Boolean)
   id: EnsuresOnThrow``1(System.Boolean)
   parent: System.Diagnostics.Contracts.Contract
   langs:
   - csharp
-  - vb
   name: EnsuresOnThrow(Boolean)
   nameWithType: Contract.EnsuresOnThrow(Boolean)
   fullName: System.Diagnostics.Contracts.Contract.EnsuresOnThrow(Boolean)
@@ -243,22 +268,24 @@ items:
   assemblies:
   - mscorlib
   namespace: System.Diagnostics.Contracts
+  summary: To be added.
+  remarks: To be added.
   syntax:
     content: 'public static void EnsuresOnThrow<TException> (bool condition) where TException : Exception;'
     parameters:
     - id: condition
       type: System.Boolean
-      description: Parameter description to be filled
-    return:
-      type: System.Void
-      description: Return description to be filled
+      description: To be added.
   overload: System.Diagnostics.Contracts.Contract.EnsuresOnThrow<TException>*
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Diagnostics.Contracts.Contract.EnsuresOnThrow``1(System.Boolean,System.String)
   id: EnsuresOnThrow``1(System.Boolean,System.String)
   parent: System.Diagnostics.Contracts.Contract
   langs:
   - csharp
-  - vb
   name: EnsuresOnThrow(Boolean,String)
   nameWithType: Contract.EnsuresOnThrow(Boolean,String)
   fullName: System.Diagnostics.Contracts.Contract.EnsuresOnThrow(Boolean,String)
@@ -266,131 +293,155 @@ items:
   assemblies:
   - mscorlib
   namespace: System.Diagnostics.Contracts
+  summary: To be added.
+  remarks: To be added.
   syntax:
     content: 'public static void EnsuresOnThrow<TException> (bool condition, string userMessage) where TException : Exception;'
     parameters:
     - id: condition
       type: System.Boolean
-      description: Parameter description to be filled
+      description: To be added.
     - id: userMessage
       type: System.String
-      description: Parameter description to be filled
-    return:
-      type: System.Void
-      description: Return description to be filled
+      description: To be added.
   overload: System.Diagnostics.Contracts.Contract.EnsuresOnThrow<TException>*
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Diagnostics.Contracts.Contract.Exists(System.Int32,System.Int32,System.Predicate{System.Int32})
   id: Exists(System.Int32,System.Int32,System.Predicate{System.Int32})
   parent: System.Diagnostics.Contracts.Contract
   langs:
   - csharp
-  - vb
-  name: Exists(Int32,Int32,Predicate)
-  nameWithType: Contract.Exists(Int32,Int32,Predicate)
-  fullName: System.Diagnostics.Contracts.Contract.Exists(Int32,Int32,Predicate)
+  name: Exists(Int32,Int32,Predicate<Int32>)
+  nameWithType: Contract.Exists(Int32,Int32,Predicate<Int32>)
+  fullName: System.Diagnostics.Contracts.Contract.Exists(Int32,Int32,Predicate<Int32>)
   type: Method
   assemblies:
   - mscorlib
   namespace: System.Diagnostics.Contracts
+  summary: Determines whether a specified test is true for any integer within a range of integers.
+  remarks: The  parameter is one more than the last integer to facilitate using the length of a range of integers starting at 0. For example, it would be set to 5 for integers 0 through 4.
   syntax:
     content: public static bool Exists (int fromInclusive, int toExclusive, Predicate<int> predicate);
     parameters:
     - id: fromInclusive
       type: System.Int32
-      description: Parameter description to be filled
+      description: The first integer to pass to .
     - id: toExclusive
       type: System.Int32
-      description: Parameter description to be filled
+      description: One more than the last integer to pass to .
     - id: predicate
       type: System.Predicate{System.Int32}
-      description: Parameter description to be filled
+      description: The function to evaluate for any value of the integer in the specified range.
     return:
       type: System.Boolean
-      description: Return description to be filled
+      description: '`true` if  returns `true` for any integer starting from  to  - 1.'
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Diagnostics.Contracts.Contract.Exists``1(System.Collections.Generic.IEnumerable`1,System.Predicate`1)
   id: Exists``1(System.Collections.Generic.IEnumerable`1,System.Predicate`1)
   parent: System.Diagnostics.Contracts.Contract
   langs:
   - csharp
-  - vb
-  name: Exists(IEnumerable,Predicate)
-  nameWithType: Contract.Exists(IEnumerable,Predicate)
-  fullName: System.Diagnostics.Contracts.Contract.Exists(IEnumerable,Predicate)
+  name: Exists(IEnumerable<T>,Predicate<T>)
+  nameWithType: Contract.Exists(IEnumerable<T>,Predicate<T>)
+  fullName: System.Diagnostics.Contracts.Contract.Exists(IEnumerable<T>,Predicate<T>)
   type: Method
   assemblies:
   - mscorlib
   namespace: System.Diagnostics.Contracts
+  summary: To be added.
+  remarks: To be added.
   syntax:
     content: public static bool Exists<T> (System.Collections.Generic.IEnumerable<T> collection, Predicate<T> predicate);
     parameters:
     - id: collection
-      type: System.Collections.Generic.IEnumerable{T}
-      description: Parameter description to be filled
+      type: System.Collections.Generic.IEnumerable`1
+      description: To be added.
     - id: predicate
-      type: System.Predicate{T}
-      description: Parameter description to be filled
+      type: System.Predicate`1
+      description: To be added.
     return:
       type: System.Boolean
-      description: Return description to be filled
+      description: To be added.
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Diagnostics.Contracts.Contract.ForAll(System.Int32,System.Int32,System.Predicate{System.Int32})
   id: ForAll(System.Int32,System.Int32,System.Predicate{System.Int32})
   parent: System.Diagnostics.Contracts.Contract
   langs:
   - csharp
-  - vb
-  name: ForAll(Int32,Int32,Predicate)
-  nameWithType: Contract.ForAll(Int32,Int32,Predicate)
-  fullName: System.Diagnostics.Contracts.Contract.ForAll(Int32,Int32,Predicate)
+  name: ForAll(Int32,Int32,Predicate<Int32>)
+  nameWithType: Contract.ForAll(Int32,Int32,Predicate<Int32>)
+  fullName: System.Diagnostics.Contracts.Contract.ForAll(Int32,Int32,Predicate<Int32>)
   type: Method
   assemblies:
   - mscorlib
   namespace: System.Diagnostics.Contracts
+  summary: Determines whether a particular condition is valid for all integers in a specified range.
+  remarks: The  parameter is one more than the last integer to facilitate using the length of a range of integers starting at 0. For example, it would be set to 5 for integers 0 through 4.
+  example:
+  - "The following example demonstrates how to use the ForAll method to determine whether an array has a null element.  \n  \n [!CODE [Contract.ForAllExample#1](../CodeSnippet/VS_Snippets_CLR/contract.forallexample#1)]"
   syntax:
     content: public static bool ForAll (int fromInclusive, int toExclusive, Predicate<int> predicate);
     parameters:
     - id: fromInclusive
       type: System.Int32
-      description: Parameter description to be filled
+      description: The first integer to pass to .
     - id: toExclusive
       type: System.Int32
-      description: Parameter description to be filled
+      description: One more than the last integer to pass to .
     - id: predicate
       type: System.Predicate{System.Int32}
-      description: Parameter description to be filled
+      description: The function to evaluate for the existence of the integers in the specified range.
     return:
       type: System.Boolean
-      description: Return description to be filled
+      description: '`true` if  returns `true` for all integers starting from  to  - 1.'
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Diagnostics.Contracts.Contract.ForAll``1(System.Collections.Generic.IEnumerable`1,System.Predicate`1)
   id: ForAll``1(System.Collections.Generic.IEnumerable`1,System.Predicate`1)
   parent: System.Diagnostics.Contracts.Contract
   langs:
   - csharp
-  - vb
-  name: ForAll(IEnumerable,Predicate)
-  nameWithType: Contract.ForAll(IEnumerable,Predicate)
-  fullName: System.Diagnostics.Contracts.Contract.ForAll(IEnumerable,Predicate)
+  name: ForAll(IEnumerable<T>,Predicate<T>)
+  nameWithType: Contract.ForAll(IEnumerable<T>,Predicate<T>)
+  fullName: System.Diagnostics.Contracts.Contract.ForAll(IEnumerable<T>,Predicate<T>)
   type: Method
   assemblies:
   - mscorlib
   namespace: System.Diagnostics.Contracts
+  summary: To be added.
+  remarks: To be added.
   syntax:
     content: public static bool ForAll<T> (System.Collections.Generic.IEnumerable<T> collection, Predicate<T> predicate);
     parameters:
     - id: collection
-      type: System.Collections.Generic.IEnumerable{T}
-      description: Parameter description to be filled
+      type: System.Collections.Generic.IEnumerable`1
+      description: To be added.
     - id: predicate
-      type: System.Predicate{T}
-      description: Parameter description to be filled
+      type: System.Predicate`1
+      description: To be added.
     return:
       type: System.Boolean
-      description: Return description to be filled
+      description: To be added.
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Diagnostics.Contracts.Contract.Invariant(System.Boolean)
   id: Invariant(System.Boolean)
   parent: System.Diagnostics.Contracts.Contract
   langs:
   - csharp
-  - vb
   name: Invariant(Boolean)
   nameWithType: Contract.Invariant(Boolean)
   fullName: System.Diagnostics.Contracts.Contract.Invariant(Boolean)
@@ -398,22 +449,24 @@ items:
   assemblies:
   - mscorlib
   namespace: System.Diagnostics.Contracts
+  summary: Specifies an invariant contract for the enclosing method or property.
+  remarks: "Invariant contracts are contained within a method that is identified by the <xref:System.Diagnostics.Contracts.ContractInvariantMethodAttribute> attribute; typically, the method is named `ObjectInvariant`.  \n  \n-   This contract can be specified only in a dedicated invariant method that is declared on a class. If the method is not sealed, it should refer only to protected members, not private members, so that subclasses can be sure to maintain the invariants.  \n  \n-   This contract is not exposed to clients; therefore, it may reference members that are less visible than the enclosing method.  \n  \n-   You must use the binary rewriter for run-time enforcement of this invariant.  \n  \n-   Invariants are conditionally defined based on the presence of the `CONTRACTS FULL` symbol. During run-time checking, invariants are checked at the end of each public method. If an invariant mentions a public method in the same class, the invariant check that would normally happen at the end of that public method is disabled and checked only at the end of the outermost method call to that class. This also happens if the class is re-entered because of a call to a method on another class."
   syntax:
     content: public static void Invariant (bool condition);
     parameters:
     - id: condition
       type: System.Boolean
-      description: Parameter description to be filled
-    return:
-      type: System.Void
-      description: Return description to be filled
+      description: The conditional expression to test.
   overload: System.Diagnostics.Contracts.Contract.Invariant*
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Diagnostics.Contracts.Contract.Invariant(System.Boolean,System.String)
   id: Invariant(System.Boolean,System.String)
   parent: System.Diagnostics.Contracts.Contract
   langs:
   - csharp
-  - vb
   name: Invariant(Boolean,String)
   nameWithType: Contract.Invariant(Boolean,String)
   fullName: System.Diagnostics.Contracts.Contract.Invariant(Boolean,String)
@@ -421,25 +474,27 @@ items:
   assemblies:
   - mscorlib
   namespace: System.Diagnostics.Contracts
+  summary: Specifies an invariant contract for the enclosing method or property, and displays a message if the condition for the contract fails.
+  remarks: "Invariant contracts are contained within a method that is identified by the <xref:System.Diagnostics.Contracts.ContractInvariantMethodAttribute> attribute; typically, the method is named `ObjectInvariant`.  \n  \n-   This contract can be specified only in a dedicated invariant method that is declared on a class.  \n  \n-   This contract is not exposed to clients; therefore, it may reference members that are less visible than the enclosing method.  \n  \n-   You must use the binary rewriter for run-time enforcement of this invariant.  \n  \n-   Invariants are conditionally defined on the `CONTRACTS FULL` symbol. During run-time checking, invariants are checked at the end of each public method. If an invariant mentions a public method in the same class, the invariant check that would normally happen at the end of that public method is disabled and checked only at the end of the outermost method call to that class. This also happens if the class is re-entered because of a call to a method on another class."
   syntax:
     content: public static void Invariant (bool condition, string userMessage);
     parameters:
     - id: condition
       type: System.Boolean
-      description: Parameter description to be filled
+      description: The conditional expression to test.
     - id: userMessage
       type: System.String
-      description: Parameter description to be filled
-    return:
-      type: System.Void
-      description: Return description to be filled
+      description: The message to display if the condition is `false`.
   overload: System.Diagnostics.Contracts.Contract.Invariant*
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Diagnostics.Contracts.Contract.OldValue``1(``0)
   id: OldValue``1(``0)
   parent: System.Diagnostics.Contracts.Contract
   langs:
   - csharp
-  - vb
   name: OldValue(T)
   nameWithType: Contract.OldValue(T)
   fullName: System.Diagnostics.Contracts.Contract.OldValue(T)
@@ -447,21 +502,26 @@ items:
   assemblies:
   - mscorlib
   namespace: System.Diagnostics.Contracts
+  summary: To be added.
+  remarks: To be added.
   syntax:
     content: public static T OldValue<T> (T value);
     parameters:
     - id: value
       type: T
-      description: Parameter description to be filled
+      description: To be added.
     return:
       type: T
-      description: Return description to be filled
+      description: To be added.
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Diagnostics.Contracts.Contract.Requires(System.Boolean)
   id: Requires(System.Boolean)
   parent: System.Diagnostics.Contracts.Contract
   langs:
   - csharp
-  - vb
   name: Requires(Boolean)
   nameWithType: Contract.Requires(Boolean)
   fullName: System.Diagnostics.Contracts.Contract.Requires(Boolean)
@@ -469,22 +529,24 @@ items:
   assemblies:
   - mscorlib
   namespace: System.Diagnostics.Contracts
+  summary: Specifies a precondition contract for the enclosing method or property.
+  remarks: "-   This method call must be at the beginning of a method or property, before any other code.  \n  \n-   This contract is exposed to clients; therefore, it must only reference members that are at least as visible as the enclosing method.  \n  \n-   Use this method instead of the <xref:System.Diagnostics.Contracts.Contract.Requires%60%601%28System.Boolean%29?displayProperty=fullName> method when backward compatibility does not force you to throw a particular exception."
   syntax:
     content: public static void Requires (bool condition);
     parameters:
     - id: condition
       type: System.Boolean
-      description: Parameter description to be filled
-    return:
-      type: System.Void
-      description: Return description to be filled
+      description: The conditional expression to test.
   overload: System.Diagnostics.Contracts.Contract.Requires*
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Diagnostics.Contracts.Contract.Requires(System.Boolean,System.String)
   id: Requires(System.Boolean,System.String)
   parent: System.Diagnostics.Contracts.Contract
   langs:
   - csharp
-  - vb
   name: Requires(Boolean,String)
   nameWithType: Contract.Requires(Boolean,String)
   fullName: System.Diagnostics.Contracts.Contract.Requires(Boolean,String)
@@ -492,25 +554,27 @@ items:
   assemblies:
   - mscorlib
   namespace: System.Diagnostics.Contracts
+  summary: Specifies a precondition contract for the enclosing method or property, and displays a message if the condition for the contract fails.
+  remarks: "-   This method call must be at the beginning of a method or property, before any other code.  \n  \n-   This contract is exposed to clients; therefore, it must only reference members that are at least as visible as the enclosing method.  \n  \n-   Use this method instead of the <xref:System.Diagnostics.Contracts.Contract.Requires%60%601%28System.Boolean%2CSystem.String%29?displayProperty=fullName> method when backward compatibility does not force you to throw a particular exception."
   syntax:
     content: public static void Requires (bool condition, string userMessage);
     parameters:
     - id: condition
       type: System.Boolean
-      description: Parameter description to be filled
+      description: The conditional expression to test.
     - id: userMessage
       type: System.String
-      description: Parameter description to be filled
-    return:
-      type: System.Void
-      description: Return description to be filled
+      description: The message to display if the condition is `false`.
   overload: System.Diagnostics.Contracts.Contract.Requires*
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Diagnostics.Contracts.Contract.Requires``1(System.Boolean)
   id: Requires``1(System.Boolean)
   parent: System.Diagnostics.Contracts.Contract
   langs:
   - csharp
-  - vb
   name: Requires(Boolean)
   nameWithType: Contract.Requires(Boolean)
   fullName: System.Diagnostics.Contracts.Contract.Requires(Boolean)
@@ -518,22 +582,24 @@ items:
   assemblies:
   - mscorlib
   namespace: System.Diagnostics.Contracts
+  summary: To be added.
+  remarks: To be added.
   syntax:
     content: 'public static void Requires<TException> (bool condition) where TException : Exception;'
     parameters:
     - id: condition
       type: System.Boolean
-      description: Parameter description to be filled
-    return:
-      type: System.Void
-      description: Return description to be filled
+      description: To be added.
   overload: System.Diagnostics.Contracts.Contract.Requires<TException>*
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Diagnostics.Contracts.Contract.Requires``1(System.Boolean,System.String)
   id: Requires``1(System.Boolean,System.String)
   parent: System.Diagnostics.Contracts.Contract
   langs:
   - csharp
-  - vb
   name: Requires(Boolean,String)
   nameWithType: Contract.Requires(Boolean,String)
   fullName: System.Diagnostics.Contracts.Contract.Requires(Boolean,String)
@@ -541,25 +607,27 @@ items:
   assemblies:
   - mscorlib
   namespace: System.Diagnostics.Contracts
+  summary: To be added.
+  remarks: To be added.
   syntax:
     content: 'public static void Requires<TException> (bool condition, string userMessage) where TException : Exception;'
     parameters:
     - id: condition
       type: System.Boolean
-      description: Parameter description to be filled
+      description: To be added.
     - id: userMessage
       type: System.String
-      description: Parameter description to be filled
-    return:
-      type: System.Void
-      description: Return description to be filled
+      description: To be added.
   overload: System.Diagnostics.Contracts.Contract.Requires<TException>*
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Diagnostics.Contracts.Contract.Result``1
   id: Result``1
   parent: System.Diagnostics.Contracts.Contract
   langs:
   - csharp
-  - vb
   name: Result()
   nameWithType: Contract.Result()
   fullName: System.Diagnostics.Contracts.Contract.Result()
@@ -567,18 +635,23 @@ items:
   assemblies:
   - mscorlib
   namespace: System.Diagnostics.Contracts
+  summary: To be added.
+  remarks: To be added.
   syntax:
     content: public static T Result<T> ();
     parameters: []
     return:
       type: T
-      description: Return description to be filled
+      description: To be added.
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Diagnostics.Contracts.Contract.ValueAtReturn``1(``0@)
   id: ValueAtReturn``1(``0@)
   parent: System.Diagnostics.Contracts.Contract
   langs:
   - csharp
-  - vb
   name: ValueAtReturn(T)
   nameWithType: Contract.ValueAtReturn(T)
   fullName: System.Diagnostics.Contracts.Contract.ValueAtReturn(T)
@@ -586,15 +659,21 @@ items:
   assemblies:
   - mscorlib
   namespace: System.Diagnostics.Contracts
+  summary: To be added.
+  remarks: To be added.
   syntax:
     content: public static T ValueAtReturn<T> (out T value);
     parameters:
     - id: value
       type: T
-      description: Parameter description to be filled
+      description: To be added.
     return:
       type: T
-      description: Return description to be filled
+      description: To be added.
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 references:
 - uid: System.Object
   isExternal: false
@@ -605,12 +684,6 @@ references:
   name: Assert(Boolean)
   nameWithType: Contract.Assert(Boolean)
   fullName: System.Diagnostics.Contracts.Contract.Assert(Boolean)
-- uid: System.Void
-  parent: System
-  isExternal: false
-  name: Void
-  nameWithType: Void
-  fullName: System.Void
 - uid: System.Boolean
   parent: System
   isExternal: false
@@ -623,12 +696,6 @@ references:
   name: Assert(Boolean,String)
   nameWithType: Contract.Assert(Boolean,String)
   fullName: System.Diagnostics.Contracts.Contract.Assert(Boolean,String)
-- uid: System.Void
-  parent: System
-  isExternal: false
-  name: Void
-  nameWithType: Void
-  fullName: System.Void
 - uid: System.Boolean
   parent: System
   isExternal: false
@@ -647,12 +714,6 @@ references:
   name: Assume(Boolean)
   nameWithType: Contract.Assume(Boolean)
   fullName: System.Diagnostics.Contracts.Contract.Assume(Boolean)
-- uid: System.Void
-  parent: System
-  isExternal: false
-  name: Void
-  nameWithType: Void
-  fullName: System.Void
 - uid: System.Boolean
   parent: System
   isExternal: false
@@ -665,12 +726,6 @@ references:
   name: Assume(Boolean,String)
   nameWithType: Contract.Assume(Boolean,String)
   fullName: System.Diagnostics.Contracts.Contract.Assume(Boolean,String)
-- uid: System.Void
-  parent: System
-  isExternal: false
-  name: Void
-  nameWithType: Void
-  fullName: System.Void
 - uid: System.Boolean
   parent: System
   isExternal: false
@@ -689,30 +744,24 @@ references:
   name: ContractFailed
   nameWithType: Contract.ContractFailed
   fullName: System.Diagnostics.Contracts.Contract.ContractFailed
+- uid: System.EventHandler{System.Diagnostics.Contracts.ContractFailedEventArgs}
+  parent: System
+  isExternal: false
+  name: EventHandler<ContractFailedEventArgs>
+  nameWithType: EventHandler<ContractFailedEventArgs>
+  fullName: System.EventHandler<System.Diagnostics.Contracts.ContractFailedEventArgs>
 - uid: System.Diagnostics.Contracts.Contract.EndContractBlock
   parent: System.Diagnostics.Contracts.Contract
   isExternal: false
   name: EndContractBlock()
   nameWithType: Contract.EndContractBlock()
   fullName: System.Diagnostics.Contracts.Contract.EndContractBlock()
-- uid: System.Void
-  parent: System
-  isExternal: false
-  name: Void
-  nameWithType: Void
-  fullName: System.Void
 - uid: System.Diagnostics.Contracts.Contract.Ensures(System.Boolean)
   parent: System.Diagnostics.Contracts.Contract
   isExternal: false
   name: Ensures(Boolean)
   nameWithType: Contract.Ensures(Boolean)
   fullName: System.Diagnostics.Contracts.Contract.Ensures(Boolean)
-- uid: System.Void
-  parent: System
-  isExternal: false
-  name: Void
-  nameWithType: Void
-  fullName: System.Void
 - uid: System.Boolean
   parent: System
   isExternal: false
@@ -725,12 +774,6 @@ references:
   name: Ensures(Boolean,String)
   nameWithType: Contract.Ensures(Boolean,String)
   fullName: System.Diagnostics.Contracts.Contract.Ensures(Boolean,String)
-- uid: System.Void
-  parent: System
-  isExternal: false
-  name: Void
-  nameWithType: Void
-  fullName: System.Void
 - uid: System.Boolean
   parent: System
   isExternal: false
@@ -749,12 +792,6 @@ references:
   name: EnsuresOnThrow(Boolean)
   nameWithType: Contract.EnsuresOnThrow(Boolean)
   fullName: System.Diagnostics.Contracts.Contract.EnsuresOnThrow(Boolean)
-- uid: System.Void
-  parent: System
-  isExternal: false
-  name: Void
-  nameWithType: Void
-  fullName: System.Void
 - uid: System.Boolean
   parent: System
   isExternal: false
@@ -767,12 +804,6 @@ references:
   name: EnsuresOnThrow(Boolean,String)
   nameWithType: Contract.EnsuresOnThrow(Boolean,String)
   fullName: System.Diagnostics.Contracts.Contract.EnsuresOnThrow(Boolean,String)
-- uid: System.Void
-  parent: System
-  isExternal: false
-  name: Void
-  nameWithType: Void
-  fullName: System.Void
 - uid: System.Boolean
   parent: System
   isExternal: false
@@ -788,9 +819,9 @@ references:
 - uid: System.Diagnostics.Contracts.Contract.Exists(System.Int32,System.Int32,System.Predicate{System.Int32})
   parent: System.Diagnostics.Contracts.Contract
   isExternal: false
-  name: Exists(Int32,Int32,Predicate)
-  nameWithType: Contract.Exists(Int32,Int32,Predicate)
-  fullName: System.Diagnostics.Contracts.Contract.Exists(Int32,Int32,Predicate)
+  name: Exists(Int32,Int32,Predicate<Int32>)
+  nameWithType: Contract.Exists(Int32,Int32,Predicate<Int32>)
+  fullName: System.Diagnostics.Contracts.Contract.Exists(Int32,Int32,Predicate<Int32>)
 - uid: System.Boolean
   parent: System
   isExternal: false
@@ -809,12 +840,18 @@ references:
   name: Int32
   nameWithType: Int32
   fullName: System.Int32
+- uid: System.Predicate{System.Int32}
+  parent: System
+  isExternal: false
+  name: Predicate<Int32>
+  nameWithType: Predicate<Int32>
+  fullName: System.Predicate<System.Int32>
 - uid: System.Diagnostics.Contracts.Contract.Exists``1(System.Collections.Generic.IEnumerable`1,System.Predicate`1)
   parent: System.Diagnostics.Contracts.Contract
   isExternal: false
-  name: Exists(IEnumerable,Predicate)
-  nameWithType: Contract.Exists(IEnumerable,Predicate)
-  fullName: System.Diagnostics.Contracts.Contract.Exists(IEnumerable,Predicate)
+  name: Exists(IEnumerable<T>,Predicate<T>)
+  nameWithType: Contract.Exists(IEnumerable<T>,Predicate<T>)
+  fullName: System.Diagnostics.Contracts.Contract.Exists(IEnumerable<T>,Predicate<T>)
 - uid: System.Boolean
   parent: System
   isExternal: false
@@ -836,9 +873,9 @@ references:
 - uid: System.Diagnostics.Contracts.Contract.ForAll(System.Int32,System.Int32,System.Predicate{System.Int32})
   parent: System.Diagnostics.Contracts.Contract
   isExternal: false
-  name: ForAll(Int32,Int32,Predicate)
-  nameWithType: Contract.ForAll(Int32,Int32,Predicate)
-  fullName: System.Diagnostics.Contracts.Contract.ForAll(Int32,Int32,Predicate)
+  name: ForAll(Int32,Int32,Predicate<Int32>)
+  nameWithType: Contract.ForAll(Int32,Int32,Predicate<Int32>)
+  fullName: System.Diagnostics.Contracts.Contract.ForAll(Int32,Int32,Predicate<Int32>)
 - uid: System.Boolean
   parent: System
   isExternal: false
@@ -857,12 +894,18 @@ references:
   name: Int32
   nameWithType: Int32
   fullName: System.Int32
+- uid: System.Predicate{System.Int32}
+  parent: System
+  isExternal: false
+  name: Predicate<Int32>
+  nameWithType: Predicate<Int32>
+  fullName: System.Predicate<System.Int32>
 - uid: System.Diagnostics.Contracts.Contract.ForAll``1(System.Collections.Generic.IEnumerable`1,System.Predicate`1)
   parent: System.Diagnostics.Contracts.Contract
   isExternal: false
-  name: ForAll(IEnumerable,Predicate)
-  nameWithType: Contract.ForAll(IEnumerable,Predicate)
-  fullName: System.Diagnostics.Contracts.Contract.ForAll(IEnumerable,Predicate)
+  name: ForAll(IEnumerable<T>,Predicate<T>)
+  nameWithType: Contract.ForAll(IEnumerable<T>,Predicate<T>)
+  fullName: System.Diagnostics.Contracts.Contract.ForAll(IEnumerable<T>,Predicate<T>)
 - uid: System.Boolean
   parent: System
   isExternal: false
@@ -887,12 +930,6 @@ references:
   name: Invariant(Boolean)
   nameWithType: Contract.Invariant(Boolean)
   fullName: System.Diagnostics.Contracts.Contract.Invariant(Boolean)
-- uid: System.Void
-  parent: System
-  isExternal: false
-  name: Void
-  nameWithType: Void
-  fullName: System.Void
 - uid: System.Boolean
   parent: System
   isExternal: false
@@ -905,12 +942,6 @@ references:
   name: Invariant(Boolean,String)
   nameWithType: Contract.Invariant(Boolean,String)
   fullName: System.Diagnostics.Contracts.Contract.Invariant(Boolean,String)
-- uid: System.Void
-  parent: System
-  isExternal: false
-  name: Void
-  nameWithType: Void
-  fullName: System.Void
 - uid: System.Boolean
   parent: System
   isExternal: false
@@ -929,18 +960,24 @@ references:
   name: OldValue(T)
   nameWithType: Contract.OldValue(T)
   fullName: System.Diagnostics.Contracts.Contract.OldValue(T)
+- uid: T
+  parent: ''
+  isExternal: true
+  name: T
+  nameWithType: T
+  fullName: T
+- uid: T
+  parent: ''
+  isExternal: true
+  name: T
+  nameWithType: T
+  fullName: T
 - uid: System.Diagnostics.Contracts.Contract.Requires(System.Boolean)
   parent: System.Diagnostics.Contracts.Contract
   isExternal: false
   name: Requires(Boolean)
   nameWithType: Contract.Requires(Boolean)
   fullName: System.Diagnostics.Contracts.Contract.Requires(Boolean)
-- uid: System.Void
-  parent: System
-  isExternal: false
-  name: Void
-  nameWithType: Void
-  fullName: System.Void
 - uid: System.Boolean
   parent: System
   isExternal: false
@@ -953,12 +990,6 @@ references:
   name: Requires(Boolean,String)
   nameWithType: Contract.Requires(Boolean,String)
   fullName: System.Diagnostics.Contracts.Contract.Requires(Boolean,String)
-- uid: System.Void
-  parent: System
-  isExternal: false
-  name: Void
-  nameWithType: Void
-  fullName: System.Void
 - uid: System.Boolean
   parent: System
   isExternal: false
@@ -977,12 +1008,6 @@ references:
   name: Requires(Boolean)
   nameWithType: Contract.Requires(Boolean)
   fullName: System.Diagnostics.Contracts.Contract.Requires(Boolean)
-- uid: System.Void
-  parent: System
-  isExternal: false
-  name: Void
-  nameWithType: Void
-  fullName: System.Void
 - uid: System.Boolean
   parent: System
   isExternal: false
@@ -995,12 +1020,6 @@ references:
   name: Requires(Boolean,String)
   nameWithType: Contract.Requires(Boolean,String)
   fullName: System.Diagnostics.Contracts.Contract.Requires(Boolean,String)
-- uid: System.Void
-  parent: System
-  isExternal: false
-  name: Void
-  nameWithType: Void
-  fullName: System.Void
 - uid: System.Boolean
   parent: System
   isExternal: false
@@ -1019,12 +1038,30 @@ references:
   name: Result()
   nameWithType: Contract.Result()
   fullName: System.Diagnostics.Contracts.Contract.Result()
+- uid: T
+  parent: ''
+  isExternal: true
+  name: T
+  nameWithType: T
+  fullName: T
 - uid: System.Diagnostics.Contracts.Contract.ValueAtReturn``1(``0@)
   parent: System.Diagnostics.Contracts.Contract
   isExternal: false
   name: ValueAtReturn(T)
   nameWithType: Contract.ValueAtReturn(T)
   fullName: System.Diagnostics.Contracts.Contract.ValueAtReturn(T)
+- uid: T
+  parent: ''
+  isExternal: true
+  name: T
+  nameWithType: T
+  fullName: T
+- uid: T
+  parent: ''
+  isExternal: true
+  name: T
+  nameWithType: T
+  fullName: T
 - uid: System.Diagnostics.Contracts.Contract.Assert*
   parent: System.Diagnostics.Contracts.Contract
   isExternal: false

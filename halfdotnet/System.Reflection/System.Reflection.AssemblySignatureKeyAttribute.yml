@@ -8,11 +8,12 @@ items:
   - System.Reflection.AssemblySignatureKeyAttribute.PublicKey
   langs:
   - csharp
-  - vb
   name: AssemblySignatureKeyAttribute
   nameWithType: AssemblySignatureKeyAttribute
   fullName: System.Reflection.AssemblySignatureKeyAttribute
   type: Class
+  summary: Provides migration from an older, simpler strong name key to a larger key with a stronger hashing algorithm.
+  remarks: "The new larger key is the signature key. In versions before the [!INCLUDE[net_v45](../../add/includes/net-v45-md.md)], the signature key was identical to the identity key. Starting with the [!INCLUDE[net_v45](../../add/includes/net-v45-md.md)], the AssemblySignatureKeyAttribute attribute allows the assembly metadata to continue to have the old public key token and binary large object (BLOB) so that existing assembly references continue to work. It also ensures that the mapping comes from an owner of the identity key.  \n  \n The presence of the attribute does not necessarily mean that strong name validation takes place. In common full-trust scenarios, the attribute is never considered, because strong name signatures are never validated. However, when the strong name signature does have to be validated, both the strong name signature and the countersignature must be validated. The assembly’s identity key does not have to be identical to the signature key (the key used to do the actual signing and validation). The identity key can be mapped to a different (more robust) signing key. This lets you set the identity of an assembly, and update the signing keys and algorithms to more secure versions.  \n  \n The countersignature addresses security concerns when a malicious assembly claims some other identity. For example, a malicious System.Core.dll assembly could contain the Microsoft public key in its metadata, and use the attribute to tell strong name validation to use the attacker’s signature key if no countersignature is present. Thus, it could masquerade as a strong name-validated Microsoft assembly.  \n  \n For information about how to sign assemblies for use with this new attribute, see [Enhanced Strong Naming](../Topic/Enhanced%20Strong%20Naming.md)."
   syntax:
     content: >-
       [System.AttributeUsage(System.AttributeTargets.Assembly, AllowMultiple=false, Inherited=false)]
@@ -69,12 +70,15 @@ items:
   - System.Object.MemberwiseClone
   - System.Object.ReferenceEquals(System.Object,System.Object)
   - System.Object.ToString
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Reflection.AssemblySignatureKeyAttribute.#ctor(System.String,System.String)
   id: '#ctor(System.String,System.String)'
   parent: System.Reflection.AssemblySignatureKeyAttribute
   langs:
   - csharp
-  - vb
   name: AssemblySignatureKeyAttribute(String,String)
   nameWithType: AssemblySignatureKeyAttribute.AssemblySignatureKeyAttribute(String,String)
   fullName: System.Reflection.AssemblySignatureKeyAttribute.AssemblySignatureKeyAttribute(String,String)
@@ -82,21 +86,26 @@ items:
   assemblies:
   - mscorlib
   namespace: System.Reflection
+  summary: Creates a new instance of the <see cref="T:System.Reflection.AssemblySignatureKeyAttribute"> class by using the specified public key and countersignature.
+  remarks: "Use Sn.exe to generate the parameters for this constructor.  \n  \n```  \nsn -a IdentityPubKey.snk IdentityKey.snk SignaturePubKey.snk  \n```"
   syntax:
     content: public AssemblySignatureKeyAttribute (string publicKey, string countersignature);
     parameters:
     - id: publicKey
       type: System.String
-      description: Parameter description to be filled
+      description: The public or identity key.
     - id: countersignature
       type: System.String
-      description: Parameter description to be filled
+      description: The countersignature, which is the signature key portion of the strong-name key.
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Reflection.AssemblySignatureKeyAttribute.Countersignature
   id: Countersignature
   parent: System.Reflection.AssemblySignatureKeyAttribute
   langs:
   - csharp
-  - vb
   name: Countersignature
   nameWithType: AssemblySignatureKeyAttribute.Countersignature
   fullName: System.Reflection.AssemblySignatureKeyAttribute.Countersignature
@@ -104,17 +113,22 @@ items:
   assemblies:
   - mscorlib
   namespace: System.Reflection
+  summary: Gets the countersignature for the strong name for this assembly.
+  remarks: The countersignature represents the public key that is signed by the identity key.
   syntax:
     content: public string Countersignature { get; }
     return:
       type: System.String
-      description: Return description to be filled
+      description: To be added.
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Reflection.AssemblySignatureKeyAttribute.PublicKey
   id: PublicKey
   parent: System.Reflection.AssemblySignatureKeyAttribute
   langs:
   - csharp
-  - vb
   name: PublicKey
   nameWithType: AssemblySignatureKeyAttribute.PublicKey
   fullName: System.Reflection.AssemblySignatureKeyAttribute.PublicKey
@@ -122,11 +136,17 @@ items:
   assemblies:
   - mscorlib
   namespace: System.Reflection
+  summary: Gets the public key for the strong name used to sign the assembly.
+  remarks: To be added.
   syntax:
     content: public string PublicKey { get; }
     return:
       type: System.String
-      description: Return description to be filled
+      description: To be added.
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 references:
 - uid: System.Attribute
   isExternal: false

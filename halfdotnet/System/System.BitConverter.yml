@@ -31,11 +31,14 @@ items:
   - System.BitConverter.ToUInt64(System.Byte[],System.Int32)
   langs:
   - csharp
-  - vb
   name: BitConverter
   nameWithType: BitConverter
   fullName: System.BitConverter
   type: Class
+  summary: Converts base data types to an array of bytes, and an array of bytes to base data types.
+  remarks: "The BitConverter class helps manipulate value types in their fundamental form, as a series of bytes. A byte is defined as an 8-bit unsigned integer. The BitConverter class includes static methods to convert each of the primitive types to and from an array of bytes, as the following table illustrates.  \n  \n|Type|To byte conversion|From byte conversion|  \n|----------|------------------------|--------------------------|  \n|<xref:System.Boolean>|<xref:System.BitConverter.GetBytes%28System.Boolean%29>|<xref:System.BitConverter.ToBoolean%2A>|  \n|<xref:System.Char>|<xref:System.BitConverter.GetBytes%28System.Char%29>|<xref:System.BitConverter.ToChar%2A>|  \n|<xref:System.Double>|<xref:System.BitConverter.GetBytes%28System.Double%29><br /><br /> -or-<br /><br /> <xref:System.BitConverter.DoubleToInt64Bits%28System.Double%29>|<xref:System.BitConverter.ToDouble%2A><br /><br /> -or-<br /><br /> <xref:System.BitConverter.Int64BitsToDouble%2A>|  \n|<xref:System.Int16>|<xref:System.BitConverter.GetBytes%28System.Int16%29>|<xref:System.BitConverter.ToInt16%2A>|  \n|<xref:System.Int32>|<xref:System.BitConverter.GetBytes%28System.Int32%29>|<xref:System.BitConverter.ToInt32%2A>|  \n|<xref:System.Int64>|<xref:System.BitConverter.GetBytes%28System.Int64%29>|<xref:System.BitConverter.ToInt64%2A>|  \n|<xref:System.Single>|<xref:System.BitConverter.GetBytes%28System.Single%29>|<xref:System.BitConverter.ToSingle%2A>|  \n|<xref:System.UInt16>|<xref:System.BitConverter.GetBytes%28System.UInt16%29>|<xref:System.BitConverter.ToUInt16%2A>|  \n|<xref:System.UInt32>|<xref:System.BitConverter.GetBytes%28System.UInt32%29>|<xref:System.BitConverter.ToUInt32%2A>|  \n|<xref:System.UInt64>|<xref:System.BitConverter.GetBytes%28System.UInt64%29>|<xref:System.BitConverter.ToUInt64%2A>|  \n  \n If you use BitConverter methods to round-trip data, make sure that the <xref:System.BitConverter.GetBytes%2A> overload and the `To`*Type* method specify the same type. As the following example illustrates, restoring an array that represents a signed integer by calling the <xref:System.BitConverter.ToUInt32%2A> method can result in a value that is different from the original. For more information, see the entry [Working with Signed Non-Decimal and Bitwise Values](http://go.microsoft.com/fwlink/?LinkId=186999) in the BCL Team Blog.  \n  \n [!CODE [System.BitConverter.Class#3](../CodeSnippet/VS_Snippets_CLR_System/system.BitConverter.Class#3)]  \n  \n The order of bytes in the array returned by the <xref:System.BitConverter.GetBytes%2A> method overloads (as well as the order of bits in the integer returned by the <xref:System.BitConverter.DoubleToInt64Bits%2A> method and the order of hexadecimal strings returned by the [ToString(Byte\\[\\])](assetId:///M:System.BitConverter.ToString(System.Byte[])?qualifyHint=False&autoUpgrade=False) method) depends on whether the computer architecture is little-endian or big-endian. Similarly, the order of bytes in the array and returned by the `To`*IntegerValue* methods and the <xref:System.BitConverter.ToChar%2A> method depends on whether the computer architecture is little-endian or big-endian. The endianness of an architecture is indicated by the <xref:System.BitConverter.IsLittleEndian> property, which returns `true` on little-endian systems and `false` on big-endian systems. On little-endian systems, lower-order bytes precede higher-order bytes. On big-endian system, higher-order bytes precede lower-order bytes. The following table illustrates the difference in the byte arrays that result from passing the integer 1,234,567,890 (0x499602D2) to the <xref:System.BitConverter.GetBytes%28System.Int32%29> method. The bytes are listed in order from the byte at index 0 to the byte at index 3.  \n  \n|||  \n|-|-|  \n|Little-endian|D2-02-96-49|  \n|Big-endian|49-96-02-D2|  \n  \n Because the return value of some methods depends on system architecture, be careful when transmitting byte data beyond machine boundaries:  \n  \n-   If all systems sending and receiving data are guaranteed to have the same endianness, nothing has be done to the data.  \n  \n-   If systems sending and receiving data can have different endianness, always transmit data in a particular order. This means that the order of bytes in the array may have to be reversed either before sending them or after receiving them. A common convention is to transmit data in network byte order (big-endian order). The following example provides an implementation for sending an integer value in network byte order.  \n  \n     [!CODE [System.BitConverter.Class#4](../CodeSnippet/VS_Snippets_CLR_System/system.BitConverter.Class#4)]  \n  \n-   If systems sending and receiving data can have different endianness and the data to be transmitted consists of signed integers, call the <xref:System.Net.IPAddress.HostToNetworkOrder%2A?displayProperty=fullName> method to convert the data to network byte order and the <xref:System.Net.IPAddress.NetworkToHostOrder%2A?displayProperty=fullName> method to convert it to the order required by the recipient."
+  example:
+  - "The following code example illustrates the use of several BitConverter class methods.  \n  \n [!CODE [System.BitConverter.Class#1](../CodeSnippet/VS_Snippets_CLR_System/system.BitConverter.Class#1)]"
   syntax:
     content: public static class BitConverter
   inheritance:
@@ -49,12 +52,15 @@ items:
   - System.Object.MemberwiseClone
   - System.Object.ReferenceEquals(System.Object,System.Object)
   - System.Object.ToString
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.BitConverter.DoubleToInt64Bits(System.Double)
   id: DoubleToInt64Bits(System.Double)
   parent: System.BitConverter
   langs:
   - csharp
-  - vb
   name: DoubleToInt64Bits(Double)
   nameWithType: BitConverter.DoubleToInt64Bits(Double)
   fullName: System.BitConverter.DoubleToInt64Bits(Double)
@@ -62,21 +68,28 @@ items:
   assemblies:
   - mscorlib
   namespace: System
+  summary: Converts the specified double-precision floating point number to a 64-bit signed integer.
+  remarks: The order of bits in the integer returned by the DoubleToInt64Bits method depends on whether the computer architecture is little-endian or big-endian.
+  example:
+  - "The following code example converts the bit patterns of several <xref:System.Double> values to <xref:System.Int64> values with the `DoubleToInt64Bits` method.  \n  \n [!CODE [System.BitConverter.DoubleInt64#2](../CodeSnippet/VS_Snippets_CLR_System/system.BitConverter.DoubleInt64#2)]"
   syntax:
     content: public static long DoubleToInt64Bits (double value);
     parameters:
     - id: value
       type: System.Double
-      description: Parameter description to be filled
+      description: The number to convert.
     return:
       type: System.Int64
-      description: Return description to be filled
+      description: A 64-bit signed integer whose value is equivalent to .
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.BitConverter.GetBytes(System.Boolean)
   id: GetBytes(System.Boolean)
   parent: System.BitConverter
   langs:
   - csharp
-  - vb
   name: GetBytes(Boolean)
   nameWithType: BitConverter.GetBytes(Boolean)
   fullName: System.BitConverter.GetBytes(Boolean)
@@ -84,22 +97,29 @@ items:
   assemblies:
   - mscorlib
   namespace: System
+  summary: Returns the specified Boolean value as a byte array.
+  remarks: You can convert a byte array back to a <xref:System.Boolean> value by calling the <xref:System.BitConverter.ToBoolean%2A> method.
+  example:
+  - "The following example converts the bit patterns of <xref:System.Boolean> values to <xref:System.Byte> arrays with the `GetBytes` method.  \n  \n [!CODE [System.BitConverter.GetBytes.Others#1](../CodeSnippet/VS_Snippets_CLR_System/system.BitConverter.GetBytes.Others#1)]"
   syntax:
     content: public static byte[] GetBytes (bool value);
     parameters:
     - id: value
       type: System.Boolean
-      description: Parameter description to be filled
+      description: A Boolean value.
     return:
       type: System.Byte[]
-      description: Return description to be filled
+      description: A byte array with length 1.
   overload: System.BitConverter.GetBytes*
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.BitConverter.GetBytes(System.Char)
   id: GetBytes(System.Char)
   parent: System.BitConverter
   langs:
   - csharp
-  - vb
   name: GetBytes(Char)
   nameWithType: BitConverter.GetBytes(Char)
   fullName: System.BitConverter.GetBytes(Char)
@@ -107,22 +127,29 @@ items:
   assemblies:
   - mscorlib
   namespace: System
+  summary: Returns the specified Unicode character value as an array of bytes.
+  remarks: The order of bytes in the array returned by the <xref:System.BitConverter.GetBytes%2A> method depends on whether the computer architecture is little-endian or big-endian.
+  example:
+  - "The following code example converts the bit patterns of <xref:System.Char> values (Unicode characters) to <xref:System.Byte> arrays with the `GetBytes` method.  \n  \n [!CODE [System.BitConverter.GetBytes.Others#2](../CodeSnippet/VS_Snippets_CLR_System/system.BitConverter.GetBytes.Others#2)]"
   syntax:
     content: public static byte[] GetBytes (char value);
     parameters:
     - id: value
       type: System.Char
-      description: Parameter description to be filled
+      description: A character to convert.
     return:
       type: System.Byte[]
-      description: Return description to be filled
+      description: An array of bytes with length 2.
   overload: System.BitConverter.GetBytes*
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.BitConverter.GetBytes(System.Double)
   id: GetBytes(System.Double)
   parent: System.BitConverter
   langs:
   - csharp
-  - vb
   name: GetBytes(Double)
   nameWithType: BitConverter.GetBytes(Double)
   fullName: System.BitConverter.GetBytes(Double)
@@ -130,22 +157,29 @@ items:
   assemblies:
   - mscorlib
   namespace: System
+  summary: Returns the specified double-precision floating point value as an array of bytes.
+  remarks: The order of bytes in the array returned by the <xref:System.BitConverter.GetBytes%2A> method depends on whether the computer architecture is little-endian or big-endian.
+  example:
+  - "The following code example converts the bit patterns of <xref:System.Double> values to <xref:System.Byte> arrays with the `GetBytes` method.  \n  \n [!CODE [System.BitConverter.GetBytes.Others#4](../CodeSnippet/VS_Snippets_CLR_System/system.BitConverter.GetBytes.Others#4)]"
   syntax:
     content: public static byte[] GetBytes (double value);
     parameters:
     - id: value
       type: System.Double
-      description: Parameter description to be filled
+      description: The number to convert.
     return:
       type: System.Byte[]
-      description: Return description to be filled
+      description: An array of bytes with length 8.
   overload: System.BitConverter.GetBytes*
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.BitConverter.GetBytes(System.Int16)
   id: GetBytes(System.Int16)
   parent: System.BitConverter
   langs:
   - csharp
-  - vb
   name: GetBytes(Int16)
   nameWithType: BitConverter.GetBytes(Int16)
   fullName: System.BitConverter.GetBytes(Int16)
@@ -153,22 +187,29 @@ items:
   assemblies:
   - mscorlib
   namespace: System
+  summary: Returns the specified 16-bit signed integer value as an array of bytes.
+  remarks: The order of bytes in the array returned by the <xref:System.BitConverter.GetBytes%2A> method depends on whether the computer architecture is little-endian or big-endian.
+  example:
+  - "The following code example converts the bit patterns of <xref:System.Int16> values to <xref:System.Byte> arrays with the `GetBytes` method.  \n  \n [!CODE [System.BitConverter.GetBytes.SInts#3](../CodeSnippet/VS_Snippets_CLR_System/system.BitConverter.GetBytes.SInts#3)]"
   syntax:
     content: public static byte[] GetBytes (short value);
     parameters:
     - id: value
       type: System.Int16
-      description: Parameter description to be filled
+      description: The number to convert.
     return:
       type: System.Byte[]
-      description: Return description to be filled
+      description: An array of bytes with length 2.
   overload: System.BitConverter.GetBytes*
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.BitConverter.GetBytes(System.Int32)
   id: GetBytes(System.Int32)
   parent: System.BitConverter
   langs:
   - csharp
-  - vb
   name: GetBytes(Int32)
   nameWithType: BitConverter.GetBytes(Int32)
   fullName: System.BitConverter.GetBytes(Int32)
@@ -176,22 +217,29 @@ items:
   assemblies:
   - mscorlib
   namespace: System
+  summary: Returns the specified 32-bit signed integer value as an array of bytes.
+  remarks: The order of bytes in the array returned by the <xref:System.BitConverter.GetBytes%2A> method depends on whether the computer architecture is little-endian or big-endian.
+  example:
+  - "The following code example converts the bit patterns of <xref:System.Int32> values to <xref:System.Byte> arrays with the `GetBytes` method.  \n  \n [!CODE [System.BitConverter.GetBytes.SInts#2](../CodeSnippet/VS_Snippets_CLR_System/system.BitConverter.GetBytes.SInts#2)]"
   syntax:
     content: public static byte[] GetBytes (int value);
     parameters:
     - id: value
       type: System.Int32
-      description: Parameter description to be filled
+      description: The number to convert.
     return:
       type: System.Byte[]
-      description: Return description to be filled
+      description: An array of bytes with length 4.
   overload: System.BitConverter.GetBytes*
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.BitConverter.GetBytes(System.Int64)
   id: GetBytes(System.Int64)
   parent: System.BitConverter
   langs:
   - csharp
-  - vb
   name: GetBytes(Int64)
   nameWithType: BitConverter.GetBytes(Int64)
   fullName: System.BitConverter.GetBytes(Int64)
@@ -199,22 +247,29 @@ items:
   assemblies:
   - mscorlib
   namespace: System
+  summary: Returns the specified 64-bit signed integer value as an array of bytes.
+  remarks: The order of bytes in the array returned by the <xref:System.BitConverter.GetBytes%2A> method depends on whether the computer architecture is little-endian or big-endian.
+  example:
+  - "The following example calls the GetBytes method to convert each element in an <xref:System.Int64> array to a<xref:System.Byte> arrays.  \n  \n [!CODE [System.BitConverter.GetBytes.SInts#1](../CodeSnippet/VS_Snippets_CLR_System/system.BitConverter.GetBytes.SInts#1)]"
   syntax:
     content: public static byte[] GetBytes (long value);
     parameters:
     - id: value
       type: System.Int64
-      description: Parameter description to be filled
+      description: The number to convert.
     return:
       type: System.Byte[]
-      description: Return description to be filled
+      description: An array of bytes with length 8.
   overload: System.BitConverter.GetBytes*
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.BitConverter.GetBytes(System.Single)
   id: GetBytes(System.Single)
   parent: System.BitConverter
   langs:
   - csharp
-  - vb
   name: GetBytes(Single)
   nameWithType: BitConverter.GetBytes(Single)
   fullName: System.BitConverter.GetBytes(Single)
@@ -222,22 +277,29 @@ items:
   assemblies:
   - mscorlib
   namespace: System
+  summary: Returns the specified single-precision floating point value as an array of bytes.
+  remarks: The order of bytes in the array returned by the <xref:System.BitConverter.GetBytes%2A> method depends on whether the computer architecture is little-endian or big-endian.
+  example:
+  - "The following code example converts the bit patterns of <xref:System.Single> values to <xref:System.Byte> arrays with the `GetBytes` method.  \n  \n [!CODE [System.BitConverter.GetBytes.Others#3](../CodeSnippet/VS_Snippets_CLR_System/system.BitConverter.GetBytes.Others#3)]"
   syntax:
     content: public static byte[] GetBytes (float value);
     parameters:
     - id: value
       type: System.Single
-      description: Parameter description to be filled
+      description: The number to convert.
     return:
       type: System.Byte[]
-      description: Return description to be filled
+      description: An array of bytes with length 4.
   overload: System.BitConverter.GetBytes*
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.BitConverter.GetBytes(System.UInt16)
   id: GetBytes(System.UInt16)
   parent: System.BitConverter
   langs:
   - csharp
-  - vb
   name: GetBytes(UInt16)
   nameWithType: BitConverter.GetBytes(UInt16)
   fullName: System.BitConverter.GetBytes(UInt16)
@@ -245,22 +307,29 @@ items:
   assemblies:
   - mscorlib
   namespace: System
+  summary: Returns the specified 16-bit unsigned integer value as an array of bytes.
+  remarks: The order of bytes in the array returned by the <xref:System.BitConverter.GetBytes%2A> method depends on whether the computer architecture is little-endian or big-endian.
+  example:
+  - "The following code example converts the bit patterns of <xref:System.UInt16> values to <xref:System.Byte> arrays with the `GetBytes` method.  \n  \n [!CODE [System.BitConverter.GetBytes.UInts#3](../CodeSnippet/VS_Snippets_CLR_System/system.BitConverter.GetBytes.UInts#3)]"
   syntax:
     content: public static byte[] GetBytes (ushort value);
     parameters:
     - id: value
       type: System.UInt16
-      description: Parameter description to be filled
+      description: The number to convert.
     return:
       type: System.Byte[]
-      description: Return description to be filled
+      description: An array of bytes with length 2.
   overload: System.BitConverter.GetBytes*
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.BitConverter.GetBytes(System.UInt32)
   id: GetBytes(System.UInt32)
   parent: System.BitConverter
   langs:
   - csharp
-  - vb
   name: GetBytes(UInt32)
   nameWithType: BitConverter.GetBytes(UInt32)
   fullName: System.BitConverter.GetBytes(UInt32)
@@ -268,22 +337,29 @@ items:
   assemblies:
   - mscorlib
   namespace: System
+  summary: Returns the specified 32-bit unsigned integer value as an array of bytes.
+  remarks: The order of bytes in the array returned by the <xref:System.BitConverter.GetBytes%2A> method depends on whether the computer architecture is little-endian or big-endian.
+  example:
+  - "The following code example converts the bit patterns of <xref:System.UInt32> values to <xref:System.Byte> arrays with the `GetBytes` method.  \n  \n [!CODE [System.BitConverter.GetBytes.UInts#2](../CodeSnippet/VS_Snippets_CLR_System/system.BitConverter.GetBytes.UInts#2)]"
   syntax:
     content: public static byte[] GetBytes (uint value);
     parameters:
     - id: value
       type: System.UInt32
-      description: Parameter description to be filled
+      description: The number to convert.
     return:
       type: System.Byte[]
-      description: Return description to be filled
+      description: An array of bytes with length 4.
   overload: System.BitConverter.GetBytes*
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.BitConverter.GetBytes(System.UInt64)
   id: GetBytes(System.UInt64)
   parent: System.BitConverter
   langs:
   - csharp
-  - vb
   name: GetBytes(UInt64)
   nameWithType: BitConverter.GetBytes(UInt64)
   fullName: System.BitConverter.GetBytes(UInt64)
@@ -291,22 +367,29 @@ items:
   assemblies:
   - mscorlib
   namespace: System
+  summary: Returns the specified 64-bit unsigned integer value as an array of bytes.
+  remarks: The order of bytes in the array returned by the <xref:System.BitConverter.GetBytes%2A> method depends on whether the computer architecture is little-endian or big-endian.
+  example:
+  - "The following code example converts the bit patterns of <xref:System.UInt64> values to <xref:System.Byte> arrays with the `GetBytes` method.  \n  \n [!CODE [System.BitConverter.GetBytes.UInts#1](../CodeSnippet/VS_Snippets_CLR_System/system.BitConverter.GetBytes.UInts#1)]"
   syntax:
     content: public static byte[] GetBytes (ulong value);
     parameters:
     - id: value
       type: System.UInt64
-      description: Parameter description to be filled
+      description: The number to convert.
     return:
       type: System.Byte[]
-      description: Return description to be filled
+      description: An array of bytes with length 8.
   overload: System.BitConverter.GetBytes*
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.BitConverter.Int64BitsToDouble(System.Int64)
   id: Int64BitsToDouble(System.Int64)
   parent: System.BitConverter
   langs:
   - csharp
-  - vb
   name: Int64BitsToDouble(Int64)
   nameWithType: BitConverter.Int64BitsToDouble(Int64)
   fullName: System.BitConverter.Int64BitsToDouble(Int64)
@@ -314,21 +397,28 @@ items:
   assemblies:
   - mscorlib
   namespace: System
+  summary: Converts the specified 64-bit signed integer to a double-precision floating point number.
+  remarks: Typically,  is an integer that is returned by the <xref:System.BitConverter.DoubleToInt64Bits%2A> method.
+  example:
+  - "The following code example converts the bit patterns of several <xref:System.Int64> values to <xref:System.Double> values with the `Int64BitsToDouble` method.  \n  \n [!CODE [System.BitConverter.DoubleInt64#1](../CodeSnippet/VS_Snippets_CLR_System/system.BitConverter.DoubleInt64#1)]"
   syntax:
     content: public static double Int64BitsToDouble (long value);
     parameters:
     - id: value
       type: System.Int64
-      description: Parameter description to be filled
+      description: The number to convert.
     return:
       type: System.Double
-      description: Return description to be filled
+      description: A double-precision floating point number whose value is equivalent to .
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.BitConverter.IsLittleEndian
   id: IsLittleEndian
   parent: System.BitConverter
   langs:
   - csharp
-  - vb
   name: IsLittleEndian
   nameWithType: BitConverter.IsLittleEndian
   fullName: System.BitConverter.IsLittleEndian
@@ -336,17 +426,24 @@ items:
   assemblies:
   - mscorlib
   namespace: System
+  summary: Indicates the byte order ("endianness") in which data is stored in this computer architecture.
+  remarks: "Different computer architectures store data using different byte orders. \"Big-endian\" means the most significant byte is on the left end of a word. \"Little-endian\" means the most significant byte is on the right end of a word.  \n  \n> [!NOTE]\n>  You can convert from network byte order to the byte order of the host computer without retrieving  the value of the IsLittleEndian field by passing a 16-bit, 32-bit, or 64 bit integer to the <xref:System.Net.IPAddress.HostToNetworkOrder%2A?displayProperty=fullName> method."
+  example:
+  - "The following code example illustrates the use of the `IsLittleEndian` field.  \n  \n [!CODE [System.BitConverter.Class#2](../CodeSnippet/VS_Snippets_CLR_System/system.BitConverter.Class#2)]"
   syntax:
     content: public static readonly bool IsLittleEndian;
     return:
       type: System.Boolean
-      description: Return description to be filled
+      description: To be added.
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.BitConverter.ToBoolean(System.Byte[],System.Int32)
   id: ToBoolean(System.Byte[],System.Int32)
   parent: System.BitConverter
   langs:
   - csharp
-  - vb
   name: ToBoolean(Byte[],Int32)
   nameWithType: BitConverter.ToBoolean(Byte[],Int32)
   fullName: System.BitConverter.ToBoolean(Byte[],Int32)
@@ -354,24 +451,31 @@ items:
   assemblies:
   - mscorlib
   namespace: System
+  summary: Returns a Boolean value converted from the byte at a specified position in a byte array.
+  remarks: To convert a <xref:System.Boolean> value to its byte representation, call the ToBoolean method.
+  example:
+  - "The following code example converts elements of <xref:System.Byte> arrays to <xref:System.Boolean> values with the `ToBoolean` method.  \n  \n [!CODE [System.BitConverter.ToXXX.Others#1](../CodeSnippet/VS_Snippets_CLR_System/system.BitConverter.ToXXX.Others#1)]"
   syntax:
     content: public static bool ToBoolean (byte[] value, int startIndex);
     parameters:
     - id: value
       type: System.Byte[]
-      description: Parameter description to be filled
+      description: A byte array.
     - id: startIndex
       type: System.Int32
-      description: Parameter description to be filled
+      description: The index of the byte within .
     return:
       type: System.Boolean
-      description: Return description to be filled
+      description: '`true` if the byte at  in  is nonzero; otherwise, `false`.'
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.BitConverter.ToChar(System.Byte[],System.Int32)
   id: ToChar(System.Byte[],System.Int32)
   parent: System.BitConverter
   langs:
   - csharp
-  - vb
   name: ToChar(Byte[],Int32)
   nameWithType: BitConverter.ToChar(Byte[],Int32)
   fullName: System.BitConverter.ToChar(Byte[],Int32)
@@ -379,24 +483,31 @@ items:
   assemblies:
   - mscorlib
   namespace: System
+  summary: Returns a Unicode character converted from two bytes at a specified position in a byte array.
+  remarks: The ToChar method converts the bytes from index  to  + 1 to a <xref:System.Char> value. The order of bytes in the array must reflect the endianness of the computer system's architecture; for more information, see the Remarks section of the <xref:System.BitConverter> class topic.
+  example:
+  - "The following code example converts elements of <xref:System.Byte> arrays to <xref:System.Char> values (Unicode characters) with the `ToChar` method.  \n  \n [!CODE [System.BitConverter.ToXXX.Others#2](../CodeSnippet/VS_Snippets_CLR_System/system.BitConverter.ToXXX.Others#2)]"
   syntax:
     content: public static char ToChar (byte[] value, int startIndex);
     parameters:
     - id: value
       type: System.Byte[]
-      description: Parameter description to be filled
+      description: An array.
     - id: startIndex
       type: System.Int32
-      description: Parameter description to be filled
+      description: The starting position within .
     return:
       type: System.Char
-      description: Return description to be filled
+      description: A character formed by two bytes beginning at .
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.BitConverter.ToDouble(System.Byte[],System.Int32)
   id: ToDouble(System.Byte[],System.Int32)
   parent: System.BitConverter
   langs:
   - csharp
-  - vb
   name: ToDouble(Byte[],Int32)
   nameWithType: BitConverter.ToDouble(Byte[],Int32)
   fullName: System.BitConverter.ToDouble(Byte[],Int32)
@@ -404,24 +515,31 @@ items:
   assemblies:
   - mscorlib
   namespace: System
+  summary: Returns a double-precision floating point number converted from eight bytes at a specified position in a byte array.
+  remarks: The ToDouble method converts the bytes from index  to  + 7 to a <xref:System.Double> value. The order of bytes in the array must reflect the endianness of the computer system's architecture; for more information, see the Remarks section of the <xref:System.BitConverter> class topic.
+  example:
+  - "The following code example converts elements of <xref:System.Byte> arrays to <xref:System.Double> values with the `ToDouble` method.  \n  \n [!CODE [System.BitConverter.ToXXX.Others#3](../CodeSnippet/VS_Snippets_CLR_System/system.BitConverter.ToXXX.Others#3)]"
   syntax:
     content: public static double ToDouble (byte[] value, int startIndex);
     parameters:
     - id: value
       type: System.Byte[]
-      description: Parameter description to be filled
+      description: An array of bytes.
     - id: startIndex
       type: System.Int32
-      description: Parameter description to be filled
+      description: The starting position within .
     return:
       type: System.Double
-      description: Return description to be filled
+      description: A double precision floating point number formed by eight bytes beginning at .
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.BitConverter.ToInt16(System.Byte[],System.Int32)
   id: ToInt16(System.Byte[],System.Int32)
   parent: System.BitConverter
   langs:
   - csharp
-  - vb
   name: ToInt16(Byte[],Int32)
   nameWithType: BitConverter.ToInt16(Byte[],Int32)
   fullName: System.BitConverter.ToInt16(Byte[],Int32)
@@ -429,24 +547,31 @@ items:
   assemblies:
   - mscorlib
   namespace: System
+  summary: Returns a 16-bit signed integer converted from two bytes at a specified position in a byte array.
+  remarks: The ToInt16 method converts the bytes from index  to  + 1 to an <xref:System.Int16> value. The order of bytes in the array must reflect the endianness of the computer system's architecture; for more information, see the Remarks section of the <xref:System.BitConverter> class topic.
+  example:
+  - "The following code example converts elements of <xref:System.Byte> arrays to <xref:System.Int16> values with the `ToInt16` method.  \n  \n [!CODE [System.BitConverter.ToXXX.SInts#1](../CodeSnippet/VS_Snippets_CLR_System/system.BitConverter.ToXXX.SInts#1)]"
   syntax:
     content: public static short ToInt16 (byte[] value, int startIndex);
     parameters:
     - id: value
       type: System.Byte[]
-      description: Parameter description to be filled
+      description: An array of bytes.
     - id: startIndex
       type: System.Int32
-      description: Parameter description to be filled
+      description: The starting position within .
     return:
       type: System.Int16
-      description: Return description to be filled
+      description: A 16-bit signed integer formed by two bytes beginning at .
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.BitConverter.ToInt32(System.Byte[],System.Int32)
   id: ToInt32(System.Byte[],System.Int32)
   parent: System.BitConverter
   langs:
   - csharp
-  - vb
   name: ToInt32(Byte[],Int32)
   nameWithType: BitConverter.ToInt32(Byte[],Int32)
   fullName: System.BitConverter.ToInt32(Byte[],Int32)
@@ -454,24 +579,31 @@ items:
   assemblies:
   - mscorlib
   namespace: System
+  summary: Returns a 32-bit signed integer converted from four bytes at a specified position in a byte array.
+  remarks: The ToInt32 method converts the bytes from index  to  + 3 to an <xref:System.Int32> value. The order of bytes in the array must reflect the endianness of the computer system's architecture; for more information, see the Remarks section of <xref:System.BitConverter>.
+  example:
+  - "The following example uses the ToInt32 method to create <xref:System.Int32> values from a four-byte array and from the upper four bytes of an eight-byte array. It also uses the <xref:System.BitConverter.GetBytes%28System.Int32%29> and ToInt32 methods to round-trip an <xref:System.Int32> value.  \n  \n [!CODE [System.BitConverter.ToInt32#1](../CodeSnippet/VS_Snippets_CLR_System/system.bitconverter.toint32#1)]"
   syntax:
     content: public static int ToInt32 (byte[] value, int startIndex);
     parameters:
     - id: value
       type: System.Byte[]
-      description: Parameter description to be filled
+      description: An array of bytes.
     - id: startIndex
       type: System.Int32
-      description: Parameter description to be filled
+      description: The starting position within .
     return:
       type: System.Int32
-      description: Return description to be filled
+      description: A 32-bit signed integer formed by four bytes beginning at .
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.BitConverter.ToInt64(System.Byte[],System.Int32)
   id: ToInt64(System.Byte[],System.Int32)
   parent: System.BitConverter
   langs:
   - csharp
-  - vb
   name: ToInt64(Byte[],Int32)
   nameWithType: BitConverter.ToInt64(Byte[],Int32)
   fullName: System.BitConverter.ToInt64(Byte[],Int32)
@@ -479,24 +611,31 @@ items:
   assemblies:
   - mscorlib
   namespace: System
+  summary: Returns a 64-bit signed integer converted from eight bytes at a specified position in a byte array.
+  remarks: The ToInt64 method converts the bytes from index  to  + 7 to a <xref:System.Int64> value. The order of bytes in the array must reflect the endianness of the computer system's architecture; for more information, see the Remarks section of the <xref:System.BitConverter> class topic.
+  example:
+  - "The following code example converts elements of <xref:System.Byte> arrays to <xref:System.Int64> values with the `ToInt64` method.  \n  \n [!CODE [System.BitConverter.ToXXX.SInts#3](../CodeSnippet/VS_Snippets_CLR_System/system.BitConverter.ToXXX.SInts#3)]"
   syntax:
     content: public static long ToInt64 (byte[] value, int startIndex);
     parameters:
     - id: value
       type: System.Byte[]
-      description: Parameter description to be filled
+      description: An array of bytes.
     - id: startIndex
       type: System.Int32
-      description: Parameter description to be filled
+      description: The starting position within .
     return:
       type: System.Int64
-      description: Return description to be filled
+      description: A 64-bit signed integer formed by eight bytes beginning at .
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.BitConverter.ToSingle(System.Byte[],System.Int32)
   id: ToSingle(System.Byte[],System.Int32)
   parent: System.BitConverter
   langs:
   - csharp
-  - vb
   name: ToSingle(Byte[],Int32)
   nameWithType: BitConverter.ToSingle(Byte[],Int32)
   fullName: System.BitConverter.ToSingle(Byte[],Int32)
@@ -504,24 +643,31 @@ items:
   assemblies:
   - mscorlib
   namespace: System
+  summary: Returns a single-precision floating point number converted from four bytes at a specified position in a byte array.
+  remarks: The ToSingle method converts the bytes from index  to  + 3 to a <xref:System.Single> value. The order of bytes in the array must reflect the endianness of the computer system's architecture; for more information, see the Remarks section of <xref:System.BitConverter>.
+  example:
+  - "The following code example converts elements of <xref:System.Byte> arrays to <xref:System.Single> values with the `ToSingle` method.  \n  \n [!CODE [System.BitConverter.ToXXX.Others#4](../CodeSnippet/VS_Snippets_CLR_System/system.BitConverter.ToXXX.Others#4)]"
   syntax:
     content: public static float ToSingle (byte[] value, int startIndex);
     parameters:
     - id: value
       type: System.Byte[]
-      description: Parameter description to be filled
+      description: An array of bytes.
     - id: startIndex
       type: System.Int32
-      description: Parameter description to be filled
+      description: The starting position within .
     return:
       type: System.Single
-      description: Return description to be filled
+      description: A single-precision floating point number formed by four bytes beginning at .
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.BitConverter.ToString(System.Byte[])
   id: ToString(System.Byte[])
   parent: System.BitConverter
   langs:
   - csharp
-  - vb
   name: ToString(Byte[])
   nameWithType: BitConverter.ToString(Byte[])
   fullName: System.BitConverter.ToString(Byte[])
@@ -529,22 +675,29 @@ items:
   assemblies:
   - mscorlib
   namespace: System
+  summary: Converts the numeric value of each element of a specified array of bytes to its equivalent hexadecimal string representation.
+  remarks: All the elements of  are converted. The order of hexadecimal strings returned by the ToString method depends on whether the computer architecture is little-endian or big-endian.
+  example:
+  - "The following code example converts <xref:System.Byte> arrays to <xref:System.String> objects with the `ToString` method.  \n  \n [!CODE [System.BitConverter.ToString#1](../CodeSnippet/VS_Snippets_CLR_System/system.BitConverter.ToString#1)]"
   syntax:
     content: public static string ToString (byte[] value);
     parameters:
     - id: value
       type: System.Byte[]
-      description: Parameter description to be filled
+      description: An array of bytes.
     return:
       type: System.String
-      description: Return description to be filled
+      description: A string of hexadecimal pairs separated by hyphens, where each pair represents the corresponding element in ; for example, "7F-2C-4A-00".
   overload: System.BitConverter.ToString*
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.BitConverter.ToString(System.Byte[],System.Int32)
   id: ToString(System.Byte[],System.Int32)
   parent: System.BitConverter
   langs:
   - csharp
-  - vb
   name: ToString(Byte[],Int32)
   nameWithType: BitConverter.ToString(Byte[],Int32)
   fullName: System.BitConverter.ToString(Byte[],Int32)
@@ -552,25 +705,32 @@ items:
   assemblies:
   - mscorlib
   namespace: System
+  summary: Converts the numeric value of each element of a specified subarray of bytes to its equivalent hexadecimal string representation.
+  remarks: The elements from array position  to the end of the array are converted. The order of hexadecimal strings returned by the <xref:System.BitConverter.ToString%2A> method depends on whether the computer architecture is little-endian or big-endian.
+  example:
+  - "The following code example converts the part of a <xref:System.Byte> array starting at the specified  to a <xref:System.String> with the `ToString` method.  \n  \n [!CODE [System.BitConverter.ToString#2](../CodeSnippet/VS_Snippets_CLR_System/system.BitConverter.ToString#2)]"
   syntax:
     content: public static string ToString (byte[] value, int startIndex);
     parameters:
     - id: value
       type: System.Byte[]
-      description: Parameter description to be filled
+      description: An array of bytes.
     - id: startIndex
       type: System.Int32
-      description: Parameter description to be filled
+      description: The starting position within .
     return:
       type: System.String
-      description: Return description to be filled
+      description: A string of hexadecimal pairs separated by hyphens, where each pair represents the corresponding element in a subarray of ; for example, "7F-2C-4A-00".
   overload: System.BitConverter.ToString*
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.BitConverter.ToString(System.Byte[],System.Int32,System.Int32)
   id: ToString(System.Byte[],System.Int32,System.Int32)
   parent: System.BitConverter
   langs:
   - csharp
-  - vb
   name: ToString(Byte[],Int32,Int32)
   nameWithType: BitConverter.ToString(Byte[],Int32,Int32)
   fullName: System.BitConverter.ToString(Byte[],Int32,Int32)
@@ -578,28 +738,35 @@ items:
   assemblies:
   - mscorlib
   namespace: System
+  summary: Converts the numeric value of each element of a specified subarray of bytes to its equivalent hexadecimal string representation.
+  remarks: "The  elements from array position  are converted. If  equals zero, the method returns <xref:System.String?displayProperty=fullName>.  \n  \n The order of hexadecimal strings returned by the <xref:System.BitConverter.ToString%2A> method depends on whether the computer architecture is little-endian or big-endian."
+  example:
+  - "The following example uses the ToString method to convert part of a byte array, starting at the specified  and with the specified , to a string.  \n  \n [!CODE [System.BitConverter.ToString#2](../CodeSnippet/VS_Snippets_CLR_System/system.BitConverter.ToString#2)]"
   syntax:
     content: public static string ToString (byte[] value, int startIndex, int length);
     parameters:
     - id: value
       type: System.Byte[]
-      description: Parameter description to be filled
+      description: An array of bytes.
     - id: startIndex
       type: System.Int32
-      description: Parameter description to be filled
+      description: The starting position within .
     - id: length
       type: System.Int32
-      description: Parameter description to be filled
+      description: The number of array elements in  to convert.
     return:
       type: System.String
-      description: Return description to be filled
+      description: A string of hexadecimal pairs separated by hyphens, where each pair represents the corresponding element in a subarray of ; for example, "7F-2C-4A-00".
   overload: System.BitConverter.ToString*
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.BitConverter.ToUInt16(System.Byte[],System.Int32)
   id: ToUInt16(System.Byte[],System.Int32)
   parent: System.BitConverter
   langs:
   - csharp
-  - vb
   name: ToUInt16(Byte[],Int32)
   nameWithType: BitConverter.ToUInt16(Byte[],Int32)
   fullName: System.BitConverter.ToUInt16(Byte[],Int32)
@@ -607,24 +774,31 @@ items:
   assemblies:
   - mscorlib
   namespace: System
+  summary: Returns a 16-bit unsigned integer converted from two bytes at a specified position in a byte array.
+  remarks: The ToUInt16 method converts the bytes from index  to  + 1 to a <xref:System.UInt16> value. The order of bytes in the array must reflect the endianness of the computer system's architecture; for more information, see the Remarks section of the <xref:System.BitConverter> class topic.
+  example:
+  - "The following code example converts elements of <xref:System.Byte> arrays to <xref:System.UInt16> values with the `ToUInt16` method.  \n  \n [!CODE [System.BitConverter.ToXXX.UInts#1](../CodeSnippet/VS_Snippets_CLR_System/system.BitConverter.ToXXX.UInts#1)]"
   syntax:
     content: public static ushort ToUInt16 (byte[] value, int startIndex);
     parameters:
     - id: value
       type: System.Byte[]
-      description: Parameter description to be filled
+      description: The array of bytes.
     - id: startIndex
       type: System.Int32
-      description: Parameter description to be filled
+      description: The starting position within .
     return:
       type: System.UInt16
-      description: Return description to be filled
+      description: A 16-bit unsigned integer formed by two bytes beginning at .
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.BitConverter.ToUInt32(System.Byte[],System.Int32)
   id: ToUInt32(System.Byte[],System.Int32)
   parent: System.BitConverter
   langs:
   - csharp
-  - vb
   name: ToUInt32(Byte[],Int32)
   nameWithType: BitConverter.ToUInt32(Byte[],Int32)
   fullName: System.BitConverter.ToUInt32(Byte[],Int32)
@@ -632,24 +806,31 @@ items:
   assemblies:
   - mscorlib
   namespace: System
+  summary: Returns a 32-bit unsigned integer converted from four bytes at a specified position in a byte array.
+  remarks: The ToUInt32 method converts the bytes from index  to  + 3 to a <xref:System.UInt32> value. The order of bytes in the array must reflect the endianness of the computer system's architecture; for more information, see the Remarks section of the <xref:System.BitConverter> class topic.
+  example:
+  - "The following code example converts elements of <xref:System.Byte> arrays to <xref:System.UInt32> values with the `ToUInt32` method.  \n  \n [!CODE [System.BitConverter.ToXXX.UInts#2](../CodeSnippet/VS_Snippets_CLR_System/system.BitConverter.ToXXX.UInts#2)]"
   syntax:
     content: public static uint ToUInt32 (byte[] value, int startIndex);
     parameters:
     - id: value
       type: System.Byte[]
-      description: Parameter description to be filled
+      description: An array of bytes.
     - id: startIndex
       type: System.Int32
-      description: Parameter description to be filled
+      description: The starting position within .
     return:
       type: System.UInt32
-      description: Return description to be filled
+      description: A 32-bit unsigned integer formed by four bytes beginning at .
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.BitConverter.ToUInt64(System.Byte[],System.Int32)
   id: ToUInt64(System.Byte[],System.Int32)
   parent: System.BitConverter
   langs:
   - csharp
-  - vb
   name: ToUInt64(Byte[],Int32)
   nameWithType: BitConverter.ToUInt64(Byte[],Int32)
   fullName: System.BitConverter.ToUInt64(Byte[],Int32)
@@ -657,18 +838,26 @@ items:
   assemblies:
   - mscorlib
   namespace: System
+  summary: Returns a 64-bit unsigned integer converted from eight bytes at a specified position in a byte array.
+  remarks: The ToUInt64 method converts the bytes from index  to  + 7 to a <xref:System.UInt64> value. The order of bytes in the array must reflect the endianness of the computer system's architecture; for more information, see the Remarks section of the <xref:System.BitConverter> class topic.
+  example:
+  - "The following code example converts elements of <xref:System.Byte> arrays to <xref:System.UInt64> values with the `ToUInt64` method.  \n  \n [!CODE [System.BitConverter.ToXXX.UInts#3](../CodeSnippet/VS_Snippets_CLR_System/system.BitConverter.ToXXX.UInts#3)]"
   syntax:
     content: public static ulong ToUInt64 (byte[] value, int startIndex);
     parameters:
     - id: value
       type: System.Byte[]
-      description: Parameter description to be filled
+      description: An array of bytes.
     - id: startIndex
       type: System.Int32
-      description: Parameter description to be filled
+      description: The starting position within .
     return:
       type: System.UInt64
-      description: Return description to be filled
+      description: A 64-bit unsigned integer formed by the eight bytes beginning at .
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 references:
 - uid: System.Object
   isExternal: false
@@ -697,6 +886,12 @@ references:
   name: GetBytes(Boolean)
   nameWithType: BitConverter.GetBytes(Boolean)
   fullName: System.BitConverter.GetBytes(Boolean)
+- uid: System.Byte
+  parent: System
+  isExternal: false
+  name: Byte
+  nameWithType: Byte
+  fullName: System.Byte[]
 - uid: System.Boolean
   parent: System
   isExternal: false
@@ -709,6 +904,12 @@ references:
   name: GetBytes(Char)
   nameWithType: BitConverter.GetBytes(Char)
   fullName: System.BitConverter.GetBytes(Char)
+- uid: System.Byte
+  parent: System
+  isExternal: false
+  name: Byte
+  nameWithType: Byte
+  fullName: System.Byte[]
 - uid: System.Char
   parent: System
   isExternal: false
@@ -721,6 +922,12 @@ references:
   name: GetBytes(Double)
   nameWithType: BitConverter.GetBytes(Double)
   fullName: System.BitConverter.GetBytes(Double)
+- uid: System.Byte
+  parent: System
+  isExternal: false
+  name: Byte
+  nameWithType: Byte
+  fullName: System.Byte[]
 - uid: System.Double
   parent: System
   isExternal: false
@@ -733,6 +940,12 @@ references:
   name: GetBytes(Int16)
   nameWithType: BitConverter.GetBytes(Int16)
   fullName: System.BitConverter.GetBytes(Int16)
+- uid: System.Byte
+  parent: System
+  isExternal: false
+  name: Byte
+  nameWithType: Byte
+  fullName: System.Byte[]
 - uid: System.Int16
   parent: System
   isExternal: false
@@ -745,6 +958,12 @@ references:
   name: GetBytes(Int32)
   nameWithType: BitConverter.GetBytes(Int32)
   fullName: System.BitConverter.GetBytes(Int32)
+- uid: System.Byte
+  parent: System
+  isExternal: false
+  name: Byte
+  nameWithType: Byte
+  fullName: System.Byte[]
 - uid: System.Int32
   parent: System
   isExternal: false
@@ -757,6 +976,12 @@ references:
   name: GetBytes(Int64)
   nameWithType: BitConverter.GetBytes(Int64)
   fullName: System.BitConverter.GetBytes(Int64)
+- uid: System.Byte
+  parent: System
+  isExternal: false
+  name: Byte
+  nameWithType: Byte
+  fullName: System.Byte[]
 - uid: System.Int64
   parent: System
   isExternal: false
@@ -769,6 +994,12 @@ references:
   name: GetBytes(Single)
   nameWithType: BitConverter.GetBytes(Single)
   fullName: System.BitConverter.GetBytes(Single)
+- uid: System.Byte
+  parent: System
+  isExternal: false
+  name: Byte
+  nameWithType: Byte
+  fullName: System.Byte[]
 - uid: System.Single
   parent: System
   isExternal: false
@@ -781,6 +1012,12 @@ references:
   name: GetBytes(UInt16)
   nameWithType: BitConverter.GetBytes(UInt16)
   fullName: System.BitConverter.GetBytes(UInt16)
+- uid: System.Byte
+  parent: System
+  isExternal: false
+  name: Byte
+  nameWithType: Byte
+  fullName: System.Byte[]
 - uid: System.UInt16
   parent: System
   isExternal: false
@@ -793,6 +1030,12 @@ references:
   name: GetBytes(UInt32)
   nameWithType: BitConverter.GetBytes(UInt32)
   fullName: System.BitConverter.GetBytes(UInt32)
+- uid: System.Byte
+  parent: System
+  isExternal: false
+  name: Byte
+  nameWithType: Byte
+  fullName: System.Byte[]
 - uid: System.UInt32
   parent: System
   isExternal: false
@@ -805,6 +1048,12 @@ references:
   name: GetBytes(UInt64)
   nameWithType: BitConverter.GetBytes(UInt64)
   fullName: System.BitConverter.GetBytes(UInt64)
+- uid: System.Byte
+  parent: System
+  isExternal: false
+  name: Byte
+  nameWithType: Byte
+  fullName: System.Byte[]
 - uid: System.UInt64
   parent: System
   isExternal: false
@@ -853,6 +1102,12 @@ references:
   name: Boolean
   nameWithType: Boolean
   fullName: System.Boolean
+- uid: System.Byte
+  parent: System
+  isExternal: false
+  name: Byte
+  nameWithType: Byte
+  fullName: System.Byte[]
 - uid: System.Int32
   parent: System
   isExternal: false
@@ -871,6 +1126,12 @@ references:
   name: Char
   nameWithType: Char
   fullName: System.Char
+- uid: System.Byte
+  parent: System
+  isExternal: false
+  name: Byte
+  nameWithType: Byte
+  fullName: System.Byte[]
 - uid: System.Int32
   parent: System
   isExternal: false
@@ -889,6 +1150,12 @@ references:
   name: Double
   nameWithType: Double
   fullName: System.Double
+- uid: System.Byte
+  parent: System
+  isExternal: false
+  name: Byte
+  nameWithType: Byte
+  fullName: System.Byte[]
 - uid: System.Int32
   parent: System
   isExternal: false
@@ -907,6 +1174,12 @@ references:
   name: Int16
   nameWithType: Int16
   fullName: System.Int16
+- uid: System.Byte
+  parent: System
+  isExternal: false
+  name: Byte
+  nameWithType: Byte
+  fullName: System.Byte[]
 - uid: System.Int32
   parent: System
   isExternal: false
@@ -925,6 +1198,12 @@ references:
   name: Int32
   nameWithType: Int32
   fullName: System.Int32
+- uid: System.Byte
+  parent: System
+  isExternal: false
+  name: Byte
+  nameWithType: Byte
+  fullName: System.Byte[]
 - uid: System.Int32
   parent: System
   isExternal: false
@@ -943,6 +1222,12 @@ references:
   name: Int64
   nameWithType: Int64
   fullName: System.Int64
+- uid: System.Byte
+  parent: System
+  isExternal: false
+  name: Byte
+  nameWithType: Byte
+  fullName: System.Byte[]
 - uid: System.Int32
   parent: System
   isExternal: false
@@ -961,6 +1246,12 @@ references:
   name: Single
   nameWithType: Single
   fullName: System.Single
+- uid: System.Byte
+  parent: System
+  isExternal: false
+  name: Byte
+  nameWithType: Byte
+  fullName: System.Byte[]
 - uid: System.Int32
   parent: System
   isExternal: false
@@ -979,6 +1270,12 @@ references:
   name: String
   nameWithType: String
   fullName: System.String
+- uid: System.Byte
+  parent: System
+  isExternal: false
+  name: Byte
+  nameWithType: Byte
+  fullName: System.Byte[]
 - uid: System.BitConverter.ToString(System.Byte[],System.Int32)
   parent: System.BitConverter
   isExternal: false
@@ -991,6 +1288,12 @@ references:
   name: String
   nameWithType: String
   fullName: System.String
+- uid: System.Byte
+  parent: System
+  isExternal: false
+  name: Byte
+  nameWithType: Byte
+  fullName: System.Byte[]
 - uid: System.Int32
   parent: System
   isExternal: false
@@ -1009,6 +1312,12 @@ references:
   name: String
   nameWithType: String
   fullName: System.String
+- uid: System.Byte
+  parent: System
+  isExternal: false
+  name: Byte
+  nameWithType: Byte
+  fullName: System.Byte[]
 - uid: System.Int32
   parent: System
   isExternal: false
@@ -1033,6 +1342,12 @@ references:
   name: UInt16
   nameWithType: UInt16
   fullName: System.UInt16
+- uid: System.Byte
+  parent: System
+  isExternal: false
+  name: Byte
+  nameWithType: Byte
+  fullName: System.Byte[]
 - uid: System.Int32
   parent: System
   isExternal: false
@@ -1051,6 +1366,12 @@ references:
   name: UInt32
   nameWithType: UInt32
   fullName: System.UInt32
+- uid: System.Byte
+  parent: System
+  isExternal: false
+  name: Byte
+  nameWithType: Byte
+  fullName: System.Byte[]
 - uid: System.Int32
   parent: System
   isExternal: false
@@ -1069,6 +1390,12 @@ references:
   name: UInt64
   nameWithType: UInt64
   fullName: System.UInt64
+- uid: System.Byte
+  parent: System
+  isExternal: false
+  name: Byte
+  nameWithType: Byte
+  fullName: System.Byte[]
 - uid: System.Int32
   parent: System
   isExternal: false

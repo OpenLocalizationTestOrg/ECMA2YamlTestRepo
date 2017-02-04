@@ -19,11 +19,14 @@ items:
   - System.Runtime.InteropServices.GCHandle.ToIntPtr(System.Runtime.InteropServices.GCHandle)
   langs:
   - csharp
-  - vb
   name: GCHandle
   nameWithType: GCHandle
   fullName: System.Runtime.InteropServices.GCHandle
   type: Struct
+  summary: Provides a way to access a managed object from unmanaged memory.
+  remarks: "The GCHandle structure is used with the <xref:System.Runtime.InteropServices.GCHandleType> enumeration to create a handle corresponding to any managed object. This handle can be one of four types: `Weak`, `WeakTrackResurrection`, `Normal`, or `Pinned`. When the handle has been allocated, you can use it to prevent the managed object from being collected by the garbage collector when an unmanaged client holds the only reference. Without such a handle, the object can be collected by the garbage collector before completing its work on behalf of the unmanaged client.  \n  \n You can also use GCHandle to create a pinned object that returns a memory address to prevent the garbage collector from moving the object in memory.  \n  \n When the handle goes out of scope you must explicitly release it by calling the <xref:System.Runtime.InteropServices.GCHandle.Free%2A> method; otherwise, memory leaks may occur. When you free a pinned handle, the associated object will be unpinned and will become eligible for garbage collection, if there are no other references to it."
+  example:
+  - "The following example shows an `App` class that creates a handle to a managed object using the `GCHandle.Alloc` method, which prevents the managed object from being collected. A call to the `EnumWindows` method passes a delegate and a managed object (both declared as managed types, but not shown), and casts the handle to an <xref:System.IntPtr>. The unmanaged function passes the type back to the caller as a parameter of the callback function.  \n  \n [!CODE [System.Runtime.InteropServices.GCHandle#1](../CodeSnippet/VS_Snippets_CLR_System/system.Runtime.InteropServices.GCHandle#1)]"
   syntax:
     content: >-
       [System.Runtime.InteropServices.ComVisible(true)]
@@ -33,12 +36,15 @@ items:
   - System.Object
   - System.ValueType
   implements: []
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Runtime.InteropServices.GCHandle.AddrOfPinnedObject
   id: AddrOfPinnedObject
   parent: System.Runtime.InteropServices.GCHandle
   langs:
   - csharp
-  - vb
   name: AddrOfPinnedObject()
   nameWithType: GCHandle.AddrOfPinnedObject()
   fullName: System.Runtime.InteropServices.GCHandle.AddrOfPinnedObject()
@@ -46,18 +52,23 @@ items:
   assemblies:
   - mscorlib
   namespace: System.Runtime.InteropServices
+  summary: Retrieves the address of an object in a <xref:System.Runtime.InteropServices.GCHandleType?displayProperty=fullName> handle.
+  remarks: This method is used to get a stable pointer to the object. Pinning an object prevents the garbage collector from moving it around in memory, thereby reducing the efficiency of the garbage collector.
   syntax:
     content: public IntPtr AddrOfPinnedObject ();
     parameters: []
     return:
       type: System.IntPtr
-      description: Return description to be filled
+      description: The address of the pinned object as an <see cref="T:System.IntPtr">.
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Runtime.InteropServices.GCHandle.Alloc(System.Object)
   id: Alloc(System.Object)
   parent: System.Runtime.InteropServices.GCHandle
   langs:
   - csharp
-  - vb
   name: Alloc(Object)
   nameWithType: GCHandle.Alloc(Object)
   fullName: System.Runtime.InteropServices.GCHandle.Alloc(Object)
@@ -65,22 +76,29 @@ items:
   assemblies:
   - mscorlib
   namespace: System.Runtime.InteropServices
+  summary: Allocates a <see cref="T:System.Runtime.InteropServices.GCHandleType"> handle for the specified object.
+  remarks: <xref:System.Runtime.InteropServices.GCHandleType> handles are opaque, which means that you cannot resolve the address of the object it contains through the handle.
+  example:
+  - "The following example shows an `App` class that creates a handle to a managed object using the `GCHandle.Alloc` method, which prevents the managed object from being collected. A call to the `EnumWindows` method passes a delegate and a managed object (both declared as managed types, but not shown), and casts the handle to an <xref:System.IntPtr>. The unmanaged function passes the type back to the caller as a parameter of the callback function.  \n  \n [!CODE [System.Runtime.InteropServices.GCHandle#1](../CodeSnippet/VS_Snippets_CLR_System/system.Runtime.InteropServices.GCHandle#1)]"
   syntax:
     content: public static System.Runtime.InteropServices.GCHandle Alloc (object value);
     parameters:
     - id: value
       type: System.Object
-      description: Parameter description to be filled
+      description: The object that uses the <see cref="T:System.Runtime.InteropServices.GCHandle">.
     return:
       type: System.Runtime.InteropServices.GCHandle
-      description: Return description to be filled
+      description: A new <see cref="T:System.Runtime.InteropServices.GCHandle"> that protects the object from garbage collection. This <see cref="T:System.Runtime.InteropServices.GCHandle"> must be released with <xref:System.Runtime.InteropServices.GCHandle.Free%2A> when it is no longer needed.
   overload: System.Runtime.InteropServices.GCHandle.Alloc*
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Runtime.InteropServices.GCHandle.Alloc(System.Object,System.Runtime.InteropServices.GCHandleType)
   id: Alloc(System.Object,System.Runtime.InteropServices.GCHandleType)
   parent: System.Runtime.InteropServices.GCHandle
   langs:
   - csharp
-  - vb
   name: Alloc(Object,GCHandleType)
   nameWithType: GCHandle.Alloc(Object,GCHandleType)
   fullName: System.Runtime.InteropServices.GCHandle.Alloc(Object,GCHandleType)
@@ -88,25 +106,30 @@ items:
   assemblies:
   - mscorlib
   namespace: System.Runtime.InteropServices
+  summary: Allocates a handle of the specified type for the specified object.
+  remarks: To be added.
   syntax:
     content: public static System.Runtime.InteropServices.GCHandle Alloc (object value, System.Runtime.InteropServices.GCHandleType type);
     parameters:
     - id: value
       type: System.Object
-      description: Parameter description to be filled
+      description: The object that uses the <see cref="T:System.Runtime.InteropServices.GCHandle">.
     - id: type
       type: System.Runtime.InteropServices.GCHandleType
-      description: Parameter description to be filled
+      description: One of the <see cref="T:System.Runtime.InteropServices.GCHandleType"> values, indicating the type of <xref:System.Runtime.InteropServices.GCHandle> to create.
     return:
       type: System.Runtime.InteropServices.GCHandle
-      description: Return description to be filled
+      description: A new <see cref="T:System.Runtime.InteropServices.GCHandle"> of the specified type. This <see cref="T:System.Runtime.InteropServices.GCHandle"> must be released with <xref:System.Runtime.InteropServices.GCHandle.Free%2A> when it is no longer needed.
   overload: System.Runtime.InteropServices.GCHandle.Alloc*
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Runtime.InteropServices.GCHandle.Equals(System.Object)
   id: Equals(System.Object)
   parent: System.Runtime.InteropServices.GCHandle
   langs:
   - csharp
-  - vb
   name: Equals(Object)
   nameWithType: GCHandle.Equals(Object)
   fullName: System.Runtime.InteropServices.GCHandle.Equals(Object)
@@ -114,21 +137,26 @@ items:
   assemblies:
   - mscorlib
   namespace: System.Runtime.InteropServices
+  summary: Determines whether the specified <see cref="T:System.Runtime.InteropServices.GCHandle"> object is equal to the current <see cref="T:System.Runtime.InteropServices.GCHandle"> object.
+  remarks: Two <xref:System.Runtime.InteropServices.GCHandle> objects are equal if they point to the same memory handle.
   syntax:
     content: public override bool Equals (object o);
     parameters:
     - id: o
       type: System.Object
-      description: Parameter description to be filled
+      description: The <see cref="T:System.Runtime.InteropServices.GCHandle"> object to compare with the current <see cref="T:System.Runtime.InteropServices.GCHandle"> object.
     return:
       type: System.Boolean
-      description: Return description to be filled
+      description: '`true` if the specified <see cref="T:System.Runtime.InteropServices.GCHandle"> object is equal to the current <see cref="T:System.Runtime.InteropServices.GCHandle"> object; otherwise, `false`.'
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Runtime.InteropServices.GCHandle.Free
   id: Free
   parent: System.Runtime.InteropServices.GCHandle
   langs:
   - csharp
-  - vb
   name: Free()
   nameWithType: GCHandle.Free()
   fullName: System.Runtime.InteropServices.GCHandle.Free()
@@ -136,18 +164,22 @@ items:
   assemblies:
   - mscorlib
   namespace: System.Runtime.InteropServices
+  summary: Releases a <see cref="T:System.Runtime.InteropServices.GCHandle">.
+  remarks: The caller must ensure that for a given handle, Free is called only once.
+  example:
+  - "The following example shows an `App` class that creates a handle to a managed object using the `GCHandle.Alloc` method, which prevents the managed object from being collected. A call to the `EnumWindows` method passes a delegate and a managed object (both declared as managed types, but not shown), and casts the handle to an <xref:System.IntPtr>. The unmanaged function passes the type back to the caller as a parameter of the callback function.  \n  \n [!CODE [System.Runtime.InteropServices.GCHandle#1](../CodeSnippet/VS_Snippets_CLR_System/system.Runtime.InteropServices.GCHandle#1)]"
   syntax:
     content: public void Free ();
     parameters: []
-    return:
-      type: System.Void
-      description: Return description to be filled
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Runtime.InteropServices.GCHandle.FromIntPtr(System.IntPtr)
   id: FromIntPtr(System.IntPtr)
   parent: System.Runtime.InteropServices.GCHandle
   langs:
   - csharp
-  - vb
   name: FromIntPtr(IntPtr)
   nameWithType: GCHandle.FromIntPtr(IntPtr)
   fullName: System.Runtime.InteropServices.GCHandle.FromIntPtr(IntPtr)
@@ -155,21 +187,28 @@ items:
   assemblies:
   - mscorlib
   namespace: System.Runtime.InteropServices
+  summary: Returns a new <see cref="T:System.Runtime.InteropServices.GCHandle"> object created from a handle to a managed object.
+  remarks: ''
+  example:
+  - "The following code example shows an `App` class that creates a handle to a managed object using the `GCHandle.Alloc` method, which prevents the managed object from being collected. A call to the `EnumWindows` method passes a delegate and a managed object (both declared as managed types, but not shown), and casts the handle to an <xref:System.IntPtr> object. The unmanaged function passes the type back to the caller as a parameter of the callback function.  \n  \n [!CODE [System.Runtime.InteropServices.GCHandle#1](../CodeSnippet/VS_Snippets_CLR_System/system.Runtime.InteropServices.GCHandle#1)]"
   syntax:
     content: public static System.Runtime.InteropServices.GCHandle FromIntPtr (IntPtr value);
     parameters:
     - id: value
       type: System.IntPtr
-      description: Parameter description to be filled
+      description: An <see cref="T:System.IntPtr"> handle to a managed object to create a <xref:System.Runtime.InteropServices.GCHandle> object from.
     return:
       type: System.Runtime.InteropServices.GCHandle
-      description: Return description to be filled
+      description: A new <see cref="T:System.Runtime.InteropServices.GCHandle"> object that corresponds to the value parameter.
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Runtime.InteropServices.GCHandle.GetHashCode
   id: GetHashCode
   parent: System.Runtime.InteropServices.GCHandle
   langs:
   - csharp
-  - vb
   name: GetHashCode()
   nameWithType: GCHandle.GetHashCode()
   fullName: System.Runtime.InteropServices.GCHandle.GetHashCode()
@@ -177,18 +216,23 @@ items:
   assemblies:
   - mscorlib
   namespace: System.Runtime.InteropServices
+  summary: Returns an identifier for the current <see cref="T:System.Runtime.InteropServices.GCHandle"> object.
+  remarks: The GetHashCode method returns an integer representation of the internal memory handle encapsulated by the <xref:System.Runtime.InteropServices.GCHandle> structure.
   syntax:
     content: public override int GetHashCode ();
     parameters: []
     return:
       type: System.Int32
-      description: Return description to be filled
+      description: An identifier for the current <see cref="T:System.Runtime.InteropServices.GCHandle"> object.
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Runtime.InteropServices.GCHandle.IsAllocated
   id: IsAllocated
   parent: System.Runtime.InteropServices.GCHandle
   langs:
   - csharp
-  - vb
   name: IsAllocated
   nameWithType: GCHandle.IsAllocated
   fullName: System.Runtime.InteropServices.GCHandle.IsAllocated
@@ -196,17 +240,22 @@ items:
   assemblies:
   - mscorlib
   namespace: System.Runtime.InteropServices
+  summary: Gets a value indicating whether the handle is allocated.
+  remarks: Use this property when using <xref:System.Runtime.InteropServices.GCHandleType> handles to determine if the <xref:System.Runtime.InteropServices.GCHandle> is still available. When the garbage collector collects the object, the <xref:System.Runtime.InteropServices.GCHandleType> handle can still be resurrected in the finalizer. In that case, the handle is not allocated (it is lost when the garbage collector attempts to collect the object), even though the target object is valid.
   syntax:
     content: public bool IsAllocated { get; }
     return:
       type: System.Boolean
-      description: Return description to be filled
+      description: To be added.
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Runtime.InteropServices.GCHandle.op_Equality(System.Runtime.InteropServices.GCHandle,System.Runtime.InteropServices.GCHandle)
   id: op_Equality(System.Runtime.InteropServices.GCHandle,System.Runtime.InteropServices.GCHandle)
   parent: System.Runtime.InteropServices.GCHandle
   langs:
   - csharp
-  - vb
   name: op_Equality(GCHandle,GCHandle)
   nameWithType: GCHandle.op_Equality(GCHandle,GCHandle)
   fullName: System.Runtime.InteropServices.GCHandle.op_Equality(GCHandle,GCHandle)
@@ -214,24 +263,29 @@ items:
   assemblies:
   - mscorlib
   namespace: System.Runtime.InteropServices
+  summary: Returns a value indicating whether two <see cref="T:System.Runtime.InteropServices.GCHandle"> objects are equal.
+  remarks: To be added.
   syntax:
     content: public static bool op_Equality (System.Runtime.InteropServices.GCHandle a, System.Runtime.InteropServices.GCHandle b);
     parameters:
     - id: a
       type: System.Runtime.InteropServices.GCHandle
-      description: Parameter description to be filled
+      description: A <see cref="T:System.Runtime.InteropServices.GCHandle"> object to compare with the  parameter.
     - id: b
       type: System.Runtime.InteropServices.GCHandle
-      description: Parameter description to be filled
+      description: A <see cref="T:System.Runtime.InteropServices.GCHandle"> object to compare with the  parameter.
     return:
       type: System.Boolean
-      description: Return description to be filled
+      description: '`true` if the  and  parameters are equal; otherwise, `false`.'
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Runtime.InteropServices.GCHandle.op_Explicit(System.IntPtr to System.Runtime.InteropServices.GCHandle)
   id: op_Explicit(System.IntPtr to System.Runtime.InteropServices.GCHandle)
   parent: System.Runtime.InteropServices.GCHandle
   langs:
   - csharp
-  - vb
   name: op_Explicit(IntPtr)
   nameWithType: GCHandle.op_Explicit(IntPtr)
   fullName: System.Runtime.InteropServices.GCHandle.op_Explicit(IntPtr)
@@ -239,21 +293,26 @@ items:
   assemblies:
   - mscorlib
   namespace: System.Runtime.InteropServices
+  summary: To be added.
+  remarks: To be added.
   syntax:
     content: public static System.Runtime.InteropServices.GCHandle op_Explicit (IntPtr value);
     parameters:
     - id: value
       type: System.IntPtr
-      description: Parameter description to be filled
+      description: To be added.
     return:
       type: System.Runtime.InteropServices.GCHandle
-      description: Return description to be filled
+      description: To be added.
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Runtime.InteropServices.GCHandle.op_Explicit(System.Runtime.InteropServices.GCHandle to System.IntPtr)
   id: op_Explicit(System.Runtime.InteropServices.GCHandle to System.IntPtr)
   parent: System.Runtime.InteropServices.GCHandle
   langs:
   - csharp
-  - vb
   name: op_Explicit(GCHandle)
   nameWithType: GCHandle.op_Explicit(GCHandle)
   fullName: System.Runtime.InteropServices.GCHandle.op_Explicit(GCHandle)
@@ -261,21 +320,26 @@ items:
   assemblies:
   - mscorlib
   namespace: System.Runtime.InteropServices
+  summary: To be added.
+  remarks: To be added.
   syntax:
     content: public static IntPtr op_Explicit (System.Runtime.InteropServices.GCHandle value);
     parameters:
     - id: value
       type: System.Runtime.InteropServices.GCHandle
-      description: Parameter description to be filled
+      description: To be added.
     return:
       type: System.IntPtr
-      description: Return description to be filled
+      description: To be added.
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Runtime.InteropServices.GCHandle.op_Inequality(System.Runtime.InteropServices.GCHandle,System.Runtime.InteropServices.GCHandle)
   id: op_Inequality(System.Runtime.InteropServices.GCHandle,System.Runtime.InteropServices.GCHandle)
   parent: System.Runtime.InteropServices.GCHandle
   langs:
   - csharp
-  - vb
   name: op_Inequality(GCHandle,GCHandle)
   nameWithType: GCHandle.op_Inequality(GCHandle,GCHandle)
   fullName: System.Runtime.InteropServices.GCHandle.op_Inequality(GCHandle,GCHandle)
@@ -283,24 +347,29 @@ items:
   assemblies:
   - mscorlib
   namespace: System.Runtime.InteropServices
+  summary: Returns a value indicating whether two <see cref="T:System.Runtime.InteropServices.GCHandle"> objects are not equal.
+  remarks: To be added.
   syntax:
     content: public static bool op_Inequality (System.Runtime.InteropServices.GCHandle a, System.Runtime.InteropServices.GCHandle b);
     parameters:
     - id: a
       type: System.Runtime.InteropServices.GCHandle
-      description: Parameter description to be filled
+      description: A <see cref="T:System.Runtime.InteropServices.GCHandle"> object to compare with the  parameter.
     - id: b
       type: System.Runtime.InteropServices.GCHandle
-      description: Parameter description to be filled
+      description: A <see cref="T:System.Runtime.InteropServices.GCHandle"> object to compare with the  parameter.
     return:
       type: System.Boolean
-      description: Return description to be filled
+      description: '`true` if the  and  parameters are not equal; otherwise, `false`.'
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Runtime.InteropServices.GCHandle.Target
   id: Target
   parent: System.Runtime.InteropServices.GCHandle
   langs:
   - csharp
-  - vb
   name: Target
   nameWithType: GCHandle.Target
   fullName: System.Runtime.InteropServices.GCHandle.Target
@@ -308,17 +377,24 @@ items:
   assemblies:
   - mscorlib
   namespace: System.Runtime.InteropServices
+  summary: Gets or sets the object this handle represents.
+  remarks: ''
+  example:
+  - "The following example shows an `App` class that creates a handle to a managed object using the `GCHandle.Alloc` method, which prevents the managed object from being collected. A call to the `EnumWindows` method passes a delegate and a managed object (both declared as managed types, but not shown), and casts the handle to an <xref:System.IntPtr>. The unmanaged function passes the type back to the caller as a parameter of the callback function.  \n  \n [!CODE [System.Runtime.InteropServices.GCHandle#1](../CodeSnippet/VS_Snippets_CLR_System/system.Runtime.InteropServices.GCHandle#1)]"
   syntax:
     content: public object Target { get; set; }
     return:
       type: System.Object
-      description: Return description to be filled
+      description: To be added.
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Runtime.InteropServices.GCHandle.ToIntPtr(System.Runtime.InteropServices.GCHandle)
   id: ToIntPtr(System.Runtime.InteropServices.GCHandle)
   parent: System.Runtime.InteropServices.GCHandle
   langs:
   - csharp
-  - vb
   name: ToIntPtr(GCHandle)
   nameWithType: GCHandle.ToIntPtr(GCHandle)
   fullName: System.Runtime.InteropServices.GCHandle.ToIntPtr(GCHandle)
@@ -326,15 +402,23 @@ items:
   assemblies:
   - mscorlib
   namespace: System.Runtime.InteropServices
+  summary: Returns the internal integer representation of a <see cref="T:System.Runtime.InteropServices.GCHandle"> object.
+  remarks: ''
+  example:
+  - "The following code example shows an `App` class that creates a handle to a managed object using the `GCHandle.Alloc` method, which prevents the managed object from being collected. A call to the `EnumWindows` method passes a delegate and a managed object (both declared as managed types, but not shown), and casts the handle to an <xref:System.IntPtr> object. The unmanaged function passes the type back to the caller as a parameter of the callback function.  \n  \n [!CODE [System.Runtime.InteropServices.GCHandle#1](../CodeSnippet/VS_Snippets_CLR_System/system.Runtime.InteropServices.GCHandle#1)]"
   syntax:
     content: public static IntPtr ToIntPtr (System.Runtime.InteropServices.GCHandle value);
     parameters:
     - id: value
       type: System.Runtime.InteropServices.GCHandle
-      description: Parameter description to be filled
+      description: A <see cref="T:System.Runtime.InteropServices.GCHandle"> object to retrieve an internal integer representation from.
     return:
       type: System.IntPtr
-      description: Return description to be filled
+      description: An <see cref="T:System.IntPtr"> object that represents a <xref:System.Runtime.InteropServices.GCHandle> object.
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 references:
 - uid: System.ValueType
   isExternal: false
@@ -417,12 +501,6 @@ references:
   name: Free()
   nameWithType: GCHandle.Free()
   fullName: System.Runtime.InteropServices.GCHandle.Free()
-- uid: System.Void
-  parent: System
-  isExternal: false
-  name: Void
-  nameWithType: Void
-  fullName: System.Void
 - uid: System.Runtime.InteropServices.GCHandle.FromIntPtr(System.IntPtr)
   parent: System.Runtime.InteropServices.GCHandle
   isExternal: false

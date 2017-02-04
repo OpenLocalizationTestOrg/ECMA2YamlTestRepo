@@ -12,11 +12,12 @@ items:
   - System.Text.EncoderFallbackBuffer.Reset
   langs:
   - csharp
-  - vb
   name: EncoderFallbackBuffer
   nameWithType: EncoderFallbackBuffer
   fullName: System.Text.EncoderFallbackBuffer
   type: Class
+  summary: Provides a buffer that allows a fallback handler to return an alternate string to an encoder when it cannot encode an input character.
+  remarks: "An encoding defines a mapping between a Unicode character and an encoded sequence of bytes. An encoding operation, which converts an input character to an output byte sequence, fails if no mapping is defined for a particular character.  \n  \n The .NET Framework provides a failure handling mechanism, called a fallback, if a conversion cannot be performed. All encoder fallback handlers must implement the following:  \n  \n-   An encoder fallback, which is represented by a class derived from the <xref:System.Text.EncoderFallback> class.  \n  \n-   An encoder fallback buffer, which is represented by a type derived from the EncoderFallbackBuffer class that can return a string to the conversion operation.  \n  \n Fallbacks can use three strategies to handle conversion failures:  \n  \n-   Best-fit mapping. The encoder fallback buffer can return a string that represents a close approximation to the input character. The .NET Framework does not provide a public best-fit EncoderFallbackBuffer implementation.  \n  \n-   Replacement. The encoder fallback buffer can return a string, such as a question mark (\"?\"), that indicates that a character could not be encoded. In the .NET Framework, the <xref:System.Text.EncoderReplacementFallback> and <xref:System.Text.EncoderReplacementFallbackBuffer> classes provide a public replacement fallback buffer implementation. The constructor of the <xref:System.Text.EncoderReplacementFallback> class enables you to define the replacement string.  \n  \n-   Exception. The EncoderFallbackBuffer implementation throws an exception, which indicates that a character cannot be encoded, and terminates the encoding operation. In this case, the fallback handler must provide an EncoderFallbackBuffer implementation, although it does not return a string to the encoder. In the .NET Framework, the <xref:System.Text.EncoderExceptionFallback> and <xref:System.Text.EncoderExceptionFallbackBuffer> classes provide a public exception fallback implementation that throws an <xref:System.Text.EncoderFallbackException> when a character cannot be encoded.  \n  \n The buffer in an EncoderFallbackBuffer implementation represents the entire string to be returned to the encoder in response to an encoder fallback. Generally, implementations also include state information, such as the index of the next character to return to the encoder and the number of remaining characters to be returned. Because EncoderFallbackBuffer is an abstract class, it requires derived classes to implement the following members at a minimum:  \n  \n-   The overloaded <xref:System.Text.EncoderFallbackBuffer.Fallback%2A> method, which is called by the encoder when it cannot encode a character. The encoder passes two pieces of information to the fallback buffer implementation: the character or surrogate pair that could not be encoded and the index of the character in the input. In an encoder fallback exception handler, the exception is thrown in this method. Otherwise, the method returns `true` if it provides a fallback, or `false` if it does not.  \n  \n-   The <xref:System.Text.EncoderFallbackBuffer.GetNextChar%2A> method, which is called repeatedly by the encoder if the <xref:System.Text.EncoderFallbackBuffer.Fallback%2A> method returns `true`. In successive calls, the handler should return each character in its buffer. When it has returned all characters, it should return U+0000. An exception handler always returns U+0000.  \n  \n-   The <xref:System.Text.EncoderFallbackBuffer.MovePrevious%2A> method, which tries to move the pointer to the previous position in the buffer and indicates whether the move was successful. An exception handler always returns `false`.  \n  \n-   The <xref:System.Text.EncoderFallbackBuffer.Remaining%2A> property, which indicates the number of remaining characters to be returned to the encoder. An exception fallback handler always returns zero."
   syntax:
     content: public abstract class EncoderFallbackBuffer
   inheritance:
@@ -30,12 +31,15 @@ items:
   - System.Object.MemberwiseClone
   - System.Object.ReferenceEquals(System.Object,System.Object)
   - System.Object.ToString
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Text.EncoderFallbackBuffer.#ctor
   id: '#ctor'
   parent: System.Text.EncoderFallbackBuffer
   langs:
   - csharp
-  - vb
   name: EncoderFallbackBuffer()
   nameWithType: EncoderFallbackBuffer.EncoderFallbackBuffer()
   fullName: System.Text.EncoderFallbackBuffer.EncoderFallbackBuffer()
@@ -43,15 +47,20 @@ items:
   assemblies:
   - mscorlib
   namespace: System.Text
+  summary: Initializes a new instance of the <see cref="T:System.Text.EncoderFallbackBuffer"> class.
+  remarks: To be added.
   syntax:
     content: protected EncoderFallbackBuffer ();
     parameters: []
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Text.EncoderFallbackBuffer.Fallback(System.Char,System.Int32)
   id: Fallback(System.Char,System.Int32)
   parent: System.Text.EncoderFallbackBuffer
   langs:
   - csharp
-  - vb
   name: Fallback(Char,Int32)
   nameWithType: EncoderFallbackBuffer.Fallback(Char,Int32)
   fullName: System.Text.EncoderFallbackBuffer.Fallback(Char,Int32)
@@ -59,25 +68,30 @@ items:
   assemblies:
   - mscorlib
   namespace: System.Text
+  summary: When overridden in a derived class, prepares the fallback buffer to handle the specified input character.
+  remarks: The <xref:System.Text.Encoding.GetBytes%2A?displayProperty=fullName> and <xref:System.Text.Encoder.Convert%2A?displayProperty=fullName> methods call [Fallback(Byte\[\], Int32)](assetId:///M:System.Text.DecoderFallbackBuffer.Fallback(System.Byte[],System.Int32)?qualifyHint=False&autoUpgrade=False) if they encounter an unknown input character that cannot be encoded. A return value of `true` indicates that the fallback buffer can process the input character, which causes the calling method to call the <xref:System.Text.EncoderFallbackBuffer.GetNextChar%2A> method to obtain each character of the fallback buffer. Because it does not process individual characters, the Fallback method in an exception fallback handler throws an exception.
   syntax:
     content: public abstract bool Fallback (char charUnknown, int index);
     parameters:
     - id: charUnknown
       type: System.Char
-      description: Parameter description to be filled
+      description: An input character.
     - id: index
       type: System.Int32
-      description: Parameter description to be filled
+      description: The index position of the character in the input buffer.
     return:
       type: System.Boolean
-      description: Return description to be filled
+      description: '`true` if the fallback buffer can process ; `false` if the fallback buffer ignores .'
   overload: System.Text.EncoderFallbackBuffer.Fallback*
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Text.EncoderFallbackBuffer.Fallback(System.Char,System.Char,System.Int32)
   id: Fallback(System.Char,System.Char,System.Int32)
   parent: System.Text.EncoderFallbackBuffer
   langs:
   - csharp
-  - vb
   name: Fallback(Char,Char,Int32)
   nameWithType: EncoderFallbackBuffer.Fallback(Char,Char,Int32)
   fullName: System.Text.EncoderFallbackBuffer.Fallback(Char,Char,Int32)
@@ -85,28 +99,33 @@ items:
   assemblies:
   - mscorlib
   namespace: System.Text
+  summary: When overridden in a derived class, prepares the fallback buffer to handle the specified surrogate pair.
+  remarks: The <xref:System.Text.Encoding.GetBytes%2A?displayProperty=fullName> and <xref:System.Text.Encoder.Convert%2A?displayProperty=fullName> methods call Fallback if they encounter a surrogate pair in their input. A return value of `true` indicates that the fallback buffer can process the surrogate pair, which causes the calling method to call the <xref:System.Text.EncoderFallbackBuffer.GetNextChar%2A> method to obtain each character of the fallback buffer.  Because it does not process individual characters, the <xref:System.Text.EncoderFallbackBuffer.Fallback%2A> method in an exception fallback handler throws an exception.
   syntax:
     content: public abstract bool Fallback (char charUnknownHigh, char charUnknownLow, int index);
     parameters:
     - id: charUnknownHigh
       type: System.Char
-      description: Parameter description to be filled
+      description: The high surrogate of the input pair.
     - id: charUnknownLow
       type: System.Char
-      description: Parameter description to be filled
+      description: The low surrogate of the input pair.
     - id: index
       type: System.Int32
-      description: Parameter description to be filled
+      description: The index position of the surrogate pair in the input buffer.
     return:
       type: System.Boolean
-      description: Return description to be filled
+      description: '`true` if the fallback buffer can process  and ; `false` if the fallback buffer ignores the surrogate pair.'
   overload: System.Text.EncoderFallbackBuffer.Fallback*
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Text.EncoderFallbackBuffer.GetNextChar
   id: GetNextChar
   parent: System.Text.EncoderFallbackBuffer
   langs:
   - csharp
-  - vb
   name: GetNextChar()
   nameWithType: EncoderFallbackBuffer.GetNextChar()
   fullName: System.Text.EncoderFallbackBuffer.GetNextChar()
@@ -114,18 +133,23 @@ items:
   assemblies:
   - mscorlib
   namespace: System.Text
+  summary: When overridden in a derived class, retrieves the next character in the fallback buffer.
+  remarks: "An encoding operation calls the <xref:System.Text.EncoderFallbackBuffer.Fallback%2A> method if the operation encounters an unknown character or surrogate pair in the input. For example, in the case of a replacement fallback, if the <xref:System.Text.EncoderFallbackBuffer.Fallback%2A> method returns `true`, a substitute string exists that can be encoded instead of the unknown input. The encoding operation calls the GetNextChar method repeatedly and obtains the substitute string one character at a time. When all characters in the fallback buffer have been returned to the encoder, the GetNextChar method should return U+0000.  \n  \n For an exception fallback handler, the GetNextChar method should return U+0000."
   syntax:
     content: public abstract char GetNextChar ();
     parameters: []
     return:
       type: System.Char
-      description: Return description to be filled
+      description: The next character in the fallback buffer.
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Text.EncoderFallbackBuffer.MovePrevious
   id: MovePrevious
   parent: System.Text.EncoderFallbackBuffer
   langs:
   - csharp
-  - vb
   name: MovePrevious()
   nameWithType: EncoderFallbackBuffer.MovePrevious()
   fullName: System.Text.EncoderFallbackBuffer.MovePrevious()
@@ -133,18 +157,23 @@ items:
   assemblies:
   - mscorlib
   namespace: System.Text
+  summary: When overridden in a derived class, causes the next call to the <xref:System.Text.EncoderFallbackBuffer.GetNextChar%2A> method to access the data buffer character position that is prior to the current character position.
+  remarks: An exception fallback handler should return `false`.
   syntax:
     content: public abstract bool MovePrevious ();
     parameters: []
     return:
       type: System.Boolean
-      description: Return description to be filled
+      description: '`true` if the MovePrevious operation was successful; otherwise, `false`.'
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Text.EncoderFallbackBuffer.Remaining
   id: Remaining
   parent: System.Text.EncoderFallbackBuffer
   langs:
   - csharp
-  - vb
   name: Remaining
   nameWithType: EncoderFallbackBuffer.Remaining
   fullName: System.Text.EncoderFallbackBuffer.Remaining
@@ -152,17 +181,22 @@ items:
   assemblies:
   - mscorlib
   namespace: System.Text
+  summary: When overridden in a derived class, gets the number of characters in the current <see cref="T:System.Text.EncoderFallbackBuffer"> object that remain to be processed.
+  remarks: "The <xref:System.Text.EncoderFallbackBuffer.Fallback%2A> method returns `true` if Remaining is a nonzero value.  \n  \n For an exception fallback handler, the <xref:System.Text.DecoderFallbackBuffer.Remaining%2A> method should return zero."
   syntax:
     content: public abstract int Remaining { get; }
     return:
       type: System.Int32
-      description: Return description to be filled
+      description: To be added.
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Text.EncoderFallbackBuffer.Reset
   id: Reset
   parent: System.Text.EncoderFallbackBuffer
   langs:
   - csharp
-  - vb
   name: Reset()
   nameWithType: EncoderFallbackBuffer.Reset()
   fullName: System.Text.EncoderFallbackBuffer.Reset()
@@ -170,12 +204,15 @@ items:
   assemblies:
   - mscorlib
   namespace: System.Text
+  summary: Initializes all data and state information pertaining to this fallback buffer.
+  remarks: To be added.
   syntax:
     content: public virtual void Reset ();
     parameters: []
-    return:
-      type: System.Void
-      description: Return description to be filled
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 references:
 - uid: System.Object
   isExternal: false
@@ -282,12 +319,6 @@ references:
   name: Reset()
   nameWithType: EncoderFallbackBuffer.Reset()
   fullName: System.Text.EncoderFallbackBuffer.Reset()
-- uid: System.Void
-  parent: System
-  isExternal: false
-  name: Void
-  nameWithType: Void
-  fullName: System.Void
 - uid: System.Text.EncoderFallbackBuffer.Fallback*
   parent: System.Text.EncoderFallbackBuffer
   isExternal: false

@@ -18,11 +18,14 @@ items:
   - System.Runtime.Serialization.ObjectManager.RegisterObject(System.Object,System.Int64,System.Runtime.Serialization.SerializationInfo,System.Int64,System.Reflection.MemberInfo,System.Int32[])
   langs:
   - csharp
-  - vb
   name: ObjectManager
   nameWithType: ObjectManager
   fullName: System.Runtime.Serialization.ObjectManager
   type: Class
+  summary: Keeps track of objects as they are deserialized.
+  remarks: "During deserialization, the <xref:System.Runtime.Serialization.Formatter> queries the ObjectManager to determine whether a reference to an object in the serialized stream refers to an object that has already been deserialized (a backward reference), or to an object that has not yet been deserialized (a forward reference). If the reference in the serialized stream is a forward reference, then the <xref:System.Runtime.Serialization.Formatter> can register a fixup with the ObjectManager. If the reference in the serialized stream is a backward reference, the <xref:System.Runtime.Serialization.Formatter> immediately completes the reference. Fixup refers to the process of finalizing object references not already completed during the object deserialization process. After the required object has been deserialized, the ObjectManager will complete the reference.  \n  \n The ObjectManager follows a set of rules that dictate the fixup order. All objects that implement <xref:System.Runtime.Serialization.ISerializable> or have a <xref:System.Runtime.Serialization.ISerializationSurrogate> can expect to have all the objects that they transmitted through <xref:System.Runtime.Serialization.SerializationInfo> available when the object tree is deserialized. However, a parent object cannot presume that all its child objects will be fully completed when it is fully deserialized. All child objects will be present but not all the grandchild objects will necessarily be present. If an object needs to take certain actions that depend on executing code on its child objects, it can delay these actions, implement the <xref:System.Runtime.Serialization.IDeserializationCallback> interface, and execute the code only when it is called back on this interface."
+  example:
+  - "The following code example shows how to use the ObjectManager class to walk through an object graph, traversing to each object only once.  \n  \n [!CODE [ObjectManager#1](../CodeSnippet/VS_Snippets_Misc/ObjectManager#1)]"
   syntax:
     content: >-
       [System.Runtime.InteropServices.ComVisible(true)]
@@ -39,12 +42,15 @@ items:
   - System.Object.MemberwiseClone
   - System.Object.ReferenceEquals(System.Object,System.Object)
   - System.Object.ToString
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Runtime.Serialization.ObjectManager.#ctor(System.Runtime.Serialization.ISurrogateSelector,System.Runtime.Serialization.StreamingContext)
   id: '#ctor(System.Runtime.Serialization.ISurrogateSelector,System.Runtime.Serialization.StreamingContext)'
   parent: System.Runtime.Serialization.ObjectManager
   langs:
   - csharp
-  - vb
   name: ObjectManager(ISurrogateSelector,StreamingContext)
   nameWithType: ObjectManager.ObjectManager(ISurrogateSelector,StreamingContext)
   fullName: System.Runtime.Serialization.ObjectManager.ObjectManager(ISurrogateSelector,StreamingContext)
@@ -52,21 +58,26 @@ items:
   assemblies:
   - mscorlib
   namespace: System.Runtime.Serialization
+  summary: Initializes a new instance of the <see cref="T:System.Runtime.Serialization.ObjectManager"> class.
+  remarks: To be added.
   syntax:
     content: public ObjectManager (System.Runtime.Serialization.ISurrogateSelector selector, System.Runtime.Serialization.StreamingContext context);
     parameters:
     - id: selector
       type: System.Runtime.Serialization.ISurrogateSelector
-      description: Parameter description to be filled
+      description: The surrogate selector to use. The <see cref="T:System.Runtime.Serialization.ISurrogateSelector"> determines the correct surrogate to use when deserializing objects of a given type. At deserialization time, the surrogate selector creates a new instance of the object from the information transmitted on the stream.
     - id: context
       type: System.Runtime.Serialization.StreamingContext
-      description: Parameter description to be filled
+      description: The streaming context. The <see cref="T:System.Runtime.Serialization.StreamingContext"> is not used by `ObjectManager`, but is passed as a parameter to any objects implementing <xref:System.Runtime.Serialization.ISerializable> or having a <xref:System.Runtime.Serialization.ISerializationSurrogate>. These objects can take specific actions depending on the source of the information to deserialize.
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Runtime.Serialization.ObjectManager.DoFixups
   id: DoFixups
   parent: System.Runtime.Serialization.ObjectManager
   langs:
   - csharp
-  - vb
   name: DoFixups()
   nameWithType: ObjectManager.DoFixups()
   fullName: System.Runtime.Serialization.ObjectManager.DoFixups()
@@ -74,18 +85,20 @@ items:
   assemblies:
   - mscorlib
   namespace: System.Runtime.Serialization
+  summary: Performs all the recorded fixups.
+  remarks: The fixups are carried out by any appropriate surrogate, the object itself (if it implements <xref:System.Runtime.Serialization.ISerializable>), or the default implementation.
   syntax:
     content: public virtual void DoFixups ();
     parameters: []
-    return:
-      type: System.Void
-      description: Return description to be filled
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Runtime.Serialization.ObjectManager.GetObject(System.Int64)
   id: GetObject(System.Int64)
   parent: System.Runtime.Serialization.ObjectManager
   langs:
   - csharp
-  - vb
   name: GetObject(Int64)
   nameWithType: ObjectManager.GetObject(Int64)
   fullName: System.Runtime.Serialization.ObjectManager.GetObject(Int64)
@@ -93,21 +106,26 @@ items:
   assemblies:
   - mscorlib
   namespace: System.Runtime.Serialization
+  summary: Returns the object with the specified object ID.
+  remarks: An object can be registered and issued an object ID with a call to the <xref:System.Runtime.Serialization.ObjectManager.RegisterObject%2A> method.
   syntax:
     content: public virtual object GetObject (long objectID);
     parameters:
     - id: objectID
       type: System.Int64
-      description: Parameter description to be filled
+      description: The ID of the requested object.
     return:
       type: System.Object
-      description: Return description to be filled
+      description: The object with the specified object ID if it has been previously stored or `null` if no such object has been registered.
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Runtime.Serialization.ObjectManager.RaiseDeserializationEvent
   id: RaiseDeserializationEvent
   parent: System.Runtime.Serialization.ObjectManager
   langs:
   - csharp
-  - vb
   name: RaiseDeserializationEvent()
   nameWithType: ObjectManager.RaiseDeserializationEvent()
   fullName: System.Runtime.Serialization.ObjectManager.RaiseDeserializationEvent()
@@ -115,18 +133,20 @@ items:
   assemblies:
   - mscorlib
   namespace: System.Runtime.Serialization
+  summary: Raises the deserialization event to any registered object that implements <see cref="T:System.Runtime.Serialization.IDeserializationCallback">.
+  remarks: To be added.
   syntax:
     content: public virtual void RaiseDeserializationEvent ();
     parameters: []
-    return:
-      type: System.Void
-      description: Return description to be filled
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Runtime.Serialization.ObjectManager.RaiseOnDeserializingEvent(System.Object)
   id: RaiseOnDeserializingEvent(System.Object)
   parent: System.Runtime.Serialization.ObjectManager
   langs:
   - csharp
-  - vb
   name: RaiseOnDeserializingEvent(Object)
   nameWithType: ObjectManager.RaiseOnDeserializingEvent(Object)
   fullName: System.Runtime.Serialization.ObjectManager.RaiseOnDeserializingEvent(Object)
@@ -134,21 +154,23 @@ items:
   assemblies:
   - mscorlib
   namespace: System.Runtime.Serialization
+  summary: Invokes the method marked with the <see cref="T:System.Runtime.Serialization.OnDeserializingAttribute">.
+  remarks: To be added.
   syntax:
     content: public void RaiseOnDeserializingEvent (object obj);
     parameters:
     - id: obj
       type: System.Object
-      description: Parameter description to be filled
-    return:
-      type: System.Void
-      description: Return description to be filled
+      description: The instance of the type that contains the method to be invoked.
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Runtime.Serialization.ObjectManager.RecordArrayElementFixup(System.Int64,System.Int32,System.Int64)
   id: RecordArrayElementFixup(System.Int64,System.Int32,System.Int64)
   parent: System.Runtime.Serialization.ObjectManager
   langs:
   - csharp
-  - vb
   name: RecordArrayElementFixup(Int64,Int32,Int64)
   nameWithType: ObjectManager.RecordArrayElementFixup(Int64,Int32,Int64)
   fullName: System.Runtime.Serialization.ObjectManager.RecordArrayElementFixup(Int64,Int32,Int64)
@@ -156,28 +178,30 @@ items:
   assemblies:
   - mscorlib
   namespace: System.Runtime.Serialization
+  summary: Records a fixup for one element in an array.
+  remarks: The fixup is for a specified element of a specified array. The value used during the fixup process is provided in the  parameter.
   syntax:
     content: public virtual void RecordArrayElementFixup (long arrayToBeFixed, int index, long objectRequired);
     parameters:
     - id: arrayToBeFixed
       type: System.Int64
-      description: Parameter description to be filled
+      description: The ID of the array used to record a fixup.
     - id: index
       type: System.Int32
-      description: Parameter description to be filled
+      description: The index within  that a fixup is requested for.
     - id: objectRequired
       type: System.Int64
-      description: Parameter description to be filled
-    return:
-      type: System.Void
-      description: Return description to be filled
+      description: The ID of the object that the current array element will point to after fixup is completed.
   overload: System.Runtime.Serialization.ObjectManager.RecordArrayElementFixup*
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Runtime.Serialization.ObjectManager.RecordArrayElementFixup(System.Int64,System.Int32[],System.Int64)
   id: RecordArrayElementFixup(System.Int64,System.Int32[],System.Int64)
   parent: System.Runtime.Serialization.ObjectManager
   langs:
   - csharp
-  - vb
   name: RecordArrayElementFixup(Int64,Int32[],Int64)
   nameWithType: ObjectManager.RecordArrayElementFixup(Int64,Int32[],Int64)
   fullName: System.Runtime.Serialization.ObjectManager.RecordArrayElementFixup(Int64,Int32[],Int64)
@@ -185,28 +209,30 @@ items:
   assemblies:
   - mscorlib
   namespace: System.Runtime.Serialization
+  summary: Records fixups for the specified elements in an array, to be executed later.
+  remarks: The fixup is for specified elements of a specified array. The value used during the fixup process is provided in the  parameter.
   syntax:
     content: public virtual void RecordArrayElementFixup (long arrayToBeFixed, int[] indices, long objectRequired);
     parameters:
     - id: arrayToBeFixed
       type: System.Int64
-      description: Parameter description to be filled
+      description: The ID of the array used to record a fixup.
     - id: indices
       type: System.Int32[]
-      description: Parameter description to be filled
+      description: The indexes within the multidimensional array that a fixup is requested for.
     - id: objectRequired
       type: System.Int64
-      description: Parameter description to be filled
-    return:
-      type: System.Void
-      description: Return description to be filled
+      description: The ID of the object the array elements will point to after fixup is completed.
   overload: System.Runtime.Serialization.ObjectManager.RecordArrayElementFixup*
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Runtime.Serialization.ObjectManager.RecordDelayedFixup(System.Int64,System.String,System.Int64)
   id: RecordDelayedFixup(System.Int64,System.String,System.Int64)
   parent: System.Runtime.Serialization.ObjectManager
   langs:
   - csharp
-  - vb
   name: RecordDelayedFixup(Int64,String,Int64)
   nameWithType: ObjectManager.RecordDelayedFixup(Int64,String,Int64)
   fullName: System.Runtime.Serialization.ObjectManager.RecordDelayedFixup(Int64,String,Int64)
@@ -214,27 +240,29 @@ items:
   assemblies:
   - mscorlib
   namespace: System.Runtime.Serialization
+  summary: Records a fixup for an object member, to be executed later.
+  remarks: The fixup is for a specified member of a specified object. The value to be used during the fixup process is provided as the  argument.
   syntax:
     content: public virtual void RecordDelayedFixup (long objectToBeFixed, string memberName, long objectRequired);
     parameters:
     - id: objectToBeFixed
       type: System.Int64
-      description: Parameter description to be filled
+      description: The ID of the object that needs the reference to .
     - id: memberName
       type: System.String
-      description: Parameter description to be filled
+      description: The member name of  where the fixup will be performed.
     - id: objectRequired
       type: System.Int64
-      description: Parameter description to be filled
-    return:
-      type: System.Void
-      description: Return description to be filled
+      description: The ID of the object required by .
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Runtime.Serialization.ObjectManager.RecordFixup(System.Int64,System.Reflection.MemberInfo,System.Int64)
   id: RecordFixup(System.Int64,System.Reflection.MemberInfo,System.Int64)
   parent: System.Runtime.Serialization.ObjectManager
   langs:
   - csharp
-  - vb
   name: RecordFixup(Int64,MemberInfo,Int64)
   nameWithType: ObjectManager.RecordFixup(Int64,MemberInfo,Int64)
   fullName: System.Runtime.Serialization.ObjectManager.RecordFixup(Int64,MemberInfo,Int64)
@@ -242,27 +270,29 @@ items:
   assemblies:
   - mscorlib
   namespace: System.Runtime.Serialization
+  summary: Records a fixup for a member of an object, to be executed later.
+  remarks: The fixup is for a specified member of a specified object. The value to be used during the fixup process is provided as the  parameter.
   syntax:
     content: public virtual void RecordFixup (long objectToBeFixed, System.Reflection.MemberInfo member, long objectRequired);
     parameters:
     - id: objectToBeFixed
       type: System.Int64
-      description: Parameter description to be filled
+      description: The ID of the object that needs the reference to the  object.
     - id: member
       type: System.Reflection.MemberInfo
-      description: Parameter description to be filled
+      description: The member of  where the fixup will be performed.
     - id: objectRequired
       type: System.Int64
-      description: Parameter description to be filled
-    return:
-      type: System.Void
-      description: Return description to be filled
+      description: The ID of the object required by .
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Runtime.Serialization.ObjectManager.RegisterObject(System.Object,System.Int64)
   id: RegisterObject(System.Object,System.Int64)
   parent: System.Runtime.Serialization.ObjectManager
   langs:
   - csharp
-  - vb
   name: RegisterObject(Object,Int64)
   nameWithType: ObjectManager.RegisterObject(Object,Int64)
   fullName: System.Runtime.Serialization.ObjectManager.RegisterObject(Object,Int64)
@@ -270,25 +300,27 @@ items:
   assemblies:
   - mscorlib
   namespace: System.Runtime.Serialization
+  summary: Registers an object as it is deserialized, associating it with .
+  remarks: <xref:System.Runtime.Serialization.ObjectManager> retains information about both the object and its ID. Later during deserialization, <xref:System.Runtime.Serialization.ObjectManager.GetObject%2A> can be used to determine whether a particular object ID has already been deserialized, or whether it is a forward reference to an object that has not yet been deserialized.
   syntax:
     content: public virtual void RegisterObject (object obj, long objectID);
     parameters:
     - id: obj
       type: System.Object
-      description: Parameter description to be filled
+      description: The object to register.
     - id: objectID
       type: System.Int64
-      description: Parameter description to be filled
-    return:
-      type: System.Void
-      description: Return description to be filled
+      description: The ID of the object to register.
   overload: System.Runtime.Serialization.ObjectManager.RegisterObject*
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Runtime.Serialization.ObjectManager.RegisterObject(System.Object,System.Int64,System.Runtime.Serialization.SerializationInfo)
   id: RegisterObject(System.Object,System.Int64,System.Runtime.Serialization.SerializationInfo)
   parent: System.Runtime.Serialization.ObjectManager
   langs:
   - csharp
-  - vb
   name: RegisterObject(Object,Int64,SerializationInfo)
   nameWithType: ObjectManager.RegisterObject(Object,Int64,SerializationInfo)
   fullName: System.Runtime.Serialization.ObjectManager.RegisterObject(Object,Int64,SerializationInfo)
@@ -296,28 +328,30 @@ items:
   assemblies:
   - mscorlib
   namespace: System.Runtime.Serialization
+  summary: Registers an object as it is deserialized, associating it with , and recording the <see cref="T:System.Runtime.Serialization.SerializationInfo"> used with it.
+  remarks: <xref:System.Runtime.Serialization.ObjectManager> retains the information about both the object and its ID. Later during deserialization, you can use <xref:System.Runtime.Serialization.ObjectManager.GetObject%2A> to discover whether a particular object ID has already been deserialized, or if it is a forward reference to an object that has not yet been deserialized.
   syntax:
     content: public void RegisterObject (object obj, long objectID, System.Runtime.Serialization.SerializationInfo info);
     parameters:
     - id: obj
       type: System.Object
-      description: Parameter description to be filled
+      description: The object to register.
     - id: objectID
       type: System.Int64
-      description: Parameter description to be filled
+      description: The ID of the object to register.
     - id: info
       type: System.Runtime.Serialization.SerializationInfo
-      description: Parameter description to be filled
-    return:
-      type: System.Void
-      description: Return description to be filled
+      description: The <see cref="T:System.Runtime.Serialization.SerializationInfo"> used if  implements <xref:System.Runtime.Serialization.ISerializable> or has a <xref:System.Runtime.Serialization.ISerializationSurrogate>.  will be completed with any required fixup information and then passed to the required object when that object is completed.
   overload: System.Runtime.Serialization.ObjectManager.RegisterObject*
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Runtime.Serialization.ObjectManager.RegisterObject(System.Object,System.Int64,System.Runtime.Serialization.SerializationInfo,System.Int64,System.Reflection.MemberInfo)
   id: RegisterObject(System.Object,System.Int64,System.Runtime.Serialization.SerializationInfo,System.Int64,System.Reflection.MemberInfo)
   parent: System.Runtime.Serialization.ObjectManager
   langs:
   - csharp
-  - vb
   name: RegisterObject(Object,Int64,SerializationInfo,Int64,MemberInfo)
   nameWithType: ObjectManager.RegisterObject(Object,Int64,SerializationInfo,Int64,MemberInfo)
   fullName: System.Runtime.Serialization.ObjectManager.RegisterObject(Object,Int64,SerializationInfo,Int64,MemberInfo)
@@ -325,34 +359,36 @@ items:
   assemblies:
   - mscorlib
   namespace: System.Runtime.Serialization
+  summary: Registers a member of an object as it is deserialized, associating it with , and recording the <see cref="T:System.Runtime.Serialization.SerializationInfo">.
+  remarks: "You need to provide the  and  parameters if  is a <xref:System.ValueType> because of the way fixups are performed on <xref:System.ValueType> objects. The space to store the information for a <xref:System.ValueType> is allocated inline with its containing object. However, when the <xref:System.ValueType> is boxed to be registered with the <xref:System.Runtime.Serialization.ObjectManager>, it loses the connection with its containing object. To guarantee that fixups occur in the instance of the <xref:System.ValueType> stored in the containing object and not in the boxed instance, the <xref:System.Runtime.Serialization.ObjectManager> retains some additional information.  \n  \n <xref:System.Runtime.Serialization.ObjectManager> retains information about both the object and its ID. Later during deserialization, <xref:System.Runtime.Serialization.ObjectManager.GetObject%2A> can be used to discover whether a particular object ID has already been deserialized, or whether it is a forward reference to an object not yet deserialized."
   syntax:
     content: public void RegisterObject (object obj, long objectID, System.Runtime.Serialization.SerializationInfo info, long idOfContainingObj, System.Reflection.MemberInfo member);
     parameters:
     - id: obj
       type: System.Object
-      description: Parameter description to be filled
+      description: The object to register.
     - id: objectID
       type: System.Int64
-      description: Parameter description to be filled
+      description: The ID of the object to register.
     - id: info
       type: System.Runtime.Serialization.SerializationInfo
-      description: Parameter description to be filled
+      description: The <see cref="T:System.Runtime.Serialization.SerializationInfo"> used if  implements <xref:System.Runtime.Serialization.ISerializable> or has a <xref:System.Runtime.Serialization.ISerializationSurrogate>.  will be completed with any required fixup information and then passed to the required object when that object is completed.
     - id: idOfContainingObj
       type: System.Int64
-      description: Parameter description to be filled
+      description: The ID of the object that contains . This parameter is required only if  is a value type.
     - id: member
       type: System.Reflection.MemberInfo
-      description: Parameter description to be filled
-    return:
-      type: System.Void
-      description: Return description to be filled
+      description: The field in the containing object where  exists. This parameter has meaning only if  is a value type.
   overload: System.Runtime.Serialization.ObjectManager.RegisterObject*
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Runtime.Serialization.ObjectManager.RegisterObject(System.Object,System.Int64,System.Runtime.Serialization.SerializationInfo,System.Int64,System.Reflection.MemberInfo,System.Int32[])
   id: RegisterObject(System.Object,System.Int64,System.Runtime.Serialization.SerializationInfo,System.Int64,System.Reflection.MemberInfo,System.Int32[])
   parent: System.Runtime.Serialization.ObjectManager
   langs:
   - csharp
-  - vb
   name: RegisterObject(Object,Int64,SerializationInfo,Int64,MemberInfo,Int32[])
   nameWithType: ObjectManager.RegisterObject(Object,Int64,SerializationInfo,Int64,MemberInfo,Int32[])
   fullName: System.Runtime.Serialization.ObjectManager.RegisterObject(Object,Int64,SerializationInfo,Int64,MemberInfo,Int32[])
@@ -360,31 +396,34 @@ items:
   assemblies:
   - mscorlib
   namespace: System.Runtime.Serialization
+  summary: Registers a member of an array contained in an object while it is deserialized, associating it with , and recording the <see cref="T:System.Runtime.Serialization.SerializationInfo">.
+  remarks: "You need to provide the  and  parameters if  is a <xref:System.ValueType> because of the way fixups are performed on <xref:System.ValueType> objects. The space to store the information for a <xref:System.ValueType> is allocated inline with its containing object. However, when the <xref:System.ValueType> is boxed to be registered with the <xref:System.Runtime.Serialization.ObjectManager>, it loses the connection with its containing object. To guarantee that fixups occur in the instance of the <xref:System.ValueType> stored in the containing object and not in the boxed instance, the <xref:System.Runtime.Serialization.ObjectManager> retains some additional information.  \n  \n <xref:System.Runtime.Serialization.ObjectManager> retains information about both the object and its ID. Later during deserialization, <xref:System.Runtime.Serialization.ObjectManager.GetObject%2A> can be used to discover whether a particular object ID has already been deserialized, or whether it is a forward reference to an object not yet deserialized."
   syntax:
     content: public void RegisterObject (object obj, long objectID, System.Runtime.Serialization.SerializationInfo info, long idOfContainingObj, System.Reflection.MemberInfo member, int[] arrayIndex);
     parameters:
     - id: obj
       type: System.Object
-      description: Parameter description to be filled
+      description: The object to register.
     - id: objectID
       type: System.Int64
-      description: Parameter description to be filled
+      description: The ID of the object to register.
     - id: info
       type: System.Runtime.Serialization.SerializationInfo
-      description: Parameter description to be filled
+      description: The <see cref="T:System.Runtime.Serialization.SerializationInfo"> used if  implements <xref:System.Runtime.Serialization.ISerializable> or has a <xref:System.Runtime.Serialization.ISerializationSurrogate>.  will be completed with any required fixup information and then passed to the required object when that object is completed.
     - id: idOfContainingObj
       type: System.Int64
-      description: Parameter description to be filled
+      description: The ID of the object that contains . This parameter is required only if  is a value type.
     - id: member
       type: System.Reflection.MemberInfo
-      description: Parameter description to be filled
+      description: The field in the containing object where  exists. This parameter has meaning only if  is a value type.
     - id: arrayIndex
       type: System.Int32[]
-      description: Parameter description to be filled
-    return:
-      type: System.Void
-      description: Return description to be filled
+      description: If  is a <see cref="T:System.ValueType"> and a member of an array,  contains the index within that array where  exists.  is ignored if  is not both a <see cref="T:System.ValueType"> and a member of an array.
   overload: System.Runtime.Serialization.ObjectManager.RegisterObject*
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 references:
 - uid: System.Object
   isExternal: false
@@ -413,12 +452,6 @@ references:
   name: DoFixups()
   nameWithType: ObjectManager.DoFixups()
   fullName: System.Runtime.Serialization.ObjectManager.DoFixups()
-- uid: System.Void
-  parent: System
-  isExternal: false
-  name: Void
-  nameWithType: Void
-  fullName: System.Void
 - uid: System.Runtime.Serialization.ObjectManager.GetObject(System.Int64)
   parent: System.Runtime.Serialization.ObjectManager
   isExternal: false
@@ -443,24 +476,12 @@ references:
   name: RaiseDeserializationEvent()
   nameWithType: ObjectManager.RaiseDeserializationEvent()
   fullName: System.Runtime.Serialization.ObjectManager.RaiseDeserializationEvent()
-- uid: System.Void
-  parent: System
-  isExternal: false
-  name: Void
-  nameWithType: Void
-  fullName: System.Void
 - uid: System.Runtime.Serialization.ObjectManager.RaiseOnDeserializingEvent(System.Object)
   parent: System.Runtime.Serialization.ObjectManager
   isExternal: false
   name: RaiseOnDeserializingEvent(Object)
   nameWithType: ObjectManager.RaiseOnDeserializingEvent(Object)
   fullName: System.Runtime.Serialization.ObjectManager.RaiseOnDeserializingEvent(Object)
-- uid: System.Void
-  parent: System
-  isExternal: false
-  name: Void
-  nameWithType: Void
-  fullName: System.Void
 - uid: System.Object
   parent: System
   isExternal: false
@@ -473,12 +494,6 @@ references:
   name: RecordArrayElementFixup(Int64,Int32,Int64)
   nameWithType: ObjectManager.RecordArrayElementFixup(Int64,Int32,Int64)
   fullName: System.Runtime.Serialization.ObjectManager.RecordArrayElementFixup(Int64,Int32,Int64)
-- uid: System.Void
-  parent: System
-  isExternal: false
-  name: Void
-  nameWithType: Void
-  fullName: System.Void
 - uid: System.Int64
   parent: System
   isExternal: false
@@ -503,18 +518,18 @@ references:
   name: RecordArrayElementFixup(Int64,Int32[],Int64)
   nameWithType: ObjectManager.RecordArrayElementFixup(Int64,Int32[],Int64)
   fullName: System.Runtime.Serialization.ObjectManager.RecordArrayElementFixup(Int64,Int32[],Int64)
-- uid: System.Void
-  parent: System
-  isExternal: false
-  name: Void
-  nameWithType: Void
-  fullName: System.Void
 - uid: System.Int64
   parent: System
   isExternal: false
   name: Int64
   nameWithType: Int64
   fullName: System.Int64
+- uid: System.Int32
+  parent: System
+  isExternal: false
+  name: Int32
+  nameWithType: Int32
+  fullName: System.Int32[]
 - uid: System.Int64
   parent: System
   isExternal: false
@@ -527,12 +542,6 @@ references:
   name: RecordDelayedFixup(Int64,String,Int64)
   nameWithType: ObjectManager.RecordDelayedFixup(Int64,String,Int64)
   fullName: System.Runtime.Serialization.ObjectManager.RecordDelayedFixup(Int64,String,Int64)
-- uid: System.Void
-  parent: System
-  isExternal: false
-  name: Void
-  nameWithType: Void
-  fullName: System.Void
 - uid: System.Int64
   parent: System
   isExternal: false
@@ -557,12 +566,6 @@ references:
   name: RecordFixup(Int64,MemberInfo,Int64)
   nameWithType: ObjectManager.RecordFixup(Int64,MemberInfo,Int64)
   fullName: System.Runtime.Serialization.ObjectManager.RecordFixup(Int64,MemberInfo,Int64)
-- uid: System.Void
-  parent: System
-  isExternal: false
-  name: Void
-  nameWithType: Void
-  fullName: System.Void
 - uid: System.Int64
   parent: System
   isExternal: false
@@ -587,12 +590,6 @@ references:
   name: RegisterObject(Object,Int64)
   nameWithType: ObjectManager.RegisterObject(Object,Int64)
   fullName: System.Runtime.Serialization.ObjectManager.RegisterObject(Object,Int64)
-- uid: System.Void
-  parent: System
-  isExternal: false
-  name: Void
-  nameWithType: Void
-  fullName: System.Void
 - uid: System.Object
   parent: System
   isExternal: false
@@ -611,12 +608,6 @@ references:
   name: RegisterObject(Object,Int64,SerializationInfo)
   nameWithType: ObjectManager.RegisterObject(Object,Int64,SerializationInfo)
   fullName: System.Runtime.Serialization.ObjectManager.RegisterObject(Object,Int64,SerializationInfo)
-- uid: System.Void
-  parent: System
-  isExternal: false
-  name: Void
-  nameWithType: Void
-  fullName: System.Void
 - uid: System.Object
   parent: System
   isExternal: false
@@ -641,12 +632,6 @@ references:
   name: RegisterObject(Object,Int64,SerializationInfo,Int64,MemberInfo)
   nameWithType: ObjectManager.RegisterObject(Object,Int64,SerializationInfo,Int64,MemberInfo)
   fullName: System.Runtime.Serialization.ObjectManager.RegisterObject(Object,Int64,SerializationInfo,Int64,MemberInfo)
-- uid: System.Void
-  parent: System
-  isExternal: false
-  name: Void
-  nameWithType: Void
-  fullName: System.Void
 - uid: System.Object
   parent: System
   isExternal: false
@@ -683,12 +668,6 @@ references:
   name: RegisterObject(Object,Int64,SerializationInfo,Int64,MemberInfo,Int32[])
   nameWithType: ObjectManager.RegisterObject(Object,Int64,SerializationInfo,Int64,MemberInfo,Int32[])
   fullName: System.Runtime.Serialization.ObjectManager.RegisterObject(Object,Int64,SerializationInfo,Int64,MemberInfo,Int32[])
-- uid: System.Void
-  parent: System
-  isExternal: false
-  name: Void
-  nameWithType: Void
-  fullName: System.Void
 - uid: System.Object
   parent: System
   isExternal: false
@@ -719,6 +698,12 @@ references:
   name: MemberInfo
   nameWithType: MemberInfo
   fullName: System.Reflection.MemberInfo
+- uid: System.Int32
+  parent: System
+  isExternal: false
+  name: Int32
+  nameWithType: Int32
+  fullName: System.Int32[]
 - uid: System.Runtime.Serialization.ObjectManager.RecordArrayElementFixup*
   parent: System.Runtime.Serialization.ObjectManager
   isExternal: false

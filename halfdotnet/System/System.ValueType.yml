@@ -9,11 +9,12 @@ items:
   - System.ValueType.ToString
   langs:
   - csharp
-  - vb
   name: ValueType
   nameWithType: ValueType
   fullName: System.ValueType
   type: Class
+  summary: Provides the base class for value types.
+  remarks: "ValueType overrides the virtual methods from <xref:System.Object> with more appropriate implementations for value types. See also <xref:System.Enum>, which inherits from ValueType.  \n  \n Data types are separated into value types and reference types. Value types are either stack-allocated or allocated inline in a structure. Reference types are heap-allocated. Both reference and value types are derived from the ultimate base class <xref:System.Object>. In cases where it is necessary for a value type to behave like an object, a wrapper that makes the value type look like a reference object is allocated on the heap, and the value type's value is copied into it. The wrapper is marked so the system knows that it contains a value type. This process is known as boxing, and the reverse process is known as unboxing. Boxing and unboxing allow any type to be treated as an object.  \n  \n Although ValueType is the implicit base class for value types, you cannot create a class that inherits from ValueType directly. Instead, individual compilers provide a language keyword or construct (such as `struct` in C# and `Structure`…`End Structure` in Visual Basic) to support the creation of value types.  \n  \n Aside from serving as the base class for value types in the .NET Framework, the ValueType structure is generally not used directly in code. However, it can be used as a parameter in method calls to restrict possible arguments to value types instead of all objects, or to permit a method to handle a number of different value types. The following example illustrates how ValueType prevents reference types from being passed to methods. It defines a class named `Utility` that contains four methods: `IsNumeric`, which indicates whether its argument is a number; `IsInteger`, which indicates whether its argument is an integer; `IsFloat`, which indicates whether its argument is a floating-point number; and `Compare`, which indicates the relationship between two numeric values. In each case, the method parameters are of type ValueType, and reference types are prevented from being passed to the methods.  \n  \n [!CODE [System.ValueType.Structure#1](../CodeSnippet/VS_Snippets_CLR_System/system.valuetype.structure#1)]  \n  \n The following example illustrates calls to the methods of the `Utility` class.  \n  \n [!CODE [System.ValueType.Structure#2](../CodeSnippet/VS_Snippets_CLR_System/system.valuetype.structure#2)]"
   syntax:
     content: >-
       [System.Runtime.InteropServices.ComVisible(true)]
@@ -27,12 +28,15 @@ items:
   - System.Object.GetType
   - System.Object.MemberwiseClone
   - System.Object.ReferenceEquals(System.Object,System.Object)
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.ValueType.#ctor
   id: '#ctor'
   parent: System.ValueType
   langs:
   - csharp
-  - vb
   name: ValueType()
   nameWithType: ValueType.ValueType()
   fullName: System.ValueType.ValueType()
@@ -40,15 +44,20 @@ items:
   assemblies:
   - mscorlib
   namespace: System
+  summary: Initializes a new instance of the <see cref="T:System.ValueType"> class.
+  remarks: To be added.
   syntax:
     content: protected ValueType ();
     parameters: []
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.ValueType.Equals(System.Object)
   id: Equals(System.Object)
   parent: System.ValueType
   langs:
   - csharp
-  - vb
   name: Equals(Object)
   nameWithType: ValueType.Equals(Object)
   fullName: System.ValueType.Equals(Object)
@@ -56,21 +65,28 @@ items:
   assemblies:
   - mscorlib
   namespace: System
+  summary: Indicates whether this instance and a specified object are equal.
+  remarks: "The Equals method overrides <xref:System.Object.Equals%28System.Object%29?displayProperty=fullName> and provides the default implementation of value equality for all value types in the .NET Framework.  \n  \n If none of the fields of the current instance and  are reference types, the Equals method performs a byte-by-byte comparison of the two objects in memory. Otherwise, it uses reflection to compare the corresponding fields of  and this instance.  \n  \n> [!TIP]\n>  Particularly if your value type contains fields that are reference types, you should override the Equals method. This can improve performance and enable you to more closely represent the meaning of equality for the type.  \n  \n## Notes for the [!INCLUDE[wrt](../../add/includes/wrt-md.md)]  \n When you call the Equalsmethod on a [!INCLUDE[wrt](../../add/includes/wrt-md.md)] structure, it provides the default behavior for value types that don’t override Equals. This is part of the support that the .NET Framework provides for the [!INCLUDE[wrt](../../add/includes/wrt-md.md)] (see [.NET Framework Support for Windows Store Apps and Windows Runtime](../Topic/.NET%20Framework%20Support%20for%20Windows%20Store%20Apps%20and%20Windows%20Runtime.md)). [!INCLUDE[wrt](../../add/includes/wrt-md.md)] structures can’t override Equals, even if they’re written with C# or Visual Basic, because they can’t have methods. (In addition, structures in the [!INCLUDE[wrt](../../add/includes/wrt-md.md)] itself don’t inherit <xref:System.ValueType>.) However, they appear to have <xref:System.ValueType.ToString%2A>, Equals, and <xref:System.ValueType.GetHashCode%2A> methods when you use them in your C# or Visual Basic code, and the .NET Framework provides the default behavior for these methods."
+  example:
+  - "The following example demonstrates how the Equals method can be overridden by a derived value type.  \n  \n [!CODE [ValueType.Equals Example#1](../CodeSnippet/VS_Snippets_CLR/ValueType.Equals Example#1)]"
   syntax:
     content: public override bool Equals (object obj);
     parameters:
     - id: obj
       type: System.Object
-      description: Parameter description to be filled
+      description: The object to compare with the current instance.
     return:
       type: System.Boolean
-      description: Return description to be filled
+      description: '`true` if  and this instance are the same type and represent the same value; otherwise, `false`.'
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.ValueType.GetHashCode
   id: GetHashCode
   parent: System.ValueType
   langs:
   - csharp
-  - vb
   name: GetHashCode()
   nameWithType: ValueType.GetHashCode()
   fullName: System.ValueType.GetHashCode()
@@ -78,18 +94,25 @@ items:
   assemblies:
   - mscorlib
   namespace: System
+  summary: Returns the hash code for this instance.
+  remarks: "The GetHashCode method applies to types derived from <xref:System.ValueType>. One or more fields of the derived type is used to calculate the return value. If you call the derived type's `GetHashCode`method, the return value is not likely to be suitable for use as a key in a hash table. Additionally, if the value of one or more of those fields changes, the return value might become unsuitable for use as a key in a hash table. In either case, consider writing your own implementation of the GetHashCode method that more closely represents the concept of a hash code for the type.  \n  \n For more information, see <xref:System.Object.GetHashCode%2A?displayProperty=fullName>, and <xref:System.Collections.Hashtable?displayProperty=fullName>.  \n  \n## Notes for the [!INCLUDE[wrt](../../add/includes/wrt-md.md)]  \n When you call the GetHashCode method on a [!INCLUDE[wrt](../../add/includes/wrt-md.md)] structure, it provides the default behavior for value types that don’t override GetHashCode. This is part of the support that the .NET Framework provides for the [!INCLUDE[wrt](../../add/includes/wrt-md.md)] (see [.NET Framework Support for Windows Store Apps and Windows Runtime](../Topic/.NET%20Framework%20Support%20for%20Windows%20Store%20Apps%20and%20Windows%20Runtime.md)). [!INCLUDE[wrt](../../add/includes/wrt-md.md)] structures can’t override GetHashCode, even if they’re written with C# or Visual Basic, because they can’t have methods. (In addition, structures in the [!INCLUDE[wrt](../../add/includes/wrt-md.md)] itself don’t inherit <xref:System.ValueType>.) However, they appear to have <xref:System.ValueType.ToString%2A>, <xref:System.ValueType.Equals%2A>, and GetHashCode methods when you use them in your C# or Visual Basic code, and the .NET Framework provides the default behavior for these methods."
+  example:
+  - "The following example demonstrates how the GetHashCode method can be overridden by a derived value type.  \n  \n [!CODE [ValueType.Equals Example#1](../CodeSnippet/VS_Snippets_CLR/ValueType.Equals Example#1)]"
   syntax:
     content: public override int GetHashCode ();
     parameters: []
     return:
       type: System.Int32
-      description: Return description to be filled
+      description: A 32-bit signed integer that is the hash code for this instance.
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.ValueType.ToString
   id: ToString
   parent: System.ValueType
   langs:
   - csharp
-  - vb
   name: ToString()
   nameWithType: ValueType.ToString()
   fullName: System.ValueType.ToString()
@@ -97,12 +120,18 @@ items:
   assemblies:
   - mscorlib
   namespace: System
+  summary: Returns the fully qualified type name of this instance.
+  remarks: "The ToString method overrides the <xref:System.Object.ToString%2A?displayProperty=fullName> method and provides the default implementation of the `ToString` method for value types. (Value types are types defined by the `struct` keyword in C#, and by the `Structure`...`End Structure` construct in Visual Basic.) Functionally, however, the implementation is that same as that of <xref:System.Object.ToString%2A?displayProperty=fullName>: the method returns the fully qualified type name.  \n  \n Value types defined by the `struct` keyword in C# and the `Structure`...`End Structure` construct in Visual Basic typically override the ToString method to provide a more meaningful string representation of the value type. The following example illustrates the difference. It defines two value types, `EmployeeA` and `EmployeeB`, creates an instance of each, and calls its `ToString` method. Because the `EmployeeA` structure does not override the ToString method, it displays only the fully qualified type name. The `EmployeeB.ToString` method, on the other hand, provides meaningful information about the object.  \n  \n [!CODE [System.ValueType.ToString#1](../CodeSnippet/VS_Snippets_CLR_System/System.ValueType.ToString#1)]  \n  \n Note that, although enumeration types are also value types, they derive from the <xref:System.Enum> class, which overrides  ToString.  \n  \n## Notes for the Windows Runtime  \n When you call the ToString method on a [!INCLUDE[wrt](../../add/includes/wrt-md.md)] structure, it provides the default behavior for value types that don’t override ToString. This is part of the support that the .NET Framework provides for the [!INCLUDE[wrt](../../add/includes/wrt-md.md)] (see [.NET Framework Support for Windows Store Apps and Windows Runtime](../Topic/.NET%20Framework%20Support%20for%20Windows%20Store%20Apps%20and%20Windows%20Runtime.md)). [!INCLUDE[wrt](../../add/includes/wrt-md.md)] structures can’t override ToString, even if they’re written with C# or Visual Basic, because they can’t have methods. (In addition, structures in the [!INCLUDE[wrt](../../add/includes/wrt-md.md)] itself don’t inherit <xref:System.ValueType>.) However, they appear to have ToString, <xref:System.ValueType.Equals%2A>, and <xref:System.ValueType.GetHashCode%2A> methods when you use them in your C# or Visual Basic code, and the .NET Framework provides the default behavior for these methods."
   syntax:
     content: public override string ToString ();
     parameters: []
     return:
       type: System.String
-      description: Return description to be filled
+      description: The fully qualified type name.
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 references:
 - uid: System.Object
   isExternal: false

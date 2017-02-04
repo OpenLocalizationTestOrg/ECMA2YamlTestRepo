@@ -6,20 +6,26 @@ items:
   - System.Runtime.Serialization.ISafeSerializationData.CompleteDeserialization(System.Object)
   langs:
   - csharp
-  - vb
   name: ISafeSerializationData
   nameWithType: ISafeSerializationData
   fullName: System.Runtime.Serialization.ISafeSerializationData
   type: Interface
+  summary: Enables serialization of custom exception data in security-transparent code.
+  remarks: "In versions previous to.NET Framework 4.0, serialization of custom user data in a security transparent code was accomplished using the <xref:System.Exception.GetObjectData%2A> method. Starting with .NET Framework 4.0, that method is marked with the <xref:System.Security.SecurityCriticalAttribute> attribute which prevents execution in security-transparent code. To work around this condition, implement the ISafeSerializationData interface and add custom data as shown in the example below.  \n  \n The <xref:System.Runtime.Serialization.ISafeSerializationData.CompleteDeserialization%2A> method is called after serialization, and uses the <xref:System.Runtime.Serialization.SafeSerializationEventArgs> to restore the custom data."
+  example:
+  - "The following example contains an implementation of the ISafeSerializationData interface that is used to store custom data that is serialized.  \n  \n [!CODE [ISafeSerializationData#1](../CodeSnippet/VS_Snippets_CFX/isafeserializationdata#1)]"
   syntax:
     content: public interface ISafeSerializationData
   implements: []
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Runtime.Serialization.ISafeSerializationData.CompleteDeserialization(System.Object)
   id: CompleteDeserialization(System.Object)
   parent: System.Runtime.Serialization.ISafeSerializationData
   langs:
   - csharp
-  - vb
   name: CompleteDeserialization(Object)
   nameWithType: ISafeSerializationData.CompleteDeserialization(Object)
   fullName: System.Runtime.Serialization.ISafeSerializationData.CompleteDeserialization(Object)
@@ -27,15 +33,20 @@ items:
   assemblies:
   - mscorlib
   namespace: System.Runtime.Serialization
+  summary: This method is called when the instance is deserialized.
+  remarks: The state object is stored in a private variable defined in the implementation of the <xref:System.Runtime.Serialization.ISafeSerializationData> class.
+  example:
+  - "The following example restores the state of the exception after being deserialized.  \n  \n [!CODE [ISafeSerializationData#2](../CodeSnippet/VS_Snippets_CFX/isafeserializationdata#2)]"
   syntax:
     content: public void CompleteDeserialization (object deserialized);
     parameters:
     - id: deserialized
       type: System.Object
-      description: Parameter description to be filled
-    return:
-      type: System.Void
-      description: Return description to be filled
+      description: An object that contains the state of the instance.
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 references:
 - uid: System.Runtime.Serialization.ISafeSerializationData.CompleteDeserialization(System.Object)
   parent: System.Runtime.Serialization.ISafeSerializationData
@@ -43,12 +54,6 @@ references:
   name: CompleteDeserialization(Object)
   nameWithType: ISafeSerializationData.CompleteDeserialization(Object)
   fullName: System.Runtime.Serialization.ISafeSerializationData.CompleteDeserialization(Object)
-- uid: System.Void
-  parent: System
-  isExternal: false
-  name: Void
-  nameWithType: Void
-  fullName: System.Void
 - uid: System.Object
   parent: System
   isExternal: false

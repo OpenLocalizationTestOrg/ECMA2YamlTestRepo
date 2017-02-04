@@ -47,11 +47,14 @@ items:
   - System.Configuration.ConfigurationElementCollection.Unmerge(System.Configuration.ConfigurationElement,System.Configuration.ConfigurationElement,System.Configuration.ConfigurationSaveMode)
   langs:
   - csharp
-  - vb
   name: ConfigurationElementCollection
   nameWithType: ConfigurationElementCollection
   fullName: System.Configuration.ConfigurationElementCollection
   type: Class
+  summary: Represents a configuration element containing a collection of child elements.
+  remarks: "The ConfigurationElementCollection represents a collection of elements within a configuration file.  \n  \n> [!NOTE]\n>  An element within a configuration file refers to a basic XML element or a section. A simple element is an XML tag with related attributes, if any. A simple element constitutes a section. Complex sections can contain one or more simple elements, a collection of elements, and other sections.  \n  \n You use the ConfigurationElementCollection to work with a collection of <xref:System.Configuration.ConfigurationElement> objects. Implement this class to add collections of custom <xref:System.Configuration.ConfigurationElement> elements to a <xref:System.Configuration.ConfigurationSection>."
+  example:
+  - "The following example shows how to use the ConfigurationElementCollection.  \n  \n The first example consists of three classes: `UrlsSection`, `UrlsCollection` and `UrlConfigElement`.The `UrlsSection` class uses the <xref:System.Configuration.ConfigurationCollectionAttribute> to define a custom configuration section. This section contains a URL collection (defined by the `UrlsCollection` class) of URL elements (defined by the `UrlConfigElement` class).  \n  \n [!CODE [System.Configuration.ConfigurationElementCollection#1](../CodeSnippet/VS_Snippets_WebNet/system.configuration.configurationelementcollection#1)]  \n  \n This second code example uses the classes specified before. You combine these two examples in a console application project.  \n  \n [!CODE [System.Configuration.ConfigurationElementCollection#31](../CodeSnippet/VS_Snippets_WebNet/system.configuration.configurationelementcollection#31)]  \n  \n When you run the console application, an instance of the `UrlsSection` class is created and the following configuration elements are generated in the application configuration file:  \n  \n```  \n<configuration>  \n    <configSections>  \n        <section name=\"MyUrls\" type=\"UrlsSection,   \n          ConfigurationElementCollection, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null\" />  \n    </configSections>  \n    <MyUrls>  \n        <urls>  \n           <add name=\"Contoso\" url=\"http://www.contoso.com\" port=\"4040 />  \n        </urls>  \n    </MyUrls>  \n</configuration  \n```"
   syntax:
     content: >-
       [System.Diagnostics.DebuggerDisplay("Count = {Count}")]
@@ -93,12 +96,15 @@ items:
   - System.Object.MemberwiseClone
   - System.Object.ReferenceEquals(System.Object,System.Object)
   - System.Object.ToString
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Configuration.ConfigurationElementCollection.#ctor
   id: '#ctor'
   parent: System.Configuration.ConfigurationElementCollection
   langs:
   - csharp
-  - vb
   name: ConfigurationElementCollection()
   nameWithType: ConfigurationElementCollection.ConfigurationElementCollection()
   fullName: System.Configuration.ConfigurationElementCollection.ConfigurationElementCollection()
@@ -106,15 +112,20 @@ items:
   assemblies:
   - System.Configuration
   namespace: System.Configuration
+  summary: Initializes a new instance of the <see cref="T:System.Configuration.ConfigurationElementCollection"> class.
+  remarks: You create a new instance of the <xref:System.Configuration.ConfigurationElementCollection> when your application needs to create a custom <xref:System.Configuration.ConfigurationElementCollection>.
   syntax:
     content: protected ConfigurationElementCollection ();
     parameters: []
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Configuration.ConfigurationElementCollection.#ctor(System.Collections.IComparer)
   id: '#ctor(System.Collections.IComparer)'
   parent: System.Configuration.ConfigurationElementCollection
   langs:
   - csharp
-  - vb
   name: ConfigurationElementCollection(IComparer)
   nameWithType: ConfigurationElementCollection.ConfigurationElementCollection(IComparer)
   fullName: System.Configuration.ConfigurationElementCollection.ConfigurationElementCollection(IComparer)
@@ -122,18 +133,23 @@ items:
   assemblies:
   - System.Configuration
   namespace: System.Configuration
+  summary: Creates a new instance of the <see cref="T:System.Configuration.ConfigurationElementCollection"> class.
+  remarks: The <xref:System.Collections.IComparer> is used to set a comparer to use. For example, you can use a case-insensitive comparer to make the key case insensitive.
   syntax:
     content: protected ConfigurationElementCollection (System.Collections.IComparer comparer);
     parameters:
     - id: comparer
       type: System.Collections.IComparer
-      description: Parameter description to be filled
+      description: The <see cref="T:System.Collections.IComparer"> comparer to use.
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Configuration.ConfigurationElementCollection.AddElementName
   id: AddElementName
   parent: System.Configuration.ConfigurationElementCollection
   langs:
   - csharp
-  - vb
   name: AddElementName
   nameWithType: ConfigurationElementCollection.AddElementName
   fullName: System.Configuration.ConfigurationElementCollection.AddElementName
@@ -141,17 +157,22 @@ items:
   assemblies:
   - System.Configuration
   namespace: System.Configuration
+  summary: Gets or sets the name of the <see cref="T:System.Configuration.ConfigurationElement"> to associate with the add operation in the <xref:System.Configuration.ConfigurationElementCollection> when overridden in a derived class.
+  remarks: To be added.
   syntax:
     content: protected string AddElementName { get; set; }
     return:
       type: System.String
-      description: Return description to be filled
+      description: To be added.
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Configuration.ConfigurationElementCollection.BaseAdd(System.Configuration.ConfigurationElement)
   id: BaseAdd(System.Configuration.ConfigurationElement)
   parent: System.Configuration.ConfigurationElementCollection
   langs:
   - csharp
-  - vb
   name: BaseAdd(ConfigurationElement)
   nameWithType: ConfigurationElementCollection.BaseAdd(ConfigurationElement)
   fullName: System.Configuration.ConfigurationElementCollection.BaseAdd(ConfigurationElement)
@@ -159,22 +180,26 @@ items:
   assemblies:
   - System.Configuration
   namespace: System.Configuration
+  summary: Adds a configuration element to the <see cref="T:System.Configuration.ConfigurationElementCollection">.
+  remarks: "Use the BaseAdd method to add a new <xref:System.Configuration.ConfigurationElement> to the collection. Override it in a derived class if custom behavior is required when the element is added.  \n  \n When adding, an element is considered a duplicate only if the keys are identical but the values are different. Elements with identical keys and values are accepted silently because the elements do not compete. However, an element with an identical key but a different value cannot be added because there is no logic to determine which of the competing values should be honored."
+  example:
+  - "The following code example shows how to override the BaseAdd method and how to call it from an `Add` method.  \n  \n [!CODE [System.Configuration.ConfigurationElementCollection#2](../CodeSnippet/VS_Snippets_WebNet/system.configuration.configurationelementcollection#2)]"
   syntax:
     content: protected virtual void BaseAdd (System.Configuration.ConfigurationElement element);
     parameters:
     - id: element
       type: System.Configuration.ConfigurationElement
-      description: Parameter description to be filled
-    return:
-      type: System.Void
-      description: Return description to be filled
+      description: The <see cref="T:System.Configuration.ConfigurationElement"> to add.
   overload: System.Configuration.ConfigurationElementCollection.BaseAdd*
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Configuration.ConfigurationElementCollection.BaseAdd(System.Configuration.ConfigurationElement,System.Boolean)
   id: BaseAdd(System.Configuration.ConfigurationElement,System.Boolean)
   parent: System.Configuration.ConfigurationElementCollection
   langs:
   - csharp
-  - vb
   name: BaseAdd(ConfigurationElement,Boolean)
   nameWithType: ConfigurationElementCollection.BaseAdd(ConfigurationElement,Boolean)
   fullName: System.Configuration.ConfigurationElementCollection.BaseAdd(ConfigurationElement,Boolean)
@@ -182,25 +207,27 @@ items:
   assemblies:
   - System.Configuration
   namespace: System.Configuration
+  summary: Adds a configuration element to the configuration element collection.
+  remarks: "Use the optional parameter  to throw an <xref:System.Exception> exception if the specified <xref:System.Configuration.ConfigurationElement> object already exists in the <xref:System.Configuration.ConfigurationElementCollection> collection.  \n  \n An element is considered a duplicate only if the keys are identical but the values are different. Elements with identical keys and values are accepted silently because the elements do not compete. However, an element with an identical key but a different value cannot be added because there is no logic to determine which of the competing values should be honored."
   syntax:
     content: protected void BaseAdd (System.Configuration.ConfigurationElement element, bool throwIfExists);
     parameters:
     - id: element
       type: System.Configuration.ConfigurationElement
-      description: Parameter description to be filled
+      description: The <see cref="T:System.Configuration.ConfigurationElement"> to add.
     - id: throwIfExists
       type: System.Boolean
-      description: Parameter description to be filled
-    return:
-      type: System.Void
-      description: Return description to be filled
+      description: '`true` to throw an exception if the <see cref="T:System.Configuration.ConfigurationElement"> specified is already contained in the <xref:System.Configuration.ConfigurationElementCollection>; otherwise, `false`.'
   overload: System.Configuration.ConfigurationElementCollection.BaseAdd*
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Configuration.ConfigurationElementCollection.BaseAdd(System.Int32,System.Configuration.ConfigurationElement)
   id: BaseAdd(System.Int32,System.Configuration.ConfigurationElement)
   parent: System.Configuration.ConfigurationElementCollection
   langs:
   - csharp
-  - vb
   name: BaseAdd(Int32,ConfigurationElement)
   nameWithType: ConfigurationElementCollection.BaseAdd(Int32,ConfigurationElement)
   fullName: System.Configuration.ConfigurationElementCollection.BaseAdd(Int32,ConfigurationElement)
@@ -208,25 +235,27 @@ items:
   assemblies:
   - System.Configuration
   namespace: System.Configuration
+  summary: Adds a configuration element to the configuration element collection.
+  remarks: Use the  parameter to add the <xref:System.Configuration.ConfigurationElement> object to the <xref:System.Configuration.ConfigurationElementCollection> at a specific index location.
   syntax:
     content: protected virtual void BaseAdd (int index, System.Configuration.ConfigurationElement element);
     parameters:
     - id: index
       type: System.Int32
-      description: Parameter description to be filled
+      description: The index location at which to add the specified <see cref="T:System.Configuration.ConfigurationElement">.
     - id: element
       type: System.Configuration.ConfigurationElement
-      description: Parameter description to be filled
-    return:
-      type: System.Void
-      description: Return description to be filled
+      description: The <see cref="T:System.Configuration.ConfigurationElement"> to add.
   overload: System.Configuration.ConfigurationElementCollection.BaseAdd*
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Configuration.ConfigurationElementCollection.BaseClear
   id: BaseClear
   parent: System.Configuration.ConfigurationElementCollection
   langs:
   - csharp
-  - vb
   name: BaseClear()
   nameWithType: ConfigurationElementCollection.BaseClear()
   fullName: System.Configuration.ConfigurationElementCollection.BaseClear()
@@ -234,18 +263,22 @@ items:
   assemblies:
   - System.Configuration
   namespace: System.Configuration
+  summary: Removes all configuration element objects from the collection.
+  remarks: When the BaseClear method is called, it removes all <xref:System.Configuration.ConfigurationElement> objects from the collection. It also inserts a `clear` directive into the configuration file.
+  example:
+  - "The following code example shows how to call the BaseClear method.  \n  \n [!CODE [System.Configuration.ConfigurationElementCollection#3](../CodeSnippet/VS_Snippets_WebNet/system.configuration.configurationelementcollection#3)]"
   syntax:
     content: protected void BaseClear ();
     parameters: []
-    return:
-      type: System.Void
-      description: Return description to be filled
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Configuration.ConfigurationElementCollection.BaseGet(System.Int32)
   id: BaseGet(System.Int32)
   parent: System.Configuration.ConfigurationElementCollection
   langs:
   - csharp
-  - vb
   name: BaseGet(Int32)
   nameWithType: ConfigurationElementCollection.BaseGet(Int32)
   fullName: System.Configuration.ConfigurationElementCollection.BaseGet(Int32)
@@ -253,22 +286,29 @@ items:
   assemblies:
   - System.Configuration
   namespace: System.Configuration
+  summary: Gets the configuration element at the specified index location.
+  remarks: ''
+  example:
+  - "The following code example shows how to call the BaseGet method.  \n  \n [!CODE [System.Configuration.ConfigurationElementCollection#8](../CodeSnippet/VS_Snippets_WebNet/system.configuration.configurationelementcollection#8)]"
   syntax:
     content: protected System.Configuration.ConfigurationElement BaseGet (int index);
     parameters:
     - id: index
       type: System.Int32
-      description: Parameter description to be filled
+      description: The index location of the <see cref="T:System.Configuration.ConfigurationElement"> to return.
     return:
       type: System.Configuration.ConfigurationElement
-      description: Return description to be filled
+      description: The <see cref="T:System.Configuration.ConfigurationElement"> at the specified index.
   overload: System.Configuration.ConfigurationElementCollection.BaseGet*
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Configuration.ConfigurationElementCollection.BaseGet(System.Object)
   id: BaseGet(System.Object)
   parent: System.Configuration.ConfigurationElementCollection
   langs:
   - csharp
-  - vb
   name: BaseGet(Object)
   nameWithType: ConfigurationElementCollection.BaseGet(Object)
   fullName: System.Configuration.ConfigurationElementCollection.BaseGet(Object)
@@ -276,22 +316,29 @@ items:
   assemblies:
   - System.Configuration
   namespace: System.Configuration
+  summary: Returns the configuration element with the specified key.
+  remarks: The BaseGet method returns `null` if there is no <xref:System.Configuration.ConfigurationElement> object with the specified key in the collection.
+  example:
+  - "The following code example shows how to call the BaseGet method.  \n  \n [!CODE [System.Configuration.ConfigurationElementCollection#9](../CodeSnippet/VS_Snippets_WebNet/system.configuration.configurationelementcollection#9)]"
   syntax:
     content: protected System.Configuration.ConfigurationElement BaseGet (object key);
     parameters:
     - id: key
       type: System.Object
-      description: Parameter description to be filled
+      description: The key of the element to return.
     return:
       type: System.Configuration.ConfigurationElement
-      description: Return description to be filled
+      description: The <see cref="T:System.Configuration.ConfigurationElement"> with the specified key; otherwise, `null`.
   overload: System.Configuration.ConfigurationElementCollection.BaseGet*
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Configuration.ConfigurationElementCollection.BaseGetAllKeys
   id: BaseGetAllKeys
   parent: System.Configuration.ConfigurationElementCollection
   langs:
   - csharp
-  - vb
   name: BaseGetAllKeys()
   nameWithType: ConfigurationElementCollection.BaseGetAllKeys()
   fullName: System.Configuration.ConfigurationElementCollection.BaseGetAllKeys()
@@ -299,18 +346,23 @@ items:
   assemblies:
   - System.Configuration
   namespace: System.Configuration
+  summary: Returns an array of the keys for all of the configuration elements contained in the <see cref="T:System.Configuration.ConfigurationElementCollection">.
+  remarks: To be added.
   syntax:
     content: protected object[] BaseGetAllKeys ();
     parameters: []
     return:
       type: System.Object[]
-      description: Return description to be filled
+      description: An array that contains the keys for all of the <see cref="T:System.Configuration.ConfigurationElement"> objects contained in the <xref:System.Configuration.ConfigurationElementCollection>.
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Configuration.ConfigurationElementCollection.BaseGetKey(System.Int32)
   id: BaseGetKey(System.Int32)
   parent: System.Configuration.ConfigurationElementCollection
   langs:
   - csharp
-  - vb
   name: BaseGetKey(Int32)
   nameWithType: ConfigurationElementCollection.BaseGetKey(Int32)
   fullName: System.Configuration.ConfigurationElementCollection.BaseGetKey(Int32)
@@ -318,21 +370,26 @@ items:
   assemblies:
   - System.Configuration
   namespace: System.Configuration
+  summary: Gets the key for the <see cref="T:System.Configuration.ConfigurationElement"> at the specified index location.
+  remarks: To be added.
   syntax:
     content: protected object BaseGetKey (int index);
     parameters:
     - id: index
       type: System.Int32
-      description: Parameter description to be filled
+      description: The index location for the <see cref="T:System.Configuration.ConfigurationElement">.
     return:
       type: System.Object
-      description: Return description to be filled
+      description: The key for the specified <see cref="T:System.Configuration.ConfigurationElement">.
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Configuration.ConfigurationElementCollection.BaseIndexOf(System.Configuration.ConfigurationElement)
   id: BaseIndexOf(System.Configuration.ConfigurationElement)
   parent: System.Configuration.ConfigurationElementCollection
   langs:
   - csharp
-  - vb
   name: BaseIndexOf(ConfigurationElement)
   nameWithType: ConfigurationElementCollection.BaseIndexOf(ConfigurationElement)
   fullName: System.Configuration.ConfigurationElementCollection.BaseIndexOf(ConfigurationElement)
@@ -340,21 +397,28 @@ items:
   assemblies:
   - System.Configuration
   namespace: System.Configuration
+  summary: Indicates the index of the specified <see cref="T:System.Configuration.ConfigurationElement">.
+  remarks: ''
+  example:
+  - "The following code example shows how to call the BaseIndexOf method.  \n  \n [!CODE [System.Configuration.ConfigurationElementCollection#10](../CodeSnippet/VS_Snippets_WebNet/system.configuration.configurationelementcollection#10)]"
   syntax:
     content: protected int BaseIndexOf (System.Configuration.ConfigurationElement element);
     parameters:
     - id: element
       type: System.Configuration.ConfigurationElement
-      description: Parameter description to be filled
+      description: The <see cref="T:System.Configuration.ConfigurationElement"> for the specified index location.
     return:
       type: System.Int32
-      description: Return description to be filled
+      description: The index of the specified <see cref="T:System.Configuration.ConfigurationElement">; otherwise, -1.
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Configuration.ConfigurationElementCollection.BaseIsRemoved(System.Object)
   id: BaseIsRemoved(System.Object)
   parent: System.Configuration.ConfigurationElementCollection
   langs:
   - csharp
-  - vb
   name: BaseIsRemoved(Object)
   nameWithType: ConfigurationElementCollection.BaseIsRemoved(Object)
   fullName: System.Configuration.ConfigurationElementCollection.BaseIsRemoved(Object)
@@ -362,21 +426,26 @@ items:
   assemblies:
   - System.Configuration
   namespace: System.Configuration
+  summary: Indicates whether the <see cref="T:System.Configuration.ConfigurationElement"> with the specified key has been removed from the <xref:System.Configuration.ConfigurationElementCollection>.
+  remarks: To be added.
   syntax:
     content: protected bool BaseIsRemoved (object key);
     parameters:
     - id: key
       type: System.Object
-      description: Parameter description to be filled
+      description: The key of the element to check.
     return:
       type: System.Boolean
-      description: Return description to be filled
+      description: '`true` if the <see cref="T:System.Configuration.ConfigurationElement"> with the specified key has been removed; otherwise, `false`. The default is `false`.'
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Configuration.ConfigurationElementCollection.BaseRemove(System.Object)
   id: BaseRemove(System.Object)
   parent: System.Configuration.ConfigurationElementCollection
   langs:
   - csharp
-  - vb
   name: BaseRemove(Object)
   nameWithType: ConfigurationElementCollection.BaseRemove(Object)
   fullName: System.Configuration.ConfigurationElementCollection.BaseRemove(Object)
@@ -384,21 +453,25 @@ items:
   assemblies:
   - System.Configuration
   namespace: System.Configuration
+  summary: Removes a <see cref="T:System.Configuration.ConfigurationElement"> from the collection.
+  remarks: The BaseRemove method inserts a `<remove>` directive into the configuration file for the <xref:System.Configuration.ConfigurationElement> with the specified key.
+  example:
+  - "The following code example shows how to call the BaseRemove method.  \n  \n [!CODE [System.Configuration.ConfigurationElementCollection#3](../CodeSnippet/VS_Snippets_WebNet/system.configuration.configurationelementcollection#3)]"
   syntax:
     content: protected void BaseRemove (object key);
     parameters:
     - id: key
       type: System.Object
-      description: Parameter description to be filled
-    return:
-      type: System.Void
-      description: Return description to be filled
+      description: The key of the <see cref="T:System.Configuration.ConfigurationElement"> to remove.
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Configuration.ConfigurationElementCollection.BaseRemoveAt(System.Int32)
   id: BaseRemoveAt(System.Int32)
   parent: System.Configuration.ConfigurationElementCollection
   langs:
   - csharp
-  - vb
   name: BaseRemoveAt(Int32)
   nameWithType: ConfigurationElementCollection.BaseRemoveAt(Int32)
   fullName: System.Configuration.ConfigurationElementCollection.BaseRemoveAt(Int32)
@@ -406,21 +479,23 @@ items:
   assemblies:
   - System.Configuration
   namespace: System.Configuration
+  summary: Removes the <see cref="T:System.Configuration.ConfigurationElement"> at the specified index location.
+  remarks: The BaseRemoveAt method inserts a `<remove>` directive into the configuration file for the element at the specified index location.
   syntax:
     content: protected void BaseRemoveAt (int index);
     parameters:
     - id: index
       type: System.Int32
-      description: Parameter description to be filled
-    return:
-      type: System.Void
-      description: Return description to be filled
+      description: The index location of the <see cref="T:System.Configuration.ConfigurationElement"> to remove.
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Configuration.ConfigurationElementCollection.ClearElementName
   id: ClearElementName
   parent: System.Configuration.ConfigurationElementCollection
   langs:
   - csharp
-  - vb
   name: ClearElementName
   nameWithType: ConfigurationElementCollection.ClearElementName
   fullName: System.Configuration.ConfigurationElementCollection.ClearElementName
@@ -428,17 +503,22 @@ items:
   assemblies:
   - System.Configuration
   namespace: System.Configuration
+  summary: Gets or sets the name for the <see cref="T:System.Configuration.ConfigurationElement"> to associate with the clear operation in the <xref:System.Configuration.ConfigurationElementCollection> when overridden in a derived class.
+  remarks: To be added.
   syntax:
     content: protected string ClearElementName { get; set; }
     return:
       type: System.String
-      description: Return description to be filled
+      description: To be added.
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Configuration.ConfigurationElementCollection.CollectionType
   id: CollectionType
   parent: System.Configuration.ConfigurationElementCollection
   langs:
   - csharp
-  - vb
   name: CollectionType
   nameWithType: ConfigurationElementCollection.CollectionType
   fullName: System.Configuration.ConfigurationElementCollection.CollectionType
@@ -446,17 +526,24 @@ items:
   assemblies:
   - System.Configuration
   namespace: System.Configuration
+  summary: Gets the type of the <see cref="T:System.Configuration.ConfigurationElementCollection">.
+  remarks: The type will be either a <xref:System.Configuration.ConfigurationElementCollectionType> or an <xref:System.Configuration.ConfigurationElementCollectionType> field. For more information, see <xref:System.Configuration.ConfigurationElementCollectionType>.
+  example:
+  - "The following code example shows how to get the CollectionType property.  \n  \n [!CODE [System.Configuration.ConfigurationElementCollection#5](../CodeSnippet/VS_Snippets_WebNet/system.configuration.configurationelementcollection#5)]"
   syntax:
     content: public virtual System.Configuration.ConfigurationElementCollectionType CollectionType { get; }
     return:
       type: System.Configuration.ConfigurationElementCollectionType
-      description: Return description to be filled
+      description: To be added.
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Configuration.ConfigurationElementCollection.CopyTo(System.Configuration.ConfigurationElement[],System.Int32)
   id: CopyTo(System.Configuration.ConfigurationElement[],System.Int32)
   parent: System.Configuration.ConfigurationElementCollection
   langs:
   - csharp
-  - vb
   name: CopyTo(ConfigurationElement[],Int32)
   nameWithType: ConfigurationElementCollection.CopyTo(ConfigurationElement[],Int32)
   fullName: System.Configuration.ConfigurationElementCollection.CopyTo(ConfigurationElement[],Int32)
@@ -464,24 +551,26 @@ items:
   assemblies:
   - System.Configuration
   namespace: System.Configuration
+  summary: Copies the contents of the <see cref="T:System.Configuration.ConfigurationElementCollection"> to an array.
+  remarks: To be added.
   syntax:
     content: public void CopyTo (System.Configuration.ConfigurationElement[] array, int index);
     parameters:
     - id: array
       type: System.Configuration.ConfigurationElement[]
-      description: Parameter description to be filled
+      description: Array to which to copy the contents of the <see cref="T:System.Configuration.ConfigurationElementCollection">.
     - id: index
       type: System.Int32
-      description: Parameter description to be filled
-    return:
-      type: System.Void
-      description: Return description to be filled
+      description: Index location at which to begin copying.
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Configuration.ConfigurationElementCollection.Count
   id: Count
   parent: System.Configuration.ConfigurationElementCollection
   langs:
   - csharp
-  - vb
   name: Count
   nameWithType: ConfigurationElementCollection.Count
   fullName: System.Configuration.ConfigurationElementCollection.Count
@@ -489,17 +578,22 @@ items:
   assemblies:
   - System.Configuration
   namespace: System.Configuration
+  summary: Gets the number of elements in the collection.
+  remarks: To be added.
   syntax:
     content: public int Count { get; }
     return:
       type: System.Int32
-      description: Return description to be filled
+      description: To be added.
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Configuration.ConfigurationElementCollection.CreateNewElement
   id: CreateNewElement
   parent: System.Configuration.ConfigurationElementCollection
   langs:
   - csharp
-  - vb
   name: CreateNewElement()
   nameWithType: ConfigurationElementCollection.CreateNewElement()
   fullName: System.Configuration.ConfigurationElementCollection.CreateNewElement()
@@ -507,19 +601,26 @@ items:
   assemblies:
   - System.Configuration
   namespace: System.Configuration
+  summary: When overridden in a derived class, creates a new <see cref="T:System.Configuration.ConfigurationElement">.
+  remarks: Override the CreateNewElement method to create custom <xref:System.Configuration.ConfigurationElement> objects of a specific type. When a collection is loaded from the configuration file, CreateNewElement is called to create individual elements. CreateNewElement must be overridden in classes that derive from the <xref:System.Configuration.ConfigurationElementCollection> class.
+  example:
+  - "The following code example shows how to override the CreateNewElement method.  \n  \n [!CODE [System.Configuration.ConfigurationElementCollection#6](../CodeSnippet/VS_Snippets_WebNet/system.configuration.configurationelementcollection#6)]"
   syntax:
     content: protected abstract System.Configuration.ConfigurationElement CreateNewElement ();
     parameters: []
     return:
       type: System.Configuration.ConfigurationElement
-      description: Return description to be filled
+      description: A newly created <see cref="T:System.Configuration.ConfigurationElement">.
   overload: System.Configuration.ConfigurationElementCollection.CreateNewElement*
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Configuration.ConfigurationElementCollection.CreateNewElement(System.String)
   id: CreateNewElement(System.String)
   parent: System.Configuration.ConfigurationElementCollection
   langs:
   - csharp
-  - vb
   name: CreateNewElement(String)
   nameWithType: ConfigurationElementCollection.CreateNewElement(String)
   fullName: System.Configuration.ConfigurationElementCollection.CreateNewElement(String)
@@ -527,22 +628,27 @@ items:
   assemblies:
   - System.Configuration
   namespace: System.Configuration
+  summary: Creates a new <see cref="T:System.Configuration.ConfigurationElement"> when overridden in a derived class.
+  remarks: Override the CreateNewElement method to create custom <xref:System.Configuration.ConfigurationElement> objects of a specific type. When a collection is loaded from the configuration file, CreateNewElement is called to create individual elements. CreateNewElement must be overridden in classes that derive from the <xref:System.Configuration.ConfigurationElementCollection> class.
   syntax:
     content: protected virtual System.Configuration.ConfigurationElement CreateNewElement (string elementName);
     parameters:
     - id: elementName
       type: System.String
-      description: Parameter description to be filled
+      description: The name of the <see cref="T:System.Configuration.ConfigurationElement"> to create.
     return:
       type: System.Configuration.ConfigurationElement
-      description: Return description to be filled
+      description: A new <see cref="T:System.Configuration.ConfigurationElement"> with a specified name.
   overload: System.Configuration.ConfigurationElementCollection.CreateNewElement*
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Configuration.ConfigurationElementCollection.ElementName
   id: ElementName
   parent: System.Configuration.ConfigurationElementCollection
   langs:
   - csharp
-  - vb
   name: ElementName
   nameWithType: ConfigurationElementCollection.ElementName
   fullName: System.Configuration.ConfigurationElementCollection.ElementName
@@ -550,17 +656,22 @@ items:
   assemblies:
   - System.Configuration
   namespace: System.Configuration
+  summary: Gets the name used to identify this collection of elements in the configuration file when overridden in a derived class.
+  remarks: Override the ElementName property to name a custom <xref:System.Configuration.ConfigurationElementCollection>.
   syntax:
     content: protected virtual string ElementName { get; }
     return:
       type: System.String
-      description: Return description to be filled
+      description: To be added.
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Configuration.ConfigurationElementCollection.EmitClear
   id: EmitClear
   parent: System.Configuration.ConfigurationElementCollection
   langs:
   - csharp
-  - vb
   name: EmitClear
   nameWithType: ConfigurationElementCollection.EmitClear
   fullName: System.Configuration.ConfigurationElementCollection.EmitClear
@@ -568,17 +679,22 @@ items:
   assemblies:
   - System.Configuration
   namespace: System.Configuration
+  summary: Gets or sets a value that specifies whether the collection has been cleared.
+  remarks: Setting the EmitClear property to `true` causes a `<clear>` directive to be written to the configuration file when the collection is serialized.
   syntax:
     content: public bool EmitClear { get; set; }
     return:
       type: System.Boolean
-      description: Return description to be filled
+      description: To be added.
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Configuration.ConfigurationElementCollection.Equals(System.Object)
   id: Equals(System.Object)
   parent: System.Configuration.ConfigurationElementCollection
   langs:
   - csharp
-  - vb
   name: Equals(Object)
   nameWithType: ConfigurationElementCollection.Equals(Object)
   fullName: System.Configuration.ConfigurationElementCollection.Equals(Object)
@@ -586,21 +702,26 @@ items:
   assemblies:
   - System.Configuration
   namespace: System.Configuration
+  summary: Compares the <see cref="T:System.Configuration.ConfigurationElementCollection"> to the specified object.
+  remarks: To be added.
   syntax:
     content: public override bool Equals (object compareTo);
     parameters:
     - id: compareTo
       type: System.Object
-      description: Parameter description to be filled
+      description: The object to compare.
     return:
       type: System.Boolean
-      description: Return description to be filled
+      description: '`true` if the object to compare with is equal to the current <see cref="T:System.Configuration.ConfigurationElementCollection"> instance; otherwise, `false`. The default is `false`.'
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Configuration.ConfigurationElementCollection.GetElementKey(System.Configuration.ConfigurationElement)
   id: GetElementKey(System.Configuration.ConfigurationElement)
   parent: System.Configuration.ConfigurationElementCollection
   langs:
   - csharp
-  - vb
   name: GetElementKey(ConfigurationElement)
   nameWithType: ConfigurationElementCollection.GetElementKey(ConfigurationElement)
   fullName: System.Configuration.ConfigurationElementCollection.GetElementKey(ConfigurationElement)
@@ -608,21 +729,28 @@ items:
   assemblies:
   - System.Configuration
   namespace: System.Configuration
+  summary: Gets the element key for a specified configuration element when overridden in a derived class.
+  remarks: ''
+  example:
+  - "The following code example shows how to override GetElementKey method.  \n  \n [!CODE [System.Configuration.ConfigurationElementCollection#7](../CodeSnippet/VS_Snippets_WebNet/system.configuration.configurationelementcollection#7)]"
   syntax:
     content: protected abstract object GetElementKey (System.Configuration.ConfigurationElement element);
     parameters:
     - id: element
       type: System.Configuration.ConfigurationElement
-      description: Parameter description to be filled
+      description: The <see cref="T:System.Configuration.ConfigurationElement"> to return the key for.
     return:
       type: System.Object
-      description: Return description to be filled
+      description: An <see cref="T:System.Object"> that acts as the key for the specified <xref:System.Configuration.ConfigurationElement>.
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Configuration.ConfigurationElementCollection.GetEnumerator
   id: GetEnumerator
   parent: System.Configuration.ConfigurationElementCollection
   langs:
   - csharp
-  - vb
   name: GetEnumerator()
   nameWithType: ConfigurationElementCollection.GetEnumerator()
   fullName: System.Configuration.ConfigurationElementCollection.GetEnumerator()
@@ -630,18 +758,23 @@ items:
   assemblies:
   - System.Configuration
   namespace: System.Configuration
+  summary: Gets an <see cref="T:System.Collections.IEnumerator"> which is used to iterate through the <xref:System.Configuration.ConfigurationElementCollection>.
+  remarks: To be added.
   syntax:
     content: public System.Collections.IEnumerator GetEnumerator ();
     parameters: []
     return:
       type: System.Collections.IEnumerator
-      description: Return description to be filled
+      description: An <see cref="T:System.Collections.IEnumerator"> which is used to iterate through the <xref:System.Configuration.ConfigurationElementCollection>.
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Configuration.ConfigurationElementCollection.GetHashCode
   id: GetHashCode
   parent: System.Configuration.ConfigurationElementCollection
   langs:
   - csharp
-  - vb
   name: GetHashCode()
   nameWithType: ConfigurationElementCollection.GetHashCode()
   fullName: System.Configuration.ConfigurationElementCollection.GetHashCode()
@@ -649,18 +782,23 @@ items:
   assemblies:
   - System.Configuration
   namespace: System.Configuration
+  summary: Gets a unique value representing the <see cref="T:System.Configuration.ConfigurationElementCollection"> instance.
+  remarks: To be added.
   syntax:
     content: public override int GetHashCode ();
     parameters: []
     return:
       type: System.Int32
-      description: Return description to be filled
+      description: A unique value representing the <see cref="T:System.Configuration.ConfigurationElementCollection"> current instance.
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Configuration.ConfigurationElementCollection.IsElementName(System.String)
   id: IsElementName(System.String)
   parent: System.Configuration.ConfigurationElementCollection
   langs:
   - csharp
-  - vb
   name: IsElementName(String)
   nameWithType: ConfigurationElementCollection.IsElementName(String)
   fullName: System.Configuration.ConfigurationElementCollection.IsElementName(String)
@@ -668,21 +806,26 @@ items:
   assemblies:
   - System.Configuration
   namespace: System.Configuration
+  summary: Indicates whether the specified <see cref="T:System.Configuration.ConfigurationElement"> exists in the <xref:System.Configuration.ConfigurationElementCollection>.
+  remarks: Override the IsElementName method to provide custom behavior.
   syntax:
     content: protected virtual bool IsElementName (string elementName);
     parameters:
     - id: elementName
       type: System.String
-      description: Parameter description to be filled
+      description: The name of the element to verify.
     return:
       type: System.Boolean
-      description: Return description to be filled
+      description: '`true` if the element exists in the collection; otherwise, `false`. The default is `false`.'
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Configuration.ConfigurationElementCollection.IsElementRemovable(System.Configuration.ConfigurationElement)
   id: IsElementRemovable(System.Configuration.ConfigurationElement)
   parent: System.Configuration.ConfigurationElementCollection
   langs:
   - csharp
-  - vb
   name: IsElementRemovable(ConfigurationElement)
   nameWithType: ConfigurationElementCollection.IsElementRemovable(ConfigurationElement)
   fullName: System.Configuration.ConfigurationElementCollection.IsElementRemovable(ConfigurationElement)
@@ -690,21 +833,26 @@ items:
   assemblies:
   - System.Configuration
   namespace: System.Configuration
+  summary: Indicates whether the specified <see cref="T:System.Configuration.ConfigurationElement"> can be removed from the <xref:System.Configuration.ConfigurationElementCollection>.
+  remarks: Query IsElementRemovable before removing a collection element.
   syntax:
     content: protected virtual bool IsElementRemovable (System.Configuration.ConfigurationElement element);
     parameters:
     - id: element
       type: System.Configuration.ConfigurationElement
-      description: Parameter description to be filled
+      description: The element to check.
     return:
       type: System.Boolean
-      description: Return description to be filled
+      description: '`true` if the specified <see cref="T:System.Configuration.ConfigurationElement"> can be removed from this <xref:System.Configuration.ConfigurationElementCollection>; otherwise, `false`. The default is `true`.'
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Configuration.ConfigurationElementCollection.IsModified
   id: IsModified
   parent: System.Configuration.ConfigurationElementCollection
   langs:
   - csharp
-  - vb
   name: IsModified()
   nameWithType: ConfigurationElementCollection.IsModified()
   fullName: System.Configuration.ConfigurationElementCollection.IsModified()
@@ -712,18 +860,23 @@ items:
   assemblies:
   - System.Configuration
   namespace: System.Configuration
+  summary: Indicates whether this <see cref="T:System.Configuration.ConfigurationElementCollection"> has been modified since it was last saved or loaded when overridden in a derived class.
+  remarks: If the <xref:System.Configuration.ConfigurationElement.IsModified%2A> method of any <xref:System.Configuration.ConfigurationElement> contained within a <xref:System.Configuration.ConfigurationElementCollection> returns `true`, the IsModified method of the entire collection returns `true` as well.
   syntax:
     content: protected override bool IsModified ();
     parameters: []
     return:
       type: System.Boolean
-      description: Return description to be filled
+      description: '`true` if any contained element has been modified; otherwise, `false`'
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Configuration.ConfigurationElementCollection.IsReadOnly
   id: IsReadOnly
   parent: System.Configuration.ConfigurationElementCollection
   langs:
   - csharp
-  - vb
   name: IsReadOnly()
   nameWithType: ConfigurationElementCollection.IsReadOnly()
   fullName: System.Configuration.ConfigurationElementCollection.IsReadOnly()
@@ -731,18 +884,23 @@ items:
   assemblies:
   - System.Configuration
   namespace: System.Configuration
+  summary: Indicates whether the <see cref="T:System.Configuration.ConfigurationElementCollection"> object is read only.
+  remarks: The system defines configuration elements that cannot be modified. Call this method to determine whether elements can be modified.
   syntax:
     content: public override bool IsReadOnly ();
     parameters: []
     return:
       type: System.Boolean
-      description: Return description to be filled
+      description: '`true` if the <see cref="T:System.Configuration.ConfigurationElementCollection"> object is read only; otherwise, `false`.'
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Configuration.ConfigurationElementCollection.IsSynchronized
   id: IsSynchronized
   parent: System.Configuration.ConfigurationElementCollection
   langs:
   - csharp
-  - vb
   name: IsSynchronized
   nameWithType: ConfigurationElementCollection.IsSynchronized
   fullName: System.Configuration.ConfigurationElementCollection.IsSynchronized
@@ -750,17 +908,22 @@ items:
   assemblies:
   - System.Configuration
   namespace: System.Configuration
+  summary: Gets a value indicating whether access to the collection is synchronized.
+  remarks: To be added.
   syntax:
     content: public bool IsSynchronized { get; }
     return:
       type: System.Boolean
-      description: Return description to be filled
+      description: To be added.
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Configuration.ConfigurationElementCollection.OnDeserializeUnrecognizedElement(System.String,System.Xml.XmlReader)
   id: OnDeserializeUnrecognizedElement(System.String,System.Xml.XmlReader)
   parent: System.Configuration.ConfigurationElementCollection
   langs:
   - csharp
-  - vb
   name: OnDeserializeUnrecognizedElement(String,XmlReader)
   nameWithType: ConfigurationElementCollection.OnDeserializeUnrecognizedElement(String,XmlReader)
   fullName: System.Configuration.ConfigurationElementCollection.OnDeserializeUnrecognizedElement(String,XmlReader)
@@ -768,24 +931,29 @@ items:
   assemblies:
   - System.Configuration
   namespace: System.Configuration
+  summary: Causes the configuration system to throw an exception.
+  remarks: "The OnDeserializeUnrecognizedElement is called when an unrecognized configuration element is read from a configuration file.  \n  \n Override this method to provide custom handling of unrecognized configuration elements from a configuration file. The default return value, `false`, causes the configuration system to throw an exception."
   syntax:
     content: protected override bool OnDeserializeUnrecognizedElement (string elementName, System.Xml.XmlReader reader);
     parameters:
     - id: elementName
       type: System.String
-      description: Parameter description to be filled
+      description: The name of the unrecognized element.
     - id: reader
       type: System.Xml.XmlReader
-      description: Parameter description to be filled
+      description: An input stream that reads XML from the configuration file.
     return:
       type: System.Boolean
-      description: Return description to be filled
+      description: '`true` if the unrecognized element was deserialized successfully; otherwise, `false`. The default is `false`.'
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Configuration.ConfigurationElementCollection.RemoveElementName
   id: RemoveElementName
   parent: System.Configuration.ConfigurationElementCollection
   langs:
   - csharp
-  - vb
   name: RemoveElementName
   nameWithType: ConfigurationElementCollection.RemoveElementName
   fullName: System.Configuration.ConfigurationElementCollection.RemoveElementName
@@ -793,17 +961,22 @@ items:
   assemblies:
   - System.Configuration
   namespace: System.Configuration
+  summary: Gets or sets the name of the <see cref="T:System.Configuration.ConfigurationElement"> to associate with the remove operation in the <xref:System.Configuration.ConfigurationElementCollection> when overridden in a derived class.
+  remarks: To be added.
   syntax:
     content: protected string RemoveElementName { get; set; }
     return:
       type: System.String
-      description: Return description to be filled
+      description: To be added.
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Configuration.ConfigurationElementCollection.Reset(System.Configuration.ConfigurationElement)
   id: Reset(System.Configuration.ConfigurationElement)
   parent: System.Configuration.ConfigurationElementCollection
   langs:
   - csharp
-  - vb
   name: Reset(ConfigurationElement)
   nameWithType: ConfigurationElementCollection.Reset(ConfigurationElement)
   fullName: System.Configuration.ConfigurationElementCollection.Reset(ConfigurationElement)
@@ -811,21 +984,23 @@ items:
   assemblies:
   - System.Configuration
   namespace: System.Configuration
+  summary: Resets the <see cref="T:System.Configuration.ConfigurationElementCollection"> to its unmodified state when overridden in a derived class.
+  remarks: The default behavior for the Reset method is to clear any modified elements a <xref:System.Configuration.ConfigurationElementCollection> object contains and to set the modified elements to the values specified by their parent configuration file. If any element in the <xref:System.Configuration.ConfigurationElementCollection> has child elements, Reset is also called on those child elements.
   syntax:
     content: protected override void Reset (System.Configuration.ConfigurationElement parentElement);
     parameters:
     - id: parentElement
       type: System.Configuration.ConfigurationElement
-      description: Parameter description to be filled
-    return:
-      type: System.Void
-      description: Return description to be filled
+      description: The <see cref="T:System.Configuration.ConfigurationElement"> representing the collection parent element, if any; otherwise, `null`.
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Configuration.ConfigurationElementCollection.ResetModified
   id: ResetModified
   parent: System.Configuration.ConfigurationElementCollection
   langs:
   - csharp
-  - vb
   name: ResetModified()
   nameWithType: ConfigurationElementCollection.ResetModified()
   fullName: System.Configuration.ConfigurationElementCollection.ResetModified()
@@ -833,18 +1008,20 @@ items:
   assemblies:
   - System.Configuration
   namespace: System.Configuration
+  summary: Resets the value of the <xref:System.Configuration.ConfigurationElementCollection.IsModified%2A> property to `false` when overridden in a derived class.
+  remarks: The ResetModified method determines whether the elements of this collection will be written to the configuration file when the configuration is updated.
   syntax:
     content: protected override void ResetModified ();
     parameters: []
-    return:
-      type: System.Void
-      description: Return description to be filled
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Configuration.ConfigurationElementCollection.SerializeElement(System.Xml.XmlWriter,System.Boolean)
   id: SerializeElement(System.Xml.XmlWriter,System.Boolean)
   parent: System.Configuration.ConfigurationElementCollection
   langs:
   - csharp
-  - vb
   name: SerializeElement(XmlWriter,Boolean)
   nameWithType: ConfigurationElementCollection.SerializeElement(XmlWriter,Boolean)
   fullName: System.Configuration.ConfigurationElementCollection.SerializeElement(XmlWriter,Boolean)
@@ -852,24 +1029,29 @@ items:
   assemblies:
   - System.Configuration
   namespace: System.Configuration
+  summary: Writes the configuration data to an XML element in the configuration file when overridden in a derived class.
+  remarks: The SerializeElement method writes the contents of the configuration elements contained in the collection and any nested elements they contain to the configuration file. Override SerializeElement to provide a custom write procedure out of the collection contents and nested elements.
   syntax:
     content: protected override bool SerializeElement (System.Xml.XmlWriter writer, bool serializeCollectionKey);
     parameters:
     - id: writer
       type: System.Xml.XmlWriter
-      description: Parameter description to be filled
+      description: Output stream that writes XML to the configuration file.
     - id: serializeCollectionKey
       type: System.Boolean
-      description: Parameter description to be filled
+      description: '`true` to serialize the collection key; otherwise, `false`.'
     return:
       type: System.Boolean
-      description: Return description to be filled
+      description: '`true` if the <see cref="T:System.Configuration.ConfigurationElementCollection"> was written to the configuration file successfully.'
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Configuration.ConfigurationElementCollection.SetReadOnly
   id: SetReadOnly
   parent: System.Configuration.ConfigurationElementCollection
   langs:
   - csharp
-  - vb
   name: SetReadOnly()
   nameWithType: ConfigurationElementCollection.SetReadOnly()
   fullName: System.Configuration.ConfigurationElementCollection.SetReadOnly()
@@ -877,18 +1059,20 @@ items:
   assemblies:
   - System.Configuration
   namespace: System.Configuration
+  summary: Sets the <xref:System.Configuration.ConfigurationElementCollection.IsReadOnly%2A> property for the <xref:System.Configuration.ConfigurationElementCollection> object and for all sub-elements.
+  remarks: This method is used internally to set aside those system configuration elements that cannot be modified. To determine which elements are modifiable, call the <xref:System.Configuration.ConfigurationElementCollection.IsReadOnly%2A> method.
   syntax:
     content: protected override void SetReadOnly ();
     parameters: []
-    return:
-      type: System.Void
-      description: Return description to be filled
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Configuration.ConfigurationElementCollection.SyncRoot
   id: SyncRoot
   parent: System.Configuration.ConfigurationElementCollection
   langs:
   - csharp
-  - vb
   name: SyncRoot
   nameWithType: ConfigurationElementCollection.SyncRoot
   fullName: System.Configuration.ConfigurationElementCollection.SyncRoot
@@ -896,18 +1080,23 @@ items:
   assemblies:
   - System.Configuration
   namespace: System.Configuration
+  summary: Gets an object used to synchronize access to the <see cref="T:System.Configuration.ConfigurationElementCollection">.
+  remarks: To be added.
   syntax:
     content: public object SyncRoot { get; }
     return:
       type: System.Object
-      description: Return description to be filled
+      description: To be added.
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Configuration.ConfigurationElementCollection.System#Collections#ICollection#CopyTo(System.Array,System.Int32)
   id: System#Collections#ICollection#CopyTo(System.Array,System.Int32)
   isEii: true
   parent: System.Configuration.ConfigurationElementCollection
   langs:
   - csharp
-  - vb
   name: System.Collections.ICollection.CopyTo(Array,Int32)
   nameWithType: ConfigurationElementCollection.System.Collections.ICollection.CopyTo(Array,Int32)
   fullName: System.Configuration.ConfigurationElementCollection.System.Collections.ICollection.CopyTo(Array,Int32)
@@ -915,24 +1104,26 @@ items:
   assemblies:
   - System.Configuration
   namespace: System.Configuration
+  summary: Copies the <see cref="T:System.Configuration.ConfigurationElementCollection"> to an array.
+  remarks: To be added.
   syntax:
     content: void ICollection.CopyTo (Array arr, int index);
     parameters:
     - id: arr
       type: System.Array
-      description: Parameter description to be filled
+      description: Array to which to copy this <see cref="T:System.Configuration.ConfigurationElementCollection">.
     - id: index
       type: System.Int32
-      description: Parameter description to be filled
-    return:
-      type: System.Void
-      description: Return description to be filled
+      description: Index location at which to begin copying.
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Configuration.ConfigurationElementCollection.ThrowOnDuplicate
   id: ThrowOnDuplicate
   parent: System.Configuration.ConfigurationElementCollection
   langs:
   - csharp
-  - vb
   name: ThrowOnDuplicate
   nameWithType: ConfigurationElementCollection.ThrowOnDuplicate
   fullName: System.Configuration.ConfigurationElementCollection.ThrowOnDuplicate
@@ -940,17 +1131,22 @@ items:
   assemblies:
   - System.Configuration
   namespace: System.Configuration
+  summary: Gets a value indicating whether an attempt to add a duplicate <see cref="T:System.Configuration.ConfigurationElement"> to the <xref:System.Configuration.ConfigurationElementCollection> will cause an exception to be thrown.
+  remarks: "When you add a duplicate element, an exception is thrown if the <xref:System.Configuration.ConfigurationElementCollection.CollectionType%2A> value of the element is either <xref:System.Configuration.ConfigurationElementCollectionType> or <xref:System.Configuration.ConfigurationElementCollectionType>.  \n  \n Note that elements with identical keys and values are not considered duplicates, and are accepted silently. Only elements with identical keys but different values are considered duplicates. For more information, see the Remarks section for the <xref:System.Configuration.ConfigurationElementCollection.BaseAdd%2A> method."
   syntax:
     content: protected virtual bool ThrowOnDuplicate { get; }
     return:
       type: System.Boolean
-      description: Return description to be filled
+      description: To be added.
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Configuration.ConfigurationElementCollection.Unmerge(System.Configuration.ConfigurationElement,System.Configuration.ConfigurationElement,System.Configuration.ConfigurationSaveMode)
   id: Unmerge(System.Configuration.ConfigurationElement,System.Configuration.ConfigurationElement,System.Configuration.ConfigurationSaveMode)
   parent: System.Configuration.ConfigurationElementCollection
   langs:
   - csharp
-  - vb
   name: Unmerge(ConfigurationElement,ConfigurationElement,ConfigurationSaveMode)
   nameWithType: ConfigurationElementCollection.Unmerge(ConfigurationElement,ConfigurationElement,ConfigurationSaveMode)
   fullName: System.Configuration.ConfigurationElementCollection.Unmerge(ConfigurationElement,ConfigurationElement,ConfigurationSaveMode)
@@ -958,21 +1154,24 @@ items:
   assemblies:
   - System.Configuration
   namespace: System.Configuration
+  summary: Reverses the effect of merging configuration information from different levels of the configuration hierarchy
+  remarks: "The Unmerge method reverses the effect of merging configuration information from different levels of the configuration hierarchy. This allows configuration set at the current hierarchy level to be differentiated from that set at parent levels, before serialization.  \n  \n Unmerge is called by the system on a new temporary element to compare the parent object and the source object. Based on the <xref:System.Configuration.ConfigurationSaveMode> value, it then sets the temporary object to contain the data that needs to be serialized. For details about save modes, see <xref:System.Configuration.ConfigurationSaveMode>."
   syntax:
     content: protected override void Unmerge (System.Configuration.ConfigurationElement sourceElement, System.Configuration.ConfigurationElement parentElement, System.Configuration.ConfigurationSaveMode saveMode);
     parameters:
     - id: sourceElement
       type: System.Configuration.ConfigurationElement
-      description: Parameter description to be filled
+      description: A <see cref="T:System.Configuration.ConfigurationElement"> object at the current level containing a merged view of the properties.
     - id: parentElement
       type: System.Configuration.ConfigurationElement
-      description: Parameter description to be filled
+      description: The parent <see cref="T:System.Configuration.ConfigurationElement"> object of the current element, or `null` if this is the top level.
     - id: saveMode
       type: System.Configuration.ConfigurationSaveMode
-      description: Parameter description to be filled
-    return:
-      type: System.Void
-      description: Return description to be filled
+      description: A <see cref="T:System.Configuration.ConfigurationSaveMode"> enumerated value that determines which property values to include.
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 references:
 - uid: System.Configuration.ConfigurationElement
   isExternal: false
@@ -1013,12 +1212,6 @@ references:
   name: BaseAdd(ConfigurationElement)
   nameWithType: ConfigurationElementCollection.BaseAdd(ConfigurationElement)
   fullName: System.Configuration.ConfigurationElementCollection.BaseAdd(ConfigurationElement)
-- uid: System.Void
-  parent: System
-  isExternal: false
-  name: Void
-  nameWithType: Void
-  fullName: System.Void
 - uid: System.Configuration.ConfigurationElement
   parent: System.Configuration
   isExternal: false
@@ -1031,12 +1224,6 @@ references:
   name: BaseAdd(ConfigurationElement,Boolean)
   nameWithType: ConfigurationElementCollection.BaseAdd(ConfigurationElement,Boolean)
   fullName: System.Configuration.ConfigurationElementCollection.BaseAdd(ConfigurationElement,Boolean)
-- uid: System.Void
-  parent: System
-  isExternal: false
-  name: Void
-  nameWithType: Void
-  fullName: System.Void
 - uid: System.Configuration.ConfigurationElement
   parent: System.Configuration
   isExternal: false
@@ -1055,12 +1242,6 @@ references:
   name: BaseAdd(Int32,ConfigurationElement)
   nameWithType: ConfigurationElementCollection.BaseAdd(Int32,ConfigurationElement)
   fullName: System.Configuration.ConfigurationElementCollection.BaseAdd(Int32,ConfigurationElement)
-- uid: System.Void
-  parent: System
-  isExternal: false
-  name: Void
-  nameWithType: Void
-  fullName: System.Void
 - uid: System.Int32
   parent: System
   isExternal: false
@@ -1079,12 +1260,6 @@ references:
   name: BaseClear()
   nameWithType: ConfigurationElementCollection.BaseClear()
   fullName: System.Configuration.ConfigurationElementCollection.BaseClear()
-- uid: System.Void
-  parent: System
-  isExternal: false
-  name: Void
-  nameWithType: Void
-  fullName: System.Void
 - uid: System.Configuration.ConfigurationElementCollection.BaseGet(System.Int32)
   parent: System.Configuration.ConfigurationElementCollection
   isExternal: false
@@ -1127,6 +1302,12 @@ references:
   name: BaseGetAllKeys()
   nameWithType: ConfigurationElementCollection.BaseGetAllKeys()
   fullName: System.Configuration.ConfigurationElementCollection.BaseGetAllKeys()
+- uid: System.Object
+  parent: System
+  isExternal: false
+  name: Object
+  nameWithType: Object
+  fullName: System.Object[]
 - uid: System.Configuration.ConfigurationElementCollection.BaseGetKey(System.Int32)
   parent: System.Configuration.ConfigurationElementCollection
   isExternal: false
@@ -1187,12 +1368,6 @@ references:
   name: BaseRemove(Object)
   nameWithType: ConfigurationElementCollection.BaseRemove(Object)
   fullName: System.Configuration.ConfigurationElementCollection.BaseRemove(Object)
-- uid: System.Void
-  parent: System
-  isExternal: false
-  name: Void
-  nameWithType: Void
-  fullName: System.Void
 - uid: System.Object
   parent: System
   isExternal: false
@@ -1205,12 +1380,6 @@ references:
   name: BaseRemoveAt(Int32)
   nameWithType: ConfigurationElementCollection.BaseRemoveAt(Int32)
   fullName: System.Configuration.ConfigurationElementCollection.BaseRemoveAt(Int32)
-- uid: System.Void
-  parent: System
-  isExternal: false
-  name: Void
-  nameWithType: Void
-  fullName: System.Void
 - uid: System.Int32
   parent: System
   isExternal: false
@@ -1247,12 +1416,12 @@ references:
   name: CopyTo(ConfigurationElement[],Int32)
   nameWithType: ConfigurationElementCollection.CopyTo(ConfigurationElement[],Int32)
   fullName: System.Configuration.ConfigurationElementCollection.CopyTo(ConfigurationElement[],Int32)
-- uid: System.Void
-  parent: System
+- uid: System.Configuration.ConfigurationElement
+  parent: System.Configuration
   isExternal: false
-  name: Void
-  nameWithType: Void
-  fullName: System.Void
+  name: ConfigurationElement
+  nameWithType: ConfigurationElement
+  fullName: System.Configuration.ConfigurationElement[]
 - uid: System.Int32
   parent: System
   isExternal: false
@@ -1475,6 +1644,12 @@ references:
   name: String
   nameWithType: String
   fullName: System.String
+- uid: System.Xml.XmlReader
+  parent: System.Xml
+  isExternal: true
+  name: XmlReader
+  nameWithType: XmlReader
+  fullName: System.Xml.XmlReader
 - uid: System.Configuration.ConfigurationElementCollection.RemoveElementName
   parent: System.Configuration.ConfigurationElementCollection
   isExternal: false
@@ -1493,12 +1668,6 @@ references:
   name: Reset(ConfigurationElement)
   nameWithType: ConfigurationElementCollection.Reset(ConfigurationElement)
   fullName: System.Configuration.ConfigurationElementCollection.Reset(ConfigurationElement)
-- uid: System.Void
-  parent: System
-  isExternal: false
-  name: Void
-  nameWithType: Void
-  fullName: System.Void
 - uid: System.Configuration.ConfigurationElement
   parent: System.Configuration
   isExternal: false
@@ -1511,12 +1680,6 @@ references:
   name: ResetModified()
   nameWithType: ConfigurationElementCollection.ResetModified()
   fullName: System.Configuration.ConfigurationElementCollection.ResetModified()
-- uid: System.Void
-  parent: System
-  isExternal: false
-  name: Void
-  nameWithType: Void
-  fullName: System.Void
 - uid: System.Configuration.ConfigurationElementCollection.SerializeElement(System.Xml.XmlWriter,System.Boolean)
   parent: System.Configuration.ConfigurationElementCollection
   isExternal: false
@@ -1529,6 +1692,12 @@ references:
   name: Boolean
   nameWithType: Boolean
   fullName: System.Boolean
+- uid: System.Xml.XmlWriter
+  parent: System.Xml
+  isExternal: true
+  name: XmlWriter
+  nameWithType: XmlWriter
+  fullName: System.Xml.XmlWriter
 - uid: System.Boolean
   parent: System
   isExternal: false
@@ -1541,12 +1710,6 @@ references:
   name: SetReadOnly()
   nameWithType: ConfigurationElementCollection.SetReadOnly()
   fullName: System.Configuration.ConfigurationElementCollection.SetReadOnly()
-- uid: System.Void
-  parent: System
-  isExternal: false
-  name: Void
-  nameWithType: Void
-  fullName: System.Void
 - uid: System.Configuration.ConfigurationElementCollection.SyncRoot
   parent: System.Configuration.ConfigurationElementCollection
   isExternal: false
@@ -1565,12 +1728,6 @@ references:
   name: System.Collections.ICollection.CopyTo(Array,Int32)
   nameWithType: ConfigurationElementCollection.System.Collections.ICollection.CopyTo(Array,Int32)
   fullName: System.Configuration.ConfigurationElementCollection.System.Collections.ICollection.CopyTo(Array,Int32)
-- uid: System.Void
-  parent: System
-  isExternal: false
-  name: Void
-  nameWithType: Void
-  fullName: System.Void
 - uid: System.Array
   parent: System
   isExternal: false
@@ -1601,12 +1758,6 @@ references:
   name: Unmerge(ConfigurationElement,ConfigurationElement,ConfigurationSaveMode)
   nameWithType: ConfigurationElementCollection.Unmerge(ConfigurationElement,ConfigurationElement,ConfigurationSaveMode)
   fullName: System.Configuration.ConfigurationElementCollection.Unmerge(ConfigurationElement,ConfigurationElement,ConfigurationSaveMode)
-- uid: System.Void
-  parent: System
-  isExternal: false
-  name: Void
-  nameWithType: Void
-  fullName: System.Void
 - uid: System.Configuration.ConfigurationElement
   parent: System.Configuration
   isExternal: false

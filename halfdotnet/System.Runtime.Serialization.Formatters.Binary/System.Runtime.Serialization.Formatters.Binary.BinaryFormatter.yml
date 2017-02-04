@@ -20,11 +20,14 @@ items:
   - System.Runtime.Serialization.Formatters.Binary.BinaryFormatter.UnsafeDeserializeMethodResponse(System.IO.Stream,System.Runtime.Remoting.Messaging.HeaderHandler,System.Runtime.Remoting.Messaging.IMethodCallMessage)
   langs:
   - csharp
-  - vb
   name: BinaryFormatter
   nameWithType: BinaryFormatter
   fullName: System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
   type: Class
+  summary: Serializes and deserializes an object, or an entire graph of connected objects, in binary format.
+  remarks: "The <xref:System.Runtime.Serialization.Formatters.Soap.SoapFormatter> and BinaryFormatter classes implement the <xref:System.Runtime.Remoting.Messaging.IRemotingFormatter> interface to support remote procedure calls (RPCs), and the <xref:System.Runtime.Serialization.IFormatter> interface (inherited by the <xref:System.Runtime.Remoting.Messaging.IRemotingFormatter>) to support serialization of a graph of objects. The <xref:System.Runtime.Serialization.Formatters.Soap.SoapFormatter> class also supports RPCs with <xref:System.Runtime.Serialization.Formatters.ISoapMessage> objects, without using the <xref:System.Runtime.Remoting.Messaging.IRemotingFormatter> functionality.  \n  \n During RPCs, the <xref:System.Runtime.Remoting.Messaging.IRemotingFormatter> interface allows the specification of two separate object graphs: the graph of objects to serialize, and an additional graph that contains an array of header objects that convey information about the remote function call (for example, transaction ID or a method signature).  \n  \n RPCs that use the BinaryFormatter separate into two distinct parts: method calls, which are sent to the server with the remote object that contains the method called, and method responses, which are sent from the server to the client with the status and response information from the called method.  \n  \n During serialization of a method call the first object of the object graph must support the <xref:System.Runtime.Remoting.Messaging.IMethodCallMessage> interface. To deserialize a method call, use the <xref:System.Runtime.Serialization.Formatters.Binary.BinaryFormatter.Deserialize%2A> method with the <xref:System.Runtime.Remoting.Messaging.HeaderHandler> parameter. The remoting infrastructure uses the <xref:System.Runtime.Remoting.Messaging.HeaderHandler> delegate to produce an object that supports the <xref:System.Runtime.Serialization.ISerializable> interface. When the BinaryFormatter invokes the <xref:System.Runtime.Remoting.Messaging.HeaderHandler> delegate, it returns the URI of the remote object with the method that is being called. The first object in the graph returned supports the <xref:System.Runtime.Remoting.Messaging.IMethodCallMessage> interface.  \n  \n The serialization procedure for a method response is identical to that of a method call, except the first object of the object graph must support the <xref:System.Runtime.Remoting.Messaging.IMethodReturnMessage> interface. To deserialize a method response, use the <xref:System.Runtime.Serialization.Formatters.Binary.BinaryFormatter.DeserializeMethodResponse%2A> method. To save time, details about the caller object are not sent to the remote object during the method call. These details are instead obtained from the original method call, which is passed to the <xref:System.Runtime.Serialization.Formatters.Binary.BinaryFormatter.DeserializeMethodResponse%2A> method in the <xref:System.Runtime.Remoting.Messaging.IMethodCallMessage> parameter. The first object in the graph returned by the <xref:System.Runtime.Serialization.Formatters.Binary.BinaryFormatter.DeserializeMethodResponse%2A> method supports the <xref:System.Runtime.Remoting.Messaging.IMethodReturnMessage> interface.  \n  \n> [!IMPORTANT]\n>  Using binary serialization to deserialize untrusted data can lead to security risks. For more information, see [Untrusted Data Security Risks](http://go.microsoft.com/fwlink/?LinkId=330378).  \n  \n## Unpaired Surrogates  \n Any unpaired surrogate characters are lost in binary serialization. For example, the following string contains a high surrogate Unicode character `(\\ud800`) in between the two `Test` words:  \n  \n `Test\\ud800Test`  \n  \n Before serialization, the byte array of the string is as follows:  \n  \n|Byte Array Value|Character|  \n|----------------------|---------------|  \n|84|T|  \n|101|e|  \n|115|s|  \n|116|t|  \n|55296|\\ud800|  \n|84|T|  \n|101|e|  \n|115|s|  \n|116|t|  \n  \n After deserialization, the high surrogate Unicode character is lost:  \n  \n|Byte Array Value|Character|  \n|----------------------|---------------|  \n|84|T|  \n|101|e|  \n|115|s|  \n|116|t|  \n|84|T|  \n|101|e|  \n|115|s|  \n|116|t|"
+  example:
+  - '[!CODE [BinaryFormatterClass Example#1](../CodeSnippet/VS_Snippets_Remoting/BinaryFormatterClass Example#1)]'
   syntax:
     content: >-
       [System.Runtime.InteropServices.ComVisible(true)]
@@ -42,12 +45,15 @@ items:
   - System.Object.MemberwiseClone
   - System.Object.ReferenceEquals(System.Object,System.Object)
   - System.Object.ToString
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Runtime.Serialization.Formatters.Binary.BinaryFormatter.#ctor
   id: '#ctor'
   parent: System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
   langs:
   - csharp
-  - vb
   name: BinaryFormatter()
   nameWithType: BinaryFormatter.BinaryFormatter()
   fullName: System.Runtime.Serialization.Formatters.Binary.BinaryFormatter.BinaryFormatter()
@@ -55,15 +61,22 @@ items:
   assemblies:
   - mscorlib
   namespace: System.Runtime.Serialization.Formatters.Binary
+  summary: Initializes a new instance of the <see cref="T:System.Runtime.Serialization.Formatters.Binary.BinaryFormatter"> class with default values.
+  remarks: "This constructor sets the properties of the <xref:System.Runtime.Serialization.Formatters.Binary.BinaryFormatter> object as follows:  \n  \n|Property Type|Condition|  \n|-------------------|---------------|  \n|<xref:System.Runtime.Serialization.Formatters.Binary.BinaryFormatter.SurrogateSelector%2A>|`null`|  \n|<xref:System.Runtime.Serialization.Formatters.Binary.BinaryFormatter.Context%2A>|A <xref:System.Runtime.Serialization.StreamingContext> with a value that indicates that serialized data can be transmitted to or received from any of the other contexts. (<xref:System.Runtime.Serialization.StreamingContextStates?displayProperty=fullName>)|"
+  example:
+  - '[!CODE [BinaryFormatterClass Example#1](../CodeSnippet/VS_Snippets_Remoting/BinaryFormatterClass Example#1)]'
   syntax:
     content: public BinaryFormatter ();
     parameters: []
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Runtime.Serialization.Formatters.Binary.BinaryFormatter.#ctor(System.Runtime.Serialization.ISurrogateSelector,System.Runtime.Serialization.StreamingContext)
   id: '#ctor(System.Runtime.Serialization.ISurrogateSelector,System.Runtime.Serialization.StreamingContext)'
   parent: System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
   langs:
   - csharp
-  - vb
   name: BinaryFormatter(ISurrogateSelector,StreamingContext)
   nameWithType: BinaryFormatter.BinaryFormatter(ISurrogateSelector,StreamingContext)
   fullName: System.Runtime.Serialization.Formatters.Binary.BinaryFormatter.BinaryFormatter(ISurrogateSelector,StreamingContext)
@@ -71,21 +84,26 @@ items:
   assemblies:
   - mscorlib
   namespace: System.Runtime.Serialization.Formatters.Binary
+  summary: Initializes a new instance of the <see cref="T:System.Runtime.Serialization.Formatters.Binary.BinaryFormatter"> class with a given surrogate selector and streaming context.
+  remarks: "Initializes a new `BinaryFormatter` for serialization or deserialization of objects from the specified <xref:System.IO.Stream>.  \n  \n The serialization or deserialization process uses the specified <xref:System.Runtime.Serialization.ISurrogateSelector> to search for surrogates that are registered for the object types you want to deserialize. Surrogates are helpers that serialize and deserialize objects of specific classes. The default <xref:System.Runtime.Serialization.ISurrogateSelector> cannot handle the serialization of objects that derive from the <xref:System.MarshalByRefObject> for remoting purposes. In a remoting situation the specified <xref:System.Runtime.Serialization.ISurrogateSelector> replaces the object derived from <xref:System.MarshalByRefObject> with a <xref:System.Runtime.Remoting.ObjRef> object that is serialized by the specified surrogate selector. Therefore, if you want to use remote objects, set the  parameter to an instance of <xref:System.Runtime.Remoting.Messaging.RemotingSurrogateSelector>. If you do not need surrogates, set the  parameter to be `null`."
   syntax:
     content: public BinaryFormatter (System.Runtime.Serialization.ISurrogateSelector selector, System.Runtime.Serialization.StreamingContext context);
     parameters:
     - id: selector
       type: System.Runtime.Serialization.ISurrogateSelector
-      description: Parameter description to be filled
+      description: The <see cref="T:System.Runtime.Serialization.ISurrogateSelector"> to use. Can be `null`.
     - id: context
       type: System.Runtime.Serialization.StreamingContext
-      description: Parameter description to be filled
+      description: The source and destination for the serialized data.
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Runtime.Serialization.Formatters.Binary.BinaryFormatter.AssemblyFormat
   id: AssemblyFormat
   parent: System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
   langs:
   - csharp
-  - vb
   name: AssemblyFormat
   nameWithType: BinaryFormatter.AssemblyFormat
   fullName: System.Runtime.Serialization.Formatters.Binary.BinaryFormatter.AssemblyFormat
@@ -93,17 +111,22 @@ items:
   assemblies:
   - mscorlib
   namespace: System.Runtime.Serialization.Formatters.Binary
+  summary: Gets or sets the behavior of the deserializer with regards to finding and loading assemblies.
+  remarks: To be added.
   syntax:
     content: public System.Runtime.Serialization.Formatters.FormatterAssemblyStyle AssemblyFormat { get; set; }
     return:
       type: System.Runtime.Serialization.Formatters.FormatterAssemblyStyle
-      description: Return description to be filled
+      description: To be added.
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Runtime.Serialization.Formatters.Binary.BinaryFormatter.Binder
   id: Binder
   parent: System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
   langs:
   - csharp
-  - vb
   name: Binder
   nameWithType: BinaryFormatter.Binder
   fullName: System.Runtime.Serialization.Formatters.Binary.BinaryFormatter.Binder
@@ -111,17 +134,24 @@ items:
   assemblies:
   - mscorlib
   namespace: System.Runtime.Serialization.Formatters.Binary
+  summary: Gets or sets an object of type <see cref="T:System.Runtime.Serialization.SerializationBinder"> that controls the binding of a serialized object to a type.
+  remarks: ''
+  example:
+  - '[!CODE [SerializationBinder Example#1](../CodeSnippet/VS_Snippets_Remoting/SerializationBinder Example#1)]'
   syntax:
     content: public System.Runtime.Serialization.SerializationBinder Binder { get; set; }
     return:
       type: System.Runtime.Serialization.SerializationBinder
-      description: Return description to be filled
+      description: To be added.
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Runtime.Serialization.Formatters.Binary.BinaryFormatter.Context
   id: Context
   parent: System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
   langs:
   - csharp
-  - vb
   name: Context
   nameWithType: BinaryFormatter.Context
   fullName: System.Runtime.Serialization.Formatters.Binary.BinaryFormatter.Context
@@ -129,17 +159,22 @@ items:
   assemblies:
   - mscorlib
   namespace: System.Runtime.Serialization.Formatters.Binary
+  summary: Gets or sets the <see cref="T:System.Runtime.Serialization.StreamingContext"> for this formatter.
+  remarks: The <xref:System.Runtime.Serialization.StreamingContext> provides an enumeration that describes the source and the destination for a given serialized stream, as well as a way for serialization to retain that context and an additional caller-defined context.
   syntax:
     content: public System.Runtime.Serialization.StreamingContext Context { get; set; }
     return:
       type: System.Runtime.Serialization.StreamingContext
-      description: Return description to be filled
+      description: To be added.
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Runtime.Serialization.Formatters.Binary.BinaryFormatter.Deserialize(System.IO.Stream)
   id: Deserialize(System.IO.Stream)
   parent: System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
   langs:
   - csharp
-  - vb
   name: Deserialize(Stream)
   nameWithType: BinaryFormatter.Deserialize(Stream)
   fullName: System.Runtime.Serialization.Formatters.Binary.BinaryFormatter.Deserialize(Stream)
@@ -147,22 +182,29 @@ items:
   assemblies:
   - mscorlib
   namespace: System.Runtime.Serialization.Formatters.Binary
+  summary: Deserializes the specified stream into an object graph.
+  remarks: "For successful deserialization, the current position in the stream must be at the beginning of the object graph.  \n  \n> [!IMPORTANT]\n>  Calling this method with untrusted data is a security risk. Call this method only with trusted data. For more information, see [Untrusted Data Security Risks](http://go.microsoft.com/fwlink/?LinkId=330378)."
+  example:
+  - '[!CODE [BinaryFormatterClass Example#1](../CodeSnippet/VS_Snippets_Remoting/BinaryFormatterClass Example#1)]'
   syntax:
     content: public object Deserialize (System.IO.Stream serializationStream);
     parameters:
     - id: serializationStream
       type: System.IO.Stream
-      description: Parameter description to be filled
+      description: The stream from which to deserialize the object graph.
     return:
       type: System.Object
-      description: Return description to be filled
+      description: The top (root) of the object graph.
   overload: System.Runtime.Serialization.Formatters.Binary.BinaryFormatter.Deserialize*
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Runtime.Serialization.Formatters.Binary.BinaryFormatter.Deserialize(System.IO.Stream,System.Runtime.Remoting.Messaging.HeaderHandler)
   id: Deserialize(System.IO.Stream,System.Runtime.Remoting.Messaging.HeaderHandler)
   parent: System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
   langs:
   - csharp
-  - vb
   name: Deserialize(Stream,HeaderHandler)
   nameWithType: BinaryFormatter.Deserialize(Stream,HeaderHandler)
   fullName: System.Runtime.Serialization.Formatters.Binary.BinaryFormatter.Deserialize(Stream,HeaderHandler)
@@ -170,25 +212,30 @@ items:
   assemblies:
   - mscorlib
   namespace: System.Runtime.Serialization.Formatters.Binary
+  summary: Deserializes the specified stream into an object graph. The provided <see cref="T:System.Runtime.Remoting.Messaging.HeaderHandler"> handles any headers in that stream.
+  remarks: "Headers are used only for specific remoting applications.  \n  \n In order for deserialization to succeed the current position in the stream must be at the beginning of the object graph.  \n  \n> [!IMPORTANT]\n>  Calling this method with untrusted data is a security risk. Call this method only with trusted data. For more information, see [Untrusted Data Security Risks](http://go.microsoft.com/fwlink/?LinkId=330378)."
   syntax:
     content: public object Deserialize (System.IO.Stream serializationStream, System.Runtime.Remoting.Messaging.HeaderHandler handler);
     parameters:
     - id: serializationStream
       type: System.IO.Stream
-      description: Parameter description to be filled
+      description: The stream from which to deserialize the object graph.
     - id: handler
       type: System.Runtime.Remoting.Messaging.HeaderHandler
-      description: Parameter description to be filled
+      description: The <see cref="T:System.Runtime.Remoting.Messaging.HeaderHandler"> that handles any headers in the . Can be `null`.
     return:
       type: System.Object
-      description: Return description to be filled
+      description: The deserialized object or the top object (root) of the object graph.
   overload: System.Runtime.Serialization.Formatters.Binary.BinaryFormatter.Deserialize*
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Runtime.Serialization.Formatters.Binary.BinaryFormatter.DeserializeMethodResponse(System.IO.Stream,System.Runtime.Remoting.Messaging.HeaderHandler,System.Runtime.Remoting.Messaging.IMethodCallMessage)
   id: DeserializeMethodResponse(System.IO.Stream,System.Runtime.Remoting.Messaging.HeaderHandler,System.Runtime.Remoting.Messaging.IMethodCallMessage)
   parent: System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
   langs:
   - csharp
-  - vb
   name: DeserializeMethodResponse(Stream,HeaderHandler,IMethodCallMessage)
   nameWithType: BinaryFormatter.DeserializeMethodResponse(Stream,HeaderHandler,IMethodCallMessage)
   fullName: System.Runtime.Serialization.Formatters.Binary.BinaryFormatter.DeserializeMethodResponse(Stream,HeaderHandler,IMethodCallMessage)
@@ -196,27 +243,32 @@ items:
   assemblies:
   - mscorlib
   namespace: System.Runtime.Serialization.Formatters.Binary
+  summary: Deserializes a response to a remote method call from the provided <see cref="T:System.IO.Stream">.
+  remarks: "Details about the caller object are not sent to the remote object during the method call. Instead, these details are obtained from the original method call that is passed to the current method in the  parameter.  \n  \n In order for deserialization to succeed the current position in the stream must be at the beginning of the object graph."
   syntax:
     content: public object DeserializeMethodResponse (System.IO.Stream serializationStream, System.Runtime.Remoting.Messaging.HeaderHandler handler, System.Runtime.Remoting.Messaging.IMethodCallMessage methodCallMessage);
     parameters:
     - id: serializationStream
       type: System.IO.Stream
-      description: Parameter description to be filled
+      description: The stream from which to deserialize the object graph.
     - id: handler
       type: System.Runtime.Remoting.Messaging.HeaderHandler
-      description: Parameter description to be filled
+      description: The <see cref="T:System.Runtime.Remoting.Messaging.HeaderHandler"> that handles any headers in the . Can be `null`.
     - id: methodCallMessage
       type: System.Runtime.Remoting.Messaging.IMethodCallMessage
-      description: Parameter description to be filled
+      description: The <see cref="T:System.Runtime.Remoting.Messaging.IMethodCallMessage"> that contains details about where the call came from.
     return:
       type: System.Object
-      description: Return description to be filled
+      description: The deserialized response to the remote method call.
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Runtime.Serialization.Formatters.Binary.BinaryFormatter.FilterLevel
   id: FilterLevel
   parent: System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
   langs:
   - csharp
-  - vb
   name: FilterLevel
   nameWithType: BinaryFormatter.FilterLevel
   fullName: System.Runtime.Serialization.Formatters.Binary.BinaryFormatter.FilterLevel
@@ -224,17 +276,22 @@ items:
   assemblies:
   - mscorlib
   namespace: System.Runtime.Serialization.Formatters.Binary
+  summary: Gets or sets the <see cref="T:System.Runtime.Serialization.Formatters.TypeFilterLevel"> of automatic deserialization the <xref:System.Runtime.Serialization.Formatters.Binary.BinaryFormatter> performs.
+  remarks: Supported values are <xref:System.Runtime.Serialization.Formatters.TypeFilterLevel> and <xref:System.Runtime.Serialization.Formatters.TypeFilterLevel> (the default). For details about deserialization levels, see [&#91;\<topic://cpconAutomaticDeserializationInNETRemoting>&#93;](http://msdn.microsoft.com/en-us/313a0e88-5b2b-4a17-8391-0ddf9f7a787b).
   syntax:
     content: public System.Runtime.Serialization.Formatters.TypeFilterLevel FilterLevel { get; set; }
     return:
       type: System.Runtime.Serialization.Formatters.TypeFilterLevel
-      description: Return description to be filled
+      description: To be added.
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Runtime.Serialization.Formatters.Binary.BinaryFormatter.Serialize(System.IO.Stream,System.Object)
   id: Serialize(System.IO.Stream,System.Object)
   parent: System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
   langs:
   - csharp
-  - vb
   name: Serialize(Stream,Object)
   nameWithType: BinaryFormatter.Serialize(Stream,Object)
   fullName: System.Runtime.Serialization.Formatters.Binary.BinaryFormatter.Serialize(Stream,Object)
@@ -242,25 +299,29 @@ items:
   assemblies:
   - mscorlib
   namespace: System.Runtime.Serialization.Formatters.Binary
+  summary: Serializes the object, or graph of objects with the specified top (root), to the given stream.
+  remarks: ''
+  example:
+  - '[!CODE [BinaryFormatterClass Example#1](../CodeSnippet/VS_Snippets_Remoting/BinaryFormatterClass Example#1)]'
   syntax:
     content: public void Serialize (System.IO.Stream serializationStream, object graph);
     parameters:
     - id: serializationStream
       type: System.IO.Stream
-      description: Parameter description to be filled
+      description: The stream to which the graph is to be serialized.
     - id: graph
       type: System.Object
-      description: Parameter description to be filled
-    return:
-      type: System.Void
-      description: Return description to be filled
+      description: The object at the root of the graph to serialize.
   overload: System.Runtime.Serialization.Formatters.Binary.BinaryFormatter.Serialize*
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Runtime.Serialization.Formatters.Binary.BinaryFormatter.Serialize(System.IO.Stream,System.Object,System.Runtime.Remoting.Messaging.Header[])
   id: Serialize(System.IO.Stream,System.Object,System.Runtime.Remoting.Messaging.Header[])
   parent: System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
   langs:
   - csharp
-  - vb
   name: Serialize(Stream,Object,Header[])
   nameWithType: BinaryFormatter.Serialize(Stream,Object,Header[])
   fullName: System.Runtime.Serialization.Formatters.Binary.BinaryFormatter.Serialize(Stream,Object,Header[])
@@ -268,28 +329,30 @@ items:
   assemblies:
   - mscorlib
   namespace: System.Runtime.Serialization.Formatters.Binary
+  summary: Serializes the object, or graph of objects with the specified top (root), to the given stream attaching the provided headers.
+  remarks: "The serialization process includes the information supplied in the  parameter at the front of the serialized stream.  \n  \n Headers are used only for specific remoting applications."
   syntax:
     content: public void Serialize (System.IO.Stream serializationStream, object graph, System.Runtime.Remoting.Messaging.Header[] headers);
     parameters:
     - id: serializationStream
       type: System.IO.Stream
-      description: Parameter description to be filled
+      description: The stream to which the object is to be serialized.
     - id: graph
       type: System.Object
-      description: Parameter description to be filled
+      description: The object at the root of the graph to serialize.
     - id: headers
       type: System.Runtime.Remoting.Messaging.Header[]
-      description: Parameter description to be filled
-    return:
-      type: System.Void
-      description: Return description to be filled
+      description: Remoting headers to include in the serialization. Can be `null`.
   overload: System.Runtime.Serialization.Formatters.Binary.BinaryFormatter.Serialize*
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Runtime.Serialization.Formatters.Binary.BinaryFormatter.SurrogateSelector
   id: SurrogateSelector
   parent: System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
   langs:
   - csharp
-  - vb
   name: SurrogateSelector
   nameWithType: BinaryFormatter.SurrogateSelector
   fullName: System.Runtime.Serialization.Formatters.Binary.BinaryFormatter.SurrogateSelector
@@ -297,17 +360,22 @@ items:
   assemblies:
   - mscorlib
   namespace: System.Runtime.Serialization.Formatters.Binary
+  summary: Gets or sets a <see cref="T:System.Runtime.Serialization.ISurrogateSelector"> that controls type substitution during serialization and deserialization.
+  remarks: The surrogate selector is used by <xref:System.Runtime.Remoting> to generate <xref:System.Runtime.Remoting.ObjRef> instances for objects that derive from <xref:System.MarshalByRefObject>.
   syntax:
     content: public System.Runtime.Serialization.ISurrogateSelector SurrogateSelector { get; set; }
     return:
       type: System.Runtime.Serialization.ISurrogateSelector
-      description: Return description to be filled
+      description: To be added.
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Runtime.Serialization.Formatters.Binary.BinaryFormatter.TypeFormat
   id: TypeFormat
   parent: System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
   langs:
   - csharp
-  - vb
   name: TypeFormat
   nameWithType: BinaryFormatter.TypeFormat
   fullName: System.Runtime.Serialization.Formatters.Binary.BinaryFormatter.TypeFormat
@@ -315,17 +383,22 @@ items:
   assemblies:
   - mscorlib
   namespace: System.Runtime.Serialization.Formatters.Binary
+  summary: Gets or sets the format in which type descriptions are laid out in the serialized stream.
+  remarks: To be added.
   syntax:
     content: public System.Runtime.Serialization.Formatters.FormatterTypeStyle TypeFormat { get; set; }
     return:
       type: System.Runtime.Serialization.Formatters.FormatterTypeStyle
-      description: Return description to be filled
+      description: To be added.
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Runtime.Serialization.Formatters.Binary.BinaryFormatter.UnsafeDeserialize(System.IO.Stream,System.Runtime.Remoting.Messaging.HeaderHandler)
   id: UnsafeDeserialize(System.IO.Stream,System.Runtime.Remoting.Messaging.HeaderHandler)
   parent: System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
   langs:
   - csharp
-  - vb
   name: UnsafeDeserialize(Stream,HeaderHandler)
   nameWithType: BinaryFormatter.UnsafeDeserialize(Stream,HeaderHandler)
   fullName: System.Runtime.Serialization.Formatters.Binary.BinaryFormatter.UnsafeDeserialize(Stream,HeaderHandler)
@@ -333,24 +406,29 @@ items:
   assemblies:
   - mscorlib
   namespace: System.Runtime.Serialization.Formatters.Binary
+  summary: Deserializes the specified stream into an object graph. The provided <see cref="T:System.Runtime.Remoting.Messaging.HeaderHandler"> handles any headers in that stream.
+  remarks: "Headers are used only for specific remoting applications.  \n  \n This method uses <xref:System.Security.Permissions.SecurityAction?displayProperty=fullName> to prevent it from being called from untrusted code; only the immediate caller is required to have <xref:System.Security.Permissions.SecurityPermissionAttribute.SerializationFormatter%2A?displayProperty=fullName> permission. Do not use this method if your code can be called from partially trusted code. In partially trusted scenarios, use <xref:System.Runtime.Serialization.Formatters.Binary.BinaryFormatter.Deserialize%2A> instead. In full trust scenarios, UnsafeDeserialize provides better performance than <xref:System.Runtime.Serialization.Formatters.Binary.BinaryFormatter.Deserialize%2A>.  \n  \n For successful deserialization, the current position in the stream must be at the beginning of the object graph.  \n  \n> [!IMPORTANT]\n>  Calling this method with untrusted data is a security risk. Call this method only with trusted data. For more information, see [Untrusted Data Security Risks](http://go.microsoft.com/fwlink/?LinkId=330378)."
   syntax:
     content: public object UnsafeDeserialize (System.IO.Stream serializationStream, System.Runtime.Remoting.Messaging.HeaderHandler handler);
     parameters:
     - id: serializationStream
       type: System.IO.Stream
-      description: Parameter description to be filled
+      description: The stream from which to deserialize the object graph.
     - id: handler
       type: System.Runtime.Remoting.Messaging.HeaderHandler
-      description: Parameter description to be filled
+      description: The <see cref="T:System.Runtime.Remoting.Messaging.HeaderHandler"> that handles any headers in the . Can be `null`.
     return:
       type: System.Object
-      description: Return description to be filled
+      description: The deserialized object or the top object (root) of the object graph.
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Runtime.Serialization.Formatters.Binary.BinaryFormatter.UnsafeDeserializeMethodResponse(System.IO.Stream,System.Runtime.Remoting.Messaging.HeaderHandler,System.Runtime.Remoting.Messaging.IMethodCallMessage)
   id: UnsafeDeserializeMethodResponse(System.IO.Stream,System.Runtime.Remoting.Messaging.HeaderHandler,System.Runtime.Remoting.Messaging.IMethodCallMessage)
   parent: System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
   langs:
   - csharp
-  - vb
   name: UnsafeDeserializeMethodResponse(Stream,HeaderHandler,IMethodCallMessage)
   nameWithType: BinaryFormatter.UnsafeDeserializeMethodResponse(Stream,HeaderHandler,IMethodCallMessage)
   fullName: System.Runtime.Serialization.Formatters.Binary.BinaryFormatter.UnsafeDeserializeMethodResponse(Stream,HeaderHandler,IMethodCallMessage)
@@ -358,21 +436,27 @@ items:
   assemblies:
   - mscorlib
   namespace: System.Runtime.Serialization.Formatters.Binary
+  summary: Deserializes a response to a remote method call from the provided <see cref="T:System.IO.Stream">.
+  remarks: "Details about the caller object are not sent to the remote object during the method call. Instead, these details are obtained from the original method call that is passed to the current method in the  parameter.  \n  \n This method uses <xref:System.Security.Permissions.SecurityAction?displayProperty=fullName> to prevent it from being called from untrusted code; only the immediate caller is required to have <xref:System.Security.Permissions.SecurityPermissionAttribute.SerializationFormatter%2A?displayProperty=fullName> permission. Do not use this method if your code can be called from partially trusted code. In partially trusted scenarios, use <xref:System.Runtime.Serialization.Formatters.Binary.BinaryFormatter.DeserializeMethodResponse%2A> instead. In full trust scenarios, UnsafeDeserializeMethodResponse provides better performance than <xref:System.Runtime.Serialization.Formatters.Binary.BinaryFormatter.DeserializeMethodResponse%2A>.  \n  \n For successful deserialization, the current position in the stream must be at the beginning of the object graph.  \n  \n> [!IMPORTANT]\n>  Calling this method with untrusted data is a security risk. Call this method only with trusted data. For more information, see [Untrusted Data Security Risks](http://go.microsoft.com/fwlink/?LinkId=330378)."
   syntax:
     content: public object UnsafeDeserializeMethodResponse (System.IO.Stream serializationStream, System.Runtime.Remoting.Messaging.HeaderHandler handler, System.Runtime.Remoting.Messaging.IMethodCallMessage methodCallMessage);
     parameters:
     - id: serializationStream
       type: System.IO.Stream
-      description: Parameter description to be filled
+      description: The stream from which to deserialize the object graph.
     - id: handler
       type: System.Runtime.Remoting.Messaging.HeaderHandler
-      description: Parameter description to be filled
+      description: The <see cref="T:System.Runtime.Remoting.Messaging.HeaderHandler"> that handles any headers in the . Can be `null`.
     - id: methodCallMessage
       type: System.Runtime.Remoting.Messaging.IMethodCallMessage
-      description: Parameter description to be filled
+      description: The <see cref="T:System.Runtime.Remoting.Messaging.IMethodCallMessage"> that contains details about where the call came from.
     return:
       type: System.Object
-      description: Return description to be filled
+      description: The deserialized response to the remote method call.
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 references:
 - uid: System.Object
   isExternal: false
@@ -527,12 +611,6 @@ references:
   name: Serialize(Stream,Object)
   nameWithType: BinaryFormatter.Serialize(Stream,Object)
   fullName: System.Runtime.Serialization.Formatters.Binary.BinaryFormatter.Serialize(Stream,Object)
-- uid: System.Void
-  parent: System
-  isExternal: false
-  name: Void
-  nameWithType: Void
-  fullName: System.Void
 - uid: System.IO.Stream
   parent: System.IO
   isExternal: false
@@ -551,12 +629,6 @@ references:
   name: Serialize(Stream,Object,Header[])
   nameWithType: BinaryFormatter.Serialize(Stream,Object,Header[])
   fullName: System.Runtime.Serialization.Formatters.Binary.BinaryFormatter.Serialize(Stream,Object,Header[])
-- uid: System.Void
-  parent: System
-  isExternal: false
-  name: Void
-  nameWithType: Void
-  fullName: System.Void
 - uid: System.IO.Stream
   parent: System.IO
   isExternal: false
@@ -569,6 +641,12 @@ references:
   name: Object
   nameWithType: Object
   fullName: System.Object
+- uid: System.Runtime.Remoting.Messaging.Header
+  parent: System.Runtime.Remoting.Messaging
+  isExternal: false
+  name: Header
+  nameWithType: Header
+  fullName: System.Runtime.Remoting.Messaging.Header[]
 - uid: System.Runtime.Serialization.Formatters.Binary.BinaryFormatter.SurrogateSelector
   parent: System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
   isExternal: false

@@ -25,11 +25,14 @@ items:
   - System.Threading.SemaphoreSlim.WaitAsync(System.TimeSpan,System.Threading.CancellationToken)
   langs:
   - csharp
-  - vb
   name: SemaphoreSlim
   nameWithType: SemaphoreSlim
   fullName: System.Threading.SemaphoreSlim
   type: Class
+  summary: Represents a lightweight alternative to <xref:System.Threading.Semaphore> that limits the number of threads that can access a resource or pool of resources concurrently.
+  remarks: "Semaphores are of two types: local semaphores and named system semaphores. The former is local to an app. The latter is visible throughout the operating system and is suitable for inter-process synchronization. The SemaphoreSlim is a lightweight alternative to the <xref:System.Threading.Semaphore> class that doesn't use Windows kernel semaphores. Unlike the <xref:System.Threading.Semaphore> class, the SemaphoreSlim class doesn’t support named system semaphores. You can use it as a local semaphore only. The SemaphoreSlim class is the recommended semaphore for synchronization within a single app.  \n  \n A lightweight semaphore controls access to a pool of resources that is local to your application. When you instantiate a semaphore, you can specify the maximum number of threads that can enter the semaphore concurrently. You also specify the initial number of threads that can enter the semaphore concurrently. This defines the semaphore's count.  \n  \n The count is decremented each time a thread enters the semaphore, and incremented each time a thread releases the semaphore. To enter the semaphore, a thread calls one of the <xref:System.Threading.SemaphoreSlim.Wait%2A> or <xref:System.Threading.SemaphoreSlim.WaitAsync%2A> overloads. To release the semaphore, it calls one of the <xref:System.Threading.SemaphoreSlim.Release%2A> overloads. When the count reaches zero, subsequent calls to one of the `Wait` methods block until other threads release the semaphore. If multiple threads are blocked, there is no guaranteed order, such as FIFO or LIFO, that controls when threads enter the semaphore.  \n  \n The basic structure for code that uses a semaphore to protect resources is:  \n  \n```  \n  \n' Enter semaphore by calling one of the Wait or WaitAsync methods.  \nSemaphoreSlim.Wait()  \n'   \n' Execute code protected by the semaphore.   \n'  \nSemaphoreSlim.Release()  \n  \n```  \n  \n When all threads have released the semaphore, the count is at the maximum value specified when the semaphore was created. The semaphore's count is available from the <xref:System.Threading.SemaphoreSlim.CurrentCount%2A> property.  \n  \n> [!IMPORTANT]\n>  The SemaphoreSlim class doesn’t enforce thread or task identity on calls to the <xref:System.Threading.SemaphoreSlim.Wait%2A>, <xref:System.Threading.SemaphoreSlim.WaitAsync%2A>, and <xref:System.Threading.SemaphoreSlim.Release%2A> methods. In addition, if the <xref:System.Threading.SemaphoreSlim.%23ctor%28System.Int32%29> constructor is used to instantiate the SemaphoreSlim object, the <xref:System.Threading.SemaphoreSlim.CurrentCount%2A> property can increase beyond the value set by the constructor. It is the programmer's responsibility to ensure that calls to <xref:System.Threading.SemaphoreSlim.Wait%2A> or <xref:System.Threading.SemaphoreSlim.WaitAsync%2A> methods are appropriately paired with calls to <xref:System.Threading.SemaphoreSlim.Release%2A> methods."
+  example:
+  - "The following example creates a semaphore with a maximum count of three threads and an initial count of zero threads. The example starts five tasks, all of which block waiting for the semaphore. The main thread calls the <xref:System.Threading.SemaphoreSlim.Release%28System.Int32%29> overload to increase the semaphore count to its maximum, which allows three tasks to enter the semaphore. Each time the semaphore is released, the previous semaphore count is displayed. Console messages track semaphore use. The simulated work interval is increased slightly for each thread to make the output easier to read.  \n  \n [!CODE [System.Threading.SemaphoreSlim#1](../CodeSnippet/VS_Snippets_CLR_System/system.threading.semaphoreslim#1)]"
   syntax:
     content: >-
       [System.Diagnostics.DebuggerDisplay("Current Count = {m_currentCount}")]
@@ -49,12 +52,15 @@ items:
   - System.Object.MemberwiseClone
   - System.Object.ReferenceEquals(System.Object,System.Object)
   - System.Object.ToString
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Threading.SemaphoreSlim.#ctor(System.Int32)
   id: '#ctor(System.Int32)'
   parent: System.Threading.SemaphoreSlim
   langs:
   - csharp
-  - vb
   name: SemaphoreSlim(Int32)
   nameWithType: SemaphoreSlim.SemaphoreSlim(Int32)
   fullName: System.Threading.SemaphoreSlim.SemaphoreSlim(Int32)
@@ -62,18 +68,23 @@ items:
   assemblies:
   - mscorlib
   namespace: System.Threading
+  summary: Initializes a new instance of the <see cref="T:System.Threading.SemaphoreSlim"> class, specifying the initial number of requests that can be granted concurrently.
+  remarks: The  parameter defines the number of concurrent requests to enter the semaphore that can be granted. However, it doesn’t define the maximum number of requests that can be granted concurrently. A   <xref:System.Threading.SemaphoreSlim> object instantiated by calling this constructor doesn’t throw a <xref:System.Threading.SemaphoreFullException> exception if a call to the <xref:System.Threading.SemaphoreSlim.Release%2A> method increases the value of the <xref:System.Threading.SemaphoreSlim.CurrentCount%2A> property beyond . This occurs if there are more calls to <xref:System.Threading.SemaphoreSlim.Release%2A> methods than there are to <xref:System.Threading.SemaphoreSlim.Wait%2A> or <xref:System.Threading.SemaphoreSlim.WaitAsync%2A> methods. To set the maximum number of concurrent requests to enter the semaphore that can be granted, call the <xref:System.Threading.SemaphoreSlim.%23ctor%28System.Int32%2CSystem.Int32%29> constructor.
   syntax:
     content: public SemaphoreSlim (int initialCount);
     parameters:
     - id: initialCount
       type: System.Int32
-      description: Parameter description to be filled
+      description: The initial number of requests for the semaphore that can be granted concurrently.
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Threading.SemaphoreSlim.#ctor(System.Int32,System.Int32)
   id: '#ctor(System.Int32,System.Int32)'
   parent: System.Threading.SemaphoreSlim
   langs:
   - csharp
-  - vb
   name: SemaphoreSlim(Int32,Int32)
   nameWithType: SemaphoreSlim.SemaphoreSlim(Int32,Int32)
   fullName: System.Threading.SemaphoreSlim.SemaphoreSlim(Int32,Int32)
@@ -81,21 +92,26 @@ items:
   assemblies:
   - mscorlib
   namespace: System.Threading
+  summary: Initializes a new instance of the <see cref="T:System.Threading.SemaphoreSlim"> class, specifying the initial and maximum number of requests that can be granted concurrently.
+  remarks: To be added.
   syntax:
     content: public SemaphoreSlim (int initialCount, int maxCount);
     parameters:
     - id: initialCount
       type: System.Int32
-      description: Parameter description to be filled
+      description: The initial number of requests for the semaphore that can be granted concurrently.
     - id: maxCount
       type: System.Int32
-      description: Parameter description to be filled
+      description: The maximum number of requests for the semaphore that can be granted concurrently.
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Threading.SemaphoreSlim.AvailableWaitHandle
   id: AvailableWaitHandle
   parent: System.Threading.SemaphoreSlim
   langs:
   - csharp
-  - vb
   name: AvailableWaitHandle
   nameWithType: SemaphoreSlim.AvailableWaitHandle
   fullName: System.Threading.SemaphoreSlim.AvailableWaitHandle
@@ -103,17 +119,22 @@ items:
   assemblies:
   - mscorlib
   namespace: System.Threading
+  summary: Returns a <see cref="T:System.Threading.WaitHandle"> that can be used to wait on the semaphore.
+  remarks: Use this property only when you must wait on a SemaphoreSlim together with other kernel-based synchronization objects with the same wait handle. A successful wait on the AvailableWaitHandle does not imply a successful wait on the <xref:System.Threading.SemaphoreSlim> itself, nor does it decrement the semaphore's count. After the available wait handle is signaled, you should wait on the <xref:System.Threading.SemaphoreSlim> specifically.
   syntax:
     content: public System.Threading.WaitHandle AvailableWaitHandle { get; }
     return:
       type: System.Threading.WaitHandle
-      description: Return description to be filled
+      description: To be added.
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Threading.SemaphoreSlim.CurrentCount
   id: CurrentCount
   parent: System.Threading.SemaphoreSlim
   langs:
   - csharp
-  - vb
   name: CurrentCount
   nameWithType: SemaphoreSlim.CurrentCount
   fullName: System.Threading.SemaphoreSlim.CurrentCount
@@ -121,17 +142,22 @@ items:
   assemblies:
   - mscorlib
   namespace: System.Threading
+  summary: Gets the number of remaining threads that can enter the <see cref="T:System.Threading.SemaphoreSlim"> object.
+  remarks: The initial value of the CurrentCount property is set by the call to the <xref:System.Threading.SemaphoreSlim.%23ctor%2A> class constructor. It is decremented by each call to the <xref:System.Threading.SemaphoreSlim.Wait%2A> or <xref:System.Threading.SemaphoreSlim.WaitAsync%2A> method, and incremented by each call to the <xref:System.Threading.SemaphoreSlim.Release%2A> method.
   syntax:
     content: public int CurrentCount { get; }
     return:
       type: System.Int32
-      description: Return description to be filled
+      description: To be added.
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Threading.SemaphoreSlim.Dispose
   id: Dispose
   parent: System.Threading.SemaphoreSlim
   langs:
   - csharp
-  - vb
   name: Dispose()
   nameWithType: SemaphoreSlim.Dispose()
   fullName: System.Threading.SemaphoreSlim.Dispose()
@@ -139,19 +165,21 @@ items:
   assemblies:
   - mscorlib
   namespace: System.Threading
+  summary: Releases all resources used by the current instance of the <see cref="T:System.Threading.SemaphoreSlim"> class.
+  remarks: "Call `Dispose` when you are finished using the <xref:System.Threading.SemaphoreSlim>. The `Dispose` method leaves the <xref:System.Threading.SemaphoreSlim> in an unusable state. After calling `Dispose`, you must release all references to the <xref:System.Threading.SemaphoreSlim> so the garbage collector can reclaim the memory that the <xref:System.Threading.SemaphoreSlim> was occupying.  \n  \n For more information, see [Cleaning Up Unmanaged Resources](../Topic/Cleaning%20Up%20Unmanaged%20Resources.md) and [Implementing a Dispose Method](../Topic/Implementing%20a%20Dispose%20Method.md).  \n  \n> [!NOTE]\n>  Always call `Dispose` before you release your last reference to the <xref:System.Threading.SemaphoreSlim>. Otherwise, the resources it is using will not be freed until the garbage collector calls the <xref:System.Threading.SemaphoreSlim> object's `Finalize` method."
   syntax:
     content: public void Dispose ();
     parameters: []
-    return:
-      type: System.Void
-      description: Return description to be filled
   overload: System.Threading.SemaphoreSlim.Dispose*
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Threading.SemaphoreSlim.Dispose(System.Boolean)
   id: Dispose(System.Boolean)
   parent: System.Threading.SemaphoreSlim
   langs:
   - csharp
-  - vb
   name: Dispose(Boolean)
   nameWithType: SemaphoreSlim.Dispose(Boolean)
   fullName: System.Threading.SemaphoreSlim.Dispose(Boolean)
@@ -159,22 +187,24 @@ items:
   assemblies:
   - mscorlib
   namespace: System.Threading
+  summary: Releases the unmanaged resources used by the <see cref="T:System.Threading.SemaphoreSlim">, and optionally releases the managed resources.
+  remarks: Unlike most of the members of <xref:System.Threading.SemaphoreSlim>, Dispose is not thread-safe and may not be used concurrently with other members of this instance.
   syntax:
     content: protected virtual void Dispose (bool disposing);
     parameters:
     - id: disposing
       type: System.Boolean
-      description: Parameter description to be filled
-    return:
-      type: System.Void
-      description: Return description to be filled
+      description: '`true` to release both managed and unmanaged resources; `false` to release only unmanaged resources.'
   overload: System.Threading.SemaphoreSlim.Dispose*
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Threading.SemaphoreSlim.Release
   id: Release
   parent: System.Threading.SemaphoreSlim
   langs:
   - csharp
-  - vb
   name: Release()
   nameWithType: SemaphoreSlim.Release()
   fullName: System.Threading.SemaphoreSlim.Release()
@@ -182,19 +212,24 @@ items:
   assemblies:
   - mscorlib
   namespace: System.Threading
+  summary: Releases the <see cref="T:System.Threading.SemaphoreSlim"> object once.
+  remarks: A call to the Release method increments the <xref:System.Threading.SemaphoreSlim.CurrentCount%2A> property by one. If the value of the <xref:System.Threading.SemaphoreSlim.CurrentCount%2A> property is zero before this method is called, the method also allows one thread or task blocked by a call to the <xref:System.Threading.SemaphoreSlim.Wait%2A> or <xref:System.Threading.SemaphoreSlim.WaitAsync%2A> method to enter the semaphore.
   syntax:
     content: public int Release ();
     parameters: []
     return:
       type: System.Int32
-      description: Return description to be filled
+      description: The previous count of the <see cref="T:System.Threading.SemaphoreSlim">.
   overload: System.Threading.SemaphoreSlim.Release*
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Threading.SemaphoreSlim.Release(System.Int32)
   id: Release(System.Int32)
   parent: System.Threading.SemaphoreSlim
   langs:
   - csharp
-  - vb
   name: Release(Int32)
   nameWithType: SemaphoreSlim.Release(Int32)
   fullName: System.Threading.SemaphoreSlim.Release(Int32)
@@ -202,22 +237,27 @@ items:
   assemblies:
   - mscorlib
   namespace: System.Threading
+  summary: Releases the <see cref="T:System.Threading.SemaphoreSlim"> object a specified number of times.
+  remarks: A call to the Release method increments the <xref:System.Threading.SemaphoreSlim.CurrentCount%2A> property by . If the value of the <xref:System.Threading.SemaphoreSlim.CurrentCount%2A> property is zero before this method is called, the method also allows  threads or tasks blocked by a call to the <xref:System.Threading.SemaphoreSlim.Wait%2A> or <xref:System.Threading.SemaphoreSlim.WaitAsync%2A> method to enter the semaphore.
   syntax:
     content: public int Release (int releaseCount);
     parameters:
     - id: releaseCount
       type: System.Int32
-      description: Parameter description to be filled
+      description: The number of times to exit the semaphore.
     return:
       type: System.Int32
-      description: Return description to be filled
+      description: The previous count of the <see cref="T:System.Threading.SemaphoreSlim">.
   overload: System.Threading.SemaphoreSlim.Release*
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Threading.SemaphoreSlim.Wait
   id: Wait
   parent: System.Threading.SemaphoreSlim
   langs:
   - csharp
-  - vb
   name: Wait()
   nameWithType: SemaphoreSlim.Wait()
   fullName: System.Threading.SemaphoreSlim.Wait()
@@ -225,19 +265,21 @@ items:
   assemblies:
   - mscorlib
   namespace: System.Threading
+  summary: Blocks the current thread until it can enter the <see cref="T:System.Threading.SemaphoreSlim">.
+  remarks: If a thread or task is able to enter the semaphore, it decrements the <xref:System.Threading.SemaphoreSlim.CurrentCount%2A> property by one.
   syntax:
     content: public void Wait ();
     parameters: []
-    return:
-      type: System.Void
-      description: Return description to be filled
   overload: System.Threading.SemaphoreSlim.Wait*
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Threading.SemaphoreSlim.Wait(System.Int32)
   id: Wait(System.Int32)
   parent: System.Threading.SemaphoreSlim
   langs:
   - csharp
-  - vb
   name: Wait(Int32)
   nameWithType: SemaphoreSlim.Wait(Int32)
   fullName: System.Threading.SemaphoreSlim.Wait(Int32)
@@ -245,22 +287,27 @@ items:
   assemblies:
   - mscorlib
   namespace: System.Threading
+  summary: Blocks the current thread until it can enter the <see cref="T:System.Threading.SemaphoreSlim">, using a 32-bit signed integer that specifies the timeout.
+  remarks: "If a thread or task is able to enter the semaphore, it decrements the <xref:System.Threading.SemaphoreSlim.CurrentCount%2A> property by one.  \n  \n If a thread or task is blocked when calling Wait, and the time-out interval specified by  expires, the thread or task doesn’t enter the semaphore, and the <xref:System.Threading.SemaphoreSlim.CurrentCount%2A> property isn’t decremented."
   syntax:
     content: public bool Wait (int millisecondsTimeout);
     parameters:
     - id: millisecondsTimeout
       type: System.Int32
-      description: Parameter description to be filled
+      description: The number of milliseconds to wait, or <see cref="F:System.Threading.Timeout.Infinite">(-1) to wait indefinitely.
     return:
       type: System.Boolean
-      description: Return description to be filled
+      description: '`true` if the current thread successfully entered the <see cref="T:System.Threading.SemaphoreSlim">; otherwise, `false`.'
   overload: System.Threading.SemaphoreSlim.Wait*
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Threading.SemaphoreSlim.Wait(System.Threading.CancellationToken)
   id: Wait(System.Threading.CancellationToken)
   parent: System.Threading.SemaphoreSlim
   langs:
   - csharp
-  - vb
   name: Wait(CancellationToken)
   nameWithType: SemaphoreSlim.Wait(CancellationToken)
   fullName: System.Threading.SemaphoreSlim.Wait(CancellationToken)
@@ -268,22 +315,24 @@ items:
   assemblies:
   - mscorlib
   namespace: System.Threading
+  summary: Blocks the current thread until it can enter the <see cref="T:System.Threading.SemaphoreSlim">, while observing a <xref:System.Threading.CancellationToken>.
+  remarks: "If a thread or task is able to enter the semaphore, it decrements the <xref:System.Threading.SemaphoreSlim.CurrentCount%2A> property by one.  \n  \n If  is cancelled, the thread or task doesn’t enter the semaphore, and the <xref:System.Threading.SemaphoreSlim.CurrentCount%2A> property isn’t decremented. Instead, the method throws an <xref:System.OperationCanceledException> exception."
   syntax:
     content: public void Wait (System.Threading.CancellationToken cancellationToken);
     parameters:
     - id: cancellationToken
       type: System.Threading.CancellationToken
-      description: Parameter description to be filled
-    return:
-      type: System.Void
-      description: Return description to be filled
+      description: The <see cref="T:System.Threading.CancellationToken"> token to observe.
   overload: System.Threading.SemaphoreSlim.Wait*
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Threading.SemaphoreSlim.Wait(System.TimeSpan)
   id: Wait(System.TimeSpan)
   parent: System.Threading.SemaphoreSlim
   langs:
   - csharp
-  - vb
   name: Wait(TimeSpan)
   nameWithType: SemaphoreSlim.Wait(TimeSpan)
   fullName: System.Threading.SemaphoreSlim.Wait(TimeSpan)
@@ -291,22 +340,27 @@ items:
   assemblies:
   - mscorlib
   namespace: System.Threading
+  summary: Blocks the current thread until it can enter the <see cref="T:System.Threading.SemaphoreSlim">, using a <xref:System.TimeSpan> to specify the timeout.
+  remarks: "If a thread or task is able to enter the semaphore, it decrements the <xref:System.Threading.SemaphoreSlim.CurrentCount%2A> property by one.  \n  \n If a thread or task is blocked when calling Wait and the time-out interval specified by  expires, the thread or task doesn’t enter the semaphore, and the <xref:System.Threading.SemaphoreSlim.CurrentCount%2A> property isn’t decremented."
   syntax:
     content: public bool Wait (TimeSpan timeout);
     parameters:
     - id: timeout
       type: System.TimeSpan
-      description: Parameter description to be filled
+      description: A <see cref="T:System.TimeSpan"> that represents the number of milliseconds to wait, or a <see cref="T:System.TimeSpan"> that represents -1 milliseconds to wait indefinitely.
     return:
       type: System.Boolean
-      description: Return description to be filled
+      description: '`true` if the current thread successfully entered the <see cref="T:System.Threading.SemaphoreSlim">; otherwise, `false`.'
   overload: System.Threading.SemaphoreSlim.Wait*
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Threading.SemaphoreSlim.Wait(System.Int32,System.Threading.CancellationToken)
   id: Wait(System.Int32,System.Threading.CancellationToken)
   parent: System.Threading.SemaphoreSlim
   langs:
   - csharp
-  - vb
   name: Wait(Int32,CancellationToken)
   nameWithType: SemaphoreSlim.Wait(Int32,CancellationToken)
   fullName: System.Threading.SemaphoreSlim.Wait(Int32,CancellationToken)
@@ -314,25 +368,30 @@ items:
   assemblies:
   - mscorlib
   namespace: System.Threading
+  summary: Blocks the current thread until it can enter the <see cref="T:System.Threading.SemaphoreSlim">, using a 32-bit signed integer that specifies the timeout, while observing a <xref:System.Threading.CancellationToken>.
+  remarks: "If a thread or task is able to enter the semaphore, it decrements the <xref:System.Threading.SemaphoreSlim.CurrentCount%2A> property by one.  \n  \n If  is cancelled, or if a thread or task is blocked when calling Wait and the time-out interval specified by  expires, the thread or task doesn’t enter the semaphore, and the <xref:System.Threading.SemaphoreSlim.CurrentCount%2A> property isn’t decremented. If  is cancelled, the method throws an   <xref:System.OperationCanceledException> exception."
   syntax:
     content: public bool Wait (int millisecondsTimeout, System.Threading.CancellationToken cancellationToken);
     parameters:
     - id: millisecondsTimeout
       type: System.Int32
-      description: Parameter description to be filled
+      description: The number of milliseconds to wait, or <see cref="F:System.Threading.Timeout.Infinite">(-1) to wait indefinitely.
     - id: cancellationToken
       type: System.Threading.CancellationToken
-      description: Parameter description to be filled
+      description: The <see cref="T:System.Threading.CancellationToken"> to observe.
     return:
       type: System.Boolean
-      description: Return description to be filled
+      description: '`true` if the current thread successfully entered the <see cref="T:System.Threading.SemaphoreSlim">; otherwise, `false`.'
   overload: System.Threading.SemaphoreSlim.Wait*
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Threading.SemaphoreSlim.Wait(System.TimeSpan,System.Threading.CancellationToken)
   id: Wait(System.TimeSpan,System.Threading.CancellationToken)
   parent: System.Threading.SemaphoreSlim
   langs:
   - csharp
-  - vb
   name: Wait(TimeSpan,CancellationToken)
   nameWithType: SemaphoreSlim.Wait(TimeSpan,CancellationToken)
   fullName: System.Threading.SemaphoreSlim.Wait(TimeSpan,CancellationToken)
@@ -340,25 +399,30 @@ items:
   assemblies:
   - mscorlib
   namespace: System.Threading
+  summary: Blocks the current thread until it can enter the <see cref="T:System.Threading.SemaphoreSlim">, using a <xref:System.TimeSpan> that specifies the timeout, while observing a <xref:System.Threading.CancellationToken>.
+  remarks: "If a thread or task is able to enter the semaphore, it decrements the <xref:System.Threading.SemaphoreSlim.CurrentCount%2A> property by one.  \n  \n If  is cancelled, or if a thread or task is blocked when calling Wait and the timeout interval specified by  expires, the thread or task doesn’t enter the semaphore, and the <xref:System.Threading.SemaphoreSlim.CurrentCount%2A> property isn’t decremented. If  is cancelled, the method throws an <xref:System.OperationCanceledException> exception."
   syntax:
     content: public bool Wait (TimeSpan timeout, System.Threading.CancellationToken cancellationToken);
     parameters:
     - id: timeout
       type: System.TimeSpan
-      description: Parameter description to be filled
+      description: A <see cref="T:System.TimeSpan"> that represents the number of milliseconds to wait, or a <see cref="T:System.TimeSpan"> that represents -1 milliseconds to wait indefinitely.
     - id: cancellationToken
       type: System.Threading.CancellationToken
-      description: Parameter description to be filled
+      description: The <see cref="T:System.Threading.CancellationToken"> to observe.
     return:
       type: System.Boolean
-      description: Return description to be filled
+      description: '`true` if the current thread successfully entered the <see cref="T:System.Threading.SemaphoreSlim">; otherwise, `false`.'
   overload: System.Threading.SemaphoreSlim.Wait*
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Threading.SemaphoreSlim.WaitAsync
   id: WaitAsync
   parent: System.Threading.SemaphoreSlim
   langs:
   - csharp
-  - vb
   name: WaitAsync()
   nameWithType: SemaphoreSlim.WaitAsync()
   fullName: System.Threading.SemaphoreSlim.WaitAsync()
@@ -366,19 +430,24 @@ items:
   assemblies:
   - mscorlib
   namespace: System.Threading
+  summary: Asynchronously waits to enter the <see cref="T:System.Threading.SemaphoreSlim">.
+  remarks: To be added.
   syntax:
     content: public System.Threading.Tasks.Task WaitAsync ();
     parameters: []
     return:
       type: System.Threading.Tasks.Task
-      description: Return description to be filled
+      description: A task that will complete when the semaphore has been entered.
   overload: System.Threading.SemaphoreSlim.WaitAsync*
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Threading.SemaphoreSlim.WaitAsync(System.Int32)
   id: WaitAsync(System.Int32)
   parent: System.Threading.SemaphoreSlim
   langs:
   - csharp
-  - vb
   name: WaitAsync(Int32)
   nameWithType: SemaphoreSlim.WaitAsync(Int32)
   fullName: System.Threading.SemaphoreSlim.WaitAsync(Int32)
@@ -386,22 +455,27 @@ items:
   assemblies:
   - mscorlib
   namespace: System.Threading
+  summary: Asynchronously waits to enter the <see cref="T:System.Threading.SemaphoreSlim">, using a 32-bit signed integer to measure the time interval.
+  remarks: To be added.
   syntax:
     content: public System.Threading.Tasks.Task<bool> WaitAsync (int millisecondsTimeout);
     parameters:
     - id: millisecondsTimeout
       type: System.Int32
-      description: Parameter description to be filled
+      description: The number of milliseconds to wait, or <see cref="F:System.Threading.Timeout.Infinite"> (-1) to wait indefinitely.
     return:
       type: System.Threading.Tasks.Task{System.Boolean}
-      description: Return description to be filled
+      description: A task that will complete with a result of `true` if the current thread successfully entered the <see cref="T:System.Threading.SemaphoreSlim">, otherwise with a result of `false`.
   overload: System.Threading.SemaphoreSlim.WaitAsync*
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Threading.SemaphoreSlim.WaitAsync(System.Threading.CancellationToken)
   id: WaitAsync(System.Threading.CancellationToken)
   parent: System.Threading.SemaphoreSlim
   langs:
   - csharp
-  - vb
   name: WaitAsync(CancellationToken)
   nameWithType: SemaphoreSlim.WaitAsync(CancellationToken)
   fullName: System.Threading.SemaphoreSlim.WaitAsync(CancellationToken)
@@ -409,22 +483,27 @@ items:
   assemblies:
   - mscorlib
   namespace: System.Threading
+  summary: Asynchronously waits to enter the <see cref="T:System.Threading.SemaphoreSlim">, while observing a <xref:System.Threading.CancellationToken>.
+  remarks: To be added.
   syntax:
     content: public System.Threading.Tasks.Task WaitAsync (System.Threading.CancellationToken cancellationToken);
     parameters:
     - id: cancellationToken
       type: System.Threading.CancellationToken
-      description: Parameter description to be filled
+      description: The <see cref="T:System.Threading.CancellationToken"> token to observe.
     return:
       type: System.Threading.Tasks.Task
-      description: Return description to be filled
+      description: A task that will complete when the semaphore has been entered.
   overload: System.Threading.SemaphoreSlim.WaitAsync*
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Threading.SemaphoreSlim.WaitAsync(System.TimeSpan)
   id: WaitAsync(System.TimeSpan)
   parent: System.Threading.SemaphoreSlim
   langs:
   - csharp
-  - vb
   name: WaitAsync(TimeSpan)
   nameWithType: SemaphoreSlim.WaitAsync(TimeSpan)
   fullName: System.Threading.SemaphoreSlim.WaitAsync(TimeSpan)
@@ -432,22 +511,27 @@ items:
   assemblies:
   - mscorlib
   namespace: System.Threading
+  summary: Asynchronously waits to enter the <see cref="T:System.Threading.SemaphoreSlim">, using a <xref:System.TimeSpan> to measure the time interval.
+  remarks: To be added.
   syntax:
     content: public System.Threading.Tasks.Task<bool> WaitAsync (TimeSpan timeout);
     parameters:
     - id: timeout
       type: System.TimeSpan
-      description: Parameter description to be filled
+      description: A <see cref="T:System.TimeSpan"> that represents the number of milliseconds to wait, or a <see cref="T:System.TimeSpan"> that represents -1 milliseconds to wait indefinitely.
     return:
       type: System.Threading.Tasks.Task{System.Boolean}
-      description: Return description to be filled
+      description: A task that will complete with a result of `true` if the current thread successfully entered the <see cref="T:System.Threading.SemaphoreSlim">, otherwise with a result of `false`.
   overload: System.Threading.SemaphoreSlim.WaitAsync*
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Threading.SemaphoreSlim.WaitAsync(System.Int32,System.Threading.CancellationToken)
   id: WaitAsync(System.Int32,System.Threading.CancellationToken)
   parent: System.Threading.SemaphoreSlim
   langs:
   - csharp
-  - vb
   name: WaitAsync(Int32,CancellationToken)
   nameWithType: SemaphoreSlim.WaitAsync(Int32,CancellationToken)
   fullName: System.Threading.SemaphoreSlim.WaitAsync(Int32,CancellationToken)
@@ -455,25 +539,30 @@ items:
   assemblies:
   - mscorlib
   namespace: System.Threading
+  summary: Asynchronously waits to enter the <see cref="T:System.Threading.SemaphoreSlim">, using a 32-bit signed integer to measure the time interval, while observing a <xref:System.Threading.CancellationToken>.
+  remarks: To be added.
   syntax:
     content: public System.Threading.Tasks.Task<bool> WaitAsync (int millisecondsTimeout, System.Threading.CancellationToken cancellationToken);
     parameters:
     - id: millisecondsTimeout
       type: System.Int32
-      description: Parameter description to be filled
+      description: The number of milliseconds to wait, or <see cref="F:System.Threading.Timeout.Infinite"> (-1) to wait indefinitely.
     - id: cancellationToken
       type: System.Threading.CancellationToken
-      description: Parameter description to be filled
+      description: The <see cref="T:System.Threading.CancellationToken"> to observe.
     return:
       type: System.Threading.Tasks.Task{System.Boolean}
-      description: Return description to be filled
+      description: A task that will complete with a result of `true` if the current thread successfully entered the <see cref="T:System.Threading.SemaphoreSlim">, otherwise with a result of `false`.
   overload: System.Threading.SemaphoreSlim.WaitAsync*
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Threading.SemaphoreSlim.WaitAsync(System.TimeSpan,System.Threading.CancellationToken)
   id: WaitAsync(System.TimeSpan,System.Threading.CancellationToken)
   parent: System.Threading.SemaphoreSlim
   langs:
   - csharp
-  - vb
   name: WaitAsync(TimeSpan,CancellationToken)
   nameWithType: SemaphoreSlim.WaitAsync(TimeSpan,CancellationToken)
   fullName: System.Threading.SemaphoreSlim.WaitAsync(TimeSpan,CancellationToken)
@@ -481,19 +570,25 @@ items:
   assemblies:
   - mscorlib
   namespace: System.Threading
+  summary: Asynchronously waits to enter the <see cref="T:System.Threading.SemaphoreSlim">, using a <xref:System.TimeSpan> to measure the time interval, while observing a <xref:System.Threading.CancellationToken>.
+  remarks: To be added.
   syntax:
     content: public System.Threading.Tasks.Task<bool> WaitAsync (TimeSpan timeout, System.Threading.CancellationToken cancellationToken);
     parameters:
     - id: timeout
       type: System.TimeSpan
-      description: Parameter description to be filled
+      description: A <see cref="T:System.TimeSpan"> that represents the number of milliseconds to wait, or a <see cref="T:System.TimeSpan"> that represents -1 milliseconds to wait indefinitely.
     - id: cancellationToken
       type: System.Threading.CancellationToken
-      description: Parameter description to be filled
+      description: The <see cref="T:System.Threading.CancellationToken"> token to observe.
     return:
       type: System.Threading.Tasks.Task{System.Boolean}
-      description: Return description to be filled
+      description: A task that will complete with a result of `true` if the current thread successfully entered the <see cref="T:System.Threading.SemaphoreSlim">, otherwise with a result of `false`.
   overload: System.Threading.SemaphoreSlim.WaitAsync*
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 references:
 - uid: System.Object
   isExternal: false
@@ -558,24 +653,12 @@ references:
   name: Dispose()
   nameWithType: SemaphoreSlim.Dispose()
   fullName: System.Threading.SemaphoreSlim.Dispose()
-- uid: System.Void
-  parent: System
-  isExternal: false
-  name: Void
-  nameWithType: Void
-  fullName: System.Void
 - uid: System.Threading.SemaphoreSlim.Dispose(System.Boolean)
   parent: System.Threading.SemaphoreSlim
   isExternal: false
   name: Dispose(Boolean)
   nameWithType: SemaphoreSlim.Dispose(Boolean)
   fullName: System.Threading.SemaphoreSlim.Dispose(Boolean)
-- uid: System.Void
-  parent: System
-  isExternal: false
-  name: Void
-  nameWithType: Void
-  fullName: System.Void
 - uid: System.Boolean
   parent: System
   isExternal: false
@@ -618,12 +701,6 @@ references:
   name: Wait()
   nameWithType: SemaphoreSlim.Wait()
   fullName: System.Threading.SemaphoreSlim.Wait()
-- uid: System.Void
-  parent: System
-  isExternal: false
-  name: Void
-  nameWithType: Void
-  fullName: System.Void
 - uid: System.Threading.SemaphoreSlim.Wait(System.Int32)
   parent: System.Threading.SemaphoreSlim
   isExternal: false
@@ -648,12 +725,6 @@ references:
   name: Wait(CancellationToken)
   nameWithType: SemaphoreSlim.Wait(CancellationToken)
   fullName: System.Threading.SemaphoreSlim.Wait(CancellationToken)
-- uid: System.Void
-  parent: System
-  isExternal: false
-  name: Void
-  nameWithType: Void
-  fullName: System.Void
 - uid: System.Threading.CancellationToken
   parent: System.Threading
   isExternal: false
@@ -744,6 +815,12 @@ references:
   name: WaitAsync(Int32)
   nameWithType: SemaphoreSlim.WaitAsync(Int32)
   fullName: System.Threading.SemaphoreSlim.WaitAsync(Int32)
+- uid: System.Threading.Tasks.Task{System.Boolean}
+  parent: System.Threading.Tasks
+  isExternal: false
+  name: Task<Boolean>
+  nameWithType: Task<Boolean>
+  fullName: System.Threading.Tasks.Task<System.Boolean>
 - uid: System.Int32
   parent: System
   isExternal: false
@@ -774,6 +851,12 @@ references:
   name: WaitAsync(TimeSpan)
   nameWithType: SemaphoreSlim.WaitAsync(TimeSpan)
   fullName: System.Threading.SemaphoreSlim.WaitAsync(TimeSpan)
+- uid: System.Threading.Tasks.Task{System.Boolean}
+  parent: System.Threading.Tasks
+  isExternal: false
+  name: Task<Boolean>
+  nameWithType: Task<Boolean>
+  fullName: System.Threading.Tasks.Task<System.Boolean>
 - uid: System.TimeSpan
   parent: System
   isExternal: false
@@ -786,6 +869,12 @@ references:
   name: WaitAsync(Int32,CancellationToken)
   nameWithType: SemaphoreSlim.WaitAsync(Int32,CancellationToken)
   fullName: System.Threading.SemaphoreSlim.WaitAsync(Int32,CancellationToken)
+- uid: System.Threading.Tasks.Task{System.Boolean}
+  parent: System.Threading.Tasks
+  isExternal: false
+  name: Task<Boolean>
+  nameWithType: Task<Boolean>
+  fullName: System.Threading.Tasks.Task<System.Boolean>
 - uid: System.Int32
   parent: System
   isExternal: false
@@ -804,6 +893,12 @@ references:
   name: WaitAsync(TimeSpan,CancellationToken)
   nameWithType: SemaphoreSlim.WaitAsync(TimeSpan,CancellationToken)
   fullName: System.Threading.SemaphoreSlim.WaitAsync(TimeSpan,CancellationToken)
+- uid: System.Threading.Tasks.Task{System.Boolean}
+  parent: System.Threading.Tasks
+  isExternal: false
+  name: Task<Boolean>
+  nameWithType: Task<Boolean>
+  fullName: System.Threading.Tasks.Task<System.Boolean>
 - uid: System.TimeSpan
   parent: System
   isExternal: false

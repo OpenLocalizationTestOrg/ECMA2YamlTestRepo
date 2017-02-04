@@ -32,11 +32,12 @@ items:
   - System.Boolean.TryParse(System.String,System.Boolean@)
   langs:
   - csharp
-  - vb
   name: Boolean
   nameWithType: Boolean
   fullName: System.Boolean
   type: Struct
+  summary: Represents a Boolean (`true` or `false`) value.
+  remarks: "A Boolean instance can have either of two values: `true`, or `false`.  \n  \n The Boolean structure provides methods that support the following tasks:  \n  \n-   Converting Boolean values to strings: <xref:System.Boolean.ToString%2A>  \n  \n-   Parsing strings to convert them to Boolean values: <xref:System.Boolean.Parse%2A> and <xref:System.Boolean.TryParse%2A>  \n  \n-   Comparing values: <xref:System.Boolean.CompareTo%2A> and <xref:System.Boolean.Equals%2A>  \n  \n The following sections explain these tasks and other usage details:  \n  \n [Formatting Boolean values](#Formatting)   \n [Converting to and from Boolean values](#Converting)   \n [Parsing Boolean values](#Parsing)   \n [Comparing Boolean values](#Comparing)   \n [Working with Booleans as binary values](#Binary)   \n [Performing operations with Boolean values](#Operations)   \n [Booleans and Interop](#Interop)  \n  \n<a name=\"Formatting\"></a>   \n## Formatting Boolean values  \n The string representation of a Boolean is either \"True\" for a `true` value or \"False\" for a `false` value. The string representation of a Boolean value is defined by the read-only <xref:System.Boolean.TrueString> and <xref:System.Boolean.FalseString> fields.  \n  \n You use the <xref:System.Boolean.ToString%2A> method to convert Boolean values to strings. The Boolean structure includes two <xref:System.Boolean.ToString%2A> overloads: the parameterless <xref:System.Boolean.ToString> method and the <xref:System.Boolean.ToString%28System.IFormatProvider%29> method, which includes a parameter that controls formatting. However, because this parameter is ignored, the two overloads produce identical strings. The <xref:System.Boolean.ToString%28System.IFormatProvider%29> method does not support culture-sensitive formatting.  \n  \n The following example illustrates formatting with the <xref:System.Boolean.ToString%2A> method. Note that the example uses the [composite formatting](../Topic/Composite%20Formatting.md) feature, so the <xref:System.Boolean.ToString%2A> method is called implicitly.  \n  \n [!CODE [System.Boolean.Structure#3](../CodeSnippet/VS_Snippets_CLR_System/system.boolean.structure#3)]  \n  \n Because the Boolean structure can have only two values, it is easy to add custom formatting. For simple custom formatting in which other string literals are substituted for \"True\" and \"False\", you can use any conditional evaluation feature supported by your language, such as the [conditional operator](../Topic/?:%20Operator%20\\(C%23%20Reference\\).md) in C# or the [If operator](../Topic/If%20Operator%20\\(Visual%20Basic\\).md) in Visual Basic. The following example uses this technique to format Boolean values as \"Yes\" and \"No\" rather than \"True\" and \"False\".  \n  \n [!CODE [System.Boolean.Structure#4](../CodeSnippet/VS_Snippets_CLR_System/system.boolean.structure#4)]  \n  \n For more complex custom formatting operations, including culture-sensitive formatting, you can call the [String.Format(IFormatProvider, String, Object\\[\\])](assetId:///M:System.String.Format(System.IFormatProvider,System.String,System.Object[])?qualifyHint=True&autoUpgrade=False) method and provide an <xref:System.ICustomFormatter> implementation. The following example implements the <xref:System.ICustomFormatter> and <xref:System.IFormatProvider> interfaces to provide culture-sensitive Boolean strings for the English (United States), French (France), and Russian (Russia) cultures.  \n  \n [!CODE [System.Boolean.Structure#5](../CodeSnippet/VS_Snippets_CLR_System/system.boolean.structure#5)]  \n  \n Optionally, you can use [resource files](../Topic/Resources%20in%20Desktop%20Apps.md) to define culture-specific Boolean strings.  \n  \n<a name=\"Converting\"></a>   \n## Converting to and from Boolean values  \n The Boolean structure implements the <xref:System.IConvertible> interface.  As a result, you can use the <xref:System.Convert> class to perform conversions between a Boolean value and any other primitive type in the .NET Framework, or you can call the Boolean structure's explicit implementations. However, conversions between a Boolean and the following types are not supported, so the corresponding conversion methods throw an <xref:System.InvalidCastException> exception:  \n  \n-   Conversion between Boolean and <xref:System.Char> (the <xref:System.Convert.ToBoolean%28System.Char%29?displayProperty=fullName> and <xref:System.Convert.ToChar%28System.Boolean%29?displayProperty=fullName> methods)  \n  \n-   Conversion between Boolean and <xref:System.DateTime> (the <xref:System.Convert.ToBoolean%28System.DateTime%29?displayProperty=fullName> and <xref:System.Convert.ToDateTime%28System.Boolean%29?displayProperty=fullName> methods)  \n  \n All conversions from integral or floating-point numbers to Boolean values convert non-zero values to `true` and zero values to `false`.  The following example illustrates this by calling selected overloads of the <xref:System.Convert.ToBoolean%2A?displayProperty=fullName> class.  \n  \n [!CODE [System.Boolean.Structure#6](../CodeSnippet/VS_Snippets_CLR_System/system.boolean.structure#6)]  \n  \n When converting from floating-point values to Boolean values, the conversion methods perform an exact comparison with zero. If the floating-point value has lost precision, the result can be unexpected. This is illustrated in the following example, in which a <xref:System.Double> variable whose value should be zero is converted to a Boolean value. As the example shows, the result is `true` because repeated additions of 0.2 have resulted in a loss of precision.  \n  \n When converting from Boolean to numeric values, the conversion methods of the <xref:System.Convert> class convert `true` to 1 and `false` to 0. However, Visual Basic conversion functions convert `true` to either 255 (for conversions to <xref:System.Byte> values) or -1 (for all other numeric conversions). The following example converts `true` to numeric values by using a <xref:System.Convert> method, and, in the case of the Visual Basic example, by using the Visual Basic language's own conversion operator.  \n  \n [!CODE [System.Boolean.Structure#8](../CodeSnippet/VS_Snippets_CLR_System/system.boolean.structure#8)]  \n  \n For conversions from Boolean to string values, see the [Formatting Boolean Values](#Formatting) section. For conversions from strings to Boolean values, see the [Parsing Boolean Values](#Parsing) section.  \n  \n<a name=\"Parsing\"></a>   \n## Parsing Boolean values  \n The Boolean structure includes two static parsing methods, <xref:System.Boolean.Parse%2A> and <xref:System.Boolean.TryParse%2A>, that convert a string to a Boolean value. The string representation of a Boolean value is defined by the case-insensitive equivalents of the values of the <xref:System.Boolean.TrueString> and <xref:System.Boolean.FalseString> fields, which are \"True\" and \"False\", respectively. In other words, the only strings that parse successfully are \"True\", \"False\", \"true\", \"false\", or some mixed-case equivalent. You cannot successfully parse numeric strings such as \"0\" or \"1\". Leading or trailing white-space characters are not considered when performing the string comparison.  \n  \n The following example uses the <xref:System.Boolean.Parse%2A> and <xref:System.Boolean.TryParse%2A> methods to parse a number of strings. Note that only the case-insensitive equivalents of \"True\" and \"False\" can be successfully parsed.  \n  \n [!CODE [System.Boolean.Structure#2](../CodeSnippet/VS_Snippets_CLR_System/system.boolean.structure#2)]  \n  \n If you are programming in Visual Basic, you can use the `CBool` function to convert the string representation of a number to a Boolean value. \"0\" is converted to `false`, and the string representation of any non-zero value is converted to `true`. If you are not programming in Visual Basic, you must convert your numeric string to a number before converting it to a Boolean. The following example illustrates this by converting an array of integers to Boolean values.  \n  \n [!CODE [System.Boolean.Structure#9](../CodeSnippet/VS_Snippets_CLR_System/system.boolean.structure#9)]  \n  \n<a name=\"Comparing\"></a>   \n## Comparing Boolean values  \n Because Boolean values are either `true` or `false`, there is little reason to explicitly call the <xref:System.Boolean.CompareTo%2A> method, which indicates whether an instance is greater than, less than, or equal to a specified value. Typically, to compare two Boolean variables, you call the <xref:System.Boolean.Equals%2A> method or use your language's equality operator.  \n  \n However, when you want to compare a Boolean variable with the literal Boolean value `true` or `false`, it is not necessary to do an explicit comparison, because the result of evaluating a Boolean value is that Boolean value. For example, the expressions  \n  \n [!CODE [System.Boolean.Structure#12](../CodeSnippet/VS_Snippets_CLR_System/system.boolean.structure#12)]  \n  \n and  \n  \n [!CODE [System.Boolean.Structure#13](../CodeSnippet/VS_Snippets_CLR_System/system.boolean.structure#13)]  \n  \n are equivalent, but the second is more compact. However, both techniques offer comparable performance.  \n  \n<a name=\"Binary\"></a>   \n## Working with Booleans as binary values  \n A Boolean value occupies one byte of memory, as the following C# example shows. The example must be compiled with the `/unsafe` switch.  \n  \n [!CODE [System.Boolean.Structure#14](../CodeSnippet/VS_Snippets_CLR_System/system.boolean.structure#14)]  \n  \n The byte's low-order bit is used to represent its value. A value of 1 represents `true`; a value of 0 represents `false`.  \n  \n> [!WARNING]\n>  You can use the <xref:System.Collections.Specialized.BitVector32?displayProperty=fullName> structure to work with sets of Boolean values.  \n  \n You can convert a Boolean value to its binary representation by calling the <xref:System.BitConverter.GetBytes%28System.Boolean%29?displayProperty=fullName> method. The method returns a byte array with a single element. To restore a Boolean value from its binary representation, you can call the [BitConverter.ToBoolean(Byte\\[\\], Int32)](assetId:///M:System.BitConverter.ToBoolean(System.Byte[],System.Int32)?qualifyHint=True&autoUpgrade=False) method.  \n  \n The following example calls the <xref:System.BitConverter.GetBytes%2A?displayProperty=fullName> method to convert a Boolean value to its binary representation and displays the individual bits of the value, and then calls the <xref:System.BitConverter.ToBoolean%2A?displayProperty=fullName> method to restore the value from its binary representation.  \n  \n [!CODE [System.Boolean.Structure#1](../CodeSnippet/VS_Snippets_CLR_System/system.boolean.structure#1)]  \n  \n<a name=\"Operations\"></a>   \n## Performing operations with Boolean values  \n This section illustrates how Boolean values are used in apps. The first section discusses its use as a flag. The second illustrates its use for arithmetic operations.  \n  \n### Boolean values as flags  \n Boolean variables are most commonly used as flags, to signal the presence or absence of some condition. For example, in the <xref:System.String.Compare%28System.String%2CSystem.String%2CSystem.Boolean%29?displayProperty=fullName> method, the final parameter, , is a flag that indicates whether the comparison of two strings is case-insensitive ( is `true`) or case-sensitive ( is `false`). The value of the flag can then be evaluated in a conditional statement.  \n  \n The following example uses a simple console app to illustrate the use of Boolean variables as flags. The app accepts command-line parameters that enable output to be redirected to a specified file (the `/f` switch), and that enable output to be sent both to a specified file and to the console (the `/b` switch). The app defines a flag named `isRedirected` to indicate whether output is to be sent to a file, and a flag named `isBoth` to indicate that output should be sent to the console.  \n  \n [!CODE [System.Boolean.Structure#10](../CodeSnippet/VS_Snippets_CLR_System/system.boolean.structure#10)]  \n  \n### Booleans and arithmetic operations  \n A Boolean value is sometimes used to indicate the presence of a condition that triggers a mathematical calculation. For example, a `hasShippingCharge` variable might serve as a flag to indicate whether to add shipping charges to an invoice amount.  \n  \n Because an operation with a `false` value has no effect on the result of an operation, it is not necessary to convert the Boolean to an integral value to use in the mathematical operation. Instead, you can use conditional logic.  \n  \n The following example computes an amount that consists of a subtotal, a shipping charge, and an optional service charge. The `hasServiceCharge` variable determines whether the service charge is applied. Instead of converting `hasServiceCharge` to a numeric value and multiplying it by the amount of the service charge, the example uses conditional logic to add the service charge amount if it is applicable.  \n  \n [!CODE [System.Boolean.Structure#13](../CodeSnippet/VS_Snippets_CLR_System/system.boolean.structure#13)]  \n  \n<a name=\"Interop\"></a>   \n### Booleans and interop  \n While marshaling base data types to COM is generally straightforward, the Boolean data type is an exception. You can apply the <xref:System.Runtime.InteropServices.MarshalAsAttribute> attribute to marshal the Boolean type to any of the following representations:  \n  \n|Enumeration type|Unmanaged format|  \n|----------------------|----------------------|  \n|<xref:System.Runtime.InteropServices.UnmanagedType?displayProperty=fullName>|A 4-byte integer value, where any nonzero value represents `true` and 0 represents `false`. This is the default format of a Boolean field in a structure and of a Boolean parameter in platform invoke calls.|  \n|<xref:System.Runtime.InteropServices.UnmanagedType?displayProperty=fullName>|A 1-byte integer value, where the 1 represents `true` and 0 represents `false`.|  \n|<xref:System.Runtime.InteropServices.UnmanagedType?displayProperty=fullName>|A 2-byte integer value, where -1 represents `true` and 0 represents `false`. This is the default format of a Boolean parameter in COM interop calls.|"
   syntax:
     content: >-
       [System.Runtime.InteropServices.ComVisible(true)]
@@ -50,12 +51,15 @@ items:
   - System.IComparable<System.Boolean>
   - System.IConvertible
   - System.IEquatable<System.Boolean>
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Boolean.CompareTo(System.Boolean)
   id: CompareTo(System.Boolean)
   parent: System.Boolean
   langs:
   - csharp
-  - vb
   name: CompareTo(Boolean)
   nameWithType: Boolean.CompareTo(Boolean)
   fullName: System.Boolean.CompareTo(Boolean)
@@ -63,22 +67,29 @@ items:
   assemblies:
   - mscorlib
   namespace: System
+  summary: Compares this instance to a specified <see cref="T:System.Boolean"> object and returns an integer that indicates their relationship to one another.
+  remarks: "This method implements the <xref:System.IComparable%601?displayProperty=fullName> interface and performs slightly better than the <xref:System.Boolean.CompareTo%2A?displayProperty=fullName> method because it does not have to convert the  parameter to an object.  \n  \n If  has fewer bits (is narrower) than the instance type, some programming languages perform an implicit widening conversion that transforms the value of the parameter into a value with more bits.  \n  \n For example, suppose the instance type is <xref:System.Int32> and the parameter type is <xref:System.Byte>. The Microsoft C# compiler generates instructions to represent the value of the parameter as an <xref:System.Int32> object, then generates a <xref:System.Int32.CompareTo%2A?displayProperty=fullName> method to compare the <xref:System.Int32> instance and parameter representation.  \n  \n Consult your programming language's documentation to determine whether its compiler performs implicit widening conversions on numeric types."
+  example:
+  - "The following code example demonstrates generic and nongeneric versions of the <xref:System.Boolean.CompareTo%2A> method for several value and reference types.  \n  \n [!CODE [T.CompareTo#1](../CodeSnippet/VS_Snippets_CLR/T.CompareTo#1)]"
   syntax:
     content: public int CompareTo (bool value);
     parameters:
     - id: value
       type: System.Boolean
-      description: Parameter description to be filled
+      description: A <see cref="T:System.Boolean"> object to compare to this instance.
     return:
       type: System.Int32
-      description: Return description to be filled
+      description: "A signed integer that indicates the relative values of this instance and .  \n  \n|Return Value|Condition|  \n|------------------|---------------|  \n|Less than zero|This instance is `false` and  is `true`.|  \n|Zero|This instance and  are equal (either both are `true` or both are `false`).|  \n|Greater than zero|This instance is `true` and  is `false`.|"
   overload: System.Boolean.CompareTo*
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Boolean.CompareTo(System.Object)
   id: CompareTo(System.Object)
   parent: System.Boolean
   langs:
   - csharp
-  - vb
   name: CompareTo(Object)
   nameWithType: Boolean.CompareTo(Object)
   fullName: System.Boolean.CompareTo(Object)
@@ -86,22 +97,27 @@ items:
   assemblies:
   - mscorlib
   namespace: System
+  summary: Compares this instance to a specified object and returns an integer that indicates their relationship to one another.
+  remarks: "must be `null` or an instance of `Boolean`; otherwise, an exception is thrown.  \n  \n This method implements the <xref:System.IComparable> interface."
   syntax:
     content: public int CompareTo (object obj);
     parameters:
     - id: obj
       type: System.Object
-      description: Parameter description to be filled
+      description: An object to compare to this instance, or `null`.
     return:
       type: System.Int32
-      description: Return description to be filled
+      description: "A signed integer that indicates the relative order of this instance and .  \n  \n|Return Value|Condition|  \n|------------------|---------------|  \n|Less than zero|This instance is `false` and  is `true`.|  \n|Zero|This instance and  are equal (either both are `true` or both are `false`).|  \n|Greater than zero|This instance is `true` and  is `false`.<br /><br /> -or-<br /><br /> is `null`.|"
   overload: System.Boolean.CompareTo*
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Boolean.Equals(System.Boolean)
   id: Equals(System.Boolean)
   parent: System.Boolean
   langs:
   - csharp
-  - vb
   name: Equals(Boolean)
   nameWithType: Boolean.Equals(Boolean)
   fullName: System.Boolean.Equals(Boolean)
@@ -109,22 +125,27 @@ items:
   assemblies:
   - mscorlib
   namespace: System
+  summary: Returns a value indicating whether this instance is equal to a specified <see cref="T:System.Boolean"> object.
+  remarks: This method implements the <xref:System.IEquatable%601?displayProperty=fullName> interface, and performs slightly better than <xref:System.Boolean.Equals%2A> because it does not have to convert the  parameter to an object.
   syntax:
     content: public bool Equals (bool obj);
     parameters:
     - id: obj
       type: System.Boolean
-      description: Parameter description to be filled
+      description: A <see cref="T:System.Boolean"> value to compare to this instance.
     return:
       type: System.Boolean
-      description: Return description to be filled
+      description: '`true` if  has the same value as this instance; otherwise, `false`.'
   overload: System.Boolean.Equals*
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Boolean.Equals(System.Object)
   id: Equals(System.Object)
   parent: System.Boolean
   langs:
   - csharp
-  - vb
   name: Equals(Object)
   nameWithType: Boolean.Equals(Object)
   fullName: System.Boolean.Equals(Object)
@@ -132,22 +153,27 @@ items:
   assemblies:
   - mscorlib
   namespace: System
+  summary: Returns a value indicating whether this instance is equal to a specified object.
+  remarks: This method overrides <xref:System.Object.Equals%2A>.
   syntax:
     content: public override bool Equals (object obj);
     parameters:
     - id: obj
       type: System.Object
-      description: Parameter description to be filled
+      description: An object to compare to this instance.
     return:
       type: System.Boolean
-      description: Return description to be filled
+      description: '`true` if  is a <see cref="T:System.Boolean"> and has the same value as this instance; otherwise, `false`.'
   overload: System.Boolean.Equals*
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Boolean.FalseString
   id: FalseString
   parent: System.Boolean
   langs:
   - csharp
-  - vb
   name: FalseString
   nameWithType: Boolean.FalseString
   fullName: System.Boolean.FalseString
@@ -155,17 +181,22 @@ items:
   assemblies:
   - mscorlib
   namespace: System
+  summary: Represents the Boolean value `false` as a string. This field is read-only.
+  remarks: "This field is equal to the string \"False\".  \n  \n The FalseString property defines the string representation of a `False`<xref:System.Boolean> value in formatting and parsing operations."
   syntax:
     content: public static readonly string FalseString;
     return:
       type: System.String
-      description: Return description to be filled
+      description: To be added.
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Boolean.GetHashCode
   id: GetHashCode
   parent: System.Boolean
   langs:
   - csharp
-  - vb
   name: GetHashCode()
   nameWithType: Boolean.GetHashCode()
   fullName: System.Boolean.GetHashCode()
@@ -173,18 +204,23 @@ items:
   assemblies:
   - mscorlib
   namespace: System
+  summary: Returns the hash code for this instance.
+  remarks: The <xref:System.Boolean> class implements `true` as the integer, one, and `false` as the integer, zero. However, a particular programming language might represent `true` and `false` with other values.
   syntax:
     content: public override int GetHashCode ();
     parameters: []
     return:
       type: System.Int32
-      description: Return description to be filled
+      description: A hash code for the current <see cref="T:System.Boolean">.
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Boolean.GetTypeCode
   id: GetTypeCode
   parent: System.Boolean
   langs:
   - csharp
-  - vb
   name: GetTypeCode()
   nameWithType: Boolean.GetTypeCode()
   fullName: System.Boolean.GetTypeCode()
@@ -192,18 +228,23 @@ items:
   assemblies:
   - mscorlib
   namespace: System
+  summary: Returns the type code for the <see cref="T:System.Boolean"> value type.
+  remarks: To be added.
   syntax:
     content: public TypeCode GetTypeCode ();
     parameters: []
     return:
       type: System.TypeCode
-      description: Return description to be filled
+      description: The enumerated constant <xref:System.TypeCode?displayProperty=fullName>.
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Boolean.Parse(System.String)
   id: Parse(System.String)
   parent: System.Boolean
   langs:
   - csharp
-  - vb
   name: Parse(String)
   nameWithType: Boolean.Parse(String)
   fullName: System.Boolean.Parse(String)
@@ -211,22 +252,29 @@ items:
   assemblies:
   - mscorlib
   namespace: System
+  summary: Converts the specified string representation of a logical value to its <see cref="T:System.Boolean"> equivalent.
+  remarks: The  parameter, optionally preceded or trailed by white space, must contain either <xref:System.Boolean> or <xref:System.Boolean>; otherwise, an exception is thrown. The comparison is case-insensitive.
+  example:
+  - "The following code example illustrates the use of Parse method.  \n  \n [!CODE [System.Boolean#2](../CodeSnippet/VS_Snippets_CLR_System/system.Boolean#2)]"
   syntax:
     content: public static bool Parse (string value);
     parameters:
     - id: value
       type: System.String
-      description: Parameter description to be filled
+      description: A string containing the value to convert.
     return:
       type: System.Boolean
-      description: Return description to be filled
+      description: '`true` if  is equivalent to <see cref="T:System.Boolean">; `false` if  is equivalent to <see cref="T:System.Boolean">.'
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Boolean.System#IConvertible#ToBoolean(System.IFormatProvider)
   id: System#IConvertible#ToBoolean(System.IFormatProvider)
   isEii: true
   parent: System.Boolean
   langs:
   - csharp
-  - vb
   name: System.IConvertible.ToBoolean(IFormatProvider)
   nameWithType: Boolean.System.IConvertible.ToBoolean(IFormatProvider)
   fullName: System.Boolean.System.IConvertible.ToBoolean(IFormatProvider)
@@ -234,22 +282,27 @@ items:
   assemblies:
   - mscorlib
   namespace: System
+  summary: For a description of this member, see <xref:System.IConvertible.ToBoolean%2A?displayProperty=fullName>.
+  remarks: This member is an explicit interface member implementation. It can be used only when the <xref:System.Boolean> instance is cast to an <xref:System.IConvertible> interface.
   syntax:
     content: bool IConvertible.ToBoolean (IFormatProvider provider);
     parameters:
     - id: provider
       type: System.IFormatProvider
-      description: Parameter description to be filled
+      description: This parameter is ignored.
     return:
       type: System.Boolean
-      description: Return description to be filled
+      description: '`true` or `false`.'
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Boolean.System#IConvertible#ToByte(System.IFormatProvider)
   id: System#IConvertible#ToByte(System.IFormatProvider)
   isEii: true
   parent: System.Boolean
   langs:
   - csharp
-  - vb
   name: System.IConvertible.ToByte(IFormatProvider)
   nameWithType: Boolean.System.IConvertible.ToByte(IFormatProvider)
   fullName: System.Boolean.System.IConvertible.ToByte(IFormatProvider)
@@ -257,22 +310,27 @@ items:
   assemblies:
   - mscorlib
   namespace: System
+  summary: For a description of this member, see <xref:System.IConvertible.ToByte%2A?displayProperty=fullName>.
+  remarks: This member is an explicit interface member implementation. It can be used only when the <xref:System.Boolean> instance is cast to an <xref:System.IConvertible> interface. The recommended alternative is to call the <xref:System.Convert.ToByte%2A?displayProperty=fullName> method.
   syntax:
     content: byte IConvertible.ToByte (IFormatProvider provider);
     parameters:
     - id: provider
       type: System.IFormatProvider
-      description: Parameter description to be filled
+      description: This parameter is ignored.
     return:
       type: System.Byte
-      description: Return description to be filled
+      description: 1 if the value of this instance is `true`; otherwise, 0.
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Boolean.System#IConvertible#ToChar(System.IFormatProvider)
   id: System#IConvertible#ToChar(System.IFormatProvider)
   isEii: true
   parent: System.Boolean
   langs:
   - csharp
-  - vb
   name: System.IConvertible.ToChar(IFormatProvider)
   nameWithType: Boolean.System.IConvertible.ToChar(IFormatProvider)
   fullName: System.Boolean.System.IConvertible.ToChar(IFormatProvider)
@@ -280,22 +338,27 @@ items:
   assemblies:
   - mscorlib
   namespace: System
+  summary: This conversion is not supported. Attempting to use this method throws an <see cref="T:System.InvalidCastException">.
+  remarks: To be added.
   syntax:
     content: char IConvertible.ToChar (IFormatProvider provider);
     parameters:
     - id: provider
       type: System.IFormatProvider
-      description: Parameter description to be filled
+      description: This parameter is ignored.
     return:
       type: System.Char
-      description: Return description to be filled
+      description: This conversion is not supported. No value is returned.
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Boolean.System#IConvertible#ToDateTime(System.IFormatProvider)
   id: System#IConvertible#ToDateTime(System.IFormatProvider)
   isEii: true
   parent: System.Boolean
   langs:
   - csharp
-  - vb
   name: System.IConvertible.ToDateTime(IFormatProvider)
   nameWithType: Boolean.System.IConvertible.ToDateTime(IFormatProvider)
   fullName: System.Boolean.System.IConvertible.ToDateTime(IFormatProvider)
@@ -303,22 +366,27 @@ items:
   assemblies:
   - mscorlib
   namespace: System
+  summary: This conversion is not supported. Attempting to use this method throws an <see cref="T:System.InvalidCastException">.
+  remarks: To be added.
   syntax:
     content: DateTime IConvertible.ToDateTime (IFormatProvider provider);
     parameters:
     - id: provider
       type: System.IFormatProvider
-      description: Parameter description to be filled
+      description: This parameter is ignored.
     return:
       type: System.DateTime
-      description: Return description to be filled
+      description: This conversion is not supported. No value is returned.
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Boolean.System#IConvertible#ToDecimal(System.IFormatProvider)
   id: System#IConvertible#ToDecimal(System.IFormatProvider)
   isEii: true
   parent: System.Boolean
   langs:
   - csharp
-  - vb
   name: System.IConvertible.ToDecimal(IFormatProvider)
   nameWithType: Boolean.System.IConvertible.ToDecimal(IFormatProvider)
   fullName: System.Boolean.System.IConvertible.ToDecimal(IFormatProvider)
@@ -326,22 +394,27 @@ items:
   assemblies:
   - mscorlib
   namespace: System
+  summary: For a description of this member, see <xref:System.IConvertible.ToDecimal%2A?displayProperty=fullName>..
+  remarks: This member is an explicit interface member implementation. It can be used only when the <xref:System.Boolean> instance is cast to an <xref:System.IConvertible> interface. The recommended alternative is to call the <xref:System.Convert.ToDecimal%2A?displayProperty=fullName> method.
   syntax:
     content: decimal IConvertible.ToDecimal (IFormatProvider provider);
     parameters:
     - id: provider
       type: System.IFormatProvider
-      description: Parameter description to be filled
+      description: This parameter is ignored.
     return:
       type: System.Decimal
-      description: Return description to be filled
+      description: 1 if this instance is `true`; otherwise, 0.
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Boolean.System#IConvertible#ToDouble(System.IFormatProvider)
   id: System#IConvertible#ToDouble(System.IFormatProvider)
   isEii: true
   parent: System.Boolean
   langs:
   - csharp
-  - vb
   name: System.IConvertible.ToDouble(IFormatProvider)
   nameWithType: Boolean.System.IConvertible.ToDouble(IFormatProvider)
   fullName: System.Boolean.System.IConvertible.ToDouble(IFormatProvider)
@@ -349,22 +422,27 @@ items:
   assemblies:
   - mscorlib
   namespace: System
+  summary: For a description of this member, see <xref:System.IConvertible.ToDouble%2A?displayProperty=fullName>..
+  remarks: This member is an explicit interface member implementation. It can be used only when the <xref:System.Boolean> instance is cast to an <xref:System.IConvertible> interface. The recommended alternative is to call the <xref:System.Convert.ToDouble%2A?displayProperty=fullName> method.
   syntax:
     content: double IConvertible.ToDouble (IFormatProvider provider);
     parameters:
     - id: provider
       type: System.IFormatProvider
-      description: Parameter description to be filled
+      description: This parameter is ignored.
     return:
       type: System.Double
-      description: Return description to be filled
+      description: 1 if this instance is `true`; otherwise, 0.
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Boolean.System#IConvertible#ToInt16(System.IFormatProvider)
   id: System#IConvertible#ToInt16(System.IFormatProvider)
   isEii: true
   parent: System.Boolean
   langs:
   - csharp
-  - vb
   name: System.IConvertible.ToInt16(IFormatProvider)
   nameWithType: Boolean.System.IConvertible.ToInt16(IFormatProvider)
   fullName: System.Boolean.System.IConvertible.ToInt16(IFormatProvider)
@@ -372,22 +450,27 @@ items:
   assemblies:
   - mscorlib
   namespace: System
+  summary: For a description of this member, see <xref:System.IConvertible.ToInt16%2A?displayProperty=fullName>.
+  remarks: This member is an explicit interface member implementation. It can be used only when the <xref:System.Boolean> instance is cast to an <xref:System.IConvertible> interface. The recommended alternative is to call the <xref:System.Convert.ToInt16%2A?displayProperty=fullName> method.
   syntax:
     content: short IConvertible.ToInt16 (IFormatProvider provider);
     parameters:
     - id: provider
       type: System.IFormatProvider
-      description: Parameter description to be filled
+      description: This parameter is ignored.
     return:
       type: System.Int16
-      description: Return description to be filled
+      description: 1 if this instance is `true`; otherwise, 0.
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Boolean.System#IConvertible#ToInt32(System.IFormatProvider)
   id: System#IConvertible#ToInt32(System.IFormatProvider)
   isEii: true
   parent: System.Boolean
   langs:
   - csharp
-  - vb
   name: System.IConvertible.ToInt32(IFormatProvider)
   nameWithType: Boolean.System.IConvertible.ToInt32(IFormatProvider)
   fullName: System.Boolean.System.IConvertible.ToInt32(IFormatProvider)
@@ -395,22 +478,27 @@ items:
   assemblies:
   - mscorlib
   namespace: System
+  summary: For a description of this member, see <xref:System.IConvertible.ToInt32%2A?displayProperty=fullName>.
+  remarks: This member is an explicit interface member implementation. It can be used only when the <xref:System.Boolean> instance is cast to an <xref:System.IConvertible> interface. The recommended alternative is to call the <xref:System.Convert.ToInt32%2A?displayProperty=fullName> method.
   syntax:
     content: int IConvertible.ToInt32 (IFormatProvider provider);
     parameters:
     - id: provider
       type: System.IFormatProvider
-      description: Parameter description to be filled
+      description: This parameter is ignored.
     return:
       type: System.Int32
-      description: Return description to be filled
+      description: 1 if this instance is `true`; otherwise, 0.
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Boolean.System#IConvertible#ToInt64(System.IFormatProvider)
   id: System#IConvertible#ToInt64(System.IFormatProvider)
   isEii: true
   parent: System.Boolean
   langs:
   - csharp
-  - vb
   name: System.IConvertible.ToInt64(IFormatProvider)
   nameWithType: Boolean.System.IConvertible.ToInt64(IFormatProvider)
   fullName: System.Boolean.System.IConvertible.ToInt64(IFormatProvider)
@@ -418,22 +506,27 @@ items:
   assemblies:
   - mscorlib
   namespace: System
+  summary: For a description of this member, see <xref:System.IConvertible.ToInt64%2A?displayProperty=fullName>.
+  remarks: This member is an explicit interface member implementation. It can be used only when the <xref:System.Boolean> instance is cast to an <xref:System.IConvertible> interface. The recommended alternative is to call the <xref:System.Convert.ToInt64%28System.Boolean%29?displayProperty=fullName> method.
   syntax:
     content: long IConvertible.ToInt64 (IFormatProvider provider);
     parameters:
     - id: provider
       type: System.IFormatProvider
-      description: Parameter description to be filled
+      description: This parameter is ignored.
     return:
       type: System.Int64
-      description: Return description to be filled
+      description: 1 if this instance is `true`; otherwise, 0.
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Boolean.System#IConvertible#ToSByte(System.IFormatProvider)
   id: System#IConvertible#ToSByte(System.IFormatProvider)
   isEii: true
   parent: System.Boolean
   langs:
   - csharp
-  - vb
   name: System.IConvertible.ToSByte(IFormatProvider)
   nameWithType: Boolean.System.IConvertible.ToSByte(IFormatProvider)
   fullName: System.Boolean.System.IConvertible.ToSByte(IFormatProvider)
@@ -441,22 +534,27 @@ items:
   assemblies:
   - mscorlib
   namespace: System
+  summary: For a description of this member, see <xref:System.IConvertible.ToSByte%2A?displayProperty=fullName>.
+  remarks: This member is an explicit interface member implementation. It can be used only when the <xref:System.Boolean> instance is cast to an <xref:System.IConvertible> interface. The recommended alternative is to call the <xref:System.Convert.ToSByte%28System.Boolean%29?displayProperty=fullName> method.
   syntax:
     content: sbyte IConvertible.ToSByte (IFormatProvider provider);
     parameters:
     - id: provider
       type: System.IFormatProvider
-      description: Parameter description to be filled
+      description: This parameter is ignored.
     return:
       type: System.SByte
-      description: Return description to be filled
+      description: 1 if this instance is `true`; otherwise, 0.
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Boolean.System#IConvertible#ToSingle(System.IFormatProvider)
   id: System#IConvertible#ToSingle(System.IFormatProvider)
   isEii: true
   parent: System.Boolean
   langs:
   - csharp
-  - vb
   name: System.IConvertible.ToSingle(IFormatProvider)
   nameWithType: Boolean.System.IConvertible.ToSingle(IFormatProvider)
   fullName: System.Boolean.System.IConvertible.ToSingle(IFormatProvider)
@@ -464,22 +562,27 @@ items:
   assemblies:
   - mscorlib
   namespace: System
+  summary: For a description of this member, see <xref:System.IConvertible.ToSingle%2A?displayProperty=fullName>..
+  remarks: This member is an explicit interface member implementation. It can be used only when the <xref:System.Boolean> instance is cast to an <xref:System.IConvertible> interface. The recommended alternative is to call the <xref:System.Convert.ToSingle%28System.Boolean%29?displayProperty=fullName> method.
   syntax:
     content: float IConvertible.ToSingle (IFormatProvider provider);
     parameters:
     - id: provider
       type: System.IFormatProvider
-      description: Parameter description to be filled
+      description: This parameter is ignored.
     return:
       type: System.Single
-      description: Return description to be filled
+      description: 1 if this instance is `true`; otherwise, 0.
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Boolean.System#IConvertible#ToType(System.Type,System.IFormatProvider)
   id: System#IConvertible#ToType(System.Type,System.IFormatProvider)
   isEii: true
   parent: System.Boolean
   langs:
   - csharp
-  - vb
   name: System.IConvertible.ToType(Type,IFormatProvider)
   nameWithType: Boolean.System.IConvertible.ToType(Type,IFormatProvider)
   fullName: System.Boolean.System.IConvertible.ToType(Type,IFormatProvider)
@@ -487,25 +590,30 @@ items:
   assemblies:
   - mscorlib
   namespace: System
+  summary: For a description of this member, see <xref:System.IConvertible.ToType%2A?displayProperty=fullName>.
+  remarks: This member is an explicit interface member implementation. It can be used only when the <xref:System.Boolean> instance is cast to an <xref:System.IConvertible> interface. The recommended alternative is to call the <xref:System.Convert.ChangeType%2A?displayProperty=fullName> method.
   syntax:
     content: object IConvertible.ToType (Type type, IFormatProvider provider);
     parameters:
     - id: type
       type: System.Type
-      description: Parameter description to be filled
+      description: The desired type.
     - id: provider
       type: System.IFormatProvider
-      description: Parameter description to be filled
+      description: An <see cref="T:System.IFormatProvider"> implementation that supplies culture-specific information about the format of the returned value.
     return:
       type: System.Object
-      description: Return description to be filled
+      description: An object of the specified type, with a value that is equivalent to the value of this `Boolean` object.
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Boolean.System#IConvertible#ToUInt16(System.IFormatProvider)
   id: System#IConvertible#ToUInt16(System.IFormatProvider)
   isEii: true
   parent: System.Boolean
   langs:
   - csharp
-  - vb
   name: System.IConvertible.ToUInt16(IFormatProvider)
   nameWithType: Boolean.System.IConvertible.ToUInt16(IFormatProvider)
   fullName: System.Boolean.System.IConvertible.ToUInt16(IFormatProvider)
@@ -513,22 +621,27 @@ items:
   assemblies:
   - mscorlib
   namespace: System
+  summary: For a description of this member, see <xref:System.IConvertible.ToUInt16%2A?displayProperty=fullName>.
+  remarks: This member is an explicit interface member implementation. It can be used only when the <xref:System.Boolean> instance is cast to an <xref:System.IConvertible> interface. The recommended alternative is to call the <xref:System.Convert.ToUInt16%28System.Boolean%29?displayProperty=fullName> method.
   syntax:
     content: ushort IConvertible.ToUInt16 (IFormatProvider provider);
     parameters:
     - id: provider
       type: System.IFormatProvider
-      description: Parameter description to be filled
+      description: This parameter is ignored.
     return:
       type: System.UInt16
-      description: Return description to be filled
+      description: 1 if this instance is `true`; otherwise, 0.
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Boolean.System#IConvertible#ToUInt32(System.IFormatProvider)
   id: System#IConvertible#ToUInt32(System.IFormatProvider)
   isEii: true
   parent: System.Boolean
   langs:
   - csharp
-  - vb
   name: System.IConvertible.ToUInt32(IFormatProvider)
   nameWithType: Boolean.System.IConvertible.ToUInt32(IFormatProvider)
   fullName: System.Boolean.System.IConvertible.ToUInt32(IFormatProvider)
@@ -536,22 +649,27 @@ items:
   assemblies:
   - mscorlib
   namespace: System
+  summary: For a description of this member, see <xref:System.IConvertible.ToUInt32%2A?displayProperty=fullName>.
+  remarks: This member is an explicit interface member implementation. It can be used only when the <xref:System.Boolean> instance is cast to an <xref:System.IConvertible> interface. The recommended alternative is to call the <xref:System.Convert.ToUInt32%28System.Boolean%29?displayProperty=fullName> method.
   syntax:
     content: uint IConvertible.ToUInt32 (IFormatProvider provider);
     parameters:
     - id: provider
       type: System.IFormatProvider
-      description: Parameter description to be filled
+      description: This parameter is ignored.
     return:
       type: System.UInt32
-      description: Return description to be filled
+      description: 1 if this instance is `true`; otherwise, 0.
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Boolean.System#IConvertible#ToUInt64(System.IFormatProvider)
   id: System#IConvertible#ToUInt64(System.IFormatProvider)
   isEii: true
   parent: System.Boolean
   langs:
   - csharp
-  - vb
   name: System.IConvertible.ToUInt64(IFormatProvider)
   nameWithType: Boolean.System.IConvertible.ToUInt64(IFormatProvider)
   fullName: System.Boolean.System.IConvertible.ToUInt64(IFormatProvider)
@@ -559,21 +677,26 @@ items:
   assemblies:
   - mscorlib
   namespace: System
+  summary: For a description of this member, see <xref:System.IConvertible.ToUInt64%2A?displayProperty=fullName>.
+  remarks: This member is an explicit interface member implementation. It can be used only when the <xref:System.Boolean> instance is cast to an <xref:System.IConvertible> interface. The recommended alternative is to call the <xref:System.Convert.ToUInt64%28System.Boolean%29?displayProperty=fullName> method.
   syntax:
     content: ulong IConvertible.ToUInt64 (IFormatProvider provider);
     parameters:
     - id: provider
       type: System.IFormatProvider
-      description: Parameter description to be filled
+      description: This parameter is ignored.
     return:
       type: System.UInt64
-      description: Return description to be filled
+      description: 1 if this instance is `true`; otherwise, 0.
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Boolean.ToString
   id: ToString
   parent: System.Boolean
   langs:
   - csharp
-  - vb
   name: ToString()
   nameWithType: Boolean.ToString()
   fullName: System.Boolean.ToString()
@@ -581,19 +704,26 @@ items:
   assemblies:
   - mscorlib
   namespace: System
+  summary: Converts the value of this instance to its equivalent string representation (either "True" or "False").
+  remarks: "This method returns the constants \"True\" or \"False\".  \n  \n Note that XML is case-sensitive, and that the XML specification recognizes \"true\" and \"false\" as the valid set of Boolean values. If the string returned by the ToString method is to be written to an XML file, its <xref:System.String.ToLowerInvariant%2A?displayProperty=fullName> method should be called first to convert it to lowercase."
+  example:
+  - "The following example illustrates the ToString method.  \n  \n [!CODE [System.Boolean#1](../CodeSnippet/VS_Snippets_CLR_System/system.Boolean#1)]"
   syntax:
     content: public override string ToString ();
     parameters: []
     return:
       type: System.String
-      description: Return description to be filled
+      description: "\"True\" (the value of the <xref:System.Boolean.TrueString?displayProperty=fullName> property) if the value of this instance is `true`, or \"False\" (the value of the <xref:System.Boolean.FalseString?displayProperty=fullName> property) if the value of this instance is `false`."
   overload: System.Boolean.ToString*
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Boolean.ToString(System.IFormatProvider)
   id: ToString(System.IFormatProvider)
   parent: System.Boolean
   langs:
   - csharp
-  - vb
   name: ToString(IFormatProvider)
   nameWithType: Boolean.ToString(IFormatProvider)
   fullName: System.Boolean.ToString(IFormatProvider)
@@ -601,22 +731,27 @@ items:
   assemblies:
   - mscorlib
   namespace: System
+  summary: Converts the value of this instance to its equivalent string representation (either "True" or "False").
+  remarks: "The  parameter is reserved. It does not participate in the execution of this method. This means that the ToString method, unlike most methods with a  parameter, does not reflect culture-specific settings.  \n  \n This method returns the constants \"True\" or \"False\". Note that XML is case-sensitive, and that the XML specification recognizes \"true\" and \"false\" as the valid set of Boolean values. If the <xref:System.String> object returned by the ToString method is to be written to an XML file, its <xref:System.String.ToLowerInvariant%2A?displayProperty=fullName> method should be called first to convert it to lowercase."
   syntax:
     content: public string ToString (IFormatProvider provider);
     parameters:
     - id: provider
       type: System.IFormatProvider
-      description: Parameter description to be filled
+      description: (Reserved) An <see cref="T:System.IFormatProvider"> object.
     return:
       type: System.String
-      description: Return description to be filled
+      description: <see cref="F:System.Boolean.TrueString"> if the value of this instance is `true`, or <xref:System.Boolean.FalseString> if the value of this instance is `false`.
   overload: System.Boolean.ToString*
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Boolean.TrueString
   id: TrueString
   parent: System.Boolean
   langs:
   - csharp
-  - vb
   name: TrueString
   nameWithType: Boolean.TrueString
   fullName: System.Boolean.TrueString
@@ -624,17 +759,22 @@ items:
   assemblies:
   - mscorlib
   namespace: System
+  summary: Represents the Boolean value `true` as a string. This field is read-only.
+  remarks: "This field is equal to the string \"True\".  \n  \n The TrueString property defines the string representation of a `True`<xref:System.Boolean> value in formatting and parsing operations."
   syntax:
     content: public static readonly string TrueString;
     return:
       type: System.String
-      description: Return description to be filled
+      description: To be added.
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Boolean.TryParse(System.String,System.Boolean@)
   id: TryParse(System.String,System.Boolean@)
   parent: System.Boolean
   langs:
   - csharp
-  - vb
   name: TryParse(String,Boolean)
   nameWithType: Boolean.TryParse(String,Boolean)
   fullName: System.Boolean.TryParse(String,Boolean)
@@ -642,18 +782,26 @@ items:
   assemblies:
   - mscorlib
   namespace: System
+  summary: Tries to convert the specified string representation of a logical value to its <see cref="T:System.Boolean"> equivalent. A return value indicates whether the conversion succeeded or failed.
+  remarks: "The TryParse method is like the <xref:System.Boolean.Parse%2A> method, except the TryParse method does not throw an exception if the conversion fails.  \n  \n The  parameter can be preceded or followed by white space. The comparison is ordinal and case-insensitive."
+  example:
+  - "The following example calls the TryParse method to parse an array of strings. Note that the parse operation succeeds only if the string to be parsed is \"True\" (the value of the <xref:System.Boolean.TrueString> field) or \"False\" (the value of the <xref:System.Boolean.FalseString> field) in a case-insensitive comparison.  \n  \n [!CODE [System.Boolean.TryParse#1](../CodeSnippet/VS_Snippets_CLR_System/system.boolean.tryparse#1)]"
   syntax:
     content: public static bool TryParse (string value, out bool result);
     parameters:
     - id: value
       type: System.String
-      description: Parameter description to be filled
+      description: A string containing the value to convert.
     - id: result
       type: System.Boolean
-      description: Parameter description to be filled
+      description: When this method returns, if the conversion succeeded, contains `true` if  is equal to <xref:System.Boolean?displayProperty=fullName> or `false` if  is equal to <xref:System.Boolean>. If the conversion failed, contains `false`. The conversion fails if  is `null` or is not equal to the value of either the <xref:System.Boolean> or <xref:System.Boolean> field.
     return:
       type: System.Boolean
-      description: Return description to be filled
+      description: '`true` if  was converted successfully; otherwise, `false`.'
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 references:
 - uid: System.ValueType
   isExternal: false

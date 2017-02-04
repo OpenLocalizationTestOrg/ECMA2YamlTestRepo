@@ -11,11 +11,12 @@ items:
   - System.Runtime.InteropServices.COMException.ToString
   langs:
   - csharp
-  - vb
   name: COMException
   nameWithType: COMException
   fullName: System.Runtime.InteropServices.COMException
   type: Class
+  summary: The exception that is thrown when an unrecognized HRESULT is returned from a COM method call.
+  remarks: "The common language runtime transforms well-known HRESULTs to .NET Framework exceptions, enabling COM objects to return meaningful error information to managed clients. The HRESULT to exception mapping also works in the other direction by returning specific HRESULTs to unmanaged clients. For mapping details, see [How to: Map HRESULTs and Exceptions](../Topic/How%20to:%20Map%20HRESULTs%20and%20Exceptions.md).  \n  \n When the runtime encounters an unfamiliar HRESULT (an HRESULT that lacks a specific, corresponding exception), it throws an instance of the COMException class. This all-purpose exception exposes the same members as any exception, and inherits a public <xref:System.Runtime.InteropServices.ExternalException.ErrorCode%2A> property that contains the HRESULT returned by the callee. If an error message is available to the runtime (obtained from the [IErrorInfo](https://msdn.microsoft.com/library/windows/desktop/ms723041\\(v=vs.85\\).aspx) interface or the `Err` object in Visual Basic, or in some cases from the operating system), the message is returned to the caller. However, if the COM component developer fails to include an error message, the runtime returns the eight-digit HRESULT in place of a message string. Having an HRESULT allows the caller to determine the cause of the generic exception.  \n  \n## Handling a COMException exception  \n The following are some considerations for troubleshooting a COMException exception.  \n  \n Check the <xref:System.Runtime.InteropServices.ExternalException.ErrorCode%2A> property  \n When the runtime encounters an unfamiliar HRESULT and throws a COMException exception,  the <xref:System.Runtime.InteropServices.ExternalException.ErrorCode%2A> property includes either the error message or, if an error message is unavailable, the eight-digit HRESULT value.  The error message or the HRESULT value can help you determine the cause of the exception.  \n  \n For a list of HRESULT values, see [Common HRESULT Values](https://msdn.microsoft.com/library/windows/desktop/aa378137\\(v=vs.85\\).aspx).  \n  \n Late-bound arguments and Microsoft Office objects  \n When passing late-bound arguments to methods of Microsoft Office objects, a COMException exception may be thrown when the objects are COM objects. The late binder assumes that such method calls involve a `ByRef` parameter and that the property you pass has a `set` accessor. If the property does not, the .NET Framework generates a <xref:System.MissingMethodException> exception (with a `CORE_E_MISSINGMETHOD` HRESULT ). To work around this behavior, use early-bound objects or pass a variable instead of a property of the object.  \n  \n Visual Studio and the hosting process  \n COM is used to communicate between Visual Studio and the [hosting process](https://msdn.microsoft.com/library/ms185331.aspx). Because it is used before code runs, a call to [CoInitializeSecurity](https://msdn.microsoft.com/library/windows/desktop/ms693736\\(v=vs.85\\).aspx) causes this exception to be thrown.  \n  \n In some cases, running Visual Studio as Administrator may resolve the issue. You can also [disable the hosting process](https://msdn.microsoft.com/library/ms185330.aspx).  \n  \n## Throwing a COMException exception  \n Although you can use the COMException class to return specific HRESULTs to unmanaged clients, throwing a specific .NET Framework exception is better than using a generic exception. Consider that managed clients as well as unmanaged clients can use your .NET Framework object, and throwing an HRESULT to a managed caller is less comprehensible than throwing an exception."
   syntax:
     content: >-
       [System.Runtime.InteropServices.ComVisible(true)]
@@ -46,12 +47,15 @@ items:
   - System.Object.MemberwiseClone
   - System.Object.ReferenceEquals(System.Object,System.Object)
   - System.Runtime.InteropServices.ExternalException.ErrorCode
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Runtime.InteropServices.COMException.#ctor
   id: '#ctor'
   parent: System.Runtime.InteropServices.COMException
   langs:
   - csharp
-  - vb
   name: COMException()
   nameWithType: COMException.COMException()
   fullName: System.Runtime.InteropServices.COMException.COMException()
@@ -59,15 +63,20 @@ items:
   assemblies:
   - mscorlib
   namespace: System.Runtime.InteropServices
+  summary: Initializes a new instance of the <see cref="T:System.Runtime.InteropServices.COMException"> class with default values.
+  remarks: "<xref:System.Runtime.InteropServices.COMException> inherits from <xref:System.Runtime.InteropServices.ExternalException>. The following table shows how this constructor sets the properties of the <xref:System.Exception> object.  \n  \n|Property|Value|  \n|--------------|-----------|  \n|<xref:System.Exception.InnerException%2A>|`null`.|  \n|<xref:System.Exception.Message%2A>|A localized error message string.|"
   syntax:
     content: public COMException ();
     parameters: []
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Runtime.InteropServices.COMException.#ctor(System.String)
   id: '#ctor(System.String)'
   parent: System.Runtime.InteropServices.COMException
   langs:
   - csharp
-  - vb
   name: COMException(String)
   nameWithType: COMException.COMException(String)
   fullName: System.Runtime.InteropServices.COMException.COMException(String)
@@ -75,18 +84,23 @@ items:
   assemblies:
   - mscorlib
   namespace: System.Runtime.InteropServices
+  summary: Initializes a new instance of the <see cref="T:System.Runtime.InteropServices.COMException"> class with a specified message.
+  remarks: "<xref:System.Runtime.InteropServices.COMException> inherits from <xref:System.Runtime.InteropServices.ExternalException>. The following table shows how this constructor sets the properties of the <xref:System.Exception> object.  \n  \n|Property|Value|  \n|--------------|-----------|  \n|<xref:System.Exception.InnerException%2A>|`null`|  \n|<xref:System.Exception.Message%2A>||"
   syntax:
     content: public COMException (string message);
     parameters:
     - id: message
       type: System.String
-      description: Parameter description to be filled
+      description: The message that indicates the reason for the exception.
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Runtime.InteropServices.COMException.#ctor(System.Runtime.Serialization.SerializationInfo,System.Runtime.Serialization.StreamingContext)
   id: '#ctor(System.Runtime.Serialization.SerializationInfo,System.Runtime.Serialization.StreamingContext)'
   parent: System.Runtime.InteropServices.COMException
   langs:
   - csharp
-  - vb
   name: COMException(SerializationInfo,StreamingContext)
   nameWithType: COMException.COMException(SerializationInfo,StreamingContext)
   fullName: System.Runtime.InteropServices.COMException.COMException(SerializationInfo,StreamingContext)
@@ -94,21 +108,26 @@ items:
   assemblies:
   - mscorlib
   namespace: System.Runtime.InteropServices
+  summary: Initializes a new instance of the <see cref="T:System.Runtime.InteropServices.COMException"> class from serialization data.
+  remarks: "This constructor is called during deserialization to reconstitute the exception object transmitted over a stream. For more information, see [XML and SOAP Serialization](../Topic/XML%20and%20SOAP%20Serialization.md).  \n  \n <xref:System.Runtime.InteropServices.COMException> inherits from <xref:System.Runtime.InteropServices.ExternalException>."
   syntax:
     content: protected COMException (System.Runtime.Serialization.SerializationInfo info, System.Runtime.Serialization.StreamingContext context);
     parameters:
     - id: info
       type: System.Runtime.Serialization.SerializationInfo
-      description: Parameter description to be filled
+      description: The <see cref="T:System.Runtime.Serialization.SerializationInfo"> object that holds the serialized object data.
     - id: context
       type: System.Runtime.Serialization.StreamingContext
-      description: Parameter description to be filled
+      description: The <see cref="T:System.Runtime.Serialization.StreamingContext"> object that supplies the contextual information about the source or destination.
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Runtime.InteropServices.COMException.#ctor(System.String,System.Exception)
   id: '#ctor(System.String,System.Exception)'
   parent: System.Runtime.InteropServices.COMException
   langs:
   - csharp
-  - vb
   name: COMException(String,Exception)
   nameWithType: COMException.COMException(String,Exception)
   fullName: System.Runtime.InteropServices.COMException.COMException(String,Exception)
@@ -116,21 +135,26 @@ items:
   assemblies:
   - mscorlib
   namespace: System.Runtime.InteropServices
+  summary: Initializes a new instance of the <see cref="T:System.Runtime.InteropServices.COMException"> class with a specified error message and a reference to the inner exception that is the cause of this exception.
+  remarks: "An exception that is thrown as a direct result of a previous exception should include a reference to the previous exception in the <xref:System.Exception.InnerException%2A> property. The <xref:System.Exception.InnerException%2A> property returns the same value that is passed into the constructor, or `null` if the <xref:System.Exception.InnerException%2A> property does not supply the inner exception value to the constructor.  \n  \n The following table shows how this constructor sets the properties of the <xref:System.Exception> object.  \n  \n|Property|Value|  \n|--------------|-----------|  \n|<xref:System.Exception.InnerException%2A>|The inner exception reference.|  \n|<xref:System.Exception.Message%2A>|The error message string.|"
   syntax:
     content: public COMException (string message, Exception inner);
     parameters:
     - id: message
       type: System.String
-      description: Parameter description to be filled
+      description: The error message that explains the reason for the exception.
     - id: inner
       type: System.Exception
-      description: Parameter description to be filled
+      description: The exception that is the cause of the current exception. If the  parameter is not `null`, the current exception is raised in a `catch` block that handles the inner exception.
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Runtime.InteropServices.COMException.#ctor(System.String,System.Int32)
   id: '#ctor(System.String,System.Int32)'
   parent: System.Runtime.InteropServices.COMException
   langs:
   - csharp
-  - vb
   name: COMException(String,Int32)
   nameWithType: COMException.COMException(String,Int32)
   fullName: System.Runtime.InteropServices.COMException.COMException(String,Int32)
@@ -138,21 +162,26 @@ items:
   assemblies:
   - mscorlib
   namespace: System.Runtime.InteropServices
+  summary: Initializes a new instance of the <see cref="T:System.Runtime.InteropServices.COMException"> class with a specified message and error code.
+  remarks: "This <xref:System.Runtime.InteropServices.COMException> constructor sets the base message with the error code.  \n  \n <xref:System.Runtime.InteropServices.COMException> inherits from <xref:System.Runtime.InteropServices.ExternalException>. The following table shows how this constructor sets the properties of the <xref:System.Exception> object.  \n  \n|Property|Value|  \n|--------------|-----------|  \n|<xref:System.Exception.InnerException%2A>|`null`|  \n|<xref:System.Exception.Message%2A>||"
   syntax:
     content: public COMException (string message, int errorCode);
     parameters:
     - id: message
       type: System.String
-      description: Parameter description to be filled
+      description: The message that indicates the reason the exception occurred.
     - id: errorCode
       type: System.Int32
-      description: Parameter description to be filled
+      description: The error code (HRESULT) value associated with this exception.
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Runtime.InteropServices.COMException.ToString
   id: ToString
   parent: System.Runtime.InteropServices.COMException
   langs:
   - csharp
-  - vb
   name: ToString()
   nameWithType: COMException.ToString()
   fullName: System.Runtime.InteropServices.COMException.ToString()
@@ -160,12 +189,18 @@ items:
   assemblies:
   - mscorlib
   namespace: System.Runtime.InteropServices
+  summary: Converts the contents of the exception to a string.
+  remarks: To be added.
   syntax:
     content: public override string ToString ();
     parameters: []
     return:
       type: System.String
-      description: Return description to be filled
+      description: A string containing the <xref:System.Exception.HResult%2A>, <xref:System.Exception.Message%2A>, <xref:System.Exception.InnerException%2A>, and <xref:System.Exception.StackTrace%2A> properties of the exception.
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 references:
 - uid: System.Runtime.InteropServices.ExternalException
   isExternal: false

@@ -9,11 +9,12 @@ items:
   - System.IO.PathTooLongException.#ctor(System.String,System.Exception)
   langs:
   - csharp
-  - vb
   name: PathTooLongException
   nameWithType: PathTooLongException
   fullName: System.IO.PathTooLongException
   type: Class
+  summary: The exception that is thrown when a path or fully qualified file name is longer than the system-defined maximum length.
+  remarks: "If your code does not have <xref:System.Security.Permissions.FileIOPermissionAttribute.PathDiscovery%2A?displayProperty=fullName> permission, the error message for this exception may contain only file or directory names instead of full paths.  \n  \n In apps that run under versions of the .NET Framework prior to the [!INCLUDE[net_v462](../../add/includes/net-v462-md.md)], full paths must not exceed 260 characters to maintain compatibility with Windows operating systems. Any path in excess of 260 characters automatically throws a PathTooLongException. For more information about this restriction, see the entry [Long Paths in .NET](http://go.microsoft.com/fwlink/?LinkID=163666) in the BCL Team blog.  \n  \n> [!NOTE]\n>  This exception is not included in [.NET for Windows Store apps](http://go.microsoft.com/fwlink/?LinkID=247912) or the [Portable Class Library](../Topic/Cross-Platform%20Development%20with%20the%20Portable%20Class%20Library.md), but it is thrown by some members that are. To catch the exception in that case, write a `catch` statement that handles an <xref:System.IO.IOException> instead.  \n  \n Starting with apps running under the [!INCLUDE[net_v462](../../add/includes/net-v462-md.md)], the .NET Framework supports long paths in excess of 260 (or `MAX_PATH`) characters.  The conditions under which a PathTooLongException exception are thrown depend on the version of the .NET Framework that an app targets:  \n  \n **Apps that target the [!INCLUDE[net_v462](../../add/includes/net-v462-md.md)] and later versions**  \n Long paths are supported by default. The runtime throws a PathTooLongException under the following conditions:  \n  \n-   The operating system returns `COR_E_PATHTOOLONG` or its equivalent.  \n  \n-   The length of the path exceeds <xref:System.Int16.MaxValue?displayProperty=fullName> (32,767) characters.  \n  \n **Apps that target the [!INCLUDE[net_v461](../../add/includes/net-v461-md.md)] and earlier versions**  \n Long paths are disabled by default, and the legacy behavior is maintained. The runtime throws a PathTooLongException whenever a path exceeds 260 characters.  \n  \n If this is undesirable, apps that target the [!INCLUDE[net_v461](../../add/includes/net-v461-md.md)] and earlier but run under the [!INCLUDE[net_v462](../../add/includes/net-v462-md.md)] can enable long path support by including the following setting in the [\\<runtime>](../Topic/%3Cruntime%3E%20Element.md) element of the application configuration file:  \n  \n```xml  \n  \n<runtime>   \n   <AppContextSwitchOverrides value=\"Switch.System.IO.UseLegacyPathHandling=false\" />   \n</runtime>  \n  \n```  \n  \n PathTooLongException uses the HRESULT `COR_E_PATHTOOLONG`, which has the value 0x800700CE."
   syntax:
     content: >-
       [System.Runtime.InteropServices.ComVisible(true)]
@@ -44,12 +45,15 @@ items:
   - System.Object.GetHashCode
   - System.Object.MemberwiseClone
   - System.Object.ReferenceEquals(System.Object,System.Object)
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.IO.PathTooLongException.#ctor
   id: '#ctor'
   parent: System.IO.PathTooLongException
   langs:
   - csharp
-  - vb
   name: PathTooLongException()
   nameWithType: PathTooLongException.PathTooLongException()
   fullName: System.IO.PathTooLongException.PathTooLongException()
@@ -57,15 +61,20 @@ items:
   assemblies:
   - mscorlib
   namespace: System.IO
+  summary: Initializes a new instance of the <see cref="T:System.IO.PathTooLongException"> class with its HRESULT set to COR_E_PATHTOOLONG.
+  remarks: This constructor initializes the <xref:System.Exception.Message%2A> property of the new instance to a system-supplied message that describes the error, such as "The supplied path is too long." This message takes into account the current system culture.
   syntax:
     content: public PathTooLongException ();
     parameters: []
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.IO.PathTooLongException.#ctor(System.String)
   id: '#ctor(System.String)'
   parent: System.IO.PathTooLongException
   langs:
   - csharp
-  - vb
   name: PathTooLongException(String)
   nameWithType: PathTooLongException.PathTooLongException(String)
   fullName: System.IO.PathTooLongException.PathTooLongException(String)
@@ -73,18 +82,23 @@ items:
   assemblies:
   - mscorlib
   namespace: System.IO
+  summary: Initializes a new instance of the <see cref="T:System.IO.PathTooLongException"> class with its message string set to  and its HRESULT set to COR_E_PATHTOOLONG.
+  remarks: This constructor initializes the <xref:System.Exception.Message%2A> property of the new instance using .
   syntax:
     content: public PathTooLongException (string message);
     parameters:
     - id: message
       type: System.String
-      description: Parameter description to be filled
+      description: A <see cref="T:System.String"> that describes the error. The content of  is intended to be understood by humans. The caller of this constructor is required to ensure that this string has been localized for the current system culture.
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.IO.PathTooLongException.#ctor(System.Runtime.Serialization.SerializationInfo,System.Runtime.Serialization.StreamingContext)
   id: '#ctor(System.Runtime.Serialization.SerializationInfo,System.Runtime.Serialization.StreamingContext)'
   parent: System.IO.PathTooLongException
   langs:
   - csharp
-  - vb
   name: PathTooLongException(SerializationInfo,StreamingContext)
   nameWithType: PathTooLongException.PathTooLongException(SerializationInfo,StreamingContext)
   fullName: System.IO.PathTooLongException.PathTooLongException(SerializationInfo,StreamingContext)
@@ -92,21 +106,26 @@ items:
   assemblies:
   - mscorlib
   namespace: System.IO
+  summary: Initializes a new instance of the <see cref="T:System.IO.PathTooLongException"> class with the specified serialization and context information.
+  remarks: To be added.
   syntax:
     content: protected PathTooLongException (System.Runtime.Serialization.SerializationInfo info, System.Runtime.Serialization.StreamingContext context);
     parameters:
     - id: info
       type: System.Runtime.Serialization.SerializationInfo
-      description: Parameter description to be filled
+      description: The <see cref="T:System.Runtime.Serialization.SerializationInfo"> that holds the serialized object data about the exception being thrown.
     - id: context
       type: System.Runtime.Serialization.StreamingContext
-      description: Parameter description to be filled
+      description: The <see cref="T:System.Runtime.Serialization.StreamingContext"> that contains contextual information about the source or destination.
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.IO.PathTooLongException.#ctor(System.String,System.Exception)
   id: '#ctor(System.String,System.Exception)'
   parent: System.IO.PathTooLongException
   langs:
   - csharp
-  - vb
   name: PathTooLongException(String,Exception)
   nameWithType: PathTooLongException.PathTooLongException(String,Exception)
   fullName: System.IO.PathTooLongException.PathTooLongException(String,Exception)
@@ -114,15 +133,21 @@ items:
   assemblies:
   - mscorlib
   namespace: System.IO
+  summary: Initializes a new instance of the <see cref="T:System.IO.PathTooLongException"> class with a specified error message and a reference to the inner exception that is the cause of this exception.
+  remarks: "An exception that is thrown as a direct result of a previous exception should include a reference to the previous exception in the <xref:System.Exception.InnerException%2A> property. The `InnerException` property returns the same value that is passed into the constructor, or `null` if the `InnerException` property does not supply the inner exception value to the constructor.  \n  \n The following table shows the initial property values for an instance of <xref:System.IO.PathTooLongException>.  \n  \n|Property|Value|  \n|--------------|-----------|  \n|<xref:System.Exception.InnerException%2A>|The inner exception reference.|  \n|<xref:System.Exception.Message%2A>|The error message string.|  \n  \n For more information on inner exceptions, see <xref:System.Exception.InnerException%2A>."
   syntax:
     content: public PathTooLongException (string message, Exception innerException);
     parameters:
     - id: message
       type: System.String
-      description: Parameter description to be filled
+      description: A <see cref="T:System.String"> that describes the error. The content of  is intended to be understood by humans. The caller of this constructor is required to ensure that this string has been localized for the current system culture.
     - id: innerException
       type: System.Exception
-      description: Parameter description to be filled
+      description: The exception that is the cause of the current exception. If the  parameter is not `null`, the current exception is raised in a `catch` block that handles the inner exception.
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 references:
 - uid: System.IO.IOException
   isExternal: false

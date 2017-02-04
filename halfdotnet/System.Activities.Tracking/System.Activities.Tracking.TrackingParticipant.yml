@@ -10,11 +10,12 @@ items:
   - System.Activities.Tracking.TrackingParticipant.TrackingProfile
   langs:
   - csharp
-  - vb
   name: TrackingParticipant
   nameWithType: TrackingParticipant
   fullName: System.Activities.Tracking.TrackingParticipant
   type: Class
+  summary: The base class for workflow extensions that interact with the workflow tracking infrastructure and access tracking records.
+  remarks: A tracking participant is registered to receive tracking records. Currently, any class that implements the tracking participant can be registered with the workflow instance to receive tracking records. If the tracking participant is third party code, ensure that this is not malicious code. The tracking participants run in the same process as the workflow instance and in the case of malicious tracking participants, this code could affect the overall workflow execution. The tracking records are delivered to the registered tracking participants as the workflow executes, so the developer should ensure that the tracking participant does not affect the running workflow by performing unintended operations within the track method. Examples of this could be the alteration of workflow variables or operations that take a long time.
   syntax:
     content: public abstract class TrackingParticipant
   inheritance:
@@ -28,12 +29,15 @@ items:
   - System.Object.MemberwiseClone
   - System.Object.ReferenceEquals(System.Object,System.Object)
   - System.Object.ToString
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Activities.Tracking.TrackingParticipant.#ctor
   id: '#ctor'
   parent: System.Activities.Tracking.TrackingParticipant
   langs:
   - csharp
-  - vb
   name: TrackingParticipant()
   nameWithType: TrackingParticipant.TrackingParticipant()
   fullName: System.Activities.Tracking.TrackingParticipant.TrackingParticipant()
@@ -41,15 +45,20 @@ items:
   assemblies:
   - System.Activities
   namespace: System.Activities.Tracking
+  summary: When implemented in a derived class, creates a new instance of the derived class.
+  remarks: To be added.
   syntax:
     content: protected TrackingParticipant ();
     parameters: []
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Activities.Tracking.TrackingParticipant.BeginTrack(System.Activities.Tracking.TrackingRecord,System.TimeSpan,System.AsyncCallback,System.Object)
   id: BeginTrack(System.Activities.Tracking.TrackingRecord,System.TimeSpan,System.AsyncCallback,System.Object)
   parent: System.Activities.Tracking.TrackingParticipant
   langs:
   - csharp
-  - vb
   name: BeginTrack(TrackingRecord,TimeSpan,AsyncCallback,Object)
   nameWithType: TrackingParticipant.BeginTrack(TrackingRecord,TimeSpan,AsyncCallback,Object)
   fullName: System.Activities.Tracking.TrackingParticipant.BeginTrack(TrackingRecord,TimeSpan,AsyncCallback,Object)
@@ -57,30 +66,35 @@ items:
   assemblies:
   - System.Activities
   namespace: System.Activities.Tracking
+  summary: When implemented in a derived class, begins asynchronous processing of the tracking record.
+  remarks: Participants are expected to begin a job to process the records and return an <xref:System.IAsyncResult> that the workflow runtime uses to wait for completion. The default implementation is to call <xref:System.Activities.Tracking.TrackingParticipant.Track%2A> and return a Completed status.
   syntax:
     content: protected virtual IAsyncResult BeginTrack (System.Activities.Tracking.TrackingRecord record, TimeSpan timeout, AsyncCallback callback, object state);
     parameters:
     - id: record
       type: System.Activities.Tracking.TrackingRecord
-      description: Parameter description to be filled
+      description: The generated tracking record.
     - id: timeout
       type: System.TimeSpan
-      description: Parameter description to be filled
+      description: The time period after which the provider aborts the attempt.
     - id: callback
       type: System.AsyncCallback
-      description: Parameter description to be filled
+      description: The method to be called on completion of the operation.
     - id: state
       type: System.Object
-      description: Parameter description to be filled
+      description: A user-defined object that uniquely identifies this asynchronous operation.
     return:
       type: System.IAsyncResult
-      description: Return description to be filled
+      description: The result of the operation.
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Activities.Tracking.TrackingParticipant.EndTrack(System.IAsyncResult)
   id: EndTrack(System.IAsyncResult)
   parent: System.Activities.Tracking.TrackingParticipant
   langs:
   - csharp
-  - vb
   name: EndTrack(IAsyncResult)
   nameWithType: TrackingParticipant.EndTrack(IAsyncResult)
   fullName: System.Activities.Tracking.TrackingParticipant.EndTrack(IAsyncResult)
@@ -88,21 +102,23 @@ items:
   assemblies:
   - System.Activities
   namespace: System.Activities.Tracking
+  summary: When implemented in a derived class, represents the end of an asynchronous tracking operation.
+  remarks: This method is expected to block until the tracking operation is complete.
   syntax:
     content: protected virtual void EndTrack (IAsyncResult result);
     parameters:
     - id: result
       type: System.IAsyncResult
-      description: Parameter description to be filled
-    return:
-      type: System.Void
-      description: Return description to be filled
+      description: The status of the operation.
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Activities.Tracking.TrackingParticipant.Track(System.Activities.Tracking.TrackingRecord,System.TimeSpan)
   id: Track(System.Activities.Tracking.TrackingRecord,System.TimeSpan)
   parent: System.Activities.Tracking.TrackingParticipant
   langs:
   - csharp
-  - vb
   name: Track(TrackingRecord,TimeSpan)
   nameWithType: TrackingParticipant.Track(TrackingRecord,TimeSpan)
   fullName: System.Activities.Tracking.TrackingParticipant.Track(TrackingRecord,TimeSpan)
@@ -110,24 +126,26 @@ items:
   assemblies:
   - System.Activities
   namespace: System.Activities.Tracking
+  summary: When implemented in a derived class, used to synchronously process the tracking record.
+  remarks: The track method is called when the workflow instance emits a tracking record.
   syntax:
     content: protected abstract void Track (System.Activities.Tracking.TrackingRecord record, TimeSpan timeout);
     parameters:
     - id: record
       type: System.Activities.Tracking.TrackingRecord
-      description: Parameter description to be filled
+      description: The generated tracking record.
     - id: timeout
       type: System.TimeSpan
-      description: Parameter description to be filled
-    return:
-      type: System.Void
-      description: Return description to be filled
+      description: The time period after which the provider aborts the attempt.
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Activities.Tracking.TrackingParticipant.TrackingProfile
   id: TrackingProfile
   parent: System.Activities.Tracking.TrackingParticipant
   langs:
   - csharp
-  - vb
   name: TrackingProfile
   nameWithType: TrackingParticipant.TrackingProfile
   fullName: System.Activities.Tracking.TrackingParticipant.TrackingProfile
@@ -135,11 +153,17 @@ items:
   assemblies:
   - System.Activities
   namespace: System.Activities.Tracking
+  summary: The tracking profile object used by the tracking participant. Before adding the tracking participant to the workflow extensions, the tracking profile is set on the participant.
+  remarks: The tracking profile defines which tracking events are sent to this tracking participant.
   syntax:
     content: public virtual System.Activities.Tracking.TrackingProfile TrackingProfile { get; set; }
     return:
       type: System.Activities.Tracking.TrackingProfile
-      description: Return description to be filled
+      description: To be added.
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 references:
 - uid: System.Object
   isExternal: false
@@ -192,12 +216,6 @@ references:
   name: EndTrack(IAsyncResult)
   nameWithType: TrackingParticipant.EndTrack(IAsyncResult)
   fullName: System.Activities.Tracking.TrackingParticipant.EndTrack(IAsyncResult)
-- uid: System.Void
-  parent: System
-  isExternal: false
-  name: Void
-  nameWithType: Void
-  fullName: System.Void
 - uid: System.IAsyncResult
   parent: System
   isExternal: false
@@ -210,12 +228,6 @@ references:
   name: Track(TrackingRecord,TimeSpan)
   nameWithType: TrackingParticipant.Track(TrackingRecord,TimeSpan)
   fullName: System.Activities.Tracking.TrackingParticipant.Track(TrackingRecord,TimeSpan)
-- uid: System.Void
-  parent: System
-  isExternal: false
-  name: Void
-  nameWithType: Void
-  fullName: System.Void
 - uid: System.Activities.Tracking.TrackingRecord
   parent: System.Activities.Tracking
   isExternal: false

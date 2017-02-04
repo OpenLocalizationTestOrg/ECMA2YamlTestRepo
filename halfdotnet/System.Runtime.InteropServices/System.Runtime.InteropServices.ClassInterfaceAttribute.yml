@@ -8,11 +8,14 @@ items:
   - System.Runtime.InteropServices.ClassInterfaceAttribute.Value
   langs:
   - csharp
-  - vb
   name: ClassInterfaceAttribute
   nameWithType: ClassInterfaceAttribute
   fullName: System.Runtime.InteropServices.ClassInterfaceAttribute
   type: Class
+  summary: Indicates the type of class interface to be generated for a class exposed to COM, if an interface is generated at all.
+  remarks: "You can apply this attribute to assemblies or classes.  \n  \n This attribute controls whether the Type Library Exporter (Tlbexp.exe) automatically generates a class interface for the attributed class. A class interface carries the same name as the class itself, but the name is prefixed with an underscore. When exposed, the class interface contains all the `public`, non- `static` members of the managed class, including members inherited from its base class. Managed classes cannot access a class interface and have no need to as they can access the class members directly. Tlbexp.exe generates a unique interface identifier (IID) for the class interface.  \n  \n Class interfaces can be dual or dispatch-only interfaces. Optionally, you can suppress the generation of the class interface and provide a custom interface instead. You expose or suppress a class interface by specifying a <xref:System.Runtime.InteropServices.ClassInterfaceType?displayProperty=fullName> enumeration member. When you apply ClassInterfaceAttribute to an assembly, the attribute pertains to all classes in the assembly unless the individual classes override the setting with their own attribute.  \n  \n Although class interfaces eliminate the task of explicitly defining interfaces for each class, their use in production applications is strongly discouraged. Dual class interfaces allow clients to bind to a specific interface layout that is subject to change as the class evolves. For example, consider a managed class that exposes a class interface to COM clients. The first version of the class contains methods `North` and `South`. An unmanaged client can bind to the class interface, which provides `North` as the first method in the class interface and method `South` as the second method. Now consider the next version of the class, which has a new method, `East`, inserted between methods `North` and `South`. Unmanaged clients that try to bind to the new class through the old class interface end up calling method `East` when they intend to call method `South`, because the positioning of methods within the interface has changed. Moreover, any change to the layout of a base class also affects the layout of the class interface for all derived classes. Managed clients, which bind directly to classes, do not exhibit the same versioning problems. For specific guidelines on using a class interface, see [COM Callable Wrapper](../Topic/COM%20Callable%20Wrapper.md).  \n  \n The [Tlbimp.exe (Type Library Importer)](../Topic/Tlbimp.exe%20\\(Type%20Library%20Importer\\).md) always applies to imported classes the <xref:System.Runtime.InteropServices.ClassInterfaceType?displayProperty=fullName> enumeration member to indicate that existing COM classes never expose managed interfaces."
+  example:
+  - "The following example shows how to apply the ClassInterfaceAttribute with the <xref:System.Runtime.InteropServices.ClassInterfaceType> value <xref:System.Runtime.InteropServices.ClassInterfaceType>, which generates an `IDispatch` interface for `MyClass`.  \n  \n [!CODE [Classic ClassInterfaceAttribute Example#1](../CodeSnippet/VS_Snippets_CLR_Classic/classic ClassInterfaceAttribute Example#1)]"
   syntax:
     content: >-
       [System.AttributeUsage(System.AttributeTargets.Assembly | System.AttributeTargets.Class, Inherited=false)]
@@ -71,12 +74,15 @@ items:
   - System.Object.MemberwiseClone
   - System.Object.ReferenceEquals(System.Object,System.Object)
   - System.Object.ToString
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Runtime.InteropServices.ClassInterfaceAttribute.#ctor(System.Int16)
   id: '#ctor(System.Int16)'
   parent: System.Runtime.InteropServices.ClassInterfaceAttribute
   langs:
   - csharp
-  - vb
   name: ClassInterfaceAttribute(Int16)
   nameWithType: ClassInterfaceAttribute.ClassInterfaceAttribute(Int16)
   fullName: System.Runtime.InteropServices.ClassInterfaceAttribute.ClassInterfaceAttribute(Int16)
@@ -84,18 +90,23 @@ items:
   assemblies:
   - mscorlib
   namespace: System.Runtime.InteropServices
+  summary: Initializes a new instance of the <see cref="T:System.Runtime.InteropServices.ClassInterfaceAttribute"> class with the specified <xref:System.Runtime.InteropServices.ClassInterfaceType> enumeration value.
+  remarks: This constructor takes an underlying 16-bit signed integer that represents each <xref:System.Runtime.InteropServices.ClassInterfaceType> enumeration member. The [Tlbimp.exe (Type Library Importer)](../Topic/Tlbimp.exe%20\(Type%20Library%20Importer\).md) uses this constructor.
   syntax:
     content: public ClassInterfaceAttribute (short classInterfaceType);
     parameters:
     - id: classInterfaceType
       type: System.Int16
-      description: Parameter description to be filled
+      description: Describes the type of interface that is generated for a class.
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Runtime.InteropServices.ClassInterfaceAttribute.#ctor(System.Runtime.InteropServices.ClassInterfaceType)
   id: '#ctor(System.Runtime.InteropServices.ClassInterfaceType)'
   parent: System.Runtime.InteropServices.ClassInterfaceAttribute
   langs:
   - csharp
-  - vb
   name: ClassInterfaceAttribute(ClassInterfaceType)
   nameWithType: ClassInterfaceAttribute.ClassInterfaceAttribute(ClassInterfaceType)
   fullName: System.Runtime.InteropServices.ClassInterfaceAttribute.ClassInterfaceAttribute(ClassInterfaceType)
@@ -103,18 +114,23 @@ items:
   assemblies:
   - mscorlib
   namespace: System.Runtime.InteropServices
+  summary: Initializes a new instance of the <see cref="T:System.Runtime.InteropServices.ClassInterfaceAttribute"> class with the specified <xref:System.Runtime.InteropServices.ClassInterfaceType> enumeration member.
+  remarks: For readable code that is less prone to error, always use this constructor.
   syntax:
     content: public ClassInterfaceAttribute (System.Runtime.InteropServices.ClassInterfaceType classInterfaceType);
     parameters:
     - id: classInterfaceType
       type: System.Runtime.InteropServices.ClassInterfaceType
-      description: Parameter description to be filled
+      description: One of the <see cref="T:System.Runtime.InteropServices.ClassInterfaceType"> values that describes the type of interface that is generated for a class.
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Runtime.InteropServices.ClassInterfaceAttribute.Value
   id: Value
   parent: System.Runtime.InteropServices.ClassInterfaceAttribute
   langs:
   - csharp
-  - vb
   name: Value
   nameWithType: ClassInterfaceAttribute.Value
   fullName: System.Runtime.InteropServices.ClassInterfaceAttribute.Value
@@ -122,11 +138,17 @@ items:
   assemblies:
   - mscorlib
   namespace: System.Runtime.InteropServices
+  summary: Gets the <see cref="T:System.Runtime.InteropServices.ClassInterfaceType"> value that describes which type of interface should be generated for the class.
+  remarks: To be added.
   syntax:
     content: public System.Runtime.InteropServices.ClassInterfaceType Value { get; }
     return:
       type: System.Runtime.InteropServices.ClassInterfaceType
-      description: Return description to be filled
+      description: To be added.
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 references:
 - uid: System.Attribute
   isExternal: false

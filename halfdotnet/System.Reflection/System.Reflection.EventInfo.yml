@@ -33,11 +33,14 @@ items:
   - System.Reflection.EventInfo.System#Runtime#InteropServices#_EventInfo#Invoke(System.UInt32,System.Guid@,System.UInt32,System.Int16,System.IntPtr,System.IntPtr,System.IntPtr,System.IntPtr)
   langs:
   - csharp
-  - vb
   name: EventInfo
   nameWithType: EventInfo
   fullName: System.Reflection.EventInfo
   type: Class
+  summary: Discovers the attributes of an event and provides access to event metadata.
+  remarks: "Use the EventInfo class to inspect events and to hook up event handlers, as shown in the example code for the <xref:System.Reflection.EventInfo.AddEventHandler%2A> method.  \n  \n> [!NOTE]\n>  EventInfo is not intended to be used to raise events. An object raises events as dictated by its internal state.  \n  \n Events are used with delegates. An event listener instantiates an event-handler delegate that is invoked whenever the event is raised by an event source. In order to connect to the event source, the event listener adds this delegate to the invocation list on the source. When the event is raised, the invoke method of the event-handler delegate is called. Both multicast and single-cast event notifications are supported. The `Add` and `Remove` methods, as well as the event-handler delegate class associated with an event, must be marked in the metadata.  \n  \n Delegates are object-oriented function pointers. In C or C++, a function pointer is a reference to a method. In contrast to the C or C++ function pointer, a delegate contains two references: a reference to a method and a reference to an object that supports the method. Delegates can invoke a method without knowing the class type that declares or inherits the method. Delegates need only know the return type and parameter list of the method.  \n  \n The event model works equally well for single-cast and multicast delegates. When the delegate's invoke method is called, only a single object will have a method called on it. A multicast modifier can be applied to a delegate declaration, which allows multiple methods to be called when the invoke method of the delegate is called.  \n  \n Calling <xref:System.Reflection.ICustomAttributeProvider.GetCustomAttributes%2A?displayProperty=fullName> on `EventInfo` when the  parameter of `GetCustomAttributes` is `true` does not walk the type hierarchy. Use <xref:System.Attribute?displayProperty=fullName> to inherit custom attributes."
+  example:
+  - "The following code gets an EventInfo object for the <xref:System.Windows.Forms.Control.Click> event of the <xref:System.Windows.Forms.Button> class.  \n  \n [!CODE [type_getevent1#1](../CodeSnippet/VS_Snippets_CLR/type_getevent1#1)]"
   syntax:
     content: >-
       [System.Runtime.InteropServices.ClassInterface(System.Runtime.InteropServices.ClassInterfaceType.None)]
@@ -75,12 +78,15 @@ items:
   - System.Reflection.MemberInfo.System#Runtime#InteropServices#_MemberInfo#GetTypeInfo(System.UInt32,System.UInt32,System.IntPtr)
   - System.Reflection.MemberInfo.System#Runtime#InteropServices#_MemberInfo#GetTypeInfoCount(System.UInt32@)
   - System.Reflection.MemberInfo.System#Runtime#InteropServices#_MemberInfo#Invoke(System.UInt32,System.Guid@,System.UInt32,System.Int16,System.IntPtr,System.IntPtr,System.IntPtr,System.IntPtr)
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Reflection.EventInfo.#ctor
   id: '#ctor'
   parent: System.Reflection.EventInfo
   langs:
   - csharp
-  - vb
   name: EventInfo()
   nameWithType: EventInfo.EventInfo()
   fullName: System.Reflection.EventInfo.EventInfo()
@@ -88,15 +94,20 @@ items:
   assemblies:
   - mscorlib
   namespace: System.Reflection
+  summary: Initializes a new instance of the `EventInfo` class.
+  remarks: To be added.
   syntax:
     content: protected EventInfo ();
     parameters: []
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Reflection.EventInfo.AddEventHandler(System.Object,System.Delegate)
   id: AddEventHandler(System.Object,System.Delegate)
   parent: System.Reflection.EventInfo
   langs:
   - csharp
-  - vb
   name: AddEventHandler(Object,Delegate)
   nameWithType: EventInfo.AddEventHandler(Object,Delegate)
   fullName: System.Reflection.EventInfo.AddEventHandler(Object,Delegate)
@@ -104,24 +115,28 @@ items:
   assemblies:
   - mscorlib
   namespace: System.Reflection
+  summary: Adds an event handler to an event source.
+  remarks: "This method attempts to add a delegate to synchronize the event on the target object.  \n  \n Each time the event is raised by the target parameter, the method or methods encapsulated by the handler will be invoked."
+  example:
+  - "The following code example shows how to load an assembly, create an instance of a type from the assembly, create an event handler using a dynamic assembly, and hook up the dynamic event handler. All actions are performed using late binding.  \n  \n The code example loads System.dll and creates an instance of the <xref:System.Timers.Timer?displayProperty=fullName> class. The example uses the <xref:System.Type.GetEvent%2A?displayProperty=fullName> method to get the <xref:System.Timers.Timer.Elapsed> event, and the <xref:System.Reflection.EventInfo.EventHandlerType%2A> property to get the delegate type for the event.  \n  \n The code example gets a <xref:System.Reflection.MethodInfo> for the `Invoke` method of the delegate type, and from the <xref:System.Reflection.MethodInfo> obtains the signature of the delegate. The code example then creates a dynamic assembly with one module containing a single type named `Handler`, and gives the type a `static` method (`Shared` method in Visual Basic) named `DynamicHandler` that will be used to handle the event.  \n  \n After the dynamic type is created, the code example gets a <xref:System.Reflection.MethodInfo> for the finished method and uses it to create a delegate instance. This instance is passed to the AddEventHandler method to hook up the event. The program then pauses to allow the event to be raised.  \n  \n [!CODE [AddEventHandler#1](../CodeSnippet/VS_Snippets_CLR/AddEventHandler#1)]"
   syntax:
     content: public virtual void AddEventHandler (object target, Delegate handler);
     parameters:
     - id: target
       type: System.Object
-      description: Parameter description to be filled
+      description: The event source.
     - id: handler
       type: System.Delegate
-      description: Parameter description to be filled
-    return:
-      type: System.Void
-      description: Return description to be filled
+      description: Encapsulates a method or methods to be invoked when the event is raised by the target.
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Reflection.EventInfo.AddMethod
   id: AddMethod
   parent: System.Reflection.EventInfo
   langs:
   - csharp
-  - vb
   name: AddMethod
   nameWithType: EventInfo.AddMethod
   fullName: System.Reflection.EventInfo.AddMethod
@@ -129,17 +144,22 @@ items:
   assemblies:
   - mscorlib
   namespace: System.Reflection
+  summary: Gets the <see cref="T:System.Reflection.MethodInfo"> object for the <xref:System.Reflection.EventInfo.AddEventHandler%2A> method of the event, including non-public methods.
+  remarks: This property is the equivalent of calling the <xref:System.Reflection.EventInfo.GetAddMethod%2A> with a value of `true`.
   syntax:
     content: public virtual System.Reflection.MethodInfo AddMethod { get; }
     return:
       type: System.Reflection.MethodInfo
-      description: Return description to be filled
+      description: To be added.
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Reflection.EventInfo.Attributes
   id: Attributes
   parent: System.Reflection.EventInfo
   langs:
   - csharp
-  - vb
   name: Attributes
   nameWithType: EventInfo.Attributes
   fullName: System.Reflection.EventInfo.Attributes
@@ -147,17 +167,22 @@ items:
   assemblies:
   - mscorlib
   namespace: System.Reflection
+  summary: Gets the attributes for this event.
+  remarks: The attributes are returned in a 4-byte integer representing a bitmap of the attributes set for the event reflected by this instance.
   syntax:
     content: public abstract System.Reflection.EventAttributes Attributes { get; }
     return:
       type: System.Reflection.EventAttributes
-      description: Return description to be filled
+      description: To be added.
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Reflection.EventInfo.Equals(System.Object)
   id: Equals(System.Object)
   parent: System.Reflection.EventInfo
   langs:
   - csharp
-  - vb
   name: Equals(Object)
   nameWithType: EventInfo.Equals(Object)
   fullName: System.Reflection.EventInfo.Equals(Object)
@@ -165,21 +190,26 @@ items:
   assemblies:
   - mscorlib
   namespace: System.Reflection
+  summary: Returns a value that indicates whether this instance is equal to a specified object.
+  remarks: To be added.
   syntax:
     content: public override bool Equals (object obj);
     parameters:
     - id: obj
       type: System.Object
-      description: Parameter description to be filled
+      description: An object to compare with this instance, or `null`.
     return:
       type: System.Boolean
-      description: Return description to be filled
+      description: '`true` if  equals the type and value of this instance; otherwise, `false`.'
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Reflection.EventInfo.EventHandlerType
   id: EventHandlerType
   parent: System.Reflection.EventInfo
   langs:
   - csharp
-  - vb
   name: EventHandlerType
   nameWithType: EventInfo.EventHandlerType
   fullName: System.Reflection.EventInfo.EventHandlerType
@@ -187,17 +217,24 @@ items:
   assemblies:
   - mscorlib
   namespace: System.Reflection
+  summary: Gets the `Type` object of the underlying event-handler delegate associated with this event.
+  remarks: ''
+  example:
+  - "The following example uses the EventHandlerType property to discover the delegate type of an event and to display its parameter types.  \n  \n The example defines a delegate named `MyDelegate` and an event named `ev` of type `MyDelegate`. The code in the `Main` method discovers the event signature by getting the delegate type of the event, getting the `Invoke` method of the delegate type, and then retrieving and displaying the parameters.  \n  \n [!CODE [eventarg#1](../CodeSnippet/VS_Snippets_CLR/EventArg#1)]"
   syntax:
     content: public virtual Type EventHandlerType { get; }
     return:
       type: System.Type
-      description: Return description to be filled
+      description: To be added.
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Reflection.EventInfo.GetAddMethod
   id: GetAddMethod
   parent: System.Reflection.EventInfo
   langs:
   - csharp
-  - vb
   name: GetAddMethod()
   nameWithType: EventInfo.GetAddMethod()
   fullName: System.Reflection.EventInfo.GetAddMethod()
@@ -205,19 +242,26 @@ items:
   assemblies:
   - mscorlib
   namespace: System.Reflection
+  summary: Returns the method used to add an event handler delegate to the event source.
+  remarks: '`GetAddMethod` initializes and adds the event subscribe method. The `AddEventHandler` method is used to add an event-handler delegate to the invocation list of an event source.'
+  example:
+  - "Typically, the method has the following signature:  \n  \n```  \nadd_<EventName>(<EventHandlerType> handler)  \n```"
   syntax:
     content: public System.Reflection.MethodInfo GetAddMethod ();
     parameters: []
     return:
       type: System.Reflection.MethodInfo
-      description: Return description to be filled
+      description: A <see cref="T:System.Reflection.MethodInfo"> object representing the method used to add an event handler delegate to the event source.
   overload: System.Reflection.EventInfo.GetAddMethod*
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Reflection.EventInfo.GetAddMethod(System.Boolean)
   id: GetAddMethod(System.Boolean)
   parent: System.Reflection.EventInfo
   langs:
   - csharp
-  - vb
   name: GetAddMethod(Boolean)
   nameWithType: EventInfo.GetAddMethod(Boolean)
   fullName: System.Reflection.EventInfo.GetAddMethod(Boolean)
@@ -225,22 +269,29 @@ items:
   assemblies:
   - mscorlib
   namespace: System.Reflection
+  summary: When overridden in a derived class, retrieves the `MethodInfo` object for the <xref:System.Reflection.EventInfo.AddEventHandler%2A> method of the event, specifying whether to return non-public methods.
+  remarks: The `GetAddMethod` initializes and adds the event subscribe method as a Boolean value. The `AddEventHandler` method is used to add an event-handler delegate to the invocation list of an event source.
+  example:
+  - "Typically, the method has the following signature:  \n  \n```  \nadd_<EventName>(<EventHandlerType> handler)  \n```"
   syntax:
     content: public abstract System.Reflection.MethodInfo GetAddMethod (bool nonPublic);
     parameters:
     - id: nonPublic
       type: System.Boolean
-      description: Parameter description to be filled
+      description: '`true` if non-public methods can be returned; otherwise, `false`.'
     return:
       type: System.Reflection.MethodInfo
-      description: Return description to be filled
+      description: A <see cref="T:System.Reflection.MethodInfo"> object representing the method used to add an event handler delegate to the event source.
   overload: System.Reflection.EventInfo.GetAddMethod*
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Reflection.EventInfo.GetHashCode
   id: GetHashCode
   parent: System.Reflection.EventInfo
   langs:
   - csharp
-  - vb
   name: GetHashCode()
   nameWithType: EventInfo.GetHashCode()
   fullName: System.Reflection.EventInfo.GetHashCode()
@@ -248,18 +299,23 @@ items:
   assemblies:
   - mscorlib
   namespace: System.Reflection
+  summary: Returns the hash code for this instance.
+  remarks: To be added.
   syntax:
     content: public override int GetHashCode ();
     parameters: []
     return:
       type: System.Int32
-      description: Return description to be filled
+      description: A 32-bit signed integer hash code.
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Reflection.EventInfo.GetOtherMethods
   id: GetOtherMethods
   parent: System.Reflection.EventInfo
   langs:
   - csharp
-  - vb
   name: GetOtherMethods()
   nameWithType: EventInfo.GetOtherMethods()
   fullName: System.Reflection.EventInfo.GetOtherMethods()
@@ -267,19 +323,24 @@ items:
   assemblies:
   - mscorlib
   namespace: System.Reflection
+  summary: Returns the public methods that have been associated with an event in metadata using the `.other` directive.
+  remarks: "The metadata for an event can associate four kinds of methods with the event:  \n  \n-   The `.addon` directive specifies the method used to add event handlers. Use the <xref:System.Reflection.EventInfo.GetAddMethod%2A> method to retrieve an <xref:System.Reflection.EventInfo> for that method.  \n  \n-   The `.removeon` directive specifies the method used to detach event handlers. Use the <xref:System.Reflection.EventInfo.GetRemoveMethod%2A> method to retrieve an <xref:System.Reflection.EventInfo> for that method.  \n  \n-   The `.fire` directive specifies the method used to raise the event. Use the <xref:System.Reflection.EventInfo.GetRaiseMethod%2A> method to retrieve an <xref:System.Reflection.EventInfo> for that method.  \n  \n-   The `.other` directive specifies any other methods associated with the event. Use the <xref:System.Reflection.EventInfo.GetOtherMethods%2A> method to retrieve an array of <xref:System.Reflection.EventInfo> objects for those methods.  \n  \n The methods associated with an event using the `.other` directive have no special significance to the runtime. The C# and Visual Basic compilers do not use the `.other` directive."
   syntax:
     content: public System.Reflection.MethodInfo[] GetOtherMethods ();
     parameters: []
     return:
       type: System.Reflection.MethodInfo[]
-      description: Return description to be filled
+      description: An array of <see cref="T:System.Reflection.EventInfo"> objects representing the public methods that have been associated with the event in metadata by using the `.other` directive. If there are no such public methods, an empty array is returned.
   overload: System.Reflection.EventInfo.GetOtherMethods*
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Reflection.EventInfo.GetOtherMethods(System.Boolean)
   id: GetOtherMethods(System.Boolean)
   parent: System.Reflection.EventInfo
   langs:
   - csharp
-  - vb
   name: GetOtherMethods(Boolean)
   nameWithType: EventInfo.GetOtherMethods(Boolean)
   fullName: System.Reflection.EventInfo.GetOtherMethods(Boolean)
@@ -287,22 +348,27 @@ items:
   assemblies:
   - mscorlib
   namespace: System.Reflection
+  summary: Returns the methods that have been associated with the event in metadata using the `.other` directive, specifying whether to include non-public methods.
+  remarks: "The metadata for an event can associate four kinds of methods with the event:  \n  \n-   The `.addon` directive specifies the method used to add event handlers. Use the <xref:System.Reflection.EventInfo.GetAddMethod%2A> method to retrieve an <xref:System.Reflection.EventInfo> for that method.  \n  \n-   The `.removeon` directive specifies the method used to detach event handlers. Use the <xref:System.Reflection.EventInfo.GetRemoveMethod%2A> method to retrieve an <xref:System.Reflection.EventInfo> for this method.  \n  \n-   The `.fire` directive specifies the method used to raise the event. Use the <xref:System.Reflection.EventInfo.GetRaiseMethod%2A> method to retrieve an <xref:System.Reflection.EventInfo> for this method.  \n  \n-   The `.other` directive specifies any other methods associated with the event. Use the <xref:System.Reflection.EventInfo.GetOtherMethods%2A> method to retrieve an array of <xref:System.Reflection.EventInfo> objects for those methods.  \n  \n The methods associated with an event using the `.other` directive have no special significance to the runtime. The C# and Visual Basic compilers do not use the `.other` directive."
   syntax:
     content: public virtual System.Reflection.MethodInfo[] GetOtherMethods (bool nonPublic);
     parameters:
     - id: nonPublic
       type: System.Boolean
-      description: Parameter description to be filled
+      description: '`true` to include non-public methods; otherwise, `false`.'
     return:
       type: System.Reflection.MethodInfo[]
-      description: Return description to be filled
+      description: An array of <see cref="T:System.Reflection.EventInfo"> objects representing methods that have been associated with an event in metadata by using the `.other` directive. If there are no methods matching the specification, an empty array is returned.
   overload: System.Reflection.EventInfo.GetOtherMethods*
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Reflection.EventInfo.GetRaiseMethod
   id: GetRaiseMethod
   parent: System.Reflection.EventInfo
   langs:
   - csharp
-  - vb
   name: GetRaiseMethod()
   nameWithType: EventInfo.GetRaiseMethod()
   fullName: System.Reflection.EventInfo.GetRaiseMethod()
@@ -310,19 +376,24 @@ items:
   assemblies:
   - mscorlib
   namespace: System.Reflection
+  summary: Returns the method that is called when the event is raised.
+  remarks: This method usually returns `null` for events declared with the C# `event` keyword or the Visual Basic `Event` keyword. This is because the C# and Visual Basic compilers do not generate such a method by default.
   syntax:
     content: public System.Reflection.MethodInfo GetRaiseMethod ();
     parameters: []
     return:
       type: System.Reflection.MethodInfo
-      description: Return description to be filled
+      description: The method that is called when the event is raised.
   overload: System.Reflection.EventInfo.GetRaiseMethod*
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Reflection.EventInfo.GetRaiseMethod(System.Boolean)
   id: GetRaiseMethod(System.Boolean)
   parent: System.Reflection.EventInfo
   langs:
   - csharp
-  - vb
   name: GetRaiseMethod(Boolean)
   nameWithType: EventInfo.GetRaiseMethod(Boolean)
   fullName: System.Reflection.EventInfo.GetRaiseMethod(Boolean)
@@ -330,22 +401,27 @@ items:
   assemblies:
   - mscorlib
   namespace: System.Reflection
+  summary: When overridden in a derived class, returns the method that is called when the event is raised, specifying whether to return non-public methods.
+  remarks: This method usually returns `null` for events declared with the C# `event` keyword or the Visual Basic `Event` keyword. This is because the C# and Visual Basic compilers do not generate such a method by default.
   syntax:
     content: public abstract System.Reflection.MethodInfo GetRaiseMethod (bool nonPublic);
     parameters:
     - id: nonPublic
       type: System.Boolean
-      description: Parameter description to be filled
+      description: '`true` if non-public methods can be returned; otherwise, `false`.'
     return:
       type: System.Reflection.MethodInfo
-      description: Return description to be filled
+      description: A `MethodInfo` object that was called when the event was raised.
   overload: System.Reflection.EventInfo.GetRaiseMethod*
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Reflection.EventInfo.GetRemoveMethod
   id: GetRemoveMethod
   parent: System.Reflection.EventInfo
   langs:
   - csharp
-  - vb
   name: GetRemoveMethod()
   nameWithType: EventInfo.GetRemoveMethod()
   fullName: System.Reflection.EventInfo.GetRemoveMethod()
@@ -353,19 +429,26 @@ items:
   assemblies:
   - mscorlib
   namespace: System.Reflection
+  summary: Returns the method used to remove an event handler delegate from the event source.
+  remarks: ''
+  example:
+  - "Typically, the method has the following signature:  \n  \n```  \nremove_<EventName>(<EventHandlerType> handler)  \n```"
   syntax:
     content: public System.Reflection.MethodInfo GetRemoveMethod ();
     parameters: []
     return:
       type: System.Reflection.MethodInfo
-      description: Return description to be filled
+      description: A <see cref="T:System.Reflection.MethodInfo"> object representing the method used to remove an event handler delegate from the event source.
   overload: System.Reflection.EventInfo.GetRemoveMethod*
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Reflection.EventInfo.GetRemoveMethod(System.Boolean)
   id: GetRemoveMethod(System.Boolean)
   parent: System.Reflection.EventInfo
   langs:
   - csharp
-  - vb
   name: GetRemoveMethod(Boolean)
   nameWithType: EventInfo.GetRemoveMethod(Boolean)
   fullName: System.Reflection.EventInfo.GetRemoveMethod(Boolean)
@@ -373,22 +456,29 @@ items:
   assemblies:
   - mscorlib
   namespace: System.Reflection
+  summary: When overridden in a derived class, retrieves the `MethodInfo` object for removing a method of the event, specifying whether to return non-public methods.
+  remarks: ''
+  example:
+  - "Typically, the method has the following signature:  \n  \n```  \nremove_<EventName>(<EventHandlerType> handler)  \n```"
   syntax:
     content: public abstract System.Reflection.MethodInfo GetRemoveMethod (bool nonPublic);
     parameters:
     - id: nonPublic
       type: System.Boolean
-      description: Parameter description to be filled
+      description: '`true` if non-public methods can be returned; otherwise, `false`.'
     return:
       type: System.Reflection.MethodInfo
-      description: Return description to be filled
+      description: A <see cref="T:System.Reflection.MethodInfo"> object representing the method used to remove an event handler delegate from the event source.
   overload: System.Reflection.EventInfo.GetRemoveMethod*
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Reflection.EventInfo.IsMulticast
   id: IsMulticast
   parent: System.Reflection.EventInfo
   langs:
   - csharp
-  - vb
   name: IsMulticast
   nameWithType: EventInfo.IsMulticast
   fullName: System.Reflection.EventInfo.IsMulticast
@@ -396,17 +486,22 @@ items:
   assemblies:
   - mscorlib
   namespace: System.Reflection
+  summary: Gets a value indicating whether the event is multicast.
+  remarks: To be added.
   syntax:
     content: public virtual bool IsMulticast { get; }
     return:
       type: System.Boolean
-      description: Return description to be filled
+      description: To be added.
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Reflection.EventInfo.IsSpecialName
   id: IsSpecialName
   parent: System.Reflection.EventInfo
   langs:
   - csharp
-  - vb
   name: IsSpecialName
   nameWithType: EventInfo.IsSpecialName
   fullName: System.Reflection.EventInfo.IsSpecialName
@@ -414,17 +509,22 @@ items:
   assemblies:
   - mscorlib
   namespace: System.Reflection
+  summary: Gets a value indicating whether the `EventInfo` has a name with a special meaning.
+  remarks: This property determines whether the event's name has a special meaning. Names that begin with or contain an underscore character (_), property accessors, and operator overloading methods are examples of names that might require special treatment by some compilers.
   syntax:
     content: public bool IsSpecialName { get; }
     return:
       type: System.Boolean
-      description: Return description to be filled
+      description: To be added.
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Reflection.EventInfo.MemberType
   id: MemberType
   parent: System.Reflection.EventInfo
   langs:
   - csharp
-  - vb
   name: MemberType
   nameWithType: EventInfo.MemberType
   fullName: System.Reflection.EventInfo.MemberType
@@ -432,17 +532,22 @@ items:
   assemblies:
   - mscorlib
   namespace: System.Reflection
+  summary: Gets a <see cref="T:System.Reflection.MemberTypes"> value indicating that this member is an event.
+  remarks: This property overrides <xref:System.Reflection.MemberInfo.MemberType%2A>. Therefore, when you examine a set of <xref:System.Reflection.MemberInfo> objects — for example, the array returned by <xref:System.Type.GetMembers%2A> — the <xref:System.Reflection.MemberInfo.MemberType%2A> property returns <xref:System.Reflection.MemberTypes?displayProperty=fullName> only when a given member is an event.
   syntax:
     content: public override System.Reflection.MemberTypes MemberType { get; }
     return:
       type: System.Reflection.MemberTypes
-      description: Return description to be filled
+      description: To be added.
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Reflection.EventInfo.op_Equality(System.Reflection.EventInfo,System.Reflection.EventInfo)
   id: op_Equality(System.Reflection.EventInfo,System.Reflection.EventInfo)
   parent: System.Reflection.EventInfo
   langs:
   - csharp
-  - vb
   name: op_Equality(EventInfo,EventInfo)
   nameWithType: EventInfo.op_Equality(EventInfo,EventInfo)
   fullName: System.Reflection.EventInfo.op_Equality(EventInfo,EventInfo)
@@ -450,24 +555,29 @@ items:
   assemblies:
   - mscorlib
   namespace: System.Reflection
+  summary: Indicates whether two <see cref="T:System.Reflection.EventInfo"> objects are equal.
+  remarks: To be added.
   syntax:
     content: public static bool op_Equality (System.Reflection.EventInfo left, System.Reflection.EventInfo right);
     parameters:
     - id: left
       type: System.Reflection.EventInfo
-      description: Parameter description to be filled
+      description: The first object to compare.
     - id: right
       type: System.Reflection.EventInfo
-      description: Parameter description to be filled
+      description: The second object to compare.
     return:
       type: System.Boolean
-      description: Return description to be filled
+      description: '`true` if  is equal to ; otherwise, `false`.'
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Reflection.EventInfo.op_Inequality(System.Reflection.EventInfo,System.Reflection.EventInfo)
   id: op_Inequality(System.Reflection.EventInfo,System.Reflection.EventInfo)
   parent: System.Reflection.EventInfo
   langs:
   - csharp
-  - vb
   name: op_Inequality(EventInfo,EventInfo)
   nameWithType: EventInfo.op_Inequality(EventInfo,EventInfo)
   fullName: System.Reflection.EventInfo.op_Inequality(EventInfo,EventInfo)
@@ -475,24 +585,29 @@ items:
   assemblies:
   - mscorlib
   namespace: System.Reflection
+  summary: Indicates whether two <see cref="T:System.Reflection.EventInfo"> objects are not equal.
+  remarks: To be added.
   syntax:
     content: public static bool op_Inequality (System.Reflection.EventInfo left, System.Reflection.EventInfo right);
     parameters:
     - id: left
       type: System.Reflection.EventInfo
-      description: Parameter description to be filled
+      description: The first object to compare.
     - id: right
       type: System.Reflection.EventInfo
-      description: Parameter description to be filled
+      description: The second object to compare.
     return:
       type: System.Boolean
-      description: Return description to be filled
+      description: '`true` if  is not equal to ; otherwise, `false`.'
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Reflection.EventInfo.RaiseMethod
   id: RaiseMethod
   parent: System.Reflection.EventInfo
   langs:
   - csharp
-  - vb
   name: RaiseMethod
   nameWithType: EventInfo.RaiseMethod
   fullName: System.Reflection.EventInfo.RaiseMethod
@@ -500,17 +615,22 @@ items:
   assemblies:
   - mscorlib
   namespace: System.Reflection
+  summary: Gets the method that is called when the event is raised, including non-public methods.
+  remarks: This property is the equivalent of calling the <xref:System.Reflection.EventInfo.GetRaiseMethod%2A> with a value of `true`.
   syntax:
     content: public virtual System.Reflection.MethodInfo RaiseMethod { get; }
     return:
       type: System.Reflection.MethodInfo
-      description: Return description to be filled
+      description: To be added.
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Reflection.EventInfo.RemoveEventHandler(System.Object,System.Delegate)
   id: RemoveEventHandler(System.Object,System.Delegate)
   parent: System.Reflection.EventInfo
   langs:
   - csharp
-  - vb
   name: RemoveEventHandler(Object,Delegate)
   nameWithType: EventInfo.RemoveEventHandler(Object,Delegate)
   fullName: System.Reflection.EventInfo.RemoveEventHandler(Object,Delegate)
@@ -518,24 +638,26 @@ items:
   assemblies:
   - mscorlib
   namespace: System.Reflection
+  summary: Removes an event handler from an event source.
+  remarks: "This method attempts to remove the delegate that may synchronize this event on the target object.  \n  \n When an event is raised by target, the method or methods encapsulated by  will no longer be invoked."
   syntax:
     content: public virtual void RemoveEventHandler (object target, Delegate handler);
     parameters:
     - id: target
       type: System.Object
-      description: Parameter description to be filled
+      description: The event source.
     - id: handler
       type: System.Delegate
-      description: Parameter description to be filled
-    return:
-      type: System.Void
-      description: Return description to be filled
+      description: The delegate to be disassociated from the events raised by target.
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Reflection.EventInfo.RemoveMethod
   id: RemoveMethod
   parent: System.Reflection.EventInfo
   langs:
   - csharp
-  - vb
   name: RemoveMethod
   nameWithType: EventInfo.RemoveMethod
   fullName: System.Reflection.EventInfo.RemoveMethod
@@ -543,18 +665,23 @@ items:
   assemblies:
   - mscorlib
   namespace: System.Reflection
+  summary: Gets the `MethodInfo` object for removing a method of the event, including non-public methods.
+  remarks: This property is the equivalent of calling the <xref:System.Reflection.EventInfo.GetRemoveMethod%2A> with a value of `true`.
   syntax:
     content: public virtual System.Reflection.MethodInfo RemoveMethod { get; }
     return:
       type: System.Reflection.MethodInfo
-      description: Return description to be filled
+      description: To be added.
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Reflection.EventInfo.System#Runtime#InteropServices#_EventInfo#GetIDsOfNames(System.Guid@,System.IntPtr,System.UInt32,System.UInt32,System.IntPtr)
   id: System#Runtime#InteropServices#_EventInfo#GetIDsOfNames(System.Guid@,System.IntPtr,System.UInt32,System.UInt32,System.IntPtr)
   isEii: true
   parent: System.Reflection.EventInfo
   langs:
   - csharp
-  - vb
   name: System.Runtime.InteropServices._EventInfo.GetIDsOfNames(Guid,IntPtr,UInt32,UInt32,IntPtr)
   nameWithType: EventInfo.System.Runtime.InteropServices._EventInfo.GetIDsOfNames(Guid,IntPtr,UInt32,UInt32,IntPtr)
   fullName: System.Reflection.EventInfo.System.Runtime.InteropServices._EventInfo.GetIDsOfNames(Guid,IntPtr,UInt32,UInt32,IntPtr)
@@ -562,34 +689,36 @@ items:
   assemblies:
   - mscorlib
   namespace: System.Reflection
+  summary: Maps a set of names to a corresponding set of dispatch identifiers.
+  remarks: This method is for access to managed classes from unmanaged code, and should not be called from managed code. For more information about `IDispatch::GetIDsOfNames`, see the MSDN Library.
   syntax:
     content: void _EventInfo.GetIDsOfNames (ref Guid riid, IntPtr rgszNames, uint cNames, uint lcid, IntPtr rgDispId);
     parameters:
     - id: riid
       type: System.Guid
-      description: Parameter description to be filled
+      description: Reserved for future use. Must be IID_NULL.
     - id: rgszNames
       type: System.IntPtr
-      description: Parameter description to be filled
+      description: Passed-in array of names to be mapped.
     - id: cNames
       type: System.UInt32
-      description: Parameter description to be filled
+      description: Count of the names to be mapped.
     - id: lcid
       type: System.UInt32
-      description: Parameter description to be filled
+      description: The locale context in which to interpret the names.
     - id: rgDispId
       type: System.IntPtr
-      description: Parameter description to be filled
-    return:
-      type: System.Void
-      description: Return description to be filled
+      description: Caller-allocated array which receives the IDs corresponding to the names.
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Reflection.EventInfo.System#Runtime#InteropServices#_EventInfo#GetType
   id: System#Runtime#InteropServices#_EventInfo#GetType
   isEii: true
   parent: System.Reflection.EventInfo
   langs:
   - csharp
-  - vb
   name: System.Runtime.InteropServices._EventInfo.GetType()
   nameWithType: EventInfo.System.Runtime.InteropServices._EventInfo.GetType()
   fullName: System.Reflection.EventInfo.System.Runtime.InteropServices._EventInfo.GetType()
@@ -597,19 +726,24 @@ items:
   assemblies:
   - mscorlib
   namespace: System.Reflection
+  summary: Returns a `T:System.Type` object representing the <see cref="T:System.Reflection.EventInfo"> type.
+  remarks: To be added.
   syntax:
     content: Type _EventInfo.GetType ();
     parameters: []
     return:
       type: System.Type
-      description: Return description to be filled
+      description: A `T:System.Type` object representing the <see cref="T:System.Reflection.EventInfo"> type.
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Reflection.EventInfo.System#Runtime#InteropServices#_EventInfo#GetTypeInfo(System.UInt32,System.UInt32,System.IntPtr)
   id: System#Runtime#InteropServices#_EventInfo#GetTypeInfo(System.UInt32,System.UInt32,System.IntPtr)
   isEii: true
   parent: System.Reflection.EventInfo
   langs:
   - csharp
-  - vb
   name: System.Runtime.InteropServices._EventInfo.GetTypeInfo(UInt32,UInt32,IntPtr)
   nameWithType: EventInfo.System.Runtime.InteropServices._EventInfo.GetTypeInfo(UInt32,UInt32,IntPtr)
   fullName: System.Reflection.EventInfo.System.Runtime.InteropServices._EventInfo.GetTypeInfo(UInt32,UInt32,IntPtr)
@@ -617,28 +751,30 @@ items:
   assemblies:
   - mscorlib
   namespace: System.Reflection
+  summary: Retrieves the type information for an object, which can then be used to get the type information for an interface.
+  remarks: This method is for access to managed classes from unmanaged code, and should not be called from managed code. For more information about `IDispatch::GetTypeInfo`, see the MSDN Library.
   syntax:
     content: void _EventInfo.GetTypeInfo (uint iTInfo, uint lcid, IntPtr ppTInfo);
     parameters:
     - id: iTInfo
       type: System.UInt32
-      description: Parameter description to be filled
+      description: The type information to return.
     - id: lcid
       type: System.UInt32
-      description: Parameter description to be filled
+      description: The locale identifier for the type information.
     - id: ppTInfo
       type: System.IntPtr
-      description: Parameter description to be filled
-    return:
-      type: System.Void
-      description: Return description to be filled
+      description: Receives a pointer to the requested type information object.
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Reflection.EventInfo.System#Runtime#InteropServices#_EventInfo#GetTypeInfoCount(System.UInt32@)
   id: System#Runtime#InteropServices#_EventInfo#GetTypeInfoCount(System.UInt32@)
   isEii: true
   parent: System.Reflection.EventInfo
   langs:
   - csharp
-  - vb
   name: System.Runtime.InteropServices._EventInfo.GetTypeInfoCount(UInt32)
   nameWithType: EventInfo.System.Runtime.InteropServices._EventInfo.GetTypeInfoCount(UInt32)
   fullName: System.Reflection.EventInfo.System.Runtime.InteropServices._EventInfo.GetTypeInfoCount(UInt32)
@@ -646,22 +782,24 @@ items:
   assemblies:
   - mscorlib
   namespace: System.Reflection
+  summary: Retrieves the number of type information interfaces that an object provides (either 0 or 1).
+  remarks: This method is for access to managed classes from unmanaged code, and should not be called from managed code. For more information about `IDispatch::GetTypeInfoCount`, see the MSDN Library.
   syntax:
     content: void _EventInfo.GetTypeInfoCount (out uint pcTInfo);
     parameters:
     - id: pcTInfo
       type: System.UInt32
-      description: Parameter description to be filled
-    return:
-      type: System.Void
-      description: Return description to be filled
+      description: Points to a location that receives the number of type information interfaces provided by the object.
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Reflection.EventInfo.System#Runtime#InteropServices#_EventInfo#Invoke(System.UInt32,System.Guid@,System.UInt32,System.Int16,System.IntPtr,System.IntPtr,System.IntPtr,System.IntPtr)
   id: System#Runtime#InteropServices#_EventInfo#Invoke(System.UInt32,System.Guid@,System.UInt32,System.Int16,System.IntPtr,System.IntPtr,System.IntPtr,System.IntPtr)
   isEii: true
   parent: System.Reflection.EventInfo
   langs:
   - csharp
-  - vb
   name: System.Runtime.InteropServices._EventInfo.Invoke(UInt32,Guid,UInt32,Int16,IntPtr,IntPtr,IntPtr,IntPtr)
   nameWithType: EventInfo.System.Runtime.InteropServices._EventInfo.Invoke(UInt32,Guid,UInt32,Int16,IntPtr,IntPtr,IntPtr,IntPtr)
   fullName: System.Reflection.EventInfo.System.Runtime.InteropServices._EventInfo.Invoke(UInt32,Guid,UInt32,Int16,IntPtr,IntPtr,IntPtr,IntPtr)
@@ -669,36 +807,39 @@ items:
   assemblies:
   - mscorlib
   namespace: System.Reflection
+  summary: Provides access to properties and methods exposed by an object.
+  remarks: This method is for access to managed classes from unmanaged code, and should not be called from managed code. For more information about `IDispatch::Invoke`, see the MSDN Library.
   syntax:
     content: void _EventInfo.Invoke (uint dispIdMember, ref Guid riid, uint lcid, short wFlags, IntPtr pDispParams, IntPtr pVarResult, IntPtr pExcepInfo, IntPtr puArgErr);
     parameters:
     - id: dispIdMember
       type: System.UInt32
-      description: Parameter description to be filled
+      description: Identifies the member.
     - id: riid
       type: System.Guid
-      description: Parameter description to be filled
+      description: Reserved for future use. Must be IID_NULL.
     - id: lcid
       type: System.UInt32
-      description: Parameter description to be filled
+      description: The locale context in which to interpret arguments.
     - id: wFlags
       type: System.Int16
-      description: Parameter description to be filled
+      description: Flags describing the context of the call.
     - id: pDispParams
       type: System.IntPtr
-      description: Parameter description to be filled
+      description: Pointer to a structure containing an array of arguments, an array of argument DISPIDs for named arguments, and counts for the number of elements in the arrays.
     - id: pVarResult
       type: System.IntPtr
-      description: Parameter description to be filled
+      description: Pointer to the location where the result is to be stored.
     - id: pExcepInfo
       type: System.IntPtr
-      description: Parameter description to be filled
+      description: Pointer to a structure that contains exception information.
     - id: puArgErr
       type: System.IntPtr
-      description: Parameter description to be filled
-    return:
-      type: System.Void
-      description: Return description to be filled
+      description: The index of the first argument that has an error.
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 references:
 - uid: System.Reflection.MemberInfo
   isExternal: false
@@ -715,12 +856,6 @@ references:
   name: AddEventHandler(Object,Delegate)
   nameWithType: EventInfo.AddEventHandler(Object,Delegate)
   fullName: System.Reflection.EventInfo.AddEventHandler(Object,Delegate)
-- uid: System.Void
-  parent: System
-  isExternal: false
-  name: Void
-  nameWithType: Void
-  fullName: System.Void
 - uid: System.Object
   parent: System
   isExternal: false
@@ -835,12 +970,24 @@ references:
   name: GetOtherMethods()
   nameWithType: EventInfo.GetOtherMethods()
   fullName: System.Reflection.EventInfo.GetOtherMethods()
+- uid: System.Reflection.MethodInfo
+  parent: System.Reflection
+  isExternal: false
+  name: MethodInfo
+  nameWithType: MethodInfo
+  fullName: System.Reflection.MethodInfo[]
 - uid: System.Reflection.EventInfo.GetOtherMethods(System.Boolean)
   parent: System.Reflection.EventInfo
   isExternal: false
   name: GetOtherMethods(Boolean)
   nameWithType: EventInfo.GetOtherMethods(Boolean)
   fullName: System.Reflection.EventInfo.GetOtherMethods(Boolean)
+- uid: System.Reflection.MethodInfo
+  parent: System.Reflection
+  isExternal: false
+  name: MethodInfo
+  nameWithType: MethodInfo
+  fullName: System.Reflection.MethodInfo[]
 - uid: System.Boolean
   parent: System
   isExternal: false
@@ -1009,12 +1156,6 @@ references:
   name: RemoveEventHandler(Object,Delegate)
   nameWithType: EventInfo.RemoveEventHandler(Object,Delegate)
   fullName: System.Reflection.EventInfo.RemoveEventHandler(Object,Delegate)
-- uid: System.Void
-  parent: System
-  isExternal: false
-  name: Void
-  nameWithType: Void
-  fullName: System.Void
 - uid: System.Object
   parent: System
   isExternal: false
@@ -1045,12 +1186,6 @@ references:
   name: System.Runtime.InteropServices._EventInfo.GetIDsOfNames(Guid,IntPtr,UInt32,UInt32,IntPtr)
   nameWithType: EventInfo.System.Runtime.InteropServices._EventInfo.GetIDsOfNames(Guid,IntPtr,UInt32,UInt32,IntPtr)
   fullName: System.Reflection.EventInfo.System.Runtime.InteropServices._EventInfo.GetIDsOfNames(Guid,IntPtr,UInt32,UInt32,IntPtr)
-- uid: System.Void
-  parent: System
-  isExternal: false
-  name: Void
-  nameWithType: Void
-  fullName: System.Void
 - uid: System.Guid
   parent: System
   isExternal: false
@@ -1099,12 +1234,6 @@ references:
   name: System.Runtime.InteropServices._EventInfo.GetTypeInfo(UInt32,UInt32,IntPtr)
   nameWithType: EventInfo.System.Runtime.InteropServices._EventInfo.GetTypeInfo(UInt32,UInt32,IntPtr)
   fullName: System.Reflection.EventInfo.System.Runtime.InteropServices._EventInfo.GetTypeInfo(UInt32,UInt32,IntPtr)
-- uid: System.Void
-  parent: System
-  isExternal: false
-  name: Void
-  nameWithType: Void
-  fullName: System.Void
 - uid: System.UInt32
   parent: System
   isExternal: false
@@ -1129,12 +1258,6 @@ references:
   name: System.Runtime.InteropServices._EventInfo.GetTypeInfoCount(UInt32)
   nameWithType: EventInfo.System.Runtime.InteropServices._EventInfo.GetTypeInfoCount(UInt32)
   fullName: System.Reflection.EventInfo.System.Runtime.InteropServices._EventInfo.GetTypeInfoCount(UInt32)
-- uid: System.Void
-  parent: System
-  isExternal: false
-  name: Void
-  nameWithType: Void
-  fullName: System.Void
 - uid: System.UInt32
   parent: System
   isExternal: false
@@ -1147,12 +1270,6 @@ references:
   name: System.Runtime.InteropServices._EventInfo.Invoke(UInt32,Guid,UInt32,Int16,IntPtr,IntPtr,IntPtr,IntPtr)
   nameWithType: EventInfo.System.Runtime.InteropServices._EventInfo.Invoke(UInt32,Guid,UInt32,Int16,IntPtr,IntPtr,IntPtr,IntPtr)
   fullName: System.Reflection.EventInfo.System.Runtime.InteropServices._EventInfo.Invoke(UInt32,Guid,UInt32,Int16,IntPtr,IntPtr,IntPtr,IntPtr)
-- uid: System.Void
-  parent: System
-  isExternal: false
-  name: Void
-  nameWithType: Void
-  fullName: System.Void
 - uid: System.UInt32
   parent: System
   isExternal: false

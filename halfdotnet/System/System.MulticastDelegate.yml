@@ -16,11 +16,14 @@ items:
   - System.MulticastDelegate.RemoveImpl(System.Delegate)
   langs:
   - csharp
-  - vb
   name: MulticastDelegate
   nameWithType: MulticastDelegate
   fullName: System.MulticastDelegate
   type: Class
+  summary: Represents a multicast delegate; that is, a delegate that can have more than one element in its invocation list.
+  remarks: "MulticastDelegate is a special class. Compilers and other tools can derive from this class, but you cannot derive from it explicitly. The same is true of the <xref:System.Delegate> class.  \n  \n In addition to the methods that delegate types inherit from MulticastDelegate, the common language runtime provides two special methods: `BeginInvoke` and `EndInvoke`. For more information about these methods, see [Calling Synchronous Methods Asynchronously](../Topic/Calling%20Synchronous%20Methods%20Asynchronously.md).  \n  \n A MulticastDelegate has a linked list of delegates, called an invocation list, consisting of one or more elements. When a multicast delegate is invoked, the delegates in the invocation list are called synchronously in the order in which they appear. If an error occurs during execution of the list then an exception is thrown."
+  example:
+  - "The following example defines a class, `StringContainer`, which includes a collection of strings. One of its members is the `CheckAndDisplayDelegate` delegate, which is used to display strings stored in a `StringContainer` object that satisfy particular criteria. The delegate takes a single string as a parameter and returns `void` (or, in Visual Basic, it's a `Sub` procedure). It also includes a method, `DisplayAllQualified`, that has a single parameter, a `CheckAndDisplayDelegate` delegate. This allows the method to be called and to display a set of strings that are filtered based on the methods that the delegate contains.  \n  \n The example also defines a utility class, `StringExtensions`, that has two methods:  \n  \n-   `ConStart`, which displays strings that begin with a consonant.  \n  \n-   `VowelStart`, which displays strings that begin with a vowel.  \n  \n Note that both methods include a single string parameter and return `void`. In other words, both methods can be assigned to the  `CheckAndDisplayDelegate` delegate.  \n  \n The `Test.Main` method is the application entry point. It instantiates a `StringContainer` object, populates it with strings, and creates two `CheckAndDisplayDelegate` delegates, `conStart` and `vowelStart`, that invoke a single method. It then calls the <xref:System.Delegate.Combine%2A?displayProperty=fullName> method to create the `multipleDelegates` delegate, which initially contains the `ConStart` and  `VowelStart` delegates. Note that when the `multipleDelegates` delegate is invoked, it displays all the strings in the collection in their original order. This is because each letter is passed separately to each delegate, and each letter meets the filtering criteria of only one of the two delegates. Finally, after calls to <xref:System.Delegate.Remove%2A?displayProperty=fullName> and <xref:System.Delegate.Combine%2A?displayProperty=fullName>, `multipleDelegates` contains two `conStart` delegates. When it is invoked, each string in the `StringContainer` object is displayed twice.  \n  \n [!CODE [Multicast Delegate Introduction#1](../CodeSnippet/VS_Snippets_CLR/Multicast Delegate Introduction#1)]"
   syntax:
     content: >-
       [System.Runtime.InteropServices.ComVisible(true)]
@@ -57,12 +60,15 @@ items:
   - System.Object.MemberwiseClone
   - System.Object.ReferenceEquals(System.Object,System.Object)
   - System.Object.ToString
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.MulticastDelegate.#ctor(System.Object,System.String)
   id: '#ctor(System.Object,System.String)'
   parent: System.MulticastDelegate
   langs:
   - csharp
-  - vb
   name: MulticastDelegate(Object,String)
   nameWithType: MulticastDelegate.MulticastDelegate(Object,String)
   fullName: System.MulticastDelegate.MulticastDelegate(Object,String)
@@ -70,21 +76,26 @@ items:
   assemblies:
   - mscorlib
   namespace: System
+  summary: Initializes a new instance of the <see cref="T:System.MulticastDelegate"> class.
+  remarks: This constructor cannot be used in application code. To create a delegate by specifying the name of an instance method, use an overload of the <xref:System.Delegate.CreateDelegate%2A?displayProperty=fullName> method that specifies a method name and a target object. For example, the <xref:System.Delegate.CreateDelegate%28System.Type%2CSystem.Object%2CSystem.String%29?displayProperty=fullName> method overload creates a delegate for an instance method with a specified name.
   syntax:
     content: protected MulticastDelegate (object target, string method);
     parameters:
     - id: target
       type: System.Object
-      description: Parameter description to be filled
+      description: The object on which  is defined.
     - id: method
       type: System.String
-      description: Parameter description to be filled
+      description: The name of the method for which a delegate is created.
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.MulticastDelegate.#ctor(System.Type,System.String)
   id: '#ctor(System.Type,System.String)'
   parent: System.MulticastDelegate
   langs:
   - csharp
-  - vb
   name: MulticastDelegate(Type,String)
   nameWithType: MulticastDelegate.MulticastDelegate(Type,String)
   fullName: System.MulticastDelegate.MulticastDelegate(Type,String)
@@ -92,21 +103,26 @@ items:
   assemblies:
   - mscorlib
   namespace: System
+  summary: Initializes a new instance of the <see cref="T:System.MulticastDelegate"> class.
+  remarks: This constructor cannot be used in application code. To create a delegate by specifying the name of a static method, use an overload of the <xref:System.Delegate.CreateDelegate%2A?displayProperty=fullName> method that specifies a method name but does not specify a target object. For example, the <xref:System.Delegate.CreateDelegate%28System.Type%2CSystem.Type%2CSystem.String%29?displayProperty=fullName> method overload creates a static delegate for a method with a specified name.
   syntax:
     content: protected MulticastDelegate (Type target, string method);
     parameters:
     - id: target
       type: System.Type
-      description: Parameter description to be filled
+      description: The type of object on which  is defined.
     - id: method
       type: System.String
-      description: Parameter description to be filled
+      description: The name of the static method for which a delegate is created.
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.MulticastDelegate.CombineImpl(System.Delegate)
   id: CombineImpl(System.Delegate)
   parent: System.MulticastDelegate
   langs:
   - csharp
-  - vb
   name: CombineImpl(Delegate)
   nameWithType: MulticastDelegate.CombineImpl(Delegate)
   fullName: System.MulticastDelegate.CombineImpl(Delegate)
@@ -114,21 +130,26 @@ items:
   assemblies:
   - mscorlib
   namespace: System
+  summary: Combines this <see cref="T:System.Delegate"> with the specified <see cref="T:System.Delegate"> to form a new delegate.
+  remarks: To be added.
   syntax:
     content: protected override sealed Delegate CombineImpl (Delegate follow);
     parameters:
     - id: follow
       type: System.Delegate
-      description: Parameter description to be filled
+      description: The delegate to combine with this delegate.
     return:
       type: System.Delegate
-      description: Return description to be filled
+      description: A delegate that is the new root of the <see cref="T:System.MulticastDelegate"> invocation list.
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.MulticastDelegate.Equals(System.Object)
   id: Equals(System.Object)
   parent: System.MulticastDelegate
   langs:
   - csharp
-  - vb
   name: Equals(Object)
   nameWithType: MulticastDelegate.Equals(Object)
   fullName: System.MulticastDelegate.Equals(Object)
@@ -136,21 +157,26 @@ items:
   assemblies:
   - mscorlib
   namespace: System
+  summary: Determines whether this multicast delegate and the specified object are equal.
+  remarks: "Two delegates are equal if they are not `null` and are of exactly the same type, their invocation lists contain the same number of elements, and every element in the invocation list of the first delegate is equal to the corresponding element in the invocation list of the second delegate.  \n  \n Two invocation list elements are equal if they invoke the same instance method on the same target instance, or they invoke the same static method."
   syntax:
     content: public override sealed bool Equals (object obj);
     parameters:
     - id: obj
       type: System.Object
-      description: Parameter description to be filled
+      description: The object to compare with this instance.
     return:
       type: System.Boolean
-      description: Return description to be filled
+      description: '`true` if  and this instance have the same invocation lists; otherwise, `false`.'
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.MulticastDelegate.GetHashCode
   id: GetHashCode
   parent: System.MulticastDelegate
   langs:
   - csharp
-  - vb
   name: GetHashCode()
   nameWithType: MulticastDelegate.GetHashCode()
   fullName: System.MulticastDelegate.GetHashCode()
@@ -158,18 +184,23 @@ items:
   assemblies:
   - mscorlib
   namespace: System
+  summary: Returns the hash code for this instance.
+  remarks: To be added.
   syntax:
     content: public override sealed int GetHashCode ();
     parameters: []
     return:
       type: System.Int32
-      description: Return description to be filled
+      description: A 32-bit signed integer hash code.
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.MulticastDelegate.GetInvocationList
   id: GetInvocationList
   parent: System.MulticastDelegate
   langs:
   - csharp
-  - vb
   name: GetInvocationList()
   nameWithType: MulticastDelegate.GetInvocationList()
   fullName: System.MulticastDelegate.GetInvocationList()
@@ -177,18 +208,23 @@ items:
   assemblies:
   - mscorlib
   namespace: System
+  summary: Returns the invocation list of this multicast delegate, in invocation order.
+  remarks: The array contains a set of delegates, each with an invocation list of one entry. Invoking these delegates sequentially, in the order they appear in the array, produces the same results as invoking the current instance.
   syntax:
     content: public override sealed Delegate[] GetInvocationList ();
     parameters: []
     return:
       type: System.Delegate[]
-      description: Return description to be filled
+      description: An array of delegates whose invocation lists collectively match the invocation list of this instance.
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.MulticastDelegate.GetMethodImpl
   id: GetMethodImpl
   parent: System.MulticastDelegate
   langs:
   - csharp
-  - vb
   name: GetMethodImpl()
   nameWithType: MulticastDelegate.GetMethodImpl()
   fullName: System.MulticastDelegate.GetMethodImpl()
@@ -196,18 +232,23 @@ items:
   assemblies:
   - mscorlib
   namespace: System
+  summary: Returns a static method represented by the current <see cref="T:System.MulticastDelegate">.
+  remarks: If the <xref:System.MulticastDelegate> represents multiple methods, only one method is returned.
   syntax:
     content: protected override System.Reflection.MethodInfo GetMethodImpl ();
     parameters: []
     return:
       type: System.Reflection.MethodInfo
-      description: Return description to be filled
+      description: A static method represented by the current <see cref="T:System.MulticastDelegate">.
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.MulticastDelegate.GetObjectData(System.Runtime.Serialization.SerializationInfo,System.Runtime.Serialization.StreamingContext)
   id: GetObjectData(System.Runtime.Serialization.SerializationInfo,System.Runtime.Serialization.StreamingContext)
   parent: System.MulticastDelegate
   langs:
   - csharp
-  - vb
   name: GetObjectData(SerializationInfo,StreamingContext)
   nameWithType: MulticastDelegate.GetObjectData(SerializationInfo,StreamingContext)
   fullName: System.MulticastDelegate.GetObjectData(SerializationInfo,StreamingContext)
@@ -215,24 +256,26 @@ items:
   assemblies:
   - mscorlib
   namespace: System
+  summary: Populates a <see cref="T:System.Runtime.Serialization.SerializationInfo"> object with all the data needed to serialize this instance.
+  remarks: "This method stores all the information in  necessary to serialize this instance.  \n  \n The  parameter is reserved and is not currently used in the execution of this method."
   syntax:
     content: public override void GetObjectData (System.Runtime.Serialization.SerializationInfo info, System.Runtime.Serialization.StreamingContext context);
     parameters:
     - id: info
       type: System.Runtime.Serialization.SerializationInfo
-      description: Parameter description to be filled
+      description: An object that holds all the data needed to serialize or deserialize this instance.
     - id: context
       type: System.Runtime.Serialization.StreamingContext
-      description: Parameter description to be filled
-    return:
-      type: System.Void
-      description: Return description to be filled
+      description: (Reserved) The location where serialized data is stored and retrieved.
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.MulticastDelegate.op_Equality(System.MulticastDelegate,System.MulticastDelegate)
   id: op_Equality(System.MulticastDelegate,System.MulticastDelegate)
   parent: System.MulticastDelegate
   langs:
   - csharp
-  - vb
   name: op_Equality(MulticastDelegate,MulticastDelegate)
   nameWithType: MulticastDelegate.op_Equality(MulticastDelegate,MulticastDelegate)
   fullName: System.MulticastDelegate.op_Equality(MulticastDelegate,MulticastDelegate)
@@ -240,24 +283,29 @@ items:
   assemblies:
   - mscorlib
   namespace: System
+  summary: Determines whether two <see cref="T:System.MulticastDelegate"> objects are equal.
+  remarks: "Two delegates are equal if they are not `null` and are of exactly the same type, their invocation lists contain the same number of elements, and every element in the invocation list of the first delegate is equal to the corresponding element in the invocation list of the second delegate.  \n  \n Two invocation list elements are equal if they invoke the same instance method on the same target instance, or they invoke the same static method."
   syntax:
     content: public static bool op_Equality (MulticastDelegate d1, MulticastDelegate d2);
     parameters:
     - id: d1
       type: System.MulticastDelegate
-      description: Parameter description to be filled
+      description: The left operand.
     - id: d2
       type: System.MulticastDelegate
-      description: Parameter description to be filled
+      description: The right operand.
     return:
       type: System.Boolean
-      description: Return description to be filled
+      description: '`true` if  and  have the same invocation lists; otherwise, `false`.'
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.MulticastDelegate.op_Inequality(System.MulticastDelegate,System.MulticastDelegate)
   id: op_Inequality(System.MulticastDelegate,System.MulticastDelegate)
   parent: System.MulticastDelegate
   langs:
   - csharp
-  - vb
   name: op_Inequality(MulticastDelegate,MulticastDelegate)
   nameWithType: MulticastDelegate.op_Inequality(MulticastDelegate,MulticastDelegate)
   fullName: System.MulticastDelegate.op_Inequality(MulticastDelegate,MulticastDelegate)
@@ -265,24 +313,29 @@ items:
   assemblies:
   - mscorlib
   namespace: System
+  summary: Determines whether two <see cref="T:System.MulticastDelegate"> objects are not equal.
+  remarks: "Two delegates are equal if they are not `null` and are of exactly the same type, their invocation lists contain the same number of elements, and every element in the invocation list of the first delegate is equal to the corresponding element in the invocation list of the second delegate.  \n  \n Two invocation list elements are equal if they invoke the same instance method on the same target instance, or they invoke the same static method."
   syntax:
     content: public static bool op_Inequality (MulticastDelegate d1, MulticastDelegate d2);
     parameters:
     - id: d1
       type: System.MulticastDelegate
-      description: Parameter description to be filled
+      description: The left operand.
     - id: d2
       type: System.MulticastDelegate
-      description: Parameter description to be filled
+      description: The right operand.
     return:
       type: System.Boolean
-      description: Return description to be filled
+      description: '`true` if  and  do not have the same invocation lists; otherwise, `false`.'
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.MulticastDelegate.RemoveImpl(System.Delegate)
   id: RemoveImpl(System.Delegate)
   parent: System.MulticastDelegate
   langs:
   - csharp
-  - vb
   name: RemoveImpl(Delegate)
   nameWithType: MulticastDelegate.RemoveImpl(Delegate)
   fullName: System.MulticastDelegate.RemoveImpl(Delegate)
@@ -290,15 +343,21 @@ items:
   assemblies:
   - mscorlib
   namespace: System
+  summary: Removes an element from the invocation list of this <see cref="T:System.MulticastDelegate"> that is equal to the specified delegate.
+  remarks: To be added.
   syntax:
     content: protected override sealed Delegate RemoveImpl (Delegate value);
     parameters:
     - id: value
       type: System.Delegate
-      description: Parameter description to be filled
+      description: The delegate to search for in the invocation list.
     return:
       type: System.Delegate
-      description: Return description to be filled
+      description: If  is found in the invocation list for this instance, then a new <see cref="T:System.Delegate"> without  in its invocation list; otherwise, this instance with its original invocation list.
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 references:
 - uid: System.Delegate
   isExternal: false
@@ -393,6 +452,12 @@ references:
   name: GetInvocationList()
   nameWithType: MulticastDelegate.GetInvocationList()
   fullName: System.MulticastDelegate.GetInvocationList()
+- uid: System.Delegate
+  parent: System
+  isExternal: false
+  name: Delegate
+  nameWithType: Delegate
+  fullName: System.Delegate[]
 - uid: System.MulticastDelegate.GetMethodImpl
   parent: System.MulticastDelegate
   isExternal: false
@@ -411,12 +476,6 @@ references:
   name: GetObjectData(SerializationInfo,StreamingContext)
   nameWithType: MulticastDelegate.GetObjectData(SerializationInfo,StreamingContext)
   fullName: System.MulticastDelegate.GetObjectData(SerializationInfo,StreamingContext)
-- uid: System.Void
-  parent: System
-  isExternal: false
-  name: Void
-  nameWithType: Void
-  fullName: System.Void
 - uid: System.Runtime.Serialization.SerializationInfo
   parent: System.Runtime.Serialization
   isExternal: false

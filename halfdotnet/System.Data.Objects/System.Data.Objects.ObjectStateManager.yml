@@ -19,11 +19,14 @@ items:
   - System.Data.Objects.ObjectStateManager.TryGetRelationshipManager(System.Object,System.Data.Objects.DataClasses.RelationshipManager@)
   langs:
   - csharp
-  - vb
   name: ObjectStateManager
   nameWithType: ObjectStateManager
   fullName: System.Data.Objects.ObjectStateManager
   type: Class
+  summary: Maintains object state and identity management for entity type instances and relationship instances.
+  remarks: "ObjectStateManager tracks query results, and provides logic to merge multiple overlapping query results. It also performs in-memory change tracking when a user inserts, deletes, or modifies objects, and provides the change set for updates. This change set is used by the change processor to persist modifications.  \n  \n This class is typically used by <xref:System.Data.Objects.ObjectContext> and not directly in applications."
+  example:
+  - "These examples are based on the [AdventureWorks Sales Model](http://msdn.microsoft.com/en-us/f16cd988-673f-4376-b034-129ca93c7832).  \n  \n The following example gets the ObjectStateManager from the <xref:System.Data.Objects.ObjectContext> and uses the state manager to access an object in the context.  \n  \n [!CODE [DP ObjectServices Concepts#ObjectStateManager](../CodeSnippet/VS_Snippets_Data/DP ObjectServices Concepts#objectstatemanager)]  \n  \n The following example uses the <xref:System.Data.Objects.ObjectStateManager.TryGetObjectStateEntry%28System.Data.EntityKey%2CSystem.Data.Objects.ObjectStateEntry%40%29> method on the returned ObjectStateManager to get an object based on its entity key.  \n  \n [!CODE [DP ObjectServices Concepts#ApplyItemUpdates](../CodeSnippet/VS_Snippets_Data/DP ObjectServices Concepts#applyitemupdates)]"
   syntax:
     content: public class ObjectStateManager
   inheritance:
@@ -37,12 +40,15 @@ items:
   - System.Object.MemberwiseClone
   - System.Object.ReferenceEquals(System.Object,System.Object)
   - System.Object.ToString
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Data.Objects.ObjectStateManager.#ctor(System.Data.Metadata.Edm.MetadataWorkspace)
   id: '#ctor(System.Data.Metadata.Edm.MetadataWorkspace)'
   parent: System.Data.Objects.ObjectStateManager
   langs:
   - csharp
-  - vb
   name: ObjectStateManager(MetadataWorkspace)
   nameWithType: ObjectStateManager.ObjectStateManager(MetadataWorkspace)
   fullName: System.Data.Objects.ObjectStateManager.ObjectStateManager(MetadataWorkspace)
@@ -50,18 +56,23 @@ items:
   assemblies:
   - System.Data.Entity
   namespace: System.Data.Objects
+  summary: Initializes a new instance of the <see cref="T:System.Data.Objects.ObjectStateManager"> class.
+  remarks: To be added.
   syntax:
     content: public ObjectStateManager (System.Data.Metadata.Edm.MetadataWorkspace metadataWorkspace);
     parameters:
     - id: metadataWorkspace
       type: System.Data.Metadata.Edm.MetadataWorkspace
-      description: Parameter description to be filled
+      description: The <see cref="T:System.Data.Metadata.Edm.MetadataWorkspace">, which supplies mapping and metadata information.
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Data.Objects.ObjectStateManager.ChangeObjectState(System.Object,System.Data.EntityState)
   id: ChangeObjectState(System.Object,System.Data.EntityState)
   parent: System.Data.Objects.ObjectStateManager
   langs:
   - csharp
-  - vb
   name: ChangeObjectState(Object,EntityState)
   nameWithType: ObjectStateManager.ChangeObjectState(Object,EntityState)
   fullName: System.Data.Objects.ObjectStateManager.ChangeObjectState(Object,EntityState)
@@ -69,24 +80,29 @@ items:
   assemblies:
   - System.Data.Entity
   namespace: System.Data.Objects
+  summary: Changes state of the <see cref="T:System.Data.Objects.ObjectStateEntry"> for a specific object to the specified .
+  remarks: "Calling the ChangeObjectState method to change the state of an object to <xref:System.Data.EntityState> does not cause related objects in a constrained relationship to be deleted.  \n  \n Changing the state of an object does not affect related objects in the object graph.  \n  \n When you change the <xref:System.Data.EntityState> of an entity object entry to <xref:System.Data.EntityState>, all the properties of the object are marked as modified, regardless of the current or original values.  \n  \n When the <xref:System.Data.EntityState> of an entity object entry is changed to <xref:System.Data.EntityState>, <xref:System.Data.EntityState>, or <xref:System.Data.EntityState>, the relationship entries for the object are also updated."
   syntax:
     content: public System.Data.Objects.ObjectStateEntry ChangeObjectState (object entity, System.Data.EntityState entityState);
     parameters:
     - id: entity
       type: System.Object
-      description: Parameter description to be filled
+      description: The object for which the state must be changed.
     - id: entityState
       type: System.Data.EntityState
-      description: Parameter description to be filled
+      description: The new state of the object.
     return:
       type: System.Data.Objects.ObjectStateEntry
-      description: Return description to be filled
+      description: The <see cref="T:System.Data.Objects.ObjectStateEntry"> for the supplied .
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Data.Objects.ObjectStateManager.ChangeRelationshipState(System.Object,System.Object,System.String,System.Data.EntityState)
   id: ChangeRelationshipState(System.Object,System.Object,System.String,System.Data.EntityState)
   parent: System.Data.Objects.ObjectStateManager
   langs:
   - csharp
-  - vb
   name: ChangeRelationshipState(Object,Object,String,EntityState)
   nameWithType: ObjectStateManager.ChangeRelationshipState(Object,Object,String,EntityState)
   fullName: System.Data.Objects.ObjectStateManager.ChangeRelationshipState(Object,Object,String,EntityState)
@@ -94,31 +110,36 @@ items:
   assemblies:
   - System.Data.Entity
   namespace: System.Data.Objects
+  summary: Changes the state of the relationship between two entity objects that is specified based on the two related objects and the name of the navigation property.
+  remarks: "Entries for the objects at both ends of the specified relationship must exist in the <xref:System.Data.Objects.ObjectStateManager>.  \n  \n> [!NOTE]\n>  This method is not supported for relationships based on a foreign key association."
   syntax:
     content: public System.Data.Objects.ObjectStateEntry ChangeRelationshipState (object sourceEntity, object targetEntity, string navigationProperty, System.Data.EntityState relationshipState);
     parameters:
     - id: sourceEntity
       type: System.Object
-      description: Parameter description to be filled
+      description: The object instance or <see cref="T:System.Data.EntityKey"> of the source entity at one end of the relationship.
     - id: targetEntity
       type: System.Object
-      description: Parameter description to be filled
+      description: The object instance or <see cref="T:System.Data.EntityKey"> of the target entity at the other end of the relationship.
     - id: navigationProperty
       type: System.String
-      description: Parameter description to be filled
+      description: The name of the navigation property on  that returns the specified .
     - id: relationshipState
       type: System.Data.EntityState
-      description: Parameter description to be filled
+      description: The requested <see cref="T:System.Data.EntityState"> of the specified relationship.
     return:
       type: System.Data.Objects.ObjectStateEntry
-      description: Return description to be filled
+      description: The <see cref="T:System.Data.Objects.ObjectStateEntry"> for the relationship that was changed.
   overload: System.Data.Objects.ObjectStateManager.ChangeRelationshipState*
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Data.Objects.ObjectStateManager.ChangeRelationshipState(System.Object,System.Object,System.String,System.String,System.Data.EntityState)
   id: ChangeRelationshipState(System.Object,System.Object,System.String,System.String,System.Data.EntityState)
   parent: System.Data.Objects.ObjectStateManager
   langs:
   - csharp
-  - vb
   name: ChangeRelationshipState(Object,Object,String,String,EntityState)
   nameWithType: ObjectStateManager.ChangeRelationshipState(Object,Object,String,String,EntityState)
   fullName: System.Data.Objects.ObjectStateManager.ChangeRelationshipState(Object,Object,String,String,EntityState)
@@ -126,65 +147,75 @@ items:
   assemblies:
   - System.Data.Entity
   namespace: System.Data.Objects
+  summary: Changes the state of the relationship between two entity objects that is specified based on the two related objects and the properties of the relationship.
+  remarks: "Entries for the objects at both ends of the specified relationship must exist in the <xref:System.Data.Objects.ObjectStateManager>.  \n  \n> [!NOTE]\n>  This method is not supported for relationships that are based on a foreign key association. For more information, see [Defining and Managing Relationships](http://msdn.microsoft.com/en-us/2c92c097-56bd-4145-989e-16d92475ecda)"
   syntax:
     content: public System.Data.Objects.ObjectStateEntry ChangeRelationshipState (object sourceEntity, object targetEntity, string relationshipName, string targetRoleName, System.Data.EntityState relationshipState);
     parameters:
     - id: sourceEntity
       type: System.Object
-      description: Parameter description to be filled
+      description: The object instance or <see cref="T:System.Data.EntityKey"> of the source entity at one end of the relationship.
     - id: targetEntity
       type: System.Object
-      description: Parameter description to be filled
+      description: The object instance or <see cref="T:System.Data.EntityKey"> of the target entity at the other end of the relationship.
     - id: relationshipName
       type: System.String
-      description: Parameter description to be filled
+      description: The name of the relationship.
     - id: targetRoleName
       type: System.String
-      description: Parameter description to be filled
+      description: The role name at the  end of the relationship.
     - id: relationshipState
       type: System.Data.EntityState
-      description: Parameter description to be filled
+      description: The requested <see cref="T:System.Data.EntityState"> of the specified relationship.
     return:
       type: System.Data.Objects.ObjectStateEntry
-      description: Return description to be filled
+      description: The <see cref="T:System.Data.Objects.ObjectStateEntry"> for the relationship that was changed.
   overload: System.Data.Objects.ObjectStateManager.ChangeRelationshipState*
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Data.Objects.ObjectStateManager.ChangeRelationshipState``1(``0,System.Object,System.Linq.Expressions.Expression{System.Func{``0,System.Object}},System.Data.EntityState)
   id: ChangeRelationshipState``1(``0,System.Object,System.Linq.Expressions.Expression{System.Func{``0,System.Object}},System.Data.EntityState)
   parent: System.Data.Objects.ObjectStateManager
   langs:
   - csharp
-  - vb
-  name: ChangeRelationshipState(TEntity,Object,Expression,EntityState)
-  nameWithType: ObjectStateManager.ChangeRelationshipState(TEntity,Object,Expression,EntityState)
-  fullName: System.Data.Objects.ObjectStateManager.ChangeRelationshipState(TEntity,Object,Expression,EntityState)
+  name: ChangeRelationshipState(TEntity,Object,Expression<Func<TEntity,Object>>,EntityState)
+  nameWithType: ObjectStateManager.ChangeRelationshipState(TEntity,Object,Expression<Func<TEntity,Object>>,EntityState)
+  fullName: System.Data.Objects.ObjectStateManager.ChangeRelationshipState(TEntity,Object,Expression<Func<TEntity,Object>>,EntityState)
   type: Method
   assemblies:
   - System.Data.Entity
   namespace: System.Data.Objects
+  summary: To be added.
+  remarks: To be added.
   syntax:
     content: 'public System.Data.Objects.ObjectStateEntry ChangeRelationshipState<TEntity> (TEntity sourceEntity, object targetEntity, System.Linq.Expressions.Expression<Func<TEntity,object>> navigationPropertySelector, System.Data.EntityState relationshipState) where TEntity : class;'
     parameters:
     - id: sourceEntity
       type: TEntity
-      description: Parameter description to be filled
+      description: To be added.
     - id: targetEntity
       type: System.Object
-      description: Parameter description to be filled
+      description: To be added.
     - id: navigationPropertySelector
       type: System.Linq.Expressions.Expression{System.Func{TEntity,System.Object}}
-      description: Parameter description to be filled
+      description: To be added.
     - id: relationshipState
       type: System.Data.EntityState
-      description: Parameter description to be filled
+      description: To be added.
     return:
       type: System.Data.Objects.ObjectStateEntry
-      description: Return description to be filled
+      description: To be added.
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Data.Objects.ObjectStateManager.GetObjectStateEntries(System.Data.EntityState)
   id: GetObjectStateEntries(System.Data.EntityState)
   parent: System.Data.Objects.ObjectStateManager
   langs:
   - csharp
-  - vb
   name: GetObjectStateEntries(EntityState)
   nameWithType: ObjectStateManager.GetObjectStateEntries(EntityState)
   fullName: System.Data.Objects.ObjectStateManager.GetObjectStateEntries(EntityState)
@@ -192,21 +223,26 @@ items:
   assemblies:
   - System.Data.Entity
   namespace: System.Data.Objects
+  summary: Returns a collection of <see cref="T:System.Data.Objects.ObjectStateEntry"> objects for objects or relationships with the given state.
+  remarks: The <xref:System.Data.EntityState> is a bit field, so state entries for multiple states can be retrieved in one call by doing a bitwise OR of more than one <xref:System.Data.EntityState> values.
   syntax:
     content: public System.Collections.Generic.IEnumerable<System.Data.Objects.ObjectStateEntry> GetObjectStateEntries (System.Data.EntityState state);
     parameters:
     - id: state
       type: System.Data.EntityState
-      description: Parameter description to be filled
+      description: An <see cref="T:System.Data.EntityState"> used to filter the returned <xref:System.Data.Objects.ObjectStateEntry> objects.
     return:
       type: System.Collections.Generic.IEnumerable{System.Data.Objects.ObjectStateEntry}
-      description: Return description to be filled
+      description: A collection of <see cref="T:System.Data.Objects.ObjectStateEntry"> objects in the given <xref:System.Data.EntityState>.
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Data.Objects.ObjectStateManager.GetObjectStateEntry(System.Data.EntityKey)
   id: GetObjectStateEntry(System.Data.EntityKey)
   parent: System.Data.Objects.ObjectStateManager
   langs:
   - csharp
-  - vb
   name: GetObjectStateEntry(EntityKey)
   nameWithType: ObjectStateManager.GetObjectStateEntry(EntityKey)
   fullName: System.Data.Objects.ObjectStateManager.GetObjectStateEntry(EntityKey)
@@ -214,22 +250,29 @@ items:
   assemblies:
   - System.Data.Entity
   namespace: System.Data.Objects
+  summary: Returns an <see cref="T:System.Data.Objects.ObjectStateEntry"> for the object or relationship entry with the specified key.
+  remarks: Use the <xref:System.Data.Objects.ObjectStateManager.TryGetObjectStateEntry%28System.Data.EntityKey%2CSystem.Data.Objects.ObjectStateEntry%40%29> method to return an <xref:System.Data.Objects.ObjectStateEntry> object without having to handle the <xref:System.InvalidOperationException> raised by the GetObjectStateEntry method.
+  example:
+  - "The example in this topic is based on the [AdventureWorks Sales Model](http://msdn.microsoft.com/en-us/f16cd988-673f-4376-b034-129ca93c7832). The example gets the <xref:System.Data.Objects.ObjectStateEntry> for the given <xref:System.Data.EntityKey> from the <xref:System.Data.Objects.ObjectStateManager>. Then it gets the current value of the `SalesOrderHeader.PurchaseOrderNumber` property, changes the property's value, and enumerates through the collection of modified properties.  \n  \n [!CODE [DP ObjectServices Concepts#ObjectStateEntry](../CodeSnippet/VS_Snippets_Data/DP ObjectServices Concepts#objectstateentry)]"
   syntax:
     content: public System.Data.Objects.ObjectStateEntry GetObjectStateEntry (System.Data.EntityKey key);
     parameters:
     - id: key
       type: System.Data.EntityKey
-      description: Parameter description to be filled
+      description: The <see cref="T:System.Data.EntityKey">.
     return:
       type: System.Data.Objects.ObjectStateEntry
-      description: Return description to be filled
+      description: The corresponding <see cref="T:System.Data.Objects.ObjectStateEntry"> for the given <xref:System.Data.EntityKey>.
   overload: System.Data.Objects.ObjectStateManager.GetObjectStateEntry*
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Data.Objects.ObjectStateManager.GetObjectStateEntry(System.Object)
   id: GetObjectStateEntry(System.Object)
   parent: System.Data.Objects.ObjectStateManager
   langs:
   - csharp
-  - vb
   name: GetObjectStateEntry(Object)
   nameWithType: ObjectStateManager.GetObjectStateEntry(Object)
   fullName: System.Data.Objects.ObjectStateManager.GetObjectStateEntry(Object)
@@ -237,22 +280,27 @@ items:
   assemblies:
   - System.Data.Entity
   namespace: System.Data.Objects
+  summary: Returns an <see cref="T:System.Data.Objects.ObjectStateEntry"> for the specified object.
+  remarks: Use the <xref:System.Data.Objects.ObjectStateManager.TryGetObjectStateEntry%28System.Object%2CSystem.Data.Objects.ObjectStateEntry%40%29> method to return an <xref:System.Data.Objects.ObjectStateEntry> object without having to handle the <xref:System.InvalidOperationException> raised by the GetObjectStateEntry method.
   syntax:
     content: public System.Data.Objects.ObjectStateEntry GetObjectStateEntry (object entity);
     parameters:
     - id: entity
       type: System.Object
-      description: Parameter description to be filled
+      description: The <see cref="T:System.Object"> to which the retrieved <xref:System.Data.Objects.ObjectStateEntry> belongs.
     return:
       type: System.Data.Objects.ObjectStateEntry
-      description: Return description to be filled
+      description: The corresponding <see cref="T:System.Data.Objects.ObjectStateEntry"> for the given <xref:System.Object>.
   overload: System.Data.Objects.ObjectStateManager.GetObjectStateEntry*
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Data.Objects.ObjectStateManager.GetRelationshipManager(System.Object)
   id: GetRelationshipManager(System.Object)
   parent: System.Data.Objects.ObjectStateManager
   langs:
   - csharp
-  - vb
   name: GetRelationshipManager(Object)
   nameWithType: ObjectStateManager.GetRelationshipManager(Object)
   fullName: System.Data.Objects.ObjectStateManager.GetRelationshipManager(Object)
@@ -260,21 +308,26 @@ items:
   assemblies:
   - System.Data.Entity
   namespace: System.Data.Objects
+  summary: Returns the <see cref="T:System.Data.Objects.DataClasses.RelationshipManager"> that is used by the specified object.
+  remarks: "Calling the GetRelationshipManager method is the same as calling the <xref:System.Data.Objects.ObjectStateManager.TryGetRelationshipManager%2A> method, except that this method raises an exception instead of returning `false`.  \n  \n Call the <xref:System.Data.Objects.ObjectStateManager.TryGetRelationshipManager%2A> method to avoid handling the <xref:System.InvalidOperationException> that occurs when a <xref:System.Data.Objects.DataClasses.RelationshipManager> cannot be returned for the supplied entity."
   syntax:
     content: public System.Data.Objects.DataClasses.RelationshipManager GetRelationshipManager (object entity);
     parameters:
     - id: entity
       type: System.Object
-      description: Parameter description to be filled
+      description: The object for which to return the <see cref="T:System.Data.Objects.DataClasses.RelationshipManager">.
     return:
       type: System.Data.Objects.DataClasses.RelationshipManager
-      description: Return description to be filled
+      description: The <see cref="T:System.Data.Objects.DataClasses.RelationshipManager"> for the specified object.
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Data.Objects.ObjectStateManager.MetadataWorkspace
   id: MetadataWorkspace
   parent: System.Data.Objects.ObjectStateManager
   langs:
   - csharp
-  - vb
   name: MetadataWorkspace
   nameWithType: ObjectStateManager.MetadataWorkspace
   fullName: System.Data.Objects.ObjectStateManager.MetadataWorkspace
@@ -282,17 +335,22 @@ items:
   assemblies:
   - System.Data.Entity
   namespace: System.Data.Objects
+  summary: Gets the <see cref="T:System.Data.Metadata.Edm.MetadataWorkspace"> associated with this state manager.
+  remarks: The <xref:System.Data.Metadata.Edm.MetadataWorkspace> class is a central programming interface that you can use to interact with the Entity Data Model (EDM) metadata at runtime and in the context of an application.
   syntax:
     content: public System.Data.Metadata.Edm.MetadataWorkspace MetadataWorkspace { get; }
     return:
       type: System.Data.Metadata.Edm.MetadataWorkspace
-      description: Return description to be filled
+      description: To be added.
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Data.Objects.ObjectStateManager.ObjectStateManagerChanged
   id: ObjectStateManagerChanged
   parent: System.Data.Objects.ObjectStateManager
   langs:
   - csharp
-  - vb
   name: ObjectStateManagerChanged
   nameWithType: ObjectStateManager.ObjectStateManagerChanged
   fullName: System.Data.Objects.ObjectStateManager.ObjectStateManagerChanged
@@ -300,17 +358,22 @@ items:
   assemblies:
   - System.Data.Entity
   namespace: System.Data.Objects
+  summary: Occurs when entities are added to or removed from the state manager.
+  remarks: To be added.
   syntax:
     content: public event System.ComponentModel.CollectionChangeEventHandler ObjectStateManagerChanged;
     return:
       type: System.ComponentModel.CollectionChangeEventHandler
-      description: Return description to be filled
+      description: To be added.
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Data.Objects.ObjectStateManager.TryGetObjectStateEntry(System.Data.EntityKey,System.Data.Objects.ObjectStateEntry@)
   id: TryGetObjectStateEntry(System.Data.EntityKey,System.Data.Objects.ObjectStateEntry@)
   parent: System.Data.Objects.ObjectStateManager
   langs:
   - csharp
-  - vb
   name: TryGetObjectStateEntry(EntityKey,ObjectStateEntry)
   nameWithType: ObjectStateManager.TryGetObjectStateEntry(EntityKey,ObjectStateEntry)
   fullName: System.Data.Objects.ObjectStateManager.TryGetObjectStateEntry(EntityKey,ObjectStateEntry)
@@ -318,25 +381,32 @@ items:
   assemblies:
   - System.Data.Entity
   namespace: System.Data.Objects
+  summary: Tries to retrieve the corresponding <see cref="T:System.Data.Objects.ObjectStateEntry"> for the object or relationship with the specified <xref:System.Data.EntityKey>.
+  remarks: Use TryGetObjectStateEntry to return an <xref:System.Data.Objects.ObjectStateEntry> without having to handle the <xref:System.InvalidOperationException> raised by the <xref:System.Data.Objects.ObjectStateManager.GetObjectStateEntry%28System.Data.EntityKey%29> method.
+  example:
+  - "The examples in this topic are based on the [AdventureWorks Sales Model](http://msdn.microsoft.com/en-us/f16cd988-673f-4376-b034-129ca93c7832).  \n  \n The example attempts to retrieve the corresponding <xref:System.Data.Objects.ObjectStateEntry> for the given <xref:System.Data.EntityKey>.  \n  \n [!CODE [DP ObjectServices Concepts#ObjectStateManager](../CodeSnippet/VS_Snippets_Data/DP ObjectServices Concepts#objectstatemanager)]  \n  \n The following example uses the TryGetObjectStateEntry method on the returned <xref:System.Data.Objects.ObjectStateManager> to get an object based on its entity key.  \n  \n [!CODE [DP ObjectServices Concepts#ApplyItemUpdates](../CodeSnippet/VS_Snippets_Data/DP ObjectServices Concepts#applyitemupdates)]"
   syntax:
     content: public bool TryGetObjectStateEntry (System.Data.EntityKey key, out System.Data.Objects.ObjectStateEntry entry);
     parameters:
     - id: key
       type: System.Data.EntityKey
-      description: Parameter description to be filled
+      description: The given <see cref="T:System.Data.EntityKey">.
     - id: entry
       type: System.Data.Objects.ObjectStateEntry
-      description: Parameter description to be filled
+      description: When this method returns, contains an <see cref="T:System.Data.Objects.ObjectStateEntry"> for the given <xref:System.Data.EntityKey> This parameter is passed uninitialized.
     return:
       type: System.Boolean
-      description: Return description to be filled
+      description: A Boolean value that is `true` if there is a corresponding <see cref="T:System.Data.Objects.ObjectStateEntry"> for the given <xref:System.Data.EntityKey>; otherwise, `false`.
   overload: System.Data.Objects.ObjectStateManager.TryGetObjectStateEntry*
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Data.Objects.ObjectStateManager.TryGetObjectStateEntry(System.Object,System.Data.Objects.ObjectStateEntry@)
   id: TryGetObjectStateEntry(System.Object,System.Data.Objects.ObjectStateEntry@)
   parent: System.Data.Objects.ObjectStateManager
   langs:
   - csharp
-  - vb
   name: TryGetObjectStateEntry(Object,ObjectStateEntry)
   nameWithType: ObjectStateManager.TryGetObjectStateEntry(Object,ObjectStateEntry)
   fullName: System.Data.Objects.ObjectStateManager.TryGetObjectStateEntry(Object,ObjectStateEntry)
@@ -344,25 +414,30 @@ items:
   assemblies:
   - System.Data.Entity
   namespace: System.Data.Objects
+  summary: Tries to retrieve the corresponding <see cref="T:System.Data.Objects.ObjectStateEntry"> for the specified <xref:System.Object>.
+  remarks: Use the TryGetObjectStateEntry method to return an <xref:System.Data.Objects.ObjectStateEntry> without having to handle the <xref:System.InvalidOperationException> raised by the <xref:System.Data.Objects.ObjectStateManager.GetObjectStateEntry%28System.Object%29> method.
   syntax:
     content: public bool TryGetObjectStateEntry (object entity, out System.Data.Objects.ObjectStateEntry entry);
     parameters:
     - id: entity
       type: System.Object
-      description: Parameter description to be filled
+      description: The <see cref="T:System.Object"> to which the retrieved <xref:System.Data.Objects.ObjectStateEntry> belongs.
     - id: entry
       type: System.Data.Objects.ObjectStateEntry
-      description: Parameter description to be filled
+      description: When this method returns, contains the <see cref="T:System.Data.Objects.ObjectStateEntry"> for the given <xref:System.Data.EntityKey> This parameter is passed uninitialized.
     return:
       type: System.Boolean
-      description: Return description to be filled
+      description: A Boolean value that is `true` if there is a corresponding <see cref="T:System.Data.Objects.ObjectStateEntry"> for the given object; otherwise, `false`.
   overload: System.Data.Objects.ObjectStateManager.TryGetObjectStateEntry*
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Data.Objects.ObjectStateManager.TryGetRelationshipManager(System.Object,System.Data.Objects.DataClasses.RelationshipManager@)
   id: TryGetRelationshipManager(System.Object,System.Data.Objects.DataClasses.RelationshipManager@)
   parent: System.Data.Objects.ObjectStateManager
   langs:
   - csharp
-  - vb
   name: TryGetRelationshipManager(Object,RelationshipManager)
   nameWithType: ObjectStateManager.TryGetRelationshipManager(Object,RelationshipManager)
   fullName: System.Data.Objects.ObjectStateManager.TryGetRelationshipManager(Object,RelationshipManager)
@@ -370,18 +445,24 @@ items:
   assemblies:
   - System.Data.Entity
   namespace: System.Data.Objects
+  summary: Returns the <see cref="T:System.Data.Objects.DataClasses.RelationshipManager"> that is used by the specified object.
+  remarks: "The <xref:System.Data.Objects.ObjectStateManager.GetRelationshipManager%2A> method is used to obtain the <xref:System.Data.Objects.DataClasses.RelationshipManager> for objects that are persistence ignorant. When objects implement <xref:System.Data.Objects.DataClasses.IEntityWithRelationships> or inherit from <xref:System.Data.Objects.DataClasses.EntityObject>, the <xref:System.Data.Objects.DataClasses.RelationshipManager> is accessed from the <xref:System.Data.Objects.DataClasses.IEntityWithRelationships.RelationshipManager%2A> property.  \n  \n The <xref:System.Data.Objects.DataClasses.RelationshipManager> cannot be returned when the object is in a <xref:System.Data.EntityState> state.  \n  \n Calling the TryGetRelationshipManager method is the same as calling the <xref:System.Data.Objects.ObjectStateManager.GetRelationshipManager%2A> method, except that this method returns `false` instead of raising an exception."
   syntax:
     content: public bool TryGetRelationshipManager (object entity, out System.Data.Objects.DataClasses.RelationshipManager relationshipManager);
     parameters:
     - id: entity
       type: System.Object
-      description: Parameter description to be filled
+      description: The object for which to return the <see cref="T:System.Data.Objects.DataClasses.RelationshipManager">.
     - id: relationshipManager
       type: System.Data.Objects.DataClasses.RelationshipManager
-      description: Parameter description to be filled
+      description: When this method returns, contains the <see cref="T:System.Data.Objects.DataClasses.RelationshipManager"> for the .
     return:
       type: System.Boolean
-      description: Return description to be filled
+      description: '`true` if a <see cref="T:System.Data.Objects.DataClasses.RelationshipManager"> instance was returned for the supplied ; otherwise `false`.'
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 references:
 - uid: System.Object
   isExternal: false
@@ -503,21 +584,33 @@ references:
 - uid: System.Data.Objects.ObjectStateManager.ChangeRelationshipState``1(``0,System.Object,System.Linq.Expressions.Expression{System.Func{``0,System.Object}},System.Data.EntityState)
   parent: System.Data.Objects.ObjectStateManager
   isExternal: false
-  name: ChangeRelationshipState(TEntity,Object,Expression,EntityState)
-  nameWithType: ObjectStateManager.ChangeRelationshipState(TEntity,Object,Expression,EntityState)
-  fullName: System.Data.Objects.ObjectStateManager.ChangeRelationshipState(TEntity,Object,Expression,EntityState)
+  name: ChangeRelationshipState(TEntity,Object,Expression<Func<TEntity,Object>>,EntityState)
+  nameWithType: ObjectStateManager.ChangeRelationshipState(TEntity,Object,Expression<Func<TEntity,Object>>,EntityState)
+  fullName: System.Data.Objects.ObjectStateManager.ChangeRelationshipState(TEntity,Object,Expression<Func<TEntity,Object>>,EntityState)
 - uid: System.Data.Objects.ObjectStateEntry
   parent: System.Data.Objects
   isExternal: false
   name: ObjectStateEntry
   nameWithType: ObjectStateEntry
   fullName: System.Data.Objects.ObjectStateEntry
+- uid: TEntity
+  parent: ''
+  isExternal: true
+  name: TEntity
+  nameWithType: TEntity
+  fullName: TEntity
 - uid: System.Object
   parent: System
   isExternal: false
   name: Object
   nameWithType: Object
   fullName: System.Object
+- uid: System.Linq.Expressions.Expression{System.Func{TEntity,System.Object}}
+  parent: System.Linq.Expressions
+  isExternal: false
+  name: Expression<Func<TEntity,Object>>
+  nameWithType: Expression<Func<TEntity,Object>>
+  fullName: System.Linq.Expressions.Expression<System.Func<TEntity,System.Object>>
 - uid: System.Data.EntityState
   parent: System.Data
   isExternal: false
@@ -530,6 +623,12 @@ references:
   name: GetObjectStateEntries(EntityState)
   nameWithType: ObjectStateManager.GetObjectStateEntries(EntityState)
   fullName: System.Data.Objects.ObjectStateManager.GetObjectStateEntries(EntityState)
+- uid: System.Collections.Generic.IEnumerable{System.Data.Objects.ObjectStateEntry}
+  parent: System.Collections.Generic
+  isExternal: false
+  name: IEnumerable<ObjectStateEntry>
+  nameWithType: IEnumerable<ObjectStateEntry>
+  fullName: System.Collections.Generic.IEnumerable<System.Data.Objects.ObjectStateEntry>
 - uid: System.Data.EntityState
   parent: System.Data
   isExternal: false
@@ -608,6 +707,12 @@ references:
   name: ObjectStateManagerChanged
   nameWithType: ObjectStateManager.ObjectStateManagerChanged
   fullName: System.Data.Objects.ObjectStateManager.ObjectStateManagerChanged
+- uid: System.ComponentModel.CollectionChangeEventHandler
+  parent: System.ComponentModel
+  isExternal: true
+  name: CollectionChangeEventHandler
+  nameWithType: CollectionChangeEventHandler
+  fullName: System.ComponentModel.CollectionChangeEventHandler
 - uid: System.Data.Objects.ObjectStateManager.TryGetObjectStateEntry(System.Data.EntityKey,System.Data.Objects.ObjectStateEntry@)
   parent: System.Data.Objects.ObjectStateManager
   isExternal: false

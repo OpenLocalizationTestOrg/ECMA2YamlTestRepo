@@ -9,11 +9,12 @@ items:
   - System.NullReferenceException.#ctor(System.String,System.Exception)
   langs:
   - csharp
-  - vb
   name: NullReferenceException
   nameWithType: NullReferenceException
   fullName: System.NullReferenceException
   type: Class
+  summary: The exception that is thrown when there is an attempt to dereference a null object reference.
+  remarks: "A NullReferenceException exception is thrown when you try to access a member on a type whose value is `null`. A NullReferenceException exception typically reflects developer error and is thrown in the following scenarios:  \n  \n-   You've forgotten to instantiate a reference type. In the following example,  is declared but never instantiated:  \n  \n     [!CODE [System.NullReferenceException.Class#1](../CodeSnippet/VS_Snippets_CLR_System/system.nullreferenceexception.class#1)]  \n  \n     Some compilers issue a warning when they compile this code. Others issue an error, and the compilation fails. To address this problem, instantiate the object so that its value is no longer `null`. The following example does this by calling a type's class constructor.  \n  \n     [!CODE [System.NullReferenceException.Class#2](../CodeSnippet/VS_Snippets_CLR_System/system.nullreferenceexception.class#2)]  \n  \n-   You've forgotten to dimension an array before initializing it. In the following example, `values` is declared to be an integer array, but the number of elements that it contains is never specified. The attempt to initialize its values therefore thrown a  NullReferenceException exception.  \n  \n     [!CODE [System.NullReferenceException.Class#10](../CodeSnippet/VS_Snippets_CLR_System/system.nullreferenceexception.class#10)]  \n  \n     You can eliminate the exception by declaring the number of elements in the array before initializing it, as the following example does.  \n  \n     [!CODE [System.NullReferenceException.Class#11](../CodeSnippet/VS_Snippets_CLR_System/system.nullreferenceexception.class#11)]  \n  \n     For more information on declaring and initializing arrays, see [Arrays](../Topic/Arrays%20\\(C%23%20Programming%20Guide\\).md) and [Arrays](../Topic/Arrays%20in%20Visual%20Basic.md).  \n  \n-   You get a **null** return value from a method, and then call a method on the returned type. This sometimes is the result of a documentation error; the documentation fails to note that a method call can return `null`. In other cases, your code erroneously assumes that the method will always return a non-**null** value.  \n  \n     The code in the following example assumes that the <xref:System.Array.Find%2A?displayProperty=fullName> method always returns `Person` object whose `FirstName` field matches a search string. Because there is no match, the runtime throws a NullReferenceException exception.  \n  \n     [!CODE [System.NullReferenceException.Class#4](../CodeSnippet/VS_Snippets_CLR_System/system.nullreferenceexception.class#4)]  \n  \n     To address this problem, test the method's return value to ensure that it is not `null` before calling any of its members, as the following example does.  \n  \n     [!CODE [System.NullReferenceException.Class#5](../CodeSnippet/VS_Snippets_CLR_System/system.nullreferenceexception.class#5)]  \n  \n-   You're using an expression (for example, you're chaining a list of methods or properties together) to retrieve a value and, although you're checking whether the value is `null`, the runtime still throws a NullReferenceException exception. This occurs because one of the intermediate values in the expression returns `null`. As a result, your rest for `null` is never evaluated.  \n  \n     The following example defines a `Pages` object that  caches information about web pages, which are presented by `Page` objects. The `Example.Main` method checks whether the current web page has a non-null title and, if it does, displays the title. Despite this check, however, the method throws a NullReferenceException exception.  \n  \n     [!CODE [System.NullReferenceException.Class#6](../CodeSnippet/VS_Snippets_CLR_System/system.nullreferenceexception.class#6)]  \n  \n     The exception is thrown because `pages.CurrentPage` returns `null` if no page information is  stored in the cache. This exception can be corrected by testing the value of the `CurrentPage` property before retrieving the current `Page` object's `Title` property, as the following example does:  \n  \n     [!CODE [System.NullReferenceException.Class#7](../CodeSnippet/VS_Snippets_CLR_System/system.nullreferenceexception.class#7)]  \n  \n-   You're enumerating the elements of an array that contains reference types, and your attempt to process one of the elements throws a NullReferenceException exception.  \n  \n     The following example defines a string array. A `for` statement enumerates the elements in the array and calls each string's <xref:System.String.Trim%2A> method before displaying the string.  \n  \n     [!CODE [System.NullReferenceException.Class#8](../CodeSnippet/VS_Snippets_CLR_System/system.nullreferenceexception.class#8)]  \n  \n     This exception occurs if you assume that each element of the array must contain a non-null value, and the value of the array element is in fact `null`. The exception can be eliminated by testing whether the element is `null` before performing any operation on that element, as the following example shows.  \n  \n     [!CODE [System.NullReferenceException.Class#9](../CodeSnippet/VS_Snippets_CLR_System/system.nullreferenceexception.class#9)]  \n  \n-   A NullReferenceException exception is thrown by a method that is passed `null`. Some methods validate the arguments that are passed to them. If they do and one of the arguments is `null`, the method throws an <xref:System.ArgumentNullException?displayProperty=fullName> exception. Otherwise, it throws a NullReferenceException exception. The following example illustrates this scenario.  \n  \n     [!CODE [System.NullReferenceException.Class#3](../CodeSnippet/VS_Snippets_CLR_System/system.nullreferenceexception.class#3)]  \n  \n     To address this issue, make sure that the argument passed to the method is not `null`, or handle the thrown exception in a `try…catch…finally` block. For more information, see [Exceptions](../Topic/Handling%20and%20Throwing%20Exceptions.md).  \n  \n The following Microsoft intermediate language (MSIL) instructions throw NullReferenceException: `callvirt`, `cpblk`, `cpobj`, `initblk`, `ldelem.<type>`, `ldelema`, `ldfld`, `ldflda`, `ldind.<type>`, `ldlen`, `stelem.<type>`, `stfld`, `stind.<type>`, `throw`, and `unbox`.  \n  \n NullReferenceException uses the HRESULT COR_E_NULLREFERENCE, which has the value 0x80004003.  \n  \n For a list of initial property values for an instance of NullReferenceException, see the <xref:System.NullReferenceException.%23ctor%2A> constructors.  \n  \n **Handling NullReferenceException in release code**  \n  \n It's usually better to avoid a NullReferenceException than to handle it after it occurs. Handling an exception can make your code harder to maintain and understand, and can sometimes introduce other bugs. A NullReferenceException is often a non-recoverable error. In these cases, letting the exception stop the app might be the best alternative.  \n  \n However, there are many situations where handling the error can be useful:  \n  \n-   Your app can ignore objects that are null. For example, if your app retrieves and processes records in a database, you might be able to ignore some number of bad records that result in null objects. Recording the bad data in a log file or in the application UI might be all you have to do.  \n  \n-   You can recover from the exception. For example, a call to a web service that returns a reference type might return null if the connection is lost or the connection times out. You can attempt to reestablish the connection and try the call again.  \n  \n-   You can restore the state of your app to a valid state. For example, you might be performing a multi-step task that requires you to save information to a data store before you call a method that throws a NullReferenceException. If the uninitialized object would corrupt the data record, you can remove the previous data before you close the app.  \n  \n-   You want to report the exception. For example, if the error was caused by a mistake from the user of your app, you can generate a message to help him supply the correct information. You can also log information about the error to help you fix the problem. Some frameworks, like ASP.NET, have a high-level exception handler that captures all errors to that the app never crashes; in that case, logging the exception might be the only way you can know that it occurs."
   syntax:
     content: >-
       [System.Runtime.InteropServices.ComVisible(true)]
@@ -43,12 +44,15 @@ items:
   - System.Object.GetHashCode
   - System.Object.MemberwiseClone
   - System.Object.ReferenceEquals(System.Object,System.Object)
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.NullReferenceException.#ctor
   id: '#ctor'
   parent: System.NullReferenceException
   langs:
   - csharp
-  - vb
   name: NullReferenceException()
   nameWithType: NullReferenceException.NullReferenceException()
   fullName: System.NullReferenceException.NullReferenceException()
@@ -56,15 +60,20 @@ items:
   assemblies:
   - mscorlib
   namespace: System
+  summary: Initializes a new instance of the <see cref="T:System.NullReferenceException"> class, setting the <xref:System.Exception.Message%2A> property of the new instance to a system-supplied message that describes the error, such as "The value 'null' was found where an instance of an object was required." This message takes into account the current system culture.
+  remarks: "The following table shows the initial property values for an instance of <xref:System.NullReferenceException>.  \n  \n|Property|Value|  \n|--------------|-----------|  \n|<xref:System.Exception.InnerException%2A>|`null`.|  \n|<xref:System.Exception.Message%2A>|The localized error message string.|"
   syntax:
     content: public NullReferenceException ();
     parameters: []
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.NullReferenceException.#ctor(System.String)
   id: '#ctor(System.String)'
   parent: System.NullReferenceException
   langs:
   - csharp
-  - vb
   name: NullReferenceException(String)
   nameWithType: NullReferenceException.NullReferenceException(String)
   fullName: System.NullReferenceException.NullReferenceException(String)
@@ -72,18 +81,23 @@ items:
   assemblies:
   - mscorlib
   namespace: System
+  summary: Initializes a new instance of the <see cref="T:System.NullReferenceException"> class with a specified error message.
+  remarks: "The following table shows the initial property values for an instance of <xref:System.NullReferenceException>.  \n  \n|Property|Value|  \n|--------------|-----------|  \n|<xref:System.Exception.InnerException%2A>|`null`.|  \n|<xref:System.Exception.Message%2A>|The error message string.|"
   syntax:
     content: public NullReferenceException (string message);
     parameters:
     - id: message
       type: System.String
-      description: Parameter description to be filled
+      description: A <see cref="T:System.String"> that describes the error. The content of  is intended to be understood by humans. The caller of this constructor is required to ensure that this string has been localized for the current system culture.
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.NullReferenceException.#ctor(System.Runtime.Serialization.SerializationInfo,System.Runtime.Serialization.StreamingContext)
   id: '#ctor(System.Runtime.Serialization.SerializationInfo,System.Runtime.Serialization.StreamingContext)'
   parent: System.NullReferenceException
   langs:
   - csharp
-  - vb
   name: NullReferenceException(SerializationInfo,StreamingContext)
   nameWithType: NullReferenceException.NullReferenceException(SerializationInfo,StreamingContext)
   fullName: System.NullReferenceException.NullReferenceException(SerializationInfo,StreamingContext)
@@ -91,21 +105,26 @@ items:
   assemblies:
   - mscorlib
   namespace: System
+  summary: Initializes a new instance of the <see cref="T:System.NullReferenceException"> class with serialized data.
+  remarks: This constructor is called during deserialization to reconstitute the exception object transmitted over a stream. For more information, see [XML and SOAP Serialization](../Topic/XML%20and%20SOAP%20Serialization.md).
   syntax:
     content: protected NullReferenceException (System.Runtime.Serialization.SerializationInfo info, System.Runtime.Serialization.StreamingContext context);
     parameters:
     - id: info
       type: System.Runtime.Serialization.SerializationInfo
-      description: Parameter description to be filled
+      description: The object that holds the serialized object data.
     - id: context
       type: System.Runtime.Serialization.StreamingContext
-      description: Parameter description to be filled
+      description: The contextual information about the source or destination.
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.NullReferenceException.#ctor(System.String,System.Exception)
   id: '#ctor(System.String,System.Exception)'
   parent: System.NullReferenceException
   langs:
   - csharp
-  - vb
   name: NullReferenceException(String,Exception)
   nameWithType: NullReferenceException.NullReferenceException(String,Exception)
   fullName: System.NullReferenceException.NullReferenceException(String,Exception)
@@ -113,15 +132,21 @@ items:
   assemblies:
   - mscorlib
   namespace: System
+  summary: Initializes a new instance of the <see cref="T:System.NullReferenceException"> class with a specified error message and a reference to the inner exception that is the cause of this exception.
+  remarks: "An exception that is thrown as a direct result of a previous exception should include a reference to the previous exception in the <xref:System.Exception.InnerException%2A> property. The <xref:System.Exception.InnerException%2A> property returns the same value that is passed into the constructor, or `null` if the <xref:System.Exception.InnerException%2A> property does not supply the inner exception value to the constructor.  \n  \n The following table shows the initial property values for an instance of <xref:System.NullReferenceException>.  \n  \n|Property|Value|  \n|--------------|-----------|  \n|<xref:System.Exception.InnerException%2A>|The inner exception reference.|  \n|<xref:System.Exception.Message%2A>|The error message string.|"
   syntax:
     content: public NullReferenceException (string message, Exception innerException);
     parameters:
     - id: message
       type: System.String
-      description: Parameter description to be filled
+      description: The error message that explains the reason for the exception.
     - id: innerException
       type: System.Exception
-      description: Parameter description to be filled
+      description: The exception that is the cause of the current exception. If the  parameter is not `null`, the current exception is raised in a `catch` block that handles the inner exception.
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 references:
 - uid: System.SystemException
   isExternal: false

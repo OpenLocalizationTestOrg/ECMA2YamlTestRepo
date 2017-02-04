@@ -11,11 +11,12 @@ items:
   - System.ComponentModel.DataAnnotations.CustomValidationAttribute.ValidatorType
   langs:
   - csharp
-  - vb
   name: CustomValidationAttribute
   nameWithType: CustomValidationAttribute
   fullName: System.ComponentModel.DataAnnotations.CustomValidationAttribute
   type: Class
+  summary: Specifies a custom validation method that is used to validate a property or class instance.
+  remarks: "The CustomValidationAttribute attribute is used to perform custom validation when the <xref:System.ComponentModel.DataAnnotations.ValidationAttribute.IsValid%2A>method is invoked to perform validation. The <xref:System.ComponentModel.DataAnnotations.ValidationAttribute.IsValid%2A> method then redirects the call to the method that is identified by the <xref:System.ComponentModel.DataAnnotations.CustomValidationAttribute.Method%2A> property, which in turn performs the actual validation.  \n  \n The CustomValidationAttribute attribute can be applied to types, properties, fields, methods, and method parameters. When it is applied to a property, the attribute is invoked whenever a value is assigned to that property. When it is applied to a method, the attribute is invoked whenever the program calls that method. When it is applied to a method parameter, the attribute is invoked before the method is called.  \n  \n For more information about using attributes, see [Attributes](../Topic/Extending%20Metadata%20Using%20Attributes.md)."
   syntax:
     content: >-
       [System.AttributeUsage(System.AttributeTargets.Class | System.AttributeTargets.Method | System.AttributeTargets.Property | System.AttributeTargets.Field | System.AttributeTargets.Parameter, AllowMultiple=true)]
@@ -81,12 +82,15 @@ items:
   - System.Object.MemberwiseClone
   - System.Object.ReferenceEquals(System.Object,System.Object)
   - System.Object.ToString
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.ComponentModel.DataAnnotations.CustomValidationAttribute.#ctor(System.Type,System.String)
   id: '#ctor(System.Type,System.String)'
   parent: System.ComponentModel.DataAnnotations.CustomValidationAttribute
   langs:
   - csharp
-  - vb
   name: CustomValidationAttribute(Type,String)
   nameWithType: CustomValidationAttribute.CustomValidationAttribute(Type,String)
   fullName: System.ComponentModel.DataAnnotations.CustomValidationAttribute.CustomValidationAttribute(Type,String)
@@ -94,21 +98,26 @@ items:
   assemblies:
   - System.ComponentModel.DataAnnotations
   namespace: System.ComponentModel.DataAnnotations
+  summary: Initializes a new instance of the <see cref="T:System.ComponentModel.DataAnnotations.CustomValidationAttribute"> class.
+  remarks: This method specifies a custom class and a related method to call at run time in order to execute custom validation logic.
   syntax:
     content: public CustomValidationAttribute (Type validatorType, string method);
     parameters:
     - id: validatorType
       type: System.Type
-      description: Parameter description to be filled
+      description: The type that contains the method that performs custom validation.
     - id: method
       type: System.String
-      description: Parameter description to be filled
+      description: The method that performs custom validation.
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.ComponentModel.DataAnnotations.CustomValidationAttribute.FormatErrorMessage(System.String)
   id: FormatErrorMessage(System.String)
   parent: System.ComponentModel.DataAnnotations.CustomValidationAttribute
   langs:
   - csharp
-  - vb
   name: FormatErrorMessage(String)
   nameWithType: CustomValidationAttribute.FormatErrorMessage(String)
   fullName: System.ComponentModel.DataAnnotations.CustomValidationAttribute.FormatErrorMessage(String)
@@ -116,21 +125,26 @@ items:
   assemblies:
   - System.ComponentModel.DataAnnotations
   namespace: System.ComponentModel.DataAnnotations
+  summary: Formats a validation error message.
+  remarks: The error message is formatted at run time to include the  value that is passed to this method.
   syntax:
     content: public override string FormatErrorMessage (string name);
     parameters:
     - id: name
       type: System.String
-      description: Parameter description to be filled
+      description: The name to include in the formatted message.
     return:
       type: System.String
-      description: Return description to be filled
+      description: An instance of the formatted error message.
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.ComponentModel.DataAnnotations.CustomValidationAttribute.IsValid(System.Object,System.ComponentModel.DataAnnotations.ValidationContext)
   id: IsValid(System.Object,System.ComponentModel.DataAnnotations.ValidationContext)
   parent: System.ComponentModel.DataAnnotations.CustomValidationAttribute
   langs:
   - csharp
-  - vb
   name: IsValid(Object,ValidationContext)
   nameWithType: CustomValidationAttribute.IsValid(Object,ValidationContext)
   fullName: System.ComponentModel.DataAnnotations.CustomValidationAttribute.IsValid(Object,ValidationContext)
@@ -138,24 +152,29 @@ items:
   assemblies:
   - System.ComponentModel.DataAnnotations
   namespace: System.ComponentModel.DataAnnotations
+  summary: To be added.
+  remarks: To be added.
   syntax:
     content: protected override System.ComponentModel.DataAnnotations.ValidationResult IsValid (object value, System.ComponentModel.DataAnnotations.ValidationContext validationContext);
     parameters:
     - id: value
       type: System.Object
-      description: Parameter description to be filled
+      description: To be added.
     - id: validationContext
       type: System.ComponentModel.DataAnnotations.ValidationContext
-      description: Parameter description to be filled
+      description: To be added.
     return:
       type: System.ComponentModel.DataAnnotations.ValidationResult
-      description: Return description to be filled
+      description: To be added.
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.ComponentModel.DataAnnotations.CustomValidationAttribute.Method
   id: Method
   parent: System.ComponentModel.DataAnnotations.CustomValidationAttribute
   langs:
   - csharp
-  - vb
   name: Method
   nameWithType: CustomValidationAttribute.Method
   fullName: System.ComponentModel.DataAnnotations.CustomValidationAttribute.Method
@@ -163,17 +182,22 @@ items:
   assemblies:
   - System.ComponentModel.DataAnnotations
   namespace: System.ComponentModel.DataAnnotations
+  summary: Gets the validation method.
+  remarks: "The custom method specified by this property must be public and static, and it must return a Boolean value. It must also take at least one input parameter that specifies the object to validate. This parameter can be strongly typed. If a process passes a value of a different type, type conversion will be attempted.  \n  \n The specified method should return `true` if a given object is valid. Otherwise it should return `false`.  \n  \n The custom method can also take parameters that specify a <xref:System.ComponentModel.DataAnnotations.ValidationContext> input value and a <xref:System.ComponentModel.DataAnnotations.ValidationResult> output value. The <xref:System.ComponentModel.DataAnnotations.ValidationContext> parameter provides additional context information that the method can use to determine the context that it is used in. The <xref:System.ComponentModel.DataAnnotations.ValidationResult> output parameter enables the method to return an error message.  \n  \n If the method returns `null` for the <xref:System.ComponentModel.DataAnnotations.ValidationResult> parameter or if it returns an empty value for the <xref:System.ComponentModel.DataAnnotations.ValidationResult.ErrorMessage%2A> property, the default <xref:System.ComponentModel.DataAnnotations.ValidationAttribute.FormatErrorMessage%2A> method will be called to compose the error message."
   syntax:
     content: public string Method { get; }
     return:
       type: System.String
-      description: Return description to be filled
+      description: To be added.
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.ComponentModel.DataAnnotations.CustomValidationAttribute.TypeId
   id: TypeId
   parent: System.ComponentModel.DataAnnotations.CustomValidationAttribute
   langs:
   - csharp
-  - vb
   name: TypeId
   nameWithType: CustomValidationAttribute.TypeId
   fullName: System.ComponentModel.DataAnnotations.CustomValidationAttribute.TypeId
@@ -181,17 +205,22 @@ items:
   assemblies:
   - System.ComponentModel.DataAnnotations
   namespace: System.ComponentModel.DataAnnotations
+  summary: Gets a unique identifier for this attribute.
+  remarks: To be added.
   syntax:
     content: public override object TypeId { get; }
     return:
       type: System.Object
-      description: Return description to be filled
+      description: To be added.
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.ComponentModel.DataAnnotations.CustomValidationAttribute.ValidatorType
   id: ValidatorType
   parent: System.ComponentModel.DataAnnotations.CustomValidationAttribute
   langs:
   - csharp
-  - vb
   name: ValidatorType
   nameWithType: CustomValidationAttribute.ValidatorType
   fullName: System.ComponentModel.DataAnnotations.CustomValidationAttribute.ValidatorType
@@ -199,11 +228,17 @@ items:
   assemblies:
   - System.ComponentModel.DataAnnotations
   namespace: System.ComponentModel.DataAnnotations
+  summary: Gets the type that performs custom validation.
+  remarks: This property returns the type that is passed to the ctor <xref:System.ComponentModel.DataAnnotations.CustomValidationAttribute.%23ctor%2A>constructor overload.
   syntax:
     content: public Type ValidatorType { get; }
     return:
       type: System.Type
-      description: Return description to be filled
+      description: To be added.
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 references:
 - uid: System.ComponentModel.DataAnnotations.ValidationAttribute
   isExternal: false

@@ -23,11 +23,12 @@ items:
   - System.Dynamic.ExpandoObject.System#Dynamic#IDynamicMetaObjectProvider#GetMetaObject(System.Linq.Expressions.Expression)
   langs:
   - csharp
-  - vb
   name: ExpandoObject
   nameWithType: ExpandoObject
   fullName: System.Dynamic.ExpandoObject
   type: Class
+  summary: Represents an object whose members can be dynamically added and removed at run time.
+  remarks: "The `ExpandoObject` class enables you to add and delete members of its instances at run time and also to set and get values of these members. This class supports dynamic binding, which enables you to use standard syntax like `sampleObject.sampleMember` instead of more complex syntax like `sampleObject.GetAttribute(\"sampleMember\")`.  \n  \n The `ExpandoObject` class implements the standard Dynamic Language Runtime (DLR) interface <xref:System.Dynamic.IDynamicMetaObjectProvider>, which enables you to share instances of the `ExpandoObject` class between languages that support the DLR interoperability model. For example, you can create an instance of the `ExpandoObject` class in C# and then pass it to an IronPython function. For more information, see [Dynamic Language Runtime Overview](../Topic/Dynamic%20Language%20Runtime%20Overview.md) documentation on the [CodePlex](http://go.microsoft.com/fwlink/?LinkId=141028) Web site, and [Introducing the ExpandoObject](http://go.microsoft.com/fwlink/?LinkID=169157) on the C# Frequently Asked Questions Web site.  \n  \n The `ExpandoObject` class is an implementation of the dynamic object concept that enables getting, setting, and invoking members. If you want to define types that have their own dynamic dispatch semantics, use the <xref:System.Dynamic.DynamicObject> class. If you want to define how dynamic objects participate in the interoperability protocol and manage DLR fast dynamic dispatch caching, create your own implementation of the <xref:System.Dynamic.IDynamicMetaObjectProvider> interface.  \n  \n## Creating an Instance  \n In C#, to enable late binding for an instance of the `ExpandoObject` class, you must use the `dynamic` keyword. For more information, see [Using Type dynamic](../Topic/Using%20Type%20dynamic%20\\(C%23%20Programming%20Guide\\).md).  \n  \n In Visual Basic, dynamic operations are supported by late binding. For more information, see [Early and Late Binding](../Topic/Early%20and%20Late%20Binding%20\\(Visual%20Basic\\).md).  \n  \n The following code example demonstrates how to create an instance of the `ExpandoObject` class.  \n  \n [!CODE [System.Dynamic.ExpandoObject#1](../CodeSnippet/VS_Snippets_CLR_System/system.dynamic.expandoobject#1)]  \n  \n## Adding New Members  \n You can add properties, methods, and events to instances of the `ExpandoObject` class.  \n  \n The following code example demonstrates how to add a new property to an instance of the `ExpandoObject` class.  \n  \n [!CODE [System.Dynamic.ExpandoObject#2](../CodeSnippet/VS_Snippets_CLR_System/system.dynamic.expandoobject#2)]  \n  \n The methods represent lambda expressions that are stored as delegates, which can be invoked when they are needed. The following code example demonstrates how to add a method that increments a value of the dynamic property.  \n  \n [!CODE [System.Dynamic.ExpandoObject#3](../CodeSnippet/VS_Snippets_CLR_System/system.dynamic.expandoobject#3)]  \n  \n The following code example demonstrates how to add an event to an instance of the `ExpandoObject` class.  \n  \n```c#  \nclass Program  \n{  \n    static void Main(string[] args)  \n    {  \n        dynamic sampleObject = new ExpandoObject();  \n  \n        // Create a new event and initialize it with null.  \n        sampleObject.sampleEvent = null;  \n  \n        // Add an event handler.  \n        sampleObject.sampleEvent += new EventHandler(SampleHandler);  \n  \n        // Raise an event for testing purposes.  \n        sampleObject.sampleEvent(sampleObject, new EventArgs());  \n   }  \n  \n    // Event handler.  \n    static void SampleHandler(object sender, EventArgs e)  \n    {  \n        Console.WriteLine(\"SampleHandler for {0} event\", sender);  \n    }  \n}  \n// This code example produces the following output:  \n// SampleHandler for System.Dynamic.ExpandoObject event.  \n```  \n  \n```vb#  \nModule Module1  \n  \nSub Main()  \n    Dim sampleObject As Object = New ExpandoObject()  \n  \n    ' Create a new event and initialize it with null.  \n    sampleObject.sampleEvent = Nothing  \n  \n    ' Add an event handler.  \n    Dim handler As EventHandler = AddressOf SampleHandler  \n    sampleObject.sampleEvent =   \n        [Delegate].Combine(sampleObject.sampleEvent, handler)  \n  \n    ' Raise an event for testing purposes.  \n    sampleObject.sampleEvent.Invoke(sampleObject, New EventArgs())  \n  \nEnd Sub  \n  \n' Event handler.  \nSub SampleHandler(ByVal sender As Object, ByVal e As EventArgs)  \n    Console.WriteLine(\"SampleHandler for {0} event\", sender)  \nEnd Sub  \n  \n' This code example produces the following output:  \n' SampleHandler for System.Dynamic.ExpandoObject event.  \n  \nEnd Module  \n```  \n  \n## Passing As a Parameter  \n You can pass instances of the `ExpandoObject` class as parameters. Note that these instances are treated as dynamic objects in C# and late-bound objects in Visual Basic. This means that you do not have IntelliSense for object members and you do not receive compiler errors when you call non-existent members. If you call a member that does not exist, an exception occurs.  \n  \n The following code example demonstrates how you can create and use a method to print the names and values of properties.  \n  \n [!CODE [System.Dynamic.ExpandoObject#4](../CodeSnippet/VS_Snippets_CLR_System/system.dynamic.expandoobject#4)]  \n  \n## Enumerating and Deleting Members  \n The `ExpandoObject` class implements the `IDictionary<String, Object>` interface. This enables enumeration of members added to the instance of the `ExpandoObject` class at run time. This can be useful if you do not know at compile time what members an instance might have.  \n  \n The following code example shows how you can cast an instance of the `ExpandoObject` class to the <xref:System.Collections.Generic.IDictionary%602> interface and enumerate the instance's members.  \n  \n [!CODE [System.Dynamic.ExpandoObject#5](../CodeSnippet/VS_Snippets_CLR_System/system.dynamic.expandoobject#5)]  \n  \n In languages that do not have syntax for deleting members (such as C# and Visual Basic), you can delete a member by implicitly casting an instance of the `ExpandoObject` to the `IDictionary\\<String, Object>` interface and then deleting the member as a key/value pair. This is shown in the following example.  \n  \n [!CODE [System.Dynamic.ExpandoObject#6](../CodeSnippet/VS_Snippets_CLR_System/system.dynamic.expandoobject#6)]  \n  \n## Receiving Notifications of Property Changes  \n The `ExpandoObject` class implements the <xref:System.ComponentModel.INotifyPropertyChanged> interface and can raise a <xref:System.ComponentModel.INotifyPropertyChanged.PropertyChanged> event when a member is added, deleted, or modified. This enables `ExpandoObject` class integration with Windows Presentation Foundation (WPF) data binding and other environments that require notification about changes in the object content.  \n  \n The following code example demonstrates how to create an event handler for the `PropertyChanged` event.  \n  \n [!CODE [System.Dynamic.ExpandoObject#7](../CodeSnippet/VS_Snippets_CLR_System/system.dynamic.expandoobject#7)]"
   syntax:
     content: 'public sealed class ExpandoObject : System.Collections.Generic.ICollection<System.Collections.Generic.KeyValuePair<string,object>>, System.Collections.Generic.IDictionary<string,object>, System.Collections.Generic.IEnumerable<System.Collections.Generic.KeyValuePair<string,object>>, System.ComponentModel.INotifyPropertyChanged, System.Dynamic.IDynamicMetaObjectProvider'
   inheritance:
@@ -46,12 +47,15 @@ items:
   - System.Object.MemberwiseClone
   - System.Object.ReferenceEquals(System.Object,System.Object)
   - System.Object.ToString
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Dynamic.ExpandoObject.#ctor
   id: '#ctor'
   parent: System.Dynamic.ExpandoObject
   langs:
   - csharp
-  - vb
   name: ExpandoObject()
   nameWithType: ExpandoObject.ExpandoObject()
   fullName: System.Dynamic.ExpandoObject.ExpandoObject()
@@ -59,39 +63,46 @@ items:
   assemblies:
   - System.Core
   namespace: System.Dynamic
+  summary: Initializes a new `ExpandoObject` that does not have members.
+  remarks: To be added.
   syntax:
     content: public ExpandoObject ();
     parameters: []
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Dynamic.ExpandoObject.System#Collections#Generic#ICollection{System#Collections#Generic#KeyValuePair{System#String,System#Object}}#Add(System.Collections.Generic.KeyValuePair{System.String,System.Object})
   id: System#Collections#Generic#ICollection{System#Collections#Generic#KeyValuePair{System#String,System#Object}}#Add(System.Collections.Generic.KeyValuePair{System.String,System.Object})
   isEii: true
   parent: System.Dynamic.ExpandoObject
   langs:
   - csharp
-  - vb
-  name: System.Collections.Generic.ICollection(KeyValuePair)
-  nameWithType: ExpandoObject.System.Collections.Generic.ICollection(KeyValuePair)
-  fullName: System.Dynamic.ExpandoObject.System.Collections.Generic.ICollection(KeyValuePair)
+  name: System.Collections.Generic.ICollection(KeyValuePair<String,Object>)
+  nameWithType: ExpandoObject.System.Collections.Generic.ICollection(KeyValuePair<String,Object>)
+  fullName: System.Dynamic.ExpandoObject.System.Collections.Generic.ICollection(KeyValuePair<String,Object>)
   type: Method
   assemblies:
   - System.Core
   namespace: System.Dynamic
+  summary: To be added.
+  remarks: To be added.
   syntax:
     content: void ICollection<KeyValuePair<string,object>>.Add (System.Collections.Generic.KeyValuePair<string,object> item);
     parameters:
     - id: item
       type: System.Collections.Generic.KeyValuePair{System.String,System.Object}
-      description: Parameter description to be filled
-    return:
-      type: System.Void
-      description: Return description to be filled
+      description: To be added.
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Dynamic.ExpandoObject.System#Collections#Generic#ICollection{System#Collections#Generic#KeyValuePair{System#String,System#Object}}#Clear
   id: System#Collections#Generic#ICollection{System#Collections#Generic#KeyValuePair{System#String,System#Object}}#Clear
   isEii: true
   parent: System.Dynamic.ExpandoObject
   langs:
   - csharp
-  - vb
   name: System.Collections.Generic.ICollection()
   nameWithType: ExpandoObject.System.Collections.Generic.ICollection()
   fullName: System.Dynamic.ExpandoObject.System.Collections.Generic.ICollection()
@@ -99,68 +110,77 @@ items:
   assemblies:
   - System.Core
   namespace: System.Dynamic
+  summary: To be added.
+  remarks: To be added.
   syntax:
     content: void ICollection<KeyValuePair<string,object>>.Clear ();
     parameters: []
-    return:
-      type: System.Void
-      description: Return description to be filled
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Dynamic.ExpandoObject.System#Collections#Generic#ICollection{System#Collections#Generic#KeyValuePair{System#String,System#Object}}#Contains(System.Collections.Generic.KeyValuePair{System.String,System.Object})
   id: System#Collections#Generic#ICollection{System#Collections#Generic#KeyValuePair{System#String,System#Object}}#Contains(System.Collections.Generic.KeyValuePair{System.String,System.Object})
   isEii: true
   parent: System.Dynamic.ExpandoObject
   langs:
   - csharp
-  - vb
-  name: System.Collections.Generic.ICollection(KeyValuePair)
-  nameWithType: ExpandoObject.System.Collections.Generic.ICollection(KeyValuePair)
-  fullName: System.Dynamic.ExpandoObject.System.Collections.Generic.ICollection(KeyValuePair)
+  name: System.Collections.Generic.ICollection(KeyValuePair<String,Object>)
+  nameWithType: ExpandoObject.System.Collections.Generic.ICollection(KeyValuePair<String,Object>)
+  fullName: System.Dynamic.ExpandoObject.System.Collections.Generic.ICollection(KeyValuePair<String,Object>)
   type: Method
   assemblies:
   - System.Core
   namespace: System.Dynamic
+  summary: To be added.
+  remarks: To be added.
   syntax:
     content: bool ICollection<KeyValuePair<string,object>>.Contains (System.Collections.Generic.KeyValuePair<string,object> item);
     parameters:
     - id: item
       type: System.Collections.Generic.KeyValuePair{System.String,System.Object}
-      description: Parameter description to be filled
+      description: To be added.
     return:
       type: System.Boolean
-      description: Return description to be filled
+      description: To be added.
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Dynamic.ExpandoObject.System#Collections#Generic#ICollection{System#Collections#Generic#KeyValuePair{System#String,System#Object}}#CopyTo(System.Collections.Generic.KeyValuePair{System.String,System.Object}[],System.Int32)
   id: System#Collections#Generic#ICollection{System#Collections#Generic#KeyValuePair{System#String,System#Object}}#CopyTo(System.Collections.Generic.KeyValuePair{System.String,System.Object}[],System.Int32)
   isEii: true
   parent: System.Dynamic.ExpandoObject
   langs:
   - csharp
-  - vb
-  name: System.Collections.Generic.ICollection(KeyValuePair,Int32)
-  nameWithType: ExpandoObject.System.Collections.Generic.ICollection(KeyValuePair,Int32)
-  fullName: System.Dynamic.ExpandoObject.System.Collections.Generic.ICollection(KeyValuePair,Int32)
+  name: System.Collections.Generic.ICollection(KeyValuePair<String,Object>,Int32)
+  nameWithType: ExpandoObject.System.Collections.Generic.ICollection(KeyValuePair<String,Object>,Int32)
+  fullName: System.Dynamic.ExpandoObject.System.Collections.Generic.ICollection(KeyValuePair<String,Object>,Int32)
   type: Method
   assemblies:
   - System.Core
   namespace: System.Dynamic
+  summary: To be added.
+  remarks: To be added.
   syntax:
     content: void ICollection<KeyValuePair<string,object>>.CopyTo (System.Collections.Generic.KeyValuePair<string,object>[] array, int arrayIndex);
     parameters:
     - id: array
-      type: System.Collections.Generic.KeyValuePair{System.String,System.Object}[]
-      description: Parameter description to be filled
+      type: System.Collections.Generic.KeyValuePair{System.String,System.Object}
+      description: To be added.
     - id: arrayIndex
       type: System.Int32
-      description: Parameter description to be filled
-    return:
-      type: System.Void
-      description: Return description to be filled
+      description: To be added.
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Dynamic.ExpandoObject.System#Collections#Generic#ICollection{System#Collections#Generic#KeyValuePair{System#String,System#Object}}#Count
   id: System#Collections#Generic#ICollection{System#Collections#Generic#KeyValuePair{System#String,System#Object}}#Count
   isEii: true
   parent: System.Dynamic.ExpandoObject
   langs:
   - csharp
-  - vb
   name: System.Collections.Generic.ICollection
   nameWithType: ExpandoObject.System.Collections.Generic.ICollection
   fullName: System.Dynamic.ExpandoObject.System.Collections.Generic.ICollection
@@ -168,18 +188,23 @@ items:
   assemblies:
   - System.Core
   namespace: System.Dynamic
+  summary: To be added.
+  remarks: To be added.
   syntax:
     content: int System.Collections.Generic.ICollection<System.Collections.Generic.KeyValuePair<System.String,System.Object>>.Count { get; }
     return:
       type: System.Int32
-      description: Return description to be filled
+      description: To be added.
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Dynamic.ExpandoObject.System#Collections#Generic#ICollection{System#Collections#Generic#KeyValuePair{System#String,System#Object}}#IsReadOnly
   id: System#Collections#Generic#ICollection{System#Collections#Generic#KeyValuePair{System#String,System#Object}}#IsReadOnly
   isEii: true
   parent: System.Dynamic.ExpandoObject
   langs:
   - csharp
-  - vb
   name: System.Collections.Generic.ICollection
   nameWithType: ExpandoObject.System.Collections.Generic.ICollection
   fullName: System.Dynamic.ExpandoObject.System.Collections.Generic.ICollection
@@ -187,41 +212,51 @@ items:
   assemblies:
   - System.Core
   namespace: System.Dynamic
+  summary: To be added.
+  remarks: To be added.
   syntax:
     content: bool System.Collections.Generic.ICollection<System.Collections.Generic.KeyValuePair<System.String,System.Object>>.IsReadOnly { get; }
     return:
       type: System.Boolean
-      description: Return description to be filled
+      description: To be added.
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Dynamic.ExpandoObject.System#Collections#Generic#ICollection{System#Collections#Generic#KeyValuePair{System#String,System#Object}}#Remove(System.Collections.Generic.KeyValuePair{System.String,System.Object})
   id: System#Collections#Generic#ICollection{System#Collections#Generic#KeyValuePair{System#String,System#Object}}#Remove(System.Collections.Generic.KeyValuePair{System.String,System.Object})
   isEii: true
   parent: System.Dynamic.ExpandoObject
   langs:
   - csharp
-  - vb
-  name: System.Collections.Generic.ICollection(KeyValuePair)
-  nameWithType: ExpandoObject.System.Collections.Generic.ICollection(KeyValuePair)
-  fullName: System.Dynamic.ExpandoObject.System.Collections.Generic.ICollection(KeyValuePair)
+  name: System.Collections.Generic.ICollection(KeyValuePair<String,Object>)
+  nameWithType: ExpandoObject.System.Collections.Generic.ICollection(KeyValuePair<String,Object>)
+  fullName: System.Dynamic.ExpandoObject.System.Collections.Generic.ICollection(KeyValuePair<String,Object>)
   type: Method
   assemblies:
   - System.Core
   namespace: System.Dynamic
+  summary: To be added.
+  remarks: To be added.
   syntax:
     content: bool ICollection<KeyValuePair<string,object>>.Remove (System.Collections.Generic.KeyValuePair<string,object> item);
     parameters:
     - id: item
       type: System.Collections.Generic.KeyValuePair{System.String,System.Object}
-      description: Parameter description to be filled
+      description: To be added.
     return:
       type: System.Boolean
-      description: Return description to be filled
+      description: To be added.
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Dynamic.ExpandoObject.System#Collections#Generic#IDictionary{System#String,System#Object}#Add(System.String,System.Object)
   id: System#Collections#Generic#IDictionary{System#String,System#Object}#Add(System.String,System.Object)
   isEii: true
   parent: System.Dynamic.ExpandoObject
   langs:
   - csharp
-  - vb
   name: System.Collections.Generic.IDictionary(String,Object)
   nameWithType: ExpandoObject.System.Collections.Generic.IDictionary(String,Object)
   fullName: System.Dynamic.ExpandoObject.System.Collections.Generic.IDictionary(String,Object)
@@ -229,25 +264,27 @@ items:
   assemblies:
   - System.Core
   namespace: System.Dynamic
+  summary: To be added.
+  remarks: To be added.
   syntax:
     content: void IDictionary<string,object>.Add (string key, object value);
     parameters:
     - id: key
       type: System.String
-      description: Parameter description to be filled
+      description: To be added.
     - id: value
       type: System.Object
-      description: Parameter description to be filled
-    return:
-      type: System.Void
-      description: Return description to be filled
+      description: To be added.
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Dynamic.ExpandoObject.System#Collections#Generic#IDictionary{System#String,System#Object}#ContainsKey(System.String)
   id: System#Collections#Generic#IDictionary{System#String,System#Object}#ContainsKey(System.String)
   isEii: true
   parent: System.Dynamic.ExpandoObject
   langs:
   - csharp
-  - vb
   name: System.Collections.Generic.IDictionary(String)
   nameWithType: ExpandoObject.System.Collections.Generic.IDictionary(String)
   fullName: System.Dynamic.ExpandoObject.System.Collections.Generic.IDictionary(String)
@@ -255,22 +292,27 @@ items:
   assemblies:
   - System.Core
   namespace: System.Dynamic
+  summary: To be added.
+  remarks: To be added.
   syntax:
     content: bool IDictionary<string,object>.ContainsKey (string key);
     parameters:
     - id: key
       type: System.String
-      description: Parameter description to be filled
+      description: To be added.
     return:
       type: System.Boolean
-      description: Return description to be filled
+      description: To be added.
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Dynamic.ExpandoObject.System#Collections#Generic#IDictionary{System#String,System#Object}#Item(System.String)
   id: System#Collections#Generic#IDictionary{System#String,System#Object}#Item(System.String)
   isEii: true
   parent: System.Dynamic.ExpandoObject
   langs:
   - csharp
-  - vb
   name: System.Collections.Generic.IDictionary(String)
   nameWithType: ExpandoObject.System.Collections.Generic.IDictionary(String)
   fullName: System.Dynamic.ExpandoObject.System.Collections.Generic.IDictionary(String)
@@ -278,22 +320,27 @@ items:
   assemblies:
   - System.Core
   namespace: System.Dynamic
+  summary: To be added.
+  remarks: To be added.
   syntax:
     content: object System.Collections.Generic.IDictionary<System.String,System.Object>.Item[string key] { get; set; }
     parameters:
     - id: key
       type: System.String
-      description: Parameter description to be filled
+      description: To be added.
     return:
       type: System.Object
-      description: Return description to be filled
+      description: To be added.
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Dynamic.ExpandoObject.System#Collections#Generic#IDictionary{System#String,System#Object}#Keys
   id: System#Collections#Generic#IDictionary{System#String,System#Object}#Keys
   isEii: true
   parent: System.Dynamic.ExpandoObject
   langs:
   - csharp
-  - vb
   name: System.Collections.Generic.IDictionary
   nameWithType: ExpandoObject.System.Collections.Generic.IDictionary
   fullName: System.Dynamic.ExpandoObject.System.Collections.Generic.IDictionary
@@ -301,18 +348,23 @@ items:
   assemblies:
   - System.Core
   namespace: System.Dynamic
+  summary: To be added.
+  remarks: To be added.
   syntax:
     content: System.Collections.Generic.ICollection<string> System.Collections.Generic.IDictionary<System.String,System.Object>.Keys { get; }
     return:
       type: System.Collections.Generic.ICollection{System.String}
-      description: Return description to be filled
+      description: To be added.
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Dynamic.ExpandoObject.System#Collections#Generic#IDictionary{System#String,System#Object}#Remove(System.String)
   id: System#Collections#Generic#IDictionary{System#String,System#Object}#Remove(System.String)
   isEii: true
   parent: System.Dynamic.ExpandoObject
   langs:
   - csharp
-  - vb
   name: System.Collections.Generic.IDictionary(String)
   nameWithType: ExpandoObject.System.Collections.Generic.IDictionary(String)
   fullName: System.Dynamic.ExpandoObject.System.Collections.Generic.IDictionary(String)
@@ -320,22 +372,27 @@ items:
   assemblies:
   - System.Core
   namespace: System.Dynamic
+  summary: To be added.
+  remarks: To be added.
   syntax:
     content: bool IDictionary<string,object>.Remove (string key);
     parameters:
     - id: key
       type: System.String
-      description: Parameter description to be filled
+      description: To be added.
     return:
       type: System.Boolean
-      description: Return description to be filled
+      description: To be added.
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Dynamic.ExpandoObject.System#Collections#Generic#IDictionary{System#String,System#Object}#TryGetValue(System.String,System.Object@)
   id: System#Collections#Generic#IDictionary{System#String,System#Object}#TryGetValue(System.String,System.Object@)
   isEii: true
   parent: System.Dynamic.ExpandoObject
   langs:
   - csharp
-  - vb
   name: System.Collections.Generic.IDictionary(String,Object)
   nameWithType: ExpandoObject.System.Collections.Generic.IDictionary(String,Object)
   fullName: System.Dynamic.ExpandoObject.System.Collections.Generic.IDictionary(String,Object)
@@ -343,25 +400,30 @@ items:
   assemblies:
   - System.Core
   namespace: System.Dynamic
+  summary: To be added.
+  remarks: To be added.
   syntax:
     content: bool IDictionary<string,object>.TryGetValue (string key, out object value);
     parameters:
     - id: key
       type: System.String
-      description: Parameter description to be filled
+      description: To be added.
     - id: value
       type: System.Object
-      description: Parameter description to be filled
+      description: To be added.
     return:
       type: System.Boolean
-      description: Return description to be filled
+      description: To be added.
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Dynamic.ExpandoObject.System#Collections#Generic#IDictionary{System#String,System#Object}#Values
   id: System#Collections#Generic#IDictionary{System#String,System#Object}#Values
   isEii: true
   parent: System.Dynamic.ExpandoObject
   langs:
   - csharp
-  - vb
   name: System.Collections.Generic.IDictionary
   nameWithType: ExpandoObject.System.Collections.Generic.IDictionary
   fullName: System.Dynamic.ExpandoObject.System.Collections.Generic.IDictionary
@@ -369,18 +431,23 @@ items:
   assemblies:
   - System.Core
   namespace: System.Dynamic
+  summary: To be added.
+  remarks: To be added.
   syntax:
     content: System.Collections.Generic.ICollection<object> System.Collections.Generic.IDictionary<System.String,System.Object>.Values { get; }
     return:
       type: System.Collections.Generic.ICollection{System.Object}
-      description: Return description to be filled
+      description: To be added.
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Dynamic.ExpandoObject.System#Collections#Generic#IEnumerable{System#Collections#Generic#KeyValuePair{System#String,System#Object}}#GetEnumerator
   id: System#Collections#Generic#IEnumerable{System#Collections#Generic#KeyValuePair{System#String,System#Object}}#GetEnumerator
   isEii: true
   parent: System.Dynamic.ExpandoObject
   langs:
   - csharp
-  - vb
   name: System.Collections.Generic.IEnumerable()
   nameWithType: ExpandoObject.System.Collections.Generic.IEnumerable()
   fullName: System.Dynamic.ExpandoObject.System.Collections.Generic.IEnumerable()
@@ -388,19 +455,24 @@ items:
   assemblies:
   - System.Core
   namespace: System.Dynamic
+  summary: To be added.
+  remarks: To be added.
   syntax:
     content: System.Collections.Generic.IEnumerator<System.Collections.Generic.KeyValuePair<string,object>> IEnumerable<KeyValuePair<string,object>>.GetEnumerator ();
     parameters: []
     return:
       type: System.Collections.Generic.IEnumerator{System.Collections.Generic.KeyValuePair{System.String,System.Object}}
-      description: Return description to be filled
+      description: To be added.
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Dynamic.ExpandoObject.System#Collections#IEnumerable#GetEnumerator
   id: System#Collections#IEnumerable#GetEnumerator
   isEii: true
   parent: System.Dynamic.ExpandoObject
   langs:
   - csharp
-  - vb
   name: System.Collections.IEnumerable.GetEnumerator()
   nameWithType: ExpandoObject.System.Collections.IEnumerable.GetEnumerator()
   fullName: System.Dynamic.ExpandoObject.System.Collections.IEnumerable.GetEnumerator()
@@ -408,19 +480,24 @@ items:
   assemblies:
   - System.Core
   namespace: System.Dynamic
+  summary: Returns an enumerator that iterates through the collection.
+  remarks: To be added.
   syntax:
     content: System.Collections.IEnumerator IEnumerable.GetEnumerator ();
     parameters: []
     return:
       type: System.Collections.IEnumerator
-      description: Return description to be filled
+      description: An <see cref="T:System.Collections.IEnumerator"> that can be used to iterate through the collection.
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Dynamic.ExpandoObject.System#Dynamic#IDynamicMetaObjectProvider#GetMetaObject(System.Linq.Expressions.Expression)
   id: System#Dynamic#IDynamicMetaObjectProvider#GetMetaObject(System.Linq.Expressions.Expression)
   isEii: true
   parent: System.Dynamic.ExpandoObject
   langs:
   - csharp
-  - vb
   name: System.Dynamic.IDynamicMetaObjectProvider.GetMetaObject(Expression)
   nameWithType: ExpandoObject.System.Dynamic.IDynamicMetaObjectProvider.GetMetaObject(Expression)
   fullName: System.Dynamic.ExpandoObject.System.Dynamic.IDynamicMetaObjectProvider.GetMetaObject(Expression)
@@ -428,15 +505,21 @@ items:
   assemblies:
   - System.Core
   namespace: System.Dynamic
+  summary: The provided MetaObject will dispatch to the dynamic virtual methods. The object can be encapsulated inside another MetaObject to provide custom behavior for individual actions.
+  remarks: To be added.
   syntax:
     content: System.Dynamic.DynamicMetaObject IDynamicMetaObjectProvider.GetMetaObject (System.Linq.Expressions.Expression parameter);
     parameters:
     - id: parameter
       type: System.Linq.Expressions.Expression
-      description: Parameter description to be filled
+      description: The expression that represents the MetaObject to dispatch to the Dynamic virtual methods.
     return:
       type: System.Dynamic.DynamicMetaObject
-      description: Return description to be filled
+      description: The object of the <see cref="T:System.Dynamic.DynamicMetaObject"> type.
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 references:
 - uid: System.Object
   isExternal: false
@@ -450,51 +533,51 @@ references:
 - uid: System.Dynamic.ExpandoObject.System#Collections#Generic#ICollection{System#Collections#Generic#KeyValuePair{System#String,System#Object}}#Add(System.Collections.Generic.KeyValuePair{System.String,System.Object})
   parent: System.Dynamic.ExpandoObject
   isExternal: false
-  name: System.Collections.Generic.ICollection(KeyValuePair)
-  nameWithType: ExpandoObject.System.Collections.Generic.ICollection(KeyValuePair)
-  fullName: System.Dynamic.ExpandoObject.System.Collections.Generic.ICollection(KeyValuePair)
-- uid: System.Void
-  parent: System
+  name: System.Collections.Generic.ICollection(KeyValuePair<String,Object>)
+  nameWithType: ExpandoObject.System.Collections.Generic.ICollection(KeyValuePair<String,Object>)
+  fullName: System.Dynamic.ExpandoObject.System.Collections.Generic.ICollection(KeyValuePair<String,Object>)
+- uid: System.Collections.Generic.KeyValuePair{System.String,System.Object}
+  parent: System.Collections.Generic
   isExternal: false
-  name: Void
-  nameWithType: Void
-  fullName: System.Void
+  name: KeyValuePair<String,Object>
+  nameWithType: KeyValuePair<String,Object>
+  fullName: System.Collections.Generic.KeyValuePair<System.String,System.Object>
 - uid: System.Dynamic.ExpandoObject.System#Collections#Generic#ICollection{System#Collections#Generic#KeyValuePair{System#String,System#Object}}#Clear
   parent: System.Dynamic.ExpandoObject
   isExternal: false
   name: System.Collections.Generic.ICollection()
   nameWithType: ExpandoObject.System.Collections.Generic.ICollection()
   fullName: System.Dynamic.ExpandoObject.System.Collections.Generic.ICollection()
-- uid: System.Void
-  parent: System
-  isExternal: false
-  name: Void
-  nameWithType: Void
-  fullName: System.Void
 - uid: System.Dynamic.ExpandoObject.System#Collections#Generic#ICollection{System#Collections#Generic#KeyValuePair{System#String,System#Object}}#Contains(System.Collections.Generic.KeyValuePair{System.String,System.Object})
   parent: System.Dynamic.ExpandoObject
   isExternal: false
-  name: System.Collections.Generic.ICollection(KeyValuePair)
-  nameWithType: ExpandoObject.System.Collections.Generic.ICollection(KeyValuePair)
-  fullName: System.Dynamic.ExpandoObject.System.Collections.Generic.ICollection(KeyValuePair)
+  name: System.Collections.Generic.ICollection(KeyValuePair<String,Object>)
+  nameWithType: ExpandoObject.System.Collections.Generic.ICollection(KeyValuePair<String,Object>)
+  fullName: System.Dynamic.ExpandoObject.System.Collections.Generic.ICollection(KeyValuePair<String,Object>)
 - uid: System.Boolean
   parent: System
   isExternal: false
   name: Boolean
   nameWithType: Boolean
   fullName: System.Boolean
+- uid: System.Collections.Generic.KeyValuePair{System.String,System.Object}
+  parent: System.Collections.Generic
+  isExternal: false
+  name: KeyValuePair<String,Object>
+  nameWithType: KeyValuePair<String,Object>
+  fullName: System.Collections.Generic.KeyValuePair<System.String,System.Object>
 - uid: System.Dynamic.ExpandoObject.System#Collections#Generic#ICollection{System#Collections#Generic#KeyValuePair{System#String,System#Object}}#CopyTo(System.Collections.Generic.KeyValuePair{System.String,System.Object}[],System.Int32)
   parent: System.Dynamic.ExpandoObject
   isExternal: false
-  name: System.Collections.Generic.ICollection(KeyValuePair,Int32)
-  nameWithType: ExpandoObject.System.Collections.Generic.ICollection(KeyValuePair,Int32)
-  fullName: System.Dynamic.ExpandoObject.System.Collections.Generic.ICollection(KeyValuePair,Int32)
-- uid: System.Void
-  parent: System
+  name: System.Collections.Generic.ICollection(KeyValuePair<String,Object>,Int32)
+  nameWithType: ExpandoObject.System.Collections.Generic.ICollection(KeyValuePair<String,Object>,Int32)
+  fullName: System.Dynamic.ExpandoObject.System.Collections.Generic.ICollection(KeyValuePair<String,Object>,Int32)
+- uid: System.Collections.Generic.KeyValuePair{System.String,System.Object}
+  parent: System.Collections.Generic
   isExternal: false
-  name: Void
-  nameWithType: Void
-  fullName: System.Void
+  name: KeyValuePair<String,Object>
+  nameWithType: KeyValuePair<String,Object>
+  fullName: System.Collections.Generic.KeyValuePair<System.String,System.Object>[]
 - uid: System.Int32
   parent: System
   isExternal: false
@@ -528,27 +611,27 @@ references:
 - uid: System.Dynamic.ExpandoObject.System#Collections#Generic#ICollection{System#Collections#Generic#KeyValuePair{System#String,System#Object}}#Remove(System.Collections.Generic.KeyValuePair{System.String,System.Object})
   parent: System.Dynamic.ExpandoObject
   isExternal: false
-  name: System.Collections.Generic.ICollection(KeyValuePair)
-  nameWithType: ExpandoObject.System.Collections.Generic.ICollection(KeyValuePair)
-  fullName: System.Dynamic.ExpandoObject.System.Collections.Generic.ICollection(KeyValuePair)
+  name: System.Collections.Generic.ICollection(KeyValuePair<String,Object>)
+  nameWithType: ExpandoObject.System.Collections.Generic.ICollection(KeyValuePair<String,Object>)
+  fullName: System.Dynamic.ExpandoObject.System.Collections.Generic.ICollection(KeyValuePair<String,Object>)
 - uid: System.Boolean
   parent: System
   isExternal: false
   name: Boolean
   nameWithType: Boolean
   fullName: System.Boolean
+- uid: System.Collections.Generic.KeyValuePair{System.String,System.Object}
+  parent: System.Collections.Generic
+  isExternal: false
+  name: KeyValuePair<String,Object>
+  nameWithType: KeyValuePair<String,Object>
+  fullName: System.Collections.Generic.KeyValuePair<System.String,System.Object>
 - uid: System.Dynamic.ExpandoObject.System#Collections#Generic#IDictionary{System#String,System#Object}#Add(System.String,System.Object)
   parent: System.Dynamic.ExpandoObject
   isExternal: false
   name: System.Collections.Generic.IDictionary(String,Object)
   nameWithType: ExpandoObject.System.Collections.Generic.IDictionary(String,Object)
   fullName: System.Dynamic.ExpandoObject.System.Collections.Generic.IDictionary(String,Object)
-- uid: System.Void
-  parent: System
-  isExternal: false
-  name: Void
-  nameWithType: Void
-  fullName: System.Void
 - uid: System.String
   parent: System
   isExternal: false
@@ -603,6 +686,12 @@ references:
   name: System.Collections.Generic.IDictionary
   nameWithType: ExpandoObject.System.Collections.Generic.IDictionary
   fullName: System.Dynamic.ExpandoObject.System.Collections.Generic.IDictionary
+- uid: System.Collections.Generic.ICollection{System.String}
+  parent: System.Collections.Generic
+  isExternal: false
+  name: ICollection<String>
+  nameWithType: ICollection<String>
+  fullName: System.Collections.Generic.ICollection<System.String>
 - uid: System.Dynamic.ExpandoObject.System#Collections#Generic#IDictionary{System#String,System#Object}#Remove(System.String)
   parent: System.Dynamic.ExpandoObject
   isExternal: false
@@ -651,12 +740,24 @@ references:
   name: System.Collections.Generic.IDictionary
   nameWithType: ExpandoObject.System.Collections.Generic.IDictionary
   fullName: System.Dynamic.ExpandoObject.System.Collections.Generic.IDictionary
+- uid: System.Collections.Generic.ICollection{System.Object}
+  parent: System.Collections.Generic
+  isExternal: false
+  name: ICollection<Object>
+  nameWithType: ICollection<Object>
+  fullName: System.Collections.Generic.ICollection<System.Object>
 - uid: System.Dynamic.ExpandoObject.System#Collections#Generic#IEnumerable{System#Collections#Generic#KeyValuePair{System#String,System#Object}}#GetEnumerator
   parent: System.Dynamic.ExpandoObject
   isExternal: false
   name: System.Collections.Generic.IEnumerable()
   nameWithType: ExpandoObject.System.Collections.Generic.IEnumerable()
   fullName: System.Dynamic.ExpandoObject.System.Collections.Generic.IEnumerable()
+- uid: System.Collections.Generic.IEnumerator{System.Collections.Generic.KeyValuePair{System.String,System.Object}}
+  parent: System.Collections.Generic
+  isExternal: false
+  name: IEnumerator<KeyValuePair<String,Object>>
+  nameWithType: IEnumerator<KeyValuePair<String,Object>>
+  fullName: System.Collections.Generic.IEnumerator<System.Collections.Generic.KeyValuePair<System.String,System.Object>>
 - uid: System.Dynamic.ExpandoObject.System#Collections#IEnumerable#GetEnumerator
   parent: System.Dynamic.ExpandoObject
   isExternal: false

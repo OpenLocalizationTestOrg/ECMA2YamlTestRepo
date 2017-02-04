@@ -6,11 +6,12 @@ items:
   - System.Diagnostics.Contracts.ContractArgumentValidatorAttribute.#ctor
   langs:
   - csharp
-  - vb
   name: ContractArgumentValidatorAttribute
   nameWithType: ContractArgumentValidatorAttribute
   fullName: System.Diagnostics.Contracts.ContractArgumentValidatorAttribute
   type: Class
+  summary: Enables the factoring of legacy `if-then-throw` code into separate methods for reuse, and provides full control over thrown exceptions and arguments.
+  remarks: "If your code uses explicit `if-then-throw` code to validate parameters, you may be employing helper methods that perform checks and throw particular exceptions on failure, as shown in the following example.  \n  \n [!CODE [System.Diagnostics.Contracts.ContractArgumentValidatorAttribute#1](../CodeSnippet/VS_Snippets_CLR_System/system.diagnostics.contracts.contractargumentvalidatorattribute#1)]  \n  \n In this example, `Execute` has an elective precondition specifying that the parameter value should not be `null`. To enable the contract tools to recognize that the call to `ValidationHelper.NotNull` represents a contract, you can mark the called method with the  ContractArgumentValidatorAttribute attribute. The <xref:System.Diagnostics.Contracts.Contract.EndContractBlock%2A?displayProperty=fullName> method call should be used to enable the tools to extract the proper specifications for document generation and static checking, as follows.  \n  \n [!CODE [System.Diagnostics.Contracts.ContractArgumentValidatorAttribute#2](../CodeSnippet/VS_Snippets_CLR_System/system.diagnostics.contracts.contractargumentvalidatorattribute#2)]  \n  \n In addition to `if-then-throw` statements, the contract section of contract validator methods may contain calls to other contract validator methods. However, no other contracts (such as <xref:System.Diagnostics.Contracts.Contract.Requires%2A?displayProperty=fullName>, or <xref:System.Diagnostics.Contracts.Contract.Ensures%2A?displayProperty=fullName>) are allowed. Code that follows the <xref:System.Diagnostics.Contracts.Contract.EndContractBlock%2A?displayProperty=fullName> call is ignored by all contract tools.  \n  \n The following example shows a range argument validator written in terms of an existing `NotNull` validator method.  \n  \n [!CODE [System.Diagnostics.Contracts.ContractArgumentValidatorAttribute#3](../CodeSnippet/VS_Snippets_CLR_System/system.diagnostics.contracts.contractargumentvalidatorattribute#3)]  \n  \n From a specification point of view, the `Execute` method has the following three contracts:  \n  \n```  \nContract.Requires<ArgumentNullException>(data != null);  \nContract.Requires<ArgumentOutOfRangeException>(position >= 0);  \nContract.Requires<ArgumentOutOfRangeException>(position < data.Length);  \n  \n```  \n  \n In standard methods, calls to contract validator methods can be freely mixed with other contracts such as <xref:System.Diagnostics.Contracts.Contract.Ensures%2A?displayProperty=fullName> or <xref:System.Diagnostics.Contracts.Contract.Requires%2A?displayProperty=fullName>."
   syntax:
     content: >-
       [System.AttributeUsage(System.AttributeTargets.Method, AllowMultiple=false)]
@@ -69,12 +70,15 @@ items:
   - System.Object.MemberwiseClone
   - System.Object.ReferenceEquals(System.Object,System.Object)
   - System.Object.ToString
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Diagnostics.Contracts.ContractArgumentValidatorAttribute.#ctor
   id: '#ctor'
   parent: System.Diagnostics.Contracts.ContractArgumentValidatorAttribute
   langs:
   - csharp
-  - vb
   name: ContractArgumentValidatorAttribute()
   nameWithType: ContractArgumentValidatorAttribute.ContractArgumentValidatorAttribute()
   fullName: System.Diagnostics.Contracts.ContractArgumentValidatorAttribute.ContractArgumentValidatorAttribute()
@@ -82,9 +86,15 @@ items:
   assemblies:
   - mscorlib
   namespace: System.Diagnostics.Contracts
+  summary: Initializes a new instance of the <see cref="T:System.Diagnostics.Contracts.ContractArgumentValidatorAttribute"> class.
+  remarks: To be added.
   syntax:
     content: public ContractArgumentValidatorAttribute ();
     parameters: []
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 references:
 - uid: System.Attribute
   isExternal: false

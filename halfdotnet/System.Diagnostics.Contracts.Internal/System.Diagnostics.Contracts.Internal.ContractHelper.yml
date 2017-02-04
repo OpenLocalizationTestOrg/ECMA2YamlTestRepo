@@ -7,11 +7,12 @@ items:
   - System.Diagnostics.Contracts.Internal.ContractHelper.TriggerFailure(System.Diagnostics.Contracts.ContractFailureKind,System.String,System.String,System.String,System.Exception)
   langs:
   - csharp
-  - vb
   name: ContractHelper
   nameWithType: ContractHelper
   fullName: System.Diagnostics.Contracts.Internal.ContractHelper
   type: Class
+  summary: Provides methods that the binary rewriter uses to handle contract failures.
+  remarks: To be added.
   syntax:
     content: >-
       [System.Obsolete("Use the ContractHelper class in the System.Runtime.CompilerServices namespace instead.")]
@@ -28,12 +29,15 @@ items:
   - System.Object.MemberwiseClone
   - System.Object.ReferenceEquals(System.Object,System.Object)
   - System.Object.ToString
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Diagnostics.Contracts.Internal.ContractHelper.RaiseContractFailedEvent(System.Diagnostics.Contracts.ContractFailureKind,System.String,System.String,System.Exception)
   id: RaiseContractFailedEvent(System.Diagnostics.Contracts.ContractFailureKind,System.String,System.String,System.Exception)
   parent: System.Diagnostics.Contracts.Internal.ContractHelper
   langs:
   - csharp
-  - vb
   name: RaiseContractFailedEvent(ContractFailureKind,String,String,Exception)
   nameWithType: ContractHelper.RaiseContractFailedEvent(ContractFailureKind,String,String,Exception)
   fullName: System.Diagnostics.Contracts.Internal.ContractHelper.RaiseContractFailedEvent(ContractFailureKind,String,String,Exception)
@@ -41,30 +45,35 @@ items:
   assemblies:
   - mscorlib
   namespace: System.Diagnostics.Contracts.Internal
+  summary: Used by the binary rewriter to activate the default failure behavior.
+  remarks: The binary rewriter calls this method to notify listeners about a contract failure. The RaiseContractFailedEvent method does not perform the failure behavior (an assert or throw) itself. If the failure is handled by the listeners, the method returns `null`. If the failure is not handled by the listeners, a localized failure message is returned.
   syntax:
     content: public static string RaiseContractFailedEvent (System.Diagnostics.Contracts.ContractFailureKind failureKind, string userMessage, string conditionText, Exception innerException);
     parameters:
     - id: failureKind
       type: System.Diagnostics.Contracts.ContractFailureKind
-      description: Parameter description to be filled
+      description: The type of failure.
     - id: userMessage
       type: System.String
-      description: Parameter description to be filled
+      description: Additional user information.
     - id: conditionText
       type: System.String
-      description: Parameter description to be filled
+      description: The description of the condition that caused the failure.
     - id: innerException
       type: System.Exception
-      description: Parameter description to be filled
+      description: The inner exception that caused the current exception.
     return:
       type: System.String
-      description: Return description to be filled
+      description: A null reference (`Nothing` in Visual Basic) if the event was handled and should not trigger a failure; otherwise, returns the localized failure message.
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Diagnostics.Contracts.Internal.ContractHelper.TriggerFailure(System.Diagnostics.Contracts.ContractFailureKind,System.String,System.String,System.String,System.Exception)
   id: TriggerFailure(System.Diagnostics.Contracts.ContractFailureKind,System.String,System.String,System.String,System.Exception)
   parent: System.Diagnostics.Contracts.Internal.ContractHelper
   langs:
   - csharp
-  - vb
   name: TriggerFailure(ContractFailureKind,String,String,String,Exception)
   nameWithType: ContractHelper.TriggerFailure(ContractFailureKind,String,String,String,Exception)
   fullName: System.Diagnostics.Contracts.Internal.ContractHelper.TriggerFailure(ContractFailureKind,String,String,String,Exception)
@@ -72,27 +81,30 @@ items:
   assemblies:
   - mscorlib
   namespace: System.Diagnostics.Contracts.Internal
+  summary: Triggers the default failure behavior.
+  remarks: The default failure behavior is to raise an <xref:System.Diagnostics.Debug.Assert%2A>, which causes the **Assert** dialog box to be displayed. You can change that behavior to throw an <xref:System.Exception> instead of displaying the dialog box.
   syntax:
     content: public static void TriggerFailure (System.Diagnostics.Contracts.ContractFailureKind kind, string displayMessage, string userMessage, string conditionText, Exception innerException);
     parameters:
     - id: kind
       type: System.Diagnostics.Contracts.ContractFailureKind
-      description: Parameter description to be filled
+      description: The type of failure.
     - id: displayMessage
       type: System.String
-      description: Parameter description to be filled
+      description: The message to display.
     - id: userMessage
       type: System.String
-      description: Parameter description to be filled
+      description: Additional user information.
     - id: conditionText
       type: System.String
-      description: Parameter description to be filled
+      description: The description of the condition that caused the failure.
     - id: innerException
       type: System.Exception
-      description: Parameter description to be filled
-    return:
-      type: System.Void
-      description: Return description to be filled
+      description: The inner exception that caused the current exception.
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 references:
 - uid: System.Object
   isExternal: false
@@ -139,12 +151,6 @@ references:
   name: TriggerFailure(ContractFailureKind,String,String,String,Exception)
   nameWithType: ContractHelper.TriggerFailure(ContractFailureKind,String,String,String,Exception)
   fullName: System.Diagnostics.Contracts.Internal.ContractHelper.TriggerFailure(ContractFailureKind,String,String,String,Exception)
-- uid: System.Void
-  parent: System
-  isExternal: false
-  name: Void
-  nameWithType: Void
-  fullName: System.Void
 - uid: System.Diagnostics.Contracts.ContractFailureKind
   parent: System.Diagnostics.Contracts
   isExternal: false

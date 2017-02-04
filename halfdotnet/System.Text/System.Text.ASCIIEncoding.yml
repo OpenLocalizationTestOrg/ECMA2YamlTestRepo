@@ -22,11 +22,14 @@ items:
   - System.Text.ASCIIEncoding.IsSingleByte
   langs:
   - csharp
-  - vb
   name: ASCIIEncoding
   nameWithType: ASCIIEncoding
   fullName: System.Text.ASCIIEncoding
   type: Class
+  summary: Represents an ASCII character encoding of Unicode characters.
+  remarks: "Encoding is the process of transforming a set of Unicode characters into a sequence of bytes. Decoding is the process of transforming a sequence of encoded bytes into a set of Unicode characters.  \n  \n ASCIIEncoding corresponds to the Windows code page 20127. Because ASCII is a 7-bit encoding, ASCII characters are limited to the lowest 128 Unicode characters, from U+0000 to U+007F. If you use the default encoder returned by the <xref:System.Text.Encoding.ASCII%2A?displayProperty=fullName> property or the <xref:System.Text.ASCIIEncoding.%23ctor%2A> constructor, characters outside that range are replaced with a question mark (?) before the encoding operation is performed.  Because the ASCIIEncoding class supports only a limited character set, the <xref:System.Text.UTF8Encoding>, <xref:System.Text.UnicodeEncoding>, and <xref:System.Text.UTF32Encoding> classes are better suited for globalized applications. The following considerations can help you to decide whether to use ASCIIEncoding:  \n  \n-   Some protocols require ASCII or a subset of ASCII. In these cases ASCII encoding is appropriate.  \n  \n-   If an 8-bit encoding is expected, then ASCII probably isn't the correct choice. Instead, consider using UTF8 instead of ASCII. For the characters U+0000 through U+007F, the results are identical, but all Unicode characters are representable in UTF-8, which avoids data loss.  \n  \n> [!CAUTION]\n>  ASCIIEncoding does not provide error detection. For security reasons, you should use <xref:System.Text.UTF8Encoding>, <xref:System.Text.UnicodeEncoding>, or <xref:System.Text.UTF32Encoding> and enable error detection.  \n  \n The <xref:System.Text.ASCIIEncoding.GetByteCount%2A> method determines how many bytes result in encoding a set of Unicode characters, and the <xref:System.Text.ASCIIEncoding.GetBytes%2A> method performs the actual encoding.  \n  \n Likewise, the <xref:System.Text.ASCIIEncoding.GetCharCount%2A> method determines how many characters result in decoding a sequence of bytes, and the <xref:System.Text.ASCIIEncoding.GetChars%2A> and <xref:System.Text.ASCIIEncoding.GetString%2A> methods perform the actual decoding.  \n  \n Note that the default ASCIIEncoding constructor by itself might not have the appropriate behavior for your application. You might want to consider setting the <xref:System.Text.Encoding.EncoderFallback%2A> or <xref:System.Text.Encoding.DecoderFallback%2A> property to <xref:System.Text.EncoderExceptionFallback> or <xref:System.Text.DecoderExceptionFallback> to prevent sequences with the 8th bit set. Custom behavior might also be appropriate for these cases."
+  example:
+  - "The following example demonstrates how to encode Unicode characters into ASCII. Notice the loss of data that occurs when your application uses ASCIIEncoding to encode Unicode characters outside of the ASCII range.  \n  \n [!CODE [System.Text.ASCIIEncoding Example#1](../CodeSnippet/VS_Snippets_CLR_System/system.Text.ASCIIEncoding Example#1)]"
   syntax:
     content: >-
       [System.Runtime.InteropServices.ComVisible(true)]
@@ -85,12 +88,15 @@ items:
   - System.Text.Encoding.UTF8
   - System.Text.Encoding.WebName
   - System.Text.Encoding.WindowsCodePage
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Text.ASCIIEncoding.#ctor
   id: '#ctor'
   parent: System.Text.ASCIIEncoding
   langs:
   - csharp
-  - vb
   name: ASCIIEncoding()
   nameWithType: ASCIIEncoding.ASCIIEncoding()
   fullName: System.Text.ASCIIEncoding.ASCIIEncoding()
@@ -98,15 +104,22 @@ items:
   assemblies:
   - mscorlib
   namespace: System.Text
+  summary: Initializes a new instance of the <see cref="T:System.Text.ASCIIEncoding"> class.
+  remarks: "> [!CAUTION]\n>  The <xref:System.Text.ASCIIEncoding> class does not provide error detection. For security reasons, you should use the <xref:System.Text.UTF8Encoding>, <xref:System.Text.UnicodeEncoding>, or <xref:System.Text.UTF32Encoding> class and enable error detection.  \n  \n If you choose to use ASCII encoding, this constructor may not provide the appropriate fallback behavior for your application. It uses the <xref:System.Text.EncoderReplacementFallback> and <xref:System.Text.DecoderReplacementFallback> classes to replace every character outside the range of U+0000 through U+007F with a question mark (?). Instead, you can call the <xref:System.Text.Encoding.GetEncoding%28System.Int32%2CSystem.Text.EncoderFallback%2CSystem.Text.DecoderFallback%29?displayProperty=fullName> or <xref:System.Text.Encoding.GetEncoding%28System.String%2CSystem.Text.EncoderFallback%2CSystem.Text.DecoderFallback%29?displayProperty=fullName> method and pass it <xref:System.Text.EncoderExceptionFallback> and <xref:System.Text.DecoderExceptionFallback> objects to use exception fallback.  \n  \n> [!NOTE]\n>  <xref:System.Text.ASCIIEncoding> supports only the Unicode character values between U+0000 and U+007F. Therefore, <xref:System.Text.UTF8Encoding>, <xref:System.Text.UnicodeEncoding>, and <xref:System.Text.UTF32Encoding> are better suited for globalized applications."
+  example:
+  - "The following example demonstrates how to create a new <xref:System.Text.ASCIIEncoding> instance and display the name of the encoding.  \n  \n [!CODE [System.Text.ASCIIEncoding.ctor Example#1](../CodeSnippet/VS_Snippets_CLR_System/system.Text.ASCIIEncoding.ctor Example#1)]"
   syntax:
     content: public ASCIIEncoding ();
     parameters: []
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Text.ASCIIEncoding.GetByteCount(System.String)
   id: GetByteCount(System.String)
   parent: System.Text.ASCIIEncoding
   langs:
   - csharp
-  - vb
   name: GetByteCount(String)
   nameWithType: ASCIIEncoding.GetByteCount(String)
   fullName: System.Text.ASCIIEncoding.GetByteCount(String)
@@ -114,22 +127,29 @@ items:
   assemblies:
   - mscorlib
   namespace: System.Text
+  summary: Calculates the number of bytes produced by encoding the characters in the specified <see cref="T:System.String">.
+  remarks: To calculate the exact array size required by <xref:System.Text.ASCIIEncoding.GetBytes%2A> to store the resulting bytes, the application uses <xref:System.Text.ASCIIEncoding.GetByteCount%2A>. To calculate the maximum array size, the application should use <xref:System.Text.ASCIIEncoding.GetMaxByteCount%2A>. The <xref:System.Text.ASCIIEncoding.GetByteCount%2A> method generally allows allocation of less memory, while the <xref:System.Text.ASCIIEncoding.GetMaxByteCount%2A> method generally executes faster.
+  example:
+  - "The following example demonstrates how to use the <xref:System.Text.ASCIIEncoding.GetByteCount%2A> method to return the number of bytes required to encode a string using <xref:System.Text.ASCIIEncoding>.  \n  \n [!CODE [System.Text.ASCIIEncoding.GetByteCount2 Example#1](../CodeSnippet/VS_Snippets_CLR_System/system.Text.ASCIIEncoding.GetByteCount2 Example#1)]"
   syntax:
     content: public override int GetByteCount (string chars);
     parameters:
     - id: chars
       type: System.String
-      description: Parameter description to be filled
+      description: The <see cref="T:System.String"> containing the set of characters to encode.
     return:
       type: System.Int32
-      description: Return description to be filled
+      description: The number of bytes produced by encoding the specified characters.
   overload: System.Text.ASCIIEncoding.GetByteCount*
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Text.ASCIIEncoding.GetByteCount(System.Char*,System.Int32)
   id: GetByteCount(System.Char*,System.Int32)
   parent: System.Text.ASCIIEncoding
   langs:
   - csharp
-  - vb
   name: GetByteCount(Char*,Int32)
   nameWithType: ASCIIEncoding.GetByteCount(Char*,Int32)
   fullName: System.Text.ASCIIEncoding.GetByteCount(Char*,Int32)
@@ -137,25 +157,30 @@ items:
   assemblies:
   - mscorlib
   namespace: System.Text
+  summary: Calculates the number of bytes produced by encoding a set of characters starting at the specified character pointer.
+  remarks: To calculate the exact array size required by <xref:System.Text.ASCIIEncoding.GetBytes%2A> to store the resulting bytes, the application uses <xref:System.Text.ASCIIEncoding.GetByteCount%2A>. To calculate the maximum array size, the application should use <xref:System.Text.ASCIIEncoding.GetMaxByteCount%2A>. The <xref:System.Text.ASCIIEncoding.GetByteCount%2A> method generally allows allocation of less memory, while the <xref:System.Text.ASCIIEncoding.GetMaxByteCount%2A> method generally executes faster.
   syntax:
     content: public override int GetByteCount (char* chars, int count);
     parameters:
     - id: chars
       type: System.Char*
-      description: Parameter description to be filled
+      description: A pointer to the first character to encode.
     - id: count
       type: System.Int32
-      description: Parameter description to be filled
+      description: The number of characters to encode.
     return:
       type: System.Int32
-      description: Return description to be filled
+      description: The number of bytes produced by encoding the specified characters.
   overload: System.Text.ASCIIEncoding.GetByteCount*
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Text.ASCIIEncoding.GetByteCount(System.Char[],System.Int32,System.Int32)
   id: GetByteCount(System.Char[],System.Int32,System.Int32)
   parent: System.Text.ASCIIEncoding
   langs:
   - csharp
-  - vb
   name: GetByteCount(Char[],Int32,Int32)
   nameWithType: ASCIIEncoding.GetByteCount(Char[],Int32,Int32)
   fullName: System.Text.ASCIIEncoding.GetByteCount(Char[],Int32,Int32)
@@ -163,28 +188,35 @@ items:
   assemblies:
   - mscorlib
   namespace: System.Text
+  summary: Calculates the number of bytes produced by encoding a set of characters from the specified character array.
+  remarks: To calculate the exact array size required by <xref:System.Text.ASCIIEncoding.GetBytes%2A> to store the resulting bytes, the application uses GetByteCount. To calculate the maximum array size, the application should use <xref:System.Text.ASCIIEncoding.GetMaxByteCount%2A>. The GetByteCount method generally allows allocation of less memory, while the <xref:System.Text.ASCIIEncoding.GetMaxByteCount%2A> method generally executes faster.
+  example:
+  - "The following example demonstrates how to use the GetByteCount method to return the number of bytes required to encode an array of Unicode characters using <xref:System.Text.ASCIIEncoding>.  \n  \n [!CODE [System.Text.ASCIIEncoding.GetByteCount1 Example#1](../CodeSnippet/VS_Snippets_CLR_System/system.Text.ASCIIEncoding.GetByteCount1 Example#1)]"
   syntax:
     content: public override int GetByteCount (char[] chars, int index, int count);
     parameters:
     - id: chars
       type: System.Char[]
-      description: Parameter description to be filled
+      description: The character array containing the set of characters to encode.
     - id: index
       type: System.Int32
-      description: Parameter description to be filled
+      description: The index of the first character to encode.
     - id: count
       type: System.Int32
-      description: Parameter description to be filled
+      description: The number of characters to encode.
     return:
       type: System.Int32
-      description: Return description to be filled
+      description: The number of bytes produced by encoding the specified characters.
   overload: System.Text.ASCIIEncoding.GetByteCount*
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Text.ASCIIEncoding.GetBytes(System.Char*,System.Int32,System.Byte*,System.Int32)
   id: GetBytes(System.Char*,System.Int32,System.Byte*,System.Int32)
   parent: System.Text.ASCIIEncoding
   langs:
   - csharp
-  - vb
   name: GetBytes(Char*,Int32,Byte*,Int32)
   nameWithType: ASCIIEncoding.GetBytes(Char*,Int32,Byte*,Int32)
   fullName: System.Text.ASCIIEncoding.GetBytes(Char*,Int32,Byte*,Int32)
@@ -192,31 +224,36 @@ items:
   assemblies:
   - mscorlib
   namespace: System.Text
+  summary: Encodes a set of characters starting at the specified character pointer into a sequence of bytes that are stored starting at the specified byte pointer.
+  remarks: "To calculate the exact array size required by <xref:System.Text.ASCIIEncoding.GetBytes%2A> to store the resulting bytes, the application uses <xref:System.Text.ASCIIEncoding.GetByteCount%2A>. To calculate the maximum array size, the application should use <xref:System.Text.ASCIIEncoding.GetMaxByteCount%2A>. The <xref:System.Text.ASCIIEncoding.GetByteCount%2A> method generally allows allocation of less memory, while the <xref:System.Text.ASCIIEncoding.GetMaxByteCount%2A> method generally executes faster.  \n  \n Data to be converted, such as data read from a stream, can be available only in sequential blocks. In this case, or if the amount of data is so large that it needs to be divided into smaller blocks, the application should use the <xref:System.Text.Decoder> or the <xref:System.Text.Encoder> provided by the <xref:System.Text.ASCIIEncoding.GetDecoder%2A> method or the <xref:System.Text.ASCIIEncoding.GetEncoder%2A> method, respectively.  \n  \n <xref:System.Text.ASCIIEncoding> does not provide error detection. Any Unicode character greater than U+007F is translated to an ASCII question mark (\"?\").  \n  \n> [!CAUTION]\n>  For security reasons, your application is recommended to use <xref:System.Text.UTF8Encoding>, <xref:System.Text.UnicodeEncoding>, or <xref:System.Text.UTF32Encoding> and enable error detection."
   syntax:
     content: public override int GetBytes (char* chars, int charCount, byte* bytes, int byteCount);
     parameters:
     - id: chars
       type: System.Char*
-      description: Parameter description to be filled
+      description: A pointer to the first character to encode.
     - id: charCount
       type: System.Int32
-      description: Parameter description to be filled
+      description: The number of characters to encode.
     - id: bytes
       type: System.Byte*
-      description: Parameter description to be filled
+      description: A pointer to the location at which to start writing the resulting sequence of bytes.
     - id: byteCount
       type: System.Int32
-      description: Parameter description to be filled
+      description: The maximum number of bytes to write.
     return:
       type: System.Int32
-      description: Return description to be filled
+      description: The actual number of bytes written at the location indicated by .
   overload: System.Text.ASCIIEncoding.GetBytes*
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Text.ASCIIEncoding.GetBytes(System.Char[],System.Int32,System.Int32,System.Byte[],System.Int32)
   id: GetBytes(System.Char[],System.Int32,System.Int32,System.Byte[],System.Int32)
   parent: System.Text.ASCIIEncoding
   langs:
   - csharp
-  - vb
   name: GetBytes(Char[],Int32,Int32,Byte[],Int32)
   nameWithType: ASCIIEncoding.GetBytes(Char[],Int32,Int32,Byte[],Int32)
   fullName: System.Text.ASCIIEncoding.GetBytes(Char[],Int32,Int32,Byte[],Int32)
@@ -224,34 +261,41 @@ items:
   assemblies:
   - mscorlib
   namespace: System.Text
+  summary: Encodes a set of characters from the specified character array into the specified byte array.
+  remarks: "To calculate the exact array size required by <xref:System.Text.ASCIIEncoding.GetBytes%2A> to store the resulting bytes, the application uses <xref:System.Text.ASCIIEncoding.GetByteCount%2A>. To calculate the maximum array size, the application should use <xref:System.Text.ASCIIEncoding.GetMaxByteCount%2A>. The <xref:System.Text.ASCIIEncoding.GetByteCount%2A> method generally allows allocation of less memory, while the <xref:System.Text.ASCIIEncoding.GetMaxByteCount%2A> method generally executes faster.  \n  \n Data to be converted, such as data read from a stream, can be available only in sequential blocks. In this case, or if the amount of data is so large that it needs to be divided into smaller blocks, the application should use the <xref:System.Text.Decoder> or the <xref:System.Text.Encoder> provided by the <xref:System.Text.ASCIIEncoding.GetDecoder%2A> method or the <xref:System.Text.ASCIIEncoding.GetEncoder%2A> method, respectively.  \n  \n <xref:System.Text.ASCIIEncoding> does not provide error detection. Any Unicode character greater than U+007F is encoded as the ASCII question mark (\"?\").  \n  \n> [!CAUTION]\n>  For security reasons, your application is recommended to use <xref:System.Text.UTF8Encoding>, <xref:System.Text.UnicodeEncoding>, or <xref:System.Text.UTF32Encoding> and enable error detection."
+  example:
+  - "The following example demonstrates how to use the <xref:System.Text.ASCIIEncoding.GetBytes%2A> method to encode a range of characters from a string and store the encoded characters in a range of elements in a byte array.  \n  \n [!CODE [System.Text.ASCIIEncoding.GetBytes1 Example#1](../CodeSnippet/VS_Snippets_CLR_System/system.Text.ASCIIEncoding.GetBytes1 Example#1)]"
   syntax:
     content: public override int GetBytes (char[] chars, int charIndex, int charCount, byte[] bytes, int byteIndex);
     parameters:
     - id: chars
       type: System.Char[]
-      description: Parameter description to be filled
+      description: The character array containing the set of characters to encode.
     - id: charIndex
       type: System.Int32
-      description: Parameter description to be filled
+      description: The index of the first character to encode.
     - id: charCount
       type: System.Int32
-      description: Parameter description to be filled
+      description: The number of characters to encode.
     - id: bytes
       type: System.Byte[]
-      description: Parameter description to be filled
+      description: The byte array to contain the resulting sequence of bytes.
     - id: byteIndex
       type: System.Int32
-      description: Parameter description to be filled
+      description: The index at which to start writing the resulting sequence of bytes.
     return:
       type: System.Int32
-      description: Return description to be filled
+      description: The actual number of bytes written into .
   overload: System.Text.ASCIIEncoding.GetBytes*
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Text.ASCIIEncoding.GetBytes(System.String,System.Int32,System.Int32,System.Byte[],System.Int32)
   id: GetBytes(System.String,System.Int32,System.Int32,System.Byte[],System.Int32)
   parent: System.Text.ASCIIEncoding
   langs:
   - csharp
-  - vb
   name: GetBytes(String,Int32,Int32,Byte[],Int32)
   nameWithType: ASCIIEncoding.GetBytes(String,Int32,Int32,Byte[],Int32)
   fullName: System.Text.ASCIIEncoding.GetBytes(String,Int32,Int32,Byte[],Int32)
@@ -259,34 +303,41 @@ items:
   assemblies:
   - mscorlib
   namespace: System.Text
+  summary: Encodes a set of characters from the specified <see cref="T:System.String"> into the specified byte array.
+  remarks: "To calculate the exact array size required by GetBytes to store the resulting bytes, the application uses <xref:System.Text.ASCIIEncoding.GetByteCount%2A>. To calculate the maximum array size, the application should use <xref:System.Text.ASCIIEncoding.GetMaxByteCount%2A>. The <xref:System.Text.ASCIIEncoding.GetByteCount%2A> method generally allows allocation of less memory, while the <xref:System.Text.ASCIIEncoding.GetMaxByteCount%2A> method generally executes faster.  \n  \n Data to be converted, such as data read from a stream, can be available only in sequential blocks. In this case, or if the amount of data is so large that it needs to be divided into smaller blocks, the application should use the <xref:System.Text.Decoder> or the <xref:System.Text.Encoder> provided by the <xref:System.Text.ASCIIEncoding.GetDecoder%2A> method or the <xref:System.Text.ASCIIEncoding.GetEncoder%2A> method, respectively.  \n  \n <xref:System.Text.ASCIIEncoding> does not provide error detection. Any Unicode character greater than U+007F is encoded as the ASCII question mark (\"?\").  \n  \n> [!CAUTION]\n>  For security reasons, your application is recommended to use <xref:System.Text.UTF8Encoding>, <xref:System.Text.UnicodeEncoding>, or <xref:System.Text.UTF32Encoding> and enable error detection."
+  example:
+  - "The following example demonstrates how to use the GetBytes method to encode a range of elements from a Unicode character array and store the encoded bytes in a range of elements in a byte array.  \n  \n [!CODE [System.Text.ASCIIEncoding.GetBytes2#1](../CodeSnippet/VS_Snippets_CLR_System/system.Text.ASCIIEncoding.GetBytes2#1)]"
   syntax:
     content: public override int GetBytes (string chars, int charIndex, int charCount, byte[] bytes, int byteIndex);
     parameters:
     - id: chars
       type: System.String
-      description: Parameter description to be filled
+      description: The <see cref="T:System.String"> containing the set of characters to encode.
     - id: charIndex
       type: System.Int32
-      description: Parameter description to be filled
+      description: The index of the first character to encode.
     - id: charCount
       type: System.Int32
-      description: Parameter description to be filled
+      description: The number of characters to encode.
     - id: bytes
       type: System.Byte[]
-      description: Parameter description to be filled
+      description: The byte array to contain the resulting sequence of bytes.
     - id: byteIndex
       type: System.Int32
-      description: Parameter description to be filled
+      description: The index at which to start writing the resulting sequence of bytes.
     return:
       type: System.Int32
-      description: Return description to be filled
+      description: The actual number of bytes written into .
   overload: System.Text.ASCIIEncoding.GetBytes*
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Text.ASCIIEncoding.GetCharCount(System.Byte*,System.Int32)
   id: GetCharCount(System.Byte*,System.Int32)
   parent: System.Text.ASCIIEncoding
   langs:
   - csharp
-  - vb
   name: GetCharCount(Byte*,Int32)
   nameWithType: ASCIIEncoding.GetCharCount(Byte*,Int32)
   fullName: System.Text.ASCIIEncoding.GetCharCount(Byte*,Int32)
@@ -294,25 +345,30 @@ items:
   assemblies:
   - mscorlib
   namespace: System.Text
+  summary: Calculates the number of characters produced by decoding a sequence of bytes starting at the specified byte pointer.
+  remarks: To calculate the exact array size required by <xref:System.Text.ASCIIEncoding.GetChars%2A> to store the resulting characters, the application uses <xref:System.Text.ASCIIEncoding.GetCharCount%2A>. To calculate the maximum array size, the application should use <xref:System.Text.ASCIIEncoding.GetMaxCharCount%2A>. The <xref:System.Text.ASCIIEncoding.GetCharCount%2A> method generally allows allocation of less memory, while the <xref:System.Text.ASCIIEncoding.GetMaxCharCount%2A> method generally executes faster.
   syntax:
     content: public override int GetCharCount (byte* bytes, int count);
     parameters:
     - id: bytes
       type: System.Byte*
-      description: Parameter description to be filled
+      description: A pointer to the first byte to decode.
     - id: count
       type: System.Int32
-      description: Parameter description to be filled
+      description: The number of bytes to decode.
     return:
       type: System.Int32
-      description: Return description to be filled
+      description: The number of characters produced by decoding the specified sequence of bytes.
   overload: System.Text.ASCIIEncoding.GetCharCount*
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Text.ASCIIEncoding.GetCharCount(System.Byte[],System.Int32,System.Int32)
   id: GetCharCount(System.Byte[],System.Int32,System.Int32)
   parent: System.Text.ASCIIEncoding
   langs:
   - csharp
-  - vb
   name: GetCharCount(Byte[],Int32,Int32)
   nameWithType: ASCIIEncoding.GetCharCount(Byte[],Int32,Int32)
   fullName: System.Text.ASCIIEncoding.GetCharCount(Byte[],Int32,Int32)
@@ -320,28 +376,35 @@ items:
   assemblies:
   - mscorlib
   namespace: System.Text
+  summary: Calculates the number of characters produced by decoding a sequence of bytes from the specified byte array.
+  remarks: To calculate the exact array size required by <xref:System.Text.ASCIIEncoding.GetChars%2A> to store the resulting characters, the application uses GetCharCount. To calculate the maximum array size, the application should use <xref:System.Text.ASCIIEncoding.GetMaxCharCount%2A>. The GetCharCount method generally allows allocation of less memory, while the <xref:System.Text.ASCIIEncoding.GetMaxCharCount%2A> method generally executes faster.
+  example:
+  - "The following example demonstrates how to use the GetCharCount method to return the number of characters produced by decoding a range of elements in a byte array.  \n  \n [!CODE [System.Text.ASCIIEncoding.GetCharCount Example#1](../CodeSnippet/VS_Snippets_CLR_System/system.Text.ASCIIEncoding.GetCharCount Example#1)]"
   syntax:
     content: public override int GetCharCount (byte[] bytes, int index, int count);
     parameters:
     - id: bytes
       type: System.Byte[]
-      description: Parameter description to be filled
+      description: The byte array containing the sequence of bytes to decode.
     - id: index
       type: System.Int32
-      description: Parameter description to be filled
+      description: The index of the first byte to decode.
     - id: count
       type: System.Int32
-      description: Parameter description to be filled
+      description: The number of bytes to decode.
     return:
       type: System.Int32
-      description: Return description to be filled
+      description: The number of characters produced by decoding the specified sequence of bytes.
   overload: System.Text.ASCIIEncoding.GetCharCount*
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Text.ASCIIEncoding.GetChars(System.Byte*,System.Int32,System.Char*,System.Int32)
   id: GetChars(System.Byte*,System.Int32,System.Char*,System.Int32)
   parent: System.Text.ASCIIEncoding
   langs:
   - csharp
-  - vb
   name: GetChars(Byte*,Int32,Char*,Int32)
   nameWithType: ASCIIEncoding.GetChars(Byte*,Int32,Char*,Int32)
   fullName: System.Text.ASCIIEncoding.GetChars(Byte*,Int32,Char*,Int32)
@@ -349,31 +412,36 @@ items:
   assemblies:
   - mscorlib
   namespace: System.Text
+  summary: Decodes a sequence of bytes starting at the specified byte pointer into a set of characters that are stored starting at the specified character pointer.
+  remarks: "To calculate the exact array size required by <xref:System.Text.ASCIIEncoding.GetChars%2A> to store the resulting characters, the application uses <xref:System.Text.ASCIIEncoding.GetCharCount%2A>. To calculate the maximum array size, the application should use <xref:System.Text.ASCIIEncoding.GetMaxCharCount%2A>. The <xref:System.Text.ASCIIEncoding.GetCharCount%2A> method generally allows allocation of less memory, while the <xref:System.Text.ASCIIEncoding.GetMaxCharCount%2A> method generally executes faster.  \n  \n Data to be converted, such as data read from a stream, can be available only in sequential blocks. In this case, or if the amount of data is so large that it needs to be divided into smaller blocks, the application should use the <xref:System.Text.Decoder> or the <xref:System.Text.Encoder> provided by the <xref:System.Text.ASCIIEncoding.GetDecoder%2A> method or the <xref:System.Text.ASCIIEncoding.GetEncoder%2A> method, respectively.  \n  \n <xref:System.Text.ASCIIEncoding> does not provide error detection. Any byte greater than hexadecimal 0x7F is decoded as the Unicode question mark (\"?\").  \n  \n> [!CAUTION]\n>  For security reasons, your application is recommended to use <xref:System.Text.UTF8Encoding>, <xref:System.Text.UnicodeEncoding>, or <xref:System.Text.UTF32Encoding> and enable error detection."
   syntax:
     content: public override int GetChars (byte* bytes, int byteCount, char* chars, int charCount);
     parameters:
     - id: bytes
       type: System.Byte*
-      description: Parameter description to be filled
+      description: A pointer to the first byte to decode.
     - id: byteCount
       type: System.Int32
-      description: Parameter description to be filled
+      description: The number of bytes to decode.
     - id: chars
       type: System.Char*
-      description: Parameter description to be filled
+      description: A pointer to the location at which to start writing the resulting set of characters.
     - id: charCount
       type: System.Int32
-      description: Parameter description to be filled
+      description: The maximum number of characters to write.
     return:
       type: System.Int32
-      description: Return description to be filled
+      description: The actual number of characters written at the location indicated by .
   overload: System.Text.ASCIIEncoding.GetChars*
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Text.ASCIIEncoding.GetChars(System.Byte[],System.Int32,System.Int32,System.Char[],System.Int32)
   id: GetChars(System.Byte[],System.Int32,System.Int32,System.Char[],System.Int32)
   parent: System.Text.ASCIIEncoding
   langs:
   - csharp
-  - vb
   name: GetChars(Byte[],Int32,Int32,Char[],Int32)
   nameWithType: ASCIIEncoding.GetChars(Byte[],Int32,Int32,Char[],Int32)
   fullName: System.Text.ASCIIEncoding.GetChars(Byte[],Int32,Int32,Char[],Int32)
@@ -381,34 +449,41 @@ items:
   assemblies:
   - mscorlib
   namespace: System.Text
+  summary: Decodes a sequence of bytes from the specified byte array into the specified character array.
+  remarks: "To calculate the exact array size required by GetChars to store the resulting characters, the application uses <xref:System.Text.ASCIIEncoding.GetCharCount%2A>. To calculate the maximum array size, the application should use <xref:System.Text.ASCIIEncoding.GetMaxCharCount%2A>. The <xref:System.Text.ASCIIEncoding.GetCharCount%2A> method generally allows allocation of less memory, while the <xref:System.Text.ASCIIEncoding.GetMaxCharCount%2A> method generally executes faster.  \n  \n Data to be converted, such as data read from a stream, can be available only in sequential blocks. In this case, or if the amount of data is so large that it needs to be divided into smaller blocks, the application should use the <xref:System.Text.Decoder> or the <xref:System.Text.Encoder> provided by the <xref:System.Text.ASCIIEncoding.GetDecoder%2A> method or the <xref:System.Text.ASCIIEncoding.GetEncoder%2A> method, respectively.  \n  \n <xref:System.Text.ASCIIEncoding> does not provide error detection. Any byte greater than hexadecimal 0x7F is decoded as the Unicode question mark (\"?\").  \n  \n> [!CAUTION]\n>  For security reasons, your application is recommended to use <xref:System.Text.UTF8Encoding>, <xref:System.Text.UnicodeEncoding>, or <xref:System.Text.UTF32Encoding> and enable error detection."
+  example:
+  - "The following example demonstrates how to decode a range of elements from a byte array and store the result in a set of elements in a Unicode character array.  \n  \n [!CODE [System.Text.ASCIIEncoding.GetChars Example#1](../CodeSnippet/VS_Snippets_CLR_System/system.Text.ASCIIEncoding.GetChars Example#1)]"
   syntax:
     content: public override int GetChars (byte[] bytes, int byteIndex, int byteCount, char[] chars, int charIndex);
     parameters:
     - id: bytes
       type: System.Byte[]
-      description: Parameter description to be filled
+      description: The byte array containing the sequence of bytes to decode.
     - id: byteIndex
       type: System.Int32
-      description: Parameter description to be filled
+      description: The index of the first byte to decode.
     - id: byteCount
       type: System.Int32
-      description: Parameter description to be filled
+      description: The number of bytes to decode.
     - id: chars
       type: System.Char[]
-      description: Parameter description to be filled
+      description: The character array to contain the resulting set of characters.
     - id: charIndex
       type: System.Int32
-      description: Parameter description to be filled
+      description: The index at which to start writing the resulting set of characters.
     return:
       type: System.Int32
-      description: Return description to be filled
+      description: The actual number of characters written into .
   overload: System.Text.ASCIIEncoding.GetChars*
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Text.ASCIIEncoding.GetDecoder
   id: GetDecoder
   parent: System.Text.ASCIIEncoding
   langs:
   - csharp
-  - vb
   name: GetDecoder()
   nameWithType: ASCIIEncoding.GetDecoder()
   fullName: System.Text.ASCIIEncoding.GetDecoder()
@@ -416,18 +491,23 @@ items:
   assemblies:
   - mscorlib
   namespace: System.Text
+  summary: Obtains a decoder that converts an ASCII encoded sequence of bytes into a sequence of Unicode characters.
+  remarks: The <xref:System.Text.Decoder.GetChars%2A?displayProperty=fullName> method converts sequential blocks of bytes into sequential blocks of characters, in a manner similar to the <xref:System.Text.ASCIIEncoding.GetChars%2A> method of this class. However, a <xref:System.Text.Decoder> maintains state information between calls so it can correctly decode byte sequences that span blocks. The <xref:System.Text.Decoder> also preserves trailing bytes at the end of data blocks and uses the trailing bytes in the next decoding operation. Therefore, GetDecoder and <xref:System.Text.ASCIIEncoding.GetEncoder%2A> are useful for network transmission and file operations, because those operations often deal with blocks of data instead of a complete data stream.
   syntax:
     content: public override System.Text.Decoder GetDecoder ();
     parameters: []
     return:
       type: System.Text.Decoder
-      description: Return description to be filled
+      description: A <see cref="T:System.Text.Decoder"> that converts an ASCII encoded sequence of bytes into a sequence of Unicode characters.
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Text.ASCIIEncoding.GetEncoder
   id: GetEncoder
   parent: System.Text.ASCIIEncoding
   langs:
   - csharp
-  - vb
   name: GetEncoder()
   nameWithType: ASCIIEncoding.GetEncoder()
   fullName: System.Text.ASCIIEncoding.GetEncoder()
@@ -435,18 +515,23 @@ items:
   assemblies:
   - mscorlib
   namespace: System.Text
+  summary: Obtains an encoder that converts a sequence of Unicode characters into an ASCII encoded sequence of bytes.
+  remarks: The <xref:System.Text.Encoder.GetBytes%2A?displayProperty=fullName> method converts sequential blocks of characters into sequential blocks of bytes, in a manner similar to the <xref:System.Text.ASCIIEncoding.GetBytes%2A> method of this class. However, an <xref:System.Text.Encoder> maintains state information between calls so it can correctly encode character sequences that span blocks. The <xref:System.Text.Encoder> also preserves trailing characters at the end of data blocks and uses the trailing characters in the next encoding operation. For example, a data block might end with an unmatched high surrogate, and the matching low surrogate might be in the next data block. Therefore, <xref:System.Text.ASCIIEncoding.GetDecoder%2A> and GetEncoder are useful for network transmission and file operations, because those operations often deal with blocks of data instead of a complete data stream.
   syntax:
     content: public override System.Text.Encoder GetEncoder ();
     parameters: []
     return:
       type: System.Text.Encoder
-      description: Return description to be filled
+      description: An <see cref="T:System.Text.Encoder"> that converts a sequence of Unicode characters into an ASCII encoded sequence of bytes.
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Text.ASCIIEncoding.GetMaxByteCount(System.Int32)
   id: GetMaxByteCount(System.Int32)
   parent: System.Text.ASCIIEncoding
   langs:
   - csharp
-  - vb
   name: GetMaxByteCount(Int32)
   nameWithType: ASCIIEncoding.GetMaxByteCount(Int32)
   fullName: System.Text.ASCIIEncoding.GetMaxByteCount(Int32)
@@ -454,21 +539,28 @@ items:
   assemblies:
   - mscorlib
   namespace: System.Text
+  summary: Calculates the maximum number of bytes produced by encoding the specified number of characters.
+  remarks: "The <xref:System.Text.ASCIIEncoding.GetByteCount%2A> method calculates the exact array size required by the <xref:System.Text.ASCIIEncoding.GetBytes%2A> method to store the resulting bytes, whereas the GetMaxByteCount method calculates the maximum array size. The <xref:System.Text.ASCIIEncoding.GetByteCount%2A> method generally allocates less memory, but the GetMaxByteCount method generally executes faster.  \n  \n GetMaxByteCount is a worst-case number, including the worst case for the currently selected <xref:System.Text.EncoderFallback>.  If you choose a replacement fallback with a potentially large string, GetMaxByteCount can return large values.  \n  \n The GetMaxByteCount method considers potential leftover surrogates from a previous encoding operation. As a result, if the <xref:System.Text.ASCIIEncoding> object uses the default replacement fallback, or if a custom replacement fallback has been defined with a single possible fallback character, the method returns  + 1. If the <xref:System.Text.ASCIIEncoding> object uses a replacement fallback with more than one possible fallback character, the method returns *n* \\* ( + 1), where *n* is the maximum number of fallback characters.  \n  \n GetMaxByteCount has no relation to <xref:System.Text.ASCIIEncoding.GetChars%2A>. If your application needs a similar function to use with <xref:System.Text.ASCIIEncoding.GetChars%2A>, it should use <xref:System.Text.ASCIIEncoding.GetMaxCharCount%2A>.  \n  \n> [!NOTE]\n>  `GetMaxByteCount(N)` is not necessarily the same value as `N* GetMaxByteCount(1)`."
+  example:
+  - "The following example demonstrates how to use the GetMaxByteCount method to calculate the bytes required to encode a specified number of characters.  \n  \n [!CODE [System.Text.ASCIIEncoding.GetMaxByteCount Example#1](../CodeSnippet/VS_Snippets_CLR_System/system.Text.ASCIIEncoding.GetMaxByteCount Example#1)]"
   syntax:
     content: public override int GetMaxByteCount (int charCount);
     parameters:
     - id: charCount
       type: System.Int32
-      description: Parameter description to be filled
+      description: The number of characters to encode.
     return:
       type: System.Int32
-      description: Return description to be filled
+      description: The maximum number of bytes produced by encoding the specified number of characters.
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Text.ASCIIEncoding.GetMaxCharCount(System.Int32)
   id: GetMaxCharCount(System.Int32)
   parent: System.Text.ASCIIEncoding
   langs:
   - csharp
-  - vb
   name: GetMaxCharCount(Int32)
   nameWithType: ASCIIEncoding.GetMaxCharCount(Int32)
   fullName: System.Text.ASCIIEncoding.GetMaxCharCount(Int32)
@@ -476,21 +568,28 @@ items:
   assemblies:
   - mscorlib
   namespace: System.Text
+  summary: Calculates the maximum number of characters produced by decoding the specified number of bytes.
+  remarks: "The <xref:System.Text.ASCIIEncoding.GetCharCount%2A> method calculates the exact array size required by the <xref:System.Text.ASCIIEncoding.GetChars%2A> method to store the resulting characters, whereas  the GetMaxCharCount method calculates the maximum array size. The <xref:System.Text.ASCIIEncoding.GetCharCount%2A> method generally allocates less memory, while the GetMaxCharCount method generally executes faster.  \n  \n GetMaxCharCount retrieves a worst-case number, including the worst case for the currently selected <xref:System.Text.DecoderFallback>. If a decoder fallback is present that has a maximum fallback length of *n*, the GetMaxCharCount method returns *n* * .  \n  \n GetMaxCharCount has no relation to <xref:System.Text.ASCIIEncoding.GetBytes%2A>. If your application needs a similar function to use with <xref:System.Text.ASCIIEncoding.GetBytes%2A>, it should use <xref:System.Text.ASCIIEncoding.GetMaxByteCount%2A>.  \n  \n> [!NOTE]\n>  `GetMaxCharCount(N)` is not necessarily the same value as `N* GetMaxCharCount(1)`."
+  example:
+  - "The following example demonstrates how to use the GetMaxCharCount method to calculate the maximum number of characters needed to decode a specified number of bytes.  \n  \n [!CODE [System.Text.ASCIIEncoding.GetMaxCharCount Example#1](../CodeSnippet/VS_Snippets_CLR_System/system.Text.ASCIIEncoding.GetMaxCharCount Example#1)]"
   syntax:
     content: public override int GetMaxCharCount (int byteCount);
     parameters:
     - id: byteCount
       type: System.Int32
-      description: Parameter description to be filled
+      description: The number of bytes to decode.
     return:
       type: System.Int32
-      description: Return description to be filled
+      description: The maximum number of characters produced by decoding the specified number of bytes.
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Text.ASCIIEncoding.GetString(System.Byte[],System.Int32,System.Int32)
   id: GetString(System.Byte[],System.Int32,System.Int32)
   parent: System.Text.ASCIIEncoding
   langs:
   - csharp
-  - vb
   name: GetString(Byte[],Int32,Int32)
   nameWithType: ASCIIEncoding.GetString(Byte[],Int32,Int32)
   fullName: System.Text.ASCIIEncoding.GetString(Byte[],Int32,Int32)
@@ -498,27 +597,34 @@ items:
   assemblies:
   - mscorlib
   namespace: System.Text
+  summary: Decodes a range of bytes from a byte array into a string.
+  remarks: "Data to be converted, such as data read from a stream, can be available only in sequential blocks. In this case, or if the amount of data is so large that it needs to be divided into smaller blocks, the application should use the <xref:System.Text.Decoder> or the <xref:System.Text.Encoder> provided by the <xref:System.Text.ASCIIEncoding.GetDecoder%2A> method or the <xref:System.Text.ASCIIEncoding.GetEncoder%2A> method, respectively.  \n  \n <xref:System.Text.ASCIIEncoding> does not provide error detection. Any byte greater than hexadecimal 0x7F is decoded as the Unicode question mark (\"?\").  \n  \n> [!CAUTION]\n>  For security reasons, you should use the <xref:System.Text.UTF8Encoding>, <xref:System.Text.UnicodeEncoding>, or <xref:System.Text.UTF32Encoding> classes and enable error detection instead of using the <xref:System.Text.ASCIIEncoding> class."
+  example:
+  - "The following example demonstrates how to use the GetString method to convert a byte array into a <xref:System.String>.  \n  \n [!CODE [System.Text.ASCIIEncoding.GetString1 Example#1](../CodeSnippet/VS_Snippets_CLR_System/system.Text.ASCIIEncoding.GetString1 Example#1)]"
   syntax:
     content: public override string GetString (byte[] bytes, int byteIndex, int byteCount);
     parameters:
     - id: bytes
       type: System.Byte[]
-      description: Parameter description to be filled
+      description: The byte array containing the sequence of bytes to decode.
     - id: byteIndex
       type: System.Int32
-      description: Parameter description to be filled
+      description: The index of the first byte to decode.
     - id: byteCount
       type: System.Int32
-      description: Parameter description to be filled
+      description: The number of bytes to decode.
     return:
       type: System.String
-      description: Return description to be filled
+      description: A <see cref="T:System.String"> containing the results of decoding the specified sequence of bytes.
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Text.ASCIIEncoding.IsSingleByte
   id: IsSingleByte
   parent: System.Text.ASCIIEncoding
   langs:
   - csharp
-  - vb
   name: IsSingleByte
   nameWithType: ASCIIEncoding.IsSingleByte
   fullName: System.Text.ASCIIEncoding.IsSingleByte
@@ -526,11 +632,17 @@ items:
   assemblies:
   - mscorlib
   namespace: System.Text
+  summary: Gets a value indicating whether the current encoding uses single-byte code points.
+  remarks: Instead of using the IsSingleByte property to determine the size of a byte array for encoding operations  and the size of a character array for decoding operations (for example, so that the size of the byte array is IsSingleByte * the number of characters to be encoded), you should call the <xref:System.Text.ASCIIEncoding.GetByteCount%2A> or <xref:System.Text.ASCIIEncoding.GetMaxByteCount%2A> method for encoding operations and the <xref:System.Text.ASCIIEncoding.GetCharCount%2A> or <xref:System.Text.ASCIIEncoding.GetMaxCharCount%2A> method for decoding operations. These methods takes the <xref:System.Text.ASCIIEncoding> object's replacement fallback strategy into account when calculating the required array size.
   syntax:
     content: public override bool IsSingleByte { get; }
     return:
       type: System.Boolean
-      description: Return description to be filled
+      description: To be added.
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 references:
 - uid: System.Text.Encoding
   isExternal: false
@@ -589,6 +701,12 @@ references:
   name: Int32
   nameWithType: Int32
   fullName: System.Int32
+- uid: System.Char
+  parent: System
+  isExternal: false
+  name: Char
+  nameWithType: Char
+  fullName: System.Char[]
 - uid: System.Int32
   parent: System
   isExternal: false
@@ -637,6 +755,12 @@ references:
   name: Int32
   nameWithType: Int32
   fullName: System.Int32
+- uid: System.Char
+  parent: System
+  isExternal: false
+  name: Char
+  nameWithType: Char
+  fullName: System.Char[]
 - uid: System.Int32
   parent: System
   isExternal: false
@@ -649,6 +773,12 @@ references:
   name: Int32
   nameWithType: Int32
   fullName: System.Int32
+- uid: System.Byte
+  parent: System
+  isExternal: false
+  name: Byte
+  nameWithType: Byte
+  fullName: System.Byte[]
 - uid: System.Int32
   parent: System
   isExternal: false
@@ -685,6 +815,12 @@ references:
   name: Int32
   nameWithType: Int32
   fullName: System.Int32
+- uid: System.Byte
+  parent: System
+  isExternal: false
+  name: Byte
+  nameWithType: Byte
+  fullName: System.Byte[]
 - uid: System.Int32
   parent: System
   isExternal: false
@@ -721,6 +857,12 @@ references:
   name: Int32
   nameWithType: Int32
   fullName: System.Int32
+- uid: System.Byte
+  parent: System
+  isExternal: false
+  name: Byte
+  nameWithType: Byte
+  fullName: System.Byte[]
 - uid: System.Int32
   parent: System
   isExternal: false
@@ -769,6 +911,12 @@ references:
   name: Int32
   nameWithType: Int32
   fullName: System.Int32
+- uid: System.Byte
+  parent: System
+  isExternal: false
+  name: Byte
+  nameWithType: Byte
+  fullName: System.Byte[]
 - uid: System.Int32
   parent: System
   isExternal: false
@@ -781,6 +929,12 @@ references:
   name: Int32
   nameWithType: Int32
   fullName: System.Int32
+- uid: System.Char
+  parent: System
+  isExternal: false
+  name: Char
+  nameWithType: Char
+  fullName: System.Char[]
 - uid: System.Int32
   parent: System
   isExternal: false
@@ -859,6 +1013,12 @@ references:
   name: String
   nameWithType: String
   fullName: System.String
+- uid: System.Byte
+  parent: System
+  isExternal: false
+  name: Byte
+  nameWithType: Byte
+  fullName: System.Byte[]
 - uid: System.Int32
   parent: System
   isExternal: false

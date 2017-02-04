@@ -6,11 +6,14 @@ items:
   - System.Threading.AutoResetEvent.#ctor(System.Boolean)
   langs:
   - csharp
-  - vb
   name: AutoResetEvent
   nameWithType: AutoResetEvent
   fullName: System.Threading.AutoResetEvent
   type: Class
+  summary: Notifies a waiting thread that an event has occurred. This class cannot be inherited.
+  remarks: "`AutoResetEvent` allows threads to communicate with each other by signaling. Typically, you use this class when threads need exclusive access to a resource.  \n  \n> [!IMPORTANT]\n>  This type implements the <xref:System.IDisposable> interface. When you have finished using the type, you should dispose of it either directly or indirectly. To dispose of the type directly, call its <xref:System.IDisposable.Dispose%2A> method in a `try`/`catch` block. To dispose of it indirectly, use a language construct such as `using` (in C#) or `Using` (in Visual Basic). For more information, see the “Using an Object that Implements IDisposable” section in the <xref:System.IDisposable> interface topic.  \n  \n A thread waits for a signal by calling <xref:System.Threading.WaitHandle.WaitOne%2A> on the `AutoResetEvent`. If the `AutoResetEvent` is in the non-signaled state, the thread blocks, waiting for the thread that currently controls the resource to signal that the resource is available by calling <xref:System.Threading.EventWaitHandle.Set%2A>.  \n  \n Calling `Set` signals `AutoResetEvent` to release a waiting thread. `AutoResetEvent` remains signaled until a single waiting thread is released, and then automatically returns to the non-signaled state. If no threads are waiting, the state remains signaled indefinitely.  \n  \n If a thread calls <xref:System.Threading.WaitHandle.WaitOne%2A> while the AutoResetEvent is in the signaled state, the thread does not block. The AutoResetEvent releases the thread immediately and returns to the non-signaled state.  \n  \n> [!IMPORTANT]\n>  There is no guarantee that every call to the <xref:System.Threading.EventWaitHandle.Set%2A> method will release a thread. If two calls are too close together, so that the second call occurs before a thread has been released, only one thread is released. It is as if the second call did not happen. Also, if <xref:System.Threading.EventWaitHandle.Set%2A> is called when there are no threads waiting and the AutoResetEvent is already signaled, the call has no effect.  \n  \n You can control the initial state of an `AutoResetEvent` by passing a Boolean value to the constructor: `true` if the initial state is signaled and `false` otherwise.  \n  \n `AutoResetEvent` can also be used with the `static`<xref:System.Threading.WaitHandle.WaitAll%2A> and <xref:System.Threading.WaitHandle.WaitAny%2A> methods.  \n  \n For more information about thread synchronization mechanisms, see [AutoResetEvent](../Topic/AutoResetEvent.md) in the conceptual documentation.  \n  \n Beginning with the .NET Framework version 2.0, AutoResetEvent derives from the new <xref:System.Threading.EventWaitHandle> class. An AutoResetEvent is functionally equivalent to an <xref:System.Threading.EventWaitHandle> created with <xref:System.Threading.EventResetMode?displayProperty=fullName>.  \n  \n> [!NOTE]\n>  Unlike the AutoResetEvent class, the <xref:System.Threading.EventWaitHandle> class provides access to named system synchronization events."
+  example:
+  - "The following example shows how to use AutoResetEvent to release one thread at a time, by calling the <xref:System.Threading.EventWaitHandle.Set%2A> method (on the base class) each time the user presses the **Enter** key. The example starts three threads, which wait on an AutoResetEvent that was created in the signaled state. The first thread is released immediately, because the AutoResetEvent is already in the signaled state. This resets the AutoResetEvent to the non-signaled state, so that subsequent threads block. The blocked threads are not released until the user releases them one at a time by pressing the **Enter** key.  \n  \n After the threads are released from the first AutoResetEvent, they wait on another AutoResetEvent that was created in the non-signaled state. All three threads block, so the <xref:System.Threading.EventWaitHandle.Set%2A> method must be called three times to release them all.  \n  \n [!CODE [System.Threading.AutoResetEvent#3](../CodeSnippet/VS_Snippets_CLR_System/system.Threading.AutoResetEvent#3)]"
   syntax:
     content: >-
       [System.Runtime.InteropServices.ComVisible(true)]
@@ -67,12 +70,15 @@ items:
   - System.Threading.WaitHandle.WaitOne(System.TimeSpan)
   - System.Threading.WaitHandle.WaitOne(System.TimeSpan,System.Boolean)
   - System.Threading.WaitHandle.WaitTimeout
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Threading.AutoResetEvent.#ctor(System.Boolean)
   id: '#ctor(System.Boolean)'
   parent: System.Threading.AutoResetEvent
   langs:
   - csharp
-  - vb
   name: AutoResetEvent(Boolean)
   nameWithType: AutoResetEvent.AutoResetEvent(Boolean)
   fullName: System.Threading.AutoResetEvent.AutoResetEvent(Boolean)
@@ -80,12 +86,20 @@ items:
   assemblies:
   - mscorlib
   namespace: System.Threading
+  summary: Initializes a new instance of the <see cref="T:System.Threading.AutoResetEvent"> class with a Boolean value indicating whether to set the initial state to signaled.
+  remarks: ''
+  example:
+  - "The following example uses an <xref:System.Threading.AutoResetEvent> to synchronize the activities of two threads. The first thread, which is the application thread, executes `Main`. It writes values to the protected resource, which is a `static` (`Shared` in Visual Basic) field named `number`. The second thread executes the static `ThreadProc` method, which reads the values written by `Main`.  \n  \n The `ThreadProc` method waits for the <xref:System.Threading.AutoResetEvent>. When `Main` calls the <xref:System.Threading.EventWaitHandle.Set%2A> method on the <xref:System.Threading.AutoResetEvent>, the `ThreadProc` method reads one value. The <xref:System.Threading.AutoResetEvent> immediately resets, so the `ThreadProc` method waits again.  \n  \n The program logic guarantees that the `ThreadProc` method will never read the same value two times. It does not guarantee that the `ThreadProc` method will read every value written by `Main`. That guarantee would require a second <xref:System.Threading.AutoResetEvent> lock.  \n  \n After each write operation, `Main` yields by calling the <xref:System.Threading.Thread.Sleep%2A?displayProperty=fullName> method, to give the second thread a chance to execute. Otherwise, on a single-processor computer `Main` would write many values between any two read operations.  \n  \n [!CODE [System.Threading.AutoResetEvent#1](../CodeSnippet/VS_Snippets_CLR_System/system.Threading.AutoResetEvent#1)]"
   syntax:
     content: public AutoResetEvent (bool initialState);
     parameters:
     - id: initialState
       type: System.Boolean
-      description: Parameter description to be filled
+      description: '`true` to set the initial state to signaled; `false` to set the initial state to non-signaled.'
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 references:
 - uid: System.Threading.EventWaitHandle
   isExternal: false

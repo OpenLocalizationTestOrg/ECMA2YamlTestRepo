@@ -16,11 +16,14 @@ items:
   - System.Threading.Timer.Dispose(System.Threading.WaitHandle)
   langs:
   - csharp
-  - vb
   name: Timer
   nameWithType: Timer
   fullName: System.Threading.Timer
   type: Class
+  summary: "Provides a mechanism for executing a method on a thread pool thread at specified intervals. This class cannot be inherited.  \n  \n To browse the .NET Framework source code for this type, see the [Reference Source](http://referencesource.microsoft.com/#mscorlib/system/threading/timer.cs#051a39d380760b26)."
+  remarks: "> [!NOTE]\n>  To view the .NET Framework source code for this type, see the [Reference Source](http://referencesource.microsoft.com/#mscorlib/system/threading/timer.cs#051a39d380760b26). You can browse through the source code online, download the reference for offline viewing, and step through the sources (including patches and updates) during debugging; see [instructions](http://referencesource.microsoft.com/).  \n  \n Use a <xref:System.Threading.TimerCallback> delegate to specify the method you want the Timer to execute. The signature of the <xref:System.Threading.TimerCallback> delegate is:  \n  \n```c#  \nvoid TimerCallback(Object state)  \n```  \n  \n```cpp  \nvoid TimerCallback(Object state)  \n```  \n  \n```vb  \nSub TimerCallback(state As Object)  \n```  \n  \n The timer delegate is specified when the timer is constructed, and cannot be changed. The method does not execute on the thread that created the timer; it executes on a <xref:System.Threading.ThreadPool> thread supplied by the system.  \n  \n> [!TIP]\n>  The .NET Framework Class Library includes four classes named `Timer`, each of which offers different functionality:  \n>   \n>  -   <xref:System.Timers.Timer?displayProperty=fullName>, which fires an event and executes the code in one or more event sinks at regular intervals. The class is intended for use as a server-based or service component in a multithreaded environment; it has no user interface and is not visible at runtime.  \n> -   Timer, which executes a single callback method on a thread pool thread at regular intervals. The callback method is defined when the timer is instantiated and cannot be changed. Like the <xref:System.Timers.Timer?displayProperty=fullName> class, this class is intended for use as a server-based or service component in a multithreaded environment; it has no user interface and is not visible at runtime.  \n> -   <xref:System.Windows.Forms.Timer?displayProperty=fullName>, a Windows Forms component that fires an event and executes the code in one or more event sinks at regular intervals. The component has no user interface and is designed for use in a single-threaded environment; it executes on the UI thread.  \n> -   <xref:System.Web.UI.Timer?displayProperty=fullName>, an ASP.NET component that performs asynchronous or synchronous web page postbacks at a regular interval.  \n  \n When you create a timer, you can specify an amount of time to wait before the first execution of the method (due time), and an amount of time to wait between subsequent executions (period). The Timer class has the same resolution as the system clock. This means that if the period is less than the resolution of the system clock, the <xref:System.Threading.TimerCallback> delegate will execute at intervals defined by the resolution of the system clock, which is approximately 15 milliseconds on Windows 7 and Windows 8 systems. You can change the due time and period, or disable the timer, by using the <xref:System.Threading.Timer.Change%2A> method.  \n  \n> [!NOTE]\n>  As long as you are using a Timer, you must keep a reference to it. As with any managed object, a Timer is subject to garbage collection when there are no references to it. The fact that a Timer is still active does not prevent it from being collected.  \n  \n When a timer is no longer needed, use the <xref:System.Threading.Timer.Dispose%2A> method to free the resources held by the timer. Note that callbacks can occur after the <xref:System.Threading.Timer.Dispose> method overload has been called, because the timer queues callbacks for execution by thread pool threads. You can use the <xref:System.Threading.Timer.Dispose%28System.Threading.WaitHandle%29> method overload to wait until all callbacks have completed.  \n  \n The callback method executed by the timer should be reentrant, because it is called on <xref:System.Threading.ThreadPool> threads. The callback can be executed simultaneously on two thread pool threads if the timer interval is less than the time required to execute the callback, or if all thread pool threads are in use and the callback is queued multiple times.  \n  \n> [!NOTE]\n>  Timer is a simple, lightweight timer that uses callback methods and is served by thread pool threads. It is not recommended for use with Windows Forms, because its callbacks do not occur on the user interface thread. <xref:System.Windows.Forms.Timer?displayProperty=fullName> is a better choice for use with Windows Forms. For server-based timer functionality, you might consider using <xref:System.Timers.Timer?displayProperty=fullName>, which raises events and has additional features."
+  example:
+  - "The following example defines a `StatusChecker` class  that includes a `CheckStatus` method whose signature is the same as the <xref:System.Threading.TimerCallback> delegate. The   argument of the `CheckStatus` method is an <xref:System.Threading.AutoResetEvent> object that is used to synchronize the application thread and the thread pool thread that executes the callback delegate. The `StatusChecker` class also includes two state variables:  \n  \n `invokeCount`  \n Indicates the number of times the callback method has been invoked.  \n  \n `maxCount`  \n Determines the maximum number of times the callback method should be invoked.  \n  \n The application thread creates the timer, which waits one second and then executes  the `CheckStatus` callback method every 250 milliseconds. The application thread then blocks until the <xref:System.Threading.AutoResetEvent> object is signaled. When the `CheckStatus` callback method executes `maxCount` times, it calls the `AutoResetEvent.Set` method to set the state of the <xref:System.Threading.AutoResetEvent> object to signaled. The first time this happens, the application thread calls the <xref:System.Threading.Timer.Change%28System.Int32%2CSystem.Int32%29> method so that the callback method now executes every half second. It once again blocks until the <xref:System.Threading.AutoResetEvent> object is signaled. When this happens, the timer is destroyed by calling its <xref:System.Threading.Timer.Dispose%2A> method, and the application terminates.  \n  \n [!CODE [System.Threading.Timer#1](../CodeSnippet/VS_Snippets_CLR_System/system.Threading.Timer#1)]"
   syntax:
     content: >-
       [System.Runtime.InteropServices.ComVisible(true)]
@@ -43,12 +46,15 @@ items:
   - System.Object.MemberwiseClone
   - System.Object.ReferenceEquals(System.Object,System.Object)
   - System.Object.ToString
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Threading.Timer.#ctor(System.Threading.TimerCallback)
   id: '#ctor(System.Threading.TimerCallback)'
   parent: System.Threading.Timer
   langs:
   - csharp
-  - vb
   name: Timer(TimerCallback)
   nameWithType: Timer.Timer(TimerCallback)
   fullName: System.Threading.Timer.Timer(TimerCallback)
@@ -56,18 +62,25 @@ items:
   assemblies:
   - mscorlib
   namespace: System.Threading
+  summary: Initializes a new instance of the <see cref="T:System.Threading.Timer"> class with an infinite period and an infinite due time, using the newly created <see cref="T:System.Threading.Timer"> object as the state object.
+  remarks: "Call this constructor when you want to use the <xref:System.Threading.Timer> object itself as the state object. After creating the timer, use the <xref:System.Threading.Timer.Change%2A> method to set the interval and due time.  \n  \n This constructor specifies an infinite due time before the first callback and an infinite interval between callbacks, in order to prevent the first callback from occurring before the <xref:System.Threading.Timer> object is assigned to the state object.  \n  \n The method specified for  should be reentrant, because it is called on <xref:System.Threading.ThreadPool> threads. The method can be executed simultaneously on two thread pool threads if the timer interval is less than the time required to execute the method, or if all thread pool threads are in use and the method is queued multiple times."
+  example:
+  - "The following code example creates a new timer, using the timer itself as the state object. The <xref:System.Threading.Timer.Change%2A> method is used to start the timer. When the timer callback occurs, the state object is used to turn the timer off.  \n  \n [!CODE [TimerSelfCtor#1](../CodeSnippet/VS_Snippets_Misc/timerSelfCtor#1)]"
   syntax:
     content: public Timer (System.Threading.TimerCallback callback);
     parameters:
     - id: callback
       type: System.Threading.TimerCallback
-      description: Parameter description to be filled
+      description: A <see cref="T:System.Threading.TimerCallback"> delegate representing a method to be executed.
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Threading.Timer.#ctor(System.Threading.TimerCallback,System.Object,System.Int32,System.Int32)
   id: '#ctor(System.Threading.TimerCallback,System.Object,System.Int32,System.Int32)'
   parent: System.Threading.Timer
   langs:
   - csharp
-  - vb
   name: Timer(TimerCallback,Object,Int32,Int32)
   nameWithType: Timer.Timer(TimerCallback,Object,Int32,Int32)
   fullName: System.Threading.Timer.Timer(TimerCallback,Object,Int32,Int32)
@@ -75,27 +88,34 @@ items:
   assemblies:
   - mscorlib
   namespace: System.Threading
+  summary: Initializes a new instance of the `Timer` class, using a 32-bit signed integer to specify the time interval.
+  remarks: "The delegate specified by the  parameter is invoked once after  elapses, and thereafter each time the  time interval elapses.  \n  \n If  is zero (0),  is invoked immediately. If  is <xref:System.Threading.Timeout.Infinite?displayProperty=fullName>,  is not invoked; the timer is disabled, but can be re-enabled by calling the <xref:System.Threading.Timer.Change%2A> method.  \n  \n Because the <xref:System.Threading.Timer> class has the same resolution as the system clock, which is approximately 15 milliseconds on Windows 7 and Windows 8 systems, the  delegate executes at intervals defined by the resolution of the system clock if  is less than the resolution of the system clock. If  is zero (0) or <xref:System.Threading.Timeout.Infinite?displayProperty=fullName> and  is not <xref:System.Threading.Timeout.Infinite?displayProperty=fullName>,  is invoked once; the periodic behavior of the timer is disabled, but can be re-enabled using the <xref:System.Threading.Timer.Change%2A> method.  \n  \n The method specified for  should be reentrant, because it is called on <xref:System.Threading.ThreadPool> threads. The method can be executed simultaneously on two thread pool threads if the timer interval is less than the time required to execute the method, or if all thread pool threads are in use and the method is queued multiple times."
+  example:
+  - "The following code example shows how to create a `TimerCallback` delegate and initialize a new instance of the `Timer` class.  \n  \n [!CODE [System.Threading.Timer#1](../CodeSnippet/VS_Snippets_CLR_System/system.Threading.Timer#1)]"
   syntax:
     content: public Timer (System.Threading.TimerCallback callback, object state, int dueTime, int period);
     parameters:
     - id: callback
       type: System.Threading.TimerCallback
-      description: Parameter description to be filled
+      description: A <see cref="T:System.Threading.TimerCallback"> delegate representing a method to be executed.
     - id: state
       type: System.Object
-      description: Parameter description to be filled
+      description: An object containing information to be used by the callback method, or `null`.
     - id: dueTime
       type: System.Int32
-      description: Parameter description to be filled
+      description: The amount of time to delay before  is invoked, in milliseconds. Specify <xref:System.Threading.Timeout.Infinite?displayProperty=fullName> to prevent the timer from starting. Specify zero (0) to start the timer immediately.
     - id: period
       type: System.Int32
-      description: Parameter description to be filled
+      description: The time interval between invocations of , in milliseconds. Specify <xref:System.Threading.Timeout.Infinite?displayProperty=fullName> to disable periodic signaling.
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Threading.Timer.#ctor(System.Threading.TimerCallback,System.Object,System.Int64,System.Int64)
   id: '#ctor(System.Threading.TimerCallback,System.Object,System.Int64,System.Int64)'
   parent: System.Threading.Timer
   langs:
   - csharp
-  - vb
   name: Timer(TimerCallback,Object,Int64,Int64)
   nameWithType: Timer.Timer(TimerCallback,Object,Int64,Int64)
   fullName: System.Threading.Timer.Timer(TimerCallback,Object,Int64,Int64)
@@ -103,27 +123,32 @@ items:
   assemblies:
   - mscorlib
   namespace: System.Threading
+  summary: Initializes a new instance of the `Timer` class, using 64-bit signed integers to measure time intervals.
+  remarks: "The delegate specified by the  parameter is invoked once after  elapses, and thereafter each time the  time interval elapses.  \n  \n If  is zero (0),  is invoked immediately. If  is <xref:System.Threading.Timeout.Infinite?displayProperty=fullName>,  is not invoked; the timer is disabled, but can be re-enabled by calling the <xref:System.Threading.Timer.Change%2A> method.  \n  \n Because the <xref:System.Threading.Timer> class has the same resolution as the system clock, which is approximately 15 milliseconds on Windows 7 and Windows 8 systems, the  delegate executes at intervals defined by the resolution of the system clock if  is less than the resolution of the system clock. If  is zero (0) or <xref:System.Threading.Timeout.Infinite?displayProperty=fullName> and  is not <xref:System.Threading.Timeout.Infinite?displayProperty=fullName>,  is invoked once; the periodic behavior of the timer is disabled, but can be re-enabled using the <xref:System.Threading.Timer.Change%2A> method.  \n  \n The method specified for  should be reentrant, because it is called on <xref:System.Threading.ThreadPool> threads. The method can be executed simultaneously on two thread pool threads if the timer interval is less than the time required to execute the method, or if all thread pool threads are in use and the method is queued multiple times."
   syntax:
     content: public Timer (System.Threading.TimerCallback callback, object state, long dueTime, long period);
     parameters:
     - id: callback
       type: System.Threading.TimerCallback
-      description: Parameter description to be filled
+      description: A <see cref="T:System.Threading.TimerCallback"> delegate representing a method to be executed.
     - id: state
       type: System.Object
-      description: Parameter description to be filled
+      description: An object containing information to be used by the callback method, or `null`.
     - id: dueTime
       type: System.Int64
-      description: Parameter description to be filled
+      description: The amount of time to delay before  is invoked, in milliseconds. Specify <xref:System.Threading.Timeout.Infinite?displayProperty=fullName> to prevent the timer from starting. Specify zero (0) to start the timer immediately.
     - id: period
       type: System.Int64
-      description: Parameter description to be filled
+      description: The time interval between invocations of , in milliseconds. Specify <xref:System.Threading.Timeout.Infinite?displayProperty=fullName> to disable periodic signaling.
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Threading.Timer.#ctor(System.Threading.TimerCallback,System.Object,System.TimeSpan,System.TimeSpan)
   id: '#ctor(System.Threading.TimerCallback,System.Object,System.TimeSpan,System.TimeSpan)'
   parent: System.Threading.Timer
   langs:
   - csharp
-  - vb
   name: Timer(TimerCallback,Object,TimeSpan,TimeSpan)
   nameWithType: Timer.Timer(TimerCallback,Object,TimeSpan,TimeSpan)
   fullName: System.Threading.Timer.Timer(TimerCallback,Object,TimeSpan,TimeSpan)
@@ -131,27 +156,34 @@ items:
   assemblies:
   - mscorlib
   namespace: System.Threading
+  summary: Initializes a new instance of the `Timer` class, using <see cref="T:System.TimeSpan"> values to measure time intervals.
+  remarks: "The delegate specified by the  parameter is invoked once after  elapses, and thereafter each time the  time interval elapses.  \n  \n If  is zero (0),  is invoked immediately. If  is negative one (-1) milliseconds,  is not invoked; the timer is disabled, but can be re-enabled by calling the <xref:System.Threading.Timer.Change%2A> method.  \n  \n Because the <xref:System.Threading.Timer> class has the same resolution as the system clock, which is approximately 15 milliseconds on Windows 7 and Windows 8 systems, the  delegate executes at intervals defined by the resolution of the system clock if  is less than the resolution of the system clock. If  is zero (0) or negative one (-1) milliseconds and  is positive,  is invoked once; the periodic behavior of the timer is disabled, but can be re-enabled using the <xref:System.Threading.Timer.Change%2A> method.  \n  \n The method specified for  should be reentrant, because it is called on <xref:System.Threading.ThreadPool> threads. The method can be executed simultaneously on two thread pool threads if the timer interval is less than the time required to execute the method, or if all thread pool threads are in use and the method is queued multiple times."
+  example:
+  - "The following code example shows how to create a `TimerCallback` delegate and initialize a new instance of the `Timer` class.  \n  \n [!CODE [System.Threading.Timer2#1](../CodeSnippet/VS_Snippets_CLR_System/system.Threading.Timer2#1)]"
   syntax:
     content: public Timer (System.Threading.TimerCallback callback, object state, TimeSpan dueTime, TimeSpan period);
     parameters:
     - id: callback
       type: System.Threading.TimerCallback
-      description: Parameter description to be filled
+      description: A delegate representing a method to be executed.
     - id: state
       type: System.Object
-      description: Parameter description to be filled
+      description: An object containing information to be used by the callback method, or `null`.
     - id: dueTime
       type: System.TimeSpan
-      description: Parameter description to be filled
+      description: The amount of time to delay before the  parameter invokes its methods. Specify negative one (-1) milliseconds to prevent the timer from starting. Specify zero (0) to start the timer immediately.
     - id: period
       type: System.TimeSpan
-      description: Parameter description to be filled
+      description: The time interval between invocations of the methods referenced by . Specify negative one (-1) milliseconds to disable periodic signaling.
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Threading.Timer.#ctor(System.Threading.TimerCallback,System.Object,System.UInt32,System.UInt32)
   id: '#ctor(System.Threading.TimerCallback,System.Object,System.UInt32,System.UInt32)'
   parent: System.Threading.Timer
   langs:
   - csharp
-  - vb
   name: Timer(TimerCallback,Object,UInt32,UInt32)
   nameWithType: Timer.Timer(TimerCallback,Object,UInt32,UInt32)
   fullName: System.Threading.Timer.Timer(TimerCallback,Object,UInt32,UInt32)
@@ -159,27 +191,32 @@ items:
   assemblies:
   - mscorlib
   namespace: System.Threading
+  summary: Initializes a new instance of the `Timer` class, using 32-bit unsigned integers to measure time intervals.
+  remarks: "The delegate specified by the  parameter is invoked once after  elapses, and thereafter each time the  time interval elapses.  \n  \n If  is zero (0),  is invoked immediately. If  is <xref:System.Threading.Timeout.Infinite?displayProperty=fullName>,  is not invoked; the timer is disabled, but can be re-enabled by calling the <xref:System.Threading.Timer.Change%2A> method.  \n  \n Because the <xref:System.Threading.Timer> class has the same resolution as the system clock, which is approximately 15 milliseconds on Windows 7 and Windows 8 systems, the  delegate executes at intervals defined by the resolution of the system clock if  is less than the resolution of the system clock. If  is zero (0) or <xref:System.Threading.Timeout.Infinite?displayProperty=fullName> and  is not <xref:System.Threading.Timeout.Infinite?displayProperty=fullName>,  is invoked once; the periodic behavior of the timer is disabled, but can be re-enabled using the <xref:System.Threading.Timer.Change%2A> method.  \n  \n The method specified for  should be reentrant, because it is called on <xref:System.Threading.ThreadPool> threads. The method can be executed simultaneously on two thread pool threads if the timer interval is less than the time required to execute the method, or if all thread pool threads are in use and the method is queued multiple times."
   syntax:
     content: public Timer (System.Threading.TimerCallback callback, object state, uint dueTime, uint period);
     parameters:
     - id: callback
       type: System.Threading.TimerCallback
-      description: Parameter description to be filled
+      description: A delegate representing a method to be executed.
     - id: state
       type: System.Object
-      description: Parameter description to be filled
+      description: An object containing information to be used by the callback method, or `null`.
     - id: dueTime
       type: System.UInt32
-      description: Parameter description to be filled
+      description: The amount of time to delay before  is invoked, in milliseconds. Specify <xref:System.Threading.Timeout.Infinite?displayProperty=fullName> to prevent the timer from starting. Specify zero (0) to start the timer immediately.
     - id: period
       type: System.UInt32
-      description: Parameter description to be filled
+      description: The time interval between invocations of , in milliseconds. Specify <xref:System.Threading.Timeout.Infinite?displayProperty=fullName> to disable periodic signaling.
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Threading.Timer.Change(System.Int32,System.Int32)
   id: Change(System.Int32,System.Int32)
   parent: System.Threading.Timer
   langs:
   - csharp
-  - vb
   name: Change(Int32,Int32)
   nameWithType: Timer.Change(Int32,Int32)
   fullName: System.Threading.Timer.Change(Int32,Int32)
@@ -187,25 +224,32 @@ items:
   assemblies:
   - mscorlib
   namespace: System.Threading
+  summary: Changes the start time and the interval between method invocations for a timer, using 32-bit signed integers to measure time intervals.
+  remarks: "The callback method is invoked once after  elapses, and thereafter each time the time interval specified by  elapses.  \n  \n If  is zero (0), the callback method is invoked immediately. If  is <xref:System.Threading.Timeout.Infinite?displayProperty=fullName>, the callback method is never invoked; the timer is disabled, but can be re-enabled by calling Change and specifying a positive value for .  \n  \n If  is zero (0) or <xref:System.Threading.Timeout.Infinite?displayProperty=fullName>, and  is not <xref:System.Threading.Timeout.Infinite?displayProperty=fullName>, the callback method is invoked once; the periodic behavior of the timer is disabled, but can be re-enabled by calling Change and specifying a positive value for .  \n  \n The Change method can be called from the <xref:System.Threading.TimerCallback> delegate."
+  example:
+  - "The following code example demonstrates how to start a `Timer` and, after a set number of invocations, change its period.  \n  \n [!CODE [System.Threading.Timer#1](../CodeSnippet/VS_Snippets_CLR_System/system.Threading.Timer#1)]"
   syntax:
     content: public bool Change (int dueTime, int period);
     parameters:
     - id: dueTime
       type: System.Int32
-      description: Parameter description to be filled
+      description: The amount of time to delay before the invoking the callback method specified when the <see cref="T:System.Threading.Timer"> was constructed, in milliseconds. Specify <xref:System.Threading.Timeout.Infinite?displayProperty=fullName> to prevent the timer from restarting. Specify zero (0) to restart the timer immediately.
     - id: period
       type: System.Int32
-      description: Parameter description to be filled
+      description: The time interval between invocations of the callback method specified when the <see cref="T:System.Threading.Timer"> was constructed, in milliseconds. Specify <xref:System.Threading.Timeout.Infinite?displayProperty=fullName> to disable periodic signaling.
     return:
       type: System.Boolean
-      description: Return description to be filled
+      description: '`true` if the timer was successfully updated; otherwise, `false`.'
   overload: System.Threading.Timer.Change*
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Threading.Timer.Change(System.Int64,System.Int64)
   id: Change(System.Int64,System.Int64)
   parent: System.Threading.Timer
   langs:
   - csharp
-  - vb
   name: Change(Int64,Int64)
   nameWithType: Timer.Change(Int64,Int64)
   fullName: System.Threading.Timer.Change(Int64,Int64)
@@ -213,25 +257,30 @@ items:
   assemblies:
   - mscorlib
   namespace: System.Threading
+  summary: Changes the start time and the interval between method invocations for a timer, using 64-bit signed integers to measure time intervals.
+  remarks: "The callback method is invoked once after  elapses, and thereafter each time the time interval specified by  elapses.  \n  \n If  is zero (0), the callback method is invoked immediately. If  is <xref:System.Threading.Timeout.Infinite?displayProperty=fullName>, the callback method is never invoked; the timer is disabled, but can be re-enabled by calling <xref:System.Threading.Timer.Change%2A> and specifying a positive value for .  \n  \n If  is zero (0) or <xref:System.Threading.Timeout.Infinite?displayProperty=fullName>, and  is not <xref:System.Threading.Timeout.Infinite?displayProperty=fullName>, the callback method is invoked once; the periodic behavior of the timer is disabled, but can be re-enabled by calling <xref:System.Threading.Timer.Change%2A> and specifying a positive value for .  \n  \n The <xref:System.Threading.Timer.Change%2A> method can be called from the <xref:System.Threading.TimerCallback> delegate."
   syntax:
     content: public bool Change (long dueTime, long period);
     parameters:
     - id: dueTime
       type: System.Int64
-      description: Parameter description to be filled
+      description: The amount of time to delay before the invoking the callback method specified when the <see cref="T:System.Threading.Timer"> was constructed, in milliseconds. Specify <xref:System.Threading.Timeout.Infinite?displayProperty=fullName> to prevent the timer from restarting. Specify zero (0) to restart the timer immediately.
     - id: period
       type: System.Int64
-      description: Parameter description to be filled
+      description: The time interval between invocations of the callback method specified when the <see cref="T:System.Threading.Timer"> was constructed, in milliseconds. Specify <xref:System.Threading.Timeout.Infinite?displayProperty=fullName> to disable periodic signaling.
     return:
       type: System.Boolean
-      description: Return description to be filled
+      description: '`true` if the timer was successfully updated; otherwise, `false`.'
   overload: System.Threading.Timer.Change*
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Threading.Timer.Change(System.TimeSpan,System.TimeSpan)
   id: Change(System.TimeSpan,System.TimeSpan)
   parent: System.Threading.Timer
   langs:
   - csharp
-  - vb
   name: Change(TimeSpan,TimeSpan)
   nameWithType: Timer.Change(TimeSpan,TimeSpan)
   fullName: System.Threading.Timer.Change(TimeSpan,TimeSpan)
@@ -239,25 +288,32 @@ items:
   assemblies:
   - mscorlib
   namespace: System.Threading
+  summary: Changes the start time and the interval between method invocations for a timer, using <see cref="T:System.TimeSpan"> values to measure time intervals.
+  remarks: "The callback method is invoked once after  elapses, and thereafter each time the time interval specified by  elapses.  \n  \n If  is zero (0), the callback method is invoked immediately. If  is negative one (-1) milliseconds, the callback method is never invoked; the timer is disabled, but can be re-enabled by calling <xref:System.Threading.Timer.Change%2A> and specifying a positive value for .  \n  \n If  is zero (0) or negative one (-1) milliseconds, and  is positive, the callback method is invoked once; the periodic behavior of the timer is disabled, but can be re-enabled by calling <xref:System.Threading.Timer.Change%2A> and specifying a value greater than zero for .  \n  \n The <xref:System.Threading.Timer.Change%2A> method can be called from the <xref:System.Threading.TimerCallback> delegate."
+  example:
+  - "The following code example demonstrates how to start a `Timer` and, after a set number of invocations, change its period.  \n  \n [!CODE [System.Threading.Timer2#1](../CodeSnippet/VS_Snippets_CLR_System/system.Threading.Timer2#1)]"
   syntax:
     content: public bool Change (TimeSpan dueTime, TimeSpan period);
     parameters:
     - id: dueTime
       type: System.TimeSpan
-      description: Parameter description to be filled
+      description: A <see cref="T:System.TimeSpan"> representing the amount of time to delay before invoking the callback method specified when the <xref:System.Threading.Timer> was constructed. Specify negative one (-1) milliseconds to prevent the timer from restarting. Specify zero (0) to restart the timer immediately.
     - id: period
       type: System.TimeSpan
-      description: Parameter description to be filled
+      description: The time interval between invocations of the callback method specified when the <see cref="T:System.Threading.Timer"> was constructed. Specify negative one (-1) milliseconds to disable periodic signaling.
     return:
       type: System.Boolean
-      description: Return description to be filled
+      description: '`true` if the timer was successfully updated; otherwise, `false`.'
   overload: System.Threading.Timer.Change*
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Threading.Timer.Change(System.UInt32,System.UInt32)
   id: Change(System.UInt32,System.UInt32)
   parent: System.Threading.Timer
   langs:
   - csharp
-  - vb
   name: Change(UInt32,UInt32)
   nameWithType: Timer.Change(UInt32,UInt32)
   fullName: System.Threading.Timer.Change(UInt32,UInt32)
@@ -265,25 +321,30 @@ items:
   assemblies:
   - mscorlib
   namespace: System.Threading
+  summary: Changes the start time and the interval between method invocations for a timer, using 32-bit unsigned integers to measure time intervals.
+  remarks: "The callback method is invoked once after  elapses, and thereafter each time the time interval specified by  elapses.  \n  \n If  is zero (0), the callback method is invoked immediately. If  is <xref:System.Threading.Timeout.Infinite?displayProperty=fullName>, the callback method is never invoked; the timer is disabled, but can be re-enabled by calling <xref:System.Threading.Timer.Change%2A> and specifying a positive value for .  \n  \n If  is zero (0) or <xref:System.Threading.Timeout.Infinite?displayProperty=fullName>, and  is not <xref:System.Threading.Timeout.Infinite?displayProperty=fullName>, the callback method is invoked once; the periodic behavior of the timer is disabled, but can be re-enabled by calling <xref:System.Threading.Timer.Change%2A> and specifying a positive value for .  \n  \n The <xref:System.Threading.Timer.Change%2A> method can be called from the <xref:System.Threading.TimerCallback> delegate."
   syntax:
     content: public bool Change (uint dueTime, uint period);
     parameters:
     - id: dueTime
       type: System.UInt32
-      description: Parameter description to be filled
+      description: The amount of time to delay before the invoking the callback method specified when the <see cref="T:System.Threading.Timer"> was constructed, in milliseconds. Specify <xref:System.Threading.Timeout.Infinite?displayProperty=fullName> to prevent the timer from restarting. Specify zero (0) to restart the timer immediately.
     - id: period
       type: System.UInt32
-      description: Parameter description to be filled
+      description: The time interval between invocations of the callback method specified when the <see cref="T:System.Threading.Timer"> was constructed, in milliseconds. Specify <xref:System.Threading.Timeout.Infinite?displayProperty=fullName> to disable periodic signaling.
     return:
       type: System.Boolean
-      description: Return description to be filled
+      description: '`true` if the timer was successfully updated; otherwise, `false`.'
   overload: System.Threading.Timer.Change*
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Threading.Timer.Dispose
   id: Dispose
   parent: System.Threading.Timer
   langs:
   - csharp
-  - vb
   name: Dispose()
   nameWithType: Timer.Dispose()
   fullName: System.Threading.Timer.Dispose()
@@ -291,19 +352,23 @@ items:
   assemblies:
   - mscorlib
   namespace: System.Threading
+  summary: Releases all resources used by the current instance of <see cref="T:System.Threading.Timer">.
+  remarks: "Calling `Dispose` allows the resources used by the <xref:System.Threading.Timer> to be reallocated for other purposes. For more information about `Dispose`, see [Cleaning Up Unmanaged Resources](../Topic/Cleaning%20Up%20Unmanaged%20Resources.md).  \n  \n> [!NOTE]\n>  Callbacks can occur after the Dispose method overload has been called, because the timer queues callbacks for execution by thread pool threads. You can use the <xref:System.Threading.Timer.Dispose%28System.Threading.WaitHandle%29> method overload to wait until all callbacks have completed."
+  example:
+  - "The following code example shows how to free the resources held by a `Timer`.  \n  \n [!CODE [System.Threading.Timer#1](../CodeSnippet/VS_Snippets_CLR_System/system.Threading.Timer#1)]"
   syntax:
     content: public void Dispose ();
     parameters: []
-    return:
-      type: System.Void
-      description: Return description to be filled
   overload: System.Threading.Timer.Dispose*
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Threading.Timer.Dispose(System.Threading.WaitHandle)
   id: Dispose(System.Threading.WaitHandle)
   parent: System.Threading.Timer
   langs:
   - csharp
-  - vb
   name: Dispose(WaitHandle)
   nameWithType: Timer.Dispose(WaitHandle)
   fullName: System.Threading.Timer.Dispose(WaitHandle)
@@ -311,16 +376,22 @@ items:
   assemblies:
   - mscorlib
   namespace: System.Threading
+  summary: Releases all resources used by the current instance of <see cref="T:System.Threading.Timer"> and signals when the timer has been disposed of.
+  remarks: "Calling `Dispose` allows the resources used by the <xref:System.Threading.Timer> to be reallocated for other purposes. For more information about `Dispose`, see [Cleaning Up Unmanaged Resources](../Topic/Cleaning%20Up%20Unmanaged%20Resources.md).  \n  \n When this method completes, it signals the <xref:System.Threading.WaitHandle> specified by the  parameter.Use this overload of the <xref:System.Threading.Timer.Dispose%2A> method if you want to be able to block until you are certain that the timer has been disposed. The timer is not disposed until all currently queued callbacks have completed.  \n  \n> [!NOTE]\n>  If the callback uses the <xref:System.Threading.Timer.Change%2A> method to set the  parameter to zero, a race condition can occur when the Dispose method overload is called: If the timer queues a new callback before the Dispose method overload detects that there are no callbacks queued, Dispose continues to block; otherwise, the timer is disposed while the new callback is being queued, and an <xref:System.ObjectDisposedException> is thrown when the new callback calls the <xref:System.Threading.Timer.Change%2A> method."
   syntax:
     content: public bool Dispose (System.Threading.WaitHandle notifyObject);
     parameters:
     - id: notifyObject
       type: System.Threading.WaitHandle
-      description: Parameter description to be filled
+      description: The <see cref="T:System.Threading.WaitHandle"> to be signaled when the `Timer` has been disposed of.
     return:
       type: System.Boolean
-      description: Return description to be filled
+      description: '`true` if the function succeeds; otherwise, `false`.'
   overload: System.Threading.Timer.Dispose*
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 references:
 - uid: System.MarshalByRefObject
   isExternal: false
@@ -559,12 +630,6 @@ references:
   name: Dispose()
   nameWithType: Timer.Dispose()
   fullName: System.Threading.Timer.Dispose()
-- uid: System.Void
-  parent: System
-  isExternal: false
-  name: Void
-  nameWithType: Void
-  fullName: System.Void
 - uid: System.Threading.Timer.Dispose(System.Threading.WaitHandle)
   parent: System.Threading.Timer
   isExternal: false

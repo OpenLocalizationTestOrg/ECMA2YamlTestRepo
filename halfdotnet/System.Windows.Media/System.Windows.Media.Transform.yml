@@ -13,11 +13,12 @@ items:
   - System.Windows.Media.Transform.Value
   langs:
   - csharp
-  - vb
   name: Transform
   nameWithType: Transform
   fullName: System.Windows.Media.Transform
   type: Class
+  summary: Defines functionality that enables transformations in a [!INCLUDE[TLA#tla_2d](../../add/includes/tlasharptla-2d-md.md)] plane. Transformations include rotation (<see cref="T:System.Windows.Media.RotateTransform">), scale (<xref:System.Windows.Media.ScaleTransform>), skew (<xref:System.Windows.Media.SkewTransform>), and translation (<xref:System.Windows.Media.TranslateTransform>). This class hierarchy differs from the <xref:System.Windows.Media.Matrix> structure because it is a class and it supports animation and enumeration semantics.
+  remarks: "Use the <xref:System.Windows.Media.MatrixTransform> class to create custom transformations that are not provided by the <xref:System.Windows.Media.RotateTransform>, <xref:System.Windows.Media.ScaleTransform>, <xref:System.Windows.Media.SkewTransform>, and <xref:System.Windows.Media.TranslateTransform> classes.  \n  \n A [!INCLUDE[TLA#tla_2d](../../add/includes/tlasharptla-2d-md.md)] x-y plane uses a 3x3 matrix for transformations. You can multiply affine transformation matrices to form linear transformations, such as rotation and skew (shear) that are followed by translation.  \n  \n An affine transformation matrix has its final column equal to (0, 0, 1); therefore, you only have to specify the members in the first two columns.  \n  \n A [!INCLUDE[TLA#tla_winclient](../../add/includes/tlasharptla-winclient-md.md)] <xref:System.Windows.Media.Matrix> has the following structure:  \n  \n||||  \n|-|-|-|  \n|<xref:System.Windows.Media.Matrix.M11%2A>|<xref:System.Windows.Media.Matrix.M12%2A>|0|  \n|<xref:System.Windows.Media.Matrix.M21%2A>|<xref:System.Windows.Media.Matrix.M22%2A>|0|  \n|<xref:System.Windows.Media.Matrix.OffsetX%2A>|<xref:System.Windows.Media.Matrix.OffsetY%2A>|1|  \n  \n The members in the last row, <xref:System.Windows.Media.Matrix.OffsetX%2A> and <xref:System.Windows.Media.Matrix.OffsetY%2A>, represent translation values.  \n  \n Methods and properties usually specify the transformation matrix as a vector that has only six members; they are as follows:  \n  \n (<xref:System.Windows.Media.Matrix.M11%2A>, <xref:System.Windows.Media.Matrix.M12%2A>, <xref:System.Windows.Media.Matrix.M21%2A>, <xref:System.Windows.Media.Matrix.M22%2A>, <xref:System.Windows.Media.Matrix.OffsetX%2A>, <xref:System.Windows.Media.Matrix.OffsetY%2A>)"
   syntax:
     content: >-
       [System.ComponentModel.TypeConverter(typeof(System.Windows.Media.TransformConverter))]
@@ -45,12 +46,15 @@ items:
   - System.Windows.Media.GeneralTransform.ToString
   - System.Windows.Media.GeneralTransform.ToString(System.IFormatProvider)
   - System.Windows.Media.GeneralTransform.Transform(System.Windows.Point)
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Windows.Media.Transform.Clone
   id: Clone
   parent: System.Windows.Media.Transform
   langs:
   - csharp
-  - vb
   name: Clone()
   nameWithType: Transform.Clone()
   fullName: System.Windows.Media.Transform.Clone()
@@ -58,18 +62,23 @@ items:
   assemblies:
   - PresentationCore
   namespace: System.Windows.Media
+  summary: Creates a modifiable copy of this <see cref="T:System.Windows.Media.Transform"> by making deep copies of its values.
+  remarks: "Use this method to produce modifiable copies of read-only <xref:System.Windows.Freezable> objects. For convenience, this method shadows the inherited version with a strongly typed implementation.  \n  \n When this method copies dependency properties, it copies resource references and data bindings although they might no longer resolve. It does not copy animations or their current values.  \n  \n For more information, see <xref:System.Windows.Freezable.Clone%2A?displayProperty=fullName>."
   syntax:
     content: public System.Windows.Media.Transform Clone ();
     parameters: []
     return:
       type: System.Windows.Media.Transform
-      description: Return description to be filled
+      description: A modifiable deep copy of the current object. The <xref:System.Windows.Freezable.IsFrozen%2A> property of the cloned object returns `false` even if the <xref:System.Windows.Freezable.IsFrozen%2A> property of the source is `true.`
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Windows.Media.Transform.CloneCurrentValue
   id: CloneCurrentValue
   parent: System.Windows.Media.Transform
   langs:
   - csharp
-  - vb
   name: CloneCurrentValue()
   nameWithType: Transform.CloneCurrentValue()
   fullName: System.Windows.Media.Transform.CloneCurrentValue()
@@ -77,18 +86,23 @@ items:
   assemblies:
   - PresentationCore
   namespace: System.Windows.Media
+  summary: Creates a modifiable clone of this <see cref="T:System.Windows.Media.Transform"> object by making deep copies of its values. This method does not copy resource references, data bindings, or animations, although it does copy their current values.
+  remarks: "Use this method to produce modifiable copies of read-only <xref:System.Windows.Freezable> objects. For convenience, this method shadows the inherited version with a strongly typed implementation.  \n  \n For more information, see <xref:System.Windows.Freezable.CloneCurrentValue%2A?displayProperty=fullName>."
   syntax:
     content: public System.Windows.Media.Transform CloneCurrentValue ();
     parameters: []
     return:
       type: System.Windows.Media.Transform
-      description: Return description to be filled
+      description: A modifiable deep copy of the current object. The <xref:System.Windows.Freezable.IsFrozen%2A> property of the cloned object is `false` even if the <xref:System.Windows.Freezable.IsFrozen%2A> property of the source is `true`.
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Windows.Media.Transform.Identity
   id: Identity
   parent: System.Windows.Media.Transform
   langs:
   - csharp
-  - vb
   name: Identity
   nameWithType: Transform.Identity
   fullName: System.Windows.Media.Transform.Identity
@@ -96,17 +110,22 @@ items:
   assemblies:
   - PresentationCore
   namespace: System.Windows.Media
+  summary: Gets an identity transform.
+  remarks: "An identity transform (identity matrix) that has the following configuration:  \n  \n||||  \n|-|-|-|  \n|1|0|0|  \n|0|1|0|  \n|0|0|1|  \n  \n When you apply an identity matrix, it does not change the object. It is like multiplying by `1`."
   syntax:
     content: public static System.Windows.Media.Transform Identity { get; }
     return:
       type: System.Windows.Media.Transform
-      description: Return description to be filled
+      description: To be added.
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Windows.Media.Transform.Inverse
   id: Inverse
   parent: System.Windows.Media.Transform
   langs:
   - csharp
-  - vb
   name: Inverse
   nameWithType: Transform.Inverse
   fullName: System.Windows.Media.Transform.Inverse
@@ -114,17 +133,22 @@ items:
   assemblies:
   - PresentationCore
   namespace: System.Windows.Media
+  summary: Gets the inverse of this transform, if it exists.
+  remarks: To be added.
   syntax:
     content: public override System.Windows.Media.GeneralTransform Inverse { get; }
     return:
       type: System.Windows.Media.GeneralTransform
-      description: Return description to be filled
+      description: To be added.
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Windows.Media.Transform.Parse(System.String)
   id: Parse(System.String)
   parent: System.Windows.Media.Transform
   langs:
   - csharp
-  - vb
   name: Parse(String)
   nameWithType: Transform.Parse(String)
   fullName: System.Windows.Media.Transform.Parse(String)
@@ -132,21 +156,26 @@ items:
   assemblies:
   - PresentationCore
   namespace: System.Windows.Media
+  summary: Creates a new <see cref="T:System.Windows.Media.Transform"> from the specified string representation of a transformation matrix.
+  remarks: For more information, see the XAML Attribute Usage section of the <xref:System.Windows.Media.MatrixTransform> class page.
   syntax:
     content: public static System.Windows.Media.Transform Parse (string source);
     parameters:
     - id: source
       type: System.String
-      description: Parameter description to be filled
+      description: Six comma-delimited <see cref="T:System.Double"> values that describe the new <xref:System.Windows.Media.Transform>. See also Remarks.
     return:
       type: System.Windows.Media.Transform
-      description: Return description to be filled
+      description: A new transform that is constructed from the specified string.
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Windows.Media.Transform.TransformBounds(System.Windows.Rect)
   id: TransformBounds(System.Windows.Rect)
   parent: System.Windows.Media.Transform
   langs:
   - csharp
-  - vb
   name: TransformBounds(Rect)
   nameWithType: Transform.TransformBounds(Rect)
   fullName: System.Windows.Media.Transform.TransformBounds(Rect)
@@ -154,21 +183,26 @@ items:
   assemblies:
   - PresentationCore
   namespace: System.Windows.Media
+  summary: Transforms the specified bounding box and returns an axis-aligned bounding box that is exactly large enough to contain it.
+  remarks: To be added.
   syntax:
     content: public override System.Windows.Rect TransformBounds (System.Windows.Rect rect);
     parameters:
     - id: rect
       type: System.Windows.Rect
-      description: Parameter description to be filled
+      description: The bounding box to transform.
     return:
       type: System.Windows.Rect
-      description: Return description to be filled
+      description: The smallest axis-aligned bounding box that can contain the transformed .
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Windows.Media.Transform.TryTransform(System.Windows.Point,System.Windows.Point@)
   id: TryTransform(System.Windows.Point,System.Windows.Point@)
   parent: System.Windows.Media.Transform
   langs:
   - csharp
-  - vb
   name: TryTransform(Point,Point)
   nameWithType: Transform.TryTransform(Point,Point)
   fullName: System.Windows.Media.Transform.TryTransform(Point,Point)
@@ -176,24 +210,29 @@ items:
   assemblies:
   - PresentationCore
   namespace: System.Windows.Media
+  summary: Attempts to transform the specified point and returns a value that indicates whether the transformation was successful.
+  remarks: Unlike the <xref:System.Windows.Media.GeneralTransform.Transform%2A> method, this method does not throw an exception if the transformation is unsuccessful.
   syntax:
     content: public override bool TryTransform (System.Windows.Point inPoint, out System.Windows.Point result);
     parameters:
     - id: inPoint
       type: System.Windows.Point
-      description: Parameter description to be filled
+      description: The point to transform.
     - id: result
       type: System.Windows.Point
-      description: Parameter description to be filled
+      description: The result of transforming .
     return:
       type: System.Boolean
-      description: Return description to be filled
+      description: '`true` if  was transformed; otherwise, `false`.'
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Windows.Media.Transform.Value
   id: Value
   parent: System.Windows.Media.Transform
   langs:
   - csharp
-  - vb
   name: Value
   nameWithType: Transform.Value
   fullName: System.Windows.Media.Transform.Value
@@ -201,11 +240,17 @@ items:
   assemblies:
   - PresentationCore
   namespace: System.Windows.Media
+  summary: Gets the current transformation as a <xref:System.Windows.Media.Matrix> object.
+  remarks: To be added.
   syntax:
     content: public abstract System.Windows.Media.Matrix Value { get; }
     return:
       type: System.Windows.Media.Matrix
-      description: Return description to be filled
+      description: To be added.
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 references:
 - uid: System.Windows.Media.GeneralTransform
   isExternal: false
@@ -282,6 +327,18 @@ references:
   name: TransformBounds(Rect)
   nameWithType: Transform.TransformBounds(Rect)
   fullName: System.Windows.Media.Transform.TransformBounds(Rect)
+- uid: System.Windows.Rect
+  parent: System.Windows
+  isExternal: true
+  name: Rect
+  nameWithType: Rect
+  fullName: System.Windows.Rect
+- uid: System.Windows.Rect
+  parent: System.Windows
+  isExternal: true
+  name: Rect
+  nameWithType: Rect
+  fullName: System.Windows.Rect
 - uid: System.Windows.Media.Transform.TryTransform(System.Windows.Point,System.Windows.Point@)
   parent: System.Windows.Media.Transform
   isExternal: false
@@ -294,9 +351,27 @@ references:
   name: Boolean
   nameWithType: Boolean
   fullName: System.Boolean
+- uid: System.Windows.Point
+  parent: System.Windows
+  isExternal: true
+  name: Point
+  nameWithType: Point
+  fullName: System.Windows.Point
+- uid: System.Windows.Point
+  parent: System.Windows
+  isExternal: true
+  name: Point
+  nameWithType: Point
+  fullName: System.Windows.Point
 - uid: System.Windows.Media.Transform.Value
   parent: System.Windows.Media.Transform
   isExternal: false
   name: Value
   nameWithType: Transform.Value
   fullName: System.Windows.Media.Transform.Value
+- uid: System.Windows.Media.Matrix
+  parent: System.Windows.Media
+  isExternal: true
+  name: Matrix
+  nameWithType: Matrix
+  fullName: System.Windows.Media.Matrix

@@ -28,11 +28,14 @@ items:
   - System.Windows.Controls.WebBrowser.TranslateAcceleratorCore(System.Windows.Interop.MSG@,System.Windows.Input.ModifierKeys)
   langs:
   - csharp
-  - vb
   name: WebBrowser
   nameWithType: WebBrowser
   fullName: System.Windows.Controls.WebBrowser
   type: Class
+  summary: Hosts and navigates between [!INCLUDE[TLA2#tla_html](../../add/includes/tla2sharptla-html-md.md)] documents. Enables interoperability between [!INCLUDE[TLA2#tla_wpf](../../add/includes/tla2sharptla-wpf-md.md)] managed code and [!INCLUDE[TLA2#tla_html](../../add/includes/tla2sharptla-html-md.md)] script.
+  remarks: "The WebBrowser control provides the following capabilities:  \n  \n **Navigation**: <xref:System.Windows.Controls.WebBrowser.Source%2A>, <xref:System.Windows.Controls.WebBrowser.Navigate%2A>, <xref:System.Windows.Controls.WebBrowser.NavigateToStream%2A>, <xref:System.Windows.Controls.WebBrowser.NavigateToString%2A>, and <xref:System.Windows.Controls.WebBrowser.Refresh%2A>.  \n  \n **Navigation Lifetime**: <xref:System.Windows.Controls.WebBrowser.Navigating>, <xref:System.Windows.Controls.WebBrowser.Navigated>, and <xref:System.Windows.Controls.WebBrowser.LoadCompleted>.  \n  \n **Navigation Journaling**: <xref:System.Windows.Controls.WebBrowser.CanGoBack%2A>, <xref:System.Windows.Controls.WebBrowser.GoBack%2A>, <xref:System.Windows.Controls.WebBrowser.CanGoForward%2A>, and <xref:System.Windows.Controls.WebBrowser.GoForward%2A>.  \n  \n **WPF/HTML Interoperability**: <xref:System.Windows.Controls.WebBrowser.InvokeScript%2A> and <xref:System.Windows.Controls.WebBrowser.ObjectForScripting%2A>, and <xref:System.Windows.Controls.WebBrowser.Document%2A>.  \n  \n WebBrowser is bound by the security constraints of the [!INCLUDE[TLA2#tla_wpf](../../add/includes/tla2sharptla-wpf-md.md)] application that is hosting the WebBrowser:  \n  \n-   When WebBrowser is hosted by a full-trust [!INCLUDE[TLA2#tla_wpf](../../add/includes/tla2sharptla-wpf-md.md)] application (a stand-alone application, for example), WebBrowser can host [!INCLUDE[TLA2#tla_html](../../add/includes/tla2sharptla-html-md.md)] documents from any location.  \n  \n-   When WebBrowser is hosted by a partial-trust [!INCLUDE[TLA2#tla_wpf](../../add/includes/tla2sharptla-wpf-md.md)] application (an [!INCLUDE[TLA2#tla_xbap](../../add/includes/tla2sharptla-xbap-md.md)], for example), WebBrowser can only host documents that are **Site Of Origin** application data files. For more information, see [WPF Application Resource, Content, and Data Files](../Topic/WPF%20Application%20Resource,%20Content,%20and%20Data%20Files.md).  \n  \n> [!CAUTION]\n>  The WebBrowser control internally instantiates the native WebBrowser ActiveX control. WPF enables security features by applying feature controls to the WebBrowser ActiveX control. The feature controls that are applied differ for XBAPs and stand-alone applications. Some applications should apply additional feature controls to prevent malicious content from running. For more information, see the \"WebBrowser Control and Feature Controls\" section in [Security (WPF)](../Topic/Security%20\\(WPF\\).md) and [WebBrowser Control Overviews and Tutorials](http://go.microsoft.com/fwlink/?LinkId=179388)."
+  example:
+  - "The following example shows how to configure WebBrowser to navigate to an [!INCLUDE[TLA2#tla_html](../../add/includes/tla2sharptla-html-md.md)] document by using markup only.  \n  \n```xaml  \n<!-- Web Browser Control that hosts a web page. -->  \n<WebBrowser x:Name=\"webBrowser\" Source=\"http://msdn.com\"   \n  Width=\"600\" Height=\"600\"  />  \n```  \n  \n The following example shows how to configure WebBrowser to navigate to a document by using markup and code-behind.  \n  \n```xaml  \n<StackPanel>  \n    <StackPanel Orientation=\"Horizontal\">  \n        <TextBox x:Name=\"addressTextBox\" Width=\"200\" />  \n        <Button Click=\"goNavigateButton_Click\">Go</Button>  \n    </StackPanel>  \n    <WebBrowser x:Name=\"myWebBrowser\" />  \n</StackPanel>  \n```  \n  \n```c#  \nprivate void goNavigateButton_Click(object sender, RoutedEventArgs e)  \n{  \n    // Get URI to navigate to  \n    Uri uri = new Uri(this.addressTextBox.Text, UriKind.RelativeOrAbsolute);  \n  \n    // Only absolute URIs can be navigated to  \n    if (!uri.IsAbsoluteUri)  \n    {  \n        MessageBox.Show(\"The Address URI must be absolute eg 'http://www.microsoft.com'\");  \n        return;  \n    }  \n  \n    // Navigate to the desired URL by calling the .Navigate method  \n    this.myWebBrowser.Navigate(uri);  \n}  \n```  \n  \n The following example shows how to handle the `NewWindow2` event and similar events using a WebBrowser control. This example requires a reference to **SHDocVw.dll**, a `using System.Runtime.InteropServices;` statement, and a WebBrowser control named `webBrowser1`.  \n  \n```c#  \npublic MainWindow()  \n{  \n    InitializeComponent();  \n  \n    var serviceProvider = (IServiceProvider)webBrowser1.Document;  \n    if (serviceProvider != null)  \n    {  \n        Guid serviceGuid = new Guid(\"0002DF05-0000-0000-C000-000000000046\");  \n        Guid iid = typeof(SHDocVw.WebBrowser).GUID;  \n        var webBrowserPtr = (SHDocVw.WebBrowser)serviceProvider  \n            .QueryService(ref serviceGuid, ref iid);  \n        if (webBrowserPtr != null)  \n        {  \n            webBrowserPtr.NewWindow2 += webBrowser1_NewWindow2;  \n        }  \n    }  \n}  \n  \nprivate void webBrowser1_NewWindow2(ref object ppDisp, ref bool Cancel)  \n{  \n    // Handle the event.  \n}  \n  \n[ComImport, InterfaceType(ComInterfaceType.InterfaceIsIUnknown)]  \n[Guid(\"6d5140c1-7436-11ce-8034-00aa006009fa\")]  \ninternal interface IServiceProvider  \n{  \n    [return: MarshalAs(UnmanagedType.IUnknown)]  \n    object QueryService(ref Guid guidService, ref Guid riid);  \n}  \n```"
   syntax:
     content: 'public sealed class WebBrowser : System.Windows.Interop.ActiveXHost'
   inheritance:
@@ -618,12 +621,15 @@ items:
   - System.Windows.UIElement.UpdateLayout
   - System.Windows.UIElement.Visibility
   - System.Windows.UIElement.VisibilityProperty
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Windows.Controls.WebBrowser.#ctor
   id: '#ctor'
   parent: System.Windows.Controls.WebBrowser
   langs:
   - csharp
-  - vb
   name: WebBrowser()
   nameWithType: WebBrowser.WebBrowser()
   fullName: System.Windows.Controls.WebBrowser.WebBrowser()
@@ -631,15 +637,20 @@ items:
   assemblies:
   - PresentationFramework
   namespace: System.Windows.Controls
+  summary: Initializes a new instance of the <see cref="T:System.Windows.Controls.WebBrowser"> class.
+  remarks: To be added.
   syntax:
     content: public WebBrowser ();
     parameters: []
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Windows.Controls.WebBrowser.CanGoBack
   id: CanGoBack
   parent: System.Windows.Controls.WebBrowser
   langs:
   - csharp
-  - vb
   name: CanGoBack
   nameWithType: WebBrowser.CanGoBack
   fullName: System.Windows.Controls.WebBrowser.CanGoBack
@@ -647,17 +658,24 @@ items:
   assemblies:
   - PresentationFramework
   namespace: System.Windows.Controls
+  summary: Gets a value that indicates whether there is a document to navigate back to.
+  remarks: ''
+  example:
+  - "The following example shows how to navigate back to the previous document by calling <xref:System.Windows.Controls.WebBrowser.GoBack%2A>. The example first checks that there are documents to navigate back to by checking CanGoBack.  \n  \n```c#  \nprivate void backButton_Click(object sender, RoutedEventArgs e)  \n{  \n  // Navigate to the previous HTML document, if there is one  \n  if (this.webBrowser.CanGoBack)  \n  {  \n    this.webBrowser.GoBack();  \n  }  \n}  \n```"
   syntax:
     content: public bool CanGoBack { get; }
     return:
       type: System.Boolean
-      description: Return description to be filled
+      description: To be added.
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Windows.Controls.WebBrowser.CanGoForward
   id: CanGoForward
   parent: System.Windows.Controls.WebBrowser
   langs:
   - csharp
-  - vb
   name: CanGoForward
   nameWithType: WebBrowser.CanGoForward
   fullName: System.Windows.Controls.WebBrowser.CanGoForward
@@ -665,17 +683,24 @@ items:
   assemblies:
   - PresentationFramework
   namespace: System.Windows.Controls
+  summary: Gets a value that indicates whether there is a document to navigate forward to.
+  remarks: ''
+  example:
+  - "The following example shows how to navigate forward to the next [!INCLUDE[TLA2#tla_html](../../add/includes/tla2sharptla-html-md.md)] document by calling <xref:System.Windows.Controls.WebBrowser.GoForward%2A>. The example first checks that there are documents to navigate forward to by checking CanGoForward.  \n  \n```c#  \nprivate void forwardButton_Click(object sender, RoutedEventArgs e)  \n{  \n  // Navigate to the next HTML document, if there is one  \n  if (this.webBrowser.CanGoForward)  \n  {  \n    this.webBrowser.GoForward();  \n  }  \n}  \n```"
   syntax:
     content: public bool CanGoForward { get; }
     return:
       type: System.Boolean
-      description: Return description to be filled
+      description: To be added.
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Windows.Controls.WebBrowser.Document
   id: Document
   parent: System.Windows.Controls.WebBrowser
   langs:
   - csharp
-  - vb
   name: Document
   nameWithType: WebBrowser.Document
   fullName: System.Windows.Controls.WebBrowser.Document
@@ -683,17 +708,22 @@ items:
   assemblies:
   - PresentationFramework
   namespace: System.Windows.Controls
+  summary: Gets the Document object that represents the hosted [!INCLUDE[TLA2#tla_html](../../add/includes/tla2sharptla-html-md.md)] page.
+  remarks: The Document object needs to be cast to the COM interface you are expecting.
   syntax:
     content: public object Document { get; }
     return:
       type: System.Object
-      description: Return description to be filled
+      description: To be added.
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Windows.Controls.WebBrowser.GoBack
   id: GoBack
   parent: System.Windows.Controls.WebBrowser
   langs:
   - csharp
-  - vb
   name: GoBack()
   nameWithType: WebBrowser.GoBack()
   fullName: System.Windows.Controls.WebBrowser.GoBack()
@@ -701,18 +731,22 @@ items:
   assemblies:
   - PresentationFramework
   namespace: System.Windows.Controls
+  summary: Navigate back to the previous document, if there is one.
+  remarks: If you call GoBack and there are not any documents to navigate back to, <xref:System.Windows.Controls.WebBrowser> does not perform a navigation and an exception is thrown. If you need to, you can inspect the value of the <xref:System.Windows.Controls.WebBrowser.CanGoBack%2A> property to determine whether there are documents to navigate back to.
+  example:
+  - "The following example shows how to navigate back to the previous [!INCLUDE[TLA2#tla_html](../../add/includes/tla2sharptla-html-md.md)] document by calling GoBack. The example first checks that there are [!INCLUDE[TLA2#tla_html](../../add/includes/tla2sharptla-html-md.md)] documents to navigate back to by checking <xref:System.Windows.Controls.WebBrowser.CanGoBack%2A>.  \n  \n```c#  \nprivate void backButton_Click(object sender, RoutedEventArgs e)  \n{  \n  // Navigate to the previous HTML document, if there is one  \n  if (this.webBrowser.CanGoBack)  \n  {  \n    this.webBrowser.GoBack();  \n  }  \n}  \n```"
   syntax:
     content: public void GoBack ();
     parameters: []
-    return:
-      type: System.Void
-      description: Return description to be filled
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Windows.Controls.WebBrowser.GoForward
   id: GoForward
   parent: System.Windows.Controls.WebBrowser
   langs:
   - csharp
-  - vb
   name: GoForward()
   nameWithType: WebBrowser.GoForward()
   fullName: System.Windows.Controls.WebBrowser.GoForward()
@@ -720,18 +754,22 @@ items:
   assemblies:
   - PresentationFramework
   namespace: System.Windows.Controls
+  summary: Navigate forward to the next [!INCLUDE[TLA2#tla_html](../../add/includes/tla2sharptla-html-md.md)] document, if there is one.
+  remarks: If you call GoForward and there are not any documents to navigate forward to, <xref:System.Windows.Controls.WebBrowser> does not perform a navigation and an exception is thrown. If you need to, you can inspect the value of the <xref:System.Windows.Controls.WebBrowser.CanGoForward%2A> property to determine whether there are documents to navigate forward to.
+  example:
+  - "The following example shows how to navigate forward to the next document by calling GoForward. The example first checks that there are documents to navigate forward to by checking <xref:System.Windows.Controls.WebBrowser.CanGoForward%2A>.  \n  \n```c#  \nprivate void forwardButton_Click(object sender, RoutedEventArgs e)  \n{  \n  // Navigate to the next HTML document, if there is one  \n  if (this.webBrowser.CanGoForward)  \n  {  \n    this.webBrowser.GoForward();  \n  }  \n}  \n```"
   syntax:
     content: public void GoForward ();
     parameters: []
-    return:
-      type: System.Void
-      description: Return description to be filled
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Windows.Controls.WebBrowser.InvokeScript(System.String)
   id: InvokeScript(System.String)
   parent: System.Windows.Controls.WebBrowser
   langs:
   - csharp
-  - vb
   name: InvokeScript(String)
   nameWithType: WebBrowser.InvokeScript(String)
   fullName: System.Windows.Controls.WebBrowser.InvokeScript(String)
@@ -739,22 +777,29 @@ items:
   assemblies:
   - PresentationFramework
   namespace: System.Windows.Controls
+  summary: Executes a script function that is implemented by the currently loaded document.
+  remarks: InvokeScript should not be called before the document that implements it has finished loading. You can detect when a document has finished loading by handling the <xref:System.Windows.Controls.WebBrowser.LoadCompleted> event.
+  example:
+  - "The following example shows how to call a script function in a document from a [!INCLUDE[TLA2#tla_wpf](../../add/includes/tla2sharptla-wpf-md.md)] application by using InvokeScript. In this example, the script function has no parameters.  \n  \n The following is the [!INCLUDE[TLA2#tla_html](../../add/includes/tla2sharptla-html-md.md)] document that implements the script function that will be called from [!INCLUDE[TLA2#tla_wpf](../../add/includes/tla2sharptla-wpf-md.md)].  \n  \n```html  \n<html>  \n    <head>  \n        <script type=\"text/javascript\">  \n            // Function Without Parameters  \n            function JavaScriptFunctionWithoutParameters()    \n            {  \n              outputID.innerHTML = \"JavaScript function called!\";  \n            }  \n        </script>  \n    </head>  \n    <body>  \n    <div id=\"outputID\" style=\"color:Red; font-size:16\">  \n        Hello from HTML document with script!  \n    </div>  \n    </body>  \n</html>  \n```  \n  \n The following shows the [!INCLUDE[TLA2#tla_wpf](../../add/includes/tla2sharptla-wpf-md.md)] implementation to call the script function in the [!INCLUDE[TLA2#tla_html](../../add/includes/tla2sharptla-html-md.md)] document.  \n  \n```c#  \nprivate void callScriptFunctionNoParamButton_Click(object sender, RoutedEventArgs e)  \n{  \n  // Make sure the HTML document has loaded before attempting to  \n  // invoke script of the document page. You could set loadCompleted  \n  // to true when the LoadCompleted event on the WebBrowser fires.  \n  if (this.loadCompleted)  \n  {  \n    try  \n    {  \n      this.webBrowser.InvokeScript(\"JavaScriptFunctionWithoutParameters\");  \n    }  \n    catch (Exception ex)  \n    {  \n      string msg = \"Could not call script: \" +  \n                   ex.Message +  \n                  \"\\n\\nPlease click the 'Load HTML Document with Script' button to load.\";  \n      MessageBox.Show(msg);  \n    }  \n  }  \n}  \n```"
   syntax:
     content: public object InvokeScript (string scriptName);
     parameters:
     - id: scriptName
       type: System.String
-      description: Parameter description to be filled
+      description: The name of the script function to execute.
     return:
       type: System.Object
-      description: Return description to be filled
+      description: The object returned by the Active Scripting call.
   overload: System.Windows.Controls.WebBrowser.InvokeScript*
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Windows.Controls.WebBrowser.InvokeScript(System.String,System.Object[])
   id: InvokeScript(System.String,System.Object[])
   parent: System.Windows.Controls.WebBrowser
   langs:
   - csharp
-  - vb
   name: InvokeScript(String,Object[])
   nameWithType: WebBrowser.InvokeScript(String,Object[])
   fullName: System.Windows.Controls.WebBrowser.InvokeScript(String,Object[])
@@ -762,25 +807,32 @@ items:
   assemblies:
   - PresentationFramework
   namespace: System.Windows.Controls
+  summary: Executes a script function that is defined in the currently loaded document.
+  remarks: "InvokeScript should not be called before the document that implements it has finished loading. You can detect when a document has finished loading by handling the <xref:System.Windows.Controls.WebBrowser.LoadCompleted> event.  \n  \n If you do not pass enough parameter values to the script that you are invoking, the parameters that you do not pass values to will have the undefined value. If you pass too many parameter values, the excess values are ignored."
+  example:
+  - "The following example shows how to call script functions in a document from an application by using InvokeScript. In this example, the script functions require parameters.  \n  \n The following is the document that implements the script functions that will be called from [!INCLUDE[TLA2#tla_wpf](../../add/includes/tla2sharptla-wpf-md.md)].  \n  \n```html  \n<html>  \n    <head>  \n        <script type=\"text/javascript\">  \n            // Function Without Parameters  \n            function JavaScriptFunctionWithoutParameters()    \n            {  \n              outputID.innerHTML = \"JavaScript function 'called: \" + message + \".\";  \n            }  \n        </script>  \n    </head>  \n    <body>  \n    <div id=\"outputID\" style=\"color:Red; font-size:16\">  \n        Hello from HTML document with script!  \n    </div>  \n    </body>  \n</html>  \n```  \n  \n The following shows the [!INCLUDE[TLA2#tla_wpf](../../add/includes/tla2sharptla-wpf-md.md)] implementation to call the script functions in the [!INCLUDE[TLA2#tla_html](../../add/includes/tla2sharptla-html-md.md)] document.  \n  \n```c#  \nprivate void callScriptFunctionNoParamButton_Click(object sender, RoutedEventArgs e)  \n{  \n  // Make sure the HTML document has loaded before attempting to  \n  // invoke script of the document page. You could set loadCompleted  \n  // to true when the LoadCompleted event on the WebBrowser fires.  \n  if (this.loadCompleted)  \n  {  \n    try  \n    {  \n      this.webBrowser.InvokeScript(\"JavaScriptFunctionWithoutParameters\", this.messageTextBox.Text);  \n    }  \n    catch (Exception ex)  \n    {  \n      string msg = \"Could not call script: \" +  \n                   ex.Message +  \n                  \"\\n\\nPlease click the 'Load HTML Document with Script' button to load.\";  \n      MessageBox.Show(msg);  \n    }  \n  }  \n}  \n```"
   syntax:
     content: public object InvokeScript (string scriptName, object[] args);
     parameters:
     - id: scriptName
       type: System.String
-      description: Parameter description to be filled
+      description: The name of the script function to execute.
     - id: args
       type: System.Object[]
-      description: Parameter description to be filled
+      description: The parameters to pass to the script function.
     return:
       type: System.Object
-      description: Return description to be filled
+      description: The object returned by the Active Scripting call.
   overload: System.Windows.Controls.WebBrowser.InvokeScript*
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Windows.Controls.WebBrowser.LoadCompleted
   id: LoadCompleted
   parent: System.Windows.Controls.WebBrowser
   langs:
   - csharp
-  - vb
   name: LoadCompleted
   nameWithType: WebBrowser.LoadCompleted
   fullName: System.Windows.Controls.WebBrowser.LoadCompleted
@@ -788,17 +840,22 @@ items:
   assemblies:
   - PresentationFramework
   namespace: System.Windows.Controls
+  summary: Occurs when the document being navigated to has finished downloading.
+  remarks: "Navigated event handlers are passed an instance of the <xref:System.Windows.Navigation.NavigationEventArgs> class, which provides contextual information about the navigation, including Web response details.  \n  \n This event will only be fired for top-level navigations."
   syntax:
     content: public event System.Windows.Navigation.LoadCompletedEventHandler LoadCompleted;
     return:
       type: System.Windows.Navigation.LoadCompletedEventHandler
-      description: Return description to be filled
+      description: To be added.
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Windows.Controls.WebBrowser.Navigate(System.String)
   id: Navigate(System.String)
   parent: System.Windows.Controls.WebBrowser
   langs:
   - csharp
-  - vb
   name: Navigate(String)
   nameWithType: WebBrowser.Navigate(String)
   fullName: System.Windows.Controls.WebBrowser.Navigate(String)
@@ -806,22 +863,24 @@ items:
   assemblies:
   - PresentationFramework
   namespace: System.Windows.Controls
+  summary: Navigates asynchronously to the document at the specified URL.
+  remarks: Use the Navigate method to navigate to a URL that may include escape characters. Use the <xref:System.Windows.Controls.WebBrowser.Navigate%28System.Uri%29> method to navigate to a <xref:System.Uri> that does not include escape characters.
   syntax:
     content: public void Navigate (string source);
     parameters:
     - id: source
       type: System.String
-      description: Parameter description to be filled
-    return:
-      type: System.Void
-      description: Return description to be filled
+      description: The URL to navigate to.
   overload: System.Windows.Controls.WebBrowser.Navigate*
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Windows.Controls.WebBrowser.Navigate(System.Uri)
   id: Navigate(System.Uri)
   parent: System.Windows.Controls.WebBrowser
   langs:
   - csharp
-  - vb
   name: Navigate(Uri)
   nameWithType: WebBrowser.Navigate(Uri)
   fullName: System.Windows.Controls.WebBrowser.Navigate(Uri)
@@ -829,22 +888,26 @@ items:
   assemblies:
   - PresentationFramework
   namespace: System.Windows.Controls
+  summary: Navigate asynchronously to the document at the specified <xref:System.Uri>.
+  remarks: "Calling Navigate has the same effect as setting the <xref:System.Windows.Controls.WebBrowser.Source%2A> property. <xref:System.Windows.Controls.WebBrowser.Source%2A> is used from markup by developers who want to declaratively specify the initial document that <xref:System.Windows.Controls.WebBrowser> navigates to when <xref:System.Windows.Controls.WebBrowser> is initialized.  \n  \n Use the <xref:System.Windows.Controls.WebBrowser.Navigate%28System.String%29> method to navigate to a URL that may include escape characters. Use the Navigate method to navigate to a <xref:System.Uri> that does not include escape characters."
+  example:
+  - "The following example shows how to use <xref:System.Windows.Controls.WebBrowser> to navigate to a document by using the Navigate method.  \n  \n```xaml  \n<StackPanel>  \n    <StackPanel Orientation=\"Horizontal\">  \n        <TextBox x:Name=\"addressTextBox\" Width=\"200\" />  \n        <Button Click=\"goNavigateButton_Click\">Go</Button>  \n    </StackPanel>  \n    <WebBrowser x:Name=\"myWebBrowser\" />  \n</StackPanel>  \n```  \n  \n```c#  \nprivate void goNavigateButton_Click(object sender, RoutedEventArgs e)  \n{  \n    // Get URI to navigate to  \n    Uri uri = new Uri(this.addressTextBox.Text, UriKind.RelativeOrAbsolute);  \n  \n    // Only absolute URIs can be navigated to  \n    if (!uri.IsAbsoluteUri)  \n    {  \n        MessageBox.Show(\"The Address URI must be absolute eg 'http://www.microsoft.com'\");  \n        return;  \n    }  \n  \n    // Navigate to the desired URL by calling the .Navigate method  \n    this.myWebBrowser.Navigate(uri);  \n}  \n```"
   syntax:
     content: public void Navigate (Uri source);
     parameters:
     - id: source
       type: System.Uri
-      description: Parameter description to be filled
-    return:
-      type: System.Void
-      description: Return description to be filled
+      description: The <xref:System.Uri> to navigate to.
   overload: System.Windows.Controls.WebBrowser.Navigate*
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Windows.Controls.WebBrowser.Navigate(System.String,System.String,System.Byte[],System.String)
   id: Navigate(System.String,System.String,System.Byte[],System.String)
   parent: System.Windows.Controls.WebBrowser
   langs:
   - csharp
-  - vb
   name: Navigate(String,String,Byte[],String)
   nameWithType: WebBrowser.Navigate(String,String,Byte[],String)
   fullName: System.Windows.Controls.WebBrowser.Navigate(String,String,Byte[],String)
@@ -852,31 +915,33 @@ items:
   assemblies:
   - PresentationFramework
   namespace: System.Windows.Controls
+  summary: Navigates asynchronously to the document at the specified URL and specify the target frame to load the document's content into. Additional HTTP POST data and HTTP headers can be sent to the server as part of the navigation request.
+  remarks: Use the Navigate method to navigate to a URL that may include escape characters. Use the [Navigate(Uri, String, Byte\[\], String)](assetId:///M:System.Windows.Controls.WebBrowser.Navigate(System.Uri,System.String,System.Byte[],System.String)?qualifyHint=False&autoUpgrade=False) method to navigate to a <xref:System.Uri> that does not include escape characters.
   syntax:
     content: public void Navigate (string source, string targetFrameName, byte[] postData, string additionalHeaders);
     parameters:
     - id: source
       type: System.String
-      description: Parameter description to be filled
+      description: The URL to navigate to.
     - id: targetFrameName
       type: System.String
-      description: Parameter description to be filled
+      description: The name of the frame to display the document's content in.
     - id: postData
       type: System.Byte[]
-      description: Parameter description to be filled
+      description: HTTP POST data to send to the server when the source is requested.
     - id: additionalHeaders
       type: System.String
-      description: Parameter description to be filled
-    return:
-      type: System.Void
-      description: Return description to be filled
+      description: HTTP headers to send to the server when the source is requested.
   overload: System.Windows.Controls.WebBrowser.Navigate*
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Windows.Controls.WebBrowser.Navigate(System.Uri,System.String,System.Byte[],System.String)
   id: Navigate(System.Uri,System.String,System.Byte[],System.String)
   parent: System.Windows.Controls.WebBrowser
   langs:
   - csharp
-  - vb
   name: Navigate(Uri,String,Byte[],String)
   nameWithType: WebBrowser.Navigate(Uri,String,Byte[],String)
   fullName: System.Windows.Controls.WebBrowser.Navigate(Uri,String,Byte[],String)
@@ -884,31 +949,35 @@ items:
   assemblies:
   - PresentationFramework
   namespace: System.Windows.Controls
+  summary: Navigate asynchronously to the document at the specified <xref:System.Uri> and specify the target frame to load the document's content into. Additional HTTP POST data and HTTP headers can be sent to the server as part of the navigation request.
+  remarks: Use the [Navigate(String, String, Byte\[\], String)](assetId:///M:System.Windows.Controls.WebBrowser.Navigate(System.String,System.String,System.Byte[],System.String)?qualifyHint=False&autoUpgrade=False) method to navigate to a URL that may include escape characters. Use the Navigate method to navigate to a <xref:System.Uri> that does not include escape characters.
+  example:
+  - "The following example shows how to navigate to a document and open it in a new browser window by specifying the \"about:blank\" target.  \n  \n```xaml  \n<StackPanel>  \n    <StackPanel Orientation=\"Horizontal\">  \n        <TextBox x:Name=\"addressTextBox\" Width=\"200\" />  \n        <Button Click=\"goNavigateButton_Click\">Go</Button>  \n    </StackPanel>  \n    <WebBrowser x:Name=\"myWebBrowser\" />  \n</StackPanel>  \n```  \n  \n```c#  \nprivate void goNavigateButton_Click(object sender, RoutedEventArgs e)  \n{  \n    // Get URI to navigate to  \n    Uri uri = new Uri(this.addressTextBox.Text, UriKind.RelativeOrAbsolute);  \n  \n    // Only absolute URIs can be navigated to  \n    if (!uri.IsAbsoluteUri)  \n    {  \n        MessageBox.Show(\"The Address URI must be absolute eg 'http://www.microsoft.com'\");  \n        return;  \n    }  \n  \n    // Navigate to the desired URL by calling the .Navigate method  \n    this.myWebBrowser.Navigate(uri, \"_blank\", null, null);  \n}  \n```"
   syntax:
     content: public void Navigate (Uri source, string targetFrameName, byte[] postData, string additionalHeaders);
     parameters:
     - id: source
       type: System.Uri
-      description: Parameter description to be filled
+      description: The <xref:System.Uri> to navigate to.
     - id: targetFrameName
       type: System.String
-      description: Parameter description to be filled
+      description: The name of the frame to display the document's content in.
     - id: postData
       type: System.Byte[]
-      description: Parameter description to be filled
+      description: HTTP POST data to send to the server when the source is requested.
     - id: additionalHeaders
       type: System.String
-      description: Parameter description to be filled
-    return:
-      type: System.Void
-      description: Return description to be filled
+      description: HTTP headers to send to the server when the source is requested.
   overload: System.Windows.Controls.WebBrowser.Navigate*
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Windows.Controls.WebBrowser.Navigated
   id: Navigated
   parent: System.Windows.Controls.WebBrowser
   langs:
   - csharp
-  - vb
   name: Navigated
   nameWithType: WebBrowser.Navigated
   fullName: System.Windows.Controls.WebBrowser.Navigated
@@ -916,17 +985,22 @@ items:
   assemblies:
   - PresentationFramework
   namespace: System.Windows.Controls
+  summary: Occurs when the document being navigated to is located and has started downloading.
+  remarks: "Navigated event handlers are passed an instance of the <xref:System.Windows.Navigation.NavigationEventArgs> class, which provides contextual information about the navigation, including Web response details.  \n  \n This event will only be fired for top-level navigations."
   syntax:
     content: public event System.Windows.Navigation.NavigatedEventHandler Navigated;
     return:
       type: System.Windows.Navigation.NavigatedEventHandler
-      description: Return description to be filled
+      description: To be added.
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Windows.Controls.WebBrowser.NavigateToStream(System.IO.Stream)
   id: NavigateToStream(System.IO.Stream)
   parent: System.Windows.Controls.WebBrowser
   langs:
   - csharp
-  - vb
   name: NavigateToStream(Stream)
   nameWithType: WebBrowser.NavigateToStream(Stream)
   fullName: System.Windows.Controls.WebBrowser.NavigateToStream(Stream)
@@ -934,21 +1008,25 @@ items:
   assemblies:
   - PresentationFramework
   namespace: System.Windows.Controls
+  summary: Navigate asynchronously to a <see cref="T:System.IO.Stream"> that contains the content for a document.
+  remarks: "If the  parameter is `null`, <xref:System.Windows.Controls.WebBrowser> navigates to a blank document (\"about:blank\").  \n  \n If the stream parameter is not in a valid [!INCLUDE[TLA2#tla_html](../../add/includes/tla2sharptla-html-md.md)] format, it will be displayed as plain text.  \n  \n After navigation, <xref:System.Windows.Controls.WebBrowser.Source%2A> will be `null`."
+  example:
+  - "The following example shows how to navigate to a stream that contains a document.  \n  \n```c#  \nprivate void goNavigateToStreamButton_Click(object sender, RoutedEventArgs e)  \n{  \n  // Load HTML document as a stream  \n  Uri uri = new Uri(@\"pack://application:,,,/HTMLDocumentWithScript.html\", UriKind.Absolute);  \n  Stream source = Application.GetResourceStream(uri).Stream;  \n  \n  // Navigate to HTML document stream  \n  this.webBrowser.NavigateToStream(source);  \n}  \n```"
   syntax:
     content: public void NavigateToStream (System.IO.Stream stream);
     parameters:
     - id: stream
       type: System.IO.Stream
-      description: Parameter description to be filled
-    return:
-      type: System.Void
-      description: Return description to be filled
+      description: The <see cref="T:System.IO.Stream"> that contains the content for a document.
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Windows.Controls.WebBrowser.NavigateToString(System.String)
   id: NavigateToString(System.String)
   parent: System.Windows.Controls.WebBrowser
   langs:
   - csharp
-  - vb
   name: NavigateToString(String)
   nameWithType: WebBrowser.NavigateToString(String)
   fullName: System.Windows.Controls.WebBrowser.NavigateToString(String)
@@ -956,21 +1034,25 @@ items:
   assemblies:
   - PresentationFramework
   namespace: System.Windows.Controls
+  summary: Navigate asynchronously to a <see cref="T:System.String"> that contains the content for a document.
+  remarks: "If the  parameter is `null`, <xref:System.Windows.Controls.WebBrowser> navigates to a blank document (\"about:blank\").  \n  \n If the text parameter is not in valid [!INCLUDE[TLA2#tla_html](../../add/includes/tla2sharptla-html-md.md)] format, it will be displayed as plain text.  \n  \n After navigation, <xref:System.Windows.Controls.WebBrowser.Source%2A> will be `null`."
+  example:
+  - "The following example shows how to navigate to a string that contains a document.  \n  \n```c#  \nprivate void goNavigateToStringButton_Click(object sender, RoutedEventArgs e)  \n{  \n  // Load HTML document as a string  \n  Uri uri = new Uri(@\"pack://application:,,,/HTMLDocumentWithoutScript.html\", UriKind.Absolute);  \n  Stream stream = Application.GetResourceStream(uri).Stream;  \n  using (StreamReader reader = new StreamReader(stream))  \n  {  \n    // Navigate to HTML document string  \n    this.webBrowser.NavigateToString(reader.ReadToEnd());  \n  }  \n}  \n```"
   syntax:
     content: public void NavigateToString (string text);
     parameters:
     - id: text
       type: System.String
-      description: Parameter description to be filled
-    return:
-      type: System.Void
-      description: Return description to be filled
+      description: The <see cref="T:System.String"> that contains the content for a document.
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Windows.Controls.WebBrowser.Navigating
   id: Navigating
   parent: System.Windows.Controls.WebBrowser
   langs:
   - csharp
-  - vb
   name: Navigating
   nameWithType: WebBrowser.Navigating
   fullName: System.Windows.Controls.WebBrowser.Navigating
@@ -978,17 +1060,22 @@ items:
   assemblies:
   - PresentationFramework
   namespace: System.Windows.Controls
+  summary: Occurs just before navigation to a document.
+  remarks: "Navigating event handlers are passed an instance of the <xref:System.Windows.Navigation.NavigatingCancelEventArgs> class. You can cancel the navigation by setting the <xref:System.ComponentModel.CancelEventArgs.Cancel%2A> property of the <xref:System.Windows.Navigation.NavigatingCancelEventArgs> object to `true`.  \n  \n This event will only be fired for top-level navigations."
   syntax:
     content: public event System.Windows.Navigation.NavigatingCancelEventHandler Navigating;
     return:
       type: System.Windows.Navigation.NavigatingCancelEventHandler
-      description: Return description to be filled
+      description: To be added.
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Windows.Controls.WebBrowser.ObjectForScripting
   id: ObjectForScripting
   parent: System.Windows.Controls.WebBrowser
   langs:
   - csharp
-  - vb
   name: ObjectForScripting
   nameWithType: WebBrowser.ObjectForScripting
   fullName: System.Windows.Controls.WebBrowser.ObjectForScripting
@@ -996,17 +1083,22 @@ items:
   assemblies:
   - PresentationFramework
   namespace: System.Windows.Controls
+  summary: Gets or sets an instance of a public class, implemented by the host application, that can be accessed by script from a hosted document.
+  remarks: "This property can be set to any COM-visible object for which you want its public properties and methods available to scripting code. You can make a class COM-visible by marking it with the <xref:System.Runtime.InteropServices.ComVisibleAttribute>.  \n  \n The object that is set for scripting is exposed to the current document by the [!INCLUDE[TLA2#tla_html](../../add/includes/tla2sharptla-html-md.md)] DOM using the `window.external` property."
   syntax:
     content: public object ObjectForScripting { get; set; }
     return:
       type: System.Object
-      description: Return description to be filled
+      description: To be added.
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Windows.Controls.WebBrowser.Refresh
   id: Refresh
   parent: System.Windows.Controls.WebBrowser
   langs:
   - csharp
-  - vb
   name: Refresh()
   nameWithType: WebBrowser.Refresh()
   fullName: System.Windows.Controls.WebBrowser.Refresh()
@@ -1014,19 +1106,21 @@ items:
   assemblies:
   - PresentationFramework
   namespace: System.Windows.Controls
+  summary: Reloads the current page.
+  remarks: To be added.
   syntax:
     content: public void Refresh ();
     parameters: []
-    return:
-      type: System.Void
-      description: Return description to be filled
   overload: System.Windows.Controls.WebBrowser.Refresh*
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Windows.Controls.WebBrowser.Refresh(System.Boolean)
   id: Refresh(System.Boolean)
   parent: System.Windows.Controls.WebBrowser
   langs:
   - csharp
-  - vb
   name: Refresh(Boolean)
   nameWithType: WebBrowser.Refresh(Boolean)
   fullName: System.Windows.Controls.WebBrowser.Refresh(Boolean)
@@ -1034,22 +1128,24 @@ items:
   assemblies:
   - PresentationFramework
   namespace: System.Windows.Controls
+  summary: Reloads the current page with optional cache validation.
+  remarks: If  is `true`, the <xref:System.Windows.Controls.WebBrowser> control refreshes without cache validation by sending a "Pragma:no-cache" header to the server.
   syntax:
     content: public void Refresh (bool noCache);
     parameters:
     - id: noCache
       type: System.Boolean
-      description: Parameter description to be filled
-    return:
-      type: System.Void
-      description: Return description to be filled
+      description: Specifies whether to refresh without cache validation.
   overload: System.Windows.Controls.WebBrowser.Refresh*
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Windows.Controls.WebBrowser.Source
   id: Source
   parent: System.Windows.Controls.WebBrowser
   langs:
   - csharp
-  - vb
   name: Source
   nameWithType: WebBrowser.Source
   fullName: System.Windows.Controls.WebBrowser.Source
@@ -1057,17 +1153,24 @@ items:
   assemblies:
   - PresentationFramework
   namespace: System.Windows.Controls
+  summary: Gets or sets the <xref:System.Uri> of the current document hosted in the <xref:System.Windows.Controls.WebBrowser>.
+  remarks: Setting the source property causes <xref:System.Windows.Controls.WebBrowser> to navigate to the document specified by the <xref:System.Uri>. If the <xref:System.Uri> is `null`, a blank document is displayed ("about:blank").
+  example:
+  - "The following example shows how to configure <xref:System.Windows.Controls.WebBrowser> to navigate to an [!INCLUDE[TLA2#tla_html](../../add/includes/tla2sharptla-html-md.md)] document by using markup only.  \n  \n```xaml  \n<!-- Web Browser Control that hosts a web page. -->  \n<WebBrowser x:Name=\"webBrowser\" Source=\"http://msdn.com\"   \n  Width=\"600\" Height=\"600\"  />  \n```"
   syntax:
     content: public Uri Source { get; set; }
     return:
       type: System.Uri
-      description: Return description to be filled
+      description: To be added.
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Windows.Controls.WebBrowser.TabIntoCore(System.Windows.Input.TraversalRequest)
   id: TabIntoCore(System.Windows.Input.TraversalRequest)
   parent: System.Windows.Controls.WebBrowser
   langs:
   - csharp
-  - vb
   name: TabIntoCore(TraversalRequest)
   nameWithType: WebBrowser.TabIntoCore(TraversalRequest)
   fullName: System.Windows.Controls.WebBrowser.TabIntoCore(TraversalRequest)
@@ -1075,21 +1178,26 @@ items:
   assemblies:
   - PresentationFramework
   namespace: System.Windows.Controls
+  summary: To be added.
+  remarks: To be added.
   syntax:
     content: protected override bool TabIntoCore (System.Windows.Input.TraversalRequest request);
     parameters:
     - id: request
       type: System.Windows.Input.TraversalRequest
-      description: Parameter description to be filled
+      description: To be added.
     return:
       type: System.Boolean
-      description: Return description to be filled
+      description: To be added.
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Windows.Controls.WebBrowser.TranslateAcceleratorCore(System.Windows.Interop.MSG@,System.Windows.Input.ModifierKeys)
   id: TranslateAcceleratorCore(System.Windows.Interop.MSG@,System.Windows.Input.ModifierKeys)
   parent: System.Windows.Controls.WebBrowser
   langs:
   - csharp
-  - vb
   name: TranslateAcceleratorCore(MSG,ModifierKeys)
   nameWithType: WebBrowser.TranslateAcceleratorCore(MSG,ModifierKeys)
   fullName: System.Windows.Controls.WebBrowser.TranslateAcceleratorCore(MSG,ModifierKeys)
@@ -1097,18 +1205,24 @@ items:
   assemblies:
   - PresentationFramework
   namespace: System.Windows.Controls
+  summary: To be added.
+  remarks: To be added.
   syntax:
     content: protected override bool TranslateAcceleratorCore (ref System.Windows.Interop.MSG msg, System.Windows.Input.ModifierKeys modifiers);
     parameters:
     - id: msg
       type: System.Windows.Interop.MSG
-      description: Parameter description to be filled
+      description: To be added.
     - id: modifiers
       type: System.Windows.Input.ModifierKeys
-      description: Parameter description to be filled
+      description: To be added.
     return:
       type: System.Boolean
-      description: Return description to be filled
+      description: To be added.
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 references:
 - uid: System.Windows.Interop.ActiveXHost
   isExternal: false
@@ -1161,24 +1275,12 @@ references:
   name: GoBack()
   nameWithType: WebBrowser.GoBack()
   fullName: System.Windows.Controls.WebBrowser.GoBack()
-- uid: System.Void
-  parent: System
-  isExternal: false
-  name: Void
-  nameWithType: Void
-  fullName: System.Void
 - uid: System.Windows.Controls.WebBrowser.GoForward
   parent: System.Windows.Controls.WebBrowser
   isExternal: false
   name: GoForward()
   nameWithType: WebBrowser.GoForward()
   fullName: System.Windows.Controls.WebBrowser.GoForward()
-- uid: System.Void
-  parent: System
-  isExternal: false
-  name: Void
-  nameWithType: Void
-  fullName: System.Void
 - uid: System.Windows.Controls.WebBrowser.InvokeScript(System.String)
   parent: System.Windows.Controls.WebBrowser
   isExternal: false
@@ -1215,6 +1317,12 @@ references:
   name: String
   nameWithType: String
   fullName: System.String
+- uid: System.Object
+  parent: System
+  isExternal: false
+  name: Object
+  nameWithType: Object
+  fullName: System.Object[]
 - uid: System.Windows.Controls.WebBrowser.LoadCompleted
   parent: System.Windows.Controls.WebBrowser
   isExternal: false
@@ -1233,12 +1341,6 @@ references:
   name: Navigate(String)
   nameWithType: WebBrowser.Navigate(String)
   fullName: System.Windows.Controls.WebBrowser.Navigate(String)
-- uid: System.Void
-  parent: System
-  isExternal: false
-  name: Void
-  nameWithType: Void
-  fullName: System.Void
 - uid: System.String
   parent: System
   isExternal: false
@@ -1251,24 +1353,18 @@ references:
   name: Navigate(Uri)
   nameWithType: WebBrowser.Navigate(Uri)
   fullName: System.Windows.Controls.WebBrowser.Navigate(Uri)
-- uid: System.Void
+- uid: System.Uri
   parent: System
-  isExternal: false
-  name: Void
-  nameWithType: Void
-  fullName: System.Void
+  isExternal: true
+  name: Uri
+  nameWithType: Uri
+  fullName: System.Uri
 - uid: System.Windows.Controls.WebBrowser.Navigate(System.String,System.String,System.Byte[],System.String)
   parent: System.Windows.Controls.WebBrowser
   isExternal: false
   name: Navigate(String,String,Byte[],String)
   nameWithType: WebBrowser.Navigate(String,String,Byte[],String)
   fullName: System.Windows.Controls.WebBrowser.Navigate(String,String,Byte[],String)
-- uid: System.Void
-  parent: System
-  isExternal: false
-  name: Void
-  nameWithType: Void
-  fullName: System.Void
 - uid: System.String
   parent: System
   isExternal: false
@@ -1281,6 +1377,12 @@ references:
   name: String
   nameWithType: String
   fullName: System.String
+- uid: System.Byte
+  parent: System
+  isExternal: false
+  name: Byte
+  nameWithType: Byte
+  fullName: System.Byte[]
 - uid: System.String
   parent: System
   isExternal: false
@@ -1293,18 +1395,24 @@ references:
   name: Navigate(Uri,String,Byte[],String)
   nameWithType: WebBrowser.Navigate(Uri,String,Byte[],String)
   fullName: System.Windows.Controls.WebBrowser.Navigate(Uri,String,Byte[],String)
-- uid: System.Void
+- uid: System.Uri
   parent: System
-  isExternal: false
-  name: Void
-  nameWithType: Void
-  fullName: System.Void
+  isExternal: true
+  name: Uri
+  nameWithType: Uri
+  fullName: System.Uri
 - uid: System.String
   parent: System
   isExternal: false
   name: String
   nameWithType: String
   fullName: System.String
+- uid: System.Byte
+  parent: System
+  isExternal: false
+  name: Byte
+  nameWithType: Byte
+  fullName: System.Byte[]
 - uid: System.String
   parent: System
   isExternal: false
@@ -1329,12 +1437,6 @@ references:
   name: NavigateToStream(Stream)
   nameWithType: WebBrowser.NavigateToStream(Stream)
   fullName: System.Windows.Controls.WebBrowser.NavigateToStream(Stream)
-- uid: System.Void
-  parent: System
-  isExternal: false
-  name: Void
-  nameWithType: Void
-  fullName: System.Void
 - uid: System.IO.Stream
   parent: System.IO
   isExternal: false
@@ -1347,12 +1449,6 @@ references:
   name: NavigateToString(String)
   nameWithType: WebBrowser.NavigateToString(String)
   fullName: System.Windows.Controls.WebBrowser.NavigateToString(String)
-- uid: System.Void
-  parent: System
-  isExternal: false
-  name: Void
-  nameWithType: Void
-  fullName: System.Void
 - uid: System.String
   parent: System
   isExternal: false
@@ -1389,24 +1485,12 @@ references:
   name: Refresh()
   nameWithType: WebBrowser.Refresh()
   fullName: System.Windows.Controls.WebBrowser.Refresh()
-- uid: System.Void
-  parent: System
-  isExternal: false
-  name: Void
-  nameWithType: Void
-  fullName: System.Void
 - uid: System.Windows.Controls.WebBrowser.Refresh(System.Boolean)
   parent: System.Windows.Controls.WebBrowser
   isExternal: false
   name: Refresh(Boolean)
   nameWithType: WebBrowser.Refresh(Boolean)
   fullName: System.Windows.Controls.WebBrowser.Refresh(Boolean)
-- uid: System.Void
-  parent: System
-  isExternal: false
-  name: Void
-  nameWithType: Void
-  fullName: System.Void
 - uid: System.Boolean
   parent: System
   isExternal: false
@@ -1419,6 +1503,12 @@ references:
   name: Source
   nameWithType: WebBrowser.Source
   fullName: System.Windows.Controls.WebBrowser.Source
+- uid: System.Uri
+  parent: System
+  isExternal: true
+  name: Uri
+  nameWithType: Uri
+  fullName: System.Uri
 - uid: System.Windows.Controls.WebBrowser.TabIntoCore(System.Windows.Input.TraversalRequest)
   parent: System.Windows.Controls.WebBrowser
   isExternal: false
@@ -1431,6 +1521,12 @@ references:
   name: Boolean
   nameWithType: Boolean
   fullName: System.Boolean
+- uid: System.Windows.Input.TraversalRequest
+  parent: System.Windows.Input
+  isExternal: true
+  name: TraversalRequest
+  nameWithType: TraversalRequest
+  fullName: System.Windows.Input.TraversalRequest
 - uid: System.Windows.Controls.WebBrowser.TranslateAcceleratorCore(System.Windows.Interop.MSG@,System.Windows.Input.ModifierKeys)
   parent: System.Windows.Controls.WebBrowser
   isExternal: false
@@ -1443,6 +1539,18 @@ references:
   name: Boolean
   nameWithType: Boolean
   fullName: System.Boolean
+- uid: System.Windows.Interop.MSG
+  parent: System.Windows.Interop
+  isExternal: true
+  name: MSG
+  nameWithType: MSG
+  fullName: System.Windows.Interop.MSG
+- uid: System.Windows.Input.ModifierKeys
+  parent: System.Windows.Input
+  isExternal: true
+  name: ModifierKeys
+  nameWithType: ModifierKeys
+  fullName: System.Windows.Input.ModifierKeys
 - uid: System.Windows.Controls.WebBrowser.InvokeScript*
   parent: System.Windows.Controls.WebBrowser
   isExternal: false

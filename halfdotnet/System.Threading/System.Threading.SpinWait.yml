@@ -12,23 +12,29 @@ items:
   - System.Threading.SpinWait.SpinUntil(System.Func{System.Boolean},System.TimeSpan)
   langs:
   - csharp
-  - vb
   name: SpinWait
   nameWithType: SpinWait
   fullName: System.Threading.SpinWait
   type: Struct
+  summary: Provides support for spin-based waiting.
+  remarks: "SpinWait encapsulates common spinning logic. On single-processor machines, yields are always used instead of busy waits, and on computers with Intel processors employing Hyper-Threading technology, it helps to prevent hardware thread starvation. SpinWait encapsulates a good mixture of spinning and true yielding.  \n  \n SpinWait is a value type, which means that low-level code can utilize SpinWait without fear of unnecessary allocation overheads. SpinWait is not generally useful for ordinary applications. In most cases, you should use the synchronization classes provided by the .NET Framework, such as <xref:System.Threading.Monitor>. For most purposes where spin waiting is required, however, the SpinWait type should be preferred over the <xref:System.Threading.Thread.SpinWait%2A> method."
+  example:
+  - "The following example shows how to use a SpinWait:  \n  \n [!CODE [System.Threading.SpinWait#01](../CodeSnippet/VS_Snippets_CLR_System/system.threading.spinwait#01)]"
   syntax:
     content: public struct SpinWait
   inheritance:
   - System.Object
   - System.ValueType
   implements: []
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Threading.SpinWait.Count
   id: Count
   parent: System.Threading.SpinWait
   langs:
   - csharp
-  - vb
   name: Count
   nameWithType: SpinWait.Count
   fullName: System.Threading.SpinWait.Count
@@ -36,17 +42,22 @@ items:
   assemblies:
   - mscorlib
   namespace: System.Threading
+  summary: Gets the number of times <xref:System.Threading.SpinWait.SpinOnce%2A> has been called on this instance.
+  remarks: To be added.
   syntax:
     content: public int Count { get; }
     return:
       type: System.Int32
-      description: Return description to be filled
+      description: To be added.
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Threading.SpinWait.NextSpinWillYield
   id: NextSpinWillYield
   parent: System.Threading.SpinWait
   langs:
   - csharp
-  - vb
   name: NextSpinWillYield
   nameWithType: SpinWait.NextSpinWillYield
   fullName: System.Threading.SpinWait.NextSpinWillYield
@@ -54,17 +65,22 @@ items:
   assemblies:
   - mscorlib
   namespace: System.Threading
+  summary: Gets whether the next call to <xref:System.Threading.SpinWait.SpinOnce%2A> will yield the processor, triggering a forced context switch.
+  remarks: On a single-CPU machine, <xref:System.Threading.SpinWait.SpinOnce%2A> always yields the processor. On machines with multiple CPUs, <xref:System.Threading.SpinWait.SpinOnce%2A> may yield after an unspecified number of calls.
   syntax:
     content: public bool NextSpinWillYield { get; }
     return:
       type: System.Boolean
-      description: Return description to be filled
+      description: To be added.
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Threading.SpinWait.Reset
   id: Reset
   parent: System.Threading.SpinWait
   langs:
   - csharp
-  - vb
   name: Reset()
   nameWithType: SpinWait.Reset()
   fullName: System.Threading.SpinWait.Reset()
@@ -72,18 +88,22 @@ items:
   assemblies:
   - mscorlib
   namespace: System.Threading
+  summary: Resets the spin counter.
+  remarks: This makes <xref:System.Threading.SpinWait.SpinOnce%2A> and <xref:System.Threading.SpinWait.NextSpinWillYield%2A> behave as though no calls to <xref:System.Threading.SpinWait.SpinOnce%2A> had been issued on this instance. If a <xref:System.Threading.SpinWait> instance is reused many times, it may be useful to reset it to avoid yielding too soon.
+  example:
+  - "The following is an example of using SpinWait in a simple lock-free stack implementation. (This is just an example. If an efficient, thread-safe stack is needed, consider using ConcurrentStack.)  \n  \n `// C#`  \n  \n `public class LockFreeStack<T>`  \n  \n `{`  \n  \n `private volatile Node m_head;`  \n  \n `private class Node { public Node Next; public T Value; }`  \n  \n `public void Push(T item)`  \n  \n `{`  \n  \n `var spin = new SpinWait();`  \n  \n `Node node = new Node { Value = item }, head;`  \n  \n `while (true)`  \n  \n `{`  \n  \n `head = m_head;`  \n  \n `node.Next = head;`  \n  \n `if (Interlocked.CompareExchange(ref m_head, node, head) == head) break;`  \n  \n `spin.SpinOnce();`  \n  \n `}`  \n  \n `}`  \n  \n `public bool TryPop(out T result)`  \n  \n `{`  \n  \n `result = default(T);`  \n  \n `var spin = new SpinWait();`  \n  \n `Node head;`  \n  \n `while (true)`  \n  \n `{`  \n  \n `head = m_head;`  \n  \n `if (head == null) return false;`  \n  \n `if (Interlocked.CompareExchange(ref m_head, head.Next, head) == head)`  \n  \n `{`  \n  \n `result = head.Value;`  \n  \n `return true;`  \n  \n `}`  \n  \n `spin.SpinOnce();`  \n  \n `}`  \n  \n `}`  \n  \n `}`  \n  \n `' Visual Basic`  \n  \n `Public Class LockFreeStack(Of T)`  \n  \n `Private m_head As Node`  \n  \n `Private Class Node`  \n  \n `Public [Next] As Node`  \n  \n `Public Value As T`  \n  \n `End Class`  \n  \n `Public Sub Push(ByVal item As T)`  \n  \n `Dim spin As New SpinWait()`  \n  \n `Dim head As Node, node As New Node With {.Value = item}`  \n  \n `While True`  \n  \n `Thread.MemoryBarrier()`  \n  \n `head = m_head`  \n  \n `node.Next = head`  \n  \n `If Interlocked.CompareExchange(m_head, node, head) Is head Then Exit While`  \n  \n `spin.SpinOnce()`  \n  \n `End While`  \n  \n `End Sub`  \n  \n `Public Function TryPop(ByRef result As T) As Boolean`  \n  \n `result = CType(Nothing, T)`  \n  \n `Dim spin As New SpinWait()`  \n  \n `Dim head As Node`  \n  \n `While True`  \n  \n `Thread.MemoryBarrier()`  \n  \n `head = m_head`  \n  \n `If head Is Nothing Then Return False`  \n  \n `If Interlocked.CompareExchange(m_head, head.Next, head) Is head Then`  \n  \n `result = head.Value`  \n  \n `Return True`  \n  \n `End If`  \n  \n `spin.SpinOnce()`  \n  \n `End While`  \n  \n `End Function`  \n  \n `End Class`"
   syntax:
     content: public void Reset ();
     parameters: []
-    return:
-      type: System.Void
-      description: Return description to be filled
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Threading.SpinWait.SpinOnce
   id: SpinOnce
   parent: System.Threading.SpinWait
   langs:
   - csharp
-  - vb
   name: SpinOnce()
   nameWithType: SpinWait.SpinOnce()
   fullName: System.Threading.SpinWait.SpinOnce()
@@ -91,87 +111,102 @@ items:
   assemblies:
   - mscorlib
   namespace: System.Threading
+  summary: Performs a single spin.
+  remarks: This is typically called in a loop, and may change in behavior based on the number of times a SpinOnce has been called thus far on this instance. Each spin results in the <xref:System.Threading.Thread.SpinWait%2A> method being called. A count is kept of the number of times SpinOnce is called, and after a threshold count is reached, the <xref:System.Threading.Thread.Yield%2A> method is called.
   syntax:
     content: public void SpinOnce ();
     parameters: []
-    return:
-      type: System.Void
-      description: Return description to be filled
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Threading.SpinWait.SpinUntil(System.Func{System.Boolean})
   id: SpinUntil(System.Func{System.Boolean})
   parent: System.Threading.SpinWait
   langs:
   - csharp
-  - vb
-  name: SpinUntil(Func)
-  nameWithType: SpinWait.SpinUntil(Func)
-  fullName: System.Threading.SpinWait.SpinUntil(Func)
+  name: SpinUntil(Func<Boolean>)
+  nameWithType: SpinWait.SpinUntil(Func<Boolean>)
+  fullName: System.Threading.SpinWait.SpinUntil(Func<Boolean>)
   type: Method
   assemblies:
   - mscorlib
   namespace: System.Threading
+  summary: Spins until the specified condition is satisfied.
+  remarks: To be added.
   syntax:
     content: public static void SpinUntil (Func<bool> condition);
     parameters:
     - id: condition
       type: System.Func{System.Boolean}
-      description: Parameter description to be filled
-    return:
-      type: System.Void
-      description: Return description to be filled
+      description: A delegate to be executed over and over until it returns true.
   overload: System.Threading.SpinWait.SpinUntil*
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Threading.SpinWait.SpinUntil(System.Func{System.Boolean},System.Int32)
   id: SpinUntil(System.Func{System.Boolean},System.Int32)
   parent: System.Threading.SpinWait
   langs:
   - csharp
-  - vb
-  name: SpinUntil(Func,Int32)
-  nameWithType: SpinWait.SpinUntil(Func,Int32)
-  fullName: System.Threading.SpinWait.SpinUntil(Func,Int32)
+  name: SpinUntil(Func<Boolean>,Int32)
+  nameWithType: SpinWait.SpinUntil(Func<Boolean>,Int32)
+  fullName: System.Threading.SpinWait.SpinUntil(Func<Boolean>,Int32)
   type: Method
   assemblies:
   - mscorlib
   namespace: System.Threading
+  summary: Spins until the specified condition is satisfied or until the specified timeout is expired.
+  remarks: To be added.
   syntax:
     content: public static bool SpinUntil (Func<bool> condition, int millisecondsTimeout);
     parameters:
     - id: condition
       type: System.Func{System.Boolean}
-      description: Parameter description to be filled
+      description: A delegate to be executed over and over until it returns true.
     - id: millisecondsTimeout
       type: System.Int32
-      description: Parameter description to be filled
+      description: The number of milliseconds to wait, or <see cref="F:System.Threading.Timeout.Infinite"> (-1) to wait indefinitely.
     return:
       type: System.Boolean
-      description: Return description to be filled
+      description: True if the condition is satisfied within the timeout; otherwise, false
   overload: System.Threading.SpinWait.SpinUntil*
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Threading.SpinWait.SpinUntil(System.Func{System.Boolean},System.TimeSpan)
   id: SpinUntil(System.Func{System.Boolean},System.TimeSpan)
   parent: System.Threading.SpinWait
   langs:
   - csharp
-  - vb
-  name: SpinUntil(Func,TimeSpan)
-  nameWithType: SpinWait.SpinUntil(Func,TimeSpan)
-  fullName: System.Threading.SpinWait.SpinUntil(Func,TimeSpan)
+  name: SpinUntil(Func<Boolean>,TimeSpan)
+  nameWithType: SpinWait.SpinUntil(Func<Boolean>,TimeSpan)
+  fullName: System.Threading.SpinWait.SpinUntil(Func<Boolean>,TimeSpan)
   type: Method
   assemblies:
   - mscorlib
   namespace: System.Threading
+  summary: Spins until the specified condition is satisfied or until the specified timeout is expired.
+  remarks: To be added.
   syntax:
     content: public static bool SpinUntil (Func<bool> condition, TimeSpan timeout);
     parameters:
     - id: condition
       type: System.Func{System.Boolean}
-      description: Parameter description to be filled
+      description: A delegate to be executed over and over until it returns true.
     - id: timeout
       type: System.TimeSpan
-      description: Parameter description to be filled
+      description: A <see cref="T:System.TimeSpan"> that represents the number of milliseconds to wait, or a TimeSpan that represents -1 milliseconds to wait indefinitely.
     return:
       type: System.Boolean
-      description: Return description to be filled
+      description: True if the condition is satisfied within the timeout; otherwise, false
   overload: System.Threading.SpinWait.SpinUntil*
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 references:
 - uid: System.ValueType
   isExternal: false
@@ -206,48 +241,42 @@ references:
   name: Reset()
   nameWithType: SpinWait.Reset()
   fullName: System.Threading.SpinWait.Reset()
-- uid: System.Void
-  parent: System
-  isExternal: false
-  name: Void
-  nameWithType: Void
-  fullName: System.Void
 - uid: System.Threading.SpinWait.SpinOnce
   parent: System.Threading.SpinWait
   isExternal: false
   name: SpinOnce()
   nameWithType: SpinWait.SpinOnce()
   fullName: System.Threading.SpinWait.SpinOnce()
-- uid: System.Void
-  parent: System
-  isExternal: false
-  name: Void
-  nameWithType: Void
-  fullName: System.Void
 - uid: System.Threading.SpinWait.SpinUntil(System.Func{System.Boolean})
   parent: System.Threading.SpinWait
   isExternal: false
-  name: SpinUntil(Func)
-  nameWithType: SpinWait.SpinUntil(Func)
-  fullName: System.Threading.SpinWait.SpinUntil(Func)
-- uid: System.Void
+  name: SpinUntil(Func<Boolean>)
+  nameWithType: SpinWait.SpinUntil(Func<Boolean>)
+  fullName: System.Threading.SpinWait.SpinUntil(Func<Boolean>)
+- uid: System.Func{System.Boolean}
   parent: System
-  isExternal: false
-  name: Void
-  nameWithType: Void
-  fullName: System.Void
+  isExternal: true
+  name: Func<Boolean>
+  nameWithType: Func<Boolean>
+  fullName: System.Func<System.Boolean>
 - uid: System.Threading.SpinWait.SpinUntil(System.Func{System.Boolean},System.Int32)
   parent: System.Threading.SpinWait
   isExternal: false
-  name: SpinUntil(Func,Int32)
-  nameWithType: SpinWait.SpinUntil(Func,Int32)
-  fullName: System.Threading.SpinWait.SpinUntil(Func,Int32)
+  name: SpinUntil(Func<Boolean>,Int32)
+  nameWithType: SpinWait.SpinUntil(Func<Boolean>,Int32)
+  fullName: System.Threading.SpinWait.SpinUntil(Func<Boolean>,Int32)
 - uid: System.Boolean
   parent: System
   isExternal: false
   name: Boolean
   nameWithType: Boolean
   fullName: System.Boolean
+- uid: System.Func{System.Boolean}
+  parent: System
+  isExternal: true
+  name: Func<Boolean>
+  nameWithType: Func<Boolean>
+  fullName: System.Func<System.Boolean>
 - uid: System.Int32
   parent: System
   isExternal: false
@@ -257,15 +286,21 @@ references:
 - uid: System.Threading.SpinWait.SpinUntil(System.Func{System.Boolean},System.TimeSpan)
   parent: System.Threading.SpinWait
   isExternal: false
-  name: SpinUntil(Func,TimeSpan)
-  nameWithType: SpinWait.SpinUntil(Func,TimeSpan)
-  fullName: System.Threading.SpinWait.SpinUntil(Func,TimeSpan)
+  name: SpinUntil(Func<Boolean>,TimeSpan)
+  nameWithType: SpinWait.SpinUntil(Func<Boolean>,TimeSpan)
+  fullName: System.Threading.SpinWait.SpinUntil(Func<Boolean>,TimeSpan)
 - uid: System.Boolean
   parent: System
   isExternal: false
   name: Boolean
   nameWithType: Boolean
   fullName: System.Boolean
+- uid: System.Func{System.Boolean}
+  parent: System
+  isExternal: true
+  name: Func<Boolean>
+  nameWithType: Func<Boolean>
+  fullName: System.Func<System.Boolean>
 - uid: System.TimeSpan
   parent: System
   isExternal: false

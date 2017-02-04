@@ -6,11 +6,14 @@ items:
   - System.FlagsAttribute.#ctor
   langs:
   - csharp
-  - vb
   name: FlagsAttribute
   nameWithType: FlagsAttribute
   fullName: System.FlagsAttribute
   type: Class
+  summary: Indicates that an enumeration can be treated as a bit field; that is, a set of flags.
+  remarks: "Bit fields are generally used for lists of elements that might occur in combination, whereas enumeration constants are generally used for lists of mutually exclusive elements. Therefore, bit fields are designed to be combined with a bitwise OR operation to generate unnamed values, whereas enumerated constants are not. Languages vary in their use of bit fields compared to enumeration constants.  \n  \n## Attributes of the FlagsAttribute  \n <xref:System.AttributeUsageAttribute> is applied to this class, and its <xref:System.AttributeUsageAttribute.Inherited%2A> property specifies `false`. This attribute can only be applied to enumerations.  \n  \n## Guidelines for FlagsAttribute and Enum  \n  \n-   Use the FlagsAttribute custom attribute for an enumeration only if a bitwise operation (AND, OR, EXCLUSIVE OR) is to be performed on a numeric value.  \n  \n-   Define enumeration constants in powers of two, that is, 1, 2, 4, 8, and so on. This means the individual flags in combined enumeration constants do not overlap.  \n  \n-   Consider creating an enumerated constant for commonly used flag combinations. For example, if you have an enumeration used for file I/O operations that contains the enumerated constants `Read = 1` and `Write = 2`, consider creating the enumerated constant `ReadWrite = Read OR Write`, which combines the `Read` and `Write` flags. In addition, the bitwise OR operation used to combine the flags might be considered an advanced concept in some circumstances that should not be required for simple tasks.  \n  \n-   Use caution if you define a negative number as a flag enumerated constant because many flag positions might be set to 1, which might make your code confusing and encourage coding errors.  \n  \n-   A convenient way to test whether a flag is set in a numeric value is to perform a bitwise AND operation between the numeric value and the flag enumerated constant, which sets all bits in the numeric value to zero that do not correspond to the flag, then test whether the result of that operation is equal to the flag enumerated constant.  \n  \n-   Use `None` as the name of the flag enumerated constant whose value is zero. You cannot use the `None` enumerated constant in a bitwise AND operation to test for a flag because the result is always zero. However, you can perform a logical, not a bitwise, comparison between the numeric value and the `None` enumerated constant to determine whether any bits in the numeric value are set.  \n  \n     If you create a value enumeration instead of a flags enumeration, it is still worthwhile to create a `None` enumerated constant. The reason is that by default the memory used for the enumeration is initialized to zero by the common language runtime. Consequently, if you do not define a constant whose value is zero, the enumeration will contain an illegal value when it is created.  \n  \n     If there is an obvious default case your application needs to represent, consider using an enumerated constant whose value is zero to represent the default. If there is no default case, consider using an enumerated constant whose value is zero that means the case that is not represented by any of the other enumerated constants.  \n  \n-   Do not define an enumeration value solely to mirror the state of the enumeration itself. For example, do not define an enumerated constant that merely marks the end of the enumeration. If you need to determine the last value of the enumeration, check for that value explicitly. In addition, you can perform a range check for the first and last enumerated constant if all values within the range are valid.  \n  \n-   Do not specify enumerated constants that are reserved for future use.  \n  \n-   When you define a method or property that takes an enumerated constant as a value, consider validating the value. The reason is that you can cast a numeric value to the enumeration type even if that numeric value is not defined in the enumeration."
+  example:
+  - "The following example illustrates the use of the `FlagsAttribute` attribute and shows the effect on the <xref:System.Enum.ToString%2A> method of using `FlagsAttribute` on an <xref:System.Enum> declaration.  \n  \n [!CODE [System.FlagsAttribute#1](../CodeSnippet/VS_Snippets_CLR_System/system.FlagsAttribute#1)]  \n  \n The following example defines two color-related enumerations, `SingleHue` and `MultiHue`. The latter has the `FlagsAttribute` attribute; the former does not. The example shows the difference in behavior when a range of integers, including integers that do not represent underlying values of the enumeration type, are cast to the enumeration type and their string representations displayed.   For example, note that 3 cannot be represented as a `SingleHue` value because 3 is not the underlying value of any `SingleHue` member, whereas the `FlagsAttribute` attribute makes it possible to represent 3 as a `MultiHue` value of `Black, Red`.  \n  \n [!CODE [System.FlagsAttribute#2](../CodeSnippet/VS_Snippets_CLR_System/system.FlagsAttribute#2)]"
   syntax:
     content: >-
       [System.AttributeUsage(System.AttributeTargets.Enum, Inherited=false)]
@@ -69,12 +72,15 @@ items:
   - System.Object.MemberwiseClone
   - System.Object.ReferenceEquals(System.Object,System.Object)
   - System.Object.ToString
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.FlagsAttribute.#ctor
   id: '#ctor'
   parent: System.FlagsAttribute
   langs:
   - csharp
-  - vb
   name: FlagsAttribute()
   nameWithType: FlagsAttribute.FlagsAttribute()
   fullName: System.FlagsAttribute.FlagsAttribute()
@@ -82,9 +88,17 @@ items:
   assemblies:
   - mscorlib
   namespace: System
+  summary: Initializes a new instance of the <see cref="T:System.FlagsAttribute"> class.
+  remarks: ''
+  example:
+  - "The following example defines a `PhoneService` enumeration that represents forms of communication provided by a telephone company. It initializes three variables representing the service provided to three different households, and then indicates which households have no service, which households have only cell phone service, and which households have both cell phone and land line service. Finally, it implicitly calls the <xref:System.Enum.ToString%28System.String%29?displayProperty=fullName> method to display the types of service provided to each household.  \n  \n [!CODE [System.FlagsAttribute#2](../CodeSnippet/VS_Snippets_CLR_System/system.FlagsAttribute#2)]  \n  \n The following example illustrates the use of the `FlagsAttribute` attribute and shows the effect on the <xref:System.Enum.ToString%2A> method of using `FlagsAttribute` on an <xref:System.Enum> declaration.  \n  \n [!CODE [System.FlagsAttribute#1](../CodeSnippet/VS_Snippets_CLR_System/system.FlagsAttribute#1)]"
   syntax:
     content: public FlagsAttribute ();
     parameters: []
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 references:
 - uid: System.Attribute
   isExternal: false

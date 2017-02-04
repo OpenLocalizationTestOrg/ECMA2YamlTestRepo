@@ -11,11 +11,14 @@ items:
   - System.Buffer.SetByte(System.Array,System.Int32,System.Byte)
   langs:
   - csharp
-  - vb
   name: Buffer
   nameWithType: Buffer
   fullName: System.Buffer
   type: Class
+  summary: Manipulates arrays of primitive types.
+  remarks: "Buffer only affects arrays of primitive types; this class does not apply to objects. Each primitive type is treated as a series of bytes without regard to any behavior or limitation associated with the primitive type.  \n  \n Buffer provides methods to copy bytes from one array of primitive types to another array of primitive types, get a byte from an array, set a byte in an array, and obtain the length of an array. This class provides better performance for manipulating primitive types than similar methods in the <xref:System.Array?displayProperty=fullName> class.  \n  \n Buffer is applicable to the following primitive types: <xref:System.Boolean>, <xref:System.Char>, <xref:System.SByte>, <xref:System.Byte>, <xref:System.Int16>, <xref:System.UInt16>, <xref:System.Int32>, <xref:System.UInt32>, <xref:System.Int64>, <xref:System.UInt64>, <xref:System.IntPtr>, <xref:System.UIntPtr>, <xref:System.Single>, and <xref:System.Double>."
+  example:
+  - "The following code example illustrates the use of several `Buffer` class methods.  \n  \n [!CODE [System.Buffer.BlockCopy#1](../CodeSnippet/VS_Snippets_CLR_System/system.Buffer.BlockCopy#1)]"
   syntax:
     content: >-
       [System.Runtime.InteropServices.ComVisible(true)]
@@ -32,12 +35,15 @@ items:
   - System.Object.MemberwiseClone
   - System.Object.ReferenceEquals(System.Object,System.Object)
   - System.Object.ToString
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Buffer.BlockCopy(System.Array,System.Int32,System.Array,System.Int32,System.Int32)
   id: BlockCopy(System.Array,System.Int32,System.Array,System.Int32,System.Int32)
   parent: System.Buffer
   langs:
   - csharp
-  - vb
   name: BlockCopy(Array,Int32,Array,Int32,Int32)
   nameWithType: Buffer.BlockCopy(Array,Int32,Array,Int32,Int32)
   fullName: System.Buffer.BlockCopy(Array,Int32,Array,Int32,Int32)
@@ -45,33 +51,37 @@ items:
   assemblies:
   - mscorlib
   namespace: System
+  summary: Copies a specified number of bytes from a source array starting at a particular offset to a destination array starting at a particular offset.
+  remarks: "This method copies  bytes from , beginning at , to , beginning at . Both  and  are zero-based; that is, the first byte in each buffer is at position 0, not position 1.  \n  \n The BlockCopy method accesses the bytes in the  parameter array using offsets into memory, not programming constructs such as indexes or upper and lower array bounds. For example, if in the programming language of your application you declare an <xref:System.Int32> array with a zero-based lower bound of -50, and then pass the array and an offset of 5 to the BlockCopy method, the first array element the method will access is the second element of the array, which is at index -49. Furthermore, which byte of array element -49 is accessed first depends on the endianness of the computer that is executing your application.  \n  \n As its name suggests, the BlockCopy method copies a block of bytes as a whole, rather than copying one byte at a time. Therefore, if  and  reference the same array, and the range from  +  -1 overlaps the range from  +  - 1, the values of the overlapping bytes are not overwritten before they are copied to the destination. In the following example, the values of bytes 0-16 in an array named `arr` are copied to bytes 12-28. Despite the overlapping range, the values of the source bytes are successfully copied.  \n  \n [!CODE [System.Buffer.BlockCopy#3](../CodeSnippet/VS_Snippets_CLR_System/system.Buffer.BlockCopy#3)]  \n  \n In the following example, the values of bytes 12-28 in an array named `arr` are copied to bytes 0-16. Again, despite the overlapping range, the values of the source bytes are successfully copied.  \n  \n [!CODE [System.Buffer.BlockCopy#4](../CodeSnippet/VS_Snippets_CLR_System/system.Buffer.BlockCopy#4)]"
+  example:
+  - "The following example copies regions of arrays by using the BlockCopy method. For each BlockCopy operation, it lists the source and destination arrays as both an array of values and as a sequence of bytes. The example illustrates the importance of considering a system's endianness when working with the BlockCopy method: Because Windows systems are little-endian, the lower-order bytes of a primitive data type's value precede the higher-order bytes.  \n  \n [!CODE [System.Buffer.BlockCopy#2](../CodeSnippet/VS_Snippets_CLR_System/system.Buffer.BlockCopy#2)]"
   syntax:
     content: public static void BlockCopy (Array src, int srcOffset, Array dst, int dstOffset, int count);
     parameters:
     - id: src
       type: System.Array
-      description: Parameter description to be filled
+      description: The source buffer.
     - id: srcOffset
       type: System.Int32
-      description: Parameter description to be filled
+      description: The zero-based byte offset into .
     - id: dst
       type: System.Array
-      description: Parameter description to be filled
+      description: The destination buffer.
     - id: dstOffset
       type: System.Int32
-      description: Parameter description to be filled
+      description: The zero-based byte offset into .
     - id: count
       type: System.Int32
-      description: Parameter description to be filled
-    return:
-      type: System.Void
-      description: Return description to be filled
+      description: The number of bytes to copy.
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Buffer.ByteLength(System.Array)
   id: ByteLength(System.Array)
   parent: System.Buffer
   langs:
   - csharp
-  - vb
   name: ByteLength(Array)
   nameWithType: Buffer.ByteLength(Array)
   fullName: System.Buffer.ByteLength(Array)
@@ -79,21 +89,28 @@ items:
   assemblies:
   - mscorlib
   namespace: System
+  summary: Returns the number of bytes in the specified array.
+  remarks: ''
+  example:
+  - "The following code example illustrates the use of the `ByteLength` method to return the number of bytes in an array.  \n  \n [!CODE [System.Buffer.Bytes#1](../CodeSnippet/VS_Snippets_CLR_System/system.Buffer.Bytes#1)]"
   syntax:
     content: public static int ByteLength (Array array);
     parameters:
     - id: array
       type: System.Array
-      description: Parameter description to be filled
+      description: An array.
     return:
       type: System.Int32
-      description: Return description to be filled
+      description: The number of bytes in the array.
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Buffer.GetByte(System.Array,System.Int32)
   id: GetByte(System.Array,System.Int32)
   parent: System.Buffer
   langs:
   - csharp
-  - vb
   name: GetByte(Array,Int32)
   nameWithType: Buffer.GetByte(Array,Int32)
   fullName: System.Buffer.GetByte(Array,Int32)
@@ -101,24 +118,31 @@ items:
   assemblies:
   - mscorlib
   namespace: System
+  summary: Retrieves the byte at a specified location in a specified array.
+  remarks: The `GetByte` method gets a particular byte out of the array. The array must be an array of primitives.
+  example:
+  - "The following code example displays the byte values at specified locations within arrays using the `GetByte` method.  \n  \n [!CODE [System.Buffer.Bytes#3](../CodeSnippet/VS_Snippets_CLR_System/system.Buffer.Bytes#3)]"
   syntax:
     content: public static byte GetByte (Array array, int index);
     parameters:
     - id: array
       type: System.Array
-      description: Parameter description to be filled
+      description: An array.
     - id: index
       type: System.Int32
-      description: Parameter description to be filled
+      description: A location in the array.
     return:
       type: System.Byte
-      description: Return description to be filled
+      description: Returns the  byte in the array.
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Buffer.MemoryCopy(System.Void*,System.Void*,System.Int64,System.Int64)
   id: MemoryCopy(System.Void*,System.Void*,System.Int64,System.Int64)
   parent: System.Buffer
   langs:
   - csharp
-  - vb
   name: MemoryCopy(Void*,Void*,Int64,Int64)
   nameWithType: Buffer.MemoryCopy(Void*,Void*,Int64,Int64)
   fullName: System.Buffer.MemoryCopy(Void*,Void*,Int64,Int64)
@@ -126,31 +150,33 @@ items:
   assemblies:
   - mscorlib
   namespace: System
+  summary: "Copies a number of bytes specified as a long integer value from one address in memory to another.  \n  \n This API is not CLS-compliant."
+  remarks: This method copies  bytes from the address specified by  to the address specified by . If the buffers overlap and the difference between  minus  is less than , the source block is copied to the destination block in reverse order.
   syntax:
     content: public static void MemoryCopy (void* source, void* destination, long destinationSizeInBytes, long sourceBytesToCopy);
     parameters:
     - id: source
       type: System.Void*
-      description: Parameter description to be filled
+      description: The address of the bytes to copy.
     - id: destination
       type: System.Void*
-      description: Parameter description to be filled
+      description: The target address.
     - id: destinationSizeInBytes
       type: System.Int64
-      description: Parameter description to be filled
+      description: The number of bytes available in the destination memory block.
     - id: sourceBytesToCopy
       type: System.Int64
-      description: Parameter description to be filled
-    return:
-      type: System.Void
-      description: Return description to be filled
+      description: The number of bytes to copy.
   overload: System.Buffer.MemoryCopy*
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Buffer.MemoryCopy(System.Void*,System.Void*,System.UInt64,System.UInt64)
   id: MemoryCopy(System.Void*,System.Void*,System.UInt64,System.UInt64)
   parent: System.Buffer
   langs:
   - csharp
-  - vb
   name: MemoryCopy(Void*,Void*,UInt64,UInt64)
   nameWithType: Buffer.MemoryCopy(Void*,Void*,UInt64,UInt64)
   fullName: System.Buffer.MemoryCopy(Void*,Void*,UInt64,UInt64)
@@ -158,31 +184,33 @@ items:
   assemblies:
   - mscorlib
   namespace: System
+  summary: "Copies a number of bytes specified as an unsigned long integer value from one address in memory to another.  \n  \n This API is not CLS-compliant."
+  remarks: This method copies  bytes from the address specified by  to the address specified by . If the buffers overlap and the difference between  minus  is less than , the source block is copied to the destination block in reverse order.
   syntax:
     content: public static void MemoryCopy (void* source, void* destination, ulong destinationSizeInBytes, ulong sourceBytesToCopy);
     parameters:
     - id: source
       type: System.Void*
-      description: Parameter description to be filled
+      description: The address of the bytes to copy.
     - id: destination
       type: System.Void*
-      description: Parameter description to be filled
+      description: The target address.
     - id: destinationSizeInBytes
       type: System.UInt64
-      description: Parameter description to be filled
+      description: The number of bytes available in the destination memory block.
     - id: sourceBytesToCopy
       type: System.UInt64
-      description: Parameter description to be filled
-    return:
-      type: System.Void
-      description: Return description to be filled
+      description: The number of bytes to copy.
   overload: System.Buffer.MemoryCopy*
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Buffer.SetByte(System.Array,System.Int32,System.Byte)
   id: SetByte(System.Array,System.Int32,System.Byte)
   parent: System.Buffer
   langs:
   - csharp
-  - vb
   name: SetByte(Array,Int32,Byte)
   nameWithType: Buffer.SetByte(Array,Int32,Byte)
   fullName: System.Buffer.SetByte(Array,Int32,Byte)
@@ -190,21 +218,26 @@ items:
   assemblies:
   - mscorlib
   namespace: System
+  summary: Assigns a specified value to a byte at a particular location in a specified array.
+  remarks: must be an array of primitives.
+  example:
+  - "The following code example assigns values to bytes at particular locations within arrays using the `SetByte` method.  \n  \n [!CODE [System.Buffer.Bytes#2](../CodeSnippet/VS_Snippets_CLR_System/system.Buffer.Bytes#2)]"
   syntax:
     content: public static void SetByte (Array array, int index, byte value);
     parameters:
     - id: array
       type: System.Array
-      description: Parameter description to be filled
+      description: An array.
     - id: index
       type: System.Int32
-      description: Parameter description to be filled
+      description: A location in the array.
     - id: value
       type: System.Byte
-      description: Parameter description to be filled
-    return:
-      type: System.Void
-      description: Return description to be filled
+      description: A value to assign.
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 references:
 - uid: System.Object
   isExternal: false
@@ -215,12 +248,6 @@ references:
   name: BlockCopy(Array,Int32,Array,Int32,Int32)
   nameWithType: Buffer.BlockCopy(Array,Int32,Array,Int32,Int32)
   fullName: System.Buffer.BlockCopy(Array,Int32,Array,Int32,Int32)
-- uid: System.Void
-  parent: System
-  isExternal: false
-  name: Void
-  nameWithType: Void
-  fullName: System.Void
 - uid: System.Array
   parent: System
   isExternal: false
@@ -299,12 +326,6 @@ references:
   name: MemoryCopy(Void*,Void*,Int64,Int64)
   nameWithType: Buffer.MemoryCopy(Void*,Void*,Int64,Int64)
   fullName: System.Buffer.MemoryCopy(Void*,Void*,Int64,Int64)
-- uid: System.Void
-  parent: System
-  isExternal: false
-  name: Void
-  nameWithType: Void
-  fullName: System.Void
 - uid: System.Int64
   parent: System
   isExternal: false
@@ -323,12 +344,6 @@ references:
   name: MemoryCopy(Void*,Void*,UInt64,UInt64)
   nameWithType: Buffer.MemoryCopy(Void*,Void*,UInt64,UInt64)
   fullName: System.Buffer.MemoryCopy(Void*,Void*,UInt64,UInt64)
-- uid: System.Void
-  parent: System
-  isExternal: false
-  name: Void
-  nameWithType: Void
-  fullName: System.Void
 - uid: System.UInt64
   parent: System
   isExternal: false
@@ -347,12 +362,6 @@ references:
   name: SetByte(Array,Int32,Byte)
   nameWithType: Buffer.SetByte(Array,Int32,Byte)
   fullName: System.Buffer.SetByte(Array,Int32,Byte)
-- uid: System.Void
-  parent: System
-  isExternal: false
-  name: Void
-  nameWithType: Void
-  fullName: System.Void
 - uid: System.Array
   parent: System
   isExternal: false

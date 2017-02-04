@@ -16,11 +16,12 @@ items:
   - System.Runtime.InteropServices.SafeBuffer.WriteArray``1(System.UInt64,``0[],System.Int32,System.Int32)
   langs:
   - csharp
-  - vb
   name: SafeBuffer
   nameWithType: SafeBuffer
   fullName: System.Runtime.InteropServices.SafeBuffer
   type: Class
+  summary: Provides a controlled memory buffer that can be used for reading and writing. Attempts to access memory outside the controlled buffer (underruns and overruns) raise exceptions.
+  remarks: "You must call the <xref:System.Runtime.InteropServices.SafeBuffer.Initialize%2A?displayProperty=fullName> method before you use any instance of SafeBuffer. To avoid races when you store an instance of a SafeBuffer object in a static variable, you should use one of the following approaches:  \n  \n-   Create a lock when publishing the SafeBuffer.  \n  \n-   Create a local variable, initialize the SafeBuffer, and then assign the SafeBuffer to the static variable, for example, by using the <xref:System.Threading.Interlocked.CompareExchange%2A?displayProperty=fullName> method.  \n  \n> [!NOTE]\n>  Assignments in a static class constructor are implicitly locked."
   syntax:
     content: >-
       [System.Security.SecurityCritical]
@@ -52,12 +53,15 @@ items:
   - System.Runtime.InteropServices.SafeHandle.ReleaseHandle
   - System.Runtime.InteropServices.SafeHandle.SetHandle(System.IntPtr)
   - System.Runtime.InteropServices.SafeHandle.SetHandleAsInvalid
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Runtime.InteropServices.SafeBuffer.#ctor(System.Boolean)
   id: '#ctor(System.Boolean)'
   parent: System.Runtime.InteropServices.SafeBuffer
   langs:
   - csharp
-  - vb
   name: SafeBuffer(Boolean)
   nameWithType: SafeBuffer.SafeBuffer(Boolean)
   fullName: System.Runtime.InteropServices.SafeBuffer.SafeBuffer(Boolean)
@@ -65,18 +69,23 @@ items:
   assemblies:
   - mscorlib
   namespace: System.Runtime.InteropServices
+  summary: Creates a new instance of the <see cref="T:System.Runtime.InteropServices.SafeBuffer"> class, and specifies whether the buffer handle is to be reliably released.
+  remarks: To be added.
   syntax:
     content: protected SafeBuffer (bool ownsHandle);
     parameters:
     - id: ownsHandle
       type: System.Boolean
-      description: Parameter description to be filled
+      description: '`true` to reliably release the handle during the finalization phase; `false` to prevent reliable release (not recommended).'
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Runtime.InteropServices.SafeBuffer.AcquirePointer(System.Byte*@)
   id: AcquirePointer(System.Byte*@)
   parent: System.Runtime.InteropServices.SafeBuffer
   langs:
   - csharp
-  - vb
   name: AcquirePointer(Byte*)
   nameWithType: SafeBuffer.AcquirePointer(Byte*)
   fullName: System.Runtime.InteropServices.SafeBuffer.AcquirePointer(Byte*)
@@ -84,21 +93,23 @@ items:
   assemblies:
   - mscorlib
   namespace: System.Runtime.InteropServices
+  summary: Obtains a pointer from a <see cref="T:System.Runtime.InteropServices.SafeBuffer"> object for a block of memory.
+  remarks: "When AcquirePointer returns, you should perform bounds checking by verifying that the  parameter is `null`. If it is not `null`, you must call the <xref:System.Runtime.InteropServices.SafeBuffer.ReleasePointer%2A?displayProperty=fullName> method in a constrained execution region (CER).  \n  \n AcquirePointer calls the <xref:System.Runtime.InteropServices.SafeHandle.DangerousAddRef%2A?displayProperty=fullName> method and exposes the pointer. Unlike the <xref:System.Runtime.InteropServices.SafeBuffer.Read%2A> method, it does not change the current position of the pointer.  \n  \n The following exampledemonstrates how to use the AcquirePointer method:  \n  \n```  \nbyte* pointer = null;  \nRuntimeHelpers.PrepareConstrainedRegions();  \ntry {  \n    MySafeBuffer.AcquirePointer(ref pointer);  \n    // Use pointer here, with your own bounds checking.  \n    }  \nfinally {  \n    if (pointer != null)  \n        MySafeBuffer.ReleasePointer();  \n    }  \n```  \n  \n If you cast  (which is a pointer to a byte) as a pointer to a different type (T*), you may have pointer alignment issues.  \n  \n You must take responsibility for all bounds checking with this pointer."
   syntax:
     content: public void AcquirePointer (ref byte* pointer);
     parameters:
     - id: pointer
       type: System.Byte*
-      description: Parameter description to be filled
-    return:
-      type: System.Void
-      description: Return description to be filled
+      description: A byte pointer, passed by reference, to receive the pointer from within the <see cref="T:System.Runtime.InteropServices.SafeBuffer"> object. You must set this pointer to `null` before you call this method.
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Runtime.InteropServices.SafeBuffer.ByteLength
   id: ByteLength
   parent: System.Runtime.InteropServices.SafeBuffer
   langs:
   - csharp
-  - vb
   name: ByteLength
   nameWithType: SafeBuffer.ByteLength
   fullName: System.Runtime.InteropServices.SafeBuffer.ByteLength
@@ -106,17 +117,22 @@ items:
   assemblies:
   - mscorlib
   namespace: System.Runtime.InteropServices
+  summary: Gets the size of the buffer, in bytes.
+  remarks: To be added.
   syntax:
     content: public ulong ByteLength { get; }
     return:
       type: System.UInt64
-      description: Return description to be filled
+      description: To be added.
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Runtime.InteropServices.SafeBuffer.Initialize(System.UInt64)
   id: Initialize(System.UInt64)
   parent: System.Runtime.InteropServices.SafeBuffer
   langs:
   - csharp
-  - vb
   name: Initialize(UInt64)
   nameWithType: SafeBuffer.Initialize(UInt64)
   fullName: System.Runtime.InteropServices.SafeBuffer.Initialize(UInt64)
@@ -124,22 +140,24 @@ items:
   assemblies:
   - mscorlib
   namespace: System.Runtime.InteropServices
+  summary: Defines the allocation size of the memory region in bytes. You must call this method before you use the <see cref="T:System.Runtime.InteropServices.SafeBuffer"> instance.
+  remarks: To be added.
   syntax:
     content: public void Initialize (ulong numBytes);
     parameters:
     - id: numBytes
       type: System.UInt64
-      description: Parameter description to be filled
-    return:
-      type: System.Void
-      description: Return description to be filled
+      description: The number of bytes in the buffer.
   overload: System.Runtime.InteropServices.SafeBuffer.Initialize*
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Runtime.InteropServices.SafeBuffer.Initialize(System.UInt32,System.UInt32)
   id: Initialize(System.UInt32,System.UInt32)
   parent: System.Runtime.InteropServices.SafeBuffer
   langs:
   - csharp
-  - vb
   name: Initialize(UInt32,UInt32)
   nameWithType: SafeBuffer.Initialize(UInt32,UInt32)
   fullName: System.Runtime.InteropServices.SafeBuffer.Initialize(UInt32,UInt32)
@@ -147,25 +165,27 @@ items:
   assemblies:
   - mscorlib
   namespace: System.Runtime.InteropServices
+  summary: Specifies the allocation size of the memory buffer by using the specified number of elements and element size. You must call this method before you use the <see cref="T:System.Runtime.InteropServices.SafeBuffer"> instance.
+  remarks: This method defines the required size of the memory region as the number of elements in an array multiplied by the size of each element.
   syntax:
     content: public void Initialize (uint numElements, uint sizeOfEachElement);
     parameters:
     - id: numElements
       type: System.UInt32
-      description: Parameter description to be filled
+      description: The number of elements in the buffer.
     - id: sizeOfEachElement
       type: System.UInt32
-      description: Parameter description to be filled
-    return:
-      type: System.Void
-      description: Return description to be filled
+      description: The size of each element in the buffer.
   overload: System.Runtime.InteropServices.SafeBuffer.Initialize*
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Runtime.InteropServices.SafeBuffer.Initialize``1(System.UInt32)
   id: Initialize``1(System.UInt32)
   parent: System.Runtime.InteropServices.SafeBuffer
   langs:
   - csharp
-  - vb
   name: Initialize(UInt32)
   nameWithType: SafeBuffer.Initialize(UInt32)
   fullName: System.Runtime.InteropServices.SafeBuffer.Initialize(UInt32)
@@ -173,21 +193,23 @@ items:
   assemblies:
   - mscorlib
   namespace: System.Runtime.InteropServices
+  summary: To be added.
+  remarks: To be added.
   syntax:
     content: 'public void Initialize<T> (uint numElements) where T : struct;'
     parameters:
     - id: numElements
       type: System.UInt32
-      description: Parameter description to be filled
-    return:
-      type: System.Void
-      description: Return description to be filled
+      description: To be added.
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Runtime.InteropServices.SafeBuffer.Read``1(System.UInt64)
   id: Read``1(System.UInt64)
   parent: System.Runtime.InteropServices.SafeBuffer
   langs:
   - csharp
-  - vb
   name: Read(UInt64)
   nameWithType: SafeBuffer.Read(UInt64)
   fullName: System.Runtime.InteropServices.SafeBuffer.Read(UInt64)
@@ -195,21 +217,26 @@ items:
   assemblies:
   - mscorlib
   namespace: System.Runtime.InteropServices
+  summary: To be added.
+  remarks: To be added.
   syntax:
     content: 'public T Read<T> (ulong byteOffset) where T : struct;'
     parameters:
     - id: byteOffset
       type: System.UInt64
-      description: Parameter description to be filled
+      description: To be added.
     return:
       type: T
-      description: Return description to be filled
+      description: To be added.
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Runtime.InteropServices.SafeBuffer.ReadArray``1(System.UInt64,``0[],System.Int32,System.Int32)
   id: ReadArray``1(System.UInt64,``0[],System.Int32,System.Int32)
   parent: System.Runtime.InteropServices.SafeBuffer
   langs:
   - csharp
-  - vb
   name: ReadArray(UInt64,T[],Int32,Int32)
   nameWithType: SafeBuffer.ReadArray(UInt64,T[],Int32,Int32)
   fullName: System.Runtime.InteropServices.SafeBuffer.ReadArray(UInt64,T[],Int32,Int32)
@@ -217,30 +244,32 @@ items:
   assemblies:
   - mscorlib
   namespace: System.Runtime.InteropServices
+  summary: To be added.
+  remarks: To be added.
   syntax:
     content: 'public void ReadArray<T> (ulong byteOffset, T[] array, int index, int count) where T : struct;'
     parameters:
     - id: byteOffset
       type: System.UInt64
-      description: Parameter description to be filled
+      description: To be added.
     - id: array
       type: T[]
-      description: Parameter description to be filled
+      description: To be added.
     - id: index
       type: System.Int32
-      description: Parameter description to be filled
+      description: To be added.
     - id: count
       type: System.Int32
-      description: Parameter description to be filled
-    return:
-      type: System.Void
-      description: Return description to be filled
+      description: To be added.
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Runtime.InteropServices.SafeBuffer.ReleasePointer
   id: ReleasePointer
   parent: System.Runtime.InteropServices.SafeBuffer
   langs:
   - csharp
-  - vb
   name: ReleasePointer()
   nameWithType: SafeBuffer.ReleasePointer()
   fullName: System.Runtime.InteropServices.SafeBuffer.ReleasePointer()
@@ -248,18 +277,20 @@ items:
   assemblies:
   - mscorlib
   namespace: System.Runtime.InteropServices
+  summary: Releases a pointer that was obtained by the <xref:System.Runtime.InteropServices.SafeBuffer.AcquirePointer%2A> method.
+  remarks: After this method returns, the pointer cannot be used.
   syntax:
     content: public void ReleasePointer ();
     parameters: []
-    return:
-      type: System.Void
-      description: Return description to be filled
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Runtime.InteropServices.SafeBuffer.Write``1(System.UInt64,``0)
   id: Write``1(System.UInt64,``0)
   parent: System.Runtime.InteropServices.SafeBuffer
   langs:
   - csharp
-  - vb
   name: Write(UInt64,T)
   nameWithType: SafeBuffer.Write(UInt64,T)
   fullName: System.Runtime.InteropServices.SafeBuffer.Write(UInt64,T)
@@ -267,24 +298,26 @@ items:
   assemblies:
   - mscorlib
   namespace: System.Runtime.InteropServices
+  summary: To be added.
+  remarks: To be added.
   syntax:
     content: 'public void Write<T> (ulong byteOffset, T value) where T : struct;'
     parameters:
     - id: byteOffset
       type: System.UInt64
-      description: Parameter description to be filled
+      description: To be added.
     - id: value
       type: T
-      description: Parameter description to be filled
-    return:
-      type: System.Void
-      description: Return description to be filled
+      description: To be added.
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Runtime.InteropServices.SafeBuffer.WriteArray``1(System.UInt64,``0[],System.Int32,System.Int32)
   id: WriteArray``1(System.UInt64,``0[],System.Int32,System.Int32)
   parent: System.Runtime.InteropServices.SafeBuffer
   langs:
   - csharp
-  - vb
   name: WriteArray(UInt64,T[],Int32,Int32)
   nameWithType: SafeBuffer.WriteArray(UInt64,T[],Int32,Int32)
   fullName: System.Runtime.InteropServices.SafeBuffer.WriteArray(UInt64,T[],Int32,Int32)
@@ -292,24 +325,27 @@ items:
   assemblies:
   - mscorlib
   namespace: System.Runtime.InteropServices
+  summary: To be added.
+  remarks: To be added.
   syntax:
     content: 'public void WriteArray<T> (ulong byteOffset, T[] array, int index, int count) where T : struct;'
     parameters:
     - id: byteOffset
       type: System.UInt64
-      description: Parameter description to be filled
+      description: To be added.
     - id: array
       type: T[]
-      description: Parameter description to be filled
+      description: To be added.
     - id: index
       type: System.Int32
-      description: Parameter description to be filled
+      description: To be added.
     - id: count
       type: System.Int32
-      description: Parameter description to be filled
-    return:
-      type: System.Void
-      description: Return description to be filled
+      description: To be added.
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 references:
 - uid: Microsoft.Win32.SafeHandles.SafeHandleZeroOrMinusOneIsInvalid
   isExternal: false
@@ -332,12 +368,6 @@ references:
   name: AcquirePointer(Byte*)
   nameWithType: SafeBuffer.AcquirePointer(Byte*)
   fullName: System.Runtime.InteropServices.SafeBuffer.AcquirePointer(Byte*)
-- uid: System.Void
-  parent: System
-  isExternal: false
-  name: Void
-  nameWithType: Void
-  fullName: System.Void
 - uid: System.Runtime.InteropServices.SafeBuffer.ByteLength
   parent: System.Runtime.InteropServices.SafeBuffer
   isExternal: false
@@ -356,12 +386,6 @@ references:
   name: Initialize(UInt64)
   nameWithType: SafeBuffer.Initialize(UInt64)
   fullName: System.Runtime.InteropServices.SafeBuffer.Initialize(UInt64)
-- uid: System.Void
-  parent: System
-  isExternal: false
-  name: Void
-  nameWithType: Void
-  fullName: System.Void
 - uid: System.UInt64
   parent: System
   isExternal: false
@@ -374,12 +398,6 @@ references:
   name: Initialize(UInt32,UInt32)
   nameWithType: SafeBuffer.Initialize(UInt32,UInt32)
   fullName: System.Runtime.InteropServices.SafeBuffer.Initialize(UInt32,UInt32)
-- uid: System.Void
-  parent: System
-  isExternal: false
-  name: Void
-  nameWithType: Void
-  fullName: System.Void
 - uid: System.UInt32
   parent: System
   isExternal: false
@@ -398,12 +416,6 @@ references:
   name: Initialize(UInt32)
   nameWithType: SafeBuffer.Initialize(UInt32)
   fullName: System.Runtime.InteropServices.SafeBuffer.Initialize(UInt32)
-- uid: System.Void
-  parent: System
-  isExternal: false
-  name: Void
-  nameWithType: Void
-  fullName: System.Void
 - uid: System.UInt32
   parent: System
   isExternal: false
@@ -416,6 +428,12 @@ references:
   name: Read(UInt64)
   nameWithType: SafeBuffer.Read(UInt64)
   fullName: System.Runtime.InteropServices.SafeBuffer.Read(UInt64)
+- uid: T
+  parent: ''
+  isExternal: true
+  name: T
+  nameWithType: T
+  fullName: T
 - uid: System.UInt64
   parent: System
   isExternal: false
@@ -428,18 +446,18 @@ references:
   name: ReadArray(UInt64,T[],Int32,Int32)
   nameWithType: SafeBuffer.ReadArray(UInt64,T[],Int32,Int32)
   fullName: System.Runtime.InteropServices.SafeBuffer.ReadArray(UInt64,T[],Int32,Int32)
-- uid: System.Void
-  parent: System
-  isExternal: false
-  name: Void
-  nameWithType: Void
-  fullName: System.Void
 - uid: System.UInt64
   parent: System
   isExternal: false
   name: UInt64
   nameWithType: UInt64
   fullName: System.UInt64
+- uid: T
+  parent: ''
+  isExternal: true
+  name: T
+  nameWithType: T
+  fullName: T[]
 - uid: System.Int32
   parent: System
   isExternal: false
@@ -458,48 +476,42 @@ references:
   name: ReleasePointer()
   nameWithType: SafeBuffer.ReleasePointer()
   fullName: System.Runtime.InteropServices.SafeBuffer.ReleasePointer()
-- uid: System.Void
-  parent: System
-  isExternal: false
-  name: Void
-  nameWithType: Void
-  fullName: System.Void
 - uid: System.Runtime.InteropServices.SafeBuffer.Write``1(System.UInt64,``0)
   parent: System.Runtime.InteropServices.SafeBuffer
   isExternal: false
   name: Write(UInt64,T)
   nameWithType: SafeBuffer.Write(UInt64,T)
   fullName: System.Runtime.InteropServices.SafeBuffer.Write(UInt64,T)
-- uid: System.Void
-  parent: System
-  isExternal: false
-  name: Void
-  nameWithType: Void
-  fullName: System.Void
 - uid: System.UInt64
   parent: System
   isExternal: false
   name: UInt64
   nameWithType: UInt64
   fullName: System.UInt64
+- uid: T
+  parent: ''
+  isExternal: true
+  name: T
+  nameWithType: T
+  fullName: T
 - uid: System.Runtime.InteropServices.SafeBuffer.WriteArray``1(System.UInt64,``0[],System.Int32,System.Int32)
   parent: System.Runtime.InteropServices.SafeBuffer
   isExternal: false
   name: WriteArray(UInt64,T[],Int32,Int32)
   nameWithType: SafeBuffer.WriteArray(UInt64,T[],Int32,Int32)
   fullName: System.Runtime.InteropServices.SafeBuffer.WriteArray(UInt64,T[],Int32,Int32)
-- uid: System.Void
-  parent: System
-  isExternal: false
-  name: Void
-  nameWithType: Void
-  fullName: System.Void
 - uid: System.UInt64
   parent: System
   isExternal: false
   name: UInt64
   nameWithType: UInt64
   fullName: System.UInt64
+- uid: T
+  parent: ''
+  isExternal: true
+  name: T
+  nameWithType: T
+  fullName: T[]
 - uid: System.Int32
   parent: System
   isExternal: false

@@ -9,11 +9,12 @@ items:
   - System.Collections.ICollection.SyncRoot
   langs:
   - csharp
-  - vb
   name: ICollection
   nameWithType: ICollection
   fullName: System.Collections.ICollection
   type: Interface
+  summary: Defines size, enumerators, and synchronization methods for all nongeneric collections.
+  remarks: "The ICollection interface is the base interface for classes in the <xref:System.Collections> namespace.  \n  \n The ICollection interface extends <xref:System.Collections.IEnumerable>; <xref:System.Collections.IDictionary> and <xref:System.Collections.IList> are more specialized interfaces that extend ICollection. An <xref:System.Collections.IDictionary> implementation is a collection of key/value pairs, like the <xref:System.Collections.Hashtable> class. An <xref:System.Collections.IList> implementation is a collection of values and its members can be accessed by index, like the <xref:System.Collections.ArrayList> class.  \n  \n Some collections that limit access to their elements, such as the <xref:System.Collections.Queue> class and the <xref:System.Collections.Stack> class, directly implement the ICollection interface.  \n  \n If neither the <xref:System.Collections.IDictionary> interface nor the <xref:System.Collections.IList> interface meet the requirements of the required collection, derive the new collection class from the ICollection interface instead for more flexibility.  \n  \n For the generic version of this interface, see <xref:System.Collections.Generic.ICollection%601?displayProperty=fullName>."
   syntax:
     content: >-
       [System.Runtime.InteropServices.ComVisible(true)]
@@ -21,12 +22,15 @@ items:
       public interface ICollection : System.Collections.IEnumerable
   implements:
   - System.Collections.IEnumerable
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Collections.ICollection.CopyTo(System.Array,System.Int32)
   id: CopyTo(System.Array,System.Int32)
   parent: System.Collections.ICollection
   langs:
   - csharp
-  - vb
   name: CopyTo(Array,Int32)
   nameWithType: ICollection.CopyTo(Array,Int32)
   fullName: System.Collections.ICollection.CopyTo(Array,Int32)
@@ -34,24 +38,26 @@ items:
   assemblies:
   - mscorlib
   namespace: System.Collections
+  summary: Copies the elements of the <see cref="T:System.Collections.ICollection"> to an <xref:System.Array>, starting at a particular <xref:System.Array> index.
+  remarks: To be added.
   syntax:
     content: public void CopyTo (Array array, int index);
     parameters:
     - id: array
       type: System.Array
-      description: Parameter description to be filled
+      description: The one-dimensional <see cref="T:System.Array"> that is the destination of the elements copied from <xref:System.Collections.ICollection>. The <see cref="T:System.Array"> must have zero-based indexing.
     - id: index
       type: System.Int32
-      description: Parameter description to be filled
-    return:
-      type: System.Void
-      description: Return description to be filled
+      description: The zero-based index in  at which copying begins.
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Collections.ICollection.Count
   id: Count
   parent: System.Collections.ICollection
   langs:
   - csharp
-  - vb
   name: Count
   nameWithType: ICollection.Count
   fullName: System.Collections.ICollection.Count
@@ -59,17 +65,22 @@ items:
   assemblies:
   - mscorlib
   namespace: System.Collections
+  summary: Gets the number of elements contained in the <see cref="T:System.Collections.ICollection">.
+  remarks: To be added.
   syntax:
     content: public int Count { get; }
     return:
       type: System.Int32
-      description: Return description to be filled
+      description: To be added.
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Collections.ICollection.IsSynchronized
   id: IsSynchronized
   parent: System.Collections.ICollection
   langs:
   - csharp
-  - vb
   name: IsSynchronized
   nameWithType: ICollection.IsSynchronized
   fullName: System.Collections.ICollection.IsSynchronized
@@ -77,17 +88,22 @@ items:
   assemblies:
   - mscorlib
   namespace: System.Collections
+  summary: Gets a value indicating whether access to the <see cref="T:System.Collections.ICollection"> is synchronized (thread safe).
+  remarks: "<xref:System.Collections.ICollection.SyncRoot%2A> returns an object, which can be used to synchronize access to the <xref:System.Collections.ICollection>.  \n  \n Most collection classes in the <xref:System.Collections?displayProperty=fullName> namespace also implement a Synchronized method, which provides a synchronized wrapper around the underlying collection.  \n  \n Enumerating through a collection is intrinsically not a thread-safe procedure. Even when a collection is synchronized, other threads can still modify the collection, which causes the enumerator to throw an exception. To guarantee thread safety during enumeration, you can either lock the collection during the entire enumeration or catch the exceptions resulting from changes made by other threads.  \n  \n The following code example shows how to lock the collection using the <xref:System.Collections.ICollection.SyncRoot%2A> property during the entire enumeration.  \n  \n [!CODE [System.Collections.ICollection#1](../CodeSnippet/VS_Snippets_CLR_System/system.collections.icollection#1)]"
   syntax:
     content: public bool IsSynchronized { get; }
     return:
       type: System.Boolean
-      description: Return description to be filled
+      description: To be added.
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Collections.ICollection.SyncRoot
   id: SyncRoot
   parent: System.Collections.ICollection
   langs:
   - csharp
-  - vb
   name: SyncRoot
   nameWithType: ICollection.SyncRoot
   fullName: System.Collections.ICollection.SyncRoot
@@ -95,11 +111,17 @@ items:
   assemblies:
   - mscorlib
   namespace: System.Collections
+  summary: Gets an object that can be used to synchronize access to the <see cref="T:System.Collections.ICollection">.
+  remarks: "For collections whose underlying store is not publicly available, the expected implementation is to return the current instance. Note that the pointer to the current instance might not be sufficient for collections that wrap other collections; those should return the underlying collection's `SyncRoot` property.  \n  \n Most collection classes in the <xref:System.Collections?displayProperty=fullName> namespace also implement a `Synchronized` method, which provides a synchronized wrapper around the underlying collection. However, derived classes can provide their own synchronized version of the collection using the SyncRoot property. The synchronizing code must perform operations on the SyncRoot property of the collection, not directly on the collection. This ensures proper operation of collections that are derived from other objects. Specifically, it maintains proper synchronization with other threads that might be simultaneously modifying the collection instance.  \n  \n In the absence of a `Synchronized` method on a collection, the expected usage for SyncRoot looks as follows:  \n  \n [!CODE [System.Collections.ICollection#2](../CodeSnippet/VS_Snippets_CLR_System/system.collections.icollection#2)]  \n  \n Enumerating through a collection is intrinsically not a thread-safe procedure. Even when a collection is synchronized, other threads can still modify the collection, which causes the enumerator to throw an exception. To guarantee thread safety during enumeration, you can either lock the collection during the entire enumeration or catch the exceptions resulting from changes made by other threads.  \n  \n The following code example shows how to lock the collection using the SyncRoot property during the entire enumeration.  \n  \n [!CODE [System.Collections.ICollection#1](../CodeSnippet/VS_Snippets_CLR_System/system.collections.icollection#1)]"
   syntax:
     content: public object SyncRoot { get; }
     return:
       type: System.Object
-      description: Return description to be filled
+      description: To be added.
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 references:
 - uid: System.Collections.ICollection.CopyTo(System.Array,System.Int32)
   parent: System.Collections.ICollection
@@ -107,12 +129,6 @@ references:
   name: CopyTo(Array,Int32)
   nameWithType: ICollection.CopyTo(Array,Int32)
   fullName: System.Collections.ICollection.CopyTo(Array,Int32)
-- uid: System.Void
-  parent: System
-  isExternal: false
-  name: Void
-  nameWithType: Void
-  fullName: System.Void
 - uid: System.Array
   parent: System
   isExternal: false

@@ -7,23 +7,29 @@ items:
   - System.Threading.LockRecursionPolicy.SupportsRecursion
   langs:
   - csharp
-  - vb
   name: LockRecursionPolicy
   nameWithType: LockRecursionPolicy
   fullName: System.Threading.LockRecursionPolicy
   type: Enum
+  summary: Specifies whether a lock can be entered multiple times by the same thread.
+  remarks: "The default recursion policy depends on the type of lock. For the default policy and the precise behavior of lock recursion for any given lock type, see the documentation for the type. For example, the <xref:System.Threading.ReaderWriterLockSlim> class does not allow a thread to enter the lock in write mode if it already entered the lock in read mode, regardless of the lock policy setting, in order to reduce the chance of deadlocks.  \n  \n Currently only one lock uses this enumeration:  \n  \n-   <xref:System.Threading.ReaderWriterLockSlim>. For more information, see the <xref:System.Threading.ReaderWriterLockSlim.RecursionPolicy%2A> property."
+  example:
+  - "The following example shows two exception scenarios, one that depends on the LockRecursionPolicy setting and one that does not.  \n  \n In the first scenario, the thread enters the lock in read mode and then tries to enter read mode recursively. If the <xref:System.Threading.ReaderWriterLockSlim> is created by using the default constructor, which sets recursion policy to F:System.Threading.LockRecursionPolicy.NoRecursion?qualifyHint=False&autoUpgrade=True, an exception is thrown. If F:System.Threading.LockRecursionPolicy.SupportsRecursion?qualifyHint=False&autoUpgrade=True is used to create the T:System.Threading.ReaderWriterLockSlim?qualifyHint=False&autoUpgrade=True, no exception is thrown.  \n  \n In the second scenario, the thread enters the lock in read mode and then tries to enter the lock in write mode. T:System.Threading.LockRecursionException?qualifyHint=False&autoUpgrade=True is thrown regardless of the lock recursion policy.  \n  \n [!CODE [System.Threading.LockRecursionPolicy#1](../CodeSnippet/VS_Snippets_CLR_System/system.Threading.LockRecursionPolicy#1)]"
   syntax:
     content: public enum LockRecursionPolicy
   inheritance:
   - System.Object
   - System.ValueType
   - System.Enum
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Threading.LockRecursionPolicy.NoRecursion
   id: NoRecursion
   parent: System.Threading.LockRecursionPolicy
   langs:
   - csharp
-  - vb
   name: NoRecursion
   nameWithType: LockRecursionPolicy.NoRecursion
   fullName: System.Threading.LockRecursionPolicy.NoRecursion
@@ -31,17 +37,21 @@ items:
   assemblies:
   - System.Core
   namespace: System.Threading
+  summary: If a thread tries to enter a lock recursively, an exception is thrown. Some classes may allow certain recursions when this setting is in effect.
   syntax:
     content: NoRecursion
     return:
       type: System.Threading.LockRecursionPolicy
-      description: Return description to be filled
+      description: To be added.
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Threading.LockRecursionPolicy.SupportsRecursion
   id: SupportsRecursion
   parent: System.Threading.LockRecursionPolicy
   langs:
   - csharp
-  - vb
   name: SupportsRecursion
   nameWithType: LockRecursionPolicy.SupportsRecursion
   fullName: System.Threading.LockRecursionPolicy.SupportsRecursion
@@ -49,11 +59,16 @@ items:
   assemblies:
   - System.Core
   namespace: System.Threading
+  summary: A thread can enter a lock recursively. Some classes may restrict this capability.
   syntax:
     content: SupportsRecursion
     return:
       type: System.Threading.LockRecursionPolicy
-      description: Return description to be filled
+      description: To be added.
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 references:
 - uid: System.Enum
   isExternal: false

@@ -8,23 +8,29 @@ items:
   - Microsoft.SqlServer.Server.Format.UserDefined
   langs:
   - csharp
-  - vb
   name: Format
   nameWithType: Format
   fullName: Microsoft.SqlServer.Server.Format
   type: Enum
+  summary: Used by <see cref="T:Microsoft.SqlServer.Server.SqlUserDefinedTypeAttribute"> and <xref:Microsoft.SqlServer.Server.SqlUserDefinedAggregateAttribute> to indicate the serialization format of a user-defined type (UDT) or aggregate.
+  remarks: Used by <xref:Microsoft.SqlServer.Server.SqlUserDefinedTypeAttribute> and <xref:Microsoft.SqlServer.Server.SqlUserDefinedAggregateAttribute> to indicate the serialization format of a user-defined type (UDT) or aggregate.
+  example:
+  - "The following example shows the `UserDefinedType` attribute of the Point UDT.  The UDT is byte-ordered, is named \"Point\", has a validation method named \"ValidatePoint\", and uses the native serialization format.  \n  \n [!CODE [DataWorks SqlUserDefinedTypeAttribute Example#1](../CodeSnippet/VS_Snippets_ADO.NET/DataWorks SqlUserDefinedTypeAttribute Example#1)]"
   syntax:
     content: public enum Format
   inheritance:
   - System.Object
   - System.ValueType
   - System.Enum
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: Microsoft.SqlServer.Server.Format.Native
   id: Native
   parent: Microsoft.SqlServer.Server.Format
   langs:
   - csharp
-  - vb
   name: Native
   nameWithType: Format.Native
   fullName: Microsoft.SqlServer.Server.Format.Native
@@ -32,17 +38,22 @@ items:
   assemblies:
   - System.Data
   namespace: Microsoft.SqlServer.Server
+  summary: The `Native` serialization format uses a very simple algorithm that enables SQL Server to store an efficient representation of the UDT on disk. Types marked for `Native` serialization can only have value types (structs in Microsoft Visual C# and structures in Microsoft Visual Basic .NET) as members. Members of reference types (such as classes in Visual C# and Visual Basic), either user-defined or those existing in the framework (such as T:System.String?qualifyHint=False&autoUpgrade=True), are not supported.
+  remarks: "The requirements for this format are:  \n  \n-   The `StructLayout.LayoutKindSequential` attribute must be applied to the aggregate or UDT if it is defined in a class and not a structure. This controls the physical layout of the data fields, and is used to force the members to be laid out sequentially in the order they appear. SQL Server uses this attribute to determine the field order for UDTs with multiple fields.  \n  \n-   The type must contain at least one member (serialized values cannot be zero bytes in size).  \n  \n-   All the fields of the aggregate must be *blittable*, that is, they must have a common representation in both managed and unmanaged memory and not require special handling by the interop marshaler.  \n  \n-   All the fields of the UDT should be of one of the following types that can be serialized: `bool`, `byte`,`sbyte`,`short`,`ushort`, `int`, `uint`, `long`, `ulong`, `float`, `double`, T:System.Data.SqlTypes.SqlByte?qualifyHint=False&autoUpgrade=True, T:System.Data.SqlTypes.SqlInt16?qualifyHint=False&autoUpgrade=True, T:System.Data.SqlTypes.SqlInt32?qualifyHint=False&autoUpgrade=True, T:System.Data.SqlTypes.SqlInt64?qualifyHint=False&autoUpgrade=True, T:System.Data.SqlTypes.SqlDateTime?qualifyHint=False&autoUpgrade=True, T:System.Data.SqlTypes.SqlSingle?qualifyHint=False&autoUpgrade=True, T:System.Data.SqlTypes.SqlDouble?qualifyHint=False&autoUpgrade=True, T:System.Data.SqlTypes.SqlMoney?qualifyHint=False&autoUpgrade=True, or other value types defined by the user that contain fields of one of these types.  \n  \n-   The aggregate must not specify a value for `MaxByteSize`.  \n  \n-   The aggregate must not have any [NonSerialized] fields.  \n  \n-   Fields must not be marked as an explicit layout (T:System.Runtime.InteropServices.StructLayoutAttribute?qualifyHint=False&autoUpgrade=True)."
   syntax:
     content: Native
     return:
       type: Microsoft.SqlServer.Server.Format
-      description: Return description to be filled
+      description: To be added.
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: Microsoft.SqlServer.Server.Format.Unknown
   id: Unknown
   parent: Microsoft.SqlServer.Server.Format
   langs:
   - csharp
-  - vb
   name: Unknown
   nameWithType: Format.Unknown
   fullName: Microsoft.SqlServer.Server.Format.Unknown
@@ -50,17 +61,21 @@ items:
   assemblies:
   - System.Data
   namespace: Microsoft.SqlServer.Server
+  summary: The serialization format is unknown.
   syntax:
     content: Unknown
     return:
       type: Microsoft.SqlServer.Server.Format
-      description: Return description to be filled
+      description: To be added.
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: Microsoft.SqlServer.Server.Format.UserDefined
   id: UserDefined
   parent: Microsoft.SqlServer.Server.Format
   langs:
   - csharp
-  - vb
   name: UserDefined
   nameWithType: Format.UserDefined
   fullName: Microsoft.SqlServer.Server.Format.UserDefined
@@ -68,11 +83,17 @@ items:
   assemblies:
   - System.Data
   namespace: Microsoft.SqlServer.Server
+  summary: The `UserDefined` serialization format gives the developer full control over the binary format through the T:Microsoft.SqlServer.Server.IBinarySerialize?qualifyHint=False&autoUpgrade=True`.Write` and T:Microsoft.SqlServer.Server.IBinarySerialize?qualifyHint=False&autoUpgrade=True`.Read` methods.
+  remarks: "The aggregate must specify a value for `MaxByteSize`.  \n  \n Specify the P:Microsoft.SqlServer.Server.SqlUserDefinedTypeAttribute.IsByteOrdered?qualifyHint=False&autoUpgrade=True attribute property. The default value is false.  \n  \n If you omit any field in the M:Microsoft.SqlServer.Server.IBinarySerialize.Read(System.IO.BinaryReader)?qualifyHint=False&autoUpgrade=True or M:Microsoft.SqlServer.Server.IBinarySerialize.Write(System.IO.BinaryWriter)?qualifyHint=False&autoUpgrade=True methods, the state of that field is not serialized."
   syntax:
     content: UserDefined
     return:
       type: Microsoft.SqlServer.Server.Format
-      description: Return description to be filled
+      description: To be added.
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 references:
 - uid: System.Enum
   isExternal: false

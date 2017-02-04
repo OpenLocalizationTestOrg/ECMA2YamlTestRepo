@@ -12,11 +12,14 @@ items:
   - System.Windows.Controls.ValidationRule.ValidationStep
   langs:
   - csharp
-  - vb
   name: ValidationRule
   nameWithType: ValidationRule
   fullName: System.Windows.Controls.ValidationRule
   type: Class
+  summary: Provides a way to create a custom rule in order to check the validity of user input.
+  remarks: "When you use the [!INCLUDE[TLA2#tla_winclient](../../add/includes/tla2sharptla-winclient-md.md)] data binding model, you can associate <xref:System.Windows.Data.Binding.ValidationRules%2A> with your binding object. To create custom rules, make a subclass of this class and implement the <xref:System.Windows.Controls.ValidationRule.Validate%2A> method. Optionally, use the built-in <xref:System.Windows.Controls.ExceptionValidationRule>, which catches exceptions that are thrown during source updates, or the <xref:System.Windows.Controls.DataErrorValidationRule>, which checks for errors raised by the <xref:System.ComponentModel.IDataErrorInfo> implementation of the source object.  \n  \n The binding engine checks each ValidationRule that is associated with a binding every time it transfers an input value, which is the binding target property value, to the binding source property.  \n  \n For detailed information about data validation, see [Data Binding Overview](../Topic/Data%20Binding%20Overview.md).  \n  \n For information about how to validate user-provided data in a dialog box, see [Dialog Boxes Overview](../Topic/Dialog%20Boxes%20Overview.md)."
+  example:
+  - "The following example shows how to implement a validation rule. The input value is invalid if it contains non-numeric characters or if it is outside the lower and upper bounds. If the value of the returned <xref:System.Windows.Controls.ValidationResult> is invalid, the <xref:System.Windows.Controls.ValidationResult.ErrorContent%2A> property is set to the appropriate error message and the <xref:System.Windows.Controls.ValidationResult.IsValid%2A> property is set to `false`.  \n  \n For the complete example, see [How to: Implement Binding Validation](../Topic/How%20to:%20Implement%20Binding%20Validation.md).  \n  \n [!code-cs[BindValidation#3](../../add/codesnippet/CSharp/BindingValidation/AgeRangeRule.cs#3)]"
   syntax:
     content: public abstract class ValidationRule
   inheritance:
@@ -30,12 +33,15 @@ items:
   - System.Object.MemberwiseClone
   - System.Object.ReferenceEquals(System.Object,System.Object)
   - System.Object.ToString
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Windows.Controls.ValidationRule.#ctor
   id: '#ctor'
   parent: System.Windows.Controls.ValidationRule
   langs:
   - csharp
-  - vb
   name: ValidationRule()
   nameWithType: ValidationRule.ValidationRule()
   fullName: System.Windows.Controls.ValidationRule.ValidationRule()
@@ -43,15 +49,20 @@ items:
   assemblies:
   - PresentationFramework
   namespace: System.Windows.Controls
+  summary: Initializes a new instance of the <see cref="T:System.Windows.Controls.ValidationRule"> class.
+  remarks: To be added.
   syntax:
     content: protected ValidationRule ();
     parameters: []
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Windows.Controls.ValidationRule.#ctor(System.Windows.Controls.ValidationStep,System.Boolean)
   id: '#ctor(System.Windows.Controls.ValidationStep,System.Boolean)'
   parent: System.Windows.Controls.ValidationRule
   langs:
   - csharp
-  - vb
   name: ValidationRule(ValidationStep,Boolean)
   nameWithType: ValidationRule.ValidationRule(ValidationStep,Boolean)
   fullName: System.Windows.Controls.ValidationRule.ValidationRule(ValidationStep,Boolean)
@@ -59,21 +70,26 @@ items:
   assemblies:
   - PresentationFramework
   namespace: System.Windows.Controls
+  summary: Initializes a new instance of the <see cref="T:System.Windows.Controls.ValidationRule"> class with the specified validation step and a value that indicates whether the validation rule runs when the target is updated.
+  remarks: To be added.
   syntax:
     content: protected ValidationRule (System.Windows.Controls.ValidationStep validationStep, bool validatesOnTargetUpdated);
     parameters:
     - id: validationStep
       type: System.Windows.Controls.ValidationStep
-      description: Parameter description to be filled
+      description: One of the enumeration values that specifies when the validation rule runs.
     - id: validatesOnTargetUpdated
       type: System.Boolean
-      description: Parameter description to be filled
+      description: '`true` to have the validation rule run when the target of the <see cref="T:System.Windows.Data.Binding"> is updated; otherwise, `false`.'
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Windows.Controls.ValidationRule.Validate(System.Object,System.Globalization.CultureInfo)
   id: Validate(System.Object,System.Globalization.CultureInfo)
   parent: System.Windows.Controls.ValidationRule
   langs:
   - csharp
-  - vb
   name: Validate(Object,CultureInfo)
   nameWithType: ValidationRule.Validate(Object,CultureInfo)
   fullName: System.Windows.Controls.ValidationRule.Validate(Object,CultureInfo)
@@ -81,25 +97,32 @@ items:
   assemblies:
   - PresentationFramework
   namespace: System.Windows.Controls
+  summary: When overridden in a derived class, performs validation checks on a value.
+  remarks: "You must implement this method when you create a subclass of the <xref:System.Windows.Controls.ValidationRule> class in order to create a custom validation rule.  \n  \n Each time the data binding engine transfers a value from the binding target property (from user input) to the binding source property (the underlying data), it checks whether any <xref:System.Windows.Data.Binding.ValidationRules%2A> are defined for that binding. If <xref:System.Windows.Data.Binding.ValidationRules%2A> are defined for the binding, the engine calls the Validate method on each <xref:System.Windows.Controls.ValidationRule> until one of them finds an error or until all of them pass.  \n  \n For detailed information about data validation, see [Data Binding Overview](../Topic/Data%20Binding%20Overview.md)."
+  example:
+  - "The following example shows how to implement a validation rule. In the following example, the input value is invalid if it contains non-numeric characters or if it is outside the lower and upper bounds. If the input value is invalid, the <xref:System.Windows.Controls.ValidationResult.ErrorContent%2A> property is set to the appropriate error message and the <xref:System.Windows.Controls.ValidationResult.IsValid%2A> property is set to `false`.  \n  \n For the complete example, see [How to: Implement Binding Validation](../Topic/How%20to:%20Implement%20Binding%20Validation.md).  \n  \n [!code-cs[BindValidation#3](../../add/codesnippet/CSharp/BindingValidation/AgeRangeRule.cs#3)]"
   syntax:
     content: public abstract System.Windows.Controls.ValidationResult Validate (object value, System.Globalization.CultureInfo cultureInfo);
     parameters:
     - id: value
       type: System.Object
-      description: Parameter description to be filled
+      description: The value from the binding target to check.
     - id: cultureInfo
       type: System.Globalization.CultureInfo
-      description: Parameter description to be filled
+      description: The culture to use in this rule.
     return:
       type: System.Windows.Controls.ValidationResult
-      description: Return description to be filled
+      description: A <see cref="T:System.Windows.Controls.ValidationResult"> object.
   overload: System.Windows.Controls.ValidationRule.Validate*
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Windows.Controls.ValidationRule.Validate(System.Object,System.Globalization.CultureInfo,System.Windows.Data.BindingExpressionBase)
   id: Validate(System.Object,System.Globalization.CultureInfo,System.Windows.Data.BindingExpressionBase)
   parent: System.Windows.Controls.ValidationRule
   langs:
   - csharp
-  - vb
   name: Validate(Object,CultureInfo,BindingExpressionBase)
   nameWithType: ValidationRule.Validate(Object,CultureInfo,BindingExpressionBase)
   fullName: System.Windows.Controls.ValidationRule.Validate(Object,CultureInfo,BindingExpressionBase)
@@ -107,28 +130,33 @@ items:
   assemblies:
   - PresentationFramework
   namespace: System.Windows.Controls
+  summary: Performs validation checks on a value.
+  remarks: To be added.
   syntax:
     content: public virtual System.Windows.Controls.ValidationResult Validate (object value, System.Globalization.CultureInfo cultureInfo, System.Windows.Data.BindingExpressionBase owner);
     parameters:
     - id: value
       type: System.Object
-      description: Parameter description to be filled
+      description: The value from the binding target to check.
     - id: cultureInfo
       type: System.Globalization.CultureInfo
-      description: Parameter description to be filled
+      description: The culture to use in this rule.
     - id: owner
       type: System.Windows.Data.BindingExpressionBase
-      description: Parameter description to be filled
+      description: The binding expression that uses the validation rule.
     return:
       type: System.Windows.Controls.ValidationResult
-      description: Return description to be filled
+      description: A <see cref="T:System.Windows.Controls.ValidationResult"> object.
   overload: System.Windows.Controls.ValidationRule.Validate*
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Windows.Controls.ValidationRule.Validate(System.Object,System.Globalization.CultureInfo,System.Windows.Data.BindingGroup)
   id: Validate(System.Object,System.Globalization.CultureInfo,System.Windows.Data.BindingGroup)
   parent: System.Windows.Controls.ValidationRule
   langs:
   - csharp
-  - vb
   name: Validate(Object,CultureInfo,BindingGroup)
   nameWithType: ValidationRule.Validate(Object,CultureInfo,BindingGroup)
   fullName: System.Windows.Controls.ValidationRule.Validate(Object,CultureInfo,BindingGroup)
@@ -136,28 +164,33 @@ items:
   assemblies:
   - PresentationFramework
   namespace: System.Windows.Controls
+  summary: Performs validation checks on a value.
+  remarks: To be added.
   syntax:
     content: public virtual System.Windows.Controls.ValidationResult Validate (object value, System.Globalization.CultureInfo cultureInfo, System.Windows.Data.BindingGroup owner);
     parameters:
     - id: value
       type: System.Object
-      description: Parameter description to be filled
+      description: The value from the binding target to check.
     - id: cultureInfo
       type: System.Globalization.CultureInfo
-      description: Parameter description to be filled
+      description: The culture to use in this rule.
     - id: owner
       type: System.Windows.Data.BindingGroup
-      description: Parameter description to be filled
+      description: The binding group that uses the validation rule.
     return:
       type: System.Windows.Controls.ValidationResult
-      description: Return description to be filled
+      description: A <see cref="T:System.Windows.Controls.ValidationResult"> object.
   overload: System.Windows.Controls.ValidationRule.Validate*
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Windows.Controls.ValidationRule.ValidatesOnTargetUpdated
   id: ValidatesOnTargetUpdated
   parent: System.Windows.Controls.ValidationRule
   langs:
   - csharp
-  - vb
   name: ValidatesOnTargetUpdated
   nameWithType: ValidationRule.ValidatesOnTargetUpdated
   fullName: System.Windows.Controls.ValidationRule.ValidatesOnTargetUpdated
@@ -165,17 +198,24 @@ items:
   assemblies:
   - PresentationFramework
   namespace: System.Windows.Controls
+  summary: Gets or sets a value that indicates whether the validation rule runs when the target of the <see cref="T:System.Windows.Data.Binding"> is updated.
+  remarks: ''
+  example:
+  - "The following example checks whether the <xref:System.Windows.Controls.TextBox> is empty. The <xref:System.Windows.Controls.ValidationRule>, `ValueIsNotNull`, has ValidatesOnTargetUpdated set to `true`, so that when the application starts, the <xref:System.Windows.Controls.ValidationRule> runs and displays a message if the <xref:System.Windows.Controls.TextBox> is empty.  \n  \n [!code-xml[BindingGroupSnippets#ValidatesOnTargetUpdated](../../add/codesnippet/Xaml/BindingGroupSnippets/Window3.xaml#validatesontargetupdated)]  \n  \n The following example shows the <xref:System.Windows.Controls.ValidationRule> that is used in the previous example and the event handler for the <xref:System.Windows.Controls.Validation.Error> event.  \n  \n [!code-cs[BindingGroupSnippets#ValueIsNotNull](../../add/codesnippet/CSharp/BindingGroupSnippets/Window3.xaml.cs#valueisnotnull)]\n [!code-vb[BindingGroupSnippets#ValueIsNotNull](../../add/codesnippet/VisualBasic/bindinggroupsnippets/window3.xaml.vb#valueisnotnull)]"
   syntax:
     content: public bool ValidatesOnTargetUpdated { get; set; }
     return:
       type: System.Boolean
-      description: Return description to be filled
+      description: To be added.
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Windows.Controls.ValidationRule.ValidationStep
   id: ValidationStep
   parent: System.Windows.Controls.ValidationRule
   langs:
   - csharp
-  - vb
   name: ValidationStep
   nameWithType: ValidationRule.ValidationStep
   fullName: System.Windows.Controls.ValidationRule.ValidationStep
@@ -183,11 +223,19 @@ items:
   assemblies:
   - PresentationFramework
   namespace: System.Windows.Controls
+  summary: Gets or sets when the validation rule runs.
+  remarks: ''
+  example:
+  - "The following example sets the ValidationStep to <xref:System.Windows.Controls.ValidationStep> on the <xref:System.Windows.Controls.ValidationRule> called `ValidateDateAndPrice` so that when it runs, the <xref:System.Windows.Controls.ValidationRule.Validate%2A> method has access to values that are of the source property's type. When the rules `PriceIsAPositiveNumber` and `FutureDateRule` run, the values in each <xref:System.Windows.Controls.ValidationRule.Validate%2A> method are strings because the rules run before the values are converted to their respective types.  \n  \n [!code-xml[BindingGroupSnippets#WindowLayout](../../add/codesnippet/Xaml/BindingGroupSnippets/Window1.xaml#windowlayout)]  \n  \n The following example shows the <xref:System.Windows.Controls.ValidationRule>`ValidateDateAndPrice`. In the `Validate` method override, the `Price` property is of type <xref:System.Double> and the `OfferExpires` property is of type <xref:System.DateTime> because the strings have been converted to their respective types by the time the <xref:System.Windows.Controls.ValidationRule> runs.  \n  \n [!code-cs[BindingGroupSnippets#ValidateObject](../../add/codesnippet/CSharp/BindingGroupSnippets/Data.cs#validateobject)]\n [!code-vb[BindingGroupSnippets#ValidateObject](../../add/codesnippet/VisualBasic/bindinggroupsnippets/data.vb#validateobject)]"
   syntax:
     content: public System.Windows.Controls.ValidationStep ValidationStep { get; set; }
     return:
       type: System.Windows.Controls.ValidationStep
-      description: Return description to be filled
+      description: To be added.
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 references:
 - uid: System.Object
   isExternal: false

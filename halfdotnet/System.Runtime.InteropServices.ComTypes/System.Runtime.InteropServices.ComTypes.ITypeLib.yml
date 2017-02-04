@@ -15,11 +15,12 @@ items:
   - System.Runtime.InteropServices.ComTypes.ITypeLib.ReleaseTLibAttr(System.IntPtr)
   langs:
   - csharp
-  - vb
   name: ITypeLib
   nameWithType: ITypeLib
   fullName: System.Runtime.InteropServices.ComTypes.ITypeLib
   type: Interface
+  summary: Provides the managed definition of the `ITypeLib` interface.
+  remarks: "For additional information about the `ITypeLib` interface, see the MSDN Library.  \n  \n The common language runtime throws an exception when a COM method in native code returns an HRESULT. For more information, see [How to: Map HRESULTs and Exceptions](../Topic/How%20to:%20Map%20HRESULTs%20and%20Exceptions.md)."
   syntax:
     content: >-
       [System.Runtime.InteropServices.Guid("00020402-0000-0000-C000-000000000046")]
@@ -28,12 +29,15 @@ items:
 
       public interface ITypeLib
   implements: []
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Runtime.InteropServices.ComTypes.ITypeLib.FindName(System.String,System.Int32,System.Runtime.InteropServices.ComTypes.ITypeInfo[],System.Int32[],System.Int16@)
   id: FindName(System.String,System.Int32,System.Runtime.InteropServices.ComTypes.ITypeInfo[],System.Int32[],System.Int16@)
   parent: System.Runtime.InteropServices.ComTypes.ITypeLib
   langs:
   - csharp
-  - vb
   name: FindName(String,Int32,ITypeInfo[],Int32[],Int16)
   nameWithType: ITypeLib.FindName(String,Int32,ITypeInfo[],Int32[],Int16)
   fullName: System.Runtime.InteropServices.ComTypes.ITypeLib.FindName(String,Int32,ITypeInfo[],Int32[],Int16)
@@ -41,33 +45,35 @@ items:
   assemblies:
   - mscorlib
   namespace: System.Runtime.InteropServices.ComTypes
+  summary: Finds occurrences of a type description in a type library.
+  remarks: "There must be enough room in the  parameter to hold  entries.  \n  \n If the type library contains the name specified by the  parameter,  is overwritten with the name found in the type library, using the casing found in the type library. For example, if type library contains the name \"aBc\" and the FindName method passes \"abc\" as the  parameter,  becomes \"aBc\" when the method returns.  \n  \n For additional information about `ITypeLib::FindName`, see the MSDN Library."
   syntax:
     content: public void FindName (string szNameBuf, int lHashVal, System.Runtime.InteropServices.ComTypes.ITypeInfo[] ppTInfo, int[] rgMemId, ref short pcFound);
     parameters:
     - id: szNameBuf
       type: System.String
-      description: Parameter description to be filled
+      description: The name to search for. This is an in/out parameter.
     - id: lHashVal
       type: System.Int32
-      description: Parameter description to be filled
+      description: A hash value to speed up the search, computed by the `LHashValOfNameSys` function. If  is 0, a value is computed.
     - id: ppTInfo
       type: System.Runtime.InteropServices.ComTypes.ITypeInfo[]
-      description: Parameter description to be filled
+      description: When this method returns, contains an array of pointers to the type descriptions that contain the name specified in . This parameter is passed uninitialized.
     - id: rgMemId
       type: System.Int32[]
-      description: Parameter description to be filled
+      description: An array of the `MEMBERID` 's of the found items;  [i] is the `MEMBERID` that indexes into the type description specified by  [i]. Cannot be `null`.
     - id: pcFound
       type: System.Int16
-      description: Parameter description to be filled
-    return:
-      type: System.Void
-      description: Return description to be filled
+      description: "On entry, indicates how many instances to look for. For example,  = 1 can be called to find the first occurrence. The search stops when one instance is found.  \n  \n On exit, indicates the number of instances that were found. If the `in` and `out` values of  are identical, there might be more type descriptions that contain the name."
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Runtime.InteropServices.ComTypes.ITypeLib.GetDocumentation(System.Int32,System.String@,System.String@,System.Int32@,System.String@)
   id: GetDocumentation(System.Int32,System.String@,System.String@,System.Int32@,System.String@)
   parent: System.Runtime.InteropServices.ComTypes.ITypeLib
   langs:
   - csharp
-  - vb
   name: GetDocumentation(Int32,String,String,Int32,String)
   nameWithType: ITypeLib.GetDocumentation(Int32,String,String,Int32,String)
   fullName: System.Runtime.InteropServices.ComTypes.ITypeLib.GetDocumentation(Int32,String,String,Int32,String)
@@ -75,33 +81,35 @@ items:
   assemblies:
   - mscorlib
   namespace: System.Runtime.InteropServices.ComTypes
+  summary: Retrieves the library's documentation string, the complete Help file name and path, and the context identifier for the library Help topic in the Help file.
+  remarks: For additional information about `ITypeLib::GetDocumentation`, see the MSDN Library.
   syntax:
     content: public void GetDocumentation (int index, out string strName, out string strDocString, out int dwHelpContext, out string strHelpFile);
     parameters:
     - id: index
       type: System.Int32
-      description: Parameter description to be filled
+      description: The index of the type description whose documentation is to be returned.
     - id: strName
       type: System.String
-      description: Parameter description to be filled
+      description: When this method returns, contains a string that represents the name of the specified item. This parameter is passed uninitialized.
     - id: strDocString
       type: System.String
-      description: Parameter description to be filled
+      description: When this method returns, contains a string that represents the documentation string for the specified item. This parameter is passed uninitialized.
     - id: dwHelpContext
       type: System.Int32
-      description: Parameter description to be filled
+      description: When this method returns, contains the Help context identifier associated with the specified item. This parameter is passed uninitialized.
     - id: strHelpFile
       type: System.String
-      description: Parameter description to be filled
-    return:
-      type: System.Void
-      description: Return description to be filled
+      description: When this method returns, contains a string that represents the fully qualified name of the Help file. This parameter is passed uninitialized.
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Runtime.InteropServices.ComTypes.ITypeLib.GetLibAttr(System.IntPtr@)
   id: GetLibAttr(System.IntPtr@)
   parent: System.Runtime.InteropServices.ComTypes.ITypeLib
   langs:
   - csharp
-  - vb
   name: GetLibAttr(IntPtr)
   nameWithType: ITypeLib.GetLibAttr(IntPtr)
   fullName: System.Runtime.InteropServices.ComTypes.ITypeLib.GetLibAttr(IntPtr)
@@ -109,21 +117,23 @@ items:
   assemblies:
   - mscorlib
   namespace: System.Runtime.InteropServices.ComTypes
+  summary: Retrieves the structure that contains the library's attributes.
+  remarks: "The values of the structure referenced by the  parameter can be obtained by the <xref:System.Runtime.InteropServices.Marshal.PtrToStructure%2A> method.  \n  \n For additional information about `ITypeLib::GetTypeLibAttr`, see the MSDN Library."
   syntax:
     content: public void GetLibAttr (out IntPtr ppTLibAttr);
     parameters:
     - id: ppTLibAttr
       type: System.IntPtr
-      description: Parameter description to be filled
-    return:
-      type: System.Void
-      description: Return description to be filled
+      description: When this method returns, contains a structure that contains the library's attributes. This parameter is passed uninitialized.
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Runtime.InteropServices.ComTypes.ITypeLib.GetTypeComp(System.Runtime.InteropServices.ComTypes.ITypeComp@)
   id: GetTypeComp(System.Runtime.InteropServices.ComTypes.ITypeComp@)
   parent: System.Runtime.InteropServices.ComTypes.ITypeLib
   langs:
   - csharp
-  - vb
   name: GetTypeComp(ITypeComp)
   nameWithType: ITypeLib.GetTypeComp(ITypeComp)
   fullName: System.Runtime.InteropServices.ComTypes.ITypeLib.GetTypeComp(ITypeComp)
@@ -131,21 +141,23 @@ items:
   assemblies:
   - mscorlib
   namespace: System.Runtime.InteropServices.ComTypes
+  summary: Enables a client compiler to bind to a library's types, variables, constants, and global functions.
+  remarks: For additional information about `ITypeLib::GetTypeComp`, see the MSDN Library.
   syntax:
     content: public void GetTypeComp (out System.Runtime.InteropServices.ComTypes.ITypeComp ppTComp);
     parameters:
     - id: ppTComp
       type: System.Runtime.InteropServices.ComTypes.ITypeComp
-      description: Parameter description to be filled
-    return:
-      type: System.Void
-      description: Return description to be filled
+      description: When this method returns, contains an instance of a `ITypeComp` instance for this `ITypeLib`. This parameter is passed uninitialized.
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Runtime.InteropServices.ComTypes.ITypeLib.GetTypeInfo(System.Int32,System.Runtime.InteropServices.ComTypes.ITypeInfo@)
   id: GetTypeInfo(System.Int32,System.Runtime.InteropServices.ComTypes.ITypeInfo@)
   parent: System.Runtime.InteropServices.ComTypes.ITypeLib
   langs:
   - csharp
-  - vb
   name: GetTypeInfo(Int32,ITypeInfo)
   nameWithType: ITypeLib.GetTypeInfo(Int32,ITypeInfo)
   fullName: System.Runtime.InteropServices.ComTypes.ITypeLib.GetTypeInfo(Int32,ITypeInfo)
@@ -153,24 +165,26 @@ items:
   assemblies:
   - mscorlib
   namespace: System.Runtime.InteropServices.ComTypes
+  summary: Retrieves the specified type description in the library.
+  remarks: For additional information about `ITypeLib::GetTypeInfo`, see the MSDN Library.
   syntax:
     content: public void GetTypeInfo (int index, out System.Runtime.InteropServices.ComTypes.ITypeInfo ppTI);
     parameters:
     - id: index
       type: System.Int32
-      description: Parameter description to be filled
+      description: The index of the `ITypeInfo` interface to return.
     - id: ppTI
       type: System.Runtime.InteropServices.ComTypes.ITypeInfo
-      description: Parameter description to be filled
-    return:
-      type: System.Void
-      description: Return description to be filled
+      description: When this method returns, contains an `ITypeInfo` describing the type referenced by . This parameter is passed uninitialized.
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Runtime.InteropServices.ComTypes.ITypeLib.GetTypeInfoCount
   id: GetTypeInfoCount
   parent: System.Runtime.InteropServices.ComTypes.ITypeLib
   langs:
   - csharp
-  - vb
   name: GetTypeInfoCount()
   nameWithType: ITypeLib.GetTypeInfoCount()
   fullName: System.Runtime.InteropServices.ComTypes.ITypeLib.GetTypeInfoCount()
@@ -178,18 +192,23 @@ items:
   assemblies:
   - mscorlib
   namespace: System.Runtime.InteropServices.ComTypes
+  summary: Returns the number of type descriptions in the type library.
+  remarks: For additional information about `ITypeLib::GetTypeInfoCount`, see the MSDN Library.
   syntax:
     content: public int GetTypeInfoCount ();
     parameters: []
     return:
       type: System.Int32
-      description: Return description to be filled
+      description: The number of type descriptions in the type library.
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Runtime.InteropServices.ComTypes.ITypeLib.GetTypeInfoOfGuid(System.Guid@,System.Runtime.InteropServices.ComTypes.ITypeInfo@)
   id: GetTypeInfoOfGuid(System.Guid@,System.Runtime.InteropServices.ComTypes.ITypeInfo@)
   parent: System.Runtime.InteropServices.ComTypes.ITypeLib
   langs:
   - csharp
-  - vb
   name: GetTypeInfoOfGuid(Guid,ITypeInfo)
   nameWithType: ITypeLib.GetTypeInfoOfGuid(Guid,ITypeInfo)
   fullName: System.Runtime.InteropServices.ComTypes.ITypeLib.GetTypeInfoOfGuid(Guid,ITypeInfo)
@@ -197,24 +216,26 @@ items:
   assemblies:
   - mscorlib
   namespace: System.Runtime.InteropServices.ComTypes
+  summary: Retrieves the type description that corresponds to the specified GUID.
+  remarks: For additional information about `ITypeLib::GetTypeInfoOfGuid`, see the MSDN Library.
   syntax:
     content: public void GetTypeInfoOfGuid (ref Guid guid, out System.Runtime.InteropServices.ComTypes.ITypeInfo ppTInfo);
     parameters:
     - id: guid
       type: System.Guid
-      description: Parameter description to be filled
+      description: The IID of the interface or CLSID of the class whose type info is requested.
     - id: ppTInfo
       type: System.Runtime.InteropServices.ComTypes.ITypeInfo
-      description: Parameter description to be filled
-    return:
-      type: System.Void
-      description: Return description to be filled
+      description: When this method returns, contains the requested `ITypeInfo` interface. This parameter is passed uninitialized.
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Runtime.InteropServices.ComTypes.ITypeLib.GetTypeInfoType(System.Int32,System.Runtime.InteropServices.ComTypes.TYPEKIND@)
   id: GetTypeInfoType(System.Int32,System.Runtime.InteropServices.ComTypes.TYPEKIND@)
   parent: System.Runtime.InteropServices.ComTypes.ITypeLib
   langs:
   - csharp
-  - vb
   name: GetTypeInfoType(Int32,TYPEKIND)
   nameWithType: ITypeLib.GetTypeInfoType(Int32,TYPEKIND)
   fullName: System.Runtime.InteropServices.ComTypes.ITypeLib.GetTypeInfoType(Int32,TYPEKIND)
@@ -222,24 +243,26 @@ items:
   assemblies:
   - mscorlib
   namespace: System.Runtime.InteropServices.ComTypes
+  summary: Retrieves the type of a type description.
+  remarks: For additional information about `ITypeLib::GetTypeInfoOfType`, see the MSDN Library.
   syntax:
     content: public void GetTypeInfoType (int index, out System.Runtime.InteropServices.ComTypes.TYPEKIND pTKind);
     parameters:
     - id: index
       type: System.Int32
-      description: Parameter description to be filled
+      description: The index of the type description within the type library.
     - id: pTKind
       type: System.Runtime.InteropServices.ComTypes.TYPEKIND
-      description: Parameter description to be filled
-    return:
-      type: System.Void
-      description: Return description to be filled
+      description: When this method returns, contains a reference to the `TYPEKIND` enumeration for the type description. This parameter is passed uninitialized.
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Runtime.InteropServices.ComTypes.ITypeLib.IsName(System.String,System.Int32)
   id: IsName(System.String,System.Int32)
   parent: System.Runtime.InteropServices.ComTypes.ITypeLib
   langs:
   - csharp
-  - vb
   name: IsName(String,Int32)
   nameWithType: ITypeLib.IsName(String,Int32)
   fullName: System.Runtime.InteropServices.ComTypes.ITypeLib.IsName(String,Int32)
@@ -247,24 +270,29 @@ items:
   assemblies:
   - mscorlib
   namespace: System.Runtime.InteropServices.ComTypes
+  summary: Indicates whether a passed-in string contains the name of a type or member described in the library.
+  remarks: "If the type library contains the string specified by the  parameter,  is overwritten with the name found in the type library, using the casing found in the type library. For example, if the type library contains the string \"aBc\" and the <xref:System.Runtime.InteropServices.ComTypes.ITypeLib.FindName%2A> method passes \"abc\" as the  parameter,  becomes \"aBc\" when the method returns.  \n  \n For additional information about `ITypeLib::IsName`, see the MSDN Library."
   syntax:
     content: public bool IsName (string szNameBuf, int lHashVal);
     parameters:
     - id: szNameBuf
       type: System.String
-      description: Parameter description to be filled
+      description: The string to test. This is an in/out parameter.
     - id: lHashVal
       type: System.Int32
-      description: Parameter description to be filled
+      description: The hash value of .
     return:
       type: System.Boolean
-      description: Return description to be filled
+      description: '`true` if  was found in the type library; otherwise, `false`.'
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 - uid: System.Runtime.InteropServices.ComTypes.ITypeLib.ReleaseTLibAttr(System.IntPtr)
   id: ReleaseTLibAttr(System.IntPtr)
   parent: System.Runtime.InteropServices.ComTypes.ITypeLib
   langs:
   - csharp
-  - vb
   name: ReleaseTLibAttr(IntPtr)
   nameWithType: ITypeLib.ReleaseTLibAttr(IntPtr)
   fullName: System.Runtime.InteropServices.ComTypes.ITypeLib.ReleaseTLibAttr(IntPtr)
@@ -272,15 +300,18 @@ items:
   assemblies:
   - mscorlib
   namespace: System.Runtime.InteropServices.ComTypes
+  summary: Releases the <see cref="T:System.Runtime.InteropServices.TYPELIBATTR"> structure originally obtained from the <xref:System.Runtime.InteropServices.ComTypes.ITypeLib.GetLibAttr%2A> method.
+  remarks: For additional information about `ITypeLib::ReleaseTLibAttr`, see the MSDN Library.
   syntax:
     content: public void ReleaseTLibAttr (IntPtr pTLibAttr);
     parameters:
     - id: pTLibAttr
       type: System.IntPtr
-      description: Parameter description to be filled
-    return:
-      type: System.Void
-      description: Return description to be filled
+      description: The `TLIBATTR` structure to release.
+  platform:
+  - net-11
+  - net-20
+  - netcore-10
 references:
 - uid: System.Runtime.InteropServices.ComTypes.ITypeLib.FindName(System.String,System.Int32,System.Runtime.InteropServices.ComTypes.ITypeInfo[],System.Int32[],System.Int16@)
   parent: System.Runtime.InteropServices.ComTypes.ITypeLib
@@ -288,12 +319,6 @@ references:
   name: FindName(String,Int32,ITypeInfo[],Int32[],Int16)
   nameWithType: ITypeLib.FindName(String,Int32,ITypeInfo[],Int32[],Int16)
   fullName: System.Runtime.InteropServices.ComTypes.ITypeLib.FindName(String,Int32,ITypeInfo[],Int32[],Int16)
-- uid: System.Void
-  parent: System
-  isExternal: false
-  name: Void
-  nameWithType: Void
-  fullName: System.Void
 - uid: System.String
   parent: System
   isExternal: false
@@ -306,6 +331,18 @@ references:
   name: Int32
   nameWithType: Int32
   fullName: System.Int32
+- uid: System.Runtime.InteropServices.ComTypes.ITypeInfo
+  parent: System.Runtime.InteropServices.ComTypes
+  isExternal: false
+  name: ITypeInfo
+  nameWithType: ITypeInfo
+  fullName: System.Runtime.InteropServices.ComTypes.ITypeInfo[]
+- uid: System.Int32
+  parent: System
+  isExternal: false
+  name: Int32
+  nameWithType: Int32
+  fullName: System.Int32[]
 - uid: System.Int16
   parent: System
   isExternal: false
@@ -318,12 +355,6 @@ references:
   name: GetDocumentation(Int32,String,String,Int32,String)
   nameWithType: ITypeLib.GetDocumentation(Int32,String,String,Int32,String)
   fullName: System.Runtime.InteropServices.ComTypes.ITypeLib.GetDocumentation(Int32,String,String,Int32,String)
-- uid: System.Void
-  parent: System
-  isExternal: false
-  name: Void
-  nameWithType: Void
-  fullName: System.Void
 - uid: System.Int32
   parent: System
   isExternal: false
@@ -360,12 +391,6 @@ references:
   name: GetLibAttr(IntPtr)
   nameWithType: ITypeLib.GetLibAttr(IntPtr)
   fullName: System.Runtime.InteropServices.ComTypes.ITypeLib.GetLibAttr(IntPtr)
-- uid: System.Void
-  parent: System
-  isExternal: false
-  name: Void
-  nameWithType: Void
-  fullName: System.Void
 - uid: System.IntPtr
   parent: System
   isExternal: false
@@ -378,12 +403,6 @@ references:
   name: GetTypeComp(ITypeComp)
   nameWithType: ITypeLib.GetTypeComp(ITypeComp)
   fullName: System.Runtime.InteropServices.ComTypes.ITypeLib.GetTypeComp(ITypeComp)
-- uid: System.Void
-  parent: System
-  isExternal: false
-  name: Void
-  nameWithType: Void
-  fullName: System.Void
 - uid: System.Runtime.InteropServices.ComTypes.ITypeComp
   parent: System.Runtime.InteropServices.ComTypes
   isExternal: false
@@ -396,12 +415,6 @@ references:
   name: GetTypeInfo(Int32,ITypeInfo)
   nameWithType: ITypeLib.GetTypeInfo(Int32,ITypeInfo)
   fullName: System.Runtime.InteropServices.ComTypes.ITypeLib.GetTypeInfo(Int32,ITypeInfo)
-- uid: System.Void
-  parent: System
-  isExternal: false
-  name: Void
-  nameWithType: Void
-  fullName: System.Void
 - uid: System.Int32
   parent: System
   isExternal: false
@@ -432,12 +445,6 @@ references:
   name: GetTypeInfoOfGuid(Guid,ITypeInfo)
   nameWithType: ITypeLib.GetTypeInfoOfGuid(Guid,ITypeInfo)
   fullName: System.Runtime.InteropServices.ComTypes.ITypeLib.GetTypeInfoOfGuid(Guid,ITypeInfo)
-- uid: System.Void
-  parent: System
-  isExternal: false
-  name: Void
-  nameWithType: Void
-  fullName: System.Void
 - uid: System.Guid
   parent: System
   isExternal: false
@@ -456,12 +463,6 @@ references:
   name: GetTypeInfoType(Int32,TYPEKIND)
   nameWithType: ITypeLib.GetTypeInfoType(Int32,TYPEKIND)
   fullName: System.Runtime.InteropServices.ComTypes.ITypeLib.GetTypeInfoType(Int32,TYPEKIND)
-- uid: System.Void
-  parent: System
-  isExternal: false
-  name: Void
-  nameWithType: Void
-  fullName: System.Void
 - uid: System.Int32
   parent: System
   isExternal: false
@@ -504,12 +505,6 @@ references:
   name: ReleaseTLibAttr(IntPtr)
   nameWithType: ITypeLib.ReleaseTLibAttr(IntPtr)
   fullName: System.Runtime.InteropServices.ComTypes.ITypeLib.ReleaseTLibAttr(IntPtr)
-- uid: System.Void
-  parent: System
-  isExternal: false
-  name: Void
-  nameWithType: Void
-  fullName: System.Void
 - uid: System.IntPtr
   parent: System
   isExternal: false
